@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useState, useMemo, useCallback, useRef } from "react";
-import AdminPageHeader from "@/components/admin/AdminPageHeader";
+import { AdminPageHeader } from "@sweetmedia/admin-core";
 import { useAdminBlogPosts } from "@/hooks/useAdminBlogPosts";
 import { supabase } from "@/lib/supabase";
 import type { BlogPost } from "@/types/blog";

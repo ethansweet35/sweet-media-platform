@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useMemo, useCallback } from "react";
-import AdminPageHeader from "@/components/admin/AdminPageHeader";
+import { AdminPageHeader } from "@sweetmedia/admin-core";
 import { useInternalLinks } from "@/hooks/useInternalLinks";
 import { useBlogPosts } from "@/hooks/useBlogPosts";
 import { useLinkUtilization } from "@/hooks/useLinkUtilization";

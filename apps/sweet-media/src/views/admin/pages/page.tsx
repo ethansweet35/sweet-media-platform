@@ -1,7 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import AdminPageHeader from "@/components/admin/AdminPageHeader";
+import { AdminPageHeader } from "@sweetmedia/admin-core";
 import { ADMIN_OCEAN } from "@sweetmedia/admin-core";
 import Seo from "@/components/feature/Seo";
 import { useTrackedPages } from "@/hooks/useTrackedPages";

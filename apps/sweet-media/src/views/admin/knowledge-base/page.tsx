@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import AdminPageHeader from "@/components/admin/AdminPageHeader";
+import { AdminPageHeader } from "@sweetmedia/admin-core";
 import { ADMIN_OCEAN } from "@sweetmedia/admin-core";
 import { useKnowledgeBase } from "@/hooks/useKnowledgeBase";
 import Seo from "@/components/feature/Seo";
