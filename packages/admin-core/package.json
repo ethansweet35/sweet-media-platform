@@ -1,0 +1,10 @@
+{
+  "name": "@sweetmedia/admin-core",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "build": "echo Building @sweetmedia/admin-core",
+    "lint": "echo Linting @sweetmedia/admin-core",
+    "typecheck": "echo Typechecking @sweetmedia/admin-core"
+  }
+}

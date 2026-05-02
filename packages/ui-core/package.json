@@ -1,0 +1,10 @@
+{
+  "name": "@sweetmedia/ui-core",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "build": "echo Building @sweetmedia/ui-core",
+    "lint": "echo Linting @sweetmedia/ui-core",
+    "typecheck": "echo Typechecking @sweetmedia/ui-core"
+  }
+}

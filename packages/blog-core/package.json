@@ -1,0 +1,10 @@
+{
+  "name": "@sweetmedia/blog-core",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "build": "echo Building @sweetmedia/blog-core",
+    "lint": "echo Linting @sweetmedia/blog-core",
+    "typecheck": "echo Typechecking @sweetmedia/blog-core"
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "name": "@sweetmedia/config",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "build": "echo Building @sweetmedia/config",
+    "lint": "echo Linting @sweetmedia/config",
+    "typecheck": "echo Typechecking @sweetmedia/config"
+  }
+}
