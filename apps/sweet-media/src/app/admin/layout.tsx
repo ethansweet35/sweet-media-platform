@@ -1,4 +1,4 @@
-import AdminGuard from "@/components/admin/AdminGuard";
+import { AdminGuard } from "@sweetmedia/admin-core";
 import AdminChrome from "@/components/admin/AdminChrome";
 
 export default function AdminLayout({
