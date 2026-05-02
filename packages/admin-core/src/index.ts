@@ -9,3 +9,4 @@ export * from "./types/tracked-page";
 export { default as AdminPageHeader } from "./components/AdminPageHeader";
 export { supabase } from "./lib/supabase";
 export { AuthProvider, useAuth } from "./contexts/AuthContext";
+export { default as AdminGuard } from "./components/AdminGuard";
