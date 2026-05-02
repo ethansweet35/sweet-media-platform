@@ -1,6 +1,7 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  transpilePackages: ["@sweetmedia/admin-core"],
   async headers() {
     return [
       {
