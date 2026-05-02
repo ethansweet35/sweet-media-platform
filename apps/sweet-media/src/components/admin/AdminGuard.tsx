@@ -2,7 +2,7 @@
 
 import { useEffect } from "react";
 import { usePathname, useRouter } from "next/navigation";
-import { useAuth } from "@/contexts/AuthContext";
+import { useAuth } from "@sweetmedia/admin-core";
 
 export default function AdminGuard({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();

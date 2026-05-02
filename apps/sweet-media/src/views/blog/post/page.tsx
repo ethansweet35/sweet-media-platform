@@ -15,7 +15,7 @@ import PostCta from "@/components/pages/blog/post/components/PostCta";
 import PostBlogMobileShareRow from "@/components/pages/blog/post/components/PostBlogMobileShareRow";
 import Footer from "@/components/pages/home/components/Footer";
 import { buildManualOnlyLinkMap, fetchManualLinkMappings } from "@/lib/autoInternalLinks";
-import { useAuth } from "@/contexts/AuthContext";
+import { useAuth } from "@sweetmedia/admin-core";
 import { canonicalBlogPostUrl } from "@/lib/publicSiteUrl";
 
 /**

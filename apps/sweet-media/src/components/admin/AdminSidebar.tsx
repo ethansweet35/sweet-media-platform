@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useRouter } from "next/navigation";
-import { useAuth } from "@/contexts/AuthContext";
+import { useAuth } from "@sweetmedia/admin-core";
 import {
   ADMIN_CREAM_SIDEBAR,
   ADMIN_OCEAN,

@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useCallback } from "react";
 import { useRouter } from "next/navigation";
-import { useAuth } from "@/contexts/AuthContext";
+import { useAuth } from "@sweetmedia/admin-core";
 import Seo from "@/components/feature/Seo";
 
 export default function AdminLoginPage() {

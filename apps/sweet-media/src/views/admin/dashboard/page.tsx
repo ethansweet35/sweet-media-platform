@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useCallback, useMemo, useState } from "react";
-import { useAuth } from "@/contexts/AuthContext";
+import { useAuth } from "@sweetmedia/admin-core";
 import Seo from "@/components/feature/Seo";
 import { ADMIN_OCEAN, adminFontSerif } from "@sweetmedia/admin-core";
 import {
