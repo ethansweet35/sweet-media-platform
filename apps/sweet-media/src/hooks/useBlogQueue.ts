@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from "react";
 import { supabase } from "@/lib/supabase";
-import type { BlogQueueItem, BlogQueueItemInput } from "@/types/blog-queue";
+import type { BlogQueueItem, BlogQueueItemInput } from "@sweetmedia/admin-core";
 
 const supabaseUrl =
   process.env.NEXT_PUBLIC_SUPABASE_URL ?? "https://placeholder.supabase.co";

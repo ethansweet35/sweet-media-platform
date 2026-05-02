@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import type { TrackedPage, TrackedPageInput } from "@/types/tracked-page";
+import type { TrackedPage, TrackedPageInput } from "@sweetmedia/admin-core";
 
 interface PageEditModalProps {
   page: TrackedPage | null;

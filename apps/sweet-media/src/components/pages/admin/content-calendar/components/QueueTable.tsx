@@ -2,8 +2,8 @@
 
 import { Fragment, useEffect, useRef, useState } from "react";
 import Link from "next/link";
-import { ADMIN_OCEAN } from "@/lib/adminTheme";
-import type { BlogQueueItem } from "@/types/blog-queue";
+import { ADMIN_OCEAN } from "@sweetmedia/admin-core";
+import type { BlogQueueItem } from "@sweetmedia/admin-core";
 
 const STATUS_STYLES: Record<
   BlogQueueItem["status"],

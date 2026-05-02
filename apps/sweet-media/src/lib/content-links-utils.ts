@@ -1,5 +1,5 @@
 import { supabase } from "@/lib/supabase";
-import type { ContentBlock } from "@/types/content-links";
+import type { ContentBlock } from "@sweetmedia/admin-core";
 
 export function extractLinksFromText(text: string): Array<{ anchorText: string; url: string }> {
   const links: Array<{ anchorText: string; url: string }> = [];

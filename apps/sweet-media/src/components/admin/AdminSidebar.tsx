@@ -8,7 +8,7 @@ import {
   ADMIN_CREAM_SIDEBAR,
   ADMIN_OCEAN,
   adminFontSans,
-} from "@/lib/adminTheme";
+} from "@sweetmedia/admin-core";
 
 interface NavItem {
   href: string;

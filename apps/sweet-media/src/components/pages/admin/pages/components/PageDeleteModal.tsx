@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import type { TrackedPage } from "@/types/tracked-page";
+import type { TrackedPage } from "@sweetmedia/admin-core";
 
 interface PageDeleteModalProps {
   page: TrackedPage;

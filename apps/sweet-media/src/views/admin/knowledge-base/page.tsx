@@ -2,12 +2,12 @@
 
 import { useState } from "react";
 import AdminPageHeader from "@/components/admin/AdminPageHeader";
-import { ADMIN_OCEAN } from "@/lib/adminTheme";
+import { ADMIN_OCEAN } from "@sweetmedia/admin-core";
 import { useKnowledgeBase } from "@/hooks/useKnowledgeBase";
 import Seo from "@/components/feature/Seo";
 import KnowledgeBaseDeleteModal from "@/components/pages/admin/knowledge-base/components/KnowledgeBaseDeleteModal";
 import KnowledgeBaseEntryModal from "@/components/pages/admin/knowledge-base/components/KnowledgeBaseEntryModal";
-import type { KbEntry, KbEntryInput } from "@/types/knowledge-base";
+import type { KbEntry, KbEntryInput } from "@sweetmedia/admin-core";
 
 function contentPreview(text: string, max = 200): string {
   const t = text.trim();

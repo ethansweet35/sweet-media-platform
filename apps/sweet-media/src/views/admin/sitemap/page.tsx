@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import AdminPageHeader from "@/components/admin/AdminPageHeader";
-import { ADMIN_OCEAN } from "@/lib/adminTheme";
+import { ADMIN_OCEAN } from "@sweetmedia/admin-core";
 import { supabase } from "@/lib/supabase";
 import Seo from "@/components/feature/Seo";
 

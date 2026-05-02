@@ -1,8 +1,8 @@
 "use client";
 
 import { useCallback, useState } from "react";
-import { ADMIN_OCEAN } from "@/lib/adminTheme";
-import type { BlogQueueItemInput } from "@/types/blog-queue";
+import { ADMIN_OCEAN } from "@sweetmedia/admin-core";
+import type { BlogQueueItemInput } from "@sweetmedia/admin-core";
 
 type RowPreview = {
   rowIndex: number;

@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import type { KbEntry, KbEntryInput } from "@/types/knowledge-base";
+import type { KbEntry, KbEntryInput } from "@sweetmedia/admin-core";
 
 interface KnowledgeBaseEntryModalProps {
   entry: KbEntry | null;

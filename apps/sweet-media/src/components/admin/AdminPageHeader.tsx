@@ -1,5 +1,5 @@
 import type { ReactNode } from "react";
-import { adminFontSerif } from "@/lib/adminTheme";
+import { adminFontSerif } from "@sweetmedia/admin-core";
 
 interface AdminPageHeaderProps {
   title: string;

@@ -3,7 +3,7 @@
 import type { ReactNode } from "react";
 import { usePathname } from "next/navigation";
 import AdminSidebar from "@/components/admin/AdminSidebar";
-import { ADMIN_CREAM_MAIN, adminFontSans } from "@/lib/adminTheme";
+import { ADMIN_CREAM_MAIN, adminFontSans } from "@sweetmedia/admin-core";
 
 export default function AdminChrome({ children }: { children: ReactNode }) {
   const pathname = usePathname();

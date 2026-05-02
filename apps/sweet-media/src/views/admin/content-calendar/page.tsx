@@ -3,12 +3,12 @@
 import { useMemo, useState, type ReactNode } from "react";
 import AdminPageHeader from "@/components/admin/AdminPageHeader";
 import Seo from "@/components/feature/Seo";
-import { ADMIN_OCEAN } from "@/lib/adminTheme";
+import { ADMIN_OCEAN } from "@sweetmedia/admin-core";
 import { useBlogQueue } from "@/hooks/useBlogQueue";
 import QueueCsvUpload from "@/components/pages/admin/content-calendar/components/QueueCsvUpload";
 import QueueTable from "@/components/pages/admin/content-calendar/components/QueueTable";
 import QueueCalendarView from "@/components/pages/admin/content-calendar/components/QueueCalendarView";
-import { AI_MODELS, DEFAULT_MODEL_ID } from "@/lib/aiModels";
+import { AI_MODELS, DEFAULT_MODEL_ID } from "@sweetmedia/admin-core";
 
 type TabKey = "queue" | "calendar";
 

@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import type { KbEntry } from "@/types/knowledge-base";
+import type { KbEntry } from "@sweetmedia/admin-core";
 
 interface KnowledgeBaseDeleteModalProps {
   entry: KbEntry;

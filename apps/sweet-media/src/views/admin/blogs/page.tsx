@@ -9,7 +9,7 @@ import type { BlogPost } from "@/types/blog";
 import AdminBlogTable from "@/components/pages/admin/blogs/components/AdminBlogTable";
 import AdminBlogDeleteModal from "@/components/pages/admin/blogs/components/AdminBlogDeleteModal";
 import Seo from "@/components/feature/Seo";
-import { ADMIN_OCEAN } from "@/lib/adminTheme";
+import { ADMIN_OCEAN } from "@sweetmedia/admin-core";
 
 type FilterStatus = "all" | "published" | "draft";
 

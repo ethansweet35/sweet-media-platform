@@ -1,8 +1,8 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { ADMIN_OCEAN } from "@/lib/adminTheme";
-import type { BlogQueueItem } from "@/types/blog-queue";
+import { ADMIN_OCEAN } from "@sweetmedia/admin-core";
+import type { BlogQueueItem } from "@sweetmedia/admin-core";
 
 function startOfMonth(d: Date): Date {
   return new Date(d.getFullYear(), d.getMonth(), 1);

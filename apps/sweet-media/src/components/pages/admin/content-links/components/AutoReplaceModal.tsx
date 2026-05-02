@@ -2,7 +2,7 @@
 
 import { useState, useCallback, useMemo } from "react";
 import { supabase } from "@/lib/supabase";
-import type { FoundLink, Suggestion } from "@/types/content-links";
+import type { FoundLink, Suggestion } from "@sweetmedia/admin-core";
 
 interface AutoReplaceModalProps {
   link: FoundLink;

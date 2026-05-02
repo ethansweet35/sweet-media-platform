@@ -9,7 +9,7 @@ import BulkAutoReplaceModal from "@/components/pages/admin/content-links/compone
 import {
   type FoundLink, type FilterType, type ActionModal, type ContentBlock, type BulkAutoResult,
   STATUS_CONFIG, STATIC_ROUTES, REDIRECT_MAP,
-} from "@/types/content-links";
+} from "@sweetmedia/admin-core";
 import { extractLinksFromBlock, isExternalUrl, buildLinkRegex, applyToBlock, fetchPostContent, savePostContent } from "@/lib/content-links-utils";
 
 export default function ContentLinksPage() {

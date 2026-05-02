@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from "react";
 import { supabase } from "@/lib/supabase";
-import type { TrackedPage, TrackedPageInput, TrackedPageUpdates } from "@/types/tracked-page";
+import type { TrackedPage, TrackedPageInput, TrackedPageUpdates } from "@sweetmedia/admin-core";
 
 type DbTrackedPageRow = {
   id: string;

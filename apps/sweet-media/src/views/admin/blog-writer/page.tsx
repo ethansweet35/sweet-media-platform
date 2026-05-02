@@ -5,7 +5,7 @@ import Link from "next/link";
 import AdminPageHeader from "@/components/admin/AdminPageHeader";
 import { supabase } from "@/lib/supabase";
 import Seo from "@/components/feature/Seo";
-import { AI_MODELS, DEFAULT_MODEL_ID } from "@/lib/aiModels";
+import { AI_MODELS, DEFAULT_MODEL_ID } from "@sweetmedia/admin-core";
 
 const CATEGORY_OPTIONS = [
   { value: "", label: "Let AI decide" },

@@ -2,13 +2,13 @@
 
 import { useMemo, useState } from "react";
 import AdminPageHeader from "@/components/admin/AdminPageHeader";
-import { ADMIN_OCEAN } from "@/lib/adminTheme";
+import { ADMIN_OCEAN } from "@sweetmedia/admin-core";
 import Seo from "@/components/feature/Seo";
 import { useTrackedPages } from "@/hooks/useTrackedPages";
 import PageEditModal from "@/components/pages/admin/pages/components/PageEditModal";
 import PageDeleteModal from "@/components/pages/admin/pages/components/PageDeleteModal";
 import { getPublicSiteOrigin } from "@/lib/publicSiteUrl";
-import type { TrackedPage, TrackedPageInput } from "@/types/tracked-page";
+import type { TrackedPage, TrackedPageInput } from "@sweetmedia/admin-core";
 
 function truncateSeoTitle(title: string | null, max = 60): string {
   if (!title) return "—";
