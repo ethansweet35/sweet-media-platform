@@ -1,61 +1,8 @@
 'use client';
 import Image from 'next/image';
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
 import Link from 'next/link';
 import Breadcrumb from '@/components/base/Breadcrumb';
-
-const categories = ['All', 'Mental Health', 'Addiction Recovery', 'Holistic Wellness', 'Women\'s Health'];
-
-const articles = [
-  {
-    category: 'Mental Health',
-    title: 'Understanding Complex PTSD: A Guide for Women',
-    excerpt: 'Complex PTSD differs from single-incident trauma in important ways. Learn how it develops, how it shows up in daily life, and what evidence-based treatments offer the most hope for healing.',
-    readTime: '8 min read',
-    image: 'https://papiwmobmdbtzeeebmpr.supabase.co/storage/v1/object/public/site-assets/images/res001.jpg',
-    color: '#C8795A',
-  },
-  {
-    category: 'Addiction Recovery',
-    title: 'The Unique Challenges Women Face in Addiction Recovery',
-    excerpt: 'Women\'s addiction journeys are shaped by distinct biological, psychological, and social factors. Understanding these differences is the first step toward finding care that truly works.',
-    readTime: '6 min read',
-    image: 'https://papiwmobmdbtzeeebmpr.supabase.co/storage/v1/object/public/site-assets/images/res002.jpg',
-    color: '#6B7D67',
-  },
-  {
-    category: 'Holistic Wellness',
-    title: 'How Nature Heals: The Science of Ecotherapy',
-    excerpt: 'Decades of research confirm what our ancestors knew intuitively — time in nature reduces cortisol, improves mood, and accelerates healing. Here\'s what the science says and how to bring it into your recovery.',
-    readTime: '5 min read',
-    image: 'https://papiwmobmdbtzeeebmpr.supabase.co/storage/v1/object/public/site-assets/images/res003.jpg',
-    color: '#DDA15E',
-  },
-  {
-    category: 'Women\'s Health',
-    title: 'Hormones and Mental Health: What Every Woman Should Know',
-    excerpt: 'The relationship between hormonal fluctuations and mental health is profound and often underappreciated. From PMS to perimenopause, understanding your hormones can transform your healing journey.',
-    readTime: '7 min read',
-    image: 'https://papiwmobmdbtzeeebmpr.supabase.co/storage/v1/object/public/site-assets/images/res004.jpg',
-    color: '#8FA489',
-  },
-  {
-    category: 'Mental Health',
-    title: 'DBT Skills for Everyday Life: A Practical Guide',
-    excerpt: 'Dialectical Behavior Therapy offers four powerful skill sets that can transform how you navigate emotions, relationships, and difficult moments. Here\'s how to start using them today.',
-    readTime: '10 min read',
-    image: 'https://papiwmobmdbtzeeebmpr.supabase.co/storage/v1/object/public/site-assets/images/res005.jpg',
-    color: '#C8795A',
-  },
-  {
-    category: 'Addiction Recovery',
-    title: 'Building a Recovery Support Network That Actually Works',
-    excerpt: 'Isolation is one of the greatest threats to long-term recovery. Learn how to intentionally build a network of support — from family and friends to peer communities and professional care.',
-    readTime: '6 min read',
-    image: 'https://papiwmobmdbtzeeebmpr.supabase.co/storage/v1/object/public/site-assets/images/res006.jpg',
-    color: '#6B7D67',
-  },
-];
 
 const crisisResources = [
   { name: 'National Crisis Hotline', number: '988', desc: 'Call or text 988 for immediate mental health support, 24/7.' },
@@ -85,16 +32,6 @@ export default function ResourcesPage() {
             ],
           },
         },
-        {
-          '@type': 'ItemList',
-          name: 'Mental Health & Recovery Articles',
-          itemListElement: articles.map((a, i) => ({
-            '@type': 'ListItem',
-            position: i + 1,
-            name: a.title,
-            description: a.excerpt,
-          })),
-        },
       ],
     };
     const el = document.getElementById('schema-resources');
@@ -111,12 +48,6 @@ export default function ResourcesPage() {
     if (desc) desc.setAttribute('content', 'Curated articles, guides, and crisis resources on mental health, addiction recovery, trauma, and women\'s wellness from Inner Peak Colorado\'s clinical team.');
     return () => { const el2 = document.getElementById('schema-resources'); if (el2) el2.remove(); };
   }, []);
-
-  const [activeCategory, setActiveCategory] = useState('All');
-
-  const filtered = activeCategory === 'All'
-    ? articles
-    : articles.filter((a) => a.category === activeCategory);
 
   return (
     <main className="bg-[#FAF8F5]">
@@ -177,55 +108,10 @@ export default function ResourcesPage() {
             <h2 className="font-serif text-[#2C3B2E]" style={{ fontSize: 'clamp(28px, 4vw, 48px)' }}>Healing Wisdom</h2>
           </div>
 
-          {/* Category Filter */}
-          <div className="flex flex-wrap gap-3 mb-10">
-            {categories.map((cat) => (
-              <button
-                key={cat}
-                onClick={() => setActiveCategory(cat)}
-                className={`whitespace-nowrap cursor-pointer px-5 py-2 rounded-full text-xs uppercase tracking-widest font-medium transition-all duration-300 ${
-                  activeCategory === cat
-                    ? 'bg-[#2C3B2E] text-[#FAF8F5]'
-                    : 'bg-[#F0ECE1] text-[#3A4A3C] hover:bg-[#2C3B2E]/10'
-                }`}
-              >
-                {cat}
-              </button>
-            ))}
-          </div>
-
-          {/* Article Grid */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-            {filtered.map((article, i) => (
-              <article key={i} className="group bg-[#F0ECE1] rounded-[2rem_0.75rem_2rem_0.75rem] overflow-hidden flex flex-col cursor-pointer hover:scale-[1.02] transition-transform duration-300">
-                <div className="relative w-full h-52 overflow-hidden">
-                  <Image
-  src={article.image}
-  alt={article.title}
-  fill
-  className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-700"
-/>
-                  <div className="absolute top-3 left-3">
-                    <span
-                      className="text-[10px] uppercase tracking-widest font-medium px-3 py-1 rounded-full text-[#FAF8F5]"
-                      style={{ backgroundColor: article.color }}
-                    >
-                      {article.category}
-                    </span>
-                  </div>
-                </div>
-                <div className="p-7 flex flex-col gap-3 flex-1">
-                  <h3 className="font-serif text-[#2C3B2E] text-lg leading-snug">{article.title}</h3>
-                  <p className="text-sm text-[#3A4A3C]/60 font-light leading-relaxed flex-1">{article.excerpt}</p>
-                  <div className="flex items-center justify-between pt-3 border-t border-[#2C3B2E]/10">
-                    <span className="text-xs text-[#6B7D67] font-light uppercase tracking-wide">{article.readTime}</span>
-                    <div className="w-6 h-6 flex items-center justify-center">
-                      <i className="ri-arrow-right-line text-[#6B7D67] group-hover:translate-x-1 transition-transform duration-300"></i>
-                    </div>
-                  </div>
-                </div>
-              </article>
-            ))}
+          <div className="bg-[#F0ECE1] rounded-[2rem_0.75rem_2rem_0.75rem] p-10 md:p-14 text-center">
+            <p className="text-[#3A4A3C]/70 font-light text-base md:text-lg leading-relaxed">
+              New articles are coming soon. Check back shortly for fresh resources from our team.
+            </p>
           </div>
         </div>
       </section>
