@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import type { BlogPost } from "@/types/blog";
+import type { BlogPost } from "@sweetmedia/blog-core";
 import PostHeroImage from "@/components/pages/blog/post/components/PostHeroImage";
 
 interface PostHeroProps {

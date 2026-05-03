@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { categories } from "@/types/blog";
+import { categories } from "@sweetmedia/blog-core";
 
 interface SidebarForm {
   slug: string;

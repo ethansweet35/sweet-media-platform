@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from "react";
 import { supabase } from "@/lib/supabase";
-import { dbToBlogPost, type BlogPost, type DbBlogPost } from "@/types/blog";
+import { dbToBlogPost, type BlogPost, type DbBlogPost } from "@sweetmedia/blog-core";
 
 export function useAdminBlogPosts() {
   const [posts, setPosts] = useState<BlogPost[]>([]);

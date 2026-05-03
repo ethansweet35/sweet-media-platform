@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef, useEffect } from "react";
-import type { BlogSection } from "@/types/blog";
+import type { BlogSection } from "@sweetmedia/blog-core";
 
 interface BlockTypeMenuProps {
   onAdd: (type: BlogSection["type"]) => void;

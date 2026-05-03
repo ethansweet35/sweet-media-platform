@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { useState } from "react";
 import { ADMIN_OCEAN } from "@sweetmedia/admin-core";
-import type { BlogPost } from "@/types/blog";
+import type { BlogPost } from "@sweetmedia/blog-core";
 
 function formatScheduledLine(iso: string): string {
   try {

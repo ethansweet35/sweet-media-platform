@@ -1,4 +1,4 @@
-import type { BlogSection } from "@/types/blog";
+import type { BlogSection } from "@sweetmedia/blog-core";
 
 interface ParsedBlogPost {
   title: string;

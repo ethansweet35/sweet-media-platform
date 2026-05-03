@@ -1,5 +1,5 @@
 import Image from "next/image";
-import type { BlogPost } from "@/types/blog";
+import type { BlogPost } from "@sweetmedia/blog-core";
 
 interface PostAuthorProps {
   post: BlogPost;

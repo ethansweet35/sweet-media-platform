@@ -1,4 +1,4 @@
-import type { BlogSection } from "@/types/blog";
+import type { BlogSection } from "@sweetmedia/blog-core";
 import { parseInlineLinks, type InlineSegment } from "@/lib/markdownToBlog";
 import { autoLinkText, type LinkSegment, type AutoLinkMapping } from "@/lib/autoInternalLinks";
 import Link from "next/link";

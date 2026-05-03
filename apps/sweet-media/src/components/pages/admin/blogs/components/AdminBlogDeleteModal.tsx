@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import type { BlogPost } from "@/types/blog";
+import type { BlogPost } from "@sweetmedia/blog-core";
 
 interface AdminBlogDeleteModalProps {
   post: BlogPost;

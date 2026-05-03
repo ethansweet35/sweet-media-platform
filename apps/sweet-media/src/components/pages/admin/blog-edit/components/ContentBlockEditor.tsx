@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import type { BlogSection } from "@/types/blog";
+import type { BlogSection } from "@sweetmedia/blog-core";
 import ContentBlock from "./ContentBlock";
 import BlockTypeMenu from "./BlockTypeMenu";
 

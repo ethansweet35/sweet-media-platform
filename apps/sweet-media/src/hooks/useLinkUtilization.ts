@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback, useMemo } from "react";
 import { supabase } from "@/lib/supabase";
-import { dbToBlogPost, type DbBlogPost } from "@/types/blog";
+import { dbToBlogPost, type DbBlogPost } from "@sweetmedia/blog-core";
 import { autoLinkText } from "@/lib/autoInternalLinks";
 import type { InternalLink } from "@sweetmedia/admin-core";
 

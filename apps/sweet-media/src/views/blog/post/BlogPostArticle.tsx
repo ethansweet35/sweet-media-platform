@@ -3,7 +3,7 @@ import PostAuthor from "@/components/pages/blog/post/components/PostAuthor";
 import PostInlineRelated from "@/components/pages/blog/post/components/PostInlineRelated";
 import PostShare from "@/components/pages/blog/post/components/PostShare";
 import PostBlogMobileShareRow from "@/components/pages/blog/post/components/PostBlogMobileShareRow";
-import type { BlogPost } from "@/types/blog";
+import type { BlogPost } from "@sweetmedia/blog-core";
 import type { AutoLinkMapping } from "@/lib/autoInternalLinks";
 
 interface BlogPostArticleProps {

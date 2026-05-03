@@ -6,7 +6,7 @@ import PostCta from "@/components/pages/blog/post/components/PostCta";
 import Footer from "@/components/pages/home/components/Footer";
 import BlogPostArticle from "@/views/blog/post/BlogPostArticle";
 import { canonicalBlogPostUrl } from "@/lib/publicSiteUrl";
-import type { BlogPost } from "@/types/blog";
+import type { BlogPost } from "@sweetmedia/blog-core";
 import type { AutoLinkMapping } from "@/lib/autoInternalLinks";
 
 interface BlogPostViewServerProps {

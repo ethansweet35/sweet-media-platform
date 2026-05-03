@@ -1,5 +1,5 @@
 import { createClient } from "@supabase/supabase-js";
-import type { DbBlogPost } from "@/types/blog";
+import type { DbBlogPost } from "@sweetmedia/blog-core";
 
 export type BlogPostMetadataRow = Pick<
   DbBlogPost,

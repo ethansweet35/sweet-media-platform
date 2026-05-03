@@ -5,7 +5,7 @@ import { useState, useMemo, useCallback, useRef } from "react";
 import { AdminPageHeader } from "@sweetmedia/admin-core";
 import { useAdminBlogPosts } from "@/hooks/useAdminBlogPosts";
 import { supabase } from "@/lib/supabase";
-import type { BlogPost } from "@/types/blog";
+import type { BlogPost } from "@sweetmedia/blog-core";
 import AdminBlogTable from "@/components/pages/admin/blogs/components/AdminBlogTable";
 import AdminBlogDeleteModal from "@/components/pages/admin/blogs/components/AdminBlogDeleteModal";
 import Seo from "@/components/feature/Seo";
