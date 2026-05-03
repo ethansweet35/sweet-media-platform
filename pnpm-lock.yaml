@@ -17,6 +17,12 @@ importers:
       '@supabase/supabase-js':
         specifier: ^2.105.1
         version: 2.105.1
+      '@sweetmedia/admin-core':
+        specifier: workspace:*
+        version: link:../../packages/admin-core
+      '@sweetmedia/blog-core':
+        specifier: workspace:*
+        version: link:../../packages/blog-core
       dotenv:
         specifier: ^17.4.2
         version: 17.4.2
