@@ -181,21 +181,15 @@ export default function VirtualOutpatientPage() {
 
       {/* ── HERO ── */}
       <section className="relative w-full min-h-[600px] flex items-end overflow-hidden">
-        <div className="absolute inset-0 isolate">
-          <div className="absolute inset-0 z-0">
-            <Image
-              src="https://papiwmobmdbtzeeebmpr.supabase.co/storage/v1/object/public/site-assets/images/vop_hero01.jpg?v=20260503"
-              alt="Virtual Outpatient Program"
-              fill
-              className="h-full w-full object-cover object-center"
-              priority
-              quality={90}
-              sizes="100vw"
-            />
-          </div>
-          <div className="pointer-events-none absolute inset-0 z-10 bg-gradient-to-r from-[#2C3B2E]/90 via-[#2C3B2E]/65 to-[#2C3B2E]/20" />
-          <div className="pointer-events-none absolute inset-0 z-10 bg-gradient-to-t from-[#2C3B2E]/60 via-transparent to-transparent" />
-        </div>
+        <div
+          className="absolute inset-0"
+          style={{
+            backgroundImage: 'linear-gradient(to right, rgba(44,59,46,0.90), rgba(44,59,46,0.65), rgba(44,59,46,0.20)), linear-gradient(to top, rgba(44,59,46,0.60), transparent), url("https://papiwmobmdbtzeeebmpr.supabase.co/storage/v1/object/public/site-assets/images/vop_hero01.jpg?v=20260503b")',
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+            backgroundRepeat: 'no-repeat',
+          }}
+        />
 
         <div className="relative z-10 w-full px-8 md:px-16 pb-20 pt-40">
           <div className="max-w-7xl mx-auto">
