@@ -10,7 +10,7 @@ import {
   fetchPublishedBlogPostForRender,
   fetchPublishedBlogPostsForListing,
 } from "@/lib/fetchBlogPostForRender";
-import { buildManualOnlyLinkMap } from "@/lib/autoInternalLinks";
+import { buildManualOnlyLinkMap } from "@sweetmedia/blog-core";
 
 export const dynamic = "force-dynamic";
 

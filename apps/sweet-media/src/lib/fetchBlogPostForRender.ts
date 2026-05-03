@@ -1,6 +1,6 @@
 import { createClient } from "@supabase/supabase-js";
 import { dbToBlogPost, type BlogPost, type DbBlogPost } from "@sweetmedia/blog-core";
-import type { AutoLinkMapping } from "@/lib/autoInternalLinks";
+import type { AutoLinkMapping } from "@sweetmedia/blog-core";
 
 /** Isolated anon client so we never touch the browser session or default storageKey. */
 function createBlogRenderSupabaseClient() {

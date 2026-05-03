@@ -1,6 +1,6 @@
 import type { BlogSection } from "@sweetmedia/blog-core";
 import { parseInlineLinks, type InlineSegment } from "@/lib/markdownToBlog";
-import { autoLinkText, type LinkSegment, type AutoLinkMapping } from "@/lib/autoInternalLinks";
+import { autoLinkText, type LinkSegment, type AutoLinkMapping } from "@sweetmedia/blog-core";
 import Link from "next/link";
 
 function isExternal(href: string | undefined): boolean {

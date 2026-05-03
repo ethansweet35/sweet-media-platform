@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback, useMemo } from "react";
 import { supabase } from "@/lib/supabase";
 import { dbToBlogPost, type DbBlogPost } from "@sweetmedia/blog-core";
-import { autoLinkText } from "@/lib/autoInternalLinks";
+import { autoLinkText } from "@sweetmedia/blog-core";
 import type { InternalLink } from "@sweetmedia/admin-core";
 
 export type UtilizationStatus = "linked" | "no_matches" | "blocked_overlap" | "blocked_deduped" | "blocked_limit";
@@ -79,7 +79,7 @@ export function useLinkUtilization(links: InternalLink[]) {
         tags: p.tags,
       }));
 
-      const { buildAutoLinkMap } = await import("@/lib/autoInternalLinks");
+      const { buildAutoLinkMap } = await import("@sweetmedia/blog-core");
 
       // Build the full competitive map with ALL manual mappings included
       const allManualMappings = activeLinks.map((l) => ({

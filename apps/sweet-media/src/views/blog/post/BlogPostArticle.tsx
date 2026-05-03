@@ -4,7 +4,7 @@ import PostInlineRelated from "@/components/pages/blog/post/components/PostInlin
 import PostShare from "@/components/pages/blog/post/components/PostShare";
 import PostBlogMobileShareRow from "@/components/pages/blog/post/components/PostBlogMobileShareRow";
 import type { BlogPost } from "@sweetmedia/blog-core";
-import type { AutoLinkMapping } from "@/lib/autoInternalLinks";
+import type { AutoLinkMapping } from "@sweetmedia/blog-core";
 
 interface BlogPostArticleProps {
   post: BlogPost;
