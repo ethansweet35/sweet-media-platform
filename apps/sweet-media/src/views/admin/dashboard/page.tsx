@@ -9,7 +9,7 @@ import {
   formatDashboardDate,
   relativeTimeSince,
   useDashboardData,
-} from "@/hooks/useDashboardData";
+} from "@sweetmedia/admin-core";
 import { useAutoPublishEnabled } from "@sweetmedia/admin-core";
 
 function firstNameFromUser(email: string | undefined, meta?: Record<string, unknown> | undefined) {
