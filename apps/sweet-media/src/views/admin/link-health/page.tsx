@@ -2,7 +2,7 @@
 
 import { useState, useCallback, useMemo } from "react";
 import { AdminPageHeader } from "@sweetmedia/admin-core";
-import { useInternalLinks } from "@/hooks/useInternalLinks";
+import { useInternalLinks } from "@sweetmedia/admin-core";
 import { supabase } from "@/lib/supabase";
 import Seo from "@/components/feature/Seo";
 

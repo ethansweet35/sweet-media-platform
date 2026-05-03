@@ -2,7 +2,7 @@ import { useState, useEffect, useCallback, useMemo } from "react";
 import { supabase } from "@/lib/supabase";
 import { dbToBlogPost, type DbBlogPost } from "@/types/blog";
 import { autoLinkText } from "@/lib/autoInternalLinks";
-import type { InternalLink } from "@/hooks/useInternalLinks";
+import type { InternalLink } from "@sweetmedia/admin-core";
 
 export type UtilizationStatus = "linked" | "no_matches" | "blocked_overlap" | "blocked_deduped" | "blocked_limit";
 
