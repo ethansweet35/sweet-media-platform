@@ -1,7 +1,7 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  transpilePackages: ["@sweetmedia/admin-core"],
+  transpilePackages: ["@sweetmedia/admin-core", "@sweetmedia/blog-core"],
   async headers() {
     return [
       {
