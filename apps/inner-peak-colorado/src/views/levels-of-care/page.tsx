@@ -180,18 +180,19 @@ export default function VirtualOutpatientPage() {
     <main className="bg-[#FAF8F5]">
 
       {/* ── HERO ── */}
-      <section className="relative w-full min-h-[620px] flex items-end overflow-hidden">
+      <section className="relative w-full min-h-[600px] flex items-end overflow-hidden">
         <div className="absolute inset-0">
-          <Image
-  src="https://papiwmobmdbtzeeebmpr.supabase.co/storage/v1/object/public/site-assets/images/vop_hero01.jpg"
-  alt="Virtual Outpatient Program"
-  fill
-  className="w-full h-full object-cover object-top"
-  priority
-/>
-          <div className="absolute inset-0 bg-[#2C3B2E]/60" />
-          <div className="absolute inset-0 bg-gradient-to-r from-[#2C3B2E]/80 via-[#2C3B2E]/50 to-transparent" />
-          <div className="absolute inset-0 bg-gradient-to-t from-[#2C3B2E]/60 via-transparent to-transparent" />
+          <div className="absolute inset-0">
+            <Image
+              src="https://papiwmobmdbtzeeebmpr.supabase.co/storage/v1/object/public/site-assets/images/vop_hero01.jpg"
+              alt="Virtual Outpatient Program"
+              fill
+              className="w-full h-full object-cover object-top"
+              priority
+            />
+          </div>
+          <div className="absolute inset-0 bg-gradient-to-r from-[#2C3B2E]/90 via-[#2C3B2E]/65 to-[#2C3B2E]/20"></div>
+          <div className="absolute inset-0 bg-gradient-to-t from-[#2C3B2E]/60 via-transparent to-transparent"></div>
         </div>
 
         <div className="relative z-10 w-full px-8 md:px-16 pb-20 pt-40">
