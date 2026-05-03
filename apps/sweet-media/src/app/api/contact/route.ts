@@ -1,7 +1,5 @@
 import { Resend } from "resend";
 
-const resend = new Resend(process.env.RESEND_API_KEY);
-
 type ContactPayload = {
   name: string;
   email: string;
@@ -21,6 +19,13 @@ function escapeHtml(value: string): string {
 
 export async function POST(request: Request) {
   try {
+    const resendApiKey = process.env.RESEND_API_KEY;
+    if (!resendApiKey) {
+      console.error("Missing RESEND_API_KEY");
+      return Response.json({ success: false }, { status: 500 });
+    }
+
+    const resend = new Resend(resendApiKey);
     const formData = (await request.json()) as Record<string, string>;
     let service = "";
     if ("service" in formData && formData.service) service = String(formData.service);
