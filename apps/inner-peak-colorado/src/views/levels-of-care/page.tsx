@@ -3,7 +3,6 @@ import Image from 'next/image';
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Breadcrumb from '@/components/base/Breadcrumb';
-import { useParallax } from '@/hooks/useParallax';
 
 const tracks = [
   {
@@ -176,7 +175,6 @@ export default function VirtualOutpatientPage() {
   const [openFaq, setOpenFaq] = useState<number | null>(null);
 
   const track = tracks[activeTrack];
-  const heroParallax = useParallax<HTMLDivElement>({ speed: 0.25, maxOffset: 80 });
 
   return (
     <main className="bg-[#FAF8F5]">
@@ -184,13 +182,15 @@ export default function VirtualOutpatientPage() {
       {/* ── HERO ── */}
       <section className="relative w-full min-h-[600px] flex items-end overflow-hidden">
         <div className="absolute inset-0 isolate">
-          <div ref={heroParallax} className="absolute inset-0 z-0">
+          <div className="absolute inset-0 z-0">
             <Image
-              src="https://papiwmobmdbtzeeebmpr.supabase.co/storage/v1/object/public/site-assets/images/vop_hero01.jpg"
+              src="https://papiwmobmdbtzeeebmpr.supabase.co/storage/v1/object/public/site-assets/images/vop_hero01.jpg?v=20260503"
               alt="Virtual Outpatient Program"
               fill
               className="h-full w-full object-cover object-center"
               priority
+              quality={90}
+              sizes="100vw"
             />
           </div>
           <div className="pointer-events-none absolute inset-0 z-10 bg-gradient-to-r from-[#2C3B2E]/90 via-[#2C3B2E]/65 to-[#2C3B2E]/20" />
