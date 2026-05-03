@@ -10,7 +10,7 @@ import {
   relativeTimeSince,
   useDashboardData,
 } from "@/hooks/useDashboardData";
-import { useAutoPublishEnabled } from "@/hooks/useSystemSettings";
+import { useAutoPublishEnabled } from "@sweetmedia/admin-core";
 
 function firstNameFromUser(email: string | undefined, meta?: Record<string, unknown> | undefined) {
   if (typeof meta?.first_name === "string" && meta.first_name.trim()) {
