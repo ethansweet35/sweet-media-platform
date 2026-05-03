@@ -17,3 +17,4 @@ export { useSystemSettings, useAutoPublishEnabled } from "./hooks/useSystemSetti
 export { useKnowledgeBase, type KbEntryUpdates } from "./hooks/useKnowledgeBase";
 export { useTrackedPages } from "./hooks/useTrackedPages";
 export { useInternalLinks, type InternalLink } from "./hooks/useInternalLinks";
+export { useDashboardData, formatDashboardDate, relativeTimeSince } from "./hooks/useDashboardData";
