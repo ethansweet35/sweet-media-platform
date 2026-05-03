@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useState, useMemo, useCallback, useRef } from "react";
 import { AdminPageHeader } from "@sweetmedia/admin-core";
-import { useAdminBlogPosts } from "@/hooks/useAdminBlogPosts";
+import { useAdminBlogPosts } from "@sweetmedia/admin-core";
 import { supabase } from "@/lib/supabase";
 import type { BlogPost } from "@sweetmedia/blog-core";
 import AdminBlogTable from "@/components/pages/admin/blogs/components/AdminBlogTable";
