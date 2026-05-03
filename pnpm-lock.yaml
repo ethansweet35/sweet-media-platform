@@ -69,6 +69,9 @@ importers:
       '@supabase/supabase-js':
         specifier: ^2.105.1
         version: 2.105.1
+      '@sweetmedia/blog-core':
+        specifier: workspace:*
+        version: link:../blog-core
     devDependencies:
       '@types/node':
         specifier: ^20

@@ -12,7 +12,8 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@supabase/supabase-js": "^2.105.1"
+    "@supabase/supabase-js": "^2.105.1",
+    "@sweetmedia/blog-core": "workspace:*"
   },
   "peerDependencies": {
     "next": "16.2.4",
