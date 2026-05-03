@@ -1,0 +1,87 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@theme {
+  --color-cream: #FAF8F5;
+  --color-sand: #F0ECE1;
+  --color-forest: #2C3B2E;
+  --color-forest-dark: #3A4A3C;
+  --color-sage: #6B7D67;
+  --color-terracotta: #C8795A;
+  --color-ochre: #DDA15E;
+  --color-leaf: #8FA489;
+
+  --font-family-serif: 'Cormorant Garamond', Georgia, serif;
+  --font-family-sans: 'DM Sans', system-ui, sans-serif;
+}
+
+/* ─── Scroll-entrance animation utilities ─────────────────────────────────── */
+@layer utilities {
+  /* Base invisible state */
+  .anim-hidden {
+    opacity: 0;
+    will-change: opacity, transform;
+  }
+
+  /* Fade up — default entrance */
+  .anim-fade-up {
+    transform: translateY(32px);
+  }
+  /* Fade down */
+  .anim-fade-down {
+    transform: translateY(-32px);
+  }
+  /* Fade left */
+  .anim-fade-left {
+    transform: translateX(32px);
+  }
+  /* Fade right */
+  .anim-fade-right {
+    transform: translateX(-32px);
+  }
+  /* Scale in */
+  .anim-scale {
+    transform: scale(0.92);
+  }
+
+  /* Visible state — apply these to trigger the animation */
+  .anim-visible {
+    opacity: 1;
+    transform: translate(0, 0) scale(1);
+    transition: opacity 0.65s cubic-bezier(0.22, 1, 0.36, 1),
+                transform 0.65s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  /* Stagger helpers — delay classes for child items */
+  .anim-delay-1 { transition-delay: 0.08s; }
+  .anim-delay-2 { transition-delay: 0.16s; }
+  .anim-delay-3 { transition-delay: 0.24s; }
+  .anim-delay-4 { transition-delay: 0.32s; }
+  .anim-delay-5 { transition-delay: 0.40s; }
+  .anim-delay-6 { transition-delay: 0.48s; }
+
+  /* Respect user motion preference */
+  @media (prefers-reduced-motion: reduce) {
+    .anim-hidden { opacity: 1 !important; transform: none !important; }
+    .anim-visible { transition: none !important; }
+  }
+}
+
+@layer base {
+  html {
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
+    color: #2C3B2E;
+    background-color: #FAF8F5;
+  }
+
+  .font-serif {
+    font-family: 'Cormorant Garamond', serif;
+  }
+
+  * {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+}
