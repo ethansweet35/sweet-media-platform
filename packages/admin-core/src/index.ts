@@ -16,3 +16,4 @@ export { useBlogQueue } from "./hooks/useBlogQueue";
 export { useSystemSettings, useAutoPublishEnabled } from "./hooks/useSystemSettings";
 export { useKnowledgeBase, type KbEntryUpdates } from "./hooks/useKnowledgeBase";
 export { useTrackedPages } from "./hooks/useTrackedPages";
+export { useInternalLinks, type InternalLink } from "./hooks/useInternalLinks";
