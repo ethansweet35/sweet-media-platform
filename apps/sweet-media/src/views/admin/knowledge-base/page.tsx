@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { AdminPageHeader } from "@sweetmedia/admin-core";
 import { ADMIN_OCEAN } from "@sweetmedia/admin-core";
-import { useKnowledgeBase } from "@/hooks/useKnowledgeBase";
+import { useKnowledgeBase } from "@sweetmedia/admin-core";
 import Seo from "@/components/feature/Seo";
 import KnowledgeBaseDeleteModal from "@/components/pages/admin/knowledge-base/components/KnowledgeBaseDeleteModal";
 import KnowledgeBaseEntryModal from "@/components/pages/admin/knowledge-base/components/KnowledgeBaseEntryModal";
