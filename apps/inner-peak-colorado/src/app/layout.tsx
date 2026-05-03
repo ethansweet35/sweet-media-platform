@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Cormorant_Garamond, DM_Sans } from "next/font/google";
 import "./globals.css";
+import { Providers } from "./providers";
 import Layout from "@/components/feature/Layout";
 
 const cormorant = Cormorant_Garamond({
@@ -38,7 +39,7 @@ export default function RootLayout({
         />
       </head>
       <body className="min-h-full">
-        <Layout>{children}</Layout>
+        <Providers><Layout>{children}</Layout></Providers>
       </body>
     </html>
   );
