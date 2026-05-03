@@ -12,70 +12,71 @@ export default function BlogHero({ searchQuery, onSearchChange }: BlogHeroProps)
   const [isFocused, setIsFocused] = useState(false);
 
   return (
-    <section className="relative w-full overflow-hidden" style={{ background: "#0A1F44" }}>
-      {/* Dot grid */}
+    <section className="relative w-full overflow-hidden bg-[#2C3B2E]">
       <div
         className="absolute inset-0 opacity-[0.08]"
         style={{
-          backgroundImage: "radial-gradient(circle, #fff 1px, transparent 1px)",
-          backgroundSize: "32px 32px",
+          backgroundImage:
+            "radial-gradient(circle at 1px 1px, #FAF8F5 1px, transparent 0)",
+          backgroundSize: "34px 34px",
         }}
       />
+      <div className="absolute -top-24 right-0 w-96 h-96 rounded-full bg-[#DDA15E]/10 blur-3xl" />
+      <div className="absolute bottom-0 left-0 w-80 h-80 rounded-full bg-[#8FA489]/10 blur-3xl" />
 
-      {/* Soft glow orbs */}
-      <div className="absolute top-20 right-20 w-72 h-72 rounded-full bg-white/[0.03] blur-3xl" />
-      <div className="absolute bottom-10 left-10 w-56 h-56 rounded-full bg-white/[0.02] blur-3xl" />
-
-      <div className="relative max-w-screen-xl mx-auto px-6 pt-36 pb-20 md:pt-44 md:pb-28">
-        {/* Breadcrumb */}
-        <div className="flex items-center gap-1.5 mb-8 justify-center lg:justify-start">
-          <Link href="/" className="text-[7px] md:text-[9px] tracking-[0.15em] md:tracking-widest uppercase text-white/40 hover:text-white/70 transition-colors">
+      <div className="relative max-w-7xl mx-auto px-8 md:px-16 pt-36 pb-20 md:pt-44 md:pb-28">
+        <div className="flex items-center gap-2 mb-8">
+          <Link
+            href="/"
+            className="text-[10px] tracking-[0.25em] uppercase text-[#F0ECE1]/45 hover:text-[#F0ECE1]/80 transition-colors"
+          >
             Home
           </Link>
-          <i className="ri-arrow-right-s-line text-white/25 text-[9px]"></i>
-          <span className="text-[7px] md:text-[9px] tracking-[0.15em] md:tracking-widest uppercase text-white/60">Blog</span>
+          <span className="text-[#F0ECE1]/25">/</span>
+          <span className="text-[10px] tracking-[0.25em] uppercase text-[#DDA15E]">
+            Resources
+          </span>
         </div>
 
         <div className="max-w-3xl">
-          <div className="flex items-center gap-3 mb-6 justify-center lg:justify-start">
-            <div className="w-10 h-px bg-white/30" />
-            <span className="text-[10px] tracking-[0.35em] uppercase text-white/50 font-semibold">
-              Insights &amp; Strategy
-            </span>
-          </div>
+          <span className="text-xs uppercase tracking-[0.35em] text-[#DDA15E] font-medium">
+            Inner Peak Journal
+          </span>
 
           <h1
-            className="text-4xl md:text-5xl lg:text-6xl font-light text-white leading-[1.1] mb-6 text-center lg:text-left"
-            style={{ fontFamily: "'Playfair Display', serif" }}
+            className="font-serif text-[#FAF8F5] leading-[1.08] mt-6 mb-6"
+            style={{ fontSize: "clamp(42px, 6vw, 78px)" }}
           >
-            The Sweet Media{" "}
-            <em className="italic" style={{ color: "#7B9FD4" }}>
-              Journal
-            </em>
+            Thoughtful guidance for{" "}
+            <em className="text-[#DDA15E]">healing at home.</em>
           </h1>
 
-          <p className="text-base md:text-lg text-white/50 leading-relaxed max-w-xl text-center lg:text-left mx-auto lg:mx-0 mb-10">
-            Data-driven insights, compliance updates, and proven strategies for behavioral health marketing leaders.
+          <p className="text-[#F0ECE1]/70 font-light text-base md:text-lg leading-[1.9] max-w-2xl mb-10">
+            Mental health, addiction recovery, trauma-informed care, and women’s wellness resources from the Inner Peak Colorado team.
           </p>
 
-          {/* Search bar */}
-          <div className={`max-w-lg mx-auto lg:mx-0 flex items-center gap-3 bg-white/10 backdrop-blur-sm border rounded-xl px-4 py-3 transition-all duration-200 ${isFocused ? "border-white/30 bg-white/15" : "border-white/10"}`}>
-            <i className="ri-search-line text-white/40 text-lg"></i>
+          <div
+            className={`max-w-xl flex items-center gap-3 bg-[#FAF8F5]/10 backdrop-blur-sm border rounded-full px-5 py-3 transition-all duration-200 ${
+              isFocused ? "border-[#DDA15E]/50 bg-[#FAF8F5]/15" : "border-[#FAF8F5]/15"
+            }`}
+          >
+            <i className="ri-search-line text-[#F0ECE1]/45 text-lg" />
             <input
               type="text"
               value={searchQuery}
               onChange={(e) => onSearchChange(e.target.value)}
               onFocus={() => setIsFocused(true)}
               onBlur={() => setIsFocused(false)}
-              placeholder="Search articles, topics, or authors..."
-              className="flex-1 bg-transparent text-sm text-white placeholder:text-white/30 focus:outline-none"
+              placeholder="Search articles..."
+              className="flex-1 bg-transparent text-sm text-[#FAF8F5] placeholder:text-[#F0ECE1]/35 focus:outline-none"
             />
             {searchQuery && (
               <button
-                onClick={() => onSearchChange("")}
-                className="w-6 h-6 flex items-center justify-center rounded-full bg-white/10 hover:bg-white/20 text-white/50 transition-colors cursor-pointer"
+              onClick={() => onSearchChange("")}
+                className="w-6 h-6 flex items-center justify-center rounded-full bg-[#FAF8F5]/10 hover:bg-[#FAF8F5]/20 text-[#F0ECE1]/60 transition-colors cursor-pointer"
+                aria-label="Clear search"
               >
-                <i className="ri-close-line text-xs"></i>
+                <i className="ri-close-line text-xs" />
               </button>
             )}
           </div>

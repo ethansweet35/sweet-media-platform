@@ -50,13 +50,13 @@ export default function BlogGrid({ searchQuery }: BlogGridProps) {
           {!isSearching && (
             <div className="flex flex-wrap gap-2">
               {catsLoading
-                ? ["All", "SEO", "Paid Media", "Web Development", "Social Media", "Compliance", "Strategy"].map((cat) => (
+                ? ["All", "Mental Health", "Addiction Recovery", "Trauma", "Virtual Care", "Women’s Wellness", "Family Support"].map((cat) => (
                     <button
                       key={cat}
                       onClick={() => setActiveCategory(cat)}
                       className={`text-[11px] tracking-[0.12em] uppercase font-medium px-4 py-2 rounded-full transition-all duration-200 cursor-pointer whitespace-nowrap ${
                         activeCategory === cat
-                          ? "bg-[#0A1F44] text-white"
+                          ? "bg-[#2C3B2E] text-[#FAF8F5]"
                           : "bg-white text-neutral-500 hover:text-neutral-800 border border-neutral-200"
                       }`}
                     >
@@ -69,7 +69,7 @@ export default function BlogGrid({ searchQuery }: BlogGridProps) {
                       onClick={() => setActiveCategory(cat)}
                       className={`text-[11px] tracking-[0.12em] uppercase font-medium px-4 py-2 rounded-full transition-all duration-200 cursor-pointer whitespace-nowrap ${
                         activeCategory === cat
-                          ? "bg-[#0A1F44] text-white"
+                          ? "bg-[#2C3B2E] text-[#FAF8F5]"
                           : "bg-white text-neutral-500 hover:text-neutral-800 border border-neutral-200"
                       }`}
                     >
@@ -118,7 +118,7 @@ export default function BlogGrid({ searchQuery }: BlogGridProps) {
                     sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 400px"
                   />
                   <div className="absolute top-3 left-3">
-                    <span className="inline-block bg-white/90 backdrop-blur-sm text-[10px] tracking-[0.15em] uppercase font-bold text-[#0A1F44] px-2.5 py-1 rounded-full">
+                    <span className="inline-block bg-white/90 backdrop-blur-sm text-[10px] tracking-[0.15em] uppercase font-bold text-[#2C3B2E] px-2.5 py-1 rounded-full">
                       {post.category}
                     </span>
                   </div>
@@ -133,7 +133,7 @@ export default function BlogGrid({ searchQuery }: BlogGridProps) {
                   </div>
 
                   <h3
-                    className="text-lg font-medium text-neutral-900 leading-snug mb-3 group-hover:text-[#0A1F44] transition-colors"
+                    className="text-lg font-medium text-neutral-900 leading-snug mb-3 group-hover:text-[#2C3B2E] transition-colors"
                     style={{ fontFamily: "'Playfair Display', serif" }}
                   >
                     {post.title}
@@ -145,7 +145,7 @@ export default function BlogGrid({ searchQuery }: BlogGridProps) {
 
                   <div className="flex items-center justify-between pt-4 border-t border-neutral-100">
                     <div className="flex items-center gap-2">
-                      <div className="w-7 h-7 rounded-full bg-[#0A1F44] flex items-center justify-center">
+                      <div className="w-7 h-7 rounded-full bg-[#2C3B2E] flex items-center justify-center">
                         <span className="text-white text-[10px] font-bold">
                           {post.author.split(" ").map((n) => n[0]).join("")}
                         </span>
@@ -153,7 +153,7 @@ export default function BlogGrid({ searchQuery }: BlogGridProps) {
                       <span className="text-[11px] text-neutral-500">{post.author}</span>
                     </div>
 
-                    <span className="flex items-center gap-1 text-[11px] tracking-[0.1em] uppercase font-medium text-[#0A1F44] group-hover:text-[#7B9FD4] transition-colors">
+                    <span className="flex items-center gap-1 text-[11px] tracking-[0.1em] uppercase font-medium text-[#2C3B2E] group-hover:text-[#C8795A] transition-colors">
                       Read
                       <i className="ri-arrow-right-line text-xs group-hover:translate-x-0.5 transition-transform"></i>
                     </span>

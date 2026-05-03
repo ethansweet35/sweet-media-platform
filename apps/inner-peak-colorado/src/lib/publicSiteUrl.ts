@@ -1,4 +1,4 @@
-const DEFAULT_ORIGIN = "https://sweetmediaservices.com";
+const DEFAULT_ORIGIN = "https://innerpeakcolorado.com";
 
 /** Prefer NEXT_PUBLIC_SITE_URL in env; omit trailing slash. */
 export function getPublicSiteOrigin(): string {

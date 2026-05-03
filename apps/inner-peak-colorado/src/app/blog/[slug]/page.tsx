@@ -14,7 +14,7 @@ import { buildManualOnlyLinkMap } from "@sweetmedia/blog-core";
 
 export const dynamic = "force-dynamic";
 
-const SITE_URL = "https://sweetmediaservices.com";
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://innerpeakcolorado.com";
 
 type PageProps = {
   params: Promise<{ slug: string }>;
@@ -46,11 +46,11 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const row = await fetchPublishedBlogPostForMetadata(slug);
 
   const titleBase = metaString(row?.title) || slugToFallbackTitle(slug);
-  const title = `${titleBase} | Sweet Media Blog`;
+  const title = `${titleBase} | Inner Peak Colorado`;
   const description =
     metaString(row?.meta_description).trim() ||
     metaString(row?.excerpt).trim() ||
-    "Insights on behavioral health marketing from Sweet Media.";
+    "Mental health, addiction recovery, and trauma-informed care resources from Inner Peak Colorado.";
 
   const ogImageUrl = toAbsoluteOgUrl(row?.hero_image_url);
 
@@ -63,7 +63,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
       url: `/blog/${slug}`,
       title,
       description,
-      siteName: "Sweet Media",
+      siteName: "Inner Peak Colorado",
       publishedTime: metaString(row?.published_at) || undefined,
       modifiedTime: metaString(row?.updated_at) || undefined,
       ...(metaString(row?.category) ? { section: metaString(row?.category) } : {}),

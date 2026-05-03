@@ -7,17 +7,17 @@ const BLOG_OG_IMAGE =
   "https://ynmldknprfusujudvutq.supabase.co/storage/v1/object/public/public_bucket/og-blog.jpg";
 
 export const metadata: Metadata = {
-  title: "Blog | Behavioral Health Marketing Insights | Sweet Media",
+  title: "Blog | Mental Health & Recovery Resources | Inner Peak Colorado",
   description:
-    "Expert insights on behavioral health marketing, SEO, paid media, and web development for treatment centers. Read the latest from Sweet Media's team.",
+    "Mental health, addiction recovery, trauma-informed care, and women’s wellness resources from Inner Peak Colorado.",
   keywords:
-    "behavioral health marketing blog, addiction treatment marketing tips, rehab SEO guide, treatment center marketing insights",
+    "women’s mental health resources, virtual outpatient treatment, addiction recovery resources, trauma-informed care, Colorado mental health support",
   alternates: { canonical: "/blog" },
   openGraph: {
     type: "website",
-    title: "Blog | Behavioral Health Marketing Insights | Sweet Media",
+    title: "Blog | Mental Health & Recovery Resources | Inner Peak Colorado",
     description:
-      "Expert insights on behavioral health marketing, SEO, paid media, and web development for treatment centers. Read the latest from Sweet Media's team.",
+      "Mental health, addiction recovery, trauma-informed care, and women’s wellness resources from Inner Peak Colorado.",
     url: "/blog",
     images: [{ url: BLOG_OG_IMAGE, width: 1200, height: 630 }],
   },

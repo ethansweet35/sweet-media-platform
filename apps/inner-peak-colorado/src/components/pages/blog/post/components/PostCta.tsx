@@ -21,7 +21,7 @@ export default function PostCta() {
           </h2>
 
           <p className="text-sm text-white/50 leading-relaxed mb-8 max-w-lg mx-auto">
-            Sweet Media works exclusively with behavioral health programs. Schedule a free strategy call
+            Inner Peak Colorado offers women-centered virtual mental health and addiction treatment. Reach out for a confidential consultation
             and see exactly how we&apos;d apply these strategies to your facility.
           </p>
 

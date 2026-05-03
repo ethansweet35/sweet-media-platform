@@ -4,7 +4,6 @@ import { useState } from "react";
 import BlogHero from "@/components/pages/blog/components/BlogHero";
 import BlogFeatured from "@/components/pages/blog/components/BlogFeatured";
 import BlogGrid from "@/components/pages/blog/components/BlogGrid";
-import BlogNewsletter from "@/components/pages/blog/components/BlogNewsletter";
 
 export default function BlogPage() {
   const [searchQuery, setSearchQuery] = useState("");
@@ -15,7 +14,6 @@ export default function BlogPage() {
         <BlogHero searchQuery={searchQuery} onSearchChange={setSearchQuery} />
         <BlogFeatured />
         <BlogGrid searchQuery={searchQuery} />
-        <BlogNewsletter />
       </main>
     </div>
   );
