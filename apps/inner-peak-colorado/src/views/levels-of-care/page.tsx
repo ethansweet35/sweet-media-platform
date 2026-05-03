@@ -184,7 +184,7 @@ export default function VirtualOutpatientPage() {
         <div
           className="absolute inset-0"
           style={{
-            backgroundImage: 'linear-gradient(to right, rgba(44,59,46,0.90), rgba(44,59,46,0.65), rgba(44,59,46,0.20)), linear-gradient(to top, rgba(44,59,46,0.60), transparent), url("https://papiwmobmdbtzeeebmpr.supabase.co/storage/v1/object/public/site-assets/images/vop_hero01.jpg?v=20260503b")',
+            backgroundImage: 'linear-gradient(to right, rgba(44,59,46,0.90), rgba(44,59,46,0.65), rgba(44,59,46,0.20)), linear-gradient(to top, rgba(44,59,46,0.60), transparent), url("/images/vop-hero-local.jpg?v=20260503c")',
             backgroundSize: 'cover',
             backgroundPosition: 'center',
             backgroundRepeat: 'no-repeat',
