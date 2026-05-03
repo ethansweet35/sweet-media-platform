@@ -98,7 +98,7 @@ export default function PostHero({ post }: PostHeroProps) {
           </div>
 
           {post.image ? (
-            <div className="relative rounded-[2rem_0.75rem_2rem_0.75rem] overflow-hidden border border-[#F0ECE1]/10 bg-[#F0ECE1]/5 min-h-[280px] lg:min-h-[360px] shadow-2xl shadow-black/20">
+            <div className="relative aspect-[3/2] w-full max-w-[520px] lg:ml-auto rounded-[2rem_0.75rem_2rem_0.75rem] overflow-hidden border border-[#F0ECE1]/10 bg-[#F0ECE1]/5 shadow-2xl shadow-black/20">
               <Image
                 src={post.image}
                 alt={post.title}
