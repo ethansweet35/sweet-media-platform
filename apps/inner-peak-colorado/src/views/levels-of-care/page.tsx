@@ -183,20 +183,18 @@ export default function VirtualOutpatientPage() {
 
       {/* ── HERO ── */}
       <section className="relative w-full min-h-[600px] flex items-end overflow-hidden">
-        <div className="absolute inset-0">
-          <div ref={heroParallax} className="absolute inset-0">
+        <div className="absolute inset-0 isolate">
+          <div ref={heroParallax} className="absolute inset-0 z-0">
             <Image
               src="https://papiwmobmdbtzeeebmpr.supabase.co/storage/v1/object/public/site-assets/images/vop_hero01.jpg"
               alt="Virtual Outpatient Program"
               fill
-              className="h-full w-full object-cover object-[50%_22%]"
+              className="h-full w-full object-cover object-center"
               priority
-              sizes="100vw"
             />
           </div>
-          <div className="absolute inset-0 bg-[#2C3B2E]/55" />
-          <div className="absolute inset-0 bg-gradient-to-r from-[#2C3B2E]/85 via-[#2C3B2E]/50 to-transparent" />
-          <div className="absolute inset-0 bg-gradient-to-t from-[#2C3B2E]/60 via-transparent to-transparent" />
+          <div className="pointer-events-none absolute inset-0 z-10 bg-gradient-to-r from-[#2C3B2E]/90 via-[#2C3B2E]/65 to-[#2C3B2E]/20" />
+          <div className="pointer-events-none absolute inset-0 z-10 bg-gradient-to-t from-[#2C3B2E]/60 via-transparent to-transparent" />
         </div>
 
         <div className="relative z-10 w-full px-8 md:px-16 pb-20 pt-40">
@@ -205,27 +203,27 @@ export default function VirtualOutpatientPage() {
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-end mt-8">
               <div className="flex flex-col gap-6">
                 <span className="text-xs uppercase tracking-[0.3em] text-[#DDA15E] font-medium">Our Program</span>
-                <h1 className="font-serif text-[#FAF8F5] leading-[1.1]" style={{ fontSize: 'clamp(36px, 5vw, 66px)' }}>
+                <h1 className="font-serif text-[#FAF8F5] leading-[1.15]" style={{ fontSize: 'clamp(36px, 5vw, 68px)' }}>
                   World-class care,<br />
                   from the comfort<br />
                   <em className="text-[#DDA15E]">of your own home.</em>
                 </h1>
               </div>
               <div className="flex flex-col gap-6">
-                <p className="text-[#F0ECE1]/75 font-light text-base leading-[1.95]">
+                <p className="text-[#F0ECE1]/80 font-light text-lg leading-relaxed">
                   Our virtual outpatient program delivers evidence-based, women-only mental health and addiction treatment — with the same clinical depth as in-person care, and none of the barriers. Heal on your schedule, in your space, without putting your life on hold.
                 </p>
                 <div className="flex flex-wrap gap-4">
                   <Link
                     href="/contact"
-                    className="whitespace-nowrap cursor-pointer inline-flex items-center gap-2 px-8 py-3.5 rounded-full bg-[#C8795A] text-[#FAF8F5] text-xs uppercase tracking-widest font-medium hover:bg-[#DDA15E] transition-all duration-300"
+                    className="whitespace-nowrap cursor-pointer inline-flex items-center gap-2 px-8 py-3.5 rounded-full bg-[#C8795A] text-[#FAF8F5] text-sm uppercase tracking-widest font-medium hover:bg-[#DDA15E] transition-all duration-300"
                   >
                     Get a Free Assessment
                     <i className="ri-arrow-right-line"></i>
                   </Link>
                   <a
-                    href="tel:+18005551234"
-                    className="whitespace-nowrap cursor-pointer inline-flex items-center gap-2 px-8 py-3.5 rounded-full border border-[#FAF8F5]/40 text-[#FAF8F5] text-xs uppercase tracking-widest font-medium hover:border-[#FAF8F5] transition-all duration-300"
+                    href="tel:+17197338556"
+                    className="whitespace-nowrap cursor-pointer inline-flex items-center gap-2 px-8 py-3.5 rounded-full border border-[#FAF8F5]/40 text-[#FAF8F5] text-sm uppercase tracking-widest font-medium hover:border-[#FAF8F5] transition-all duration-300"
                   >
                     <i className="ri-phone-line"></i>
                     Call Us
