@@ -50,9 +50,11 @@ async function uploadB64ToStorage(b64: string, title: string): Promise<string> {
   const binary = Uint8Array.from(atob(b64), (c) => c.charCodeAt(0));
   const slug = title.toLowerCase().replace(/[^a-z0-9]+/g, "-").slice(0, 40);
   const filename = `blog-${slug}-${Date.now()}.webp`;
-  const { data, error } = await adminClient.storage.from("public_bucket").upload(filename, binary, { contentType: "image/webp", upsert: true });
+  const bucket = Deno.env.get("BLOG_IMAGE_BUCKET") || "site-assets";
+  const storagePath = `blog/${filename}`;
+  const { data, error } = await adminClient.storage.from(bucket).upload(storagePath, binary, { contentType: "image/webp", upsert: true });
   if (error) throw new Error(`Storage upload failed: ${error.message}`);
-  const { data: urlData } = adminClient.storage.from("public_bucket").getPublicUrl(data.path);
+  const { data: urlData } = adminClient.storage.from(bucket).getPublicUrl(data.path);
   return urlData.publicUrl;
 }
 
@@ -177,7 +179,58 @@ function escapeForDoubleQuotedPrompt(s: string): string {
   return s.replace(/\\/g, "\\\\").replace(/"/g, '\\"');
 }
 
-function buildPrompt(title: string, excerpt: string, category: string, bodyContext: string): string {
+type BrandSettings = {
+  site_name?: string | null;
+  primary_color?: string | null;
+  secondary_color?: string | null;
+  accent_color?: string | null;
+  background_color?: string | null;
+  heading_font?: string | null;
+  body_font?: string | null;
+  tone?: string | null;
+  audience?: string | null;
+  image_style_prompt?: string | null;
+  image_negative_prompt?: string | null;
+  image_bucket?: string | null;
+  image_folder?: string | null;
+};
+
+async function fetchBrandSettings(
+  supabaseUrl: string,
+  serviceRoleKey: string,
+): Promise<BrandSettings | null> {
+  if (!supabaseUrl || !serviceRoleKey) return null;
+
+  try {
+    const admin = createClient(supabaseUrl, serviceRoleKey, {
+      auth: { autoRefreshToken: false, persistSession: false },
+    });
+
+    const { data, error } = await admin
+      .from("brand_settings")
+      .select("*")
+      .eq("site_key", "default")
+      .maybeSingle();
+
+    if (error) {
+      console.warn("[generate-blog-image] brand_settings query failed:", error.message);
+      return null;
+    }
+
+    return (data ?? null) as BrandSettings | null;
+  } catch (e) {
+    console.warn("[generate-blog-image] brand_settings exception:", e);
+    return null;
+  }
+}
+
+function buildPrompt(
+  title: string,
+  excerpt: string,
+  category: string,
+  bodyContext: string,
+  brand: BrandSettings | null,
+): string {
   const t = title.trim();
   const ex = excerpt.trim();
   const cat = category.trim();
@@ -185,41 +238,61 @@ function buildPrompt(title: string, excerpt: string, category: string, bodyConte
 
   const titleQuoted = escapeForDoubleQuotedPrompt(t);
 
-  const contextLines: string[] = ["CONTEXT:"];
+  const siteName = brand?.site_name?.trim() || "the website";
+  const primary = brand?.primary_color?.trim() || "#2C3B2E";
+  const secondary = brand?.secondary_color?.trim() || "#C8795A";
+  const accent = brand?.accent_color?.trim() || secondary;
+  const background = brand?.background_color?.trim() || "#FAF8F5";
+  const headingFont = brand?.heading_font?.trim() || "Cormorant Garamond";
+  const bodyFont = brand?.body_font?.trim() || "DM Sans";
+  const tone = brand?.tone?.trim() || "calm, warm, clinical, refined, trustworthy";
+  const audience = brand?.audience?.trim() || "people looking for mental health and recovery support";
+  const stylePrompt =
+    brand?.image_style_prompt?.trim() ||
+    "Create a refined wellness editorial image with natural light, soft neutral backgrounds, earthy colors, calm emotional tone, and premium healthcare design.";
+  const negativePrompt =
+    brand?.image_negative_prompt?.trim() ||
+    "Avoid bright blue palettes, neon colors, tech startup visuals, corporate marketing dashboards, generic stock medical imagery, and harsh contrast.";
+
+  const contextLines: string[] = ["ARTICLE CONTEXT:"];
   contextLines.push(`Title: ${t}`);
   if (cat) contextLines.push(`Category: ${cat}`);
   if (ex) contextLines.push(`Excerpt: ${ex}`);
   if (ctx) contextLines.push(`Article context: ${ctx}`);
 
-  return `Create a 16:9 editorial blog featured image for a healthcare marketing blog post.
+  return `Create a 16:9 editorial blog featured image for ${siteName}.
 
 TEXT OVERLAY:
 Render this exact text on the image, prominent and legible: "${titleQuoted}"
 
-BRAND STYLE:
-- Professional, minimal, healthcare-tech aesthetic
-- Color palette: navy, white, black (with one subtle accent if appropriate)
-- Tone: trustworthy, structured, calm, corporate
-- Premium polished editorial design — NOT glowing, futuristic, or AI-art style
-- Do NOT include any logo on the image
+BRAND REQUIREMENTS:
+- Site/brand: ${siteName}
+- Primary color: ${primary}
+- Secondary color: ${secondary}
+- Accent color: ${accent}
+- Background color: ${background}
+- Heading typography style: elegant serif similar to ${headingFont}
+- Supporting typography style: clean modern sans-serif similar to ${bodyFont}
+- Brand tone: ${tone}
+- Intended audience: ${audience}
 
-DYNAMIC VISUAL COMPOSITION:
-Generate a unique background, layout, and primary visual element that specifically matches the meaning of the title and content below. Vary your approach — don't default to clipboards, checklists, or generic imagery. Topic-specific visual cues:
-- SEO topics: search results, ranking positions, organic search visualization
-- Web development: website displays on devices (laptop, phone), Core Web Vitals, code interfaces
-- Paid media: campaign dashboards, ad platforms, performance metrics
-- AI/search: data visualization, search interfaces, technology imagery
-- Patient acquisition / behavioral health: serene clinical environments, calming spaces (NOT generic stock medical imagery)
-- Social media: content creation environments, mobile interfaces, brand visuals
+VISUAL STYLE:
+${stylePrompt}
 
-Vary the layout: sometimes center-focal, sometimes split-screen, sometimes asymmetric geometric framing.
+COMPOSITION:
+Create a premium editorial image that visually supports the article topic. Use a clean, calm, brand-aligned layout with readable text, generous spacing, subtle texture, and polished composition. The image should feel like it belongs on the ${siteName} website.
+
+NEGATIVE PROMPT:
+${negativePrompt}
 
 ${contextLines.join("\n")}
 
 FORMAT:
 - 16:9 aspect ratio
-- High-end corporate marketing aesthetic
-- Editorial quality, sharp focus`;
+- Refined editorial healthcare/wellness aesthetic
+- No logos
+- No fake UI dashboards unless specifically relevant
+- Avoid generic corporate marketing visuals`;
 }
 
 Deno.serve(async (req) => {
@@ -277,7 +350,8 @@ Deno.serve(async (req) => {
     const excerptStr = typeof excerpt === "string" ? excerpt : "";
     const categoryStr = typeof category === "string" ? category : "";
 
-    const prompt = buildPrompt(title, excerptStr, categoryStr, bodyContext);
+    const brand = await fetchBrandSettings(supabaseUrl, serviceRoleKey);
+    const prompt = buildPrompt(title, excerptStr, categoryStr, bodyContext, brand);
     console.log("[generate-blog-image] postId=", postId ?? "(none)", "bodyContext_len=", bodyContext.length, "size=", IMAGE_SIZE);
 
     const result = await callOpenAI(apiKey, prompt, 180_000);
