@@ -4,7 +4,7 @@ import { useMemo, useState } from "react";
 import { AdminPageHeader } from "@sweetmedia/admin-core";
 import { ADMIN_OCEAN } from "@sweetmedia/admin-core";
 import Seo from "@/components/feature/Seo";
-import { useTrackedPages } from "@/hooks/useTrackedPages";
+import { useTrackedPages } from "@sweetmedia/admin-core";
 import PageEditModal from "@/components/pages/admin/pages/components/PageEditModal";
 import PageDeleteModal from "@/components/pages/admin/pages/components/PageDeleteModal";
 import { getPublicSiteOrigin } from "@/lib/publicSiteUrl";
