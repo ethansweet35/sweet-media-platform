@@ -3,6 +3,7 @@ import Image from 'next/image';
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Breadcrumb from '@/components/base/Breadcrumb';
+import { useParallax } from '@/hooks/useParallax';
 
 const tracks = [
   {
@@ -175,6 +176,7 @@ export default function VirtualOutpatientPage() {
   const [openFaq, setOpenFaq] = useState<number | null>(null);
 
   const track = tracks[activeTrack];
+  const heroParallax = useParallax<HTMLDivElement>({ speed: 0.25, maxOffset: 80 });
 
   return (
     <main className="bg-[#FAF8F5]">
@@ -182,23 +184,19 @@ export default function VirtualOutpatientPage() {
       {/* ── HERO ── */}
       <section className="relative w-full min-h-[600px] flex items-end overflow-hidden">
         <div className="absolute inset-0">
-          <div className="absolute inset-0 z-0">
+          <div ref={heroParallax} className="absolute inset-0">
             <Image
               src="https://papiwmobmdbtzeeebmpr.supabase.co/storage/v1/object/public/site-assets/images/vop_hero01.jpg"
               alt="Virtual Outpatient Program"
               fill
-              className="object-cover object-center"
+              className="h-full w-full object-cover object-[50%_22%]"
               priority
+              sizes="100vw"
             />
           </div>
-          <div
-            className="absolute inset-0 z-[1]"
-            style={{ background: 'linear-gradient(to right, rgba(44,59,46,0.9), rgba(44,59,46,0.65) 50%, rgba(44,59,46,0.2))' }}
-          />
-          <div
-            className="absolute inset-0 z-[1]"
-            style={{ background: 'linear-gradient(to top, rgba(44,59,46,0.6), transparent)' }}
-          />
+          <div className="absolute inset-0 bg-[#2C3B2E]/55" />
+          <div className="absolute inset-0 bg-gradient-to-r from-[#2C3B2E]/85 via-[#2C3B2E]/50 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-t from-[#2C3B2E]/60 via-transparent to-transparent" />
         </div>
 
         <div className="relative z-10 w-full px-8 md:px-16 pb-20 pt-40">
