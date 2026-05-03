@@ -3,7 +3,6 @@
 import { useRouter, useSearchParams } from "next/navigation";
 import { useMemo, useState, useEffect } from "react";
 import { useBlogPost, useBlogPosts } from "@sweetmedia/blog-core";
-import SiteHeader from "@/components/feature/SiteHeader";
 import PostHero from "@/components/pages/blog/post/components/PostHero";
 import PostBody from "@/components/pages/blog/post/components/PostBody";
 import PostAuthor from "@/components/pages/blog/post/components/PostAuthor";
@@ -13,7 +12,6 @@ import PostInlineRelated from "@/components/pages/blog/post/components/PostInlin
 import PostMoreFromCategory from "@/components/pages/blog/post/components/PostMoreFromCategory";
 import PostCta from "@/components/pages/blog/post/components/PostCta";
 import PostBlogMobileShareRow from "@/components/pages/blog/post/components/PostBlogMobileShareRow";
-import Footer from "@/components/pages/home/components/Footer";
 import { buildManualOnlyLinkMap, fetchManualLinkMappings } from "@sweetmedia/blog-core";
 import { useAuth } from "@sweetmedia/admin-core";
 import { canonicalBlogPostUrl } from "@/lib/publicSiteUrl";
@@ -53,8 +51,7 @@ export default function BlogPostPreviewPage({ slug }: { slug: string }) {
   if (loading || deferAuthForPreview) {
     return (
       <div className="min-h-screen bg-white">
-        <SiteHeader heroTheme="dark" />
-        <div className="max-w-screen-xl mx-auto px-6 pt-36 pb-20 animate-pulse">
+          <div className="max-w-screen-xl mx-auto px-6 pt-36 pb-20 animate-pulse">
           <div className="h-4 bg-neutral-100 rounded w-1/4 mb-8" />
           <div className="h-12 bg-neutral-100 rounded w-3/4 mb-6" />
           <div className="h-4 bg-neutral-100 rounded w-1/3 mb-10" />
@@ -67,7 +64,6 @@ export default function BlogPostPreviewPage({ slug }: { slug: string }) {
   if (error || !post) {
     return (
       <div className="min-h-screen flex flex-col items-center justify-center bg-white">
-        <SiteHeader heroTheme="light" />
         <div className="text-center pt-32 pb-20 px-6">
           <i className="ri-article-line text-5xl text-neutral-200 mb-6 block"></i>
           <h1
@@ -98,7 +94,6 @@ export default function BlogPostPreviewPage({ slug }: { slug: string }) {
 
   return (
     <div className="min-h-screen bg-white">
-      <SiteHeader heroTheme="dark" />
 
       {showDraftPreviewBanner ? (
         <div className="max-w-screen-xl mx-auto px-6 pt-6">
@@ -193,7 +188,6 @@ export default function BlogPostPreviewPage({ slug }: { slug: string }) {
       <PostRelated currentPost={post} allPosts={allPosts} />
       <PostMoreFromCategory currentPost={post} allPosts={allPosts} />
       <PostCta />
-      <Footer />
     </div>
   );
 }
