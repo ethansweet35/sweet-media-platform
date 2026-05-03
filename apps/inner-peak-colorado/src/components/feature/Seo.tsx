@@ -4,7 +4,7 @@ import { useEffect } from "react";
 
 import { DEFAULT_OG_IMAGE } from "@/lib/ogDefaults";
 
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://sweetmediaservices.com";
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://innerpeakcolorado.com";
 
 export { DEFAULT_OG_IMAGE } from "@/lib/ogDefaults";
 
@@ -65,7 +65,7 @@ export default function Seo({
     setMeta("og:description", ogDescription || description, "property");
     setMeta("og:type", ogType, "property");
     // og:url is set in sync with canonical below
-    setMeta("og:site_name", "Sweet Media", "property");
+    setMeta("og:site_name", "Inner Peak Colorado", "property");
     setMeta("og:locale", "en_US", "property");
 
     // OG image — full set for maximum platform compatibility
@@ -156,7 +156,7 @@ export function buildOrganizationSchema(): Record<string, unknown> {
   return {
     "@context": "https://schema.org",
     "@type": "Organization",
-    name: "Sweet Media",
+    name: "Inner Peak Colorado",
     url: SITE_URL,
     logo: `${SITE_URL}/logo.png`,
     description:
@@ -198,7 +198,7 @@ export function buildWebPageSchema(
     ...(lastModified && { dateModified: lastModified }),
     publisher: {
       "@type": "Organization",
-      name: "Sweet Media",
+      name: "Inner Peak Colorado",
       url: SITE_URL,
     },
   };
@@ -208,7 +208,7 @@ export function buildServiceSchema(
   path: string,
   name: string,
   description: string,
-  provider = "Sweet Media"
+  provider = "Inner Peak Colorado"
 ): Record<string, unknown> {
   return {
     "@context": "https://schema.org",
@@ -251,7 +251,7 @@ export function buildArticleSchema(
     },
     publisher: {
       "@type": "Organization",
-      name: "Sweet Media",
+      name: "Inner Peak Colorado",
       url: SITE_URL,
       logo: {
         "@type": "ImageObject",
@@ -275,7 +275,7 @@ export function buildBlogSchema(path: string, title: string, description: string
     url: `${SITE_URL}${path}`,
     publisher: {
       "@type": "Organization",
-      name: "Sweet Media",
+      name: "Inner Peak Colorado",
       url: SITE_URL,
     },
   };
@@ -311,12 +311,12 @@ export function buildContactPageSchema(
     ...(lastModified && { dateModified: lastModified }),
     publisher: {
       "@type": "Organization",
-      name: "Sweet Media",
+      name: "Inner Peak Colorado",
       url: SITE_URL,
     },
     mainEntity: {
       "@type": "Organization",
-      name: "Sweet Media",
+      name: "Inner Peak Colorado",
       url: SITE_URL,
       telephone: "+1-714-300-5115",
       address: {
@@ -346,12 +346,12 @@ export function buildAboutPageSchema(
     ...(lastModified && { dateModified: lastModified }),
     publisher: {
       "@type": "Organization",
-      name: "Sweet Media",
+      name: "Inner Peak Colorado",
       url: SITE_URL,
     },
     mainEntity: {
       "@type": "Organization",
-      name: "Sweet Media",
+      name: "Inner Peak Colorado",
       description: "Boutique digital marketing agency exclusively serving behavioral health treatment centers.",
       url: SITE_URL,
       founder: {

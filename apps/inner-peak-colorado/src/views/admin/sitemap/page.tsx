@@ -47,7 +47,7 @@ export default function AdminSitemapPage() {
 
       for (const page of staticPages) {
         xml += `  <url>\n`;
-        xml += `    <loc>https://sweetmediaservices.com${page.path}</loc>\n`;
+        xml += `    <loc>https://innerpeakcolorado.com${page.path}</loc>\n`;
         xml += `    <lastmod>${today}</lastmod>\n`;
         xml += `    <changefreq>${page.changefreq}</changefreq>\n`;
         xml += `    <priority>${page.priority}</priority>\n`;
@@ -62,7 +62,7 @@ export default function AdminSitemapPage() {
             : today;
 
         xml += `  <url>\n`;
-        xml += `    <loc>https://sweetmediaservices.com/blog/${post.slug}</loc>\n`;
+        xml += `    <loc>https://innerpeakcolorado.com/blog/${post.slug}</loc>\n`;
         xml += `    <lastmod>${lastmod}</lastmod>\n`;
         xml += `    <changefreq>monthly</changefreq>\n`;
         xml += `    <priority>0.6</priority>\n`;

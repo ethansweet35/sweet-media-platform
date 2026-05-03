@@ -88,7 +88,7 @@ export default function AdminDashboardPage() {
 
   return (
     <div className="">
-      <Seo title="Dashboard | Sweet Media Admin" description="Sweet Media administration" noindex />
+      <Seo title="Dashboard | Inner Peak Admin" description="Inner Peak Colorado administration" noindex />
 
       <section className="mb-10">
         <h1 className={`text-[2.65rem] font-semibold tracking-tight text-neutral-900 sm:text-[2.95rem] ${adminFontSerif}`}>

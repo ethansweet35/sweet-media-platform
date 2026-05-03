@@ -137,7 +137,7 @@ export default function SiteHeader({
                   ? "https://ynmldknprfusujudvutq.supabase.co/storage/v1/object/public/public_bucket/sweet%20media%20logo%20white.png"
                   : "https://ynmldknprfusujudvutq.supabase.co/storage/v1/object/public/public_bucket/sweet%20media%20logo.png"
               }
-              alt="Sweet Media Logo"
+              alt="Inner Peak Colorado Logo"
               width={160}
               height={40}
               priority
