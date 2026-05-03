@@ -1,10 +1,24 @@
 {
   "name": "@sweetmedia/blog-core",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts"
+  },
   "scripts": {
-    "build": "echo Building @sweetmedia/blog-core",
+    "build": "tsc --noEmit",
     "lint": "echo Linting @sweetmedia/blog-core",
-    "typecheck": "echo Typechecking @sweetmedia/blog-core"
+    "typecheck": "tsc --noEmit"
+  },
+  "peerDependencies": {
+    "react": "19.2.4",
+    "react-dom": "19.2.4"
+  },
+  "devDependencies": {
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "typescript": "^5"
   }
 }
