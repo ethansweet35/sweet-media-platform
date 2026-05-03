@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useCallback, useRef } from "react";
 import { useParams, useRouter } from "next/navigation";
-import { useBlogPostBySlug } from "@/hooks/useBlogPostBySlug";
+import { useBlogPostBySlug } from "@sweetmedia/admin-core";
 import type { BlogSection } from "@sweetmedia/blog-core";
 import BlogEditorHeader from "@/components/pages/admin/blog-edit/components/BlogEditorHeader";
 import BlogEditorSidebar from "@/components/pages/admin/blog-edit/components/BlogEditorSidebar";
