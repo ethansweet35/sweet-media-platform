@@ -13,3 +13,4 @@ export { default as AdminGuard } from "./components/AdminGuard";
 export { default as AdminSidebar } from "./components/AdminSidebar";
 export { default as AdminChrome } from "./components/AdminChrome";
 export { useBlogQueue } from "./hooks/useBlogQueue";
+export { useSystemSettings, useAutoPublishEnabled } from "./hooks/useSystemSettings";
