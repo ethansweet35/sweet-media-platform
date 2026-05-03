@@ -2,7 +2,7 @@
 
 import { useRouter, useSearchParams } from "next/navigation";
 import { useMemo, useState, useEffect } from "react";
-import { useBlogPost, useBlogPosts } from "@/hooks/useBlogPosts";
+import { useBlogPost, useBlogPosts } from "@sweetmedia/blog-core";
 import SiteHeader from "@/components/feature/SiteHeader";
 import PostHero from "@/components/pages/blog/post/components/PostHero";
 import PostBody from "@/components/pages/blog/post/components/PostBody";

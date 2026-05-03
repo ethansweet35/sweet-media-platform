@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { useBlogPosts, useSearchBlogPosts, useBlogCategories } from "@/hooks/useBlogPosts";
+import { useBlogPosts, useSearchBlogPosts, useBlogCategories } from "@sweetmedia/blog-core";
 
 interface BlogGridProps {
   searchQuery: string;

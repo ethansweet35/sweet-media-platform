@@ -3,7 +3,7 @@
 import { useState, useMemo, useCallback } from "react";
 import { AdminPageHeader } from "@sweetmedia/admin-core";
 import { useInternalLinks } from "@sweetmedia/admin-core";
-import { useBlogPosts } from "@/hooks/useBlogPosts";
+import { useBlogPosts } from "@sweetmedia/blog-core";
 import { useLinkUtilization } from "@/hooks/useLinkUtilization";
 import type { InternalLink } from "@sweetmedia/admin-core";
 import Seo from "@/components/feature/Seo";
