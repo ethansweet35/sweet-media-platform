@@ -4,7 +4,7 @@ import { useMemo, useState, type ReactNode } from "react";
 import { AdminPageHeader } from "@sweetmedia/admin-core";
 import Seo from "@/components/feature/Seo";
 import { ADMIN_OCEAN } from "@sweetmedia/admin-core";
-import { useBlogQueue } from "@/hooks/useBlogQueue";
+import { useBlogQueue } from "@sweetmedia/admin-core";
 import QueueCsvUpload from "@/components/pages/admin/content-calendar/components/QueueCsvUpload";
 import QueueTable from "@/components/pages/admin/content-calendar/components/QueueTable";
 import QueueCalendarView from "@/components/pages/admin/content-calendar/components/QueueCalendarView";
