@@ -1,3 +1,5 @@
+"use client";
+
 import { useState, useEffect, useCallback } from "react";
 import { supabase } from "../lib/supabase";
 import type { BlogQueueItem, BlogQueueItemInput } from "../types/blog-queue";

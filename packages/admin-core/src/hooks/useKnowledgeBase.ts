@@ -1,3 +1,5 @@
+"use client";
+
 import { useState, useEffect, useCallback } from "react";
 import { supabase } from "../lib/supabase";
 import { dbRowToKbEntry, type DbKbRow, type KbEntry, type KbEntryInput } from "../types/knowledge-base";

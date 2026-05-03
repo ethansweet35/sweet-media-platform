@@ -1,3 +1,5 @@
+"use client";
+
 import { useState, useEffect, useCallback, useMemo } from "react";
 import { supabase } from "../lib/supabase";
 import { dbToBlogPost, type DbBlogPost } from "@sweetmedia/blog-core";
