@@ -34,7 +34,7 @@ export default function PostMoreFromCategory({ currentPost, allPosts }: PostMore
           </div>
           <Link
             href="/blog"
-            className="text-[11px] tracking-[0.15em] uppercase font-medium text-[#0A1F44] hover:text-[#7B9FD4] transition-colors cursor-pointer whitespace-nowrap flex items-center gap-1"
+            className="text-[11px] tracking-[0.15em] uppercase font-medium text-[#2C3B2E] hover:text-[#C8795A] transition-colors cursor-pointer whitespace-nowrap flex items-center gap-1"
           >
             View All
             <i className="ri-arrow-right-line text-xs"></i>
@@ -60,12 +60,12 @@ export default function PostMoreFromCategory({ currentPost, allPosts }: PostMore
                   />
                 </div>
                 <div className="p-4">
-                  <span className="text-[9px] tracking-[0.2em] uppercase font-semibold text-[#0A1F44]/60 mb-1.5 block">
+                  <span className="text-[9px] tracking-[0.2em] uppercase font-semibold text-[#2C3B2E]/60 mb-1.5 block">
                     {post.category}
                   </span>
                   <h4
-                    className="text-sm font-medium text-neutral-800 leading-snug group-hover:text-[#0A1F44] transition-colors line-clamp-2"
-                    style={{ fontFamily: "'Playfair Display', serif" }}
+                    className="text-sm font-medium text-neutral-800 leading-snug group-hover:text-[#2C3B2E] transition-colors line-clamp-2"
+                    style={{ fontFamily: "'Cormorant Garamond', serif" }}
                   >
                     {post.title}
                   </h4>

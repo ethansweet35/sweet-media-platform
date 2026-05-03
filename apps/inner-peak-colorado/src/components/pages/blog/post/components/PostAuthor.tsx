@@ -28,7 +28,7 @@ export default function PostAuthor({ post }: PostAuthorProps) {
         <div className="flex-1">
           <div className="flex flex-wrap items-center gap-3 mb-2">
             <h3 className="text-lg font-semibold text-neutral-900">{post.author}</h3>
-            <span className="text-[10px] tracking-[0.2em] uppercase font-bold bg-[#0A1F44]/8 text-[#0A1F44] px-2.5 py-1 rounded-full">
+            <span className="text-[10px] tracking-[0.2em] uppercase font-bold bg-[#2C3B2E]/8 text-[#2C3B2E] px-2.5 py-1 rounded-full">
               {post.authorRole}
             </span>
           </div>
@@ -38,13 +38,13 @@ export default function PostAuthor({ post }: PostAuthorProps) {
           <div className="flex items-center gap-3">
             <a
               href="#"
-              className="w-8 h-8 flex items-center justify-center rounded-full bg-neutral-100 hover:bg-[#0A1F44] hover:text-white text-neutral-500 transition-all duration-200 cursor-pointer"
+              className="w-8 h-8 flex items-center justify-center rounded-full bg-neutral-100 hover:bg-[#2C3B2E] hover:text-white text-neutral-500 transition-all duration-200 cursor-pointer"
             >
               <i className="ri-linkedin-fill text-sm"></i>
             </a>
             <a
               href="#"
-              className="w-8 h-8 flex items-center justify-center rounded-full bg-neutral-100 hover:bg-[#0A1F44] hover:text-white text-neutral-500 transition-all duration-200 cursor-pointer"
+              className="w-8 h-8 flex items-center justify-center rounded-full bg-neutral-100 hover:bg-[#2C3B2E] hover:text-white text-neutral-500 transition-all duration-200 cursor-pointer"
             >
               <i className="ri-twitter-x-line text-sm"></i>
             </a>

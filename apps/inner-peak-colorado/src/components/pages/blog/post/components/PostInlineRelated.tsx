@@ -59,15 +59,15 @@ export default function PostInlineRelated({ currentPost, allPosts }: PostInlineR
               />
             </div>
             <div className="flex-1 min-w-0">
-              <span className="text-[9px] tracking-[0.2em] uppercase font-semibold text-[#0A1F44]/60 mb-1 block">
+              <span className="text-[9px] tracking-[0.2em] uppercase font-semibold text-[#2C3B2E]/60 mb-1 block">
                 {post.category}
               </span>
-              <h4 className="text-sm font-medium text-neutral-800 leading-snug group-hover:text-[#0A1F44] transition-colors line-clamp-2">
+              <h4 className="text-sm font-medium text-neutral-800 leading-snug group-hover:text-[#2C3B2E] transition-colors line-clamp-2">
                 {post.title}
               </h4>
               <div className="flex items-center gap-2 mt-1.5">
                 <span className="text-[11px] text-neutral-400">{post.readTime}</span>
-                <span className="flex items-center gap-1 text-[11px] text-[#0A1F44] group-hover:text-[#7B9FD4] transition-colors">
+                <span className="flex items-center gap-1 text-[11px] text-[#2C3B2E] group-hover:text-[#C8795A] transition-colors">
                   Read article
                   <i className="ri-arrow-right-line text-xs group-hover:translate-x-0.5 transition-transform"></i>
                 </span>

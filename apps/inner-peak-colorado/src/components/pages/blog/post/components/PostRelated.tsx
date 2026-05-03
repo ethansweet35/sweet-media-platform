@@ -60,7 +60,7 @@ export default function PostRelated({ currentPost, allPosts }: PostRelatedProps)
                     className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500"
                   />
                   <div className="absolute top-3 left-3">
-                    <span className="inline-block bg-white/90 backdrop-blur-sm text-[10px] tracking-[0.15em] uppercase font-bold text-[#0A1F44] px-2.5 py-1 rounded-full">
+                    <span className="inline-block bg-white/90 backdrop-blur-sm text-[10px] tracking-[0.15em] uppercase font-bold text-[#2C3B2E] px-2.5 py-1 rounded-full">
                       {post.category}
                     </span>
                   </div>
@@ -74,8 +74,8 @@ export default function PostRelated({ currentPost, allPosts }: PostRelatedProps)
                   </div>
 
                   <h3
-                    className="text-base font-medium text-neutral-900 leading-snug mb-3 group-hover:text-[#0A1F44] transition-colors line-clamp-2"
-                    style={{ fontFamily: "'Playfair Display', serif" }}
+                    className="text-base font-medium text-neutral-900 leading-snug mb-3 group-hover:text-[#2C3B2E] transition-colors line-clamp-2"
+                    style={{ fontFamily: "'Cormorant Garamond', serif" }}
                   >
                     {post.title}
                   </h3>
@@ -86,14 +86,14 @@ export default function PostRelated({ currentPost, allPosts }: PostRelatedProps)
 
                   <div className="flex items-center justify-between pt-3 border-t border-neutral-100">
                     <div className="flex items-center gap-2">
-                      <div className="w-6 h-6 rounded-full bg-[#0A1F44] flex items-center justify-center">
+                      <div className="w-6 h-6 rounded-full bg-[#2C3B2E] flex items-center justify-center">
                         <span className="text-white text-[9px] font-bold">
                           {post.author.split(" ").map((n) => n[0]).join("")}
                         </span>
                       </div>
                       <span className="text-[11px] text-neutral-500">{post.author}</span>
                     </div>
-                    <span className="flex items-center gap-1 text-[11px] tracking-[0.1em] uppercase font-medium text-[#0A1F44] group-hover:text-[#7B9FD4] transition-colors">
+                    <span className="flex items-center gap-1 text-[11px] tracking-[0.1em] uppercase font-medium text-[#2C3B2E] group-hover:text-[#C8795A] transition-colors">
                       Read
                       <i className="ri-arrow-right-line text-xs group-hover:translate-x-0.5 transition-transform"></i>
                     </span>

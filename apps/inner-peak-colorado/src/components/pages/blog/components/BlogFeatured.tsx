@@ -53,7 +53,7 @@ export default function BlogFeatured() {
               sizes="(max-width: 1024px) 100vw, 50vw"
             />
             <div className="absolute top-4 left-4">
-              <span className="inline-block bg-white/90 backdrop-blur-sm text-[10px] tracking-[0.2em] uppercase font-bold text-[#0A1F44] px-3 py-1.5 rounded-full">
+              <span className="inline-block bg-white/90 backdrop-blur-sm text-[10px] tracking-[0.2em] uppercase font-bold text-[#2C3B2E] px-3 py-1.5 rounded-full">
                 {post.category}
               </span>
             </div>
@@ -69,7 +69,7 @@ export default function BlogFeatured() {
 
             <h2
               className="text-2xl md:text-3xl lg:text-4xl font-light text-neutral-900 leading-snug mb-5"
-              style={{ fontFamily: "'Playfair Display', serif" }}
+              style={{ fontFamily: "'Cormorant Garamond', serif" }}
             >
               {post.title}
             </h2>
@@ -80,7 +80,7 @@ export default function BlogFeatured() {
 
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-full bg-[#0A1F44] flex items-center justify-center">
+                <div className="w-10 h-10 rounded-full bg-[#2C3B2E] flex items-center justify-center">
                   <span className="text-white text-xs font-bold">
                     {post.author.split(" ").map((n) => n[0]).join("")}
                   </span>
@@ -93,7 +93,7 @@ export default function BlogFeatured() {
 
               <button
                 onClick={() => router.push(`/blog/${post.slug}`)}
-                className="group flex items-center gap-2 text-[11px] tracking-[0.15em] uppercase font-bold text-[#0A1F44] hover:text-[#7B9FD4] transition-colors cursor-pointer whitespace-nowrap"
+                className="group flex items-center gap-2 text-[11px] tracking-[0.15em] uppercase font-bold text-[#2C3B2E] hover:text-[#C8795A] transition-colors cursor-pointer whitespace-nowrap"
               >
                 Read Article
                 <i className="ri-arrow-right-line text-sm group-hover:translate-x-1 transition-transform"></i>

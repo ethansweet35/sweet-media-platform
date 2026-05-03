@@ -38,7 +38,7 @@ export default function PostShare({ title, canonicalUrl }: PostShareProps) {
         href={`https://twitter.com/intent/tweet?text=${encodedTitle}&url=${encodedUrl}`}
         target="_blank"
         rel="nofollow noopener noreferrer"
-        className="w-9 h-9 flex items-center justify-center rounded-full bg-neutral-100 hover:bg-[#0A1F44] hover:text-white text-neutral-400 transition-all duration-200 cursor-pointer"
+        className="w-9 h-9 flex items-center justify-center rounded-full bg-neutral-100 hover:bg-[#2C3B2E] hover:text-white text-neutral-400 transition-all duration-200 cursor-pointer"
         title="Share on X"
       >
         <i className="ri-twitter-x-line text-sm"></i>
@@ -48,7 +48,7 @@ export default function PostShare({ title, canonicalUrl }: PostShareProps) {
         href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodedUrl}`}
         target="_blank"
         rel="nofollow noopener noreferrer"
-        className="w-9 h-9 flex items-center justify-center rounded-full bg-neutral-100 hover:bg-[#0A1F44] hover:text-white text-neutral-400 transition-all duration-200 cursor-pointer"
+        className="w-9 h-9 flex items-center justify-center rounded-full bg-neutral-100 hover:bg-[#2C3B2E] hover:text-white text-neutral-400 transition-all duration-200 cursor-pointer"
         title="Share on LinkedIn"
       >
         <i className="ri-linkedin-fill text-sm"></i>
@@ -58,7 +58,7 @@ export default function PostShare({ title, canonicalUrl }: PostShareProps) {
         href={`https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}`}
         target="_blank"
         rel="nofollow noopener noreferrer"
-        className="w-9 h-9 flex items-center justify-center rounded-full bg-neutral-100 hover:bg-[#0A1F44] hover:text-white text-neutral-400 transition-all duration-200 cursor-pointer"
+        className="w-9 h-9 flex items-center justify-center rounded-full bg-neutral-100 hover:bg-[#2C3B2E] hover:text-white text-neutral-400 transition-all duration-200 cursor-pointer"
         title="Share on Facebook"
       >
         <i className="ri-facebook-fill text-sm"></i>
@@ -68,7 +68,7 @@ export default function PostShare({ title, canonicalUrl }: PostShareProps) {
         type="button"
         onClick={handleCopy}
         className={`w-9 h-9 flex items-center justify-center rounded-full transition-all duration-200 cursor-pointer ${
-          copied ? "bg-emerald-500 text-white" : "bg-neutral-100 hover:bg-[#0A1F44] hover:text-white text-neutral-400"
+          copied ? "bg-emerald-500 text-white" : "bg-neutral-100 hover:bg-[#2C3B2E] hover:text-white text-neutral-400"
         }`}
         title="Copy link"
       >

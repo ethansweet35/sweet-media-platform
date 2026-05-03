@@ -40,7 +40,7 @@ export default function BlogGrid({ searchQuery }: BlogGridProps) {
             </div>
             <h2
               className="text-2xl md:text-3xl font-light text-neutral-900 text-center lg:text-left"
-              style={{ fontFamily: "'Playfair Display', serif" }}
+              style={{ fontFamily: "'Cormorant Garamond', serif" }}
             >
               {isSearching ? `${filtered.length} Articles Found` : "All Insights"}
             </h2>
@@ -134,7 +134,7 @@ export default function BlogGrid({ searchQuery }: BlogGridProps) {
 
                   <h3
                     className="text-lg font-medium text-neutral-900 leading-snug mb-3 group-hover:text-[#2C3B2E] transition-colors"
-                    style={{ fontFamily: "'Playfair Display', serif" }}
+                    style={{ fontFamily: "'Cormorant Garamond', serif" }}
                   >
                     {post.title}
                   </h3>

@@ -68,7 +68,7 @@ export default function BlogPostPreviewPage({ slug }: { slug: string }) {
           <i className="ri-article-line text-5xl text-neutral-200 mb-6 block"></i>
           <h1
             className="text-2xl font-light text-neutral-800 mb-3"
-            style={{ fontFamily: "'Playfair Display', serif" }}
+            style={{ fontFamily: "'Cormorant Garamond', serif" }}
           >
             Article Not Found
           </h1>
@@ -76,7 +76,7 @@ export default function BlogPostPreviewPage({ slug }: { slug: string }) {
           <button
             type="button"
             onClick={() => router.push("/blog")}
-            className="bg-[#0A1F44] text-white text-[11px] tracking-[0.2em] uppercase font-bold px-6 py-3 rounded-full cursor-pointer whitespace-nowrap"
+            className="bg-[#2C3B2E] text-white text-[11px] tracking-[0.2em] uppercase font-bold px-6 py-3 rounded-full cursor-pointer whitespace-nowrap"
           >
             Back to Blog
           </button>
@@ -119,7 +119,7 @@ export default function BlogPostPreviewPage({ slug }: { slug: string }) {
               <div className="mb-8 pb-8 border-b border-neutral-100">
                 <p
                   className="text-lg md:text-xl text-neutral-700 leading-relaxed font-light italic"
-                  style={{ fontFamily: "'Playfair Display', serif" }}
+                  style={{ fontFamily: "'Cormorant Garamond', serif" }}
                 >
                   {post.excerpt}
                 </p>
@@ -157,7 +157,7 @@ export default function BlogPostPreviewPage({ slug }: { slug: string }) {
                     .map((s, i) => (
                       <span
                         key={i}
-                        className="text-[12px] text-neutral-400 hover:text-[#0A1F44] leading-snug cursor-pointer transition-colors py-1 border-l-2 border-transparent hover:border-[#0A1F44] pl-3"
+                        className="text-[12px] text-neutral-400 hover:text-[#2C3B2E] leading-snug cursor-pointer transition-colors py-1 border-l-2 border-transparent hover:border-[#2C3B2E] pl-3"
                       >
                         {s.text}
                       </span>
@@ -172,7 +172,7 @@ export default function BlogPostPreviewPage({ slug }: { slug: string }) {
                     {post.tags.map((tag) => (
                       <span
                         key={tag}
-                        className="text-[9px] tracking-widest uppercase text-[#0A1F44] bg-[#0A1F44]/6 px-2 py-1 rounded-full whitespace-nowrap"
+                        className="text-[9px] tracking-widest uppercase text-[#2C3B2E] bg-[#2C3B2E]/6 px-2 py-1 rounded-full whitespace-nowrap"
                       >
                         {tag}
                       </span>

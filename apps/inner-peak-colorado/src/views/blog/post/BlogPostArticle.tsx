@@ -39,7 +39,7 @@ export default function BlogPostArticle({
             <div className="mb-8 pb-8 border-b border-neutral-100">
               <p
                 className="text-lg md:text-xl text-neutral-700 leading-relaxed font-light italic"
-                style={{ fontFamily: "'Playfair Display', serif" }}
+                style={{ fontFamily: "'Cormorant Garamond', serif" }}
               >
                 {post.excerpt}
               </p>
@@ -77,7 +77,7 @@ export default function BlogPostArticle({
                   .map((s, i) => (
                     <span
                       key={`${post.id}-h2-${i}`}
-                      className="text-[12px] text-neutral-400 hover:text-[#0A1F44] leading-snug cursor-pointer transition-colors py-1 border-l-2 border-transparent hover:border-[#0A1F44] pl-3"
+                      className="text-[12px] text-neutral-400 hover:text-[#2C3B2E] leading-snug cursor-pointer transition-colors py-1 border-l-2 border-transparent hover:border-[#2C3B2E] pl-3"
                     >
                       {s.text}
                     </span>
@@ -92,7 +92,7 @@ export default function BlogPostArticle({
                   {post.tags.map((tag) => (
                     <span
                       key={tag}
-                      className="text-[9px] tracking-widest uppercase text-[#0A1F44] bg-[#0A1F44]/6 px-2 py-1 rounded-full whitespace-nowrap"
+                      className="text-[9px] tracking-widest uppercase text-[#2C3B2E] bg-[#2C3B2E]/6 px-2 py-1 rounded-full whitespace-nowrap"
                     >
                       {tag}
                     </span>
