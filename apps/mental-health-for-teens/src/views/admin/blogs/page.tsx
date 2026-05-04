@@ -327,7 +327,7 @@ export default function AdminBlogDashboard() {
 
   return (
     <div className="">
-      <Seo title="Blog Posts | Client Brand Admin" description="Manage blog posts" noindex />
+      <Seo title="Blog Posts | Mental Health For Teens Admin" description="Manage blog posts" noindex />
 
       <AdminPageHeader
         title="Blog Posts"

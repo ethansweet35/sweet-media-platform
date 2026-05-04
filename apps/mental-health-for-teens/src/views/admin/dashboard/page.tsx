@@ -88,7 +88,7 @@ export default function AdminDashboardPage() {
 
   return (
     <div className="">
-      <Seo title="Dashboard | Client Brand Admin" description="Client Brand administration" noindex />
+      <Seo title="Dashboard | Mental Health For Teens Admin" description="Client Brand administration" noindex />
 
       <section className="mb-10">
         <h1 className={`text-[2.65rem] font-semibold tracking-tight text-neutral-900 sm:text-[2.95rem] ${adminFontSerif}`}>
