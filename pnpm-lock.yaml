@@ -116,6 +116,58 @@ importers:
         specifier: ^5
         version: 5.9.3
 
+  apps/mental-health-for-teens:
+    dependencies:
+      '@supabase/supabase-js':
+        specifier: ^2.105.1
+        version: 2.105.1
+      '@sweetmedia/admin-core':
+        specifier: workspace:*
+        version: link:../../packages/admin-core
+      '@sweetmedia/blog-core':
+        specifier: workspace:*
+        version: link:../../packages/blog-core
+      dotenv:
+        specifier: ^17.4.2
+        version: 17.4.2
+      next:
+        specifier: 16.2.4
+        version: 16.2.4(@babel/core@7.29.0)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
+      react:
+        specifier: 19.2.4
+        version: 19.2.4
+      react-dom:
+        specifier: 19.2.4
+        version: 19.2.4(react@19.2.4)
+      resend:
+        specifier: ^6.12.2
+        version: 6.12.2
+    devDependencies:
+      '@tailwindcss/postcss':
+        specifier: ^4
+        version: 4.2.4
+      '@types/node':
+        specifier: ^20
+        version: 20.19.39
+      '@types/react':
+        specifier: ^19
+        version: 19.2.14
+      '@types/react-dom':
+        specifier: ^19
+        version: 19.2.3(@types/react@19.2.14)
+      eslint:
+        specifier: ^9
+        version: 9.39.4(jiti@2.6.1)
+      eslint-config-next:
+        specifier: 16.2.4
+        version: 16.2.4(eslint@9.39.4(jiti@2.6.1))(typescript@5.9.3)
+      tailwindcss:
+        specifier: ^4
+        version: 4.2.4
+      typescript:
+        specifier: ^5
+        version: 5.9.3
+
   apps/sweet-media:
     dependencies:
       '@supabase/supabase-js':
