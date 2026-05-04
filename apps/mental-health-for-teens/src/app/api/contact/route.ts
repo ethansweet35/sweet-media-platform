@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { Resend } from 'resend';
 
-const TO = 'admissions@example.com';
+const TO = 'hello@example.com';
 const SUBJECT = 'New Contact Form Submission - Client Brand';
 
 function row(label: string, value: string | undefined) {

@@ -1,154 +1,57 @@
-'use client';
+import Link from "next/link";
 
-import { useState } from 'react';
-import Link from 'next/link';
-import Image from 'next/image';
-
+const navLinks = [
+  { label: "Home", path: "/" },
+  { label: "About", path: "/about" },
+  { label: "Services", path: "/services" },
+  { label: "Resources", path: "/resources" },
+  { label: "Blog", path: "/blog" },
+  { label: "Contact", path: "/contact" },
+];
 
 export default function Footer() {
-  const [email, setEmail] = useState('');
-  const [submitted, setSubmitted] = useState(false);
-  const [submitting, setSubmitting] = useState(false);
-
-  const handleNewsletter = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!email) return;
-    setSubmitting(true);
-    try {
-      await fetch('/api/contact', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, message: 'Newsletter signup' }),
-      });
-      setSubmitted(true);
-      setEmail('');
-    } catch {
-      setSubmitted(true);
-    } finally {
-      setSubmitting(false);
-    }
-  };
-
   return (
-    <footer className="bg-[#1F2937] text-[#F8FAFC]">
-      {/* Upper Grid */}
-      <div className="w-full px-8 md:px-16 pt-16 pb-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
-        {/* Brand */}
-        <div className="flex flex-col gap-4">
-          <Image
-            src="https://papiwmobmdbtzeeebmpr.supabase.co/storage/v1/object/public/site-assets/images/logo.png"
-            alt="Client Brand"
-            width={160}
-            height={40}
-            className="h-10 w-auto object-contain brightness-0 invert"
-            loading="lazy"
-          />
-          <p className="text-sm text-[#E2E8F0]/70 font-light leading-relaxed">
-            A virtual sanctuary for clients ready to reclaim their lives through evidence-based, trauma-informed care rooted in the healing power of nature.
+    <footer className="border-t border-slate-200 bg-slate-950 px-6 py-14 text-white">
+      <div className="mx-auto grid max-w-7xl gap-10 md:grid-cols-[1.4fr_1fr_1fr]">
+        <div>
+          <h2 className="text-2xl font-semibold tracking-tight">Mental Health For Teens</h2>
+          <p className="mt-4 max-w-md text-sm leading-7 text-white/65">
+            Teen mental health resources for families. Replace this footer copy with client-specific positioning, trust signals, and conversion messaging.
           </p>
-          <div className="flex gap-4 mt-2">
-            {['ri-instagram-line', 'ri-facebook-circle-line', 'ri-linkedin-box-line'].map((icon) => (
-              <a key={icon} href="#" className="w-8 h-8 flex items-center justify-center cursor-pointer text-[#E2E8F0]/60 hover:text-[#DDA15E] transition-colors duration-300">
-                <i className={`${icon} text-lg`}></i>
-              </a>
-            ))}
-          </div>
         </div>
 
-        {/* Quick Links */}
-        <div className="flex flex-col gap-4">
-          <h4 className="text-xs uppercase tracking-widest text-[#DDA15E] font-medium">Quick Links</h4>
-          <div className="flex flex-col gap-2.5">
-            {[
-              { label: 'About Us', path: '/about' },
-              { label: 'What We Treat', path: '/what-we-treat' },
-              { label: 'Virtual Outpatient', path: '/levels-of-care' },
-              { label: 'Therapy', path: '/therapy' },
-              { label: 'Admissions', path: '/admissions' },
-              { label: 'Resources', path: '/resources' },
-            ].map((link) => (
-              <Link key={link.path} href={link.path} className="text-sm text-[#E2E8F0]/70 hover:text-[#F8FAFC] transition-colors duration-300 cursor-pointer font-light">
+        <div>
+          <h3 className="text-xs font-semibold uppercase tracking-[0.2em] text-white/45">
+            Navigation
+          </h3>
+          <div className="mt-5 grid gap-3">
+            {navLinks.map((link) => (
+              <Link key={link.path} href={link.path} className="text-sm text-white/70 hover:text-white">
                 {link.label}
               </Link>
             ))}
           </div>
         </div>
 
-        {/* Contact */}
-        <div className="flex flex-col gap-4">
-          <h4 className="text-xs uppercase tracking-widest text-[#DDA15E] font-medium">Contact</h4>
-          <div className="flex flex-col gap-3">
-            <div className="flex items-start gap-3">
-              <div className="w-5 h-5 flex items-center justify-center mt-0.5">
-                <i className="ri-phone-line text-[#8FA489]"></i>
-              </div>
-              <span className="text-sm text-[#E2E8F0]/70 font-light">719-733-8556</span>
-            </div>
-            <div className="flex items-start gap-3">
-              <div className="w-5 h-5 flex items-center justify-center mt-0.5">
-                <i className="ri-mail-line text-[#8FA489]"></i>
-              </div>
-              <span className="text-sm text-[#E2E8F0]/70 font-light">admissions@example.com</span>
-            </div>
-            <div className="flex items-start gap-3">
-              <div className="w-5 h-5 flex items-center justify-center mt-0.5">
-                <i className="ri-map-pin-line text-[#8FA489]"></i>
-              </div>
-              <span className="text-sm text-[#E2E8F0]/70 font-light">685 Citadel Drive East, Suite #598<br />Service Area Springs, CO 80909</span>
-            </div>
+        <div>
+          <h3 className="text-xs font-semibold uppercase tracking-[0.2em] text-white/45">
+            Contact
+          </h3>
+          <div className="mt-5 grid gap-3 text-sm text-white/70">
+            <span>Call anytime</span>
+            <a href="mailto:hello@example.com" className="hover:text-white">
+              hello@example.com
+            </a>
+            <Link href="/contact" className="mt-2 inline-flex text-white hover:text-white/80">
+              Get Support
+            </Link>
           </div>
         </div>
-
-        {/* Newsletter */}
-        <div className="flex flex-col gap-4">
-          <h4 className="text-xs uppercase tracking-widest text-[#DDA15E] font-medium">Stay Connected</h4>
-          <p className="text-sm text-[#E2E8F0]/70 font-light leading-relaxed">
-            Gentle wisdom, healing resources, and community updates — delivered with care.
-          </p>
-          {submitted ? (
-            <p className="text-sm text-[#8FA489] font-light">Thank you for joining our community.</p>
-          ) : (
-            <form
-              id="newsletter-form"
-              onSubmit={handleNewsletter}
-              className="flex flex-col gap-3"
-            >
-              <input
-                type="email"
-                name="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="Your email address"
-                required
-                className="bg-transparent border-b border-[#F8FAFC]/30 text-sm text-[#F8FAFC] placeholder-[#F8FAFC]/40 py-2 outline-none focus:border-[#DDA15E] transition-colors duration-300 font-light"
-              />
-              <button
-                type="submit"
-                disabled={submitting}
-                className="whitespace-nowrap cursor-pointer text-xs uppercase tracking-widest px-5 py-2.5 rounded-full bg-[#2563EB] text-[#F8FAFC] hover:bg-[#DDA15E] transition-colors duration-300 font-medium self-start"
-              >
-                {submitting ? 'Subscribing...' : 'Subscribe'}
-              </button>
-            </form>
-          )}
-        </div>
       </div>
 
-      {/* Big Brand Text */}
-      <div className="w-full px-8 md:px-16 overflow-hidden">
-        <p className="text-[#DDA15E]/20 font-serif font-bold leading-none select-none" style={{ fontSize: 'clamp(60px, 12vw, 160px)', letterSpacing: '-0.02em' }}>
-          INNER PEAK
-        </p>
-      </div>
-
-      {/* Bottom Bar */}
-      <div className="w-full px-8 md:px-16 py-6 border-t border-[#F8FAFC]/10 flex flex-col sm:flex-row items-center justify-between gap-3">
-        <p className="text-xs text-[#F8FAFC]/40 font-light">© 2026 Client Brand. All rights reserved.</p>
-        <div className="flex gap-6">
-          <a href="#" className="text-xs text-[#F8FAFC]/40 hover:text-[#F8FAFC]/70 transition-colors cursor-pointer font-light">Privacy Policy</a>
-          <a href="#" className="text-xs text-[#F8FAFC]/40 hover:text-[#F8FAFC]/70 transition-colors cursor-pointer font-light">Terms of Service</a>
-          <a href="#" className="text-xs text-[#F8FAFC]/40 hover:text-[#F8FAFC]/70 transition-colors cursor-pointer font-light">HIPAA Notice</a>
-        </div>
+      <div className="mx-auto mt-12 flex max-w-7xl flex-col gap-3 border-t border-white/10 pt-6 text-xs text-white/40 md:flex-row md:items-center md:justify-between">
+        <p>© 2026 Mental Health For Teens. All rights reserved.</p>
+        <p>Built from the Sweet Media client template.</p>
       </div>
     </footer>
   );
