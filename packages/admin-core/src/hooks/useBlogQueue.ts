@@ -5,7 +5,7 @@ import { supabase } from "../lib/supabase";
 import type { BlogQueueItem, BlogQueueItemInput } from "../types/blog-queue";
 
 const supabaseUrl =
-  process.env.NEXT_PUBLIC_SUPABASE_URL ?? "https://placeholder.supabase.co";
+  process.env.NEXT_PUBLIC_SUPABASE_URL;
 
 const anonKey =
   process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY ??

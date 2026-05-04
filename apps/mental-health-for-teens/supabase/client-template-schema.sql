@@ -86,6 +86,7 @@ create table if not exists public.blog_posts (
   author text,
   author_title text,
   author_bio text,
+  author_photo text,
   hero_image_url text,
   featured_image_url text,
   seo_title text,

@@ -198,6 +198,7 @@ type BrandSettings = {
 async function fetchBrandSettings(
   supabaseUrl: string,
   serviceRoleKey: string,
+  siteKey?: string,
 ): Promise<BrandSettings | null> {
   if (!supabaseUrl || !serviceRoleKey) return null;
 
@@ -206,11 +207,19 @@ async function fetchBrandSettings(
       auth: { autoRefreshToken: false, persistSession: false },
     });
 
-    const { data, error } = await admin
-      .from("brand_settings")
-      .select("*")
-      .eq("site_key", "default")
-      .maybeSingle();
+    const effectiveSiteKey = typeof siteKey === "string" && siteKey.trim()
+      ? siteKey.trim()
+      : undefined;
+
+    let query = admin.from("brand_settings").select("*");
+
+    if (effectiveSiteKey) {
+      query = query.eq("site_key", effectiveSiteKey);
+    } else {
+      query = query.order("updated_at", { ascending: false }).limit(1);
+    }
+
+    const { data, error } = await query.maybeSingle();
 
     if (error) {
       console.warn("[generate-blog-image] brand_settings query failed:", error.message);
@@ -299,6 +308,14 @@ Deno.serve(async (req) => {
   if (req.method === "OPTIONS") return new Response("ok", { headers: corsHeaders });
   try {
     const body = await req.json();
+    const siteKey =
+      typeof body.siteKey === "string" && body.siteKey.trim()
+        ? body.siteKey.trim()
+        : typeof body.site_id === "string" && body.site_id.trim()
+          ? body.site_id.trim()
+          : typeof body.siteId === "string" && body.siteId.trim()
+            ? body.siteId.trim()
+            : undefined;
     const apiKey = Deno.env.get("chatgpt_api") || Deno.env.get("OPENAI_API_KEY");
     if (body.test) {
       if (!apiKey) {
@@ -350,7 +367,7 @@ Deno.serve(async (req) => {
     const excerptStr = typeof excerpt === "string" ? excerpt : "";
     const categoryStr = typeof category === "string" ? category : "";
 
-    const brand = await fetchBrandSettings(supabaseUrl, serviceRoleKey);
+    const brand = await fetchBrandSettings(supabaseUrl, serviceRoleKey, siteKey);
     const prompt = buildPrompt(title, excerptStr, categoryStr, bodyContext, brand);
     console.log("[generate-blog-image] postId=", postId ?? "(none)", "bodyContext_len=", bodyContext.length, "size=", IMAGE_SIZE);
 

@@ -37,7 +37,7 @@ export default function BlogEditPage() {
     title: "",
     excerpt: "",
     slug: "",
-    category: "SEO",
+    category: "Teen Mental Health",
     author: "",
     authorRole: "",
     authorBio: "",

@@ -144,7 +144,7 @@ export default function BlogEditorSidebar({ form, onChange, postDate, slugError 
             type="text"
             value={form.tags}
             onChange={(e) => onChange("tags", e.target.value)}
-            placeholder="SEO, Google, AI"
+            placeholder="keywords, topics, services"
             className={inputCls}
           />
           {form.tags && (

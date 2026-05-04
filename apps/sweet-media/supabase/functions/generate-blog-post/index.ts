@@ -291,6 +291,9 @@ Deno.serve(async (req) => {
     }
 
     const category = typeof body.category === "string" ? body.category : undefined;
+    const categoryId = typeof body.categoryId === "string" && body.categoryId.trim()
+      ? body.categoryId.trim()
+      : undefined;
     const tone = typeof body.tone === "string" ? body.tone : undefined;
     const targetWordCount = typeof body.targetWordCount === "number" ? body.targetWordCount : undefined;
     const audience = typeof body.audience === "string" ? body.audience : undefined;
@@ -491,6 +494,7 @@ Deno.serve(async (req) => {
       excerpt,
       meta_description: metaDescription,
       category: postCategory,
+      category_id: categoryId ?? null,
       tags,
       hero_image_url: imageUrl ?? "",
       status: "draft",

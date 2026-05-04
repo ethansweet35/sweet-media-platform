@@ -17,6 +17,8 @@ const CATEGORY_OPTIONS = [
   { value: "Strategy", label: "Strategy" },
 ] as const;
 
+const SITE_ID = process.env.NEXT_PUBLIC_SITE_ID ?? "inner-peak-colorado";
+
 const inputCls =
   "w-full px-3.5 py-2.5 text-sm border border-stone-200 rounded-lg bg-stone-50 text-stone-900 placeholder-stone-400 focus:outline-none focus:ring-2 focus:ring-stone-900 focus:border-transparent transition-all";
 
@@ -183,6 +185,7 @@ export default function BlogWriterPage() {
         title,
         excerpt: title,
         postId,
+        siteKey: SITE_ID,
       };
       if (form.category.trim()) imgBody.category = form.category.trim();
 

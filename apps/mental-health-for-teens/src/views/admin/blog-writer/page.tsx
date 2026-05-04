@@ -1,21 +1,19 @@
 "use client";
 
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import Link from "next/link";
 import { AdminPageHeader } from "@sweetmedia/admin-core";
 import { supabase } from "@/lib/supabase";
 import Seo from "@/components/feature/Seo";
 import { AI_MODELS, DEFAULT_MODEL_ID } from "@sweetmedia/admin-core";
 
-const CATEGORY_OPTIONS = [
-  { value: "", label: "Let AI decide" },
-  { value: "SEO", label: "SEO" },
-  { value: "Paid Media", label: "Paid Media" },
-  { value: "Web Development", label: "Web Development" },
-  { value: "Social Media", label: "Social Media" },
-  { value: "Compliance", label: "Compliance" },
-  { value: "Strategy", label: "Strategy" },
-] as const;
+interface BlogCategory {
+  id: string;
+  name: string;
+  slug: string;
+}
+
+const SITE_ID = process.env.NEXT_PUBLIC_SITE_ID ?? "mental-health-for-teens";
 
 const inputCls =
   "w-full px-3.5 py-2.5 text-sm border border-stone-200 rounded-lg bg-stone-50 text-stone-900 placeholder-stone-400 focus:outline-none focus:ring-2 focus:ring-stone-900 focus:border-transparent transition-all";
@@ -24,6 +22,7 @@ interface FormState {
   topic: string;
   primaryKeyword: string;
   category: string;
+  categoryId: string;
   tone: string;
   targetWordCount: number;
   audience: string;
@@ -35,6 +34,7 @@ const INITIAL_FORM: FormState = {
   topic: "",
   primaryKeyword: "",
   category: "",
+  categoryId: "",
   tone: "",
   targetWordCount: 2000,
   audience: "",
@@ -47,6 +47,7 @@ function buildGeneratePostBody(f: FormState): Record<string, unknown> {
   const primaryKeyword = f.primaryKeyword.trim();
   const body: Record<string, unknown> = { topic, primaryKeyword };
   if (f.category.trim()) body.category = f.category.trim();
+  if (f.categoryId.trim()) body.categoryId = f.categoryId.trim();
   if (f.tone.trim()) body.tone = f.tone.trim();
   const tw = Number(f.targetWordCount);
   if (!Number.isNaN(tw) && tw >= 800 && tw <= 4000) body.targetWordCount = tw;
@@ -81,9 +82,44 @@ export default function BlogWriterPage() {
   const [generationStage, setGenerationStage] = useState<GenerationStage>(null);
   const [postError, setPostError] = useState<string | null>(null);
   const [result, setResult] = useState<DoneResult | null>(null);
+  const [categories, setCategories] = useState<BlogCategory[]>([]);
+  const [categoryLoadError, setCategoryLoadError] = useState<string | null>(null);
 
   const disableForm =
     generationStage === "post" || generationStage === "image";
+
+  useEffect(() => {
+    let mounted = true;
+
+    async function loadCategories() {
+      setCategoryLoadError(null);
+
+      const { data, error } = await supabase
+        .from("blog_categories")
+        .select("id,name,slug")
+        .eq("site_id", SITE_ID)
+        .eq("is_active", true)
+        .order("sort_order", { ascending: true })
+        .order("name", { ascending: true });
+
+      if (!mounted) return;
+
+      if (error) {
+        console.error("[blog-writer] category load failed", error);
+        setCategoryLoadError("Could not load blog categories.");
+        setCategories([]);
+        return;
+      }
+
+      setCategories(data ?? []);
+    }
+
+    loadCategories();
+
+    return () => {
+      mounted = false;
+    };
+  }, []);
 
   const resetToForm = useCallback(() => {
     setForm(INITIAL_FORM);
@@ -183,6 +219,7 @@ export default function BlogWriterPage() {
         title,
         excerpt: title,
         postId,
+        siteKey: SITE_ID,
       };
       if (form.category.trim()) imgBody.category = form.category.trim();
 
@@ -387,19 +424,32 @@ export default function BlogWriterPage() {
                     Category
                   </label>
                   <select
-                    value={form.category}
+                    value={form.categoryId}
                     disabled={disableForm}
-                    onChange={(ev) =>
-                      setForm((p) => ({ ...p, category: ev.target.value }))
-                    }
+                    onChange={(ev) => {
+                      const selected = categories.find((c) => c.id === ev.target.value);
+                      setForm((p) => ({
+                        ...p,
+                        categoryId: selected?.id ?? "",
+                        category: selected?.name ?? "",
+                      }));
+                    }}
                     className={inputCls}
                   >
-                    {CATEGORY_OPTIONS.map((o) => (
-                      <option key={o.label} value={o.value}>
-                        {o.label}
+                    <option value="">Let AI decide</option>
+                    {categories.map((category) => (
+                      <option key={category.id} value={category.id}>
+                        {category.name}
                       </option>
                     ))}
                   </select>
+                  {categoryLoadError ? (
+                    <p className="mt-2 text-xs text-red-700">{categoryLoadError}</p>
+                  ) : categories.length === 0 ? (
+                    <p className="mt-2 text-xs text-stone-500">
+                      No categories have been added for this client yet. Add them during onboarding or let AI decide.
+                    </p>
+                  ) : null}
                 </div>
 
                 <div>
