@@ -95,6 +95,8 @@ create table if not exists public.blog_posts (
   focus_keyword text,
   tags text[],
   published_at timestamptz,
+  scheduled_publish_at timestamptz,
+  approved_for_publish boolean not null default false,
   created_at timestamptz not null default now(),
   updated_at timestamptz not null default now()
 );
