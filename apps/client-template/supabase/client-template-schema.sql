@@ -28,6 +28,7 @@ using (lower(email) = lower(auth.jwt() ->> 'email'));
 
 create table if not exists public.brand_settings (
   id uuid primary key default gen_random_uuid(),
+  site_key text not null default 'client-template',
   site_name text not null default 'Client Brand',
   site_url text not null default 'https://example.com',
   primary_color text not null default '#1F2937',
@@ -54,6 +55,10 @@ create table if not exists public.brand_settings (
   updated_at timestamptz not null default now()
 );
 
+create unique index if not exists brand_settings_site_key_unique
+on public.brand_settings(site_key)
+where site_key is not null;
+
 alter table public.brand_settings enable row level security;
 
 drop policy if exists "Public can read brand settings" on public.brand_settings;
@@ -71,6 +76,88 @@ to authenticated
 using (exists (select 1 from public.admin_users au where lower(au.email) = lower(auth.jwt() ->> 'email')))
 with check (exists (select 1 from public.admin_users au where lower(au.email) = lower(auth.jwt() ->> 'email')));
 
+insert into public.brand_settings (
+  site_key,
+  site_name,
+  site_url,
+  image_bucket,
+  image_folder,
+  image_style_prompt,
+  image_negative_prompt
+)
+values (
+  'client-template',
+  'Client Brand',
+  'https://example.com',
+  'site-assets',
+  'blog-featured',
+  'Create a clean, professional editorial blog featured image aligned with the client brand. Use the client color palette, calm composition, premium lighting, and visually relevant abstract or lifestyle imagery. Avoid generic stock-photo styling.',
+  'No logos, no watermarks, no distorted text, no cluttered layouts, no cheesy stock-photo look.'
+)
+on conflict (site_key) do update
+set
+  site_name = excluded.site_name,
+  site_url = excluded.site_url,
+  image_bucket = excluded.image_bucket,
+  image_folder = excluded.image_folder,
+  image_style_prompt = excluded.image_style_prompt,
+  image_negative_prompt = excluded.image_negative_prompt,
+  updated_at = now();
+
+-- =========================================================
+-- BLOG CATEGORIES
+-- =========================================================
+
+create table if not exists public.blog_categories (
+  id uuid primary key default gen_random_uuid(),
+  site_id text not null,
+  name text not null,
+  slug text not null,
+  description text,
+  sort_order integer not null default 0,
+  is_active boolean not null default true,
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now(),
+
+  constraint blog_categories_site_slug_unique unique (site_id, slug)
+);
+
+create index if not exists blog_categories_site_id_idx
+on public.blog_categories(site_id);
+
+create index if not exists blog_categories_active_idx
+on public.blog_categories(site_id, is_active, sort_order);
+
+alter table public.blog_categories enable row level security;
+
+drop policy if exists "Public can read active blog categories" on public.blog_categories;
+create policy "Public can read active blog categories"
+on public.blog_categories
+for select
+to anon, authenticated
+using (is_active = true);
+
+drop policy if exists "Admins can manage blog categories" on public.blog_categories;
+create policy "Admins can manage blog categories"
+on public.blog_categories
+for all
+to authenticated
+using (exists (select 1 from public.admin_users au where lower(au.email) = lower(auth.jwt() ->> 'email')))
+with check (exists (select 1 from public.admin_users au where lower(au.email) = lower(auth.jwt() ->> 'email')));
+
+insert into public.blog_categories (site_id, name, slug, sort_order)
+values
+  ('client-template', 'Company News', 'company-news', 10),
+  ('client-template', 'Education', 'education', 20),
+  ('client-template', 'Resources', 'resources', 30),
+  ('client-template', 'Guides', 'guides', 40)
+on conflict (site_id, slug) do update
+set
+  name = excluded.name,
+  sort_order = excluded.sort_order,
+  is_active = true,
+  updated_at = now();
+
 -- =========================================================
 -- BLOG POSTS
 -- =========================================================
@@ -83,12 +170,15 @@ create table if not exists public.blog_posts (
   content text,
   status text not null default 'draft',
   category text,
+  category_id uuid,
   author text,
   author_title text,
   author_bio text,
   author_photo text,
   hero_image_url text,
   featured_image_url text,
+  read_time text,
+  featured boolean not null default false,
   seo_title text,
   seo_description text,
   meta_title text,
