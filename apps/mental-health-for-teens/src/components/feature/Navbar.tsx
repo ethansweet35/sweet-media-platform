@@ -1,111 +1,154 @@
-"use client";
+'use client';
 
-import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { useState } from "react";
+import { useState, useEffect } from 'react';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
+import Image from 'next/image';
 
 const navLinks = [
-  { label: "Home", path: "/" },
-  { label: "About Us", path: "/about" },
-  { label: "What We Treat", path: "/what-we-treat" },
-  { label: "Levels Of Care", path: "/levels-of-care" },
-  { label: "Resources", path: "/resources" },
-  { label: "Contact Us", path: "/contact" },
+  { label: 'Home', path: '/' },
+  { label: 'About', path: '/about' },
+  { label: 'What We Treat', path: '/what-we-treat' },
+  { label: 'Virtual Outpatient', path: '/levels-of-care' },
+  { label: 'Therapy', path: '/therapy' },
+  { label: 'Admissions', path: '/admissions' },
+  { label: 'Resources', path: '/resources' },
 ];
 
 export default function Navbar() {
+  const [scrolled, setScrolled] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
   const pathname = usePathname();
-  const [mobileOpen, setMobileOpen] = useState(false);
+  const isHome = pathname === '/';
+
+  useEffect(() => {
+    const handleScroll = () => setScrolled(window.scrollY > 40);
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  const navBg = scrolled || !isHome
+    ? 'bg-[#F8FAFC] shadow-sm'
+    : 'bg-transparent';
+
+  const textColor = scrolled || !isHome ? 'text-[#1F2937]' : 'text-[#F8FAFC]';
+  const logoFilter = scrolled || !isHome ? '' : 'brightness-0 invert';
 
   return (
-    <header className="sticky top-0 z-50 border-b border-[var(--color-primary)]/10 bg-[var(--color-background)]/95 backdrop-blur-xl">
-      <div className="border-b border-[var(--color-primary)]/10 bg-white/70 px-6 py-2 text-xs text-[var(--color-muted)]">
-        <div className="mx-auto flex max-w-7xl items-center justify-between gap-4">
-          <span>San Diego based, serving families across California</span>
-          <Link href="/contact" className="font-medium text-[var(--color-primary)] hover:text-[#0f2e40]">
-            Confidential support inquiry
-          </Link>
+    <nav className={`fixed top-0 left-0 w-full z-50 transition-all duration-500 ${navBg}`}>
+
+      {/* ── Top utility bar ── */}
+      <div className={`hidden lg:block w-full border-b transition-all duration-500 ${scrolled || !isHome ? 'border-[#1F2937]/8 bg-[#1F2937]' : 'border-[#F8FAFC]/10 bg-[#1F2937]/70 backdrop-blur-sm'}`}>
+        <div className="w-full px-8 md:px-16 lg:px-24 py-2">
+          <div className="max-w-7xl mx-auto flex items-center justify-between">
+            <div className="flex items-center gap-6">
+              <a href="tel:+17197338556" className="flex items-center gap-1.5 text-[#E2E8F0]/70 hover:text-[#DDA15E] transition-colors duration-200 cursor-pointer">
+                <div className="w-4 h-4 flex items-center justify-center">
+                  <i className="ri-phone-line text-xs"></i>
+                </div>
+                <span className="text-[11px] font-light tracking-wide">719-733-8556</span>
+              </a>
+              <a href="mailto:admissions@example.com" className="flex items-center gap-1.5 text-[#E2E8F0]/70 hover:text-[#DDA15E] transition-colors duration-200 cursor-pointer">
+                <div className="w-4 h-4 flex items-center justify-center">
+                  <i className="ri-mail-line text-xs"></i>
+                </div>
+                <span className="text-[11px] font-light tracking-wide">admissions@example.com</span>
+              </a>
+            </div>
+            <div className="flex items-center gap-5">
+              <span className="text-[11px] text-[#E2E8F0]/50 font-light">
+                <span className="text-[#DDA15E] font-medium">24/7 Intake:</span> Call anytime — no commitment required
+              </span>
+              <div className="flex items-center gap-3">
+                {['ri-instagram-line', 'ri-facebook-circle-line', 'ri-linkedin-box-line'].map((icon) => (
+                  <a key={icon} href="#" className="w-4 h-4 flex items-center justify-center text-[#E2E8F0]/50 hover:text-[#DDA15E] transition-colors duration-200 cursor-pointer">
+                    <i className={`${icon} text-xs`}></i>
+                  </a>
+                ))}
+              </div>
+            </div>
+          </div>
         </div>
       </div>
 
-      <nav className="mx-auto flex max-w-7xl items-center justify-between gap-8 px-6 py-4">
-        <Link href="/" className="group">
-          <div className="text-xl font-semibold tracking-tight text-[var(--color-primary)]">
-            Mental Health For Teens
-          </div>
-          <div className="mt-0.5 text-xs tracking-wide text-[var(--color-muted)]">
-            Warm, clinically grounded virtual care
-          </div>
-        </Link>
+      <div className="w-full px-8 md:px-16 lg:px-24 py-4">
+        <div className="max-w-7xl mx-auto flex items-center justify-between">
+          {/* Logo */}
+          <Link href="/" className="flex items-center gap-3 cursor-pointer">
+            <Image
+              src="https://papiwmobmdbtzeeebmpr.supabase.co/storage/v1/object/public/site-assets/images/logo.png"
+              alt="Client Brand Logo"
+              width={160}
+              height={40}
+              className={`h-10 w-auto object-contain transition-all duration-500 ${logoFilter}`}
+              priority
+            />
+          </Link>
 
-        <div className="hidden items-center gap-7 lg:flex">
-          {navLinks.map((link) => {
-            const active = pathname === link.path;
-            return (
+          {/* Desktop Nav */}
+          <div className="hidden lg:flex items-center gap-8">
+            {navLinks.map((link) => (
               <Link
                 key={link.path}
                 href={link.path}
-                className={`text-xs font-semibold uppercase tracking-[0.16em] transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-accent)] ${
-                  active
-                    ? "text-[var(--color-primary)]"
-                    : "text-[var(--color-muted)] hover:text-[var(--color-primary)]"
+                className={`text-xs uppercase tracking-widest font-medium transition-colors duration-300 whitespace-nowrap cursor-pointer hover:text-[#2563EB] ${
+                  pathname === link.path ? 'text-[#2563EB]' : textColor
                 }`}
               >
                 {link.label}
               </Link>
-            );
-          })}
-        </div>
-
-        <Link
-          href="/contact"
-          className="hidden rounded-full bg-[var(--color-primary)] px-6 py-3 text-xs font-semibold uppercase tracking-[0.16em] text-white shadow-[0_16px_34px_rgba(23,59,79,0.2)] hover:bg-[#0f2e40] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-accent)] lg:inline-flex"
-        >
-          Start Here
-        </Link>
-
-        <button
-          type="button"
-          onClick={() => setMobileOpen((value) => !value)}
-          className="inline-flex items-center justify-center rounded-lg border border-[var(--color-primary)]/20 p-2 text-[var(--color-primary)] lg:hidden"
-          aria-expanded={mobileOpen}
-          aria-controls="mobile-navigation-menu"
-          aria-label="Toggle menu"
-        >
-          <svg viewBox="0 0 24 24" fill="none" aria-hidden className="h-5 w-5">
-            <path
-              d="M4 7h16M4 12h16M4 17h16"
-              stroke="currentColor"
-              strokeLinecap="round"
-              strokeWidth="1.8"
-            />
-          </svg>
-        </button>
-      </nav>
-
-      {mobileOpen && (
-        <div id="mobile-navigation-menu" className="border-t border-[var(--color-primary)]/10 bg-white px-6 py-4 lg:hidden">
-          <div className="mx-auto grid max-w-7xl gap-2">
-            {navLinks.map((link) => {
-              const active = pathname === link.path;
-              return (
-                <Link
-                  key={link.path}
-                  href={link.path}
-                  onClick={() => setMobileOpen(false)}
-                  className={`rounded-xl px-4 py-3 text-sm font-semibold transition-colors ${
-                    active
-                      ? "bg-[var(--color-primary)] text-white"
-                      : "text-[var(--color-primary)] hover:bg-[var(--color-background)]"
-                  }`}
-                >
-                  {link.label}
-                </Link>
-              );
-            })}
+            ))}
           </div>
+
+          {/* CTA Button */}
+          <div className="hidden lg:flex items-center gap-4">
+            <Link
+              href="/contact"
+              className={`whitespace-nowrap cursor-pointer text-xs uppercase tracking-widest px-6 py-2.5 rounded-full border transition-all duration-300 font-medium ${
+                scrolled || !isHome
+                  ? 'border-[#1F2937] text-[#1F2937] hover:bg-[#1F2937] hover:text-[#F8FAFC]'
+                  : 'border-[#F8FAFC] text-[#F8FAFC] hover:bg-[#F8FAFC] hover:text-[#1F2937]'
+              }`}
+            >
+              Begin Your Journey
+            </Link>
+          </div>
+
+          {/* Mobile Hamburger */}
+          <button
+            className={`lg:hidden w-8 h-8 flex items-center justify-center cursor-pointer ${textColor}`}
+            onClick={() => setMenuOpen(!menuOpen)}
+            aria-label="Toggle menu"
+          >
+            <i className={`text-xl ${menuOpen ? 'ri-close-line' : 'ri-menu-3-line'}`}></i>
+          </button>
+        </div>
+      </div>
+
+      {/* Mobile Menu */}
+      {menuOpen && (
+        <div className="lg:hidden bg-[#F8FAFC] border-t border-[#E2E8F0] px-6 py-6 flex flex-col gap-5">
+          {navLinks.map((link) => (
+            <Link
+              key={link.path}
+              href={link.path}
+              onClick={() => setMenuOpen(false)}
+              className={`text-xs uppercase tracking-widest font-medium cursor-pointer hover:text-[#2563EB] ${
+                pathname === link.path ? 'text-[#2563EB]' : 'text-[#1F2937]'
+              }`}
+            >
+              {link.label}
+            </Link>
+          ))}
+          <Link
+            href="/contact"
+            onClick={() => setMenuOpen(false)}
+            className="whitespace-nowrap cursor-pointer text-xs uppercase tracking-widest px-6 py-2.5 rounded-full border border-[#1F2937] text-[#1F2937] hover:bg-[#1F2937] hover:text-[#F8FAFC] transition-all duration-300 font-medium text-center"
+          >
+            Begin Your Journey
+          </Link>
         </div>
       )}
-    </header>
+    </nav>
   );
 }

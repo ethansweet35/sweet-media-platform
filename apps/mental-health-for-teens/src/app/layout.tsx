@@ -10,21 +10,9 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.mentalhealthforteens.com"),
-  title: {
-    default: "Mental Health For Teens",
-    template: "%s | Mental Health For Teens",
-  },
+  title: "Client Brand | Website Template",
   description:
-    "Virtual teen mental health programs for adolescents ages 12 to 17, supporting families across California.",
-  openGraph: {
-    siteName: "Mental Health For Teens",
-    locale: "en_US",
-    type: "website",
-  },
-  twitter: {
-    card: "summary_large_image",
-  },
+    "A reusable client website template with admin, blog, Supabase, and brand settings infrastructure.",
 };
 
 export default function RootLayout({
