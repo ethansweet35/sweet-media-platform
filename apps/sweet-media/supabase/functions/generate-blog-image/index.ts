@@ -43,15 +43,27 @@ async function callOpenAI(apiKey: string, prompt: string, timeoutMs: number): Pr
   }
 }
 
-async function uploadB64ToStorage(b64: string, title: string): Promise<string> {
+async function uploadB64ToStorage(
+  b64: string,
+  title: string,
+  brand?: BrandSettings | null,
+): Promise<string> {
   const supabaseUrl = Deno.env.get("SUPABASE_URL")!;
   const serviceRoleKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
   const adminClient = createClient(supabaseUrl, serviceRoleKey, { auth: { persistSession: false } });
   const binary = Uint8Array.from(atob(b64), (c) => c.charCodeAt(0));
   const slug = title.toLowerCase().replace(/[^a-z0-9]+/g, "-").slice(0, 40);
   const filename = `blog-${slug}-${Date.now()}.webp`;
-  const bucket = Deno.env.get("BLOG_IMAGE_BUCKET") || "site-assets";
-  const storagePath = `blog/${filename}`;
+  const bucket =
+    brand?.image_bucket?.trim() ||
+    Deno.env.get("BLOG_IMAGE_BUCKET") ||
+    "site-assets";
+  const folder =
+    brand?.image_folder?.trim() ||
+    Deno.env.get("BLOG_IMAGE_FOLDER") ||
+    "blog";
+  const cleanFolder = folder.replace(/^\/+|\/+$/g, "");
+  const storagePath = `${cleanFolder}/${filename}`;
   const { data, error } = await adminClient.storage.from(bucket).upload(storagePath, binary, { contentType: "image/webp", upsert: true });
   if (error) throw new Error(`Storage upload failed: ${error.message}`);
   const { data: urlData } = adminClient.storage.from(bucket).getPublicUrl(data.path);
@@ -371,9 +383,16 @@ Deno.serve(async (req) => {
     const prompt = buildPrompt(title, excerptStr, categoryStr, bodyContext, brand);
     console.log("[generate-blog-image] postId=", postId ?? "(none)", "bodyContext_len=", bodyContext.length, "size=", IMAGE_SIZE);
 
+    console.log("[generate-blog-image] Calling OpenAI image model:", IMAGE_MODEL);
+    const imageStartedAt = Date.now();
     const result = await callOpenAI(apiKey, prompt, 180_000);
+    console.log("[generate-blog-image] OpenAI image result received in ms:", Date.now() - imageStartedAt, "hasImage=", Boolean(result.b64_json), "error=", result.error ?? "");
+
     if (result.b64_json) {
-      const publicUrl = await uploadB64ToStorage(result.b64_json, title);
+      console.log("[generate-blog-image] Uploading generated image to storage");
+      const uploadStartedAt = Date.now();
+      const publicUrl = await uploadB64ToStorage(result.b64_json, title, brand);
+      console.log("[generate-blog-image] Storage upload complete in ms:", Date.now() - uploadStartedAt, "url=", publicUrl);
       if (postId && supabaseUrl && serviceRoleKey) {
         const adminClient = createClient(supabaseUrl, serviceRoleKey, {
           auth: { persistSession: false },
