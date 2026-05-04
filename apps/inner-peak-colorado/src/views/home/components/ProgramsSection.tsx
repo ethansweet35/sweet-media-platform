@@ -1,7 +1,5 @@
-'use client';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useInView } from '@/hooks/useInView';
 
 const tracks = [
   {
@@ -27,8 +25,6 @@ const tracks = [
 ];
 
 export default function ProgramsSection() {
-  const [leftRef, leftVisible] = useInView<HTMLDivElement>();
-  const [rightRef, rightVisible] = useInView<HTMLDivElement>();
   return (
     <section className="w-full bg-[#F0ECE1] py-24 px-8 md:px-16">
       <div className="max-w-7xl mx-auto">
@@ -37,7 +33,7 @@ export default function ProgramsSection() {
         <div className="grid grid-cols-1 lg:grid-cols-[1fr_2fr] gap-10 items-center">
 
           {/* Left: header */}
-          <div ref={leftRef} className={`flex flex-col gap-5 anim-hidden anim-fade-right ${leftVisible ? 'anim-visible' : ''}`}>
+          <div className="flex flex-col gap-5 anim-fade-right anim-visible">
             <span className="text-xs uppercase tracking-[0.3em] text-[#C8795A] font-medium">Our Program</span>
             <h2 className="font-serif text-[#2C3B2E] leading-[1.2]" style={{ fontSize: 'clamp(26px, 3.5vw, 42px)' }}>
               Virtual Outpatient Care
@@ -70,12 +66,12 @@ export default function ProgramsSection() {
           </div>
 
           {/* Right: two cards side by side */}
-          <div ref={rightRef} className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
             {tracks.map((track, i) => (
               <Link
                 key={i}
                 href={track.path}
-                className={`group bg-[#FAF8F5] rounded-2xl overflow-hidden flex flex-col cursor-pointer hover:scale-[1.02] transition-transform duration-300 anim-hidden anim-fade-up anim-delay-${i + 1} ${rightVisible ? 'anim-visible' : ''}`}
+                className={`group bg-[#FAF8F5] rounded-2xl overflow-hidden flex flex-col cursor-pointer hover:scale-[1.02] transition-transform duration-300 anim-fade-up anim-delay-${i + 1} anim-visible`}
               >
                 <div className="relative w-full h-44 overflow-hidden">
                   <Image

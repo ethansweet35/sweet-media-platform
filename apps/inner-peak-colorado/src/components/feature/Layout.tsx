@@ -1,23 +1,31 @@
 'use client';
 
-import { usePathname } from 'next/navigation';
 import Link from 'next/link';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import Navbar from './Navbar';
 import Footer from './Footer';
 
 export default function Layout({ children }: { children: React.ReactNode }) {
-  const pathname = usePathname();
   const [visible, setVisible] = useState(false);
+  const frameRef = useRef<number | null>(null);
 
   useEffect(() => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  }, [pathname]);
-
-  useEffect(() => {
-    const onScroll = () => setVisible(window.scrollY > 300);
+    const update = () => {
+      setVisible(window.scrollY > 300);
+      frameRef.current = null;
+    };
+    const onScroll = () => {
+      if (frameRef.current != null) return;
+      frameRef.current = window.requestAnimationFrame(update);
+    };
     window.addEventListener('scroll', onScroll, { passive: true });
-    return () => window.removeEventListener('scroll', onScroll);
+    update();
+    return () => {
+      window.removeEventListener('scroll', onScroll);
+      if (frameRef.current != null) {
+        window.cancelAnimationFrame(frameRef.current);
+      }
+    };
   }, []);
 
   return (

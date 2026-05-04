@@ -1,6 +1,4 @@
-'use client';
 import Link from 'next/link';
-import { useInView } from '@/hooks/useInView';
 
 const steps = [
   {
@@ -41,15 +39,12 @@ const steps = [
 ];
 
 export default function AdmissionsSection() {
-  const [headerRef, headerVisible] = useInView<HTMLDivElement>();
-  const [stepsRef, stepsVisible] = useInView<HTMLDivElement>();
-  const [ctaRef, ctaVisible] = useInView<HTMLDivElement>();
   return (
     <section className="w-full bg-[#FAF8F5] py-24 px-8 md:px-16">
       <div className="max-w-7xl mx-auto">
 
         {/* Header */}
-        <div ref={headerRef} className={`grid grid-cols-1 lg:grid-cols-2 gap-12 items-end mb-16 anim-hidden anim-fade-up ${headerVisible ? 'anim-visible' : ''}`}>
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-end mb-16 anim-fade-up anim-visible">
           <div className="flex flex-col gap-4">
             <span className="text-[11px] uppercase tracking-[0.3em] text-[#C8795A] font-medium">Admissions Process</span>
             <h2 className="font-serif text-[#2C3B2E] leading-[1.15]" style={{ fontSize: 'clamp(30px, 4vw, 52px)' }}>
@@ -70,13 +65,13 @@ export default function AdmissionsSection() {
         </div>
 
         {/* Steps */}
-        <div ref={stepsRef} className="relative">
+        <div className="relative">
           {/* Connecting line — desktop only */}
           <div className="hidden lg:block absolute top-10 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#F0ECE1] to-transparent" style={{ top: '40px' }}></div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6">
             {steps.map((step, i) => (
-              <div key={i} className={`relative flex flex-col gap-5 anim-hidden anim-fade-up anim-delay-${i + 1} ${stepsVisible ? 'anim-visible' : ''}`}>
+              <div key={i} className={`relative flex flex-col gap-5 anim-fade-up anim-delay-${i + 1} anim-visible`}>
                 {/* Number circle */}
                 <div
                   className="w-20 h-20 rounded-full flex items-center justify-center bg-[#F0ECE1] relative z-10 flex-shrink-0"
@@ -100,7 +95,7 @@ export default function AdmissionsSection() {
         </div>
 
         {/* Bottom CTA strip */}
-        <div ref={ctaRef} className={`mt-14 bg-[#2C3B2E] rounded-2xl px-8 py-7 flex flex-col sm:flex-row items-center justify-between gap-5 anim-hidden anim-scale ${ctaVisible ? 'anim-visible' : ''}`}>
+        <div className="mt-14 bg-[#2C3B2E] rounded-2xl px-8 py-7 flex flex-col sm:flex-row items-center justify-between gap-5 anim-scale anim-visible">
           <div className="flex flex-col gap-1">
             <p className="font-serif text-[#FAF8F5] text-lg">Ready to take the first step?</p>
             <p className="text-sm text-[#F0ECE1]/55 font-light">Our intake team is available right now — call, text, or fill out our form.</p>

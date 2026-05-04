@@ -1,6 +1,4 @@
-'use client';
 import Link from 'next/link';
-import { useInView } from '@/hooks/useInView';
 
 const modalities = [
   {
@@ -34,8 +32,6 @@ const modalities = [
 ];
 
 export default function TherapySection() {
-  const [headerRef, headerVisible] = useInView<HTMLDivElement>();
-  const [cardsRef, cardsVisible] = useInView<HTMLDivElement>();
   return (
     <section className="w-full bg-[#2C3B2E] relative overflow-hidden py-24 px-8 md:px-16">
       {/* Grain */}
@@ -50,7 +46,7 @@ export default function TherapySection() {
       <div className="relative z-10 max-w-7xl mx-auto">
 
         {/* Header */}
-        <div ref={headerRef} className={`grid grid-cols-1 lg:grid-cols-2 gap-10 items-end mb-16 anim-hidden anim-fade-up ${headerVisible ? 'anim-visible' : ''}`}>
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-end mb-16 anim-fade-up anim-visible">
           <div className="flex flex-col gap-4">
             <span className="text-[11px] uppercase tracking-[0.3em] text-[#DDA15E] font-medium">Therapy</span>
             <h2 className="font-serif text-[#FAF8F5] leading-[1.15]" style={{ fontSize: 'clamp(30px, 4vw, 52px)' }}>
@@ -74,9 +70,9 @@ export default function TherapySection() {
         </div>
 
         {/* Modality Cards */}
-        <div ref={cardsRef} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
           {modalities.map((m, i) => (
-            <div key={i} className={`bg-[#FAF8F5]/6 border border-[#FAF8F5]/10 rounded-[1.5rem_0.5rem_1.5rem_0.5rem] p-7 flex flex-col gap-5 anim-hidden anim-fade-up anim-delay-${i + 1} ${cardsVisible ? 'anim-visible' : ''}`}>
+            <div key={i} className={`bg-[#FAF8F5]/6 border border-[#FAF8F5]/10 rounded-[1.5rem_0.5rem_1.5rem_0.5rem] p-7 flex flex-col gap-5 anim-fade-up anim-delay-${i + 1} anim-visible`}>
               <div className="flex items-start justify-between">
                 <div
                   className="w-11 h-11 flex items-center justify-center rounded-full"

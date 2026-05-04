@@ -1,6 +1,4 @@
-'use client';
 import Link from 'next/link';
-import { useInView } from '@/hooks/useInView';
 
 const steps = [
   { num: '01', icon: 'ri-phone-line', color: '#C8795A', title: 'Free Consultation', desc: 'A compassionate intake specialist listens to your story — no pressure, no judgment.' },
@@ -10,8 +8,6 @@ const steps = [
 ];
 
 export default function AdmissionsPreviewSection() {
-  const [leftRef, leftVisible] = useInView<HTMLDivElement>();
-  const [rightRef, rightVisible] = useInView<HTMLDivElement>();
   return (
     <section className="w-full bg-[#F0ECE1] py-20 px-8 md:px-16">
       <div className="max-w-7xl mx-auto">
@@ -19,7 +15,7 @@ export default function AdmissionsPreviewSection() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-14 items-center">
 
           {/* Left: heading + CTA */}
-          <div ref={leftRef} className={`flex flex-col gap-6 anim-hidden anim-fade-right ${leftVisible ? 'anim-visible' : ''}`}>
+          <div className="flex flex-col gap-6 anim-fade-right anim-visible">
             <span className="text-xs uppercase tracking-[0.3em] text-[#C8795A] font-medium">Getting Started</span>
             <h2 className="font-serif text-[#2C3B2E] leading-[1.15]" style={{ fontSize: 'clamp(28px, 4vw, 48px)' }}>
               From first call to<br />
@@ -62,9 +58,9 @@ export default function AdmissionsPreviewSection() {
           </div>
 
           {/* Right: step cards */}
-          <div ref={rightRef} className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             {steps.map((s, i) => (
-              <div key={i} className={`bg-[#FAF8F5] rounded-2xl p-6 flex flex-col gap-4 anim-hidden anim-fade-up anim-delay-${i + 1} ${rightVisible ? 'anim-visible' : ''}`}>
+              <div key={i} className={`bg-[#FAF8F5] rounded-2xl p-6 flex flex-col gap-4 anim-fade-up anim-delay-${i + 1} anim-visible`}>
                 <div className="flex items-center gap-3">
                   <div
                     className="w-9 h-9 flex items-center justify-center rounded-full flex-shrink-0"

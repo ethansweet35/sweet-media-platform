@@ -1,6 +1,4 @@
-'use client';
 import Link from 'next/link';
-import { useInView } from '@/hooks/useInView';
 
 const pillars = [
   {
@@ -42,8 +40,6 @@ const pillars = [
 ];
 
 export default function PillarsSection() {
-  const [headerRef, headerVisible] = useInView<HTMLDivElement>();
-  const [listRef, listVisible] = useInView<HTMLDivElement>();
   return (
     <section className="w-full bg-[#2C3B2E] relative overflow-hidden py-24 px-8 md:px-16">
       {/* Grain texture */}
@@ -58,7 +54,7 @@ export default function PillarsSection() {
       <div className="relative z-10 max-w-7xl mx-auto">
 
         {/* Header — left-aligned, editorial */}
-        <div ref={headerRef} className={`grid grid-cols-1 lg:grid-cols-2 gap-10 items-end mb-20 anim-hidden anim-fade-up ${headerVisible ? 'anim-visible' : ''}`}>
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-end mb-20 anim-fade-up anim-visible">
           <div className="flex flex-col gap-4">
             <span className="text-[11px] uppercase tracking-[0.3em] text-[#DDA15E] font-medium">What Makes Us Different</span>
             <h2
@@ -75,11 +71,11 @@ export default function PillarsSection() {
         </div>
 
         {/* Pillars — horizontal rule list, editorial style */}
-        <div ref={listRef} className="flex flex-col divide-y divide-[#FAF8F5]/10">
+        <div className="flex flex-col divide-y divide-[#FAF8F5]/10">
           {pillars.map((pillar, i) => (
             <div
               key={i}
-              className={`group grid grid-cols-[80px_1fr_1fr] md:grid-cols-[100px_1fr_1.4fr] items-center gap-6 md:gap-12 py-8 cursor-default anim-hidden anim-fade-up anim-delay-${Math.min(i + 1, 6)} ${listVisible ? 'anim-visible' : ''}`}
+              className={`group grid grid-cols-[80px_1fr_1fr] md:grid-cols-[100px_1fr_1.4fr] items-center gap-6 md:gap-12 py-8 cursor-default anim-fade-up anim-delay-${Math.min(i + 1, 6)} anim-visible`}
             >
               {/* Large number */}
               <span

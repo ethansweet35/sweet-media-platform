@@ -22,9 +22,24 @@ export default function Navbar() {
   const isHome = pathname === '/';
 
   useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 40);
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    let frame: number | null = null;
+    const update = () => {
+      const next = window.scrollY > 40;
+      setScrolled((prev) => (prev === next ? prev : next));
+      frame = null;
+    };
+    const handleScroll = () => {
+      if (frame != null) return;
+      frame = window.requestAnimationFrame(update);
+    };
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    update();
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      if (frame != null) {
+        window.cancelAnimationFrame(frame);
+      }
+    };
   }, []);
 
   const navBg = scrolled || !isHome
@@ -81,7 +96,9 @@ export default function Navbar() {
               width={160}
               height={40}
               className={`h-10 w-auto object-contain transition-all duration-500 ${logoFilter}`}
-              priority
+              sizes="160px"
+              loading="lazy"
+              quality={60}
             />
           </Link>
 

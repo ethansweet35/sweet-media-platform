@@ -1,7 +1,5 @@
-'use client';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useInView } from '@/hooks/useInView';
 
 const articles = [
   {
@@ -28,14 +26,12 @@ const articles = [
 ];
 
 export default function ResourcesSection() {
-  const [headerRef, headerVisible] = useInView<HTMLDivElement>();
-  const [cardsRef, cardsVisible] = useInView<HTMLDivElement>();
   return (
     <section className="w-full bg-[#FAF8F5] py-24 px-8 md:px-16">
       <div className="max-w-7xl mx-auto">
 
         {/* Header */}
-        <div ref={headerRef} className={`flex flex-col md:flex-row md:items-end justify-between gap-8 mb-14 anim-hidden anim-fade-up ${headerVisible ? 'anim-visible' : ''}`}>
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-14 anim-fade-up anim-visible">
           <div className="flex flex-col gap-4">
             <span className="text-[11px] uppercase tracking-[0.3em] text-[#DDA15E] font-medium">Resources</span>
             <h2 className="font-serif text-[#2C3B2E] leading-[1.15]" style={{ fontSize: 'clamp(30px, 4vw, 52px)' }}>
@@ -53,12 +49,12 @@ export default function ResourcesSection() {
         </div>
 
         {/* Article Cards */}
-        <div ref={cardsRef} className="grid grid-cols-1 sm:grid-cols-3 gap-7">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-7">
           {articles.map((a, i) => (
             <Link
               key={i}
               href="/resources"
-              className={`group bg-[#F0ECE1] rounded-[2rem_0.75rem_2rem_0.75rem] overflow-hidden flex flex-col cursor-pointer hover:scale-[1.02] transition-transform duration-300 anim-hidden anim-fade-up anim-delay-${i + 1} ${cardsVisible ? 'anim-visible' : ''}`}
+              className={`group bg-[#F0ECE1] rounded-[2rem_0.75rem_2rem_0.75rem] overflow-hidden flex flex-col cursor-pointer hover:scale-[1.02] transition-transform duration-300 anim-fade-up anim-delay-${i + 1} anim-visible`}
             >
               <div className="relative w-full overflow-hidden" style={{ height: '210px' }}>
                 <Image

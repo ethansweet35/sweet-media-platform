@@ -1,9 +1,5 @@
-'use client';
-import type React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useInView } from '@/hooks/useInView';
-import { useParallax } from '@/hooks/useParallax';
 
 const beliefs = [
   { icon: 'ri-women-line', text: 'Women-owned and operated — this work is personal to us.' },
@@ -12,9 +8,6 @@ const beliefs = [
 ];
 
 export default function PhilosophySection() {
-  const [imgRef, imgVisible] = useInView<HTMLDivElement>();
-  const [textRef, textVisible] = useInView<HTMLDivElement>();
-  const imgParallax = useParallax<HTMLDivElement>({ speed: 0.15, maxOffset: 50 });
   return (
     <section className="w-full bg-[#2C3B2E] relative overflow-hidden">
       {/* Grain texture */}
@@ -29,23 +22,24 @@ export default function PhilosophySection() {
       <div className="relative z-10 grid grid-cols-1 lg:grid-cols-2 min-h-[640px]">
 
         {/* Left — full-bleed image panel */}
-        <div ref={imgRef} className={`relative w-full h-72 lg:h-auto overflow-hidden anim-hidden anim-fade-right ${imgVisible ? 'anim-visible' : ''}`}>
-          <div ref={imgParallax} className="absolute inset-0">
-  <Image
-  src="https://papiwmobmdbtzeeebmpr.supabase.co/storage/v1/object/public/site-assets/images/phil003.jpg"
-  alt="Woman in quiet contemplation by a Colorado mountain lake"
-  fill
-  className="w-full h-full object-cover object-center"
-  loading="lazy"
-/>
-</div>
+        <div className="relative w-full h-72 lg:h-auto overflow-hidden anim-fade-right anim-visible">
+          <div className="absolute inset-0">
+            <Image
+              src="https://papiwmobmdbtzeeebmpr.supabase.co/storage/v1/object/public/site-assets/images/phil003.jpg"
+              alt="Woman in quiet contemplation by a Colorado mountain lake"
+              fill
+              className="w-full h-full object-cover object-center"
+              loading="lazy"
+              quality={60}
+            />
+          </div>
           {/* Subtle right-side fade into the dark bg */}
           <div className="absolute inset-0 bg-gradient-to-r from-transparent via-transparent to-[#2C3B2E]/60 hidden lg:block" />
           <div className="absolute inset-0 bg-gradient-to-t from-[#2C3B2E]/50 via-transparent to-transparent lg:hidden" />
         </div>
 
         {/* Right — text content */}
-        <div ref={textRef} className={`flex flex-col justify-center gap-10 px-10 md:px-16 py-20 anim-hidden anim-fade-left ${textVisible ? 'anim-visible' : ''}`}>
+        <div className="flex flex-col justify-center gap-10 px-10 md:px-16 py-20 anim-fade-left anim-visible">
 
           {/* Section label — plain text, no badge */}
           <span className="text-[11px] uppercase tracking-[0.3em] text-[#DDA15E] font-medium">

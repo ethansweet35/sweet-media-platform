@@ -1,6 +1,4 @@
-'use client';
 import Link from 'next/link';
-import { useInView } from '@/hooks/useInView';
 
 const conditions = [
   { name: 'PTSD & Trauma', icon: 'ri-heart-line', color: '#C8795A' },
@@ -13,14 +11,12 @@ const conditions = [
 ];
 
 export default function WhatWeTreatSection() {
-  const [headerRef, headerVisible] = useInView<HTMLDivElement>();
-  const [gridRef, gridVisible] = useInView<HTMLDivElement>();
   return (
     <section className="w-full bg-[#FAF8F5] py-24 px-8 md:px-16">
       <div className="max-w-7xl mx-auto">
 
         {/* Header */}
-        <div ref={headerRef} className={`grid grid-cols-1 lg:grid-cols-2 gap-10 items-end mb-16 anim-hidden anim-fade-up ${headerVisible ? 'anim-visible' : ''}`}>
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-end mb-16 anim-fade-up anim-visible">
           <div className="flex flex-col gap-4">
             <span className="text-[11px] uppercase tracking-[0.3em] text-[#C8795A] font-medium">What We Treat</span>
             <h2 className="font-serif text-[#2C3B2E] leading-[1.15]" style={{ fontSize: 'clamp(30px, 4vw, 52px)' }}>
@@ -44,12 +40,12 @@ export default function WhatWeTreatSection() {
         </div>
 
         {/* Condition Grid */}
-        <div ref={gridRef} className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
           {conditions.map((c, i) => (
             <Link
               key={i}
               href="/what-we-treat"
-              className={`group flex flex-col sm:flex-row items-start sm:items-center gap-3 sm:gap-4 bg-[#F0ECE1] rounded-2xl px-4 py-4 sm:px-5 hover:bg-[#2C3B2E] transition-all duration-300 cursor-pointer overflow-hidden anim-hidden anim-scale anim-delay-${Math.min(i + 1, 6)} ${gridVisible ? 'anim-visible' : ''}`}
+              className={`group flex flex-col sm:flex-row items-start sm:items-center gap-3 sm:gap-4 bg-[#F0ECE1] rounded-2xl px-4 py-4 sm:px-5 hover:bg-[#2C3B2E] transition-all duration-300 cursor-pointer overflow-hidden anim-scale anim-delay-${Math.min(i + 1, 6)} anim-visible`}
             >
               <div
                 className="w-9 h-9 flex items-center justify-center rounded-full flex-shrink-0 transition-all duration-300 group-hover:bg-[#FAF8F5]/10"
