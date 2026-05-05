@@ -1,4 +1,5 @@
 import HeroSection from './components/HeroSection';
+import HeroContactForm from './components/HeroContactForm';
 import StatsSection from './components/StatsSection';
 import PhilosophySection from './components/PhilosophySection';
 import WhatWeTreatSection from './components/WhatWeTreatSection';
@@ -16,6 +17,12 @@ export default function HomePage() {
   return (
     <main>
       <HeroSection />
+
+      {/* Mobile-only: contact form pulled out of hero so it doesn't stretch hero height */}
+      <div className="md:hidden bg-[#2C3B2E] px-6 py-10">
+        <HeroContactForm />
+      </div>
+
       <StatsSection />
       <PhilosophySection />
       <WhatWeTreatSection />

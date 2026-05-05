@@ -107,8 +107,10 @@ export default function HeroSection() {
             </div>
           </div>
 
-          {/* Right — contact form */}
-          <HeroContactForm />
+          {/* Right — contact form (desktop only; mobile shows below hero) */}
+          <div className="hidden md:block">
+            <HeroContactForm />
+          </div>
 
         </div>
       </div>
