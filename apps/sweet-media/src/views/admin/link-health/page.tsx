@@ -262,9 +262,11 @@ export default function LinkHealthPage() {
       total: scanResults.length,
       checked: checked.length,
       ok: checked.filter(r => r.status === "ok").length,
+      // Broken: all (internal + external broken links are worth knowing about)
       broken: checked.filter(r => r.status === "broken" || r.status === "error").length,
-      redirect: checked.filter(r => r.status === "redirect").length,
-      chain: checked.filter(r => r.status === "redirect-chain").length,
+      // Redirects/chains: internal only — external redirects are uncontrollable noise
+      redirect: checked.filter(r => r.status === "redirect" && r.type === "internal").length,
+      chain: checked.filter(r => r.status === "redirect-chain" && r.type === "internal").length,
       internal: checked.filter(r => r.type === "internal").length,
       external: checked.filter(r => r.type === "external").length,
     };
@@ -273,8 +275,9 @@ export default function LinkHealthPage() {
   const filteredScanResults = useMemo(() => {
     if (scanFilter === "all") return scanResults;
     if (scanFilter === "broken") return scanResults.filter(r => r.status === "broken" || r.status === "error");
-    if (scanFilter === "redirect") return scanResults.filter(r => r.status === "redirect");
-    if (scanFilter === "redirect-chain") return scanResults.filter(r => r.status === "redirect-chain");
+    // Redirects and chains: internal only
+    if (scanFilter === "redirect") return scanResults.filter(r => r.status === "redirect" && r.type === "internal");
+    if (scanFilter === "redirect-chain") return scanResults.filter(r => r.status === "redirect-chain" && r.type === "internal");
     if (scanFilter === "ok") return scanResults.filter(r => r.status === "ok");
     return scanResults;
   }, [scanResults, scanFilter]);
