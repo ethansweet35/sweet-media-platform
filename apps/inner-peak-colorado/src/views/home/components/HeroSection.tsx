@@ -6,22 +6,35 @@ import HeroContactForm from './HeroContactForm';
 export default function HeroSection() {
   return (
     <section className="relative w-full min-h-screen flex items-center overflow-hidden">
-      {/* Background Image */}
+      {/* Background — image always rendered (mobile fallback + while video loads) */}
       <div className="absolute inset-0">
-        <div className="absolute inset-0">
-          <Image
-            src="https://papiwmobmdbtzeeebmpr.supabase.co/storage/v1/object/public/site-assets/images/hero002.jpg"
-            alt="Inner Peak Colorado hero"
-            fill
-            className="w-full h-full object-cover object-center"
-            priority
-            fetchPriority="high"
-            sizes="100vw"
-            quality={35}
-          />
-        </div>
-        <div className="absolute inset-0 bg-gradient-to-r from-[#2C3B2E]/95 via-[#2C3B2E]/80 to-[#2C3B2E]/65"></div>
-        <div className="absolute inset-0 bg-gradient-to-b from-[#2C3B2E]/40 via-transparent to-[#2C3B2E]/30"></div>
+        <Image
+          src="https://papiwmobmdbtzeeebmpr.supabase.co/storage/v1/object/public/site-assets/images/hero002.jpg"
+          alt="Inner Peak Colorado hero"
+          fill
+          className="w-full h-full object-cover object-center"
+          priority
+          fetchPriority="high"
+          sizes="100vw"
+          quality={35}
+        />
+
+        {/* Video — desktop only, layered over image so image shows while video loads */}
+        <video
+          autoPlay
+          muted
+          loop
+          playsInline
+          preload="none"
+          className="absolute inset-0 w-full h-full object-cover object-center hidden md:block"
+        >
+          <source src="https://papiwmobmdbtzeeebmpr.supabase.co/storage/v1/object/public/site-assets/images/grok-video-583279ae-196f-4af0-a283-83017649a759%20(1).webm" type="video/webm" />
+          <source src="https://papiwmobmdbtzeeebmpr.supabase.co/storage/v1/object/public/site-assets/images/grok-video-583279ae-196f-4af0-a283-83017649a759%20(1).mp4" type="video/mp4" />
+        </video>
+
+        {/* Overlays — lightened so video content is more visible */}
+        <div className="absolute inset-0 bg-gradient-to-r from-[#2C3B2E]/85 via-[#2C3B2E]/60 to-[#2C3B2E]/30"></div>
+        <div className="absolute inset-0 bg-gradient-to-b from-[#2C3B2E]/25 via-transparent to-[#2C3B2E]/20"></div>
       </div>
 
       {/* Content */}
