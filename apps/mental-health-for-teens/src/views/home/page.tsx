@@ -3,119 +3,199 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useState } from 'react';
 
-const DARK = '#1C3A5C';
-const WARM = '#C47F6A';
-const COOL = '#6B9EB5';
-const SAGE = '#87A892';
-const SURFACE = '#EAE4D6';
+/* ── Brand tokens ── */
+const DARK  = '#1C3A5C';
+const WARM  = '#C47F6A';
+const COOL  = '#6B9EB5';
+const SAGE  = '#87A892';
+const SAND  = '#EAE4D6';
+const BG    = '#F5F1EB';
 const MUTED = '#5C7A8E';
 
-const trustPills = [
-  { icon: 'ri-user-heart-line', label: 'Ages 12–17' },
-  { icon: 'ri-wifi-line', label: 'Fully Virtual' },
-  { icon: 'ri-shield-check-line', label: 'Insurance Accepted' },
-  { icon: 'ri-map-pin-2-line', label: 'All of California' },
-  { icon: 'ri-microscope-line', label: 'Evidence-Based Care' },
-  { icon: 'ri-heart-pulse-line', label: 'Virtual IOP & OP' },
-];
-
-const stats = [
-  { value: '9+', label: 'Hours of support per week in IOP' },
-  { value: '5', label: 'Therapy modalities used simultaneously' },
-  { value: '72hrs', label: 'Average time from call to first session' },
+/* ── Data ── */
+const marqueeItems = [
+  { icon: 'ri-user-heart-line',    label: 'Ages 12–17' },
+  { icon: 'ri-wifi-line',          label: 'Fully Virtual' },
+  { icon: 'ri-shield-check-line',  label: 'Insurance Accepted' },
+  { icon: 'ri-map-pin-2-line',     label: 'All of California' },
+  { icon: 'ri-microscope-line',    label: 'Evidence-Based' },
+  { icon: 'ri-heart-pulse-line',   label: 'Virtual IOP & OP' },
+  { icon: 'ri-time-line',          label: 'Start Within 72 Hours' },
+  { icon: 'ri-group-line',         label: 'Family-Inclusive' },
 ];
 
 const programs = [
   {
-    tag: 'Most Intensive',
-    tagColor: WARM,
-    name: 'Virtual Intensive Outpatient',
     abbr: 'Virtual IOP',
+    name: 'Intensive Outpatient Program',
+    tagColor: WARM,
     icon: 'ri-mental-health-line',
-    desc: 'For teens who need more than weekly therapy — without the disruption of residential treatment. Multiple sessions per week combining individual, group, and family therapy.',
-    details: ['3–5 days per week', 'Group + individual + family therapy', 'CBT, DBT, EMDR & more', 'Peer connection with other teens'],
+    intensity: 'Most Intensive',
+    desc: 'For teens who need more than weekly therapy — without disrupting school or home life. Multiple sessions per week combining individual, group, and family modalities.',
+    specs: [
+      { icon: 'ri-calendar-2-line', text: '3–5 days per week' },
+      { icon: 'ri-group-line',      text: 'Peer group + individual + family' },
+      { icon: 'ri-brain-line',      text: 'CBT, DBT, EMDR & somatic' },
+      { icon: 'ri-home-heart-line', text: 'From home, on their schedule' },
+    ],
     href: '/levels-of-care',
   },
   {
-    tag: 'Flexible Support',
-    tagColor: COOL,
-    name: 'Virtual Outpatient',
     abbr: 'Virtual OP',
+    name: 'Outpatient Program',
+    tagColor: COOL,
     icon: 'ri-calendar-check-line',
-    desc: 'Ongoing, flexible care for teens stepping down from IOP or who need structured support beyond a weekly therapy appointment.',
-    details: ['1–2 sessions per week', 'Individual & family therapy', 'Continued skill building', 'Smooth transition from IOP'],
+    intensity: 'Flexible Support',
+    desc: 'Ongoing, structured care for teens stepping down from IOP or who need more than a standard weekly appointment.',
+    specs: [
+      { icon: 'ri-calendar-2-line', text: '1–2 sessions per week' },
+      { icon: 'ri-user-line',       text: 'Individual & family therapy' },
+      { icon: 'ri-arrow-down-line', text: 'Smooth step-down from IOP' },
+      { icon: 'ri-refresh-line',    text: 'Continuous skill development' },
+    ],
     href: '/levels-of-care',
   },
 ];
 
 const signs = [
-  'Withdrawing from friends and family',
+  'Withdrawal from friends and family',
   'Declining grades or school refusal',
-  'Persistent sadness, irritability, or anger',
-  'Sleep problems or constant exhaustion',
-  'Anxiety that interferes with daily life',
-  'Self-critical thoughts or low self-worth',
-  'Risky behaviors or emotional outbursts',
+  'Persistent sadness, irritability, or rage',
+  'Sleep problems or chronic exhaustion',
+  'Anxiety that disrupts daily life',
+  'Self-critical or hopeless thinking',
+  'Risky behaviors or emotional volatility',
   'Trauma responses or dissociation',
 ];
 
 const steps = [
-  {
-    num: '01',
-    title: 'Reach out — no commitment needed',
-    desc: 'A quick call or message is all it takes. Our intake team will listen to what your teen is going through and answer your questions honestly — no pressure, no obligation.',
-  },
-  {
-    num: '02',
-    title: 'Free clinical assessment',
-    desc: 'A licensed clinician speaks with you and your teen to understand the full picture — what they\'re struggling with, what\'s been tried before, and what level of care will actually help.',
-  },
-  {
-    num: '03',
-    title: 'Start care — usually within days',
-    desc: 'Once we\'ve built a personalized plan together, your teen starts their program. Most families go from first call to first session within 24–72 hours.',
-  },
+  { n: '01', title: 'Reach out', body: 'A call or quick message. No commitment. Our intake team listens without judgment and helps you understand what your teen needs.' },
+  { n: '02', title: 'Assessment', body: 'A licensed clinician speaks with you and your teen to build the full picture and determine the right level of care.' },
+  { n: '03', title: 'Begin care', body: 'A personalized treatment plan is built together. Most families go from first call to first session within 24–72 hours.' },
 ];
 
 const conditions = [
-  { label: 'Anxiety & Panic', icon: 'ri-mental-health-line' },
-  { label: 'Depression', icon: 'ri-cloud-line' },
-  { label: 'Trauma & PTSD', icon: 'ri-shield-cross-line' },
-  { label: 'OCD', icon: 'ri-loop-right-line' },
-  { label: 'ADHD & ADD', icon: 'ri-focus-3-line' },
-  { label: 'Eating Disorders', icon: 'ri-heart-line' },
-  { label: 'Bipolar Disorder', icon: 'ri-pulse-line' },
-  { label: 'Schizoaffective', icon: 'ri-brain-line' },
-  { label: 'Insomnia', icon: 'ri-moon-line' },
+  { label: 'Anxiety & Panic',    color: COOL },
+  { label: 'Depression',         color: WARM },
+  { label: 'Trauma & PTSD',      color: SAGE },
+  { label: 'OCD',                color: COOL },
+  { label: 'ADHD & ADD',         color: WARM },
+  { label: 'Eating Disorders',   color: SAGE },
+  { label: 'Bipolar Disorder',   color: COOL },
+  { label: 'Schizoaffective',    color: WARM },
+  { label: 'Insomnia',           color: SAGE },
 ];
 
 const testimonials = [
   {
-    quote: 'After months of watching our daughter struggle, we finally feel like we found something that actually works. The team genuinely cares — not just about her symptoms, but about her as a person.',
+    quote: 'After months of watching our daughter struggle, we finally found something that actually works. The team cares about her as a person — not just her diagnosis.',
     name: 'Jennifer M.',
-    detail: 'Parent of a 15-year-old',
+    role: 'Parent of a 15-year-old',
   },
   {
-    quote: 'We tried two different therapists before this. The difference with an IOP is that there\'s real structure and real momentum. My son made more progress in 6 weeks than in the prior year.',
+    quote: 'We tried two different therapists before this. The difference with an IOP is real structure and real momentum. My son made more progress in 6 weeks than in an entire year.',
     name: 'David R.',
-    detail: 'Parent of a 16-year-old',
+    role: 'Parent of a 16-year-old',
   },
   {
-    quote: 'I was skeptical about virtual care at first. Now I see it was actually an advantage — my daughter could practice everything she was learning in the same environment she lives in every day.',
+    quote: 'I was skeptical about virtual care. Now I see it was actually an advantage — my daughter practiced everything she was learning in the same environment where she actually lives.',
     name: 'Sandra K.',
-    detail: 'Parent of a 14-year-old',
+    role: 'Parent of a 14-year-old',
   },
 ];
 
 export default function HomePage() {
-  const [activeTestimonial, setActiveTestimonial] = useState(0);
+  const [activeT, setActiveT] = useState(0);
+  const doubled = [...marqueeItems, ...marqueeItems];
 
   return (
-    <main style={{ background: '#F5F1EB' }}>
+    <main style={{ background: BG }}>
 
-      {/* ── HERO ── */}
-      <section className="relative w-full min-h-[680px] md:min-h-[760px] flex items-end overflow-hidden">
-        <div className="absolute inset-0">
+      {/* ────────────────────────────────────────────────
+          HERO — editorial split: content left / image right
+      ──────────────────────────────────────────────── */}
+      <section
+        className="w-full min-h-screen grid grid-cols-1 lg:grid-cols-[1fr_1.15fr] overflow-hidden"
+        style={{ background: BG }}
+      >
+        {/* Left: content */}
+        <div className="flex flex-col justify-center gap-8 px-8 md:px-14 lg:px-20 pt-40 pb-16 lg:py-0">
+          {/* Badge */}
+          <div
+            className="self-start flex items-center gap-2.5 px-4 py-2 rounded-full text-[11px] font-medium uppercase tracking-widest"
+            style={{ background: `${COOL}18`, color: COOL }}
+          >
+            <span className="w-1.5 h-1.5 rounded-full flex-shrink-0" style={{ background: COOL }}></span>
+            Accepting New Clients · San Diego, CA
+          </div>
+
+          {/* Headline */}
+          <div className="flex flex-col gap-1">
+            <h1
+              className="leading-[1.05] tracking-tight"
+              style={{ fontSize: 'clamp(40px, 5.5vw, 72px)', fontFamily: 'var(--font-playfair), Georgia, serif', color: DARK }}
+            >
+              Your teen deserves<br />
+              more than a<br />
+            </h1>
+            <h1
+              className="leading-[1.05] tracking-tight"
+              style={{ fontSize: 'clamp(40px, 5.5vw, 72px)', fontFamily: 'var(--font-playfair), Georgia, serif', color: WARM, fontStyle: 'italic' }}
+            >
+              weekly session.
+            </h1>
+          </div>
+
+          <p className="text-base font-light leading-[1.9] max-w-md" style={{ color: MUTED }}>
+            Mental Health For Teens offers virtual intensive outpatient care — a clinically proven
+            alternative to traditional therapy that provides the structure and depth adolescents
+            actually need to heal.
+          </p>
+
+          <div className="flex flex-wrap gap-3">
+            <Link
+              href="/contact"
+              className="whitespace-nowrap cursor-pointer inline-flex items-center gap-2 px-7 py-3.5 rounded-full text-[11px] uppercase tracking-widest font-semibold text-white transition-all duration-300"
+              style={{ background: DARK }}
+              onMouseEnter={e => (e.currentTarget.style.background = WARM)}
+              onMouseLeave={e => (e.currentTarget.style.background = DARK)}
+            >
+              Start the Conversation
+              <i className="ri-arrow-right-line"></i>
+            </Link>
+            <Link
+              href="/levels-of-care"
+              className="whitespace-nowrap cursor-pointer inline-flex items-center gap-2 px-7 py-3.5 rounded-full text-[11px] uppercase tracking-widest font-medium border transition-all duration-300"
+              style={{ borderColor: `${DARK}30`, color: DARK }}
+              onMouseEnter={e => {
+                (e.currentTarget as HTMLElement).style.background = DARK;
+                (e.currentTarget as HTMLElement).style.color = '#F5F1EB';
+              }}
+              onMouseLeave={e => {
+                (e.currentTarget as HTMLElement).style.background = 'transparent';
+                (e.currentTarget as HTMLElement).style.color = DARK;
+              }}
+            >
+              How It Works
+            </Link>
+          </div>
+
+          {/* Quick stats row */}
+          <div className="flex gap-8 pt-2 border-t" style={{ borderColor: `${DARK}12` }}>
+            {[['72 hrs', 'to first session'], ['Ages', '12–17'], ['All of', 'California']].map(([top, bot], i) => (
+              <div key={i} className="flex flex-col gap-0.5">
+                <span className="font-serif font-bold text-lg" style={{ fontFamily: 'var(--font-playfair), Georgia, serif', color: DARK }}>{top}</span>
+                <span className="text-xs font-light" style={{ color: MUTED }}>{bot}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Right: image — contained, artistic crop */}
+        <div
+          className="relative h-72 lg:h-auto overflow-hidden"
+          style={{ borderRadius: '0 0 0 5rem' }}
+        >
           <Image
             src="https://papiwmobmdbtzeeebmpr.supabase.co/storage/v1/object/public/site-assets/images/mhft_home_hero01.jpg"
             alt="Teen and mother overlooking the San Diego coast"
@@ -123,261 +203,210 @@ export default function HomePage() {
             className="w-full h-full object-cover object-center"
             priority
           />
-          <div className="absolute inset-0 bg-gradient-to-r from-[#1C3A5C]/90 via-[#1C3A5C]/55 to-[#1C3A5C]/10" />
-          <div className="absolute inset-0 bg-gradient-to-t from-[#1C3A5C]/60 via-transparent to-transparent" />
+          {/* Subtle left-edge blend into bg */}
+          <div
+            className="absolute inset-0 hidden lg:block"
+            style={{ background: `linear-gradient(to right, ${BG} 0%, transparent 12%)` }}
+          />
         </div>
+      </section>
 
-        <div className="relative z-10 w-full max-w-7xl mx-auto px-8 md:px-16 pb-20 pt-44">
-          <div className="max-w-2xl flex flex-col gap-7">
-            <div className="flex items-center gap-3">
-              <div className="w-6 h-px" style={{ background: COOL }}></div>
-              <span className="text-[11px] uppercase tracking-[0.3em] font-medium" style={{ color: COOL }}>
-                Virtual Mental Health Care · San Diego, CA
+      {/* ────────────────────────────────────────────────
+          MARQUEE — scrolling trust strip
+      ──────────────────────────────────────────────── */}
+      <div style={{ background: DARK, overflow: 'hidden' }}>
+        <div className="flex items-center py-4 marquee-track" style={{ width: 'max-content' }}>
+          {doubled.map((item, i) => (
+            <div key={i} className="flex items-center gap-3 px-8 flex-shrink-0">
+              <i className={`${item.icon} text-sm`} style={{ color: COOL }}></i>
+              <span className="text-[11px] uppercase tracking-widest font-medium whitespace-nowrap" style={{ color: 'rgba(245,241,235,0.65)' }}>
+                {item.label}
               </span>
+              <span className="text-xs" style={{ color: 'rgba(245,241,235,0.2)' }}>·</span>
             </div>
-            <h1
-              className="text-[#F5F1EB] leading-[1.08]"
-              style={{ fontSize: 'clamp(38px, 5.5vw, 68px)', fontFamily: 'var(--font-playfair), Georgia, serif' }}
-            >
-              Your teen deserves<br />
-              more than a<br />
-              <em style={{ color: '#C47F6A' }}>weekly session.</em>
-            </h1>
-            <p className="text-[#F5F1EB]/72 font-light text-base md:text-lg leading-[1.9] max-w-lg">
-              Mental Health For Teens offers virtual intensive outpatient care for adolescents — a clinically proven alternative to traditional therapy that provides real structure, real support, and real results.
-            </p>
-            <div className="flex flex-wrap gap-4 pt-1">
-              <Link
-                href="/contact"
-                className="whitespace-nowrap cursor-pointer inline-flex items-center gap-2 px-8 py-4 rounded-full text-xs uppercase tracking-widest font-medium transition-all duration-300"
-                style={{ background: WARM, color: '#F5F1EB' }}
-                onMouseEnter={e => (e.currentTarget.style.background = DARK)}
-                onMouseLeave={e => (e.currentTarget.style.background = WARM)}
-              >
-                Start the Conversation
-                <i className="ri-arrow-right-line"></i>
-              </Link>
-              <Link
-                href="/levels-of-care"
-                className="whitespace-nowrap cursor-pointer inline-flex items-center gap-2 px-8 py-4 rounded-full text-xs uppercase tracking-widest font-medium border border-[#F5F1EB]/35 text-[#F5F1EB] hover:border-[#F5F1EB] transition-all duration-300"
-              >
-                How It Works
-                <i className="ri-arrow-right-line"></i>
-              </Link>
-            </div>
-          </div>
+          ))}
+        </div>
+      </div>
+
+      {/* ────────────────────────────────────────────────
+          BOLD STATEMENT — coral background
+      ──────────────────────────────────────────────── */}
+      <section className="w-full py-28 px-8 md:px-16 text-center" style={{ background: WARM }}>
+        <div className="max-w-4xl mx-auto flex flex-col gap-7 items-center">
+          <i className="ri-double-quotes-l text-5xl" style={{ color: 'rgba(245,241,235,0.3)' }}></i>
+          <p
+            className="font-serif italic leading-[1.35] text-white"
+            style={{ fontSize: 'clamp(26px, 4vw, 52px)', fontFamily: 'var(--font-playfair), Georgia, serif' }}
+          >
+            Traditional weekly therapy has its place. For teens who are truly struggling, it is rarely enough.
+          </p>
+          <div className="w-12 h-px" style={{ background: 'rgba(245,241,235,0.4)' }}></div>
+          <p className="text-base font-light leading-relaxed max-w-xl" style={{ color: 'rgba(245,241,235,0.8)' }}>
+            Our intensive programs provide the clinical depth, peer connection, and structured support
+            that actually creates lasting change — without residential treatment or disrupting school.
+          </p>
+          <Link
+            href="/about"
+            className="inline-flex items-center gap-2 text-[11px] uppercase tracking-widest font-semibold transition-all duration-300 cursor-pointer"
+            style={{ color: 'rgba(245,241,235,0.9)' }}
+          >
+            Our Mission
+            <i className="ri-arrow-right-line"></i>
+          </Link>
         </div>
       </section>
 
-      {/* ── TRUST PILLS ── */}
-      <section style={{ background: DARK }}>
-        <div className="max-w-7xl mx-auto px-8 md:px-16 py-5">
-          <div className="flex flex-wrap items-center gap-x-8 gap-y-3">
-            {trustPills.map((p, i) => (
-              <div key={i} className="flex items-center gap-2.5">
-                <i className={`${p.icon} text-sm`} style={{ color: COOL }}></i>
-                <span className="text-[11px] uppercase tracking-widest font-medium text-[#F5F1EB]/65">{p.label}</span>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ── MISSION / INTRO ── */}
-      <section className="w-full py-24 px-8 md:px-16" style={{ background: '#F5F1EB' }}>
-        <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-          <div className="flex flex-col gap-7">
-            <span className="text-[11px] uppercase tracking-[0.3em] font-medium" style={{ color: WARM }}>Our Approach</span>
-            <h2
-              className="leading-[1.12]"
-              style={{ fontSize: 'clamp(30px, 4vw, 52px)', fontFamily: 'var(--font-playfair), Georgia, serif', color: DARK }}
-            >
-              A fundamentally<br />
-              different approach<br />
-              <em style={{ color: WARM }}>to teen mental health.</em>
-            </h2>
-            <p className="font-light text-base leading-[1.95]" style={{ color: MUTED }}>
-              Traditional weekly therapy has its place. But for teens struggling with anxiety, depression, trauma, or more complex challenges, one session a week often isn't enough to create lasting change. Our intensive programs provide the clinical depth, peer community, and structured support that actually moves the needle.
-            </p>
-            <p className="font-light text-base leading-[1.95]" style={{ color: MUTED }}>
-              We built Mental Health For Teens because adolescent mental health demands a specialized approach — one that takes teens seriously, includes families in the process, and delivers results that hold beyond the end of the program.
-            </p>
+      {/* ────────────────────────────────────────────────
+          PROGRAMS — two cards with embedded visual
+      ──────────────────────────────────────────────── */}
+      <section className="w-full py-24 px-8 md:px-16" style={{ background: BG }}>
+        <div className="max-w-7xl mx-auto">
+          <div className="flex flex-col sm:flex-row items-end justify-between gap-4 mb-12">
+            <div className="flex flex-col gap-2">
+              <p className="text-[11px] uppercase tracking-[0.3em] font-medium" style={{ color: COOL }}>Levels of Care</p>
+              <h2
+                className="leading-[1.1]"
+                style={{ fontSize: 'clamp(28px, 4vw, 48px)', fontFamily: 'var(--font-playfair), Georgia, serif', color: DARK }}
+              >
+                The right level of support<br />for where your teen is.
+              </h2>
+            </div>
             <Link
-              href="/about"
-              className="self-start inline-flex items-center gap-2 text-xs uppercase tracking-widest font-medium transition-colors duration-300 cursor-pointer"
-              style={{ color: COOL }}
+              href="/levels-of-care"
+              className="whitespace-nowrap flex-shrink-0 cursor-pointer inline-flex items-center gap-2 text-[11px] uppercase tracking-widest font-medium transition-colors duration-300"
+              style={{ color: MUTED }}
+              onMouseEnter={e => (e.currentTarget.style.color = DARK)}
+              onMouseLeave={e => (e.currentTarget.style.color = MUTED)}
             >
-              Our Story & Mission
+              Compare programs
               <i className="ri-arrow-right-line"></i>
             </Link>
           </div>
 
-          <div className="grid grid-cols-1 gap-4">
-            {stats.map((s, i) => (
-              <div
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
+            {programs.map((prog, i) => (
+              <Link
                 key={i}
-                className="flex items-center gap-6 rounded-[1.5rem_0.5rem_1.5rem_0.5rem] p-7"
-                style={{ background: i === 1 ? DARK : SURFACE }}
+                href={prog.href}
+                className="group flex flex-col gap-0 rounded-3xl overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:shadow-xl cursor-pointer"
+                style={{ background: SAND }}
               >
-                <span
-                  className="font-serif font-bold flex-shrink-0"
-                  style={{
-                    fontSize: 'clamp(36px, 4vw, 52px)',
-                    fontFamily: 'var(--font-playfair), Georgia, serif',
-                    color: i === 1 ? COOL : WARM,
-                  }}
-                >
-                  {s.value}
-                </span>
-                <p
-                  className="font-light text-sm leading-snug"
-                  style={{ color: i === 1 ? '#F5F1EB/70' : MUTED }}
-                >
-                  <span style={{ color: i === 1 ? 'rgba(245,241,235,0.7)' : MUTED }}>{s.label}</span>
-                </p>
-              </div>
+                {/* Card top bar */}
+                <div className="flex items-center justify-between px-8 py-5" style={{ background: prog.tagColor }}>
+                  <div className="flex items-center gap-3">
+                    <i className={`${prog.icon} text-xl text-white`}></i>
+                    <div>
+                      <p className="text-[10px] uppercase tracking-widest font-medium text-white/70">{prog.intensity}</p>
+                      <p className="text-sm font-semibold text-white">{prog.abbr}</p>
+                    </div>
+                  </div>
+                  <i className="ri-arrow-right-up-line text-white/60 text-lg transition-transform duration-300 group-hover:translate-x-1 group-hover:-translate-y-1"></i>
+                </div>
+
+                {/* Card body */}
+                <div className="flex flex-col gap-6 p-8">
+                  <div>
+                    <h3
+                      className="text-xl mb-3"
+                      style={{ fontFamily: 'var(--font-playfair), Georgia, serif', color: DARK }}
+                    >
+                      {prog.name}
+                    </h3>
+                    <p className="text-sm font-light leading-[1.85]" style={{ color: MUTED }}>{prog.desc}</p>
+                  </div>
+                  <div className="grid grid-cols-1 gap-3">
+                    {prog.specs.map((s, j) => (
+                      <div key={j} className="flex items-center gap-3">
+                        <div className="w-7 h-7 rounded-full flex items-center justify-center flex-shrink-0" style={{ background: `${prog.tagColor}18` }}>
+                          <i className={`${s.icon} text-xs`} style={{ color: prog.tagColor }}></i>
+                        </div>
+                        <span className="text-sm font-light" style={{ color: MUTED }}>{s.text}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </Link>
             ))}
           </div>
-        </div>
-      </section>
 
-      {/* ── PROGRAMS ── */}
-      <section className="w-full py-24 px-8 md:px-16" style={{ background: SURFACE }}>
-        <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-14 flex flex-col gap-3">
-            <span className="text-[11px] uppercase tracking-[0.3em] font-medium" style={{ color: COOL }}>Levels of Care</span>
-            <h2
-              style={{ fontSize: 'clamp(28px, 4vw, 48px)', fontFamily: 'var(--font-playfair), Georgia, serif', color: DARK }}
-            >
-              The right level of support<br />
-              <em style={{ color: WARM }}>for where your teen is.</em>
-            </h2>
-          </div>
-
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            {programs.map((prog, i) => (
-              <div
-                key={i}
-                className="group relative flex flex-col gap-6 rounded-[2rem_0.75rem_2rem_0.75rem] p-9 overflow-hidden transition-all duration-300 hover:-translate-y-1"
-                style={{ background: '#F5F1EB' }}
-              >
-                <div className="flex items-start justify-between gap-4">
-                  <div
-                    className="w-12 h-12 flex items-center justify-center rounded-full flex-shrink-0"
-                    style={{ background: `${prog.tagColor}18` }}
-                  >
-                    <i className={`${prog.icon} text-lg`} style={{ color: prog.tagColor }}></i>
-                  </div>
-                  <span
-                    className="text-[10px] uppercase tracking-widest font-medium px-3 py-1.5 rounded-full flex-shrink-0"
-                    style={{ background: `${prog.tagColor}15`, color: prog.tagColor }}
-                  >
-                    {prog.tag}
-                  </span>
-                </div>
-
-                <div className="flex flex-col gap-2">
-                  <p className="text-[11px] uppercase tracking-widest font-medium" style={{ color: prog.tagColor }}>{prog.abbr}</p>
-                  <h3
-                    className="leading-snug"
-                    style={{ fontSize: 'clamp(20px, 2.5vw, 26px)', fontFamily: 'var(--font-playfair), Georgia, serif', color: DARK }}
-                  >
-                    {prog.name}
-                  </h3>
-                </div>
-
-                <p className="font-light text-sm leading-[1.85]" style={{ color: MUTED }}>{prog.desc}</p>
-
-                <div className="grid grid-cols-1 gap-2.5">
-                  {prog.details.map((d, j) => (
-                    <div key={j} className="flex items-center gap-3">
-                      <i className="ri-check-line text-xs" style={{ color: SAGE }}></i>
-                      <span className="text-sm font-light" style={{ color: MUTED }}>{d}</span>
-                    </div>
-                  ))}
-                </div>
-
+          {/* Programs image bar */}
+          <div className="mt-5 relative rounded-3xl overflow-hidden h-64">
+            <Image
+              src="https://papiwmobmdbtzeeebmpr.supabase.co/storage/v1/object/public/site-assets/images/mhft_home_programs01.jpg"
+              alt="Teen in a virtual therapy session at home"
+              fill
+              className="w-full h-full object-cover object-center"
+            />
+            <div className="absolute inset-0" style={{ background: `linear-gradient(to right, ${DARK}80 0%, transparent 55%)` }} />
+            <div className="absolute inset-0 flex items-center px-10">
+              <div className="max-w-sm flex flex-col gap-4">
+                <p className="text-white font-light text-base leading-relaxed">
+                  Insurance accepted — we verify your teen's benefits before you make any commitment.
+                </p>
                 <Link
-                  href={prog.href}
-                  className="self-start inline-flex items-center gap-2 text-xs uppercase tracking-widest font-medium transition-colors duration-300 cursor-pointer group-hover:gap-3"
-                  style={{ color: prog.tagColor }}
+                  href="/admissions"
+                  className="self-start inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-[11px] uppercase tracking-widest font-semibold transition-all duration-300 cursor-pointer text-white"
+                  style={{ background: 'rgba(245,241,235,0.15)', backdropFilter: 'blur(8px)', border: '1px solid rgba(245,241,235,0.25)' }}
+                  onMouseEnter={e => (e.currentTarget.style.background = WARM)}
+                  onMouseLeave={e => (e.currentTarget.style.background = 'rgba(245,241,235,0.15)')}
                 >
-                  Learn More
+                  Verify Insurance
                   <i className="ri-arrow-right-line"></i>
                 </Link>
-              </div>
-            ))}
-          </div>
-
-          <div className="mt-6 rounded-[0.75rem_2rem_0.75rem_2rem] overflow-hidden">
-            <div className="relative h-72 md:h-80">
-              <Image
-                src="https://papiwmobmdbtzeeebmpr.supabase.co/storage/v1/object/public/site-assets/images/mhft_home_programs01.jpg"
-                alt="Teen in a virtual therapy session"
-                fill
-                className="w-full h-full object-cover object-center"
-              />
-              <div className="absolute inset-0" style={{ background: 'linear-gradient(to right, rgba(28,58,92,0.75) 0%, rgba(28,58,92,0.2) 60%, transparent 100%)' }} />
-              <div className="absolute inset-0 flex items-center px-10 md:px-14">
-                <div className="max-w-md flex flex-col gap-4">
-                  <p
-                    className="text-[#F5F1EB] font-serif italic leading-[1.4]"
-                    style={{ fontSize: 'clamp(20px, 2.5vw, 28px)', fontFamily: 'var(--font-playfair), Georgia, serif' }}
-                  >
-                    "Care that fits into your teen's life — not the other way around."
-                  </p>
-                  <Link
-                    href="/admissions"
-                    className="self-start inline-flex items-center gap-2 px-6 py-3 rounded-full text-[11px] uppercase tracking-widest font-medium transition-all duration-300 cursor-pointer"
-                    style={{ background: WARM, color: '#F5F1EB' }}
-                  >
-                    Check Insurance
-                    <i className="ri-arrow-right-line text-xs"></i>
-                  </Link>
-                </div>
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* ── WHO WE HELP ── */}
-      <section className="w-full py-24 px-8 md:px-16" style={{ background: '#F5F1EB' }}>
-        <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-          <div className="flex flex-col gap-7">
-            <span className="text-[11px] uppercase tracking-[0.3em] font-medium" style={{ color: COOL }}>For Families</span>
-            <h2
-              className="leading-[1.12]"
-              style={{ fontSize: 'clamp(28px, 3.8vw, 48px)', fontFamily: 'var(--font-playfair), Georgia, serif', color: DARK }}
-            >
-              Is your teen struggling<br />
-              <em style={{ color: WARM }}>to get through the day?</em>
-            </h2>
-            <p className="font-light text-base leading-[1.95]" style={{ color: MUTED }}>
-              As a parent, watching your teen struggle is one of the hardest things you'll face. If you've tried weekly therapy and aren't seeing enough progress — or if things feel too urgent to wait — you're not alone, and there are better options available.
-            </p>
+      {/* ────────────────────────────────────────────────
+          WHO WE HELP — signs + image
+      ──────────────────────────────────────────────── */}
+      <section className="w-full py-24 px-8 md:px-16" style={{ background: SAND }}>
+        <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
+          <div className="flex flex-col gap-8">
+            <div className="flex flex-col gap-3">
+              <p className="text-[11px] uppercase tracking-[0.3em] font-medium" style={{ color: COOL }}>For Parents</p>
+              <h2
+                className="leading-[1.1]"
+                style={{ fontSize: 'clamp(28px, 3.8vw, 46px)', fontFamily: 'var(--font-playfair), Georgia, serif', color: DARK }}
+              >
+                Is your teen struggling<br />to get through the day?
+              </h2>
+              <p className="text-base font-light leading-[1.9]" style={{ color: MUTED }}>
+                If you've tried weekly therapy and aren't seeing enough progress — or if things feel too urgent to wait — you're not alone.
+              </p>
+            </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            {/* Signs as numbered rows */}
+            <div className="flex flex-col">
               {signs.map((sign, i) => (
-                <div key={i} className="flex items-start gap-3">
-                  <div className="w-5 h-5 flex items-center justify-center flex-shrink-0 mt-0.5">
-                    <i className="ri-checkbox-blank-circle-fill text-[7px]" style={{ color: COOL }}></i>
-                  </div>
+                <div
+                  key={i}
+                  className="flex items-center gap-5 py-4 transition-colors duration-200"
+                  style={{ borderBottom: `1px solid ${DARK}10` }}
+                >
+                  <span
+                    className="font-serif font-bold text-lg flex-shrink-0 w-8 text-right"
+                    style={{ fontFamily: 'var(--font-playfair), Georgia, serif', color: `${WARM}60` }}
+                  >
+                    {String(i + 1).padStart(2, '0')}
+                  </span>
                   <span className="text-sm font-light leading-snug" style={{ color: MUTED }}>{sign}</span>
                 </div>
               ))}
             </div>
 
             <div
-              className="rounded-[1.5rem_0.5rem_1.5rem_0.5rem] p-6 flex flex-col gap-3"
-              style={{ background: SURFACE }}
+              className="rounded-2xl p-6 flex flex-col gap-3"
+              style={{ background: BG }}
             >
               <p className="text-sm font-light leading-relaxed" style={{ color: MUTED }}>
-                You don't need to be certain your teen has a diagnosis. If something feels wrong, that's enough reason to reach out. Our intake team will help you make sense of what you're seeing.
+                You don't need a diagnosis to reach out. If something feels wrong, that's enough reason to call. Our team will help you make sense of what you're seeing.
               </p>
               <Link
                 href="/contact"
-                className="self-start inline-flex items-center gap-2 text-xs uppercase tracking-widest font-medium transition-colors duration-300 cursor-pointer"
+                className="self-start inline-flex items-center gap-2 text-[11px] uppercase tracking-widest font-semibold transition-colors duration-300 cursor-pointer"
                 style={{ color: WARM }}
               >
                 Talk to Our Team
@@ -386,92 +415,120 @@ export default function HomePage() {
             </div>
           </div>
 
-          {/* How it works */}
-          <div className="flex flex-col gap-2">
+          {/* HOW IT WORKS — embedded in right column */}
+          <div className="flex flex-col gap-5">
             <div
-              className="rounded-[0.75rem_2rem_0.75rem_2rem] p-8 mb-4 flex flex-col gap-3"
+              className="rounded-3xl overflow-hidden"
               style={{ background: DARK }}
             >
-              <span className="text-[11px] uppercase tracking-[0.3em] font-medium" style={{ color: COOL }}>Getting Started</span>
-              <h3
-                className="text-[#F5F1EB] leading-snug"
-                style={{ fontSize: 'clamp(20px, 2.5vw, 28px)', fontFamily: 'var(--font-playfair), Georgia, serif' }}
-              >
-                How it works
-              </h3>
-            </div>
-            {steps.map((step, i) => (
-              <div
-                key={i}
-                className="group flex gap-5 p-6 rounded-xl transition-all duration-300 hover:shadow-sm"
-                style={{ background: i % 2 === 0 ? SURFACE : '#F5F1EB' }}
-              >
-                <div
-                  className="w-10 h-10 flex items-center justify-center rounded-full flex-shrink-0 font-serif font-bold text-sm text-[#F5F1EB] transition-all duration-300 group-hover:scale-110"
-                  style={{ background: COOL, fontFamily: 'var(--font-playfair), Georgia, serif' }}
+              <div className="p-8 flex flex-col gap-2">
+                <p className="text-[11px] uppercase tracking-[0.3em] font-medium" style={{ color: COOL }}>Getting Started</p>
+                <h3
+                  className="text-white"
+                  style={{ fontSize: 'clamp(22px, 2.5vw, 30px)', fontFamily: 'var(--font-playfair), Georgia, serif' }}
                 >
-                  {step.num}
-                </div>
-                <div className="flex flex-col gap-1.5 pt-1">
-                  <h4 className="font-serif text-base" style={{ color: DARK, fontFamily: 'var(--font-playfair), Georgia, serif' }}>{step.title}</h4>
-                  <p className="text-sm font-light leading-[1.85]" style={{ color: MUTED }}>{step.desc}</p>
-                </div>
+                  From first call to first session in three steps.
+                </h3>
               </div>
-            ))}
+              {steps.map((step, i) => (
+                <div
+                  key={i}
+                  className="px-8 py-6 flex gap-5 items-start"
+                  style={{ borderTop: '1px solid rgba(245,241,235,0.08)' }}
+                >
+                  <span
+                    className="font-serif font-bold text-3xl flex-shrink-0 leading-none"
+                    style={{ fontFamily: 'var(--font-playfair), Georgia, serif', color: `${COOL}50` }}
+                  >
+                    {step.n}
+                  </span>
+                  <div className="flex flex-col gap-1.5">
+                    <h4
+                      className="font-serif text-white text-base"
+                      style={{ fontFamily: 'var(--font-playfair), Georgia, serif' }}
+                    >
+                      {step.title}
+                    </h4>
+                    <p className="text-sm font-light leading-[1.8]" style={{ color: 'rgba(245,241,235,0.55)' }}>{step.body}</p>
+                  </div>
+                </div>
+              ))}
+              <div className="px-8 py-6" style={{ borderTop: '1px solid rgba(245,241,235,0.08)' }}>
+                <Link
+                  href="/contact"
+                  className="w-full inline-flex items-center justify-center gap-2 py-3.5 rounded-full text-[11px] uppercase tracking-widest font-semibold text-white cursor-pointer transition-all duration-300"
+                  style={{ background: WARM }}
+                  onMouseEnter={e => (e.currentTarget.style.background = COOL)}
+                  onMouseLeave={e => (e.currentTarget.style.background = WARM)}
+                >
+                  Start the Conversation
+                  <i className="ri-arrow-right-line"></i>
+                </Link>
+              </div>
+            </div>
           </div>
         </div>
       </section>
 
-      {/* ── CONDITIONS ── */}
-      <section className="w-full py-20 px-8 md:px-16" style={{ background: SURFACE }}>
+      {/* ────────────────────────────────────────────────
+          CONDITIONS — staggered dot grid
+      ──────────────────────────────────────────────── */}
+      <section className="w-full py-24 px-8 md:px-16" style={{ background: BG }}>
         <div className="max-w-7xl mx-auto">
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-12 items-center">
-            <div className="flex flex-col gap-5">
-              <span className="text-[11px] uppercase tracking-[0.3em] font-medium" style={{ color: WARM }}>Specializations</span>
+          <div className="grid grid-cols-1 lg:grid-cols-[auto_1fr] gap-12 items-start">
+            <div className="flex flex-col gap-5 lg:max-w-xs">
+              <p className="text-[11px] uppercase tracking-[0.3em] font-medium" style={{ color: WARM }}>Specializations</p>
               <h2
-                className="leading-[1.12]"
+                className="leading-[1.1]"
                 style={{ fontSize: 'clamp(26px, 3vw, 40px)', fontFamily: 'var(--font-playfair), Georgia, serif', color: DARK }}
               >
-                Conditions we<br />
-                <em style={{ color: WARM }}>specialize in.</em>
+                Conditions we specialize in.
               </h2>
               <p className="text-sm font-light leading-[1.85]" style={{ color: MUTED }}>
-                Our clinicians are trained in adolescent-specific presentations of each of these conditions and the unique ways they show up during the teen years.
+                Our clinicians specialize in adolescent-specific presentations of each condition and the unique ways they show up during the teen years.
               </p>
               <Link
                 href="/what-we-treat"
-                className="self-start inline-flex items-center gap-2 px-6 py-3 rounded-full text-[11px] uppercase tracking-widest font-medium border transition-all duration-300 cursor-pointer"
-                style={{ borderColor: `${DARK}30`, color: DARK }}
+                className="self-start inline-flex items-center gap-2 px-6 py-3 rounded-full text-[11px] uppercase tracking-widest font-semibold border cursor-pointer transition-all duration-300"
+                style={{ borderColor: `${DARK}25`, color: DARK }}
                 onMouseEnter={e => {
                   (e.currentTarget as HTMLElement).style.background = DARK;
                   (e.currentTarget as HTMLElement).style.color = '#F5F1EB';
+                  (e.currentTarget as HTMLElement).style.borderColor = DARK;
                 }}
                 onMouseLeave={e => {
                   (e.currentTarget as HTMLElement).style.background = 'transparent';
                   (e.currentTarget as HTMLElement).style.color = DARK;
+                  (e.currentTarget as HTMLElement).style.borderColor = `${DARK}25`;
                 }}
               >
                 What We Treat
                 <i className="ri-arrow-right-line"></i>
               </Link>
             </div>
-            <div className="lg:col-span-2 flex flex-wrap gap-3">
+
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
               {conditions.map((c, i) => (
                 <Link
                   href="/what-we-treat"
                   key={i}
-                  className="group flex items-center gap-2.5 rounded-full px-5 py-3 transition-all duration-300 cursor-pointer"
-                  style={{ background: '#F5F1EB' }}
+                  className="group flex items-center gap-3 p-4 rounded-2xl cursor-pointer transition-all duration-300"
+                  style={{ background: SAND }}
                   onMouseEnter={e => (e.currentTarget.style.background = DARK)}
-                  onMouseLeave={e => (e.currentTarget.style.background = '#F5F1EB')}
+                  onMouseLeave={e => (e.currentTarget.style.background = SAND)}
                 >
-                  <i
-                    className={`${c.icon} text-sm transition-colors duration-300`}
-                    style={{ color: COOL }}
-                  ></i>
                   <span
-                    className="text-xs font-medium whitespace-nowrap transition-colors duration-300"
+                    className="w-2.5 h-2.5 rounded-full flex-shrink-0 transition-colors duration-300"
+                    style={{ background: c.color }}
+                  ></span>
+                  <span
+                    className="text-sm font-medium transition-colors duration-300"
                     style={{ color: DARK }}
+                    ref={el => {
+                      if (!el) return;
+                      el.parentElement?.addEventListener('mouseenter', () => (el.style.color = '#F5F1EB'));
+                      el.parentElement?.addEventListener('mouseleave', () => (el.style.color = DARK));
+                    }}
                   >
                     {c.label}
                   </span>
@@ -482,155 +539,136 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ── TESTIMONIALS ── */}
-      <section className="w-full py-24 px-8 md:px-16" style={{ background: '#F5F1EB' }}>
-        <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-          <div className="relative rounded-[2rem_0.75rem_2rem_0.75rem] overflow-hidden h-[420px] md:h-[500px]">
-            <Image
-              src="https://papiwmobmdbtzeeebmpr.supabase.co/storage/v1/object/public/site-assets/images/mhft_home_testimonial01.jpg"
-              alt="Parent who found hope through Mental Health For Teens"
-              fill
-              className="w-full h-full object-cover object-top"
-            />
-            <div
-              className="absolute inset-0"
-              style={{ background: 'linear-gradient(to top, rgba(28,58,92,0.6) 0%, transparent 60%)' }}
-            />
-            <div className="absolute bottom-0 left-0 right-0 p-8 flex flex-col gap-1">
-              <p className="text-[11px] uppercase tracking-widest font-medium" style={{ color: COOL }}>From Our Families</p>
-              <p className="text-[#F5F1EB] font-serif text-lg" style={{ fontFamily: 'var(--font-playfair), Georgia, serif' }}>
-                What parents say
-              </p>
+      {/* ────────────────────────────────────────────────
+          TESTIMONIALS — large centered quote
+      ──────────────────────────────────────────────── */}
+      <section className="w-full py-24 px-8 md:px-16" style={{ background: SAND }}>
+        <div className="max-w-5xl mx-auto">
+          <div className="grid grid-cols-1 lg:grid-cols-[280px_1fr] gap-12 items-center">
+            {/* Portrait */}
+            <div className="relative h-64 lg:h-80 rounded-3xl overflow-hidden flex-shrink-0">
+              <Image
+                src="https://papiwmobmdbtzeeebmpr.supabase.co/storage/v1/object/public/site-assets/images/mhft_home_testimonial01.jpg"
+                alt="Parent testimonial"
+                fill
+                className="w-full h-full object-cover object-top"
+              />
             </div>
-          </div>
 
-          <div className="flex flex-col gap-6">
-            <span className="text-[11px] uppercase tracking-[0.3em] font-medium" style={{ color: WARM }}>Testimonials</span>
-            <div className="relative min-h-[220px]">
-              {testimonials.map((t, i) => (
-                <div
-                  key={i}
-                  className={`flex flex-col gap-5 transition-all duration-500 ${activeTestimonial === i ? 'opacity-100' : 'opacity-0 absolute inset-0'}`}
-                >
-                  <i className="ri-double-quotes-l text-3xl" style={{ color: `${COOL}50` }}></i>
-                  <p
-                    className="font-serif italic leading-[1.65] text-lg"
-                    style={{ color: DARK, fontFamily: 'var(--font-playfair), Georgia, serif' }}
+            {/* Quote */}
+            <div className="flex flex-col gap-6">
+              <p className="text-[11px] uppercase tracking-[0.3em] font-medium" style={{ color: WARM }}>From Our Families</p>
+
+              <div className="relative min-h-[180px]">
+                {testimonials.map((t, i) => (
+                  <div
+                    key={i}
+                    className="flex flex-col gap-5 transition-all duration-500 absolute inset-0"
+                    style={{ opacity: activeT === i ? 1 : 0, pointerEvents: activeT === i ? 'auto' : 'none' }}
                   >
-                    "{t.quote}"
-                  </p>
-                  <div className="flex flex-col gap-0.5">
-                    <span className="text-sm font-medium" style={{ color: DARK }}>— {t.name}</span>
-                    <span className="text-xs font-light" style={{ color: MUTED }}>{t.detail}</span>
+                    <i className="ri-double-quotes-l text-4xl" style={{ color: `${WARM}35` }}></i>
+                    <p
+                      className="font-serif italic leading-[1.6]"
+                      style={{ fontSize: 'clamp(18px, 2vw, 24px)', fontFamily: 'var(--font-playfair), Georgia, serif', color: DARK }}
+                    >
+                      "{t.quote}"
+                    </p>
+                    <div>
+                      <p className="text-sm font-semibold" style={{ color: DARK }}>— {t.name}</p>
+                      <p className="text-xs font-light" style={{ color: MUTED }}>{t.role}</p>
+                    </div>
                   </div>
-                </div>
-              ))}
-            </div>
+                ))}
+              </div>
 
-            <div className="flex gap-2 pt-2">
-              {testimonials.map((_, i) => (
-                <button
-                  key={i}
-                  onClick={() => setActiveTestimonial(i)}
-                  className="h-1.5 rounded-full transition-all duration-300 cursor-pointer"
-                  style={{
-                    width: activeTestimonial === i ? '32px' : '8px',
-                    background: activeTestimonial === i ? WARM : `${DARK}25`,
-                  }}
-                  aria-label={`Testimonial ${i + 1}`}
-                />
-              ))}
-            </div>
-
-            <div
-              className="rounded-[0.75rem_2rem_0.75rem_2rem] p-6 flex flex-col gap-3 mt-2"
-              style={{ background: SURFACE }}
-            >
-              <p className="text-[11px] uppercase tracking-widest font-medium" style={{ color: SAGE }}>
-                Insurance accepted
-              </p>
-              <p className="text-sm font-light leading-relaxed" style={{ color: MUTED }}>
-                We work with most major insurance providers and will verify your teen's benefits before you commit to anything. There are no surprises.
-              </p>
-              <Link
-                href="/admissions"
-                className="self-start inline-flex items-center gap-2 text-xs uppercase tracking-widest font-medium transition-colors duration-300 cursor-pointer"
-                style={{ color: COOL }}
-              >
-                Verify Insurance
-                <i className="ri-arrow-right-line"></i>
-              </Link>
+              {/* Dot nav */}
+              <div className="flex gap-2 mt-2">
+                {testimonials.map((_, i) => (
+                  <button
+                    key={i}
+                    onClick={() => setActiveT(i)}
+                    className="h-1.5 rounded-full cursor-pointer transition-all duration-300"
+                    style={{
+                      width: activeT === i ? '28px' : '8px',
+                      background: activeT === i ? WARM : `${DARK}20`,
+                    }}
+                  />
+                ))}
+              </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* ── CTA ── */}
-      <section className="w-full overflow-hidden">
-        <div className="grid grid-cols-1 lg:grid-cols-2">
-          <div className="relative min-h-[400px] lg:min-h-[500px]">
-            <Image
-              src="https://papiwmobmdbtzeeebmpr.supabase.co/storage/v1/object/public/site-assets/images/mhft_home_cta01.jpg"
-              alt="Teen walking on a coastal path at golden hour"
-              fill
-              className="w-full h-full object-cover object-center"
+      {/* ────────────────────────────────────────────────
+          CTA — full width, wave top, centered
+      ──────────────────────────────────────────────── */}
+      <section style={{ background: DARK, position: 'relative' }}>
+        {/* Wave from sandy section */}
+        <div className="w-full overflow-hidden leading-none" style={{ marginTop: '-1px' }}>
+          <svg viewBox="0 0 1440 72" xmlns="http://www.w3.org/2000/svg" style={{ display: 'block', width: '100%' }}>
+            <path
+              d="M0,36 C240,72 480,0 720,36 C960,72 1200,0 1440,36 L1440,0 L0,0 Z"
+              fill={SAND}
             />
-            <div
-              className="absolute inset-0 lg:hidden"
-              style={{ background: 'rgba(28,58,92,0.45)' }}
-            />
-          </div>
-          <div
-            className="flex flex-col justify-center gap-7 px-10 md:px-14 py-16"
-            style={{ background: DARK }}
+          </svg>
+        </div>
+
+        <div className="max-w-4xl mx-auto px-8 md:px-16 py-20 flex flex-col items-center gap-8 text-center">
+          <p className="text-[11px] uppercase tracking-[0.3em] font-medium" style={{ color: COOL }}>Take the First Step</p>
+          <h2
+            className="text-white leading-[1.1]"
+            style={{ fontSize: 'clamp(32px, 5vw, 60px)', fontFamily: 'var(--font-playfair), Georgia, serif' }}
           >
-            <span className="text-[11px] uppercase tracking-[0.3em] font-medium" style={{ color: COOL }}>Take the First Step</span>
-            <h2
-              className="text-[#F5F1EB] leading-[1.12]"
-              style={{ fontSize: 'clamp(28px, 3.5vw, 46px)', fontFamily: 'var(--font-playfair), Georgia, serif' }}
+            Your teen's story doesn't<br />
+            have to stay this hard.
+          </h2>
+          <p className="text-base font-light leading-relaxed max-w-lg" style={{ color: 'rgba(245,241,235,0.65)' }}>
+            A free, no-pressure consultation is the only first step. Our intake team will listen, answer your questions honestly, and help you understand what's possible — with no commitment required.
+          </p>
+
+          <div className="flex flex-wrap gap-4 justify-center">
+            <Link
+              href="/contact"
+              className="whitespace-nowrap cursor-pointer inline-flex items-center gap-2 px-8 py-4 rounded-full text-[11px] uppercase tracking-widest font-semibold text-white transition-all duration-300"
+              style={{ background: WARM }}
+              onMouseEnter={e => (e.currentTarget.style.background = COOL)}
+              onMouseLeave={e => (e.currentTarget.style.background = WARM)}
             >
-              Your teen's story<br />
-              doesn't have to<br />
-              <em style={{ color: WARM }}>stay this hard.</em>
-            </h2>
-            <p className="font-light text-base leading-relaxed" style={{ color: 'rgba(245,241,235,0.65)' }}>
-              A free, no-pressure consultation is the only first step. Our intake team will listen to your situation, answer your questions, and help you understand what's possible — without any commitment required.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4">
-              <Link
-                href="/contact"
-                className="whitespace-nowrap cursor-pointer inline-flex items-center justify-center gap-2 px-8 py-4 rounded-full text-xs uppercase tracking-widest font-medium transition-all duration-300"
-                style={{ background: WARM, color: '#F5F1EB' }}
-                onMouseEnter={e => (e.currentTarget.style.background = COOL)}
-                onMouseLeave={e => (e.currentTarget.style.background = WARM)}
-              >
-                Free Consultation
-                <i className="ri-arrow-right-line"></i>
-              </Link>
-              <a
-                href="tel:+16190000000"
-                className="whitespace-nowrap cursor-pointer inline-flex items-center justify-center gap-2 px-8 py-4 rounded-full border text-xs uppercase tracking-widest font-medium transition-all duration-300"
-                style={{ borderColor: 'rgba(245,241,235,0.25)', color: '#F5F1EB' }}
-                onMouseEnter={e => (e.currentTarget.style.borderColor = 'rgba(245,241,235,0.7)')}
-                onMouseLeave={e => (e.currentTarget.style.borderColor = 'rgba(245,241,235,0.25)')}
-              >
-                <i className="ri-phone-line"></i>
-                (619) 000-0000
-              </a>
-            </div>
-            <div className="flex flex-col gap-2 pt-1">
-              {[
-                'No diagnosis required to reach out',
-                'Insurance verified before you begin',
-                'Most teens start within 72 hours',
-              ].map((item, i) => (
-                <div key={i} className="flex items-center gap-3">
-                  <i className="ri-checkbox-circle-line text-sm" style={{ color: SAGE }}></i>
-                  <span className="text-sm font-light" style={{ color: 'rgba(245,241,235,0.6)' }}>{item}</span>
-                </div>
-              ))}
-            </div>
+              Free Consultation
+              <i className="ri-arrow-right-line"></i>
+            </Link>
+            <a
+              href="tel:+16190000000"
+              className="whitespace-nowrap cursor-pointer inline-flex items-center gap-2 px-8 py-4 rounded-full text-[11px] uppercase tracking-widest font-medium text-white border transition-all duration-300"
+              style={{ borderColor: 'rgba(245,241,235,0.2)' }}
+              onMouseEnter={e => (e.currentTarget.style.borderColor = 'rgba(245,241,235,0.6)')}
+              onMouseLeave={e => (e.currentTarget.style.borderColor = 'rgba(245,241,235,0.2)')}
+            >
+              <i className="ri-phone-line"></i>
+              (619) 000-0000
+            </a>
           </div>
+
+          <div className="flex flex-wrap justify-center gap-x-8 gap-y-2 pt-2">
+            {['No diagnosis required to reach out', 'Insurance verified before you commit', 'Most teens start within 72 hours'].map((item, i) => (
+              <div key={i} className="flex items-center gap-2">
+                <i className="ri-check-line text-sm" style={{ color: SAGE }}></i>
+                <span className="text-sm font-light" style={{ color: 'rgba(245,241,235,0.55)' }}>{item}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Coastal image bottom strip */}
+        <div className="relative w-full h-56 overflow-hidden">
+          <Image
+            src="https://papiwmobmdbtzeeebmpr.supabase.co/storage/v1/object/public/site-assets/images/mhft_home_cta01.jpg"
+            alt="Teen walking on a coastal path at golden hour"
+            fill
+            className="w-full h-full object-cover object-[center_40%]"
+          />
+          <div className="absolute inset-0" style={{ background: `linear-gradient(to bottom, ${DARK} 0%, transparent 40%)` }} />
         </div>
       </section>
 
