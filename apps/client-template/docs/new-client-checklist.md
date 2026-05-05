@@ -25,14 +25,23 @@ rm -rf apps/new-client-slug/.next apps/new-client-slug/node_modules apps/new-cli
 
 10. Add Vercel env vars: NEXT_PUBLIC_SUPABASE_URL, NEXT_PUBLIC_SUPABASE_ANON_KEY, NEXT_PUBLIC_SITE_URL.
 
-11. Link Supabase CLI from apps/sweet-media using the new project ref.
+11. Configure image upload secrets per client:
+   - Copy `.upload.env.example` to `.upload.env`
+   - Set `SUPABASE_PROJECT_REF` to the new client project ref
+   - Set `SUPABASE_URL` to `https://<project-ref>.supabase.co`
+   - Set `SUPABASE_SERVICE_ROLE_KEY` from the same project
+   - Set `SUPABASE_BUCKET` (usually `site-assets`)
+   - Set `LOCAL_IMAGE_DIR` to that client's local image folder
+   - Run `pnpm run upload:images` from the client app root
+   - If URL and service key refs do not match, upload script will fail by design
+12. Link Supabase CLI from apps/sweet-media using the new project ref.
 
-12. Add Supabase Edge Function secrets: OPENROUTER_API_KEY, OPENAI_API_KEY, BLOG_WEBHOOK_SECRET, BLOG_IMAGE_BUCKET=site-assets.
+13. Add Supabase Edge Function secrets: OPENROUTER_API_KEY, OPENAI_API_KEY, BLOG_WEBHOOK_SECRET, BLOG_IMAGE_BUCKET=site-assets.
 
-13. Deploy shared Supabase Edge Functions.
+14. Deploy shared Supabase Edge Functions.
 
-14. Create Vercel project with root directory apps/new-client-slug.
+15. Create Vercel project with root directory apps/new-client-slug.
 
-15. Replace blank public pages with client-specific design, copy, imagery, and CTAs.
+16. Replace blank public pages with client-specific design, copy, imagery, and CTAs.
 
-16. QA homepage, blog, blog posts, admin login, blog generation, blog image generation, contact form, metadata, domain, and Vercel root directory.
+17. QA homepage, blog, blog posts, admin login, blog generation, blog image generation, contact form, metadata, domain, and Vercel root directory.

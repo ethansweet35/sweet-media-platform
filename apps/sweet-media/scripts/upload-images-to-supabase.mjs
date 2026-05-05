@@ -65,7 +65,7 @@ async function walk(dir) {
   for (const entry of entries) {
     const full = path.join(dir, entry.name);
     if (entry.isDirectory()) {
-      files.push(...await walk(full));
+      files.push(...(await walk(full)));
     } else if (allowed.has(path.extname(entry.name).toLowerCase())) {
       files.push(full);
     }
@@ -84,13 +84,11 @@ for (const file of files) {
   const contentType = contentTypes[ext] || "application/octet-stream";
   const body = await fs.readFile(file);
 
-  const { error } = await supabase.storage
-    .from(bucket)
-    .upload(storagePath, body, {
-      contentType,
-      cacheControl: "31536000",
-      upsert: true,
-    });
+  const { error } = await supabase.storage.from(bucket).upload(storagePath, body, {
+    contentType,
+    cacheControl: "31536000",
+    upsert: true,
+  });
 
   if (error) {
     console.error(`Failed: ${relative} — ${error.message}`);
