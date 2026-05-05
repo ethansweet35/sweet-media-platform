@@ -20,7 +20,8 @@ const paymentFeatures = [
   {
     color: 'bg-petal-pink',
     title: 'Sliding Scale Fees',
-    description: 'Financial hardship shouldn't be a barrier. Ask about our sliding scale payment options.',
+    description:
+      "Financial hardship shouldn't be a barrier. Ask about our sliding scale payment options.",
   },
   {
     color: 'bg-subtle-lavender',
