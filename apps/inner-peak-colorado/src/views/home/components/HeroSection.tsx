@@ -19,7 +19,20 @@ export default function HeroSection() {
           quality={35}
         />
 
-        {/* Video — desktop only, layered over image so image shows while video loads */}
+        {/* Mobile video — portrait crop, shown only on small screens */}
+        <video
+          autoPlay
+          muted
+          loop
+          playsInline
+          preload="none"
+          className="absolute inset-0 w-full h-full object-cover object-center md:hidden"
+        >
+          <source src="https://papiwmobmdbtzeeebmpr.supabase.co/storage/v1/object/public/site-assets/images/download%20(4).webm" type="video/webm" />
+          <source src="https://papiwmobmdbtzeeebmpr.supabase.co/storage/v1/object/public/site-assets/images/download%20(4).mp4" type="video/mp4" />
+        </video>
+
+        {/* Desktop video — landscape, shown only on md+ */}
         <video
           autoPlay
           muted
@@ -32,10 +45,10 @@ export default function HeroSection() {
           <source src="https://papiwmobmdbtzeeebmpr.supabase.co/storage/v1/object/public/site-assets/images/grok-video-583279ae-196f-4af0-a283-83017649a759%20(1).mp4" type="video/mp4" />
         </video>
 
-        {/* Mobile overlay — darker for legibility over static image */}
-        <div className="absolute inset-0 bg-[#2C3B2E]/75 md:hidden"></div>
+        {/* Mobile overlay */}
+        <div className="absolute inset-0 bg-[#2C3B2E]/70 md:hidden"></div>
 
-        {/* Desktop overlay — lighter so video breathes */}
+        {/* Desktop overlay */}
         <div className="absolute inset-0 bg-gradient-to-r from-[#2C3B2E]/85 via-[#2C3B2E]/60 to-[#2C3B2E]/30 hidden md:block"></div>
         <div className="absolute inset-0 bg-gradient-to-b from-[#2C3B2E]/25 via-transparent to-[#2C3B2E]/20 hidden md:block"></div>
       </div>
