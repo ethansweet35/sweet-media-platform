@@ -9,5 +9,5 @@ alwaysApply: false
 - Optimize for shared UX quality, not shared visual identity.
 - Never reuse another client app's section composition, headline patterns, or component skin by default.
 - Borrow only interaction logic and accessibility behavior from shared code.
-- For new client pages, establish a unique visual direction in type scale, spacing rhythm, and CTA treatment.
+- For new client pages, establish a unique visual direction in type scale, spacing rhythm, CTA treatment, image mood, and iconography style.
 - If referencing an existing app, adapt structure and styling enough that the page does not feel template-derived.

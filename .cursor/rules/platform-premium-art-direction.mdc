@@ -1,0 +1,15 @@
+---
+description: Premium artistic design direction for all client websites
+globs: apps/**/*.{ts,tsx,css,md,mdx}
+alwaysApply: false
+---
+
+# Premium Artistic Direction
+
+- Every client site should feel premium, intentional, and visually elevated.
+- Establish a unique art direction per client before implementation: imagery mood, icon style, type personality, and texture/motif language.
+- Use high-quality images that match the chosen art direction; avoid generic stock-photo mixes.
+- Define a distinct icon system per client (stroke/fill style, corner geometry, visual weight) and keep usage consistent.
+- Use strong visual hierarchy, generous spacing, and restrained color contrast to signal premium quality.
+- Prefer fewer, high-impact visual elements over crowded layouts or trend-heavy effects.
+- Keep aesthetics compatible with performance goals through optimized image sizing and selective decorative effects.
