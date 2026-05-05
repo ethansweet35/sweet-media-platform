@@ -3,15 +3,47 @@
 @source "../**/*.{js,ts,jsx,tsx,mdx}";
 @source "../../src/**/*.{js,ts,jsx,tsx,mdx}";
 
+@theme {
+  /* Colors */
+  --color-midnight-ink: #111111;
+  --color-canvas-white: #ffffff;
+  --color-surface-charcoal: #272625;
+  --color-muted-ash: #6d6c6b;
+  --color-whisper-gray: #f4f3ef;
+  --color-light-taupe: #ecebea;
+  --color-phoenix-orange: #e8400d;
+  --color-cyan-glow: #99fff9;
+  --color-deep-indigo: #10054d;
+  --color-petal-pink: #ffd7f0;
+  --color-mint-green: #b7efb2;
+  --color-canary-yellow: #ffef99;
+  --color-subtle-lavender: #e2ddfd;
+  --color-midnight-violet: #2e2460;
+  --color-engagement-gold: #fbc768;
+  --color-leadgen-red: #e16540;
+  --color-intelligence-blue: #328efa;
+  --color-deliver-green: #47d096;
+
+  /* Typography */
+  --font-sans: 'Inter', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+
+  /* Border Radius */
+  --radius-md: 4px;
+  --radius-lg: 8px;
+  --radius-xl: 12px;
+  --radius-2xl: 16px;
+
+  /* Shadows */
+  --shadow-subtle: rgba(17, 17, 17, 0.05) 0px 0px 0px 1px inset;
+  --shadow-xl: rgba(17, 17, 17, 0.12) 0px 26px 60px -6px, rgba(17, 17, 17, 0.02) 0px 28px 28px -14px, rgba(17, 17, 17, 0.04) 0px 6px 6px -3px, rgba(17, 17, 17, 0.04) 0px 1px 1px -0.5px;
+  --shadow-sm: rgba(17, 17, 17, 0.02) 0px -6px 6px 0px, rgba(17, 17, 17, 0.01) 0px -23px 9px 0px;
+  --shadow-subtle-2: rgba(17, 17, 17, 0.05) 0px 0px 1px 0px, rgba(17, 17, 17, 0.04) 1px 1px 1px 0px, rgba(17, 17, 17, 0.03) 2px 3px 2px 0px, rgba(17, 17, 17, 0.01) 4px 4px 2px 0px;
+  --shadow-xl-2: rgba(25, 34, 35, 0.12) 0px 26px 60px -6px, rgba(25, 34, 35, 0.02) 0px 28px 28px -14px, rgba(25, 34, 35, 0.04) 0px 6px 6px -3px, rgba(25, 34, 35, 0.04) 0px 1px 1px -0.5px;
+  --shadow-subtle-3: rgba(17, 17, 17, 0.04) 0px 1px 2px 0px, rgba(17, 17, 17, 0.04) 0px 4px 8px 0px, rgba(17, 17, 17, 0.04) 0px 0px 1px 0px, rgba(17, 17, 17, 0.04) 0px 0px 1px 0px;
+}
+
 :root {
-  --color-primary: #1f2937;
-  --color-secondary: #334155;
-  --color-accent: #2563eb;
-  --color-background: #f8fafc;
-  --color-surface: #ffffff;
-  --color-muted: #64748b;
-  --font-heading: Inter, system-ui, sans-serif;
-  --font-body: Inter, system-ui, sans-serif;
+  --color-border: rgba(17, 17, 17, 0.08);
 }
 
 html {
@@ -20,21 +52,29 @@ html {
 
 body {
   margin: 0;
-  background: var(--color-background);
-  color: var(--color-primary);
-  font-family: var(--font-body);
+  background: #ffffff;
+  color: #111111;
+  font-family: 'Inter', ui-sans-serif, system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
 }
 
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-  font-family: var(--font-heading);
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Inter', ui-sans-serif, system-ui, sans-serif;
+  letter-spacing: -0.02em;
 }
 
-button,
-a {
+button, a {
   transition: all 180ms ease;
+}
+
+.ambient-gradient {
+  background:
+    radial-gradient(80% 120% at 0% 0%, #ffeed8 0%, #ffd7f0 35%, transparent 70%),
+    radial-gradient(70% 110% at 100% 20%, #99fff9 0%, #e2ddfd 42%, transparent 75%);
+}
+
+.ambient-gradient-subtle {
+  background:
+    radial-gradient(60% 80% at 0% 0%, rgba(255, 238, 216, 0.5) 0%, rgba(255, 215, 240, 0.4) 35%, transparent 70%),
+    radial-gradient(50% 70% at 100% 20%, rgba(153, 255, 249, 0.3) 0%, rgba(226, 221, 253, 0.4) 42%, transparent 75%);
 }
