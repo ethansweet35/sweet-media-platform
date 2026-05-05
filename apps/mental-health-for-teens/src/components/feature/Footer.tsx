@@ -34,7 +34,7 @@ export default function Footer() {
         {/* Brand */}
         <div className="flex flex-col gap-5">
           <Image
-            src="https://papiwmobmdbtzeeebmpr.supabase.co/storage/v1/object/public/site-assets/images/logo.png"
+            src="https://awalaktpqqwpdvzbafkv.supabase.co/storage/v1/object/public/site-assets/images/logo.png"
             alt="Mental Health For Teens"
             width={148}
             height={36}

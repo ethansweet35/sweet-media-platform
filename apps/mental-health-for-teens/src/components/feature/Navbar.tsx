@@ -75,7 +75,7 @@ export default function Navbar() {
           {/* Logo */}
           <Link href="/" className="flex items-center gap-2.5 cursor-pointer flex-shrink-0">
             <Image
-              src="https://papiwmobmdbtzeeebmpr.supabase.co/storage/v1/object/public/site-assets/images/logo.png"
+              src="https://awalaktpqqwpdvzbafkv.supabase.co/storage/v1/object/public/site-assets/images/logo.png"
               alt="Mental Health For Teens"
               width={148}
               height={36}

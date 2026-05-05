@@ -6,7 +6,7 @@ const nextConfig: NextConfig = {
       { protocol: "https", hostname: "readdy.ai" },
       { protocol: "https", hostname: "static.readdy.ai" },
       { protocol: "https", hostname: "i.ibb.co" },
-      { protocol: "https", hostname: "papiwmobmdbtzeeebmpr.supabase.co" },
+      { protocol: "https", hostname: "awalaktpqqwpdvzbafkv.supabase.co" },
     ],
   },
 };

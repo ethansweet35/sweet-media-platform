@@ -171,7 +171,7 @@ export default function BlogEditorSidebar({ form, onChange, postDate, slugError 
               loading="lazy"
               sizes="280px"
               unoptimized={
-                !form.image.includes("ynmldknprfusujudvutq.supabase.co") &&
+                !form.image.includes("awalaktpqqwpdvzbafkv.supabase.co") &&
                 !form.image.includes("grbxnkgzhquwdqxlscv.supabase.co") &&
                 !form.image.includes("lh3.googleusercontent.com")
               }
@@ -205,7 +205,7 @@ export default function BlogEditorSidebar({ form, onChange, postDate, slugError 
                 loading="lazy"
                 sizes="40px"
                 unoptimized={
-                  !form.authorPhoto.includes("ynmldknprfusujudvutq.supabase.co") &&
+                  !form.authorPhoto.includes("awalaktpqqwpdvzbafkv.supabase.co") &&
                   !form.authorPhoto.includes("grbxnkgzhquwdqxlscv.supabase.co") &&
                   !form.authorPhoto.includes("lh3.googleusercontent.com")
                 }

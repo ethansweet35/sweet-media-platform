@@ -4,7 +4,7 @@ import BlogPage from "@/pages/blog/page";
 export const dynamic = "force-dynamic";
 
 const BLOG_OG_IMAGE =
-  "https://ynmldknprfusujudvutq.supabase.co/storage/v1/object/public/public_bucket/og-blog.jpg";
+  "https://papiwmobmdbtzeeebmpr.supabase.co/storage/v1/object/public/site-assets/images/og-blog.jpg";
 
 export const metadata: Metadata = {
   title: "Blog | Mental Health & Recovery Resources | Inner Peak Colorado",

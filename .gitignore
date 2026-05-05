@@ -10,3 +10,6 @@ dist
 supabase/.temp
 apps/*/supabase/.temp
 *.tsbuildinfo
+
+# Local Lighthouse / perf snapshot dumps (large, not for git)
+**/lighthouse*.json

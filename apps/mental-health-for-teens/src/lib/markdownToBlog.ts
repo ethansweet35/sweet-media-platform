@@ -270,7 +270,9 @@ export function parseMarkdownPost(md: string): ParsedBlogPost {
     author: frontmatter.author || "Client Brand",
     authorRole: frontmatter.authorRole || "Content Team",
     authorBio: frontmatter.authorBio || "Client-centered services and helpful educational resources.",
-    authorPhoto: frontmatter.authorPhoto || "https://ynmldknprfusujudvutq.supabase.co/storage/v1/object/public/public_bucket/img2.png",
+    authorPhoto:
+      frontmatter.authorPhoto ||
+      "https://awalaktpqqwpdvzbafkv.supabase.co/storage/v1/object/public/site-assets/images/img2.png",
     readTime: frontmatter.readTime || `${readTimeMinutes} min read`,
     image: normalizeImageUrl(frontmatter.image || frontmatter.featuredImage || frontmatter.featured_image || ""),
     tags: parseTags(frontmatter.tags),

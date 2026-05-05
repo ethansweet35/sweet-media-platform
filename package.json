@@ -3,10 +3,10 @@
   "private": true,
   "packageManager": "pnpm@10.33.2",
   "scripts": {
-    "dev": "turbo dev",
-    "build": "turbo build",
-    "lint": "turbo lint",
-    "typecheck": "turbo typecheck"
+    "dev": "turbo dev --filter=!@sweetmedia/client-template",
+    "build": "turbo build --filter=!@sweetmedia/client-template",
+    "lint": "turbo lint --filter=!@sweetmedia/client-template",
+    "typecheck": "turbo typecheck --filter=!@sweetmedia/client-template"
   },
   "devDependencies": {
     "turbo": "^2.9.7"
