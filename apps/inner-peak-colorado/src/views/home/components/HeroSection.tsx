@@ -32,9 +32,12 @@ export default function HeroSection() {
           <source src="https://papiwmobmdbtzeeebmpr.supabase.co/storage/v1/object/public/site-assets/images/grok-video-583279ae-196f-4af0-a283-83017649a759%20(1).mp4" type="video/mp4" />
         </video>
 
-        {/* Overlays — lightened so video content is more visible */}
-        <div className="absolute inset-0 bg-gradient-to-r from-[#2C3B2E]/85 via-[#2C3B2E]/60 to-[#2C3B2E]/30"></div>
-        <div className="absolute inset-0 bg-gradient-to-b from-[#2C3B2E]/25 via-transparent to-[#2C3B2E]/20"></div>
+        {/* Mobile overlay — darker for legibility over static image */}
+        <div className="absolute inset-0 bg-[#2C3B2E]/75 md:hidden"></div>
+
+        {/* Desktop overlay — lighter so video breathes */}
+        <div className="absolute inset-0 bg-gradient-to-r from-[#2C3B2E]/85 via-[#2C3B2E]/60 to-[#2C3B2E]/30 hidden md:block"></div>
+        <div className="absolute inset-0 bg-gradient-to-b from-[#2C3B2E]/25 via-transparent to-[#2C3B2E]/20 hidden md:block"></div>
       </div>
 
       {/* Content */}
