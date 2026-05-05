@@ -421,7 +421,7 @@ export default function HomePage() {
           <p className="text-[11px] uppercase tracking-[0.3em] font-medium" style={{ color: WARM }}>From Our Families</p>
 
           {/* Photo row */}
-          <div className="relative w-16 h-16 rounded-full overflow-hidden ring-2" style={{ ringColor: WARM }}>
+          <div className="relative w-16 h-16 rounded-full overflow-hidden" style={{ outline: `2px solid ${WARM}`, outlineOffset: '2px' }}>
             <Image
               src="https://papiwmobmdbtzeeebmpr.supabase.co/storage/v1/object/public/site-assets/images/mhft_home_testimonial01.jpg"
               alt="Parent testimonial"
