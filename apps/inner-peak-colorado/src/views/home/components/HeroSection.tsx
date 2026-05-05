@@ -67,7 +67,8 @@ export default function HeroSection() {
             </div>
 
             <h1 className="font-serif text-[#FAF8F5] leading-[1.1]" style={{ fontSize: 'clamp(40px, 5vw, 72px)' }}>
-              Virtual Mental Healthcare,<br className="hidden sm:block" />
+              Virtual Mental Healthcare,{' '}
+              <br className="hidden sm:block" />
               <em className="text-[#DDA15E] not-italic">For Women.</em>
             </h1>
 
