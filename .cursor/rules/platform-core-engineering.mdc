@@ -1,0 +1,16 @@
+---
+description: Platform core engineering standards for monorepo apps
+alwaysApply: true
+---
+
+# Platform Core Engineering
+
+- Use existing repo architecture before introducing new patterns.
+- Keep changes scoped and avoid broad refactors unless requested.
+- Prefer typed APIs and explicit return types for shared utilities.
+- Reuse shared code from `packages/*` before duplicating logic in apps.
+- Do not add dependencies unless clearly justified and aligned with monorepo usage.
+- Preserve SSR-safe behavior and avoid browser-only code in server contexts.
+- Use `eslint` and `typescript` feedback as source of truth for correctness.
+- Keep implementation-focused prompts concise; avoid roleplay/persona boilerplate.
+- Treat each client app as a distinct brand; never copy another client's page layout or styling by default.

@@ -1,0 +1,15 @@
+---
+description: Baseline UI quality rules for all frontend work
+globs: apps/**/*.{ts,tsx,css}
+alwaysApply: false
+---
+
+# UI Quality Baseline
+
+- Build mobile-first layouts, then scale up for tablet and desktop breakpoints.
+- Keep heading hierarchy semantic and preserve keyboard-accessible interactions.
+- Ensure form elements have clear labels, validation states, and error messaging.
+- Maintain sufficient color contrast and visible focus states on interactive elements.
+- Reuse behavior and accessibility primitives, but keep each app's visual expression independent.
+- Use semantic tokens/utilities; app themes own final color, typography, and style identity.
+- Use performant media defaults: responsive sizes, lazy loading where appropriate.

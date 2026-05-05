@@ -1,0 +1,13 @@
+---
+description: Keep client websites visually distinct while sharing UX quality
+globs: apps/**/*.{ts,tsx,css}
+alwaysApply: false
+---
+
+# Client Differentiation Guardrail
+
+- Optimize for shared UX quality, not shared visual identity.
+- Never reuse another client app's section composition, headline patterns, or component skin by default.
+- Borrow only interaction logic and accessibility behavior from shared code.
+- For new client pages, establish a unique visual direction in type scale, spacing rhythm, and CTA treatment.
+- If referencing an existing app, adapt structure and styling enough that the page does not feel template-derived.

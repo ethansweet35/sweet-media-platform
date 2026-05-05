@@ -1,0 +1,13 @@
+---
+description: Homepage-first workflow for new client website builds
+globs: apps/**/*.{ts,tsx,css,md,mdx}
+alwaysApply: false
+---
+
+# Homepage First Workflow
+
+- For a new client site, start with homepage design before building secondary pages.
+- Treat the homepage as the source of truth for visual language and component direction.
+- Define and apply a distinct design signature early: typography, spacing rhythm, CTA style, and section pacing.
+- Build reusable section primitives from homepage patterns, then extend to interior pages.
+- Validate homepage quality first (mobile responsiveness, accessibility, performance, trust clarity) before scaling site-wide.

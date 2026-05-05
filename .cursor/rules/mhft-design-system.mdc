@@ -1,0 +1,14 @@
+---
+description: Mental Health for Teens visual system consistency rules
+globs: apps/mental-health-for-teens/src/**/*.{ts,tsx,css}
+alwaysApply: false
+---
+
+# MHFT Design System Consistency
+
+- Use existing color, spacing, typography, and radius tokens before adding new values.
+- Keep section rhythm consistent with balanced whitespace and predictable vertical spacing.
+- Prefer modern, minimal component styling with restrained shadows and borders.
+- Maintain visual clarity with strong typographic hierarchy and concise copy blocks.
+- Reuse established CTA variants and interaction states across pages.
+- Avoid introducing new visual motifs unless they improve consistency site-wide.

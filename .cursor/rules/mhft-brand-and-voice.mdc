@@ -1,0 +1,14 @@
+---
+description: Mental Health for Teens brand and content safety guardrails
+globs: apps/mental-health-for-teens/src/**/*.{ts,tsx,md,mdx}
+alwaysApply: false
+---
+
+# MHFT Brand and Voice
+
+- Write in a calm, compassionate, trustworthy tone for teens and caregivers.
+- Keep copy clear at an accessible reading level without sounding clinical or cold.
+- Avoid fear-based language, shame framing, or exaggerated urgency.
+- Do not make medical guarantees or outcome promises.
+- Prefer supportive, action-oriented CTAs that reduce friction for first contact.
+- Include practical trust signals where relevant (insurance, privacy, credentials, process).

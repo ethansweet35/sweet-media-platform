@@ -1,0 +1,14 @@
+---
+description: Next.js and React safety rules for modern platform apps
+alwaysApply: true
+---
+
+# Next and React Safety
+
+- Target the installed framework versions in this repo, not generic web examples.
+- For uncertain Next.js behavior, consult local docs in `node_modules/next/dist/docs/`.
+- Keep Server Component and Client Component boundaries explicit and intentional.
+- Use `next/image`, `next/link`, and route handlers in idiomatic Next patterns.
+- Avoid deprecated APIs and migration-era snippets from older Next versions.
+- Keep data fetching and rendering patterns predictable and cache-aware.
+- Prefer composition with small React components over large monolithic views.
