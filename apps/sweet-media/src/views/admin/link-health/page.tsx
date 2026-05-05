@@ -1103,8 +1103,9 @@ export default function LinkHealthPage() {
           </div>
         )}
       </div>
+      )} {/* end mappings tab */}
 
-      {/* Delete confirmation modal */}
+      {/* Delete confirmation modal — outside tab scope, shared */}
       {deletingId && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/30 p-4">
           <div className="bg-white rounded-2xl p-6 max-w-sm w-full">
@@ -1146,8 +1147,6 @@ export default function LinkHealthPage() {
           <span className="text-sm font-medium">{toast.message}</span>
         </div>
       )}
-      </div>
-      )} {/* end mappings tab */}
     </div>
   );
 }
