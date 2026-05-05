@@ -4,22 +4,14 @@
 @source "../../src/**/*.{js,ts,jsx,tsx,mdx}";
 
 :root {
-  /* ── Brand palette ── */
-  --color-bg:        #F5F1EB;   /* warm sandy cream */
-  --color-dark:      #1C3A5C;   /* deep ocean navy */
-  --color-warm:      #C47F6A;   /* muted coastal coral */
-  --color-cool:      #6B9EB5;   /* coastal blue-grey */
-  --color-sage:      #87A892;   /* coastal sage */
-  --color-surface:   #EAE4D6;   /* warm sand */
-  --color-text:      #2C4558;   /* dark slate */
-  --color-muted:     #5C7A8E;   /* medium slate */
-
-  /* ── Legacy vars (keep for shared infra) ── */
-  --color-primary:    var(--color-dark);
-  --color-secondary:  var(--color-text);
-  --color-accent:     var(--color-warm);
-  --color-background: var(--color-bg);
-  --color-surface-legacy: var(--color-surface);
+  --color-primary: #1f2937;
+  --color-secondary: #334155;
+  --color-accent: #2563eb;
+  --color-background: #f8fafc;
+  --color-surface: #ffffff;
+  --color-muted: #64748b;
+  --font-heading: Inter, system-ui, sans-serif;
+  --font-body: Inter, system-ui, sans-serif;
 }
 
 html {
@@ -28,35 +20,21 @@ html {
 
 body {
   margin: 0;
-  background: var(--color-bg);
-  color: var(--color-text);
-  font-family: 'Inter', system-ui, sans-serif;
-  -webkit-font-smoothing: antialiased;
+  background: var(--color-background);
+  color: var(--color-primary);
+  font-family: var(--font-body);
 }
 
-h1, h2, h3, h4, h5, h6 {
-  font-family: 'Playfair Display', Georgia, serif;
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-heading);
 }
 
-button, a {
-  transition: all 200ms ease;
-}
-
-::selection {
-  background: #C47F6A30;
-  color: #1C3A5C;
-}
-
-@keyframes marquee {
-  from { transform: translateX(0); }
-  to   { transform: translateX(-50%); }
-}
-
-.marquee-track {
-  animation: marquee 28s linear infinite;
-  will-change: transform;
-}
-
-.marquee-track:hover {
-  animation-play-state: paused;
+button,
+a {
+  transition: all 180ms ease;
 }

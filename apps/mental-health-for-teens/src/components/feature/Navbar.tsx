@@ -1,62 +1,122 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import Image from 'next/image';
 
 const navLinks = [
-  { label: 'About',          path: '/about' },
-  { label: 'Levels of Care', path: '/levels-of-care' },
-  { label: 'What We Treat',  path: '/what-we-treat' },
-  { label: 'Admissions',     path: '/admissions' },
-  { label: 'Resources',      path: '/resources' },
+  { label: 'Home', path: '/' },
+  { label: 'About', path: '/about' },
+  { label: 'What We Treat', path: '/what-we-treat' },
+  { label: 'Virtual Outpatient', path: '/levels-of-care' },
+  { label: 'Therapy', path: '/therapy' },
+  { label: 'Admissions', path: '/admissions' },
+  { label: 'Resources', path: '/resources' },
 ];
 
 export default function Navbar() {
+  const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const pathname = usePathname();
+  const isHome = pathname === '/';
+
+  useEffect(() => {
+    const handleScroll = () => setScrolled(window.scrollY > 40);
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  const navBg = scrolled || !isHome
+    ? 'bg-[#F8FAFC] shadow-sm'
+    : 'bg-transparent';
+
+  const textColor = scrolled || !isHome ? 'text-[#1F2937]' : 'text-[#F8FAFC]';
+  const logoFilter = scrolled || !isHome ? '' : 'brightness-0 invert';
 
   return (
-    <nav className="fixed top-0 left-0 w-full z-50" style={{ background: '#1C3A5C' }}>
-      <div className="max-w-7xl mx-auto px-6 md:px-12 h-[72px] flex items-center justify-between">
+    <nav className={`fixed top-0 left-0 w-full z-50 transition-all duration-500 ${navBg}`}>
 
-        {/* Logo */}
-        <Link href="/" className="cursor-pointer flex-shrink-0">
-          <span className="font-bold text-xl tracking-tight" style={{ fontFamily: 'var(--font-playfair), Georgia, serif', color: '#F5F1EB' }}>
-            Mental Health <span style={{ color: '#6B9EB5' }}>For Teens</span>
-          </span>
-        </Link>
-
-        {/* Desktop links */}
-        <div className="hidden lg:flex items-center gap-8">
-          {navLinks.map(link => (
-            <Link
-              key={link.path}
-              href={link.path}
-              className="text-[11px] uppercase tracking-widest font-medium whitespace-nowrap cursor-pointer transition-colors duration-200"
-              style={{ color: pathname === link.path ? '#C47F6A' : 'rgba(245,241,235,0.65)' }}
-              onMouseEnter={e => { (e.currentTarget as HTMLElement).style.color = '#F5F1EB'; }}
-              onMouseLeave={e => { (e.currentTarget as HTMLElement).style.color = pathname === link.path ? '#C47F6A' : 'rgba(245,241,235,0.65)'; }}
-            >
-              {link.label}
-            </Link>
-          ))}
+      {/* ── Top utility bar ── */}
+      <div className={`hidden lg:block w-full border-b transition-all duration-500 ${scrolled || !isHome ? 'border-[#1F2937]/8 bg-[#1F2937]' : 'border-[#F8FAFC]/10 bg-[#1F2937]/70 backdrop-blur-sm'}`}>
+        <div className="w-full px-8 md:px-16 lg:px-24 py-2">
+          <div className="max-w-7xl mx-auto flex items-center justify-between">
+            <div className="flex items-center gap-6">
+              <a href="tel:+17197338556" className="flex items-center gap-1.5 text-[#E2E8F0]/70 hover:text-[#DDA15E] transition-colors duration-200 cursor-pointer">
+                <div className="w-4 h-4 flex items-center justify-center">
+                  <i className="ri-phone-line text-xs"></i>
+                </div>
+                <span className="text-[11px] font-light tracking-wide">719-733-8556</span>
+              </a>
+              <a href="mailto:admissions@example.com" className="flex items-center gap-1.5 text-[#E2E8F0]/70 hover:text-[#DDA15E] transition-colors duration-200 cursor-pointer">
+                <div className="w-4 h-4 flex items-center justify-center">
+                  <i className="ri-mail-line text-xs"></i>
+                </div>
+                <span className="text-[11px] font-light tracking-wide">admissions@example.com</span>
+              </a>
+            </div>
+            <div className="flex items-center gap-5">
+              <span className="text-[11px] text-[#E2E8F0]/50 font-light">
+                <span className="text-[#DDA15E] font-medium">24/7 Intake:</span> Call anytime — no commitment required
+              </span>
+              <div className="flex items-center gap-3">
+                {['ri-instagram-line', 'ri-facebook-circle-line', 'ri-linkedin-box-line'].map((icon) => (
+                  <a key={icon} href="#" className="w-4 h-4 flex items-center justify-center text-[#E2E8F0]/50 hover:text-[#DDA15E] transition-colors duration-200 cursor-pointer">
+                    <i className={`${icon} text-xs`}></i>
+                  </a>
+                ))}
+              </div>
+            </div>
+          </div>
         </div>
+      </div>
 
-        {/* CTA + hamburger */}
-        <div className="flex items-center gap-3">
-          <Link
-            href="/contact"
-            className="hidden lg:inline-flex whitespace-nowrap items-center gap-2 px-5 py-2.5 rounded-full text-[11px] uppercase tracking-widest font-semibold cursor-pointer transition-all duration-200"
-            style={{ background: '#C47F6A', color: '#F5F1EB' }}
-            onMouseEnter={e => (e.currentTarget.style.background = '#87A892')}
-            onMouseLeave={e => (e.currentTarget.style.background = '#C47F6A')}
-          >
-            Get Started
+      <div className="w-full px-8 md:px-16 lg:px-24 py-4">
+        <div className="max-w-7xl mx-auto flex items-center justify-between">
+          {/* Logo */}
+          <Link href="/" className="flex items-center gap-3 cursor-pointer">
+            <Image
+              src="https://papiwmobmdbtzeeebmpr.supabase.co/storage/v1/object/public/site-assets/images/logo.png"
+              alt="Client Brand Logo"
+              width={160}
+              height={40}
+              className={`h-10 w-auto object-contain transition-all duration-500 ${logoFilter}`}
+              priority
+            />
           </Link>
+
+          {/* Desktop Nav */}
+          <div className="hidden lg:flex items-center gap-8">
+            {navLinks.map((link) => (
+              <Link
+                key={link.path}
+                href={link.path}
+                className={`text-xs uppercase tracking-widest font-medium transition-colors duration-300 whitespace-nowrap cursor-pointer hover:text-[#2563EB] ${
+                  pathname === link.path ? 'text-[#2563EB]' : textColor
+                }`}
+              >
+                {link.label}
+              </Link>
+            ))}
+          </div>
+
+          {/* CTA Button */}
+          <div className="hidden lg:flex items-center gap-4">
+            <Link
+              href="/contact"
+              className={`whitespace-nowrap cursor-pointer text-xs uppercase tracking-widest px-6 py-2.5 rounded-full border transition-all duration-300 font-medium ${
+                scrolled || !isHome
+                  ? 'border-[#1F2937] text-[#1F2937] hover:bg-[#1F2937] hover:text-[#F8FAFC]'
+                  : 'border-[#F8FAFC] text-[#F8FAFC] hover:bg-[#F8FAFC] hover:text-[#1F2937]'
+              }`}
+            >
+              Begin Your Journey
+            </Link>
+          </div>
+
+          {/* Mobile Hamburger */}
           <button
-            className="lg:hidden w-9 h-9 flex items-center justify-center cursor-pointer"
-            style={{ color: '#F5F1EB' }}
+            className={`lg:hidden w-8 h-8 flex items-center justify-center cursor-pointer ${textColor}`}
             onClick={() => setMenuOpen(!menuOpen)}
             aria-label="Toggle menu"
           >
@@ -65,16 +125,17 @@ export default function Navbar() {
         </div>
       </div>
 
-      {/* Mobile menu */}
+      {/* Mobile Menu */}
       {menuOpen && (
-        <div className="lg:hidden px-6 py-6 flex flex-col gap-5" style={{ borderTop: '1px solid rgba(245,241,235,0.08)', background: '#1C3A5C' }}>
-          {navLinks.map(link => (
+        <div className="lg:hidden bg-[#F8FAFC] border-t border-[#E2E8F0] px-6 py-6 flex flex-col gap-5">
+          {navLinks.map((link) => (
             <Link
               key={link.path}
               href={link.path}
               onClick={() => setMenuOpen(false)}
-              className="text-[11px] uppercase tracking-widest font-medium cursor-pointer"
-              style={{ color: pathname === link.path ? '#C47F6A' : 'rgba(245,241,235,0.65)' }}
+              className={`text-xs uppercase tracking-widest font-medium cursor-pointer hover:text-[#2563EB] ${
+                pathname === link.path ? 'text-[#2563EB]' : 'text-[#1F2937]'
+              }`}
             >
               {link.label}
             </Link>
@@ -82,10 +143,9 @@ export default function Navbar() {
           <Link
             href="/contact"
             onClick={() => setMenuOpen(false)}
-            className="self-start px-6 py-3 rounded-full text-[11px] uppercase tracking-widest font-semibold cursor-pointer"
-            style={{ background: '#C47F6A', color: '#F5F1EB' }}
+            className="whitespace-nowrap cursor-pointer text-xs uppercase tracking-widest px-6 py-2.5 rounded-full border border-[#1F2937] text-[#1F2937] hover:bg-[#1F2937] hover:text-[#F8FAFC] transition-all duration-300 font-medium text-center"
           >
-            Get Started
+            Begin Your Journey
           </Link>
         </div>
       )}
