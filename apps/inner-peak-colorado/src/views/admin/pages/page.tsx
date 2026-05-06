@@ -1,7 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { AdminPageHeader, supabase } from "@sweetmedia/admin-core";
+import { AdminPageHeader } from "@sweetmedia/admin-core";
 import { ADMIN_OCEAN } from "@sweetmedia/admin-core";
 import Seo from "@/components/feature/Seo";
 import { useTrackedPages } from "@sweetmedia/admin-core";
@@ -34,57 +34,15 @@ export default function AdminPagesTrackingPage() {
   const syncFromCodebase = async () => {
     setSyncing(true);
     try {
-      const res = await fetch("/api/admin/app-pages", { cache: "no-store" });
-      if (!res.ok) throw new Error("Failed to fetch app pages");
-      const json = (await res.json()) as { routes?: string[] };
-      const routes = json.routes ?? [];
-      if (routes.length === 0) { showToast("No routes found in codebase", "error"); return; }
-
-      const { data: existing } = await supabase.from("tracked_pages").select("route_path");
-      const existingSet = new Set((existing ?? []).map((r: { route_path: string }) => r.route_path));
-
-      const { data: maxRow } = await supabase.from("tracked_pages").select("display_order")
-        .order("display_order", { ascending: false }).limit(1).maybeSingle();
-      const baseOrder = maxRow ? Number((maxRow as { display_order: number }).display_order) + 10 : 0;
-
-      const toInsert = routes
-        .filter((r) => !existingSet.has(r))
-        .map((r, i) => ({
-          route_path: r,
-          page_title: r === "/" ? "Home" : r.replace(/^\//, "").split("/").map((s) =>
-            s.split("-").map((w) => w.charAt(0).toUpperCase() + w.slice(1)).join(" ")
-          ).join(" › "),
-          display_order: baseOrder + (i + 1) * 10,
-          is_active: true,
-        }));
-
-      if (toInsert.length === 0) { showToast("All pages already tracked"); return; }
-
-      // Explicitly attach the current access token so RLS sees the authenticated user.
-      const { data: { session: currentSession } } = await supabase.auth.getSession();
-      if (!currentSession?.access_token) throw new Error("Not authenticated — please sign in again");
-
-      const { createClient } = await import("@supabase/supabase-js");
-      const authedClient = createClient(
-        process.env.NEXT_PUBLIC_SUPABASE_URL!,
-        process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ?? process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY!,
-        {
-          global: { headers: { Authorization: `Bearer ${currentSession.access_token}` } },
-          auth: { persistSession: false, autoRefreshToken: false },
-        }
-      );
-      const { error } = await authedClient.from("tracked_pages").insert(toInsert);
-      if (error) throw error;
-      showToast(`Synced ${toInsert.length} page${toInsert.length > 1 ? "s" : ""} from codebase`);
+      const res = await fetch("/api/admin/sync-pages", { method: "POST", cache: "no-store" });
+      const json = (await res.json()) as { inserted?: number; skipped?: number; total?: number; error?: string };
+      if (!res.ok || json.error) throw new Error(json.error ?? "Sync failed");
+      if (json.inserted === 0) { showToast("All pages already tracked"); }
+      else { showToast(`Synced ${json.inserted} page${json.inserted !== 1 ? "s" : ""} from codebase`); }
       await refetch();
     } catch (e) {
       console.error("[sync-from-codebase]", e);
-      const msg =
-        e instanceof Error
-          ? e.message
-          : typeof e === "object" && e !== null && "message" in e
-            ? String((e as { message: unknown }).message)
-            : "Sync failed";
+      const msg = e instanceof Error ? e.message : "Sync failed";
       showToast(msg, "error");
     } finally {
       setSyncing(false);
