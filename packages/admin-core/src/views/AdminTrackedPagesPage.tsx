@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import type { TrackedPage, TrackedPageInput } from "../types/tracked-page";
 import AdminPageHeader from "../components/AdminPageHeader";
 import { ADMIN_OCEAN } from "../lib/adminTheme";
@@ -34,6 +34,38 @@ export default function AdminTrackedPagesPage() {
   const [deletingPage, setDeletingPage] = useState<TrackedPage | null>(null);
   const [togglingId, setTogglingId] = useState<string | null>(null);
   const [syncing, setSyncing] = useState(false);
+
+  // Column widths (px)
+  const [colWidths, setColWidths] = useState({
+    route: 180, title: 150, seo: 240, meta: 280, keyword: 130, status: 150, actions: 180,
+  });
+  const resizeRef = useRef<{ col: keyof typeof colWidths; startX: number; startW: number } | null>(null);
+
+  const startResize = (col: keyof typeof colWidths, e: React.MouseEvent) => {
+    e.preventDefault();
+    resizeRef.current = { col, startX: e.clientX, startW: colWidths[col] };
+    const onMove = (me: MouseEvent) => {
+      if (!resizeRef.current) return;
+      const w = Math.max(80, resizeRef.current.startW + (me.clientX - resizeRef.current.startX));
+      setColWidths((p) => ({ ...p, [resizeRef.current!.col]: w }));
+    };
+    const onUp = () => {
+      resizeRef.current = null;
+      document.removeEventListener("mousemove", onMove);
+      document.removeEventListener("mouseup", onUp);
+    };
+    document.addEventListener("mousemove", onMove);
+    document.addEventListener("mouseup", onUp);
+  };
+
+  // Expanded cells: "rowId-seo" | "rowId-meta"
+  const [expandedCells, setExpandedCells] = useState<Set<string>>(new Set());
+  const toggleCell = (key: string) =>
+    setExpandedCells((prev) => {
+      const next = new Set(prev);
+      next.has(key) ? next.delete(key) : next.add(key);
+      return next;
+    });
 
   const showToast = (message: string, type: "success" | "error" = "success") => {
     setToast({ message, type });
@@ -289,103 +321,125 @@ export default function AdminTrackedPagesPage() {
           ) : (
             <div className="bg-white rounded-2xl border border-neutral-100 overflow-hidden">
               <div className="overflow-x-auto">
-                <table className="w-full min-w-[1180px] text-left text-sm">
+                <table
+                  className="text-left text-sm"
+                  style={{ tableLayout: "fixed", width: Object.values(colWidths).reduce((a, b) => a + b, 0) + "px", minWidth: "100%" }}
+                >
+                  <colgroup>
+                    {(["route","title","seo","meta","keyword","status","actions"] as (keyof typeof colWidths)[]).map((c) => (
+                      <col key={c} style={{ width: colWidths[c] + "px" }} />
+                    ))}
+                  </colgroup>
                   <thead>
                     <tr className="border-b border-neutral-100 bg-neutral-50/80">
-                      <th className="px-5 py-3.5 font-semibold text-neutral-600 text-[11px] uppercase tracking-[0.1em]">
-                        Route Path
-                      </th>
-                      <th className="px-5 py-3.5 font-semibold text-neutral-600 text-[11px] uppercase tracking-[0.1em]">
-                        Page Title
-                      </th>
-                      <th className="px-5 py-3.5 font-semibold text-neutral-600 text-[11px] uppercase tracking-[0.1em]">
-                        SEO Title
-                      </th>
-                      <th className="px-5 py-3.5 font-semibold text-neutral-600 text-[11px] uppercase tracking-[0.1em]">
-                        Meta Description
-                      </th>
-                      <th className="px-5 py-3.5 font-semibold text-neutral-600 text-[11px] uppercase tracking-[0.1em]">
-                        Primary Keyword
-                      </th>
-                      <th className="px-5 py-3.5 font-semibold text-neutral-600 text-[11px] uppercase tracking-[0.1em]">
-                        Status
-                      </th>
-                      <th className="px-5 py-3.5 font-semibold text-neutral-600 text-[11px] uppercase tracking-[0.1em] text-right">
-                        Actions
-                      </th>
+                      {([
+                        { col: "route" as const, label: "Route Path" },
+                        { col: "title" as const, label: "Page Title" },
+                        { col: "seo" as const, label: "SEO Title" },
+                        { col: "meta" as const, label: "Meta Description" },
+                        { col: "keyword" as const, label: "Primary Keyword" },
+                        { col: "status" as const, label: "Status" },
+                        { col: "actions" as const, label: "Actions", right: true },
+                      ]).map(({ col, label, right }) => (
+                        <th
+                          key={col}
+                          className={`px-5 py-3.5 font-semibold text-neutral-600 text-[11px] uppercase tracking-[0.1em] relative select-none overflow-hidden${right ? " text-right" : ""}`}
+                        >
+                          <span className="block truncate pr-2">{label}</span>
+                          <div
+                            onMouseDown={(e) => startResize(col, e)}
+                            className="absolute top-0 right-0 h-full w-2.5 cursor-col-resize flex items-center justify-center group"
+                            title="Drag to resize"
+                          >
+                            <div className="w-0.5 h-4 rounded-full bg-neutral-300 group-hover:bg-[#3d6f7f] transition-colors" />
+                          </div>
+                        </th>
+                      ))}
                     </tr>
                   </thead>
                   <tbody>
                     {filteredPages.map((p) => (
                       <tr key={p.id} className="border-b border-neutral-100 last:border-0 hover:bg-neutral-50/50">
-                        <td className="px-5 py-3.5 align-middle">
-                          <code className="text-[13px] text-neutral-800 font-mono bg-neutral-100 px-2 py-0.5 rounded-md">
+                        <td className="px-5 py-3.5 align-middle overflow-hidden">
+                          <code className="text-[12px] text-neutral-800 font-mono bg-neutral-100 px-2 py-0.5 rounded-md block truncate" title={p.route_path}>
                             {p.route_path}
                           </code>
                         </td>
-                        <td className="px-5 py-3.5 align-middle text-neutral-900 font-medium max-w-[220px]">
-                          <span className="line-clamp-2">{p.page_title}</span>
+                        <td className="px-5 py-3.5 align-middle overflow-hidden">
+                          <span className="text-sm text-neutral-900 font-medium block truncate" title={p.page_title}>{p.page_title}</span>
                         </td>
-                        <td className="px-5 py-3.5 align-top max-w-[240px]">
-                          {p.seo_title ? (
-                            <div className="flex flex-col gap-1.5">
-                              <span className="text-sm text-neutral-800 line-clamp-2 leading-snug" title={p.seo_title}>
-                                {truncateSeoTitle(p.seo_title)}
-                              </span>
-                              <span className="inline-flex items-center px-1.5 py-0.5 rounded text-[9px] font-bold uppercase tracking-wider bg-amber-50 text-amber-600 w-fit">
-                                Override
-                              </span>
-                              {p.default_seo_title && (
-                                <span className="text-[11px] text-neutral-400 line-clamp-1 leading-snug" title={p.default_seo_title}>
-                                  <span className="font-medium text-neutral-500">Default: </span>
-                                  {truncateSeoTitle(p.default_seo_title, 50)}
+                        <td className="px-5 py-3.5 align-top overflow-hidden">
+                          {(() => {
+                            const seoKey = `${p.id}-seo`;
+                            const expanded = expandedCells.has(seoKey);
+                            const activeVal = p.seo_title;
+                            const defaultVal = p.default_seo_title;
+                            const displayVal = activeVal ?? defaultVal;
+                            if (!displayVal) return <span className="text-neutral-400 text-sm">—</span>;
+                            return (
+                              <div className="flex flex-col gap-1.5">
+                                <span
+                                  className={`text-sm leading-snug ${activeVal ? "text-neutral-800" : "text-neutral-600"} ${expanded ? "" : "line-clamp-2"}`}
+                                  title={displayVal}
+                                >
+                                  {displayVal}
                                 </span>
-                              )}
-                            </div>
-                          ) : p.default_seo_title ? (
-                            <div className="flex flex-col gap-1.5">
-                              <span className="text-sm text-neutral-700 line-clamp-2 leading-snug" title={p.default_seo_title}>
-                                {truncateSeoTitle(p.default_seo_title)}
-                              </span>
-                              <span className="inline-flex items-center px-1.5 py-0.5 rounded text-[9px] font-bold uppercase tracking-wider bg-neutral-100 text-neutral-400 w-fit">
-                                Code Default
-                              </span>
-                            </div>
-                          ) : (
-                            <span className="text-neutral-400 text-sm">—</span>
-                          )}
+                                <div className="flex items-center gap-2 flex-wrap">
+                                  <span className={`inline-flex items-center px-1.5 py-0.5 rounded text-[9px] font-bold uppercase tracking-wider w-fit ${activeVal ? "bg-amber-50 text-amber-600" : "bg-neutral-100 text-neutral-400"}`}>
+                                    {activeVal ? "Override" : "Code Default"}
+                                  </span>
+                                  {displayVal.length > 55 && (
+                                    <button type="button" onClick={() => toggleCell(seoKey)} className="text-[10px] text-[#3d6f7f] hover:underline cursor-pointer">
+                                      {expanded ? "See less ↑" : "See more ↓"}
+                                    </button>
+                                  )}
+                                </div>
+                                {activeVal && defaultVal && defaultVal !== activeVal && (
+                                  <span className={`text-[11px] text-neutral-400 leading-snug ${expanded ? "" : "line-clamp-1"}`}>
+                                    <span className="font-medium text-neutral-500">Default:</span> {defaultVal}
+                                  </span>
+                                )}
+                              </div>
+                            );
+                          })()}
                         </td>
-                        <td className="px-5 py-3.5 align-top max-w-[300px]">
-                          {p.meta_description ? (
-                            <div className="flex flex-col gap-1.5">
-                              <span className="text-sm text-neutral-800 line-clamp-2 leading-snug" title={p.meta_description}>
-                                {truncateMetaDescription(p.meta_description)}
-                              </span>
-                              <span className="inline-flex items-center px-1.5 py-0.5 rounded text-[9px] font-bold uppercase tracking-wider bg-amber-50 text-amber-600 w-fit">
-                                Override
-                              </span>
-                              {p.default_meta_description && (
-                                <span className="text-[11px] text-neutral-400 line-clamp-2 leading-snug" title={p.default_meta_description}>
-                                  <span className="font-medium text-neutral-500">Default: </span>
-                                  {truncateMetaDescription(p.default_meta_description, 100)}
+                        <td className="px-5 py-3.5 align-top overflow-hidden">
+                          {(() => {
+                            const metaKey = `${p.id}-meta`;
+                            const expanded = expandedCells.has(metaKey);
+                            const activeVal = p.meta_description;
+                            const defaultVal = p.default_meta_description;
+                            const displayVal = activeVal ?? defaultVal;
+                            if (!displayVal) return <span className="text-neutral-400 text-sm">—</span>;
+                            return (
+                              <div className="flex flex-col gap-1.5">
+                                <span
+                                  className={`text-sm leading-snug ${activeVal ? "text-neutral-800" : "text-neutral-600"} ${expanded ? "" : "line-clamp-2"}`}
+                                  title={displayVal}
+                                >
+                                  {displayVal}
                                 </span>
-                              )}
-                            </div>
-                          ) : p.default_meta_description ? (
-                            <div className="flex flex-col gap-1.5">
-                              <span className="text-sm text-neutral-700 line-clamp-2 leading-snug" title={p.default_meta_description}>
-                                {truncateMetaDescription(p.default_meta_description)}
-                              </span>
-                              <span className="inline-flex items-center px-1.5 py-0.5 rounded text-[9px] font-bold uppercase tracking-wider bg-neutral-100 text-neutral-400 w-fit">
-                                Code Default
-                              </span>
-                            </div>
-                          ) : (
-                            <span className="text-neutral-400 text-sm">—</span>
-                          )}
+                                <div className="flex items-center gap-2 flex-wrap">
+                                  <span className={`inline-flex items-center px-1.5 py-0.5 rounded text-[9px] font-bold uppercase tracking-wider w-fit ${activeVal ? "bg-amber-50 text-amber-600" : "bg-neutral-100 text-neutral-400"}`}>
+                                    {activeVal ? "Override" : "Code Default"}
+                                  </span>
+                                  {displayVal.length > 100 && (
+                                    <button type="button" onClick={() => toggleCell(metaKey)} className="text-[10px] text-[#3d6f7f] hover:underline cursor-pointer">
+                                      {expanded ? "See less ↑" : "See more ↓"}
+                                    </button>
+                                  )}
+                                </div>
+                                {activeVal && defaultVal && defaultVal !== activeVal && (
+                                  <span className={`text-[11px] text-neutral-400 leading-snug ${expanded ? "" : "line-clamp-1"}`}>
+                                    <span className="font-medium text-neutral-500">Default:</span> {defaultVal}
+                                  </span>
+                                )}
+                              </div>
+                            );
+                          })()}
                         </td>
-                        <td className="px-5 py-3.5 align-middle text-neutral-600">
-                          {p.primary_keyword ?? "—"}
+                        <td className="px-5 py-3.5 align-middle overflow-hidden">
+                          <span className="block truncate text-neutral-600 text-sm" title={p.primary_keyword ?? ""}>{p.primary_keyword ?? "—"}</span>
                         </td>
                         <td className="px-5 py-3.5 align-middle">
                           <div className="flex items-center gap-3">
