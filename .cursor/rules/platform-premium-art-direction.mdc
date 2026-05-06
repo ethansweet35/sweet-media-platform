@@ -1,15 +1,134 @@
 ---
-description: Premium artistic design direction for all client websites
+description: Premium artistic design direction — Design DNA taxonomy, brand registry, and quality standards
 globs: apps/**/*.{ts,tsx,css,md,mdx}
 alwaysApply: false
 ---
 
 # Premium Artistic Direction
 
-- Every client site should feel premium, intentional, and visually elevated.
-- Establish a unique art direction per client before implementation: imagery mood, icon style, type personality, and texture/motif language.
-- Use high-quality images that match the chosen art direction; avoid generic stock-photo mixes.
-- Define a distinct icon system per client (stroke/fill style, corner geometry, visual weight) and keep usage consistent.
-- Use strong visual hierarchy, generous spacing, and restrained color contrast to signal premium quality.
-- Prefer fewer, high-impact visual elements over crowded layouts or trend-heavy effects.
-- Keep aesthetics compatible with performance goals through optimized image sizing and selective decorative effects.
+## Scope
+
+- **Existing brands** (`sweet-media`, `inner-peak-colorado`, `mental-health-for-teens`): Maintain their established Design DNA documented in the registry below. Do not introduce colors, fonts, motion patterns, or layout archetypes that conflict with a brand's registered choices.
+- **New brands**: Before writing any component, complete the Design DNA Intake (8 axes below). Verify against the registry that your choices differ from every existing brand on at least 6 of 8 axes. Document choices in the registry before building.
+
+## Design DNA Axes
+
+Every brand must make one explicit choice per axis. No two brands may share the same choice on more than 2 of 8 axes.
+
+### 1. Background Archetype
+- `solid-dark-abstract` — Solid dark color field with abstract SVG/geometric graphic element
+- `photo-video-overlay` — Full-bleed photography or video with gradient overlay
+- `white-editorial` — Clean white/light background, typography-first
+- `texture-grain` — Texture, noise, or organic grain as primary surface treatment
+- `gradient-mesh-abstract` — Gradient mesh or color-field abstraction as primary surface (no photography)
+- `split-panel` — Split-screen or asymmetric panel layout
+
+### 2. Palette Temperature
+- `cool-midnight` — Deep navy/blue tones as primary
+- `warm-forest` — Forest green, sage, or muted earth as primary
+- `neutral-sand` — Sand, warm grey, or stone as primary
+- `deep-plum` — Purple, aubergine, or dark violet as primary
+- `ocean-teal` — Teal, seafoam, or aqua as primary
+- `carbon-charcoal` — Near-black charcoal or slate as primary
+
+### 3. Hero Centerpiece
+- `data-visualization` — Animated or interactive data graphic (chart, orbit, dashboard)
+- `editorial-photography` — Art-directed photo or video with strong composition
+- `full-typographic` — Typography is the hero; no heavy imagery or graphic
+- `product-showcase` — Product, service, or UI demo as focal point
+- `abstract-geometry` — Abstract geometric or illustration-based centerpiece
+- `split-content-panel` — Equal-weight split between media and text/form
+
+### 4. Typography Personality
+- `editorial-serif-contrast` — High weight-contrast serif (light italic + ultra-bold display)
+- `editorial-serif-warmth` — Moderate serif with organic tracking and small-caps accents
+- `geometric-sans` — Clean geometric sans-serif, precision-driven (e.g. Inter, DM Sans)
+- `humanist-warmth` — Rounded humanist sans, approachable and warm (e.g. Nunito, Lato)
+- `display-contrast` — Extreme size or weight contrast between display and body type
+- `monospace-tech` — Monospace or code-adjacent type treatment
+
+### 5. Motion Language
+- `ambient-particles-orbit` — Particle canvas, orbit rings, or continuous background animation
+- `static-cinematic` — No hero animation; cinematic photography or stillness carries the moment
+- `scroll-driven` — Scroll-triggered reveals, parallax, or sticky transitions
+- `micro-interactions-only` — Motion confined to hover/focus/interaction states only
+- `none` — Intentionally motion-free throughout
+
+### 6. Section Rhythm
+- `dark-dominant` — Dark background as primary; white used for contrast and breaks
+- `alternating-cream` — Light/neutral alternating cream or warm sections; dark only for emphasis
+- `white-editorial` — All-white or near-white surfaces; sections differentiated by type and spacing
+- `editorial-magazine` — Asymmetric editorial layout; mixed full-bleed and text-heavy sections
+- `card-grid-driven` — Grid of cards as the primary content structure
+- `full-bleed-panels` — Sequential full-viewport-height panels, each with a distinct treatment
+
+### 7. Accent Treatment
+- `warm-amber-copper` — Amber, copper, or burnt orange accent
+- `pure-white` — No color accent; white on dark is the only contrast tool
+- `electric-pop` — A single saturated accent (coral, cyan, lime, electric blue, etc.)
+- `muted-earth-tone` — Terracotta, olive, or dusty rose accent
+- `metallic-gold` — Gold, champagne, or warm metallic accent
+- `cool-mint` — Mint, sage, or pale green accent
+
+### 8. Brand Voice Signal
+- `performance-ROI` — Data, metrics, results-first; trust built through proof
+- `care-sanctuary` — Warmth, safety, and emotional resonance first
+- `innovation-authority` — Forward-thinking expertise; technology or category leadership
+- `community-belonging` — Identity-driven; community or cultural signal
+- `clinical-trust` — Medical credibility, credentials, and evidence-based language
+
+---
+
+## Brand Registry
+
+### sweet-media (`apps/sweet-media`)
+
+| Axis | Choice | Details |
+|---|---|---|
+| Background archetype | `solid-dark-abstract` | #0A1F44 navy field with SVG dot grid, radial gradient orbs |
+| Palette temperature | `cool-midnight` | Primary: #0A1F44; text: white |
+| Hero centerpiece | `data-visualization` | Rotating orbit ring + animated census counter |
+| Typography personality | `editorial-serif-contrast` | Cormorant Garamond light italic + ultra-bold |
+| Motion language | `ambient-particles-orbit` | Canvas particle field + CSS orbit ring animation |
+| Section rhythm | `dark-dominant` | Dark navy primary; white sections used sparingly |
+| Accent treatment | `pure-white` | No color accent; all contrast via white on dark |
+| Brand voice signal | `performance-ROI` | Metrics strip, census counter, results-forward copy |
+
+### inner-peak-colorado (`apps/inner-peak-colorado`)
+
+| Axis | Choice | Details |
+|---|---|---|
+| Background archetype | `photo-video-overlay` | Full-bleed video (desktop) / image (mobile) with gradient overlay |
+| Palette temperature | `warm-forest` | Primary: #2C3B2E; cream: #FAF8F5, #F0ECE1 |
+| Hero centerpiece | `editorial-photography` | Art-directed nature video + embedded contact form |
+| Typography personality | `editorial-serif-warmth` | Cormorant Garamond with small-caps tracking accents, ri-icons |
+| Motion language | `static-cinematic` | No hero animation; cinematic video/photo carries the moment |
+| Section rhythm | `alternating-cream` | #FAF8F5 / #F0ECE1 alternating; #2C3B2E for emphasis sections |
+| Accent treatment | `warm-amber-copper` | #DDA15E amber / #C8795A copper |
+| Brand voice signal | `care-sanctuary` | Women-only, trauma-informed, sanctuary language |
+
+### mental-health-for-teens (`apps/mental-health-for-teens`)
+
+> Design DNA in progress — token foundations established, homepage not yet built. Axis choices below reflect the established token system and must be honored when building.
+
+| Axis | Choice | Details |
+|---|---|---|
+| Background archetype | `gradient-mesh-abstract` | White canvas with ambient gradient mesh overlay (peach/pink/teal radials) |
+| Palette temperature | `neutral-sand` | Canvas: #ffffff / #f4f3ef whisper-gray; ink: #111111 midnight |
+| Hero centerpiece | **TBD** — must be decided via new-brand-prototype intake |  |
+| Typography personality | `geometric-sans` | Inter throughout; tight -0.02em tracking on headings |
+| Motion language | `micro-interactions-only` | No heavy animation established; transitions at 180ms |
+| Section rhythm | **TBD** — must be decided via new-brand-prototype intake |  |
+| Accent treatment | `electric-pop` | Phoenix-orange #e8400d primary accent; cyan-glow #99fff9 secondary |
+| Brand voice signal | `clinical-trust` | Teen mental health, clinical credibility, approachable language |
+
+---
+
+## Quality Standards
+
+- Every site must feel premium, intentional, and visually elevated. Test: would a sophisticated client pay for this design?
+- Use strong visual hierarchy, generous spacing, and restrained color use. Signal quality through what you leave out.
+- Prefer fewer, high-impact visual elements over trend-heavy clutter or decorative excess.
+- Every net-new page requires unique AI-generated images (see `platform-unique-page-imagery` rule).
+- Icon system must be consistent per brand: same icon family, same stroke weight, same visual treatment site-wide.
+- Keep aesthetics compatible with performance goals: optimized image sizing, selective decorative effects.

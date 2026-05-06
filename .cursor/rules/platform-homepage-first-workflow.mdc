@@ -1,13 +1,52 @@
 ---
-description: Homepage-first workflow for new client website builds
+description: Homepage-first workflow for new client website builds, including design-preview page and Refero visual research
 globs: apps/**/*.{ts,tsx,css,md,mdx}
 alwaysApply: false
 ---
 
 # Homepage First Workflow
 
-- For a new client site, start with homepage design before building secondary pages.
-- Treat the homepage as the source of truth for visual language and component direction.
-- Define and apply a distinct design signature early: typography, spacing rhythm, CTA style, section pacing, imagery style, and icon language.
-- Build reusable section primitives from homepage patterns, then extend to interior pages.
-- Validate homepage quality first (mobile responsiveness, accessibility, performance, trust clarity) before scaling site-wide.
+## For Existing Brands
+
+Skip to **Step 3**. The Design DNA and design tokens are already established. Build new pages using the brand's registered axis choices, established section primitives, and brand-specific rules.
+
+## For New Brands — Full Sequence
+
+### Step 1 — Design DNA Intake
+
+Run the `new-brand-prototype` skill. Do not write any component code until this is complete. The skill guides through:
+
+- Choosing all 8 Design DNA axes (checked against the registry in `platform-premium-art-direction`)
+- Researching reference screens via Refero MCP
+- Defining the full design token set (colors, fonts, spacing, CTA shape, section padding, content width)
+- Generating the first hero and content images
+
+### Step 2 — Design Preview Page
+
+Build `src/app/design-preview/page.tsx` as the first deliverable. This page is the visual contract for the brand and must include:
+
+- Color palette swatches with hex values for every token
+- Typography scale: h1, h2, h3, body, caption, label — using the approved font stack
+- CTA button variants: primary, secondary, ghost
+- Hero section preview using the approved images and background archetype
+- Two sample content sections showing the section rhythm and spacing
+
+**Stop here and get explicit user approval before building the homepage.**
+
+### Step 3 — Homepage Build
+
+The homepage is the source of truth for all visual patterns. Apply all 8 registered Design DNA choices consistently. Decompose into named section components under `src/views/home/components/` (not inline in `page.tsx`).
+
+Validate before moving to interior pages:
+- Mobile-first responsiveness (test at 375px, 768px, 1280px)
+- LCP hero image/video is optimized and loads fast
+- Accessibility: heading hierarchy, focus states, color contrast
+- Trust clarity: a first-time visitor understands who this is for within 5 seconds
+
+### Step 4 — Interior Pages
+
+Extend from homepage primitives. Every interior page must:
+
+- Use the same section wrapper pattern, spacing scale, and typography from the homepage
+- Not introduce new color families, font families, or layout archetypes
+- Reference the registered Design DNA if any visual ambiguity arises during build

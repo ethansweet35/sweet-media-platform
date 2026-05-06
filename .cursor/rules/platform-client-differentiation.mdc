@@ -1,13 +1,42 @@
 ---
-description: Keep client websites visually distinct while sharing UX quality
+description: Enforce visual distinctiveness across client brands — anti-repetition rules and cross-brand contamination prevention
 globs: apps/**/*.{ts,tsx,css}
 alwaysApply: false
 ---
 
 # Client Differentiation Guardrail
 
-- Optimize for shared UX quality, not shared visual identity.
-- Never reuse another client app's section composition, headline patterns, or component skin by default.
-- Borrow only interaction logic and accessibility behavior from shared code.
-- For new client pages, establish a unique visual direction in type scale, spacing rhythm, CTA treatment, image mood, and iconography style.
-- If referencing an existing app, adapt structure and styling enough that the page does not feel template-derived.
+## Anti-Repetition Enforcement
+
+Before building any significant UI section for a brand, check the Design DNA registry in `platform-premium-art-direction` and confirm:
+
+1. The current brand's 8-axis choices are documented in the registry.
+2. No two brands share the same choice on more than 2 of 8 axes.
+3. Your implementation reflects the *target brand's* registered choices — not another brand's patterns.
+
+If a brand's axes are not yet registered, stop and run the `new-brand-prototype` skill to establish them before proceeding.
+
+## Cross-Brand Contamination Rules
+
+- **Never copy a section layout, headline pattern, or component skin** from another client app, even as a starting point.
+- **Never import or reference another client app's components** — each app's visual components are brand-exclusive.
+- **Borrow only:** interaction logic, accessibility behavior, and shared infrastructure from `packages/*`.
+- **If you catch yourself writing inner-peak styles in sweet-media**, or vice versa (same color family, same motion pattern, same section composition), stop. Return to the target brand's registered Design DNA and rebuild from there.
+
+## Existing Brand Consistency
+
+When working on an **existing brand** (`sweet-media`, `inner-peak-colorado`, `mental-health-for-teens`):
+
+- Match the visual language established on that brand's homepage and primary pages.
+- Introduce new sections using that brand's registered axes: palette, typography, spacing rhythm, motion language.
+- Do not introduce a new color family, font family, accent color, or motion pattern that isn't already part of the brand's Design DNA.
+- Brand-specific rules (`inner-peak-layout-standards`, `inner-peak-what-we-treat-consistency`, etc.) take priority over platform-level rules for their respective apps.
+
+## New Brand Builds
+
+When starting a new brand, run the `new-brand-prototype` skill before writing any component. This ensures:
+
+1. All 8 Design DNA axes are explicitly chosen and documented.
+2. At least 6 of 8 choices differ from every existing registered brand.
+3. Visual research via Refero grounds the design before code is written.
+4. A `/design-preview` page is the first deliverable — not the full homepage.
