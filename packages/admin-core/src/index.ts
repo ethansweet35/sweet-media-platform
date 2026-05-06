@@ -32,3 +32,15 @@ export {
 export { default as AdminSitemapPage } from "./views/AdminSitemapPage";
 export { default as AdminIndexingStatusPage } from "./views/AdminIndexingStatusPage";
 export { default as AdminTrackedPagesPage } from "./views/AdminTrackedPagesPage";
+export { default as AdminLoginPage } from "./views/AdminLoginPage";
+export { default as AdminDashboardPage } from "./views/AdminDashboardPage";
+export { default as AdminBlogsPage } from "./views/AdminBlogsPage";
+export { default as AdminBlogWriterPage } from "./views/AdminBlogWriterPage";
+export { default as AdminBlogEditPage } from "./views/AdminBlogEditPage";
+export { default as AdminContentCalendarPage } from "./views/AdminContentCalendarPage";
+export { default as AdminContentLinksPage } from "./views/AdminContentLinksPage";
+export { default as AdminFixTablesPage } from "./views/AdminFixTablesPage";
+export { default as AdminInternalLinksPage } from "./views/AdminInternalLinksPage";
+export { default as AdminKnowledgeBasePage } from "./views/AdminKnowledgeBasePage";
+export { default as AdminLinkHealthPage } from "./views/AdminLinkHealthPage";
+export { default as AdminSetupPage } from "./views/AdminSetupPage";
