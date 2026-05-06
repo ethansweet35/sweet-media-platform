@@ -8,6 +8,8 @@ import BlogEditorHeader from "@/components/pages/admin/blog-edit/components/Blog
 import BlogEditorSidebar from "@/components/pages/admin/blog-edit/components/BlogEditorSidebar";
 import ContentBlockEditor from "@/components/pages/admin/blog-edit/components/ContentBlockEditor";
 import Seo from "@/components/feature/Seo";
+import { supabase } from "@/lib/supabase";
+import { canonicalBlogPostUrl } from "@/lib/publicSiteUrl";
 
 interface EditorForm {
   title: string;
@@ -165,6 +167,18 @@ export default function BlogEditPage() {
       setSaved(true);
       setHasChanges(false);
       showToast("Post saved successfully");
+
+      // Ping Google Indexing API when publishing
+      if (form.status === "published") {
+        const postUrl = canonicalBlogPostUrl(cleanSlug);
+        supabase.functions
+          .invoke("ping-google-indexing", { body: { url: postUrl } })
+          .then(({ error }) => {
+            if (error) console.warn("[ping-google-indexing] failed:", error);
+            else console.log("[ping-google-indexing] submitted:", postUrl);
+          });
+      }
+
       // If slug changed, navigate to new slug
       if (cleanSlug !== slug) {
         router.replace(`/admin/blog-edit/${cleanSlug}`);

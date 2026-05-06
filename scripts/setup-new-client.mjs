@@ -138,9 +138,14 @@ async function main() {
   const openrouterKey    = envVars.OPENROUTER_API_KEY    || process.env.OPENROUTER_API_KEY    || null;
   const openaiKey        = envVars.OPENAI_API_KEY        || process.env.OPENAI_API_KEY        || null;
   let   webhookSecret    = envVars.BLOG_WEBHOOK_SECRET   || process.env.BLOG_WEBHOOK_SECRET   || null;
+  const googleClientEmail = envVars.GOOGLE_INDEXING_CLIENT_EMAIL || process.env.GOOGLE_INDEXING_CLIENT_EMAIL || null;
+  const googlePrivateKey  = envVars.GOOGLE_INDEXING_PRIVATE_KEY  || process.env.GOOGLE_INDEXING_PRIVATE_KEY  || null;
 
   if (!openrouterKey) warn('OPENROUTER_API_KEY not found in .env — add it for edge function secrets.');
   if (!openaiKey)     warn('OPENAI_API_KEY not found in .env — add it for edge function secrets.');
+  if (!googleClientEmail || !googlePrivateKey) {
+    warn('Google indexing credentials not found in .env — indexing checks will be disabled until added.');
+  }
 
   // Auto-generate a webhook secret if not set, and save it to .env for reuse
   if (!webhookSecret) {
@@ -316,6 +321,8 @@ async function main() {
   if (serviceRoleKey)  secretParts.push(`SUPABASE_SERVICE_ROLE_KEY=${serviceRoleKey}`);
   if (openrouterKey)   secretParts.push(`OPENROUTER_API_KEY=${openrouterKey}`);
   if (openaiKey)       secretParts.push(`OPENAI_API_KEY=${openaiKey}`);
+  if (googleClientEmail) secretParts.push(`GOOGLE_INDEXING_CLIENT_EMAIL=${googleClientEmail}`);
+  if (googlePrivateKey)  secretParts.push(`GOOGLE_INDEXING_PRIVATE_KEY=${googlePrivateKey}`);
 
   if (webhookSecret)   secretParts.push(`BLOG_WEBHOOK_SECRET=${webhookSecret}`);
   if (!openrouterKey) warn('OPENROUTER_API_KEY missing from .env — add it and re-run with --ref to set it.');
@@ -332,7 +339,12 @@ async function main() {
   }
 
   // ── 13. Deploy edge functions ─────────────────────────────────────────────
-  const functions = ['generate-blog-post', 'generate-blog-image'];
+  const functions = [
+    'generate-blog-post',
+    'generate-blog-image',
+    'ping-google-indexing',
+    'inspect-google-indexing',
+  ];
   for (const fn of functions) {
     step(`Deploying edge function: ${fn}`);
     try {
