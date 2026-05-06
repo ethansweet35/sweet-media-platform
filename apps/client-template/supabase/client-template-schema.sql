@@ -250,12 +250,15 @@ create table if not exists public.internal_links (
 
 create table if not exists public.tracked_pages (
   id uuid primary key default gen_random_uuid(),
-  url text not null unique,
-  title text,
-  page_type text,
-  status text not null default 'active',
-  last_checked_at timestamptz,
-  health_status text,
+  route_path text not null unique,
+  page_title text not null default '',
+  seo_title text,
+  meta_description text,
+  default_seo_title text,
+  default_meta_description text,
+  primary_keyword text,
+  is_active boolean not null default true,
+  display_order integer not null default 0,
   notes text,
   created_at timestamptz not null default now(),
   updated_at timestamptz not null default now()

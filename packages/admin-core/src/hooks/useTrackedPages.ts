@@ -10,6 +10,8 @@ type DbTrackedPageRow = {
   page_title: string;
   seo_title: string | null;
   meta_description: string | null;
+  default_seo_title: string | null;
+  default_meta_description: string | null;
   primary_keyword: string | null;
   is_active: boolean;
   display_order: number;
@@ -25,6 +27,8 @@ function rowToPage(row: DbTrackedPageRow): TrackedPage {
     page_title: row.page_title,
     seo_title: row.seo_title,
     meta_description: row.meta_description,
+    default_seo_title: row.default_seo_title ?? null,
+    default_meta_description: row.default_meta_description ?? null,
     primary_keyword: row.primary_keyword,
     is_active: row.is_active,
     display_order: row.display_order,

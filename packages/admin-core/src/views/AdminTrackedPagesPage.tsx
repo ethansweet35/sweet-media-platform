@@ -326,11 +326,63 @@ export default function AdminTrackedPagesPage() {
                         <td className="px-5 py-3.5 align-middle text-neutral-900 font-medium max-w-[220px]">
                           <span className="line-clamp-2">{p.page_title}</span>
                         </td>
-                        <td className="px-5 py-3.5 align-middle text-neutral-600 max-w-[220px]" title={p.seo_title ?? ""}>
-                          <span className="line-clamp-2">{truncateSeoTitle(p.seo_title)}</span>
+                        <td className="px-5 py-3.5 align-top max-w-[240px]">
+                          {p.seo_title ? (
+                            <div className="flex flex-col gap-1.5">
+                              <span className="text-sm text-neutral-800 line-clamp-2 leading-snug" title={p.seo_title}>
+                                {truncateSeoTitle(p.seo_title)}
+                              </span>
+                              <span className="inline-flex items-center px-1.5 py-0.5 rounded text-[9px] font-bold uppercase tracking-wider bg-amber-50 text-amber-600 w-fit">
+                                Override
+                              </span>
+                              {p.default_seo_title && (
+                                <span className="text-[11px] text-neutral-400 line-clamp-1 leading-snug" title={p.default_seo_title}>
+                                  <span className="font-medium text-neutral-500">Default: </span>
+                                  {truncateSeoTitle(p.default_seo_title, 50)}
+                                </span>
+                              )}
+                            </div>
+                          ) : p.default_seo_title ? (
+                            <div className="flex flex-col gap-1.5">
+                              <span className="text-sm text-neutral-700 line-clamp-2 leading-snug" title={p.default_seo_title}>
+                                {truncateSeoTitle(p.default_seo_title)}
+                              </span>
+                              <span className="inline-flex items-center px-1.5 py-0.5 rounded text-[9px] font-bold uppercase tracking-wider bg-neutral-100 text-neutral-400 w-fit">
+                                Code Default
+                              </span>
+                            </div>
+                          ) : (
+                            <span className="text-neutral-400 text-sm">—</span>
+                          )}
                         </td>
-                        <td className="px-5 py-3.5 align-middle text-neutral-600 max-w-[300px]" title={p.meta_description ?? ""}>
-                          <span className="line-clamp-2">{truncateMetaDescription(p.meta_description)}</span>
+                        <td className="px-5 py-3.5 align-top max-w-[300px]">
+                          {p.meta_description ? (
+                            <div className="flex flex-col gap-1.5">
+                              <span className="text-sm text-neutral-800 line-clamp-2 leading-snug" title={p.meta_description}>
+                                {truncateMetaDescription(p.meta_description)}
+                              </span>
+                              <span className="inline-flex items-center px-1.5 py-0.5 rounded text-[9px] font-bold uppercase tracking-wider bg-amber-50 text-amber-600 w-fit">
+                                Override
+                              </span>
+                              {p.default_meta_description && (
+                                <span className="text-[11px] text-neutral-400 line-clamp-2 leading-snug" title={p.default_meta_description}>
+                                  <span className="font-medium text-neutral-500">Default: </span>
+                                  {truncateMetaDescription(p.default_meta_description, 100)}
+                                </span>
+                              )}
+                            </div>
+                          ) : p.default_meta_description ? (
+                            <div className="flex flex-col gap-1.5">
+                              <span className="text-sm text-neutral-700 line-clamp-2 leading-snug" title={p.default_meta_description}>
+                                {truncateMetaDescription(p.default_meta_description)}
+                              </span>
+                              <span className="inline-flex items-center px-1.5 py-0.5 rounded text-[9px] font-bold uppercase tracking-wider bg-neutral-100 text-neutral-400 w-fit">
+                                Code Default
+                              </span>
+                            </div>
+                          ) : (
+                            <span className="text-neutral-400 text-sm">—</span>
+                          )}
                         </td>
                         <td className="px-5 py-3.5 align-middle text-neutral-600">
                           {p.primary_keyword ?? "—"}

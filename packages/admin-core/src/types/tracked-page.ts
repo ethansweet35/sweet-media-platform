@@ -4,6 +4,8 @@ export interface TrackedPage {
   page_title: string;
   seo_title: string | null;
   meta_description: string | null;
+  default_seo_title: string | null;
+  default_meta_description: string | null;
   primary_keyword: string | null;
   is_active: boolean;
   display_order: number;
