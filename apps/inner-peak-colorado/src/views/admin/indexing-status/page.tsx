@@ -32,6 +32,23 @@ interface IndexStatusResult {
   error?: string;
 }
 
+function errMessage(e: unknown): string {
+  if (!e) return "Unknown error";
+  if (typeof e === "string") return e;
+  if (e instanceof Error) return e.message;
+  if (typeof e === "object") {
+    const obj = e as Record<string, unknown>;
+    const parts = [obj.message, obj.details, obj.hint]
+      .filter((v): v is string => typeof v === "string" && v.trim().length > 0);
+    if (parts.length > 0) return parts.join(" — ");
+  }
+  try {
+    return JSON.stringify(e);
+  } catch {
+    return String(e);
+  }
+}
+
 function fmt(ts: string | null | undefined): string {
   if (!ts) return "—";
   try {
@@ -55,24 +72,29 @@ export default function IndexingStatusPage() {
       setLoading(true);
       setError(null);
       try {
-        const [{ data: posts, error: postsErr }, { data: pages, error: pagesErr }] =
-          await Promise.all([
-            supabase
-              .from("blog_posts")
-              .select("id,title,slug,updated_at,status")
-              .eq("status", "published")
-              .order("updated_at", { ascending: false })
-              .limit(200),
-            supabase
-              .from("tracked_pages")
-              .select("id,title,url,updated_at,status")
-              .eq("status", "active")
-              .order("updated_at", { ascending: false })
-              .limit(200),
-          ]);
+        const { data: posts, error: postsErr } = await supabase
+          .from("blog_posts")
+          .select("id,title,slug,updated_at,status")
+          .eq("status", "published")
+          .order("updated_at", { ascending: false })
+          .limit(200);
 
         if (postsErr) throw postsErr;
-        if (pagesErr) throw pagesErr;
+
+        // `tracked_pages` may not exist on older projects; degrade gracefully.
+        const { data: pages, error: pagesErr } = await supabase
+          .from("tracked_pages")
+          .select("id,title,url,updated_at,status")
+          .eq("status", "active")
+          .order("updated_at", { ascending: false })
+          .limit(200);
+
+        const trackedPagesMissing = pagesErr && (
+          String((pagesErr as { code?: string }).code) === "42P01" ||
+          String(pagesErr.message ?? "").toLowerCase().includes("tracked_pages")
+        );
+
+        if (pagesErr && !trackedPagesMissing) throw pagesErr;
 
         const blogRows: UrlRow[] = (posts ?? []).map((p) => ({
           id: `blog:${p.id}`,
@@ -82,7 +104,7 @@ export default function IndexingStatusPage() {
           updatedAt: p.updated_at ?? null,
         }));
 
-        const pageRows: UrlRow[] = (pages ?? []).map((p) => {
+        const pageRows: UrlRow[] = ((trackedPagesMissing ? [] : pages) ?? []).map((p) => {
           const rawUrl = String(p.url ?? "");
           const absoluteUrl = rawUrl.startsWith("http")
             ? rawUrl
@@ -98,7 +120,7 @@ export default function IndexingStatusPage() {
 
         setRows([...blogRows, ...pageRows]);
       } catch (e) {
-        setError(String(e));
+        setError(errMessage(e));
       } finally {
         setLoading(false);
       }

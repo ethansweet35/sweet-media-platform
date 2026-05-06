@@ -2,10 +2,13 @@
 
 import Link from 'next/link';
 import { useEffect, useRef, useState } from 'react';
+import { usePathname } from 'next/navigation';
 import Navbar from './Navbar';
 import Footer from './Footer';
 
 export default function Layout({ children }: { children: React.ReactNode }) {
+  const pathname = usePathname();
+  const isAdminRoute = (pathname ?? '').startsWith('/admin');
   const [visible, setVisible] = useState(false);
   const frameRef = useRef<number | null>(null);
 
@@ -28,6 +31,10 @@ export default function Layout({ children }: { children: React.ReactNode }) {
     };
   }, []);
 
+  if (isAdminRoute) {
+    return <div className="min-h-screen bg-[#FAF8F5]">{children}</div>;
+  }
+
   return (
     <div className="min-h-screen flex flex-col bg-[#FAF8F5]">
       <Navbar />
@@ -35,7 +42,6 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         {children}
       </div>
       <Footer />
-
       {/* Mobile sticky CTA — only visible on small screens, fades in after scroll */}
       <div
         className={`md:hidden fixed bottom-0 left-0 right-0 z-50 transition-transform duration-500 ${
