@@ -44,8 +44,8 @@ export default function PostHero({ post }: PostHeroProps) {
             </span>
 
             <h1
-              className="font-serif text-[#FAF8F5] leading-[1.08] mt-7 mb-7"
-              style={{ fontSize: "clamp(38px, 5.5vw, 76px)" }}
+              className="font-serif text-[#FAF8F5] leading-[1.1] mt-7 mb-7"
+              style={{ fontSize: "clamp(26px, 3vw, 46px)" }}
             >
               {post.title}
             </h1>

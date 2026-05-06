@@ -27,6 +27,15 @@ function resolveOpenRouterModel(bodyModel: unknown): string {
 const DEFAULT_AUTHOR_PHOTO =
   "https://ynmldknprfusujudvutq.supabase.co/storage/v1/object/public/public_bucket/img2.png";
 
+function resolveAuthor() {
+  return {
+    name: Deno.env.get("BLOG_AUTHOR_NAME") || "Ethan Sweet",
+    role: Deno.env.get("BLOG_AUTHOR_ROLE") || "Founder",
+    bio: Deno.env.get("BLOG_AUTHOR_BIO") || "Founder of Sweet Media — boutique digital marketing for behavioral health treatment centers.",
+    photo: Deno.env.get("BLOG_AUTHOR_PHOTO") || DEFAULT_AUTHOR_PHOTO,
+  };
+}
+
 function jsonHeaders() {
   return { ...corsHeaders, "Content-Type": "application/json" };
 }
@@ -499,11 +508,10 @@ Deno.serve(async (req) => {
       tags,
       hero_image_url: imageUrl ?? "",
       status: "draft",
-      author: "Ethan Sweet",
-      author_title: "Founder",
-      author_bio:
-        "Founder of Sweet Media — boutique digital marketing for behavioral health treatment centers.",
-      author_photo: DEFAULT_AUTHOR_PHOTO,
+      author: resolveAuthor().name,
+      author_title: resolveAuthor().role,
+      author_bio: resolveAuthor().bio,
+      author_photo: resolveAuthor().photo,
       read_time: readTime,
       featured: false,
     };

@@ -533,7 +533,8 @@ export default function BlogWriterPage() {
                   <button
                     type="submit"
                     disabled={disableForm}
-                    className="w-full py-2.5 bg-stone-900 text-white text-sm font-medium rounded-lg hover:bg-stone-800 disabled:opacity-50 disabled:cursor-not-allowed transition-colors cursor-pointer font-[family-name:var(--font-outfit-sans),sans-serif]"
+                    className="w-full py-2.5 text-sm font-medium rounded-lg disabled:opacity-50 disabled:cursor-not-allowed transition-colors cursor-pointer font-[family-name:var(--font-outfit-sans),sans-serif]"
+                    style={{ backgroundColor: '#1c1917', color: '#fff' }}
                   >
                     Generate Blog Post
                   </button>
