@@ -97,6 +97,43 @@ function isRecent(timestamp: string | null, days = 7): boolean {
   return Date.now() - t <= days * 24 * 60 * 60 * 1000;
 }
 
+function unique<T>(arr: T[]): T[] {
+  return [...new Set(arr)];
+}
+
+function buildSiteCandidates(siteUrl: string, inspectionUrl: string): string[] {
+  const candidates: string[] = [];
+  if (siteUrl) candidates.push(siteUrl.replace(/\/+$/, siteUrl.startsWith("sc-domain:") ? "" : "/"));
+
+  const fromInput = siteUrl.startsWith("sc-domain:")
+    ? siteUrl.replace(/^sc-domain:/, "")
+    : (() => {
+        try {
+          return new URL(siteUrl).hostname;
+        } catch {
+          return "";
+        }
+      })();
+
+  const fromInspection = (() => {
+    try {
+      return new URL(inspectionUrl).hostname;
+    } catch {
+      return "";
+    }
+  })();
+
+  const host = fromInput || fromInspection;
+  if (host) {
+    const noWww = host.replace(/^www\./, "");
+    candidates.push(`sc-domain:${noWww}`);
+    candidates.push(`https://${noWww}/`);
+    candidates.push(`https://www.${noWww}/`);
+  }
+
+  return unique(candidates.filter(Boolean));
+}
+
 Deno.serve(async (req) => {
   if (req.method === "OPTIONS") {
     return new Response("ok", { headers: corsHeaders });
@@ -133,13 +170,22 @@ Deno.serve(async (req) => {
 
   try {
     const accessToken = await getGoogleAccessToken(clientEmail, privateKey);
-
-    const [metadataRes, inspectRes] = await Promise.all([
-      fetch(`https://indexing.googleapis.com/v3/urlNotifications/metadata?url=${encodeURIComponent(url)}`, {
+    const metadataPromise = fetch(
+      `https://indexing.googleapis.com/v3/urlNotifications/metadata?url=${encodeURIComponent(url)}`,
+      {
         method: "GET",
         headers: { Authorization: `Bearer ${accessToken}` },
-      }),
-      fetch("https://searchconsole.googleapis.com/v1/urlInspection/index:inspect", {
+      },
+    );
+
+    const siteCandidates = buildSiteCandidates(siteUrl, url);
+    let inspectJson: unknown = null;
+    let inspectStatus = 500;
+    let usedSiteUrl: string | null = null;
+    let inspectErrBody: unknown = null;
+
+    for (const candidate of siteCandidates) {
+      const inspectRes = await fetch("https://searchconsole.googleapis.com/v1/urlInspection/index:inspect", {
         method: "POST",
         headers: {
           Authorization: `Bearer ${accessToken}`,
@@ -147,30 +193,52 @@ Deno.serve(async (req) => {
         },
         body: JSON.stringify({
           inspectionUrl: url,
-          siteUrl,
+          siteUrl: candidate,
         }),
-      }),
-    ]);
-
-    const metadataJson = metadataRes.ok ? await metadataRes.json() : null;
-    const inspectJson = await inspectRes.json();
-    if (!inspectRes.ok) {
-      return new Response(JSON.stringify({ error: inspectJson }), {
-        status: inspectRes.status,
-        headers: { ...corsHeaders, "Content-Type": "application/json" },
       });
+      const parsed = await inspectRes.json();
+      if (inspectRes.ok) {
+        inspectJson = parsed;
+        inspectStatus = inspectRes.status;
+        usedSiteUrl = candidate;
+        break;
+      }
+      inspectStatus = inspectRes.status;
+      inspectErrBody = parsed;
     }
 
-    const indexStatus = inspectJson?.inspectionResult?.indexStatusResult ?? {};
+    const metadataRes = await metadataPromise;
+    const metadataJson = metadataRes.ok ? await metadataRes.json() : null;
+
+    if (!usedSiteUrl || !inspectJson) {
+      return new Response(
+        JSON.stringify({
+          error: inspectErrBody ?? { message: "URL Inspection failed" },
+          triedSiteUrls: siteCandidates,
+        }),
+        {
+          status: inspectStatus,
+          headers: { ...corsHeaders, "Content-Type": "application/json" },
+        },
+      );
+    }
+
+    const indexStatus = (inspectJson as Record<string, unknown>)?.inspectionResult
+      ? ((inspectJson as { inspectionResult?: { indexStatusResult?: Record<string, unknown> } })
+          .inspectionResult?.indexStatusResult ?? {})
+      : {};
+
     const verdict = String(indexStatus?.verdict ?? "");
     const coverageState = String(indexStatus?.coverageState ?? "");
     const indexingState = String(indexStatus?.indexingState ?? "");
     const robotsTxtState = String(indexStatus?.robotsTxtState ?? "");
     const pageFetchState = String(indexStatus?.pageFetchState ?? "");
-    const lastCrawlTime = indexStatus?.lastCrawlTime ?? null;
+    const lastCrawlTime = (indexStatus as { lastCrawlTime?: string | null }).lastCrawlTime ?? null;
 
-    const latestUpdate = metadataJson?.latestUpdate?.notifyTime ?? null;
-    const latestRemove = metadataJson?.latestRemove?.notifyTime ?? null;
+    const latestUpdate = (metadataJson as { latestUpdate?: { notifyTime?: string } } | null)
+      ?.latestUpdate?.notifyTime ?? null;
+    const latestRemove = (metadataJson as { latestRemove?: { notifyTime?: string } } | null)
+      ?.latestRemove?.notifyTime ?? null;
 
     const currentlyIndexed = isCurrentlyIndexed(coverageState, verdict);
     const recentlyIndexed = isRecent(lastCrawlTime, 7);
@@ -179,7 +247,7 @@ Deno.serve(async (req) => {
       JSON.stringify({
         success: true,
         url,
-        siteUrl,
+        siteUrl: usedSiteUrl,
         checkedAt: new Date().toISOString(),
         currentlyIndexed,
         recentlyIndexed,

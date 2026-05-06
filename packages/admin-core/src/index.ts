@@ -21,3 +21,13 @@ export { useDashboardData, formatDashboardDate, relativeTimeSince } from "./hook
 export { useAdminBlogPosts } from "./hooks/useAdminBlogPosts";
 export { useBlogPostBySlug } from "./hooks/useBlogPostBySlug";
 export { useLinkUtilization, type LinkUtilization, type UtilizationStatus } from "./hooks/useLinkUtilization";
+export { getPublicSiteOrigin, canonicalBlogPostUrl } from "./lib/publicSiteUrl";
+export {
+  buildSitemapEntries,
+  toSitemapXml,
+  type SitemapEntry,
+  type SitemapPageRow,
+  type SitemapPostRow,
+} from "./lib/sitemap";
+export { default as AdminSitemapPage } from "./views/AdminSitemapPage";
+export { default as AdminIndexingStatusPage } from "./views/AdminIndexingStatusPage";
