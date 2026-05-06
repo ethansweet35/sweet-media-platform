@@ -60,13 +60,21 @@ export default function AdminPagesTrackingPage() {
 
       if (toInsert.length === 0) { showToast("All pages already tracked"); return; }
 
+      // Refresh session before write to ensure RLS auth header is current.
+      await supabase.auth.getSession();
       const { error } = await supabase.from("tracked_pages").insert(toInsert);
       if (error) throw error;
       showToast(`Synced ${toInsert.length} page${toInsert.length > 1 ? "s" : ""} from codebase`);
       await refetch();
     } catch (e) {
       console.error("[sync-from-codebase]", e);
-      showToast(e instanceof Error ? e.message : "Sync failed", "error");
+      const msg =
+        e instanceof Error
+          ? e.message
+          : typeof e === "object" && e !== null && "message" in e
+            ? String((e as { message: unknown }).message)
+            : "Sync failed";
+      showToast(msg, "error");
     } finally {
       setSyncing(false);
     }
