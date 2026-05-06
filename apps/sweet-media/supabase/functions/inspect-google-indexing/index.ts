@@ -28,6 +28,7 @@ function encodeB64url(str: string): string {
 
 async function importPrivateKey(pem: string): Promise<CryptoKey> {
   const cleaned = pem
+    .replace(/\\n/g, "\n")        // convert literal \n sequences to real newlines
     .replace(/-----BEGIN PRIVATE KEY-----/, "")
     .replace(/-----END PRIVATE KEY-----/, "")
     .replace(/\s/g, "");

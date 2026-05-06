@@ -18,11 +18,12 @@
  *   - Add OPENROUTER_API_KEY and OPENAI_API_KEY to .env at repo root
  */
 
-import { readFileSync, existsSync, appendFileSync } from 'fs';
+import { readFileSync, existsSync, appendFileSync, writeFileSync, unlinkSync } from 'fs';
 import { join, dirname } from 'path';
 import { fileURLToPath } from 'url';
 import { execSync } from 'child_process';
 import { randomBytes } from 'crypto';
+import { tmpdir } from 'os';
 import * as readline from 'readline';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
@@ -144,7 +145,12 @@ async function main() {
   if (!openrouterKey) warn('OPENROUTER_API_KEY not found in .env — add it for edge function secrets.');
   if (!openaiKey)     warn('OPENAI_API_KEY not found in .env — add it for edge function secrets.');
   if (!googleClientEmail || !googlePrivateKey) {
-    warn('Google indexing credentials not found in .env — indexing checks will be disabled until added.');
+    warn(
+      'Google indexing credentials not found in .env.\n' +
+      '  Add these to your repo-root .env file, then re-run with --ref to push them:\n' +
+      '    GOOGLE_INDEXING_CLIENT_EMAIL=<service-account-email from JSON key>\n' +
+      '    GOOGLE_INDEXING_PRIVATE_KEY=<private_key from JSON key (full PEM including \\n escapes)>'
+    );
   }
 
   // Auto-generate a webhook secret if not set, and save it to .env for reuse
@@ -176,8 +182,9 @@ async function main() {
 
   // ── 5. Create project (skip if --ref provided) ───────────────────────────
   let ref = getArg('--ref');
+  const isExistingProject = !!ref;
   if (ref) {
-    log(`Resuming with existing project ref: ${ref}`);
+    log(`Updating existing project ref: ${ref} — skipping schema/seed/storage, running secrets + functions only`);
   } else {
     const dbPass = randomBytes(20).toString('base64url');
     step(`Creating Supabase project "${name}" (${slug})`);
@@ -192,150 +199,152 @@ async function main() {
     log(`Project created — ref: ${ref}`);
   }
 
-  // ── 6. Wait for project to be healthy ────────────────────────────────────
-  step('Waiting for project to be ready (this can take 2–3 minutes on free tier)');
-  for (let i = 0; i < 36; i++) {
-    await sleep(5000);
-    const p = await api(token, 'GET', `/v1/projects/${ref}`);
-    process.stdout.write('.');
-    if (p.status === 'ACTIVE_HEALTHY') {
-      console.log('');
-      log('Project is ready');
-      break;
+  if (!isExistingProject) {
+    // ── 6. Wait for project to be healthy ──────────────────────────────────
+    step('Waiting for project to be ready (this can take 2–3 minutes on free tier)');
+    for (let i = 0; i < 36; i++) {
+      await sleep(5000);
+      const p = await api(token, 'GET', `/v1/projects/${ref}`);
+      process.stdout.write('.');
+      if (p.status === 'ACTIVE_HEALTHY') {
+        console.log('');
+        log('Project is ready');
+        break;
+      }
+      if (i === 35) die(`Project did not become healthy in time.\nResume once it's ready:\n  node scripts/setup-new-client.mjs --slug ${slug} --name "${name}" --url "${siteUrl}" --ref ${ref}`);
     }
-    if (i === 35) die(`Project did not become healthy in time.\nResume once it's ready:\n  node scripts/setup-new-client.mjs --slug ${slug} --name "${name}" --url "${siteUrl}" --ref ${ref}`);
+    // Give the DB a few more seconds before running SQL
+    await sleep(3000);
   }
 
-  // Give the DB a few more seconds before running SQL
-  await sleep(3000);
+  // ── 7–11. Schema, seed, storage (new projects only) ──────────────────────
+  if (!isExistingProject) {
+    // ── 7. Run schema ───────────────────────────────────────────────────────
+    step('Running client template schema');
+    const schemaPath = join(REPO_ROOT, 'apps/client-template/supabase/client-template-schema.sql');
+    let schemaSql = readFileSync(schemaPath, 'utf8');
+    schemaSql = schemaSql.replace(/\ninsert into public\.[\s\S]*?on conflict[\s\S]*?;\n/gi, '\n');
+    await runSQL(token, ref, schemaSql);
+    log('Schema applied');
 
-  // ── 7. Run schema ─────────────────────────────────────────────────────────
-  // Strip the seed INSERT statements — the script handles seeding separately,
-  // and the schema's partial-index ON CONFLICT target fails via the API.
-  step('Running client template schema');
-  const schemaPath = join(REPO_ROOT, 'apps/client-template/supabase/client-template-schema.sql');
-  let schemaSql = readFileSync(schemaPath, 'utf8');
-  // Remove all INSERT blocks (they start with "insert into public.")
-  schemaSql = schemaSql.replace(/\ninsert into public\.[\s\S]*?on conflict[\s\S]*?;\n/gi, '\n');
-  await runSQL(token, ref, schemaSql);
-  log('Schema applied');
-
-  // ── 8. Seed brand_settings ────────────────────────────────────────────────
-  step('Seeding brand_settings');
-  await runSQL(token, ref, `
-    insert into public.brand_settings (
-      site_key, site_name, site_url, image_bucket, image_folder,
-      image_style_prompt, image_negative_prompt
-    ) values (
-      '${slug}',
-      '${name.replace(/'/g, "''")}',
-      '${siteUrl}',
-      'site-assets',
-      'blog-featured',
-      'Create a clean, professional editorial blog featured image aligned with the brand. Use a consistent color palette, calm composition, premium lighting, and visually relevant imagery.',
-      'No logos, no watermarks, no distorted text, no cluttered layouts.'
-    )
-    on conflict (site_key) where site_key is not null
-    do update set
-      site_name  = excluded.site_name,
-      site_url   = excluded.site_url,
-      image_bucket = excluded.image_bucket,
-      image_folder = excluded.image_folder,
-      updated_at = now();
-  `);
-  log('brand_settings seeded');
-
-  // ── 9. Seed blog_categories ───────────────────────────────────────────────
-  step('Seeding blog_categories');
-  await runSQL(token, ref, `
-    insert into public.blog_categories (site_id, name, slug, sort_order)
-    values
-      ('${slug}', 'Company News',  'company-news', 10),
-      ('${slug}', 'Education',     'education',    20),
-      ('${slug}', 'Resources',     'resources',    30),
-      ('${slug}', 'Guides',        'guides',       40)
-    on conflict (site_id, slug) do update set
-      name       = excluded.name,
-      sort_order = excluded.sort_order,
-      is_active  = true,
-      updated_at = now();
-  `);
-  log('blog_categories seeded');
-
-  // ── 10. Create storage bucket via project Storage API ────────────────────
-  step('Creating site-assets storage bucket');
-  const apiKeys = await api(token, 'GET', `/v1/projects/${ref}/api-keys`);
-  const serviceRoleKey = apiKeys.find(k => k.name === 'service_role')?.api_key;
-  if (!serviceRoleKey) die('Could not retrieve service_role key for project.');
-
-  // Retry up to 10 times — Storage service may still be initializing
-  let bucketDone = false;
-  for (let attempt = 1; attempt <= 10; attempt++) {
-    const bucketRes = await fetch(`https://${ref}.supabase.co/storage/v1/bucket`, {
-      method: 'POST',
-      headers: {
-        'Authorization': `Bearer ${serviceRoleKey}`,
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ id: 'site-assets', name: 'site-assets', public: true }),
-    });
-    const body = await bucketRes.text();
-    if (bucketRes.ok || bucketRes.status === 409 || body.includes('409') || body.includes('Duplicate') || body.includes('already exists')) {
-      bucketDone = true;
-      break;
-    }
-    if (body.includes('TenantNotFound') || body.includes('not found')) {
-      process.stdout.write(attempt === 1 ? '\n  Storage service still initializing' : '.');
-      await sleep(6000);
-    } else {
-      die(`Storage bucket creation failed (${bucketRes.status}): ${body}`);
-    }
-  }
-  if (!bucketDone) die(`Storage service did not initialize in time.\nCreate the bucket manually in the Supabase dashboard:\n  Project → Storage → New bucket → "site-assets" (public)`);
-  console.log('');
-  log('Storage bucket "site-assets" created (public)');
-
-  // ── 11. Seed admin user (optional) ───────────────────────────────────────
-  if (adminEmail) {
-    step(`Seeding admin user: ${adminEmail}`);
+    // ── 8. Seed brand_settings ──────────────────────────────────────────────
+    step('Seeding brand_settings');
     await runSQL(token, ref, `
-      insert into public.admin_users (email, role)
-      values ('${adminEmail.replace(/'/g, "''")}', 'admin')
-      on conflict (email) do update set role = excluded.role;
+      insert into public.brand_settings (
+        site_key, site_name, site_url, image_bucket, image_folder,
+        image_style_prompt, image_negative_prompt
+      ) values (
+        '${slug}',
+        '${name.replace(/'/g, "''")}',
+        '${siteUrl}',
+        'site-assets',
+        'blog-featured',
+        'Create a clean, professional editorial blog featured image aligned with the brand. Use a consistent color palette, calm composition, premium lighting, and visually relevant imagery.',
+        'No logos, no watermarks, no distorted text, no cluttered layouts.'
+      )
+      on conflict (site_key) where site_key is not null
+      do update set
+        site_name  = excluded.site_name,
+        site_url   = excluded.site_url,
+        image_bucket = excluded.image_bucket,
+        image_folder = excluded.image_folder,
+        updated_at = now();
     `);
-    log(`admin_users seeded with ${adminEmail}`);
+    log('brand_settings seeded');
+
+    // ── 9. Seed blog_categories ─────────────────────────────────────────────
+    step('Seeding blog_categories');
+    await runSQL(token, ref, `
+      insert into public.blog_categories (site_id, name, slug, sort_order)
+      values
+        ('${slug}', 'Company News',  'company-news', 10),
+        ('${slug}', 'Education',     'education',    20),
+        ('${slug}', 'Resources',     'resources',    30),
+        ('${slug}', 'Guides',        'guides',       40)
+      on conflict (site_id, slug) do update set
+        name       = excluded.name,
+        sort_order = excluded.sort_order,
+        is_active  = true,
+        updated_at = now();
+    `);
+    log('blog_categories seeded');
+
+    // ── 10. Create storage bucket ───────────────────────────────────────────
+    step('Creating site-assets storage bucket');
+    const apiKeys = await api(token, 'GET', `/v1/projects/${ref}/api-keys`);
+    const serviceRoleKey = apiKeys.find(k => k.name === 'service_role')?.api_key;
+    if (!serviceRoleKey) die('Could not retrieve service_role key for project.');
+
+    let bucketDone = false;
+    for (let attempt = 1; attempt <= 10; attempt++) {
+      const bucketRes = await fetch(`https://${ref}.supabase.co/storage/v1/bucket`, {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${serviceRoleKey}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ id: 'site-assets', name: 'site-assets', public: true }),
+      });
+      const body = await bucketRes.text();
+      if (bucketRes.ok || bucketRes.status === 409 || body.includes('409') || body.includes('Duplicate') || body.includes('already exists')) {
+        bucketDone = true;
+        break;
+      }
+      if (body.includes('TenantNotFound') || body.includes('not found')) {
+        process.stdout.write(attempt === 1 ? '\n  Storage service still initializing' : '.');
+        await sleep(6000);
+      } else {
+        die(`Storage bucket creation failed (${bucketRes.status}): ${body}`);
+      }
+    }
+    if (!bucketDone) die(`Storage service did not initialize in time.\nCreate the bucket manually in the Supabase dashboard:\n  Project → Storage → New bucket → "site-assets" (public)`);
+    console.log('');
+    log('Storage bucket "site-assets" created (public)');
+
+    // ── 11. Seed admin user (optional) ─────────────────────────────────────
+    if (adminEmail) {
+      step(`Seeding admin user: ${adminEmail}`);
+      await runSQL(token, ref, `
+        insert into public.admin_users (email, role)
+        values ('${adminEmail.replace(/'/g, "''")}', 'admin')
+        on conflict (email) do update set role = excluded.role;
+      `);
+      log(`admin_users seeded with ${adminEmail}`);
+    }
   }
 
   // ── 12. Edge function secrets ─────────────────────────────────────────────
   step('Setting edge function secrets');
   const supabaseUrl = `https://${ref}.supabase.co`;
-  // Get service role key for the SUPABASE_SERVICE_ROLE_KEY secret
-  const allKeys = await api(token, 'GET', `/v1/projects/${ref}/api-keys`);
-  const serviceRoleKey = allKeys.find(k => k.name === 'service_role')?.api_key;
 
+  // Note: SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY are auto-injected by Supabase at runtime
+  // and cannot be set manually — the CLI will skip them if included.
   const secretParts = [
-    `SUPABASE_URL=${supabaseUrl}`,
     `BLOG_IMAGE_BUCKET=site-assets`,
     `BLOG_IMAGE_FOLDER=blog-featured`,
   ];
-  if (serviceRoleKey)  secretParts.push(`SUPABASE_SERVICE_ROLE_KEY=${serviceRoleKey}`);
-  if (openrouterKey)   secretParts.push(`OPENROUTER_API_KEY=${openrouterKey}`);
-  if (openaiKey)       secretParts.push(`OPENAI_API_KEY=${openaiKey}`);
+  if (openrouterKey)     secretParts.push(`OPENROUTER_API_KEY=${openrouterKey}`);
+  if (openaiKey)         secretParts.push(`OPENAI_API_KEY=${openaiKey}`);
   if (googleClientEmail) secretParts.push(`GOOGLE_INDEXING_CLIENT_EMAIL=${googleClientEmail}`);
   if (googlePrivateKey)  secretParts.push(`GOOGLE_INDEXING_PRIVATE_KEY=${googlePrivateKey}`);
+  if (webhookSecret)     secretParts.push(`BLOG_WEBHOOK_SECRET=${webhookSecret}`);
 
-  if (webhookSecret)   secretParts.push(`BLOG_WEBHOOK_SECRET=${webhookSecret}`);
   if (!openrouterKey) warn('OPENROUTER_API_KEY missing from .env — add it and re-run with --ref to set it.');
   if (!openaiKey)     warn('OPENAI_API_KEY missing from .env — add it and re-run with --ref to set it.');
 
+  // Write secrets to a temp file so values with spaces/newlines (e.g. PEM keys) are handled safely
+  const tmpFile = join(tmpdir(), `supabase-secrets-${ref}.env`);
   try {
+    writeFileSync(tmpFile, secretParts.join('\n') + '\n', 'utf8');
     execSync(
-      `supabase secrets set ${secretParts.join(' ')} --project-ref ${ref}`,
+      `supabase secrets set --env-file "${tmpFile}" --project-ref ${ref}`,
       { cwd: REPO_ROOT, stdio: 'inherit' }
     );
     log('Secrets set');
   } catch {
     warn('Could not set secrets via CLI — set them manually in the Supabase dashboard.');
+  } finally {
+    try { unlinkSync(tmpFile); } catch { /* ignore cleanup errors */ }
   }
 
   // ── 13. Deploy edge functions ─────────────────────────────────────────────
@@ -365,8 +374,6 @@ async function main() {
     .catch(() => ({ anon_key: '← get from Supabase dashboard → Project Settings → API' }));
 
   // ── 15. Done — print summary ──────────────────────────────────────────────
-  const supabaseUrl = `https://${ref}.supabase.co`;
-
   console.log(`
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ✅  ${name} is ready!

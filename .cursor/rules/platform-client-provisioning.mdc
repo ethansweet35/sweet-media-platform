@@ -1,0 +1,41 @@
+---
+description: Keep the new-client provisioning script in sync with all Supabase infrastructure changes
+alwaysApply: true
+---
+
+# Platform Client Provisioning
+
+The canonical onboarding script is `scripts/setup-new-client.mjs`.
+It must always reflect the **exact** infrastructure every new client needs.
+
+## Trigger: Update the script whenever you do any of the following
+
+### Edge Functions
+- Add or rename an edge function → add it to the `functions` array in step 13 of the script
+- Remove an edge function → remove it from that array
+- Edge functions are sourced from `apps/sweet-media/supabase/functions/` and deployed with `--workdir apps/sweet-media`
+- Current deployed functions: `generate-blog-post`, `generate-blog-image`, `ping-google-indexing`, `inspect-google-indexing`
+
+### Edge Function Secrets
+- Add a new secret a function depends on → add it to the `secretParts` array in step 12
+- Current secrets provisioned: `SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY`, `BLOG_IMAGE_BUCKET`, `BLOG_IMAGE_FOLDER`, `BLOG_WEBHOOK_SECRET`, `OPENROUTER_API_KEY`, `OPENAI_API_KEY`, `GOOGLE_INDEXING_CLIENT_EMAIL`, `GOOGLE_INDEXING_PRIVATE_KEY`
+- If a secret comes from `.env`, add a corresponding read from `loadEnvFile()` and a `warn()` if missing
+
+### Schema Changes
+- Any new table, column, index, or RLS policy change → update `apps/client-template/supabase/client-template-schema.sql`
+- Also provide migration SQL for existing brands (inner-peak-colorado, sweet-media, mental-health-for-teens) so they can be brought up to date manually
+
+### Storage Buckets
+- Add a new bucket → add a creation block to step 10 of the script (pattern: retry loop with 409 check)
+- Current buckets: `site-assets` (public)
+
+### Vercel / Next.js Env Vars
+- Add a new env var that every client app needs → add it to the `.env.local` printout in step 15 and document it in the "Next steps" output
+
+## Never
+- Never assume a Supabase change made to one brand (e.g. sweet-media) is automatically live on another brand's project — each brand has its own Supabase project and must be provisioned independently
+- Never skip updating this script just because the change was applied manually to an existing project — the script must always represent the full setup for a net-new client
+
+## Existing Clients
+Current live clients and their Supabase projects are managed independently.
+When infrastructure diverges from the script, call it out and provide the exact manual steps to bring existing clients in sync.
