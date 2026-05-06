@@ -343,15 +343,19 @@ export default function AdminTrackedPagesPage() {
                       ]).map(({ col, label, right }) => (
                         <th
                           key={col}
-                          className={`px-5 py-3.5 font-semibold text-neutral-600 text-[11px] uppercase tracking-[0.1em] relative select-none overflow-hidden${right ? " text-right" : ""}`}
+                          className={`py-3.5 font-semibold text-neutral-600 text-[11px] uppercase tracking-[0.1em] relative select-none${right ? " text-right" : ""}`}
+                          style={{ paddingLeft: "20px", paddingRight: "16px" }}
                         >
-                          <span className="block truncate pr-2">{label}</span>
+                          <span className="block truncate">{label}</span>
                           <div
                             onMouseDown={(e) => startResize(col, e)}
-                            className="absolute top-0 right-0 h-full w-2.5 cursor-col-resize flex items-center justify-center group"
-                            title="Drag to resize"
+                            className="absolute top-0 right-0 h-full w-3 cursor-col-resize z-10 group flex items-center justify-end"
+                            title="Drag to resize column"
                           >
-                            <div className="w-0.5 h-4 rounded-full bg-neutral-300 group-hover:bg-[#3d6f7f] transition-colors" />
+                            <div
+                              className="h-full w-[3px] transition-colors group-hover:opacity-100 opacity-40"
+                              style={{ backgroundColor: "#3d6f7f" }}
+                            />
                           </div>
                         </th>
                       ))}
