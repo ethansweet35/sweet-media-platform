@@ -131,6 +131,25 @@ export default function AdminIndexingStatusPage() {
 
         let pageRows = pageRowsFromDb;
         if (pageRows.length === 0) {
+          // Try the app's own route scanner API first.
+          try {
+            const appPagesRes = await fetch("/api/admin/app-pages", { cache: "no-store" });
+            if (appPagesRes.ok) {
+              const json = (await appPagesRes.json()) as { routes?: string[] };
+              pageRows = (json.routes ?? []).map((r) => ({
+                id: `app:${r}`,
+                type: "page" as const,
+                title: r === "/" ? "Homepage" : r.replace(/^\//, "").replace(/-/g, " ").replace(/\b\w/g, (c) => c.toUpperCase()),
+                url: `${siteOrigin}${r}`,
+                updatedAt: null,
+              }));
+            }
+          } catch {
+            // non-fatal — fall through to sitemap fetch
+          }
+        }
+
+        if (pageRows.length === 0) {
           const sitemapUrls = await fetchSitemapUrls(siteOrigin);
           pageRows = sitemapUrls.map((u) => ({
             id: `sitemap:${u}`,

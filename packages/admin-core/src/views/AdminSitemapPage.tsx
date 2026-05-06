@@ -36,8 +36,22 @@ export default function AdminSitemapPage() {
       if (postsRes.error) throw postsRes.error;
       if (pagesRes.error) throw pagesRes.error;
 
-      const pages = ((pagesRes.data ?? []) as SitemapPageRow[]) ?? [];
+      let pages = ((pagesRes.data ?? []) as SitemapPageRow[]) ?? [];
       const posts = ((postsRes.data ?? []) as SitemapPostRow[]) ?? [];
+
+      // If tracked_pages is empty, fall back to scanning the app's own routes via API.
+      if (pages.length === 0) {
+        try {
+          const appPagesRes = await fetch("/api/admin/app-pages", { cache: "no-store" });
+          if (appPagesRes.ok) {
+            const json = (await appPagesRes.json()) as { routes?: string[] };
+            pages = (json.routes ?? []).map((r) => ({ route_path: r, updated_at: null }));
+          }
+        } catch {
+          // non-fatal — proceed with empty pages
+        }
+      }
+
       setPostCount(posts.length);
       setPageCount(pages.length);
 
