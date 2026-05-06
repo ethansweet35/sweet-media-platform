@@ -4,6 +4,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useState } from 'react';
 import Breadcrumb from '@/components/base/Breadcrumb';
+import HeroContactForm from '@/views/home/components/HeroContactForm';
 
 const ACCENT = '#DDA15E';
 
@@ -138,7 +139,7 @@ export default function FamilyTherapyPage() {
     <main className="bg-[#FAF8F5]">
 
       {/* ─── HERO ─── */}
-      <section className="relative w-full min-h-[92vh] flex items-end overflow-hidden">
+      <section className="relative w-full min-h-screen flex items-center overflow-hidden">
         <div className="absolute inset-0">
           <Image
             src="https://papiwmobmdbtzeeebmpr.supabase.co/storage/v1/object/public/site-assets/images/th_fam_hero01.jpg"
@@ -147,11 +148,11 @@ export default function FamilyTherapyPage() {
             className="object-cover"
             priority
           />
-          <div className="absolute inset-0 bg-gradient-to-r from-[#2C3B2E]/95 via-[#2C3B2E]/75 to-[#2C3B2E]/15" />
-          <div className="absolute inset-0 bg-gradient-to-t from-[#2C3B2E]/60 via-transparent to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-r from-[#2C3B2E]/95 via-[#2C3B2E]/75 to-[#2C3B2E]/30" />
+          <div className="absolute inset-0 bg-gradient-to-b from-[#2C3B2E]/25 via-transparent to-[#2C3B2E]/20" />
         </div>
 
-        <div className="relative z-10 w-full px-8 md:px-16 pb-20 pt-40">
+        <div className="relative z-10 w-full px-8 md:px-16 pt-28 pb-16">
           <div className="max-w-7xl mx-auto">
             <Breadcrumb
               items={[
@@ -160,50 +161,58 @@ export default function FamilyTherapyPage() {
               ]}
               light
             />
-            <div className="max-w-xl mt-8 flex flex-col gap-5">
-              <span className="text-[11px] uppercase tracking-[0.3em] font-medium" style={{ color: ACCENT }}>
-                Relational Healing
-              </span>
-              <h1
-                className="font-serif text-[#FAF8F5] leading-[1.1]"
-                style={{ fontSize: 'clamp(36px, 5vw, 68px)' }}
-              >
-                Family<br />
-                Therapy
-              </h1>
-              <p className="text-[#FAF8F5]/65 font-light leading-[1.85] text-base">
-                Healing rarely happens in isolation. Family therapy creates a guided space to repair
-                relationships, improve communication, and help the people who love you become allies
-                in your recovery — not obstacles.
-              </p>
-              <div className="flex flex-wrap gap-4 pt-2">
-                <Link
-                  href="/admissions"
-                  className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full text-xs uppercase tracking-widest font-medium transition-all duration-300 hover:opacity-90 text-[#FAF8F5]"
-                  style={{ backgroundColor: ACCENT }}
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-14 items-center mt-8">
+              {/* Left: content */}
+              <div className="flex flex-col gap-6">
+                <span className="text-[11px] uppercase tracking-[0.3em] font-medium" style={{ color: ACCENT }}>
+                  Relational Healing
+                </span>
+                <h1
+                  className="font-serif text-[#FAF8F5] leading-[1.1]"
+                  style={{ fontSize: 'clamp(36px, 5vw, 68px)' }}
                 >
-                  Get Started
-                  <i className="ri-arrow-right-line" />
-                </Link>
-                <a
-                  href="tel:+17197338556"
-                  className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full border border-[#FAF8F5]/30 text-[#FAF8F5]/80 text-xs uppercase tracking-widest font-medium hover:border-[#FAF8F5]/60 hover:text-[#FAF8F5] transition-all duration-300"
-                >
-                  <i className="ri-phone-line" />
-                  719-733-8556
-                </a>
+                  Family<br />
+                  Therapy
+                </h1>
+                <p className="text-[#FAF8F5]/65 font-light leading-[1.85] text-base max-w-md">
+                  Healing rarely happens in isolation. Family therapy creates a guided space to repair
+                  relationships, improve communication, and help the people who love you become allies
+                  in your recovery — not obstacles.
+                </p>
+                <div className="flex flex-wrap gap-4">
+                  <Link
+                    href="/admissions"
+                    className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full text-xs uppercase tracking-widest font-medium transition-all duration-300 hover:opacity-90 text-[#FAF8F5]"
+                    style={{ backgroundColor: ACCENT }}
+                  >
+                    Get Started
+                    <i className="ri-arrow-right-line" />
+                  </Link>
+                  <a
+                    href="tel:+17197338556"
+                    className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full border border-[#FAF8F5]/30 text-[#FAF8F5]/80 text-xs uppercase tracking-widest font-medium hover:border-[#FAF8F5]/60 hover:text-[#FAF8F5] transition-all duration-300"
+                  >
+                    <i className="ri-phone-line" />
+                    719-733-8556
+                  </a>
+                </div>
+                <div className="flex flex-wrap gap-5 pt-2">
+                  {[
+                    { icon: 'ri-computer-line', label: 'Fully Virtual' },
+                    { icon: 'ri-global-line', label: 'Any Location' },
+                    { icon: 'ri-shield-check-line', label: 'HIPAA Secure' },
+                  ].map((b) => (
+                    <div key={b.label} className="flex items-center gap-2 text-[#FAF8F5]/50">
+                      <i className={`${b.icon} text-sm`} style={{ color: ACCENT }} />
+                      <span className="text-[11px] font-light tracking-wide">{b.label}</span>
+                    </div>
+                  ))}
+                </div>
               </div>
-              <div className="flex flex-wrap gap-6 pt-6 border-t border-[#FAF8F5]/10">
-                {[
-                  { icon: 'ri-computer-line', label: 'Fully Virtual' },
-                  { icon: 'ri-global-line', label: 'Any Location' },
-                  { icon: 'ri-shield-check-line', label: 'HIPAA Secure' },
-                ].map((b) => (
-                  <div key={b.label} className="flex items-center gap-2 text-[#FAF8F5]/45">
-                    <i className={`${b.icon} text-xs`} style={{ color: ACCENT }} />
-                    <span className="text-xs font-light tracking-wide">{b.label}</span>
-                  </div>
-                ))}
+
+              {/* Right: contact form */}
+              <div className="hidden md:block">
+                <HeroContactForm />
               </div>
             </div>
           </div>
