@@ -1,0 +1,18 @@
+---
+description: Require unique, page-specific imagery for every new page
+alwaysApply: true
+---
+
+# Unique Page Imagery Requirement
+
+- For every net-new page, generate unique AI images specific to that page's topic and content.
+- Never use stock imagery libraries (Unsplash, Pexels, Shutterstock, etc.) for page visuals.
+- Never use SVGs as image placeholders for page content.
+- Do not copy or reuse image URLs from an existing route into a new route.
+- The correct workflow for new page images:
+  1. Generate AI images using the GenerateImage tool with page-specific, on-brand prompts
+  2. Upload each image to the client's Supabase `site-assets/images/` bucket using the service role key
+  3. Reference the resulting `https://<ref>.supabase.co/storage/v1/object/public/site-assets/images/<filename>` URL in the page
+- Name image files consistently: `<route-prefix>_<section><index>.jpg` (e.g. `wt_ptsd_hero01.jpg`)
+- Write alt text that is specific to the page's clinical/topic context, not generic boilerplate.
+- Reuse an existing image only when the user explicitly approves an exception.

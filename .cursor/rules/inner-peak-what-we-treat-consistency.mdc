@@ -1,0 +1,15 @@
+---
+description: Keep inner-peak what-we-treat pages visually consistent
+globs: apps/inner-peak-colorado/src/{app,views}/what-we-treat/**/page.tsx
+alwaysApply: false
+---
+
+# Inner Peak What We Treat Consistency
+
+- Applies to `inner-peak-colorado` pages under `/what-we-treat` (including subpages like `/what-we-treat/eating-disorders`).
+- Match the established aesthetic from existing `what-we-treat` pages: elegant serif-led headlines, soft neutral backgrounds, dark green section anchors, and warm accent CTAs.
+- Keep section rhythm consistent: hero with breadcrumb and dual CTA, condition context content blocks, treatment/approach sections, FAQ, and a closing CTA.
+- Preserve spacing cadence and card language already used on this route family (rounded asymmetrical corners, subtle gradients, calm transitions, readable line-height).
+- Keep visual tone clinically credible and emotionally warm; avoid introducing radically different layout systems, novelty interactions, or off-brand color palettes.
+- For `src/app/what-we-treat/**/page.tsx`, prefer thin route wrappers that provide metadata/schema and render view components from `src/views/what-we-treat/**/page.tsx`.
+- Maintain internal-link and CTA patterns used in this route family (`/contact`, phone CTA, relevant supporting pages) unless a specific page requirement says otherwise.

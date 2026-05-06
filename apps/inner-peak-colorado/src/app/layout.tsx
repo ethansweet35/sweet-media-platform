@@ -16,14 +16,17 @@ const dmSans = DM_Sans({
   subsets: ["latin"],
 });
 
+/** Bump when replacing `public/favicon.png` so browsers fetch the new asset (tab icons cache aggressively). */
+const FAVICON_URL = "/favicon.png?v=20260506";
+
 export const metadata: Metadata = {
   title: "Inner Peak Colorado | Women's Virtual Mental Health & Addiction Treatment",
   description:
     "Inner Peak Colorado offers premium virtual mental health and addiction treatment exclusively for women. Evidence-based, trauma-informed care rooted in Colorado healing nature.",
   icons: {
-    icon: "/favicon.png",
-    shortcut: "/favicon.png",
-    apple: "/favicon.png",
+    icon: FAVICON_URL,
+    shortcut: FAVICON_URL,
+    apple: FAVICON_URL,
   },
 };
 
