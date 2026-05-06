@@ -5,6 +5,14 @@ import { supabase } from "../lib/supabase";
 import { ADMIN_OCEAN, adminFontSerif } from "../lib/adminTheme";
 import { canonicalBlogPostUrl, getPublicSiteOrigin } from "../lib/publicSiteUrl";
 
+type PingStatus = "idle" | "pinging" | "success" | "error";
+
+interface PingResult {
+  status: PingStatus;
+  message: string | null;
+  pinggedAt: string | null;
+}
+
 type UrlType = "blog" | "page";
 
 interface UrlRow {
@@ -69,11 +77,49 @@ function fmt(ts: string | null | undefined): string {
   }
 }
 
+function PingButton({ pingResult, onPing }: { pingResult: PingResult | undefined; onPing: () => void }) {
+  const pinging = pingResult?.status === "pinging";
+  const success = pingResult?.status === "success";
+  return (
+    <button
+      type="button"
+      onClick={onPing}
+      disabled={pinging}
+      className="rounded-lg px-3 py-1.5 text-[11px] font-semibold uppercase tracking-[0.1em] text-white disabled:opacity-60 transition-colors duration-150"
+      style={{ backgroundColor: success ? "#16a34a" : "#15803d" }}
+      title="Submit URL to Google Indexing API"
+    >
+      {pinging ? "Pinging…" : success ? "✓ Pinged" : "Ping"}
+    </button>
+  );
+}
+
+function PingFeedback({ result }: { result: PingResult }) {
+  if (result.status === "pinging") return null;
+  if (result.status === "success") {
+    return (
+      <p className="text-[11px] text-emerald-600 font-medium">
+        ✓ Submitted to Google{result.pinggedAt ? ` at ${fmt(result.pinggedAt)}` : ""}
+      </p>
+    );
+  }
+  if (result.status === "error") {
+    return (
+      <p className="text-[11px] text-red-600 leading-snug" title={result.message ?? ""}>
+        ✕ {result.message ? (result.message.length > 60 ? result.message.slice(0, 60) + "…" : result.message) : "Ping failed"}
+      </p>
+    );
+  }
+  return null;
+}
+
 export default function AdminIndexingStatusPage() {
   const [rows, setRows] = useState<UrlRow[]>([]);
   const [loading, setLoading] = useState(true);
   const [checking, setChecking] = useState<Record<string, boolean>>({});
   const [results, setResults] = useState<Record<string, IndexStatusResult>>({});
+  const [pingResults, setPingResults] = useState<Record<string, PingResult>>({});
+  const [pingingAll, setPingingAll] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   const siteOrigin = useMemo(() => getPublicSiteOrigin(), []);
@@ -221,6 +267,49 @@ export default function AdminIndexingStatusPage() {
     }
   };
 
+  const pingOne = async (row: UrlRow) => {
+    setPingResults((prev) => ({
+      ...prev,
+      [row.id]: { status: "pinging", message: null, pinggedAt: null },
+    }));
+    try {
+      const { data, error: fnErr } = await supabase.functions.invoke("ping-google-indexing", {
+        body: { url: row.url },
+      });
+      if (fnErr) {
+        setPingResults((prev) => ({
+          ...prev,
+          [row.id]: { status: "error", message: fnErr.message, pinggedAt: new Date().toISOString() },
+        }));
+      } else if (data && (data as { success?: boolean }).success) {
+        setPingResults((prev) => ({
+          ...prev,
+          [row.id]: { status: "success", message: "Submitted to Google", pinggedAt: new Date().toISOString() },
+        }));
+      } else {
+        const msg = (data as { error?: string })?.error ?? "Unknown response";
+        setPingResults((prev) => ({
+          ...prev,
+          [row.id]: { status: "error", message: msg, pinggedAt: new Date().toISOString() },
+        }));
+      }
+    } catch (e) {
+      setPingResults((prev) => ({
+        ...prev,
+        [row.id]: { status: "error", message: errMessage(e), pinggedAt: new Date().toISOString() },
+      }));
+    }
+  };
+
+  const pingAll = async () => {
+    setPingingAll(true);
+    for (const row of rows) {
+      // eslint-disable-next-line no-await-in-loop
+      await pingOne(row);
+    }
+    setPingingAll(false);
+  };
+
   return (
     <div>
       <section className="mb-8">
@@ -232,15 +321,24 @@ export default function AdminIndexingStatusPage() {
         </p>
       </section>
 
-      <div className="mb-6 flex flex-wrap gap-3">
+      <div className="mb-6 flex flex-wrap items-center gap-3">
         <button
           type="button"
           onClick={() => void checkAll()}
           disabled={rows.length === 0}
-          className="rounded-xl px-4 py-2 text-[11px] font-bold uppercase tracking-[0.14em] text-white"
+          className="rounded-xl px-4 py-2 text-[11px] font-bold uppercase tracking-[0.14em] text-white disabled:opacity-60"
           style={{ backgroundColor: ADMIN_OCEAN }}
         >
-          Scan all URLs
+          Scan All URLs
+        </button>
+        <button
+          type="button"
+          onClick={() => void pingAll()}
+          disabled={rows.length === 0 || pingingAll}
+          className="rounded-xl px-4 py-2 text-[11px] font-bold uppercase tracking-[0.14em] text-white disabled:opacity-60"
+          style={{ backgroundColor: "#16a34a" }}
+        >
+          {pingingAll ? "Pinging…" : "Ping All URLs"}
         </button>
         <p className="self-center text-xs text-neutral-500">
           Property: <span className="font-mono">{siteUrl}</span>
@@ -322,14 +420,25 @@ export default function AdminIndexingStatusPage() {
                         <td className="px-4 py-3 text-xs text-neutral-600">{fmt(result?.lastCrawlTime)}</td>
                         <td className="px-4 py-3 text-xs text-neutral-600">{fmt(result?.latestUpdateNotification)}</td>
                         <td className="px-4 py-3">
-                          <button
-                            type="button"
-                            onClick={() => void checkOne(row)}
-                            disabled={busy}
-                            className="rounded-lg border border-black/[0.12] px-3 py-1.5 text-[11px] font-semibold uppercase tracking-[0.1em] text-neutral-700 hover:bg-black/[0.03] disabled:opacity-60"
-                          >
-                            {busy ? "Checking…" : "Check"}
-                          </button>
+                          <div className="flex flex-col gap-2">
+                            <div className="flex items-center gap-2">
+                              <button
+                                type="button"
+                                onClick={() => void checkOne(row)}
+                                disabled={busy}
+                                className="rounded-lg border border-black/[0.12] px-3 py-1.5 text-[11px] font-semibold uppercase tracking-[0.1em] text-neutral-700 hover:bg-black/[0.03] disabled:opacity-60"
+                              >
+                                {busy ? "Checking…" : "Check"}
+                              </button>
+                              <PingButton
+                                pingResult={pingResults[row.id]}
+                                onPing={() => void pingOne(row)}
+                              />
+                            </div>
+                            {pingResults[row.id] && pingResults[row.id].status !== "idle" && (
+                              <PingFeedback result={pingResults[row.id]} />
+                            )}
+                          </div>
                         </td>
                       </tr>
                     );
