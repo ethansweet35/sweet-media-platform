@@ -1,7 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { AdminPageHeader } from "@sweetmedia/admin-core";
+import { AdminPageHeader, supabase } from "@sweetmedia/admin-core";
 import { ADMIN_OCEAN } from "@sweetmedia/admin-core";
 import Seo from "@/components/feature/Seo";
 import { useTrackedPages } from "@sweetmedia/admin-core";
@@ -18,7 +18,7 @@ function truncateSeoTitle(title: string | null, max = 60): string {
 }
 
 export default function AdminPagesTrackingPage() {
-  const { pages, loading, error, createPage, updatePage, deletePage, toggleActive } =
+  const { pages, loading, error, createPage, updatePage, deletePage, toggleActive, refetch } =
     useTrackedPages();
 
   const [toast, setToast] = useState<{ message: string; type: "success" | "error" } | null>(
@@ -29,6 +29,50 @@ export default function AdminPagesTrackingPage() {
   const [editingPage, setEditingPage] = useState<TrackedPage | null>(null);
   const [deletingPage, setDeletingPage] = useState<TrackedPage | null>(null);
   const [togglingId, setTogglingId] = useState<string | null>(null);
+  const [syncing, setSyncing] = useState(false);
+
+  const syncFromCodebase = async () => {
+    setSyncing(true);
+    try {
+      const res = await fetch("/api/admin/app-pages", { cache: "no-store" });
+      if (!res.ok) throw new Error("Failed to fetch app pages");
+      const json = (await res.json()) as { routes?: string[] };
+      const routes = json.routes ?? [];
+      if (routes.length === 0) { showToast("No routes found in codebase", "error"); return; }
+
+      const { data: existing } = await supabase.from("tracked_pages").select("route_path");
+      const existingSet = new Set((existing ?? []).map((r: { route_path: string }) => r.route_path));
+
+      const { data: maxRow } = await supabase.from("tracked_pages").select("display_order")
+        .order("display_order", { ascending: false }).limit(1).maybeSingle();
+      const baseOrder = maxRow ? Number((maxRow as { display_order: number }).display_order) + 10 : 0;
+
+      const toInsert = routes
+        .filter((r) => !existingSet.has(r))
+        .map((r, i) => ({
+          route_path: r,
+          page_title: r === "/" ? "Home" : r.replace(/^\//, "").split("/").map((s) =>
+            s.split("-").map((w) => w.charAt(0).toUpperCase() + w.slice(1)).join(" ")
+          ).join(" › "),
+          display_order: baseOrder + (i + 1) * 10,
+          is_active: true,
+        }));
+
+      if (toInsert.length === 0) { showToast("All pages already tracked"); return; }
+
+      const { error } = await supabase.from("tracked_pages").upsert(toInsert, {
+        onConflict: "route_path",
+        ignoreDuplicates: true,
+      });
+      if (error) throw error;
+      showToast(`Synced ${toInsert.length} page${toInsert.length > 1 ? "s" : ""} from codebase`);
+      await refetch();
+    } catch (e) {
+      showToast(e instanceof Error ? e.message : "Sync failed", "error");
+    } finally {
+      setSyncing(false);
+    }
+  };
 
   const showToast = (message: string, type: "success" | "error" = "success") => {
     setToast({ message, type });
@@ -121,15 +165,26 @@ export default function AdminPagesTrackingPage() {
         title="Pages"
         subtitle="Track your core pages and SEO metadata"
         actions={
-          <button
-            type="button"
-            onClick={openNewPage}
-            className="flex items-center gap-2 rounded-xl px-5 py-2.5 text-[11px] font-bold uppercase tracking-[0.12em] text-white transition-opacity hover:opacity-95 shadow-[0_2px_12px_rgba(61,111,127,0.2)]"
-            style={{ backgroundColor: ADMIN_OCEAN }}
-          >
-            <i className="ri-add-line text-xs" />
-            New Page
-          </button>
+          <div className="flex items-center gap-2">
+            <button
+              type="button"
+              onClick={() => void syncFromCodebase()}
+              disabled={syncing}
+              className="flex items-center gap-2 rounded-xl px-4 py-2.5 text-[11px] font-bold uppercase tracking-[0.12em] text-neutral-700 border border-neutral-200 bg-white hover:border-neutral-300 transition-all disabled:opacity-50"
+            >
+              <i className={`ri-refresh-line text-xs ${syncing ? "animate-spin" : ""}`} />
+              {syncing ? "Syncing…" : "Sync from codebase"}
+            </button>
+            <button
+              type="button"
+              onClick={openNewPage}
+              className="flex items-center gap-2 rounded-xl px-5 py-2.5 text-[11px] font-bold uppercase tracking-[0.12em] text-white transition-opacity hover:opacity-95 shadow-[0_2px_12px_rgba(61,111,127,0.2)]"
+              style={{ backgroundColor: ADMIN_OCEAN }}
+            >
+              <i className="ri-add-line text-xs" />
+              New Page
+            </button>
+          </div>
         }
       />
 
@@ -223,18 +278,29 @@ export default function AdminPagesTrackingPage() {
             {pages.length === 0 ? (
               <div className="bg-white rounded-2xl border border-neutral-100 p-12 text-center">
                 <i className="ri-pages-line text-3xl text-neutral-200 mb-3 block" />
-                <p className="text-sm text-neutral-500 mb-4">
-                  No pages tracked yet. Click &apos;New Page&apos; to add your first one.
+                <p className="text-sm text-neutral-500 mb-6">
+                  No pages tracked yet. Sync from your codebase or add one manually.
                 </p>
-                <button
-                  type="button"
-                  onClick={openNewPage}
-                  className="inline-flex items-center gap-1.5 rounded-xl px-4 py-2 text-[11px] font-bold uppercase tracking-[0.12em] text-white shadow-[0_2px_12px_rgba(61,111,127,0.2)] transition-opacity hover:opacity-95 cursor-pointer"
-                  style={{ backgroundColor: ADMIN_OCEAN }}
-                >
-                  <i className="ri-add-line text-xs" />
-                  New Page
-                </button>
+                <div className="flex items-center justify-center gap-3">
+                  <button
+                    type="button"
+                    onClick={() => void syncFromCodebase()}
+                    disabled={syncing}
+                    className="inline-flex items-center gap-1.5 rounded-xl px-4 py-2 text-[11px] font-bold uppercase tracking-[0.12em] text-neutral-700 border border-neutral-200 bg-white hover:border-neutral-300 transition-all disabled:opacity-50 cursor-pointer"
+                  >
+                    <i className={`ri-refresh-line text-xs ${syncing ? "animate-spin" : ""}`} />
+                    {syncing ? "Syncing…" : "Sync from codebase"}
+                  </button>
+                  <button
+                    type="button"
+                    onClick={openNewPage}
+                    className="inline-flex items-center gap-1.5 rounded-xl px-4 py-2 text-[11px] font-bold uppercase tracking-[0.12em] text-white shadow-[0_2px_12px_rgba(61,111,127,0.2)] transition-opacity hover:opacity-95 cursor-pointer"
+                    style={{ backgroundColor: ADMIN_OCEAN }}
+                  >
+                    <i className="ri-add-line text-xs" />
+                    New Page
+                  </button>
+                </div>
               </div>
             ) : filteredPages.length === 0 ? (
               <div className="bg-white rounded-2xl border border-neutral-100 p-12 text-center">
