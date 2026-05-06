@@ -6,152 +6,169 @@ const SERVICES_IMG =
 
 const services = [
   {
-    color: 'bg-petal-pink',
-    icon: (
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#111111" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-    ),
+    num: '01',
     title: 'Intensive Outpatient (IOP)',
-    description: 'Structured group and individual therapy sessions, 3–5 days per week. Ideal for teens who need more support than weekly therapy.',
+    description:
+      'Structured group and individual sessions 3–5 days per week. The right level of support for teens who need more than weekly therapy.',
     href: '/services#iop',
   },
   {
-    color: 'bg-mint-green',
-    icon: (
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#111111" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
-    ),
+    num: '02',
     title: 'Individual Therapy',
-    description: 'One-on-one sessions with a licensed teen therapist. Confidential, personalized, and focused on your teen\'s unique challenges.',
+    description:
+      'One-on-one sessions with a licensed adolescent therapist. Confidential, personalized, and built around your teen's specific challenges.',
     href: '/services#individual',
   },
   {
-    color: 'bg-canary-yellow',
-    icon: (
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#111111" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-    ),
+    num: '03',
     title: 'Group Therapy',
-    description: 'Facilitated peer groups where teens connect, share, and build coping skills alongside others who truly understand.',
+    description:
+      'Facilitated peer groups where teens connect and build coping skills alongside others who truly understand what they're going through.',
     href: '/services#group',
   },
   {
-    color: 'bg-subtle-lavender',
-    icon: (
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#111111" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
-    ),
+    num: '04',
     title: 'Family Therapy',
-    description: 'Healing is a family affair. We involve parents and caregivers to strengthen communication and build a supportive home environment.',
+    description:
+      'Healing is a family process. We strengthen communication and help build a home environment where your teen can recover.',
     href: '/services#family',
   },
   {
-    color: 'bg-petal-pink',
-    icon: (
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#111111" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-    ),
+    num: '05',
     title: 'Crisis Support',
-    description: 'When things escalate, we\'re here. Our team provides immediate crisis assessment and stabilization services.',
+    description:
+      'When things escalate, we're here. Immediate crisis assessment and stabilization — including after-hours response.',
     href: '/services#crisis',
   },
   {
-    color: 'bg-mint-green',
-    icon: (
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#111111" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><rect width="18" height="18" x="3" y="4" rx="2" ry="2"/><line x1="16" x2="16" y1="2" y2="6"/><line x1="8" x2="8" y1="2" y2="6"/><line x1="3" x2="21" y1="10" y2="10"/></svg>
-    ),
+    num: '06',
     title: 'Aftercare Planning',
-    description: 'We don\'t just close the door when treatment ends. Personalized step-down plans keep your teen on track for lasting recovery.',
+    description:
+      'We don't close the door at discharge. Personalized step-down plans keep your teen on track for lasting recovery.',
     href: '/services#aftercare',
   },
 ];
 
 export default function ServicesSection() {
   return (
-    <section className="w-full py-24 bg-whisper-gray">
-      <div className="max-w-7xl mx-auto px-8 md:px-16 lg:px-24">
+    <section className="w-full py-24 md:py-28 bg-whisper-gray">
+      <div className="max-w-7xl mx-auto px-6 md:px-8 xl:px-12">
 
         {/* Header */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-end mb-14">
+        <div className="grid grid-cols-1 lg:grid-cols-[1fr_380px] gap-10 items-end mb-16">
           <div className="flex flex-col gap-4">
-            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-canvas-white w-fit"
-              style={{ boxShadow: 'rgba(17, 17, 17, 0.05) 0px 0px 0px 1px inset' }}
+            <span className="text-[11px] uppercase tracking-[0.2em] text-muted-ash font-medium">
+              Our Programs
+            </span>
+            <h2
+              className="text-midnight-ink font-black leading-[1.0]"
+              style={{ fontSize: 'clamp(38px, 4.5vw, 60px)', letterSpacing: '-0.03em' }}
             >
-              <span className="text-[11px] font-medium text-muted-ash uppercase tracking-widest">Our Services</span>
-            </div>
-            <h2 className="text-[40px] font-bold text-midnight-ink leading-[1.1] tracking-tight">
-              Comprehensive care at<br />every level of need
+              Comprehensive care
+              <br />
+              at every level of need.
             </h2>
           </div>
-          <div className="flex flex-col gap-4">
-            <p className="text-[15px] text-muted-ash leading-[1.75] font-light">
-              From weekly therapy to intensive outpatient programs, we meet teens and families exactly where they are — and guide them toward lasting mental wellness.
+          <div className="flex flex-col gap-5 lg:pb-1">
+            <p className="text-[15px] text-muted-ash font-light leading-[1.8]">
+              From weekly therapy to intensive outpatient programs, we meet teens and
+              families where they are — and guide them toward lasting wellness.
             </p>
             <Link
               href="/services"
               className="inline-flex items-center gap-2 text-[13px] font-medium text-midnight-ink cursor-pointer group w-fit"
             >
               View all services
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="group-hover:translate-x-0.5 transition-transform duration-200"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+              <svg
+                width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"
+                className="group-hover:translate-x-0.5 transition-transform duration-200"
+              >
+                <path d="M5 12h14M12 5l7 7-7 7" />
+              </svg>
             </Link>
           </div>
         </div>
 
-        {/* Services grid + image */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          {/* Left: 3 services */}
-          <div className="flex flex-col gap-4">
-            {services.slice(0, 3).map((s) => (
+        {/* Three-column: services / image / services */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+
+          {/* Left: services 01–03 */}
+          <div className="flex flex-col gap-3">
+            {services.slice(0, 3).map(({ num, title, description, href }) => (
               <Link
-                key={s.title}
-                href={s.href}
-                className="bg-canvas-white rounded-xl p-5 flex flex-col gap-3 cursor-pointer group hover:-translate-y-0.5 transition-transform duration-200"
-                style={{ boxShadow: 'rgba(17, 17, 17, 0.02) 0px -6px 6px 0px, rgba(17, 17, 17, 0.01) 0px -23px 9px 0px' }}
+                key={num}
+                href={href}
+                className="group bg-canvas-white rounded-2xl p-6 flex flex-col gap-3 cursor-pointer hover:-translate-y-0.5 transition-all duration-200 border border-black/[0.05]"
               >
-                <div className={`w-10 h-10 rounded-xl ${s.color} flex items-center justify-center flex-shrink-0`}>
-                  {s.icon}
-                </div>
-                <div>
-                  <h3 className="text-[14px] font-semibold text-midnight-ink tracking-tight">{s.title}</h3>
-                  <p className="text-[13px] text-muted-ash leading-[1.6] mt-1 font-light">{s.description}</p>
+                <span className="text-[11px] uppercase tracking-[0.18em] text-muted-ash font-medium">{num}</span>
+                <h3
+                  className="text-midnight-ink font-bold leading-tight tracking-tight"
+                  style={{ fontSize: '15px', letterSpacing: '-0.02em' }}
+                >
+                  {title}
+                </h3>
+                <p className="text-[13px] text-muted-ash font-light leading-[1.65] flex-1">{description}</p>
+                <div className="flex items-center gap-1.5 text-[12px] font-medium text-phoenix-orange mt-1 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+                  Learn more
+                  <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M12 5l7 7-7 7" /></svg>
                 </div>
               </Link>
             ))}
           </div>
 
           {/* Center: image */}
-          <div className="relative rounded-xl overflow-hidden min-h-[400px] lg:min-h-0"
-            style={{ boxShadow: 'rgba(17, 17, 17, 0.08) 0px 24px 60px -10px' }}
+          <div
+            className="relative rounded-2xl overflow-hidden min-h-[360px] lg:min-h-0 border border-black/[0.05]"
           >
             <Image
               src={SERVICES_IMG}
-              alt="Teen journaling in a calm therapeutic setting"
+              alt="Teen in a calm therapeutic setting"
               fill
               className="object-cover object-center"
               sizes="(max-width: 1024px) 100vw, 33vw"
               quality={80}
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-midnight-ink/50 to-transparent" />
-            <div className="absolute bottom-5 left-5 right-5">
-              <p className="text-canvas-white/70 text-[11px] tracking-widest uppercase mb-1">Our approach</p>
-              <p className="text-canvas-white font-semibold text-[15px] leading-tight tracking-tight">Evidence-based care<br />tailored to each teen</p>
+            <div className="absolute inset-0 bg-gradient-to-t from-midnight-ink/60 via-transparent to-transparent" />
+            <div className="absolute bottom-6 left-6 right-6">
+              <p className="text-canvas-white/60 text-[10px] tracking-[0.18em] uppercase mb-1.5 font-medium">
+                Our approach
+              </p>
+              <p
+                className="text-canvas-white font-bold leading-tight"
+                style={{ fontSize: '18px', letterSpacing: '-0.02em' }}
+              >
+                Evidence-based care
+                <br />
+                tailored to each teen.
+              </p>
             </div>
           </div>
 
-          {/* Right: 3 services */}
-          <div className="flex flex-col gap-4">
-            {services.slice(3, 6).map((s) => (
+          {/* Right: services 04–06 */}
+          <div className="flex flex-col gap-3">
+            {services.slice(3, 6).map(({ num, title, description, href }) => (
               <Link
-                key={s.title}
-                href={s.href}
-                className="bg-canvas-white rounded-xl p-5 flex flex-col gap-3 cursor-pointer group hover:-translate-y-0.5 transition-transform duration-200"
-                style={{ boxShadow: 'rgba(17, 17, 17, 0.02) 0px -6px 6px 0px, rgba(17, 17, 17, 0.01) 0px -23px 9px 0px' }}
+                key={num}
+                href={href}
+                className="group bg-canvas-white rounded-2xl p-6 flex flex-col gap-3 cursor-pointer hover:-translate-y-0.5 transition-all duration-200 border border-black/[0.05]"
               >
-                <div className={`w-10 h-10 rounded-xl ${s.color} flex items-center justify-center flex-shrink-0`}>
-                  {s.icon}
-                </div>
-                <div>
-                  <h3 className="text-[14px] font-semibold text-midnight-ink tracking-tight">{s.title}</h3>
-                  <p className="text-[13px] text-muted-ash leading-[1.6] mt-1 font-light">{s.description}</p>
+                <span className="text-[11px] uppercase tracking-[0.18em] text-muted-ash font-medium">{num}</span>
+                <h3
+                  className="text-midnight-ink font-bold leading-tight tracking-tight"
+                  style={{ fontSize: '15px', letterSpacing: '-0.02em' }}
+                >
+                  {title}
+                </h3>
+                <p className="text-[13px] text-muted-ash font-light leading-[1.65] flex-1">{description}</p>
+                <div className="flex items-center gap-1.5 text-[12px] font-medium text-phoenix-orange mt-1 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+                  Learn more
+                  <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M12 5l7 7-7 7" /></svg>
                 </div>
               </Link>
             ))}
           </div>
+
         </div>
       </div>
     </section>
