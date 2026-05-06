@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
+    "postbuild": "tsx scripts/sync-tracked-pages.ts",
     "start": "next start",
     "lint": "eslint",
     "upload:images": "node scripts/upload-images-to-supabase.mjs"
@@ -27,6 +28,7 @@
     "eslint": "^9",
     "eslint-config-next": "16.2.4",
     "tailwindcss": "^4",
+    "tsx": "4.21.0",
     "typescript": "^5"
   }
 }

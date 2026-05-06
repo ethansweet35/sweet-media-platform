@@ -106,7 +106,7 @@ export default function AdminSidebar({
       className={`sticky top-0 flex h-[100vh] w-[240px] shrink-0 flex-col overflow-y-auto border-r border-black/[0.06] ${adminFontSans}`}
       style={{ backgroundColor: ADMIN_CREAM_SIDEBAR }}
     >
-      <div className="border-b border-black/[0.06] px-4 pb-6 pt-7">
+      <div className="border-b border-black/[0.06] px-4 pb-6 pt-10">
         <Link
           href="/admin"
           className="mx-auto flex h-11 w-11 items-center justify-center rounded-2xl text-xl font-semibold leading-none tracking-tight text-white shadow-[0_1px_12px_rgba(61,111,127,0.25)] transition-opacity hover:opacity-90"
