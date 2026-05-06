@@ -20,6 +20,11 @@ export const metadata: Metadata = {
   title: "Inner Peak Colorado | Women's Virtual Mental Health & Addiction Treatment",
   description:
     "Inner Peak Colorado offers premium virtual mental health and addiction treatment exclusively for women. Evidence-based, trauma-informed care rooted in Colorado healing nature.",
+  icons: {
+    icon: "/favicon.png",
+    shortcut: "/favicon.png",
+    apple: "/favicon.png",
+  },
 };
 
 export default function RootLayout({
