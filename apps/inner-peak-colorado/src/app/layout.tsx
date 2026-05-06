@@ -4,6 +4,7 @@ import Script from "next/script";
 import "./globals.css";
 import Layout from "@/components/feature/Layout";
 import { getPublicSiteOrigin } from "@/lib/publicSiteUrl";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
 const cormorant = Cormorant_Garamond({
   variable: "--font-cormorant",
@@ -89,6 +90,7 @@ export default function RootLayout({
       </head>
       <body className="min-h-full">
         <Layout>{children}</Layout>
+        <SpeedInsights />
       </body>
     </html>
   );
