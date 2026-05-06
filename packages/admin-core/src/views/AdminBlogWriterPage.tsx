@@ -1,20 +1,10 @@
 "use client";
 
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import Link from "next/link";
 import AdminPageHeader from "../components/AdminPageHeader";
 import { supabase } from "../lib/supabase";
 import { AI_MODELS, DEFAULT_MODEL_ID } from "../lib/aiModels";
-
-const CATEGORY_OPTIONS = [
-  { value: "", label: "Let AI decide" },
-  { value: "SEO", label: "SEO" },
-  { value: "Paid Media", label: "Paid Media" },
-  { value: "Web Development", label: "Web Development" },
-  { value: "Social Media", label: "Social Media" },
-  { value: "Compliance", label: "Compliance" },
-  { value: "Strategy", label: "Strategy" },
-] as const;
 
 const SITE_ID = process.env.NEXT_PUBLIC_SITE_ID ?? "client-template";
 
@@ -82,6 +72,30 @@ export default function BlogWriterPage() {
   const [generationStage, setGenerationStage] = useState<GenerationStage>(null);
   const [postError, setPostError] = useState<string | null>(null);
   const [result, setResult] = useState<DoneResult | null>(null);
+  const [categoryOptions, setCategoryOptions] = useState<{ value: string; label: string }[]>([
+    { value: "", label: "Let AI decide" },
+  ]);
+
+  useEffect(() => {
+    supabase
+      .from("blog_posts")
+      .select("category")
+      .neq("category", null)
+      .then(({ data }) => {
+        if (!data) return;
+        const unique = Array.from(
+          new Set(
+            (data as { category: string | null }[])
+              .map((r) => r.category)
+              .filter((c): c is string => typeof c === "string" && c.trim().length > 0)
+          )
+        ).sort();
+        setCategoryOptions([
+          { value: "", label: "Let AI decide" },
+          ...unique.map((c) => ({ value: c, label: c })),
+        ]);
+      });
+  }, []);
 
   const disableForm =
     generationStage === "post" || generationStage === "image";
@@ -395,12 +409,25 @@ export default function BlogWriterPage() {
                     }
                     className={inputCls}
                   >
-                    {CATEGORY_OPTIONS.map((o) => (
-                      <option key={o.label} value={o.value}>
+                    {categoryOptions.map((o) => (
+                      <option key={o.value} value={o.value}>
                         {o.label}
                       </option>
                     ))}
                   </select>
+                  <p className="mt-1 text-xs text-stone-500">
+                    Categories are pulled from existing posts. Type a new one below if needed.
+                  </p>
+                  <input
+                    type="text"
+                    value={form.category}
+                    disabled={disableForm}
+                    placeholder="Or type a new category…"
+                    onChange={(ev) =>
+                      setForm((p) => ({ ...p, category: ev.target.value }))
+                    }
+                    className={`${inputCls} mt-2`}
+                  />
                 </div>
 
                 <div>
@@ -505,7 +532,7 @@ export default function BlogWriterPage() {
                 <div className="pt-2">
                   <button
                     type="submit"
-                    disabled={disableForm || postError !== null}
+                    disabled={disableForm}
                     className="w-full py-2.5 bg-stone-900 text-white text-sm font-medium rounded-lg hover:bg-stone-800 disabled:opacity-50 disabled:cursor-not-allowed transition-colors cursor-pointer font-[family-name:var(--font-outfit-sans),sans-serif]"
                   >
                     Generate Blog Post

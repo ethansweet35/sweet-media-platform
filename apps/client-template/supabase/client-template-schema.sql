@@ -231,6 +231,7 @@ create table if not exists public.blog_knowledge_base (
   title text not null,
   content text not null,
   category text,
+  tags text[] not null default '{}',
   is_active boolean not null default true,
   created_at timestamptz not null default now(),
   updated_at timestamptz not null default now()
