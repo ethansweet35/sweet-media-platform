@@ -1,13 +1,18 @@
 import type { Metadata } from 'next';
+import { resolveTrackedPageMetadata } from '@sweetmedia/admin-core';
 import AdmissionsPage from '@/views/admissions/page';
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://innerpeakcolorado.com';
 
-export const metadata: Metadata = {
+const fallbackMetadata: Metadata = {
   title: "Admissions | Inner Peak Colorado Women's Mental Health Treatment",
   description:
     "Start treatment at Inner Peak Colorado in 5 simple steps. Free consultation, insurance verification, and first session within 72 hours. Women's virtual mental health and addiction care in Colorado.",
 };
+
+export async function generateMetadata(): Promise<Metadata> {
+  return resolveTrackedPageMetadata('/admissions', fallbackMetadata);
+}
 
 const schema = {
   '@context': 'https://schema.org',

@@ -1,13 +1,18 @@
 import type { Metadata } from 'next';
+import { resolveTrackedPageMetadata } from '@sweetmedia/admin-core';
 import EatingDisordersPage from '@/views/what-we-treat/eating-disorders/page';
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://innerpeakcolorado.com';
 
-export const metadata: Metadata = {
+const fallbackMetadata: Metadata = {
   title: "Eating Disorder Treatment for Women | Inner Peak Colorado",
   description:
     "Inner Peak Colorado offers compassionate, weight-neutral eating disorder treatment for women in Colorado — including anorexia, bulimia, binge eating disorder, and ARFID. Virtual IOP and outpatient care.",
 };
+
+export async function generateMetadata(): Promise<Metadata> {
+  return resolveTrackedPageMetadata('/what-we-treat/eating-disorders', fallbackMetadata);
+}
 
 const schema = {
   '@context': 'https://schema.org',

@@ -1,13 +1,18 @@
 import type { Metadata } from 'next';
+import { resolveTrackedPageMetadata } from '@sweetmedia/admin-core';
 import ContactPage from '@/views/contact/page';
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://innerpeakcolorado.com';
 
-export const metadata: Metadata = {
+const fallbackMetadata: Metadata = {
   title: 'Contact Inner Peak Colorado | Free Confidential Consultation',
   description:
     'Contact Inner Peak Colorado for a free, confidential consultation. Our compassionate intake team is available 24/7. Call 719-733-8556 or send a message today.',
 };
+
+export async function generateMetadata(): Promise<Metadata> {
+  return resolveTrackedPageMetadata('/contact', fallbackMetadata);
+}
 
 const schema = {
   '@context': 'https://schema.org',

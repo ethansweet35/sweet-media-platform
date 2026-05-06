@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { resolveTrackedPageMetadata } from "@sweetmedia/admin-core";
 import Script from "next/script";
 import dynamic from "next/dynamic";
 import SiteHeader from "@/components/feature/SiteHeader";
@@ -40,7 +41,7 @@ const SITE_URL = "https://sweetmediaservices.com";
 const DEFAULT_OG_IMAGE =
   "https://ynmldknprfusujudvutq.supabase.co/storage/v1/object/public/public_bucket/og-default.jpg";
 
-export const metadata: Metadata = {
+const fallbackMetadata: Metadata = {
   title: "Sweet Media | Behavioral Health Digital Marketing Agency",
   description:
     "Sweet Media is a boutique digital marketing agency exclusively serving behavioral health treatment centers. SEO, Google Ads, Meta Ads, and website development for detox, residential, and IOP programs.",
@@ -65,6 +66,10 @@ export const metadata: Metadata = {
     images: [DEFAULT_OG_IMAGE],
   },
 };
+
+export async function generateMetadata(): Promise<Metadata> {
+  return resolveTrackedPageMetadata("/", fallbackMetadata);
+}
 
 const homeSchemas = [
   {

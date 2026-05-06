@@ -1,13 +1,18 @@
 import type { Metadata } from 'next';
+import { resolveTrackedPageMetadata } from '@sweetmedia/admin-core';
 import WhatWeTreatPage from '@/views/what-we-treat/page';
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://innerpeakcolorado.com';
 
-export const metadata: Metadata = {
+const fallbackMetadata: Metadata = {
   title: "What We Treat | Women's Mental Health & Addiction | Inner Peak Colorado",
   description:
     "Inner Peak Colorado treats depression, anxiety, trauma, PTSD, addiction, dual diagnosis, and more — exclusively for women through virtual outpatient care in Colorado.",
 };
+
+export async function generateMetadata(): Promise<Metadata> {
+  return resolveTrackedPageMetadata('/what-we-treat', fallbackMetadata);
+}
 
 const schema = {
   '@context': 'https://schema.org',

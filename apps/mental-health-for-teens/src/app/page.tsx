@@ -1,12 +1,17 @@
 import type { Metadata } from 'next';
+import { resolveTrackedPageMetadata } from "@sweetmedia/admin-core";
 import Image from 'next/image';
 import Link from 'next/link';
 
-export const metadata: Metadata = {
+const fallbackMetadata: Metadata = {
   title: 'Mental Health For Teens | Teen Therapy & Outpatient Programs in Colorado',
   description:
     'Specialized mental health treatment for teenagers ages 12–18. Individual therapy, group therapy, IOP, and family therapy in Colorado. Free consultation available.',
 };
+
+export async function generateMetadata(): Promise<Metadata> {
+  return resolveTrackedPageMetadata("/", fallbackMetadata);
+}
 
 const IMAGES = {
   hero: '/images/mhft-hero-art-premium.png',

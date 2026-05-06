@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { resolveTrackedPageMetadata } from "@sweetmedia/admin-core";
 import Script from "next/script";
 import SiteHeader from "@/components/feature/SiteHeader";
 import AboutHero from "@/components/pages/about/components/AboutHero";
@@ -11,7 +12,7 @@ const SITE_URL = "https://sweetmediaservices.com";
 const DEFAULT_OG_IMAGE =
   "https://ynmldknprfusujudvutq.supabase.co/storage/v1/object/public/public_bucket/og-default.jpg";
 
-export const metadata: Metadata = {
+const fallbackMetadata: Metadata = {
   title: "About Sweet Media | Behavioral Health Marketing Experts | Costa Mesa, CA",
   description:
     "Meet the team behind Sweet Media. We're the only digital marketing agency exclusively serving behavioral health treatment centers. Founded by Ethan Sweet in Costa Mesa, CA.",
@@ -29,6 +30,10 @@ export const metadata: Metadata = {
     images: [{ url: DEFAULT_OG_IMAGE, width: 1200, height: 630 }],
   },
 };
+
+export async function generateMetadata(): Promise<Metadata> {
+  return resolveTrackedPageMetadata("/about", fallbackMetadata);
+}
 
 const aboutSchemas = [
   {

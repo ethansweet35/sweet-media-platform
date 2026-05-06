@@ -1,9 +1,10 @@
 import type { Metadata } from 'next';
+import { resolveTrackedPageMetadata } from '@sweetmedia/admin-core';
 import HomePage from '@/views/home/page';
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://innerpeakcolorado.com';
 
-export const metadata: Metadata = {
+const fallbackMetadata: Metadata = {
   title: "Inner Peak Colorado | Women's Virtual Mental Health & Addiction Treatment",
   description:
     "Inner Peak Colorado offers premium virtual mental health and addiction treatment exclusively for women. Evidence-based, trauma-informed care. PHP, IOP, and outpatient programs in Colorado.",
@@ -12,6 +13,10 @@ export const metadata: Metadata = {
     title: "Inner Peak Colorado | Women's Virtual Mental Health & Addiction Treatment",
   },
 };
+
+export async function generateMetadata(): Promise<Metadata> {
+  return resolveTrackedPageMetadata('/', fallbackMetadata);
+}
 
 const homeSchema = {
   '@context': 'https://schema.org',

@@ -1,13 +1,18 @@
 import type { Metadata } from 'next';
+import { resolveTrackedPageMetadata } from '@sweetmedia/admin-core';
 import LocationsPage from '@/views/locations/page';
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://innerpeakcolorado.com';
 
-export const metadata: Metadata = {
+const fallbackMetadata: Metadata = {
   title: 'Locations | Inner Peak Colorado Mental Health Treatment Centers',
   description:
     "Find Inner Peak Colorado's treatment locations in Colorado Springs and Boulder. Virtual care available to all women across Colorado. Evidence-based mental health and addiction treatment.",
 };
+
+export async function generateMetadata(): Promise<Metadata> {
+  return resolveTrackedPageMetadata('/locations', fallbackMetadata);
+}
 
 const schema = {
   '@context': 'https://schema.org',

@@ -1,9 +1,14 @@
 import type { Metadata } from "next";
+import { resolveTrackedPageMetadata } from "@sweetmedia/admin-core";
 
-export const metadata: Metadata = {
+const fallbackMetadata: Metadata = {
   title: "Admissions | Client Brand",
   description: "Explain the client’s onboarding, intake, or getting-started process.",
 };
+
+export async function generateMetadata(): Promise<Metadata> {
+  return resolveTrackedPageMetadata("/admissions", fallbackMetadata);
+}
 
 export default function Page() {
   return (

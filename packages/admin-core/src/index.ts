@@ -22,6 +22,7 @@ export { useAdminBlogPosts } from "./hooks/useAdminBlogPosts";
 export { useBlogPostBySlug } from "./hooks/useBlogPostBySlug";
 export { useLinkUtilization, type LinkUtilization, type UtilizationStatus } from "./hooks/useLinkUtilization";
 export { getPublicSiteOrigin, canonicalBlogPostUrl } from "./lib/publicSiteUrl";
+export { resolveTrackedPageMetadata } from "./lib/resolveTrackedPageMetadata";
 export {
   buildSitemapEntries,
   toSitemapXml,

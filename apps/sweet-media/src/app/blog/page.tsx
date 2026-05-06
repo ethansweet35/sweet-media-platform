@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { resolveTrackedPageMetadata } from "@sweetmedia/admin-core";
 import BlogPage from "@/pages/blog/page";
 
 export const dynamic = "force-dynamic";
@@ -6,7 +7,7 @@ export const dynamic = "force-dynamic";
 const BLOG_OG_IMAGE =
   "https://ynmldknprfusujudvutq.supabase.co/storage/v1/object/public/public_bucket/og-blog.jpg";
 
-export const metadata: Metadata = {
+const fallbackMetadata: Metadata = {
   title: "Blog | Behavioral Health Marketing Insights | Sweet Media",
   description:
     "Expert insights on behavioral health marketing, SEO, paid media, and web development for treatment centers. Read the latest from Sweet Media's team.",
@@ -22,6 +23,10 @@ export const metadata: Metadata = {
     images: [{ url: BLOG_OG_IMAGE, width: 1200, height: 630 }],
   },
 };
+
+export async function generateMetadata(): Promise<Metadata> {
+  return resolveTrackedPageMetadata("/blog", fallbackMetadata);
+}
 
 export default function Page() {
   return <BlogPage />;

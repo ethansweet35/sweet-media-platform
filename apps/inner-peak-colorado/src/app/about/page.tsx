@@ -1,13 +1,18 @@
 import type { Metadata } from 'next';
+import { resolveTrackedPageMetadata } from '@sweetmedia/admin-core';
 import AboutPage from '@/views/about/page';
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://innerpeakcolorado.com';
 
-export const metadata: Metadata = {
+const fallbackMetadata: Metadata = {
   title: 'About Inner Peak Colorado | Women-Owned Mental Health Treatment',
   description:
     'Learn about Inner Peak Colorado, a women-owned virtual behavioral health program in Colorado. Meet our clinical team and discover our mission to provide compassionate, evidence-based care for women.',
 };
+
+export async function generateMetadata(): Promise<Metadata> {
+  return resolveTrackedPageMetadata('/about', fallbackMetadata);
+}
 
 const schema = {
   '@context': 'https://schema.org',
