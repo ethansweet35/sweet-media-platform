@@ -60,9 +60,20 @@ export default function AdminPagesTrackingPage() {
 
       if (toInsert.length === 0) { showToast("All pages already tracked"); return; }
 
-      // Refresh session before write to ensure RLS auth header is current.
-      await supabase.auth.getSession();
-      const { error } = await supabase.from("tracked_pages").insert(toInsert);
+      // Explicitly attach the current access token so RLS sees the authenticated user.
+      const { data: { session: currentSession } } = await supabase.auth.getSession();
+      if (!currentSession?.access_token) throw new Error("Not authenticated — please sign in again");
+
+      const { createClient } = await import("@supabase/supabase-js");
+      const authedClient = createClient(
+        process.env.NEXT_PUBLIC_SUPABASE_URL!,
+        process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ?? process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY!,
+        {
+          global: { headers: { Authorization: `Bearer ${currentSession.access_token}` } },
+          auth: { persistSession: false, autoRefreshToken: false },
+        }
+      );
+      const { error } = await authedClient.from("tracked_pages").insert(toInsert);
       if (error) throw error;
       showToast(`Synced ${toInsert.length} page${toInsert.length > 1 ? "s" : ""} from codebase`);
       await refetch();
