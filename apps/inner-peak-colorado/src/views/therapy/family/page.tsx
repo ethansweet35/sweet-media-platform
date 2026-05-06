@@ -141,59 +141,61 @@ export default function FamilyTherapyPage() {
       <section className="min-h-[92vh] grid grid-cols-1 lg:grid-cols-[55%_45%]">
         {/* Left panel */}
         <div className="bg-[#2C3B2E] flex flex-col justify-center px-8 md:px-16 lg:px-20 py-20 lg:py-28">
-          <Breadcrumb
-            items={[
-              { label: 'Therapy', path: '/therapy' },
-              { label: 'Family Therapy' },
-            ]}
-            light={true}
-          />
-          <span
-            className="mt-8 inline-block text-[11px] uppercase tracking-[0.3em] font-medium"
-            style={{ color: ACCENT }}
-          >
-            Relational Healing
-          </span>
-          <h1
-            className="font-serif text-[#FAF8F5] leading-[1.1] mt-4 mb-6"
-            style={{ fontSize: 'clamp(36px, 5vw, 68px)' }}
-          >
-            Family<br />
-            Therapy
-          </h1>
-          <p className="text-[#FAF8F5]/65 font-light leading-[1.85] max-w-md text-base mb-10">
-            Healing rarely happens in isolation. Family therapy creates a guided space to repair
-            relationships, improve communication, and help the people who love you become allies in
-            your recovery — not obstacles.
-          </p>
-          <div className="flex flex-wrap gap-4">
-            <Link
-              href="/admissions"
-              className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full text-xs uppercase tracking-widest font-medium transition-all duration-300 hover:opacity-90 text-[#FAF8F5]"
-              style={{ backgroundColor: ACCENT }}
+          <div className="max-w-xl">
+            <Breadcrumb
+              items={[
+                { label: 'Therapy', path: '/therapy' },
+                { label: 'Family Therapy' },
+              ]}
+              light={true}
+            />
+            <span
+              className="mt-8 inline-block text-[11px] uppercase tracking-[0.3em] font-medium"
+              style={{ color: ACCENT }}
             >
-              Get Started
-              <i className="ri-arrow-right-line" />
-            </Link>
-            <a
-              href="tel:+17197338556"
-              className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full border border-[#FAF8F5]/30 text-[#FAF8F5]/80 text-xs uppercase tracking-widest font-medium hover:border-[#FAF8F5]/60 hover:text-[#FAF8F5] transition-all duration-300"
+              Relational Healing
+            </span>
+            <h1
+              className="font-serif text-[#FAF8F5] leading-[1.1] mt-4 mb-6"
+              style={{ fontSize: 'clamp(36px, 5vw, 68px)' }}
             >
-              <i className="ri-phone-line" />
-              719-733-8556
-            </a>
-          </div>
-          <div className="flex flex-wrap gap-6 mt-10 pt-10 border-t border-[#FAF8F5]/10">
-            {[
-              { icon: 'ri-computer-line', label: 'Fully Virtual' },
-              { icon: 'ri-global-line', label: 'Any Location' },
-              { icon: 'ri-shield-check-line', label: 'HIPAA Secure' },
-            ].map((b) => (
-              <div key={b.label} className="flex items-center gap-2 text-[#FAF8F5]/45">
-                <i className={`${b.icon} text-xs`} style={{ color: ACCENT }} />
-                <span className="text-xs font-light tracking-wide">{b.label}</span>
-              </div>
-            ))}
+              Family<br />
+              Therapy
+            </h1>
+            <p className="text-[#FAF8F5]/65 font-light leading-[1.85] text-base mb-10">
+              Healing rarely happens in isolation. Family therapy creates a guided space to repair
+              relationships, improve communication, and help the people who love you become allies in
+              your recovery — not obstacles.
+            </p>
+            <div className="flex flex-wrap gap-4">
+              <Link
+                href="/admissions"
+                className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full text-xs uppercase tracking-widest font-medium transition-all duration-300 hover:opacity-90 text-[#FAF8F5]"
+                style={{ backgroundColor: ACCENT }}
+              >
+                Get Started
+                <i className="ri-arrow-right-line" />
+              </Link>
+              <a
+                href="tel:+17197338556"
+                className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full border border-[#FAF8F5]/30 text-[#FAF8F5]/80 text-xs uppercase tracking-widest font-medium hover:border-[#FAF8F5]/60 hover:text-[#FAF8F5] transition-all duration-300"
+              >
+                <i className="ri-phone-line" />
+                719-733-8556
+              </a>
+            </div>
+            <div className="flex flex-wrap gap-6 mt-10 pt-10 border-t border-[#FAF8F5]/10">
+              {[
+                { icon: 'ri-computer-line', label: 'Fully Virtual' },
+                { icon: 'ri-global-line', label: 'Any Location' },
+                { icon: 'ri-shield-check-line', label: 'HIPAA Secure' },
+              ].map((b) => (
+                <div key={b.label} className="flex items-center gap-2 text-[#FAF8F5]/45">
+                  <i className={`${b.icon} text-xs`} style={{ color: ACCENT }} />
+                  <span className="text-xs font-light tracking-wide">{b.label}</span>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
 
@@ -221,17 +223,43 @@ export default function FamilyTherapyPage() {
 
       {/* ─── EDITORIAL INTRO ─── */}
       <section className="bg-[#FAF8F5] py-24 px-8 md:px-16">
-        <div className="max-w-3xl mx-auto text-center">
-          <span className="text-[11px] uppercase tracking-[0.3em] font-medium" style={{ color: ACCENT }}>
-            Why Family
-          </span>
-          <p className="font-serif text-[#2C3B2E] mt-6 leading-[1.7]" style={{ fontSize: 'clamp(20px, 2.5vw, 30px)' }}>
-            Mental health doesn't happen in a vacuum. Your recovery is shaped by the relationships
-            around you — and those relationships are also shaped by your recovery. Family therapy
-            addresses both at once.
-          </p>
+        <div className="max-w-4xl mx-auto">
+          <div className="text-center">
+            <span className="text-[11px] uppercase tracking-[0.3em] font-medium" style={{ color: ACCENT }}>
+              Why Family
+            </span>
+            <p className="font-serif text-[#2C3B2E] mt-6 leading-[1.7]" style={{ fontSize: 'clamp(20px, 2.5vw, 30px)' }}>
+              Mental health doesn't happen in a vacuum. Your recovery is shaped by the relationships
+              around you — and those relationships are also shaped by your recovery. Family therapy
+              addresses both at once.
+            </p>
+          </div>
+
+          {/* Stat highlights */}
+          <div className="mt-14 grid grid-cols-3 gap-5">
+            {[
+              { num: '60', unit: 'min', label: 'per family session', icon: 'ri-time-line' },
+              { num: '100%', unit: 'virtual', label: 'family joins from anywhere', icon: 'ri-global-line' },
+              { num: 'Zero', unit: 'judgment', label: 'blame-free environment', icon: 'ri-heart-line' },
+            ].map((s) => (
+              <div
+                key={s.label}
+                className="rounded-2xl p-6 text-center border"
+                style={{ backgroundColor: `${ACCENT}07`, borderColor: `${ACCENT}20` }}
+              >
+                <i className={`${s.icon} text-xl mb-3 block`} style={{ color: ACCENT }} />
+                <div className="font-serif text-[#2C3B2E] leading-none" style={{ fontSize: 'clamp(24px, 3vw, 40px)' }}>
+                  {s.num}
+                  <span className="text-sm font-light ml-1 opacity-50">{s.unit}</span>
+                </div>
+                <p className="text-xs text-[#3A4A3C]/45 font-light mt-2 leading-relaxed">{s.label}</p>
+              </div>
+            ))}
+          </div>
+
+          {/* Pull quote */}
           <div
-            className="mt-12 mx-auto rounded-2xl p-8 text-left max-w-xl"
+            className="mt-12 rounded-2xl p-8"
             style={{ backgroundColor: `${ACCENT}10`, borderLeft: `3px solid ${ACCENT}` }}
           >
             <p className="font-serif italic text-[#2C3B2E] text-lg leading-relaxed">
@@ -431,27 +459,55 @@ export default function FamilyTherapyPage() {
         </div>
       </section>
 
-      {/* ─── FULL-BLEED + FLOATING CARD ─── */}
-      <section className="relative h-[520px] md:h-[600px] overflow-hidden">
-        <Image
-          src="https://papiwmobmdbtzeeebmpr.supabase.co/storage/v1/object/public/site-assets/images/th_fam_cta01.jpg"
-          alt="Mother and daughter walking together on a Colorado mountain trail at golden hour — representing restored relationships and healing through family therapy"
-          fill
-          className="object-cover object-center"
-        />
-        <div className="absolute inset-0 bg-[#2C3B2E]/40" />
+      {/* ─── THE BIGGER PICTURE ─── */}
+      <section className="bg-[#2C3B2E] py-24 px-8 md:px-16">
+        <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-[45%_55%] gap-14 items-center">
+          {/* Content */}
+          <div className="max-w-lg">
+            <span className="text-[11px] uppercase tracking-[0.3em] font-medium" style={{ color: ACCENT }}>
+              The Bigger Picture
+            </span>
+            <h3
+              className="font-serif text-[#FAF8F5] mt-4 mb-5 leading-[1.2]"
+              style={{ fontSize: 'clamp(26px, 3vw, 42px)' }}
+            >
+              Your recovery changes your relationships — we help those relationships catch up
+            </h3>
+            <p className="text-[#FAF8F5]/60 font-light leading-[1.85] text-base mb-8">
+              As you grow in treatment, the people around you may struggle to understand or keep pace.
+              Family therapy creates the space for that growth to happen together — with a skilled
+              clinician holding the room so every voice is heard.
+            </p>
+            <div className="flex flex-wrap gap-3 mb-10">
+              {['Family Systems', 'EFT', 'Communication Skills', 'Psychoeducation'].map((m) => (
+                <span
+                  key={m}
+                  className="px-4 py-2 rounded-full text-xs uppercase tracking-wider border"
+                  style={{ borderColor: `${ACCENT}45`, color: `${ACCENT}` }}
+                >
+                  {m}
+                </span>
+              ))}
+            </div>
+            <Link
+              href="/admissions"
+              className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full text-xs uppercase tracking-widest font-medium transition-all duration-300 hover:opacity-85 text-[#2C3B2E]"
+              style={{ backgroundColor: ACCENT }}
+            >
+              Start the Conversation
+              <i className="ri-arrow-right-line" />
+            </Link>
+          </div>
 
-        <div className="absolute bottom-12 left-8 md:left-20 max-w-md bg-[#FAF8F5] rounded-2xl p-8 shadow-2xl">
-          <span className="text-[11px] uppercase tracking-[0.3em] font-medium" style={{ color: ACCENT }}>
-            The Bigger Picture
-          </span>
-          <h3 className="font-serif text-[#2C3B2E] text-xl mt-3 mb-4 leading-[1.3]">
-            Your recovery changes your relationships — we help those relationships catch up
-          </h3>
-          <p className="text-sm text-[#3A4A3C]/65 font-light leading-relaxed">
-            As you grow in treatment, the people around you may struggle to understand or keep pace.
-            Family therapy creates the space for that growth to happen together.
-          </p>
+          {/* Image */}
+          <div className="relative rounded-2xl overflow-hidden aspect-[4/3]">
+            <Image
+              src="https://papiwmobmdbtzeeebmpr.supabase.co/storage/v1/object/public/site-assets/images/th_fam_cta01.jpg"
+              alt="Mother and daughter walking together on a Colorado mountain trail at golden hour, representing restored family relationships through therapy"
+              fill
+              className="object-cover object-center"
+            />
+          </div>
         </div>
       </section>
 

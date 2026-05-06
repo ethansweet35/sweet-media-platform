@@ -141,58 +141,60 @@ export default function GroupTherapyPage() {
       <section className="min-h-[92vh] grid grid-cols-1 lg:grid-cols-[55%_45%]">
         {/* Left panel */}
         <div className="bg-[#2C3B2E] flex flex-col justify-center px-8 md:px-16 lg:px-20 py-20 lg:py-28">
-          <Breadcrumb
-            items={[
-              { label: 'Therapy', path: '/therapy' },
-              { label: 'Group Therapy' },
-            ]}
-            light={true}
-          />
-          <span
-            className="mt-8 inline-block text-[11px] uppercase tracking-[0.3em] font-medium"
-            style={{ color: ACCENT }}
-          >
-            Shared Healing
-          </span>
-          <h1
-            className="font-serif text-[#FAF8F5] leading-[1.1] mt-4 mb-6"
-            style={{ fontSize: 'clamp(36px, 5vw, 68px)' }}
-          >
-            Group<br />
-            Therapy
-          </h1>
-          <p className="text-[#FAF8F5]/65 font-light leading-[1.85] max-w-md text-base mb-10">
-            A women-only space where shared experience becomes a source of strength. Fully virtual,
-            clinician-led, and built on the radical power of being truly understood by others.
-          </p>
-          <div className="flex flex-wrap gap-4">
-            <Link
-              href="/admissions"
-              className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full text-xs uppercase tracking-widest font-medium transition-all duration-300 hover:opacity-90 text-[#FAF8F5]"
-              style={{ backgroundColor: ACCENT }}
+          <div className="max-w-xl">
+            <Breadcrumb
+              items={[
+                { label: 'Therapy', path: '/therapy' },
+                { label: 'Group Therapy' },
+              ]}
+              light={true}
+            />
+            <span
+              className="mt-8 inline-block text-[11px] uppercase tracking-[0.3em] font-medium"
+              style={{ color: ACCENT }}
             >
-              Get Started
-              <i className="ri-arrow-right-line" />
-            </Link>
-            <a
-              href="tel:+17197338556"
-              className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full border border-[#FAF8F5]/30 text-[#FAF8F5]/80 text-xs uppercase tracking-widest font-medium hover:border-[#FAF8F5]/60 hover:text-[#FAF8F5] transition-all duration-300"
+              Shared Healing
+            </span>
+            <h1
+              className="font-serif text-[#FAF8F5] leading-[1.1] mt-4 mb-6"
+              style={{ fontSize: 'clamp(36px, 5vw, 68px)' }}
             >
-              <i className="ri-phone-line" />
-              719-733-8556
-            </a>
-          </div>
-          <div className="flex flex-wrap gap-6 mt-10 pt-10 border-t border-[#FAF8F5]/10">
-            {[
-              { icon: 'ri-women-line', label: 'Women Only' },
-              { icon: 'ri-computer-line', label: 'Fully Virtual' },
-              { icon: 'ri-group-line', label: '4–8 Members' },
-            ].map((b) => (
-              <div key={b.label} className="flex items-center gap-2 text-[#FAF8F5]/45">
-                <i className={`${b.icon} text-xs`} style={{ color: ACCENT }} />
-                <span className="text-xs font-light tracking-wide">{b.label}</span>
-              </div>
-            ))}
+              Group<br />
+              Therapy
+            </h1>
+            <p className="text-[#FAF8F5]/65 font-light leading-[1.85] text-base mb-10">
+              A women-only space where shared experience becomes a source of strength. Fully virtual,
+              clinician-led, and built on the radical power of being truly understood by others.
+            </p>
+            <div className="flex flex-wrap gap-4">
+              <Link
+                href="/admissions"
+                className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full text-xs uppercase tracking-widest font-medium transition-all duration-300 hover:opacity-90 text-[#FAF8F5]"
+                style={{ backgroundColor: ACCENT }}
+              >
+                Get Started
+                <i className="ri-arrow-right-line" />
+              </Link>
+              <a
+                href="tel:+17197338556"
+                className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full border border-[#FAF8F5]/30 text-[#FAF8F5]/80 text-xs uppercase tracking-widest font-medium hover:border-[#FAF8F5]/60 hover:text-[#FAF8F5] transition-all duration-300"
+              >
+                <i className="ri-phone-line" />
+                719-733-8556
+              </a>
+            </div>
+            <div className="flex flex-wrap gap-6 mt-10 pt-10 border-t border-[#FAF8F5]/10">
+              {[
+                { icon: 'ri-women-line', label: 'Women Only' },
+                { icon: 'ri-computer-line', label: 'Fully Virtual' },
+                { icon: 'ri-group-line', label: '4–8 Members' },
+              ].map((b) => (
+                <div key={b.label} className="flex items-center gap-2 text-[#FAF8F5]/45">
+                  <i className={`${b.icon} text-xs`} style={{ color: ACCENT }} />
+                  <span className="text-xs font-light tracking-wide">{b.label}</span>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
 
@@ -220,17 +222,43 @@ export default function GroupTherapyPage() {
 
       {/* ─── EDITORIAL INTRO ─── */}
       <section className="bg-[#FAF8F5] py-24 px-8 md:px-16">
-        <div className="max-w-3xl mx-auto text-center">
-          <span className="text-[11px] uppercase tracking-[0.3em] font-medium" style={{ color: ACCENT }}>
-            The Power of Group
-          </span>
-          <p className="font-serif text-[#2C3B2E] mt-6 leading-[1.7]" style={{ fontSize: 'clamp(20px, 2.5vw, 30px)' }}>
-            There is something that happens when a woman hears her own story told by another woman —
-            a recognition so deep it bypasses logic. Group therapy creates that. Repeatedly, reliably,
-            and in ways that one-on-one work cannot fully replicate.
-          </p>
+        <div className="max-w-4xl mx-auto">
+          <div className="text-center">
+            <span className="text-[11px] uppercase tracking-[0.3em] font-medium" style={{ color: ACCENT }}>
+              The Power of Group
+            </span>
+            <p className="font-serif text-[#2C3B2E] mt-6 leading-[1.7]" style={{ fontSize: 'clamp(20px, 2.5vw, 30px)' }}>
+              There is something that happens when a woman hears her own story told by another woman —
+              a recognition so deep it bypasses logic. Group therapy creates that. Repeatedly, reliably,
+              and in ways that one-on-one work cannot fully replicate.
+            </p>
+          </div>
+
+          {/* Stat highlights */}
+          <div className="mt-14 grid grid-cols-3 gap-5">
+            {[
+              { num: '4–8', unit: 'women', label: 'per group cohort', icon: 'ri-group-line' },
+              { num: '90', unit: 'min', label: 'per group session', icon: 'ri-time-line' },
+              { num: '3×', unit: 'weekly', label: 'group meetings per week', icon: 'ri-calendar-check-line' },
+            ].map((s) => (
+              <div
+                key={s.label}
+                className="rounded-2xl p-6 text-center border"
+                style={{ backgroundColor: `${ACCENT}07`, borderColor: `${ACCENT}20` }}
+              >
+                <i className={`${s.icon} text-xl mb-3 block`} style={{ color: ACCENT }} />
+                <div className="font-serif text-[#2C3B2E] leading-none" style={{ fontSize: 'clamp(28px, 3.5vw, 44px)' }}>
+                  {s.num}
+                  <span className="text-sm font-light ml-1 opacity-50">{s.unit}</span>
+                </div>
+                <p className="text-xs text-[#3A4A3C]/45 font-light mt-2 leading-relaxed">{s.label}</p>
+              </div>
+            ))}
+          </div>
+
+          {/* Pull quote */}
           <div
-            className="mt-12 mx-auto rounded-2xl p-8 text-left max-w-xl"
+            className="mt-12 rounded-2xl p-8"
             style={{ backgroundColor: `${ACCENT}12`, borderLeft: `3px solid ${ACCENT}` }}
           >
             <p className="font-serif italic text-[#2C3B2E] text-lg leading-relaxed">
@@ -432,27 +460,55 @@ export default function GroupTherapyPage() {
         </div>
       </section>
 
-      {/* ─── FULL-BLEED + FLOATING CARD ─── */}
-      <section className="relative h-[520px] md:h-[600px] overflow-hidden">
-        <Image
-          src="https://papiwmobmdbtzeeebmpr.supabase.co/storage/v1/object/public/site-assets/images/th_grp_cta01.jpg"
-          alt="Two women talking warmly together in a Colorado outdoor setting, representing the community and connection formed through group therapy"
-          fill
-          className="object-cover object-top"
-        />
-        <div className="absolute inset-0 bg-[#2C3B2E]/45" />
+      {/* ─── COMMUNITY AS MEDICINE ─── */}
+      <section className="bg-[#2C3B2E] py-24 px-8 md:px-16">
+        <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-[55%_45%] gap-14 items-center">
+          {/* Image */}
+          <div className="relative rounded-2xl overflow-hidden aspect-[4/3]">
+            <Image
+              src="https://papiwmobmdbtzeeebmpr.supabase.co/storage/v1/object/public/site-assets/images/th_grp_cta01.jpg"
+              alt="Two women talking warmly together in a Colorado outdoor setting, representing the community and connection formed through group therapy"
+              fill
+              className="object-cover object-top"
+            />
+          </div>
 
-        <div className="absolute bottom-12 right-8 md:right-20 max-w-md bg-[#FAF8F5] rounded-2xl p-8 shadow-2xl">
-          <span className="text-[11px] uppercase tracking-[0.3em] font-medium" style={{ color: ACCENT }}>
-            Community as Medicine
-          </span>
-          <h3 className="font-serif text-[#2C3B2E] text-xl mt-3 mb-4 leading-[1.3]">
-            The connections formed here often outlast the program
-          </h3>
-          <p className="text-sm text-[#3A4A3C]/65 font-light leading-relaxed">
-            Women in our groups frequently describe their cohort as the first community where they
-            felt fully known. Many maintain those connections long after completing the program.
-          </p>
+          {/* Content */}
+          <div className="max-w-lg">
+            <span className="text-[11px] uppercase tracking-[0.3em] font-medium" style={{ color: ACCENT }}>
+              Community as Medicine
+            </span>
+            <h3
+              className="font-serif text-[#FAF8F5] mt-4 mb-5 leading-[1.2]"
+              style={{ fontSize: 'clamp(26px, 3vw, 42px)' }}
+            >
+              The connections formed here often outlast the program
+            </h3>
+            <p className="text-[#FAF8F5]/60 font-light leading-[1.85] text-base mb-8">
+              Women in our groups frequently describe their cohort as the first community where they
+              felt fully known. The shared experience of healing together creates bonds that many
+              maintain long after completing the program.
+            </p>
+            <div className="flex flex-wrap gap-3 mb-10">
+              {['Process Groups', 'DBT Skills', 'Psychoeducation', 'Somatic Wellness'].map((m) => (
+                <span
+                  key={m}
+                  className="px-4 py-2 rounded-full text-xs uppercase tracking-wider border"
+                  style={{ borderColor: `${ACCENT}45`, color: `${ACCENT}` }}
+                >
+                  {m}
+                </span>
+              ))}
+            </div>
+            <Link
+              href="/admissions"
+              className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full text-xs uppercase tracking-widest font-medium text-[#FAF8F5] transition-all duration-300 hover:opacity-85"
+              style={{ backgroundColor: ACCENT }}
+            >
+              Find Your Group
+              <i className="ri-arrow-right-line" />
+            </Link>
+          </div>
         </div>
       </section>
 
