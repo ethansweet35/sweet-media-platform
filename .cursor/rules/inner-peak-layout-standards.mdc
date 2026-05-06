@@ -1,0 +1,57 @@
+# Inner Peak Colorado — Page Layout Standards
+
+All pages in `apps/inner-peak-colorado` must follow the same section padding and content width as the homepage and established condition/program pages. This ensures visual cohesion across every page.
+
+## Section wrapper
+
+Every non-hero section must include `w-full` so the background fills the full viewport:
+
+```tsx
+<section className="w-full py-24 px-8 md:px-16 bg-[#FAF8F5]">
+```
+
+Acceptable vertical padding variants: `py-24` (standard), `py-20` (compact).  
+Do **not** use `py-16` or less for primary page sections.
+
+## Content container
+
+Every section's inner content must be wrapped with:
+
+```tsx
+<div className="max-w-7xl mx-auto">
+```
+
+**Never use `max-w-6xl`, `max-w-5xl`, or `max-w-4xl` as the primary content container** on a full page section — these create narrow islands that look inconsistent next to `max-w-7xl` sections.  
+`max-w-3xl` and `max-w-2xl` are acceptable only for intentionally centered narrow elements (CTA blocks, pull quotes, editorial intros that are deliberately compact).
+
+## Hero section
+
+Full-page heroes must follow the full-bleed gradient pattern established in `what-we-treat` and `levels-of-care` pages:
+
+```tsx
+<section className="relative w-full min-h-[620px] flex items-end overflow-hidden">
+  <div className="absolute inset-0">
+    <Image src={...} alt={...} fill className="object-cover" priority />
+    <div className="absolute inset-0 bg-gradient-to-r from-[#2C3B2E]/90 via-[#2C3B2E]/65 to-[#2C3B2E]/20" />
+    <div className="absolute inset-0 bg-gradient-to-t from-[#2C3B2E]/75 via-transparent to-transparent" />
+  </div>
+  <div className="relative z-10 w-full px-8 md:px-16 pb-20 pt-40">
+    <div className="max-w-7xl mx-auto">
+      {/* Breadcrumb, h1, description, CTAs */}
+    </div>
+  </div>
+</section>
+```
+
+Do **not** use custom split-panel grid layouts (e.g., `grid-cols-[55%_45%]`) for heroes — these create width inconsistencies on wide monitors because the layout isn't capped by `max-w-7xl`.
+
+## Background color palette
+
+Use these backgrounds for section alternation:
+- `bg-[#FAF8F5]` — primary cream (default)
+- `bg-[#F0ECE1]` — warm cream (alternating)
+- `bg-[#2C3B2E]` — dark forest green (emphasis sections, hero)
+
+## Reference implementation
+
+See `apps/inner-peak-colorado/src/views/what-we-treat/ptsd-and-trauma/page.tsx` for a fully compliant example of hero + section structure.
