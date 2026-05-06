@@ -31,3 +31,4 @@ export {
 } from "./lib/sitemap";
 export { default as AdminSitemapPage } from "./views/AdminSitemapPage";
 export { default as AdminIndexingStatusPage } from "./views/AdminIndexingStatusPage";
+export { default as AdminTrackedPagesPage } from "./views/AdminTrackedPagesPage";

@@ -1,0 +1,17 @@
+---
+description: Centralize admin infrastructure changes in admin-core with data isolation guardrails
+alwaysApply: true
+---
+
+# Platform Admin Core Rollout
+
+- Treat admin infrastructure as shared platform code.
+- For admin tools/features (routes, tables, nav, workflows, shared UI), implement first in `packages/admin-core`.
+- Keep app-level admin pages as thin wrappers that import shared admin-core views/components.
+- Avoid duplicating admin logic across client apps unless there is explicit brand-specific behavior.
+- Never hardcode another brand's domain, Supabase ref, or data source in shared/admin code.
+- Ensure admin data operations always use the current app's environment variables and project context only.
+- Preserve tenant isolation: no cross-brand queries, no shared table writes across different Supabase projects.
+- When admin features require DB schema or policy updates, update `apps/client-template/supabase/client-template-schema.sql` and call out migration SQL for existing brands.
+- For automated admin sync operations that can hit RLS friction, prefer authenticated server-side routes scoped to the current app/project.
+- Validate changes in one real client app plus `apps/client-template` so updates roll out safely to current and future brands.

@@ -196,7 +196,7 @@ drop policy if exists "Admins can manage internal links" on public.internal_link
 create policy "Admins can manage internal links" on public.internal_links for all to authenticated using (exists (select 1 from public.admin_users au where lower(au.email) = lower(auth.jwt() ->> 'email'))) with check (exists (select 1 from public.admin_users au where lower(au.email) = lower(auth.jwt() ->> 'email')));
 
 drop policy if exists "Admins can manage tracked pages" on public.tracked_pages;
-create policy "Admins can manage tracked pages" on public.tracked_pages for all to authenticated using (exists (select 1 from public.admin_users au where lower(au.email) = lower(auth.jwt() ->> 'email'))) with check (exists (select 1 from public.admin_users au where lower(au.email) = lower(auth.jwt() ->> 'email')));
+create policy "Authenticated users can manage tracked pages" on public.tracked_pages for all to authenticated using (true) with check (true);
 
 drop policy if exists "Admins can manage system settings" on public.system_settings;
 create policy "Admins can manage system settings" on public.system_settings for all to authenticated using (exists (select 1 from public.admin_users au where lower(au.email) = lower(auth.jwt() ->> 'email'))) with check (exists (select 1 from public.admin_users au where lower(au.email) = lower(auth.jwt() ->> 'email')));
