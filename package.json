@@ -9,7 +9,8 @@
     "typecheck": "turbo typecheck --filter=!@sweetmedia/client-template",
     "new-client": "node scripts/setup-new-client.mjs",
     "scaffold-client": "node scripts/scaffold-client-app.mjs",
-    "publish-client": "node scripts/publish-client-to-vercel.mjs"
+    "publish-client": "node scripts/publish-client-to-vercel.mjs",
+    "invite-member": "node scripts/invite-team-member.mjs"
   },
   "devDependencies": {
     "@types/turndown": "^5.0.6",

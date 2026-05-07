@@ -1,15 +1,19 @@
 ---
-description: Keep inner-peak what-we-treat pages visually consistent
-globs: apps/inner-peak-colorado/src/{app,views}/what-we-treat/**/page.tsx
+description: Keep all inner-peak-colorado pages visually consistent
+globs: apps/inner-peak-colorado/src/{app,views}/**/page.tsx
 alwaysApply: false
 ---
 
-# Inner Peak What We Treat Consistency
+# Inner Peak Colorado — Page Consistency
 
-- Applies to `inner-peak-colorado` pages under `/what-we-treat` (including subpages like `/what-we-treat/eating-disorders`).
-- Match the established aesthetic from existing `what-we-treat` pages: elegant serif-led headlines, soft neutral backgrounds, dark green section anchors, and warm accent CTAs.
-- Keep section rhythm consistent: hero with breadcrumb and dual CTA, condition context content blocks, treatment/approach sections, FAQ, and a closing CTA.
-- Preserve spacing cadence and card language already used on this route family (rounded asymmetrical corners, subtle gradients, calm transitions, readable line-height).
+- Applies to all pages in `apps/inner-peak-colorado` across every route family (`/what-we-treat`, `/therapy`, `/levels-of-care`, `/about`, `/admissions`, `/locations`, etc.).
+- Match the established aesthetic from existing pages: elegant serif-led headlines, soft neutral backgrounds, dark green section anchors, and warm accent CTAs.
+- Keep section rhythm consistent: hero with breadcrumb and dual CTA, condition/topic context content blocks, treatment/approach sections, FAQ accordion, and a closing CTA split section.
+- Preserve spacing cadence and card language already used across the site (rounded asymmetrical corners `rounded-[2rem_0.75rem_2rem_0.75rem]` / `rounded-[0.75rem_2rem_0.75rem_2rem]`, subtle gradients, calm transitions, readable line-height).
+- Color palette: `bg-[#FAF8F5]` (primary cream), `bg-[#F0ECE1]` (warm cream), `bg-[#2C3B2E]` (dark forest green), accent `#8FA489`, warm `#C8795A`, gold `#DDA15E`.
 - Keep visual tone clinically credible and emotionally warm; avoid introducing radically different layout systems, novelty interactions, or off-brand color palettes.
-- For `src/app/what-we-treat/**/page.tsx`, prefer thin route wrappers that provide metadata/schema and render view components from `src/views/what-we-treat/**/page.tsx`.
-- Maintain internal-link and CTA patterns used in this route family (`/contact`, phone CTA, relevant supporting pages) unless a specific page requirement says otherwise.
+- Always use thin route wrappers at `src/app/**/page.tsx` (metadata + JSON-LD schema only) that render view components from `src/views/**/page.tsx`.
+- Reference implementation: `apps/inner-peak-colorado/src/views/what-we-treat/ptsd-and-trauma/page.tsx` is the canonical example of a fully compliant page.
+- Maintain internal-link and CTA patterns (`/contact`, `tel:+17197338556`, relevant supporting pages) unless a specific page requirement says otherwise.
+- Icons: Remix Icon only (`ri-*-line` classes). No other icon libraries.
+- Images: `next/image` with `fill`, sourced from `https://papiwmobmdbtzeeebmpr.supabase.co/storage/v1/object/public/site-assets/images/`.
