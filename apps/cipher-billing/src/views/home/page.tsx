@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 
 const HERO_VIDEO =
-  "https://cipherbilling.com/wp-content/uploads/2026/04/video2-compressed.mp4";
+  "https://nstzjqmtsqgeihkyvkqq.supabase.co/storage/v1/object/public/site-assets/images/video2-compressed.mp4";
 
 const metrics = [
   { value: "$1,821", label: "Inpatient Day Rate" },
@@ -98,7 +98,7 @@ export default function HomePage() {
             playsInline
             loop
             preload="auto"
-            poster="https://cipherbilling.com/wp-content/uploads/2026/04/Untitled-design-2026-04-15T202355.948.png"
+            poster="https://nstzjqmtsqgeihkyvkqq.supabase.co/storage/v1/object/public/site-assets/images/Untitled-design-2026-04-15T202355.948.png"
           >
             <source src={HERO_VIDEO} type="video/mp4" />
           </video>
@@ -202,7 +202,7 @@ export default function HomePage() {
             ))}
             <div className="relative mx-auto aspect-square w-full max-w-[280px] overflow-hidden rounded-full border border-white/15 lg:mx-0 lg:justify-self-end">
               <Image
-                src="https://cipherbilling.com/wp-content/uploads/2026/04/Untitled-design-2026-04-15T202055.743.png"
+                src="https://nstzjqmtsqgeihkyvkqq.supabase.co/storage/v1/object/public/site-assets/images/Untitled-design-2026-04-15T202055.743.png"
                 alt="Cipher Billing team member"
                 fill
                 className="object-cover"
@@ -237,7 +237,7 @@ export default function HomePage() {
           </div>
           <div className="relative mx-auto aspect-[4/3] w-full max-w-lg overflow-hidden rounded-sm border border-white/10">
             <Image
-              src="https://cipherbilling.com/wp-content/uploads/2026/04/Untitled-design-2026-04-15T201810.850.png"
+              src="https://nstzjqmtsqgeihkyvkqq.supabase.co/storage/v1/object/public/site-assets/images/Untitled-design-2026-04-15T201810.850.png"
               alt="Cipher Billing"
               fill
               className="object-cover"
@@ -252,7 +252,7 @@ export default function HomePage() {
         <div className="mx-auto grid max-w-[1140px] gap-12 px-6 py-20 md:grid-cols-2 md:items-center md:py-28">
           <div className="relative order-2 aspect-[4/3] w-full max-w-lg overflow-hidden rounded-sm border border-white/10 md:order-1">
             <Image
-              src="https://cipherbilling.com/wp-content/uploads/2026/04/Untitled-design-2026-04-15T202055.743.png"
+              src="https://nstzjqmtsqgeihkyvkqq.supabase.co/storage/v1/object/public/site-assets/images/Untitled-design-2026-04-15T202055.743.png"
               alt="Partnership at Cipher Billing"
               fill
               className="object-cover"

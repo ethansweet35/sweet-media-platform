@@ -6,97 +6,97 @@ const team = [
     name: "Simon Jozani",
     role: "Chief Visionary Officer",
     image:
-      "https://cipherbilling.com/wp-content/uploads/2026/04/Untitled-design-2026-04-09T172559.159.png",
+      "https://nstzjqmtsqgeihkyvkqq.supabase.co/storage/v1/object/public/site-assets/images/Untitled-design-2026-04-09T172559.159.png",
   },
   {
     name: "Ian Roy",
     role: "Chief Strategy Officer",
     image:
-      "https://cipherbilling.com/wp-content/uploads/2026/04/Untitled-design-2026-04-09T180045.019.png",
+      "https://nstzjqmtsqgeihkyvkqq.supabase.co/storage/v1/object/public/site-assets/images/Untitled-design-2026-04-09T180045.019.png",
   },
   {
     name: "Yasmine Elkady",
     role: "Chief Operating Officer",
     image:
-      "https://cipherbilling.com/wp-content/uploads/2026/04/Untitled-design-2026-04-09T180259.929.png",
+      "https://nstzjqmtsqgeihkyvkqq.supabase.co/storage/v1/object/public/site-assets/images/Untitled-design-2026-04-09T180259.929.png",
   },
   {
     name: "Laura McMillan",
     role: "Chief Revenue Officer",
     image:
-      "https://cipherbilling.com/wp-content/uploads/2026/04/Untitled-design-2026-04-09T180555.091.png",
+      "https://nstzjqmtsqgeihkyvkqq.supabase.co/storage/v1/object/public/site-assets/images/Untitled-design-2026-04-09T180555.091.png",
   },
   {
     name: "Elle Ervin",
     role: "Director Of Operations",
     image:
-      "https://cipherbilling.com/wp-content/uploads/2026/04/Untitled-design-2026-04-09T180635.958.png",
+      "https://nstzjqmtsqgeihkyvkqq.supabase.co/storage/v1/object/public/site-assets/images/Untitled-design-2026-04-09T180635.958.png",
   },
   {
     name: "Caressa",
     role: "Director of Quality Assurance",
     image:
-      "https://cipherbilling.com/wp-content/uploads/2026/04/Untitled-design-2026-04-09T180708.948.png",
+      "https://nstzjqmtsqgeihkyvkqq.supabase.co/storage/v1/object/public/site-assets/images/Untitled-design-2026-04-09T180708.948.png",
   },
   {
     name: "Hayden Moser",
     role: "Director Of Partner Experience",
     image:
-      "https://cipherbilling.com/wp-content/uploads/2026/04/Untitled-design-2026-04-09T180840.983.png",
+      "https://nstzjqmtsqgeihkyvkqq.supabase.co/storage/v1/object/public/site-assets/images/Untitled-design-2026-04-09T180840.983.png",
   },
   {
     name: "Jasmine Pennala",
     role: "Director of Employee Engagement",
     image:
-      "https://cipherbilling.com/wp-content/uploads/2026/04/Untitled-design-2026-04-09T181034.957.png",
+      "https://nstzjqmtsqgeihkyvkqq.supabase.co/storage/v1/object/public/site-assets/images/Untitled-design-2026-04-09T181034.957.png",
   },
   {
     name: "Jenna Clegg",
     role: "Director Of Utilization Review",
     image:
-      "https://cipherbilling.com/wp-content/uploads/2026/04/Untitled-design-2026-04-09T181120.956.png",
+      "https://nstzjqmtsqgeihkyvkqq.supabase.co/storage/v1/object/public/site-assets/images/Untitled-design-2026-04-09T181120.956.png",
   },
   {
     name: "Sarai Zumwalt",
     role: "Director Of Charges",
     image:
-      "https://cipherbilling.com/wp-content/uploads/2026/04/Untitled-design-2026-04-09T181232.989.png",
+      "https://nstzjqmtsqgeihkyvkqq.supabase.co/storage/v1/object/public/site-assets/images/Untitled-design-2026-04-09T181232.989.png",
   },
   {
     name: "Alec Freeman",
     role: "Experience Executive",
     image:
-      "https://cipherbilling.com/wp-content/uploads/2026/04/Untitled-design-2026-04-09T181312.945.png",
+      "https://nstzjqmtsqgeihkyvkqq.supabase.co/storage/v1/object/public/site-assets/images/Untitled-design-2026-04-09T181312.945.png",
   },
   {
     name: "Chris Sandoval",
     role: "Experience Executive",
     image:
-      "https://cipherbilling.com/wp-content/uploads/2026/04/Untitled-design-2026-04-09T181826.010.png",
+      "https://nstzjqmtsqgeihkyvkqq.supabase.co/storage/v1/object/public/site-assets/images/Untitled-design-2026-04-09T181826.010.png",
   },
   {
     name: "Cassandra Johnson",
     role: "Experience Executive",
     image:
-      "https://cipherbilling.com/wp-content/uploads/2026/04/Untitled-design-2026-04-09T181905.959.png",
+      "https://nstzjqmtsqgeihkyvkqq.supabase.co/storage/v1/object/public/site-assets/images/Untitled-design-2026-04-09T181905.959.png",
   },
   {
     name: "Andrew Ulloa",
     role: "Experience Executive",
     image:
-      "https://cipherbilling.com/wp-content/uploads/2026/04/Untitled-design-2026-04-09T181943.962.png",
+      "https://nstzjqmtsqgeihkyvkqq.supabase.co/storage/v1/object/public/site-assets/images/Untitled-design-2026-04-09T181943.962.png",
   },
   {
     name: "Runa",
     role: "Director Of Security",
     image:
-      "https://cipherbilling.com/wp-content/uploads/2026/04/Untitled-design-2026-04-09T172143.121.png",
+      "https://nstzjqmtsqgeihkyvkqq.supabase.co/storage/v1/object/public/site-assets/images/Untitled-design-2026-04-09T172143.121.png",
   },
   {
     name: "Bella",
     role: "Director Of Pawsitivity",
     image:
-      "https://cipherbilling.com/wp-content/uploads/2026/04/Untitled-design-2026-04-09T182040.086.png",
+      "https://nstzjqmtsqgeihkyvkqq.supabase.co/storage/v1/object/public/site-assets/images/Untitled-design-2026-04-09T182040.086.png",
   },
 ] as const;
 

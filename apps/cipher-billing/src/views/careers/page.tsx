@@ -3,9 +3,9 @@ import Link from "next/link";
 
 /** Hero + openings imagery from Elementor post-229 */
 const IMG_HERO =
-  "https://cipherbilling.com/wp-content/uploads/2026/04/Untitled-design-2026-04-09T102429.826.png";
+  "https://nstzjqmtsqgeihkyvkqq.supabase.co/storage/v1/object/public/site-assets/images/Untitled-design-2026-04-09T102429.826.png";
 const IMG_CULTURE =
-  "https://cipherbilling.com/wp-content/uploads/2026/04/Untitled-design-2026-04-15T204741.066.png";
+  "https://nstzjqmtsqgeihkyvkqq.supabase.co/storage/v1/object/public/site-assets/images/Untitled-design-2026-04-15T204741.066.png";
 
 const contactPhoneDisplay = "714-867-1331";
 const contactPhoneHref = "tel:+17148671331";

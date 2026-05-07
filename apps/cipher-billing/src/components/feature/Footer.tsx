@@ -25,7 +25,7 @@ export default function Footer() {
       <div className="mx-auto grid max-w-[1200px] gap-10 px-6 py-14 md:grid-cols-[1.3fr_1fr_1fr_1fr]">
         <div>
           <Image
-            src="https://cipherbilling.com/wp-content/uploads/2026/04/HORIZONTAL-LOGO_CIPHER-BLACK_TRANSPARENT-BG-1024x262.png"
+            src="https://nstzjqmtsqgeihkyvkqq.supabase.co/storage/v1/object/public/site-assets/images/HORIZONTAL-LOGO_CIPHER-BLACK_TRANSPARENT-BG-1024x262.png"
             alt="Cipher Billing"
             width={200}
             height={50}

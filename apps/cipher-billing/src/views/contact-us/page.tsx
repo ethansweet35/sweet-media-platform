@@ -4,7 +4,7 @@ import Link from "next/link";
 import ContactUsForm from "./components/ContactUsForm";
 
 const IMG_HERO =
-  "https://cipherbilling.com/wp-content/uploads/2026/04/Untitled-design-2026-04-09T173830.974.png";
+  "https://nstzjqmtsqgeihkyvkqq.supabase.co/storage/v1/object/public/site-assets/images/Untitled-design-2026-04-09T173830.974.png";
 
 const contactPhoneDisplay = "714-867-1331";
 const contactPhoneHref = "tel:+17148671331";

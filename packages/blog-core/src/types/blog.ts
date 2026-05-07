@@ -81,6 +81,77 @@ function looksLikeMarkdown(content: string): boolean {
   );
 }
 
+/**
+ * Convert plain-text / light-markdown content into BlogSection[].
+ * Used as a fallback when the DB content field is not JSON-serialized sections.
+ */
+function plainTextToSections(text: string): BlogSection[] {
+  const sections: BlogSection[] = [];
+  const lines = text.split("\n");
+  let pendingParagraph = "";
+  let currentList: string[] = [];
+  let listType: "list" | "numbered" | null = null;
+
+  const flushParagraph = () => {
+    const t = pendingParagraph.trim();
+    if (t) sections.push({ type: "paragraph", text: t });
+    pendingParagraph = "";
+  };
+  const flushList = () => {
+    if (currentList.length > 0) {
+      sections.push({ type: listType === "numbered" ? "numbered" : "list", items: [...currentList] });
+      currentList = [];
+      listType = null;
+    }
+  };
+
+  for (const line of lines) {
+    const trimmed = line.trim();
+
+    if (!trimmed) {
+      flushParagraph();
+      flushList();
+      continue;
+    }
+    if (trimmed.startsWith("## ")) {
+      flushParagraph(); flushList();
+      sections.push({ type: "h2", text: trimmed.slice(3) });
+      continue;
+    }
+    if (trimmed.startsWith("### ")) {
+      flushParagraph(); flushList();
+      sections.push({ type: "h3", text: trimmed.slice(4) });
+      continue;
+    }
+    if (trimmed.startsWith("# ")) {
+      flushParagraph(); flushList();
+      // Skip top-level title — it's already the post title
+      continue;
+    }
+    if (trimmed.startsWith("- ") || trimmed.startsWith("* ")) {
+      flushParagraph();
+      if (listType && listType !== "list") flushList();
+      listType = "list";
+      currentList.push(trimmed.replace(/^[-*]\s+/, ""));
+      continue;
+    }
+    if (/^\d+\.\s+/.test(trimmed)) {
+      flushParagraph();
+      if (listType && listType !== "numbered") flushList();
+      listType = "numbered";
+      currentList.push(trimmed.replace(/^\d+\.\s+/, ""));
+      continue;
+    }
+    // Regular text — accumulate into paragraph
+    flushList();
+    pendingParagraph += (pendingParagraph ? " " : "") + trimmed;
+  }
+
+  flushParagraph();
+  flushList();
+  return sections;
+}
+
 export function dbToBlogPost(db: DbBlogPost): BlogPost {
   let parsedContent: BlogSection[] = [];
 
@@ -94,9 +165,13 @@ export function dbToBlogPost(db: DbBlogPost): BlogPost {
     if (Array.isArray(parsed)) {
       parsedContent = parsed as BlogSection[];
     }
-  } catch (e) {
-    console.error("Failed to parse blog content:", e, db.content?.slice(0, 200));
-    parsedContent = [];
+  } catch {
+    // JSON parse failed — content is likely plain text or markdown
+  }
+
+  // Fallback: if we got no structured sections, convert plain text → sections
+  if (parsedContent.length === 0 && typeof db.content === "string" && db.content.trim()) {
+    parsedContent = plainTextToSections(db.content);
   }
 
   const dateObj = db.published_at ? new Date(db.published_at) : new Date(db.created_at);
@@ -115,9 +190,7 @@ export function dbToBlogPost(db: DbBlogPost): BlogPost {
     author: db.author,
     authorRole: db.author_title || "",
     authorBio: db.author_bio || "",
-    authorPhoto:
-      db.author_photo ||
-      "https://ynmldknprfusujudvutq.supabase.co/storage/v1/object/public/public_bucket/img2.png",
+    authorPhoto: db.author_photo || "",
     date: dateStr,
     publishedAt: db.published_at || db.created_at,
     createdAt: db.created_at,

@@ -5,9 +5,9 @@ import OurCompanyLeadSection from "@/views/our-company/components/OurCompanyLead
 
 /** Elementor post-651 — cipherbilling.com/our-process-2/ (live nav target). */
 const IMG_HERO =
-  "https://cipherbilling.com/wp-content/uploads/2026/04/Untitled-design-2026-04-09T145809.503.png";
+  "https://nstzjqmtsqgeihkyvkqq.supabase.co/storage/v1/object/public/site-assets/images/Untitled-design-2026-04-09T145809.503.png";
 const IMG_PROCESS =
-  "https://cipherbilling.com/wp-content/uploads/2026/04/Untitled-design-2026-04-15T210356.097.png";
+  "https://nstzjqmtsqgeihkyvkqq.supabase.co/storage/v1/object/public/site-assets/images/Untitled-design-2026-04-15T210356.097.png";
 
 const processSteps = [
   {

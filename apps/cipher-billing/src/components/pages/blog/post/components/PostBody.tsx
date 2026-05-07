@@ -131,7 +131,7 @@ export default function PostBody({ sections, autoLinkMap, currentSlug, usedHrefs
             return (
               <p
                 key={i}
-                className="text-[#3A4A3C]/75 text-base md:text-[17px] leading-[1.85] mb-6"
+                className="text-[#101E3F]/75 text-base md:text-[17px] leading-[1.85] mb-6"
               >
                 <InlineText text={section.text ?? ""} autoLinkMap={autoLinkMap} currentSlug={currentSlug} usedHrefs={usedHrefs} />
               </p>
@@ -152,7 +152,7 @@ export default function PostBody({ sections, autoLinkMap, currentSlug, usedHrefs
             return (
               <h3
                 key={i}
-                className="text-lg font-semibold text-[#3A4A3C] mt-8 mb-3 tracking-tight"
+                className="text-lg font-semibold text-[#101E3F] mt-8 mb-3 tracking-tight"
               >
                 <InlineText text={section.text ?? ""} autoLinkMap={autoLinkMap} currentSlug={currentSlug} usedHrefs={usedHrefs} enableAutoLink={false} />
               </h3>
@@ -165,7 +165,7 @@ export default function PostBody({ sections, autoLinkMap, currentSlug, usedHrefs
                 className="relative my-10 pl-8 border-l-4 border-[#1F2937]"
               >
                 <p
-                  className="text-xl md:text-2xl font-light text-[#3A4A3C] leading-relaxed italic"
+                  className="text-xl md:text-2xl font-light text-[#101E3F] leading-relaxed italic"
                   style={{ fontFamily: "'Inter', serif" }}
                 >
                   &ldquo;<InlineText text={section.text ?? ""} autoLinkMap={autoLinkMap} currentSlug={currentSlug} usedHrefs={usedHrefs} />&rdquo;
@@ -204,7 +204,7 @@ export default function PostBody({ sections, autoLinkMap, currentSlug, usedHrefs
             return (
               <ul key={i} className="my-6 space-y-3">
                 {section.items?.map((item, j) => (
-                  <li key={j} className="flex gap-3 text-[#3A4A3C]/75 text-base leading-relaxed">
+                  <li key={j} className="flex gap-3 text-[#101E3F]/75 text-base leading-relaxed">
                     <span className="w-5 h-5 rounded-full bg-[#1F2937]/10 flex items-center justify-center flex-shrink-0 mt-0.5">
                       <i className="ri-check-line text-[10px] text-[#1F2937]"></i>
                     </span>
@@ -218,7 +218,7 @@ export default function PostBody({ sections, autoLinkMap, currentSlug, usedHrefs
             return (
               <ol key={i} className="my-6 space-y-4">
                 {section.items?.map((item, j) => (
-                  <li key={j} className="flex gap-4 text-[#3A4A3C]/75 text-base leading-relaxed">
+                  <li key={j} className="flex gap-4 text-[#101E3F]/75 text-base leading-relaxed">
                     <span className="w-7 h-7 rounded-full bg-[#1F2937] text-white text-[11px] font-bold flex items-center justify-center flex-shrink-0 mt-0.5">
                       {j + 1}
                     </span>

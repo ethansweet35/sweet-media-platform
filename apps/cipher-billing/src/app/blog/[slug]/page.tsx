@@ -46,11 +46,11 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const row = await fetchPublishedBlogPostForMetadata(slug);
 
   const titleBase = metaString(row?.title) || slugToFallbackTitle(slug);
-  const title = `${titleBase} | Client Brand`;
+  const title = `${titleBase} | Cipher Billing`;
   const description =
     metaString(row?.meta_description).trim() ||
     metaString(row?.excerpt).trim() ||
-    "Mental health, addiction recovery, and trauma-informed care resources from Client Brand.";
+    "Behavioral health billing resources, coding guides, and reimbursement insights from Cipher Billing.";
 
   const ogImageUrl = toAbsoluteOgUrl(row?.hero_image_url);
 
@@ -63,7 +63,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
       url: `/blog/${slug}`,
       title,
       description,
-      siteName: "Client Brand",
+      siteName: "Cipher Billing",
       publishedTime: metaString(row?.published_at) || undefined,
       modifiedTime: metaString(row?.updated_at) || undefined,
       ...(metaString(row?.category) ? { section: metaString(row?.category) } : {}),

@@ -1,11 +1,11 @@
 /** Shared “How it works” / onboarding phases — Elementor copy used on Our Solution + Our Process. */
 
 export const IMG_ONBOARD_PHASE_1 =
-  "https://cipherbilling.com/wp-content/uploads/2026/04/Untitled-design-2026-04-08T230931.171.png";
+  "https://nstzjqmtsqgeihkyvkqq.supabase.co/storage/v1/object/public/site-assets/images/Untitled-design-2026-04-08T230931.171.png";
 export const IMG_ONBOARD_PHASE_2 =
-  "https://cipherbilling.com/wp-content/uploads/2026/04/Untitled-design-2026-04-08T231247.007.png";
+  "https://nstzjqmtsqgeihkyvkqq.supabase.co/storage/v1/object/public/site-assets/images/Untitled-design-2026-04-08T231247.007.png";
 export const IMG_ONBOARD_PHASE_3 =
-  "https://cipherbilling.com/wp-content/uploads/2026/04/Untitled-design-2026-04-08T231506.070.png";
+  "https://nstzjqmtsqgeihkyvkqq.supabase.co/storage/v1/object/public/site-assets/images/Untitled-design-2026-04-08T231506.070.png";
 
 export type OnboardingPhase = {
   phase: string;

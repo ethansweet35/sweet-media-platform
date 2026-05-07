@@ -9,7 +9,7 @@ import OurCompanyLeadSection from "@/views/our-company/components/OurCompanyLead
  * Overlay matches wp-content/uploads/elementor/css/post-168.css (.elementor-element-3041aa0::before).
  */
 const IMG_HERO =
-  "https://cipherbilling.com/wp-content/uploads/2026/04/Untitled-design-2026-04-08T225512.331.png";
+  "https://nstzjqmtsqgeihkyvkqq.supabase.co/storage/v1/object/public/site-assets/images/Untitled-design-2026-04-08T225512.331.png";
 
 const TEL_HREF = "tel:+17148671331";
 const TEL_DISPLAY = "(714) 867-1331";

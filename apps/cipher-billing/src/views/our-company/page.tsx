@@ -5,34 +5,34 @@ import OurCompanyLeadSection from "./components/OurCompanyLeadSection";
 
 /** Backgrounds and assets from Elementor `post-151` + migration HTML (cipherbilling.com/our-company/) */
 const IMG_HERO =
-  "https://cipherbilling.com/wp-content/uploads/2026/04/Untitled-design-2026-04-09T145809.503.png";
+  "https://nstzjqmtsqgeihkyvkqq.supabase.co/storage/v1/object/public/site-assets/images/Untitled-design-2026-04-09T145809.503.png";
 const IMG_PARTNERSHIP =
-  "https://cipherbilling.com/wp-content/uploads/2026/04/Untitled-design-2026-04-09T165213.080.png";
+  "https://nstzjqmtsqgeihkyvkqq.supabase.co/storage/v1/object/public/site-assets/images/Untitled-design-2026-04-09T165213.080.png";
 
 const leadership = [
   {
     name: "Simon Jozani",
     role: "Chief Visionary Officer",
     image:
-      "https://cipherbilling.com/wp-content/uploads/2026/04/Untitled-design-2026-04-09T172559.159.png",
+      "https://nstzjqmtsqgeihkyvkqq.supabase.co/storage/v1/object/public/site-assets/images/Untitled-design-2026-04-09T172559.159.png",
   },
   {
     name: "Ian Roy",
     role: "Chief Strategy Officer",
     image:
-      "https://cipherbilling.com/wp-content/uploads/2026/04/Untitled-design-2026-04-09T180045.019.png",
+      "https://nstzjqmtsqgeihkyvkqq.supabase.co/storage/v1/object/public/site-assets/images/Untitled-design-2026-04-09T180045.019.png",
   },
   {
     name: "Yasmine Elkady",
     role: "Chief Operating Officer",
     image:
-      "https://cipherbilling.com/wp-content/uploads/2026/04/Untitled-design-2026-04-09T180259.929.png",
+      "https://nstzjqmtsqgeihkyvkqq.supabase.co/storage/v1/object/public/site-assets/images/Untitled-design-2026-04-09T180259.929.png",
   },
   {
     name: "Laura McMillan",
     role: "Chief Revenue Officer",
     image:
-      "https://cipherbilling.com/wp-content/uploads/2026/04/Untitled-design-2026-04-09T180555.091.png",
+      "https://nstzjqmtsqgeihkyvkqq.supabase.co/storage/v1/object/public/site-assets/images/Untitled-design-2026-04-09T180555.091.png",
   },
 ];
 

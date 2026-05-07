@@ -131,7 +131,7 @@ export default function Navbar() {
         <div className="mx-auto flex max-w-[1140px] items-center justify-between gap-4">
           <Link href="/" className="flex shrink-0 items-center">
             <Image
-              src="https://cipherbilling.com/wp-content/uploads/2026/04/HORIZONTAL-LOGO_CIPHER-BLACK_TRANSPARENT-BG-1024x262.png"
+              src="https://nstzjqmtsqgeihkyvkqq.supabase.co/storage/v1/object/public/site-assets/images/HORIZONTAL-LOGO_CIPHER-BLACK_TRANSPARENT-BG-1024x262.png"
               alt="Cipher Billing"
               width={210}
               height={54}

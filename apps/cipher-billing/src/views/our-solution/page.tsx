@@ -6,9 +6,9 @@ import { cipherOnboardingPhases } from "@/lib/cipherOnboardingPhases";
 
 /** Elementor post-239 + migration HTML (cipherbilling.com/behavioral-health-revenue-cycle-management/) */
 const IMG_HERO =
-  "https://cipherbilling.com/wp-content/uploads/2026/04/Untitled-design-2026-04-09T100233.880.png";
+  "https://nstzjqmtsqgeihkyvkqq.supabase.co/storage/v1/object/public/site-assets/images/Untitled-design-2026-04-09T100233.880.png";
 const IMG_PRECISION =
-  "https://cipherbilling.com/wp-content/uploads/2026/04/Untitled-design-2026-04-09T101038.786.png";
+  "https://nstzjqmtsqgeihkyvkqq.supabase.co/storage/v1/object/public/site-assets/images/Untitled-design-2026-04-09T101038.786.png";
 
 const TEL_HREF = "tel:+17148671331";
 const TEL_DISPLAY = "714-867-1331";

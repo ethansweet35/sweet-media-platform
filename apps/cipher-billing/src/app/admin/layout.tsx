@@ -14,7 +14,7 @@ export default function AdminLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <AdminGuard>
-      <AdminChrome brandName="Client Brand Admin" brandInitial="C">{children}</AdminChrome>
+      <AdminChrome brandName="Cipher Billing" brandInitial="CB">{children}</AdminChrome>
     </AdminGuard>
   );
 }

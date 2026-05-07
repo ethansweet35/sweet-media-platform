@@ -77,7 +77,7 @@ export default function BlogPostArticle({
                   .map((s, i) => (
                     <span
                       key={`${post.id}-h2-${i}`}
-                      className="text-[12px] text-neutral-400 hover:text-[#1F2937] leading-snug cursor-pointer transition-colors py-1 border-l-2 border-transparent hover:border-[#1F2937] pl-3"
+                      className="text-[12px] text-neutral-400 hover:text-[#166C96] leading-snug cursor-pointer transition-colors py-1 border-l-2 border-transparent hover:border-[#166C96] pl-3"
                     >
                       {s.text}
                     </span>
@@ -92,7 +92,7 @@ export default function BlogPostArticle({
                   {post.tags.map((tag) => (
                     <span
                       key={tag}
-                      className="text-[9px] tracking-widest uppercase text-[#1F2937] bg-[#1F2937]/6 px-2 py-1 rounded-full whitespace-nowrap"
+                      className="text-[9px] tracking-widest uppercase text-[#166C96] bg-[#166C96]/8 px-2 py-1 rounded-sm whitespace-nowrap"
                     >
                       {tag}
                     </span>

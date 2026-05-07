@@ -13,15 +13,19 @@ export default function PostAuthor({ post }: PostAuthorProps) {
       </p>
       <div className="flex flex-col sm:flex-row gap-6 items-start">
         {/* Photo */}
-        <div className="relative w-20 h-20 rounded-2xl overflow-hidden bg-neutral-100 flex-shrink-0">
-          <Image
-            src={post.authorPhoto}
-            alt={post.author}
-            width={80}
-            height={80}
-            loading="lazy"
-            className="w-full h-full object-cover object-top"
-          />
+        <div className="relative w-20 h-20 rounded-sm overflow-hidden bg-[#101E3F]/10 flex-shrink-0 flex items-center justify-center">
+          {post.authorPhoto && !post.authorPhoto.includes("ynmldknprfu") ? (
+            <Image
+              src={post.authorPhoto}
+              alt={post.author}
+              width={80}
+              height={80}
+              loading="lazy"
+              className="w-full h-full object-cover object-top"
+            />
+          ) : (
+            <span className="text-2xl font-semibold text-[#166C96]">CB</span>
+          )}
         </div>
 
         {/* Info */}
