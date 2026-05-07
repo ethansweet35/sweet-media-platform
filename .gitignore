@@ -13,3 +13,10 @@ apps/*/supabase/.temp
 
 # Local Lighthouse / perf snapshot dumps (large, not for git)
 **/lighthouse*.json
+
+# WordPress migration script outputs (one-time artifacts, never commit)
+design-tokens-*.json
+migration-report-*.json
+wp-screenshots/
+.upload.env
+uploaded-image-files.txt
