@@ -39,6 +39,7 @@ const MGMT = 'https://api.supabase.com';
 // Add/remove entries here to update who gets access to all future client projects.
 const STANDING_TEAM_MEMBERS = [
   { email: 'jake@sweetmediaservices.com', role: 'developer', github: 'jakechampion88' },
+  { email: 'sean@sweetmediaservices.com', role: 'developer', github: null }, // update github username when known
 ];
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
@@ -195,31 +196,16 @@ async function main() {
     }
   }
 
-  // ── 4b. Invite standing team members to the org ──────────────────────────
+  // ── 4b. Remind about standing team member access ─────────────────────────
+  // Supabase Management API does not expose an org invite endpoint.
+  // Team members must be invited manually via the dashboard (one-time per org).
   if (STANDING_TEAM_MEMBERS.length > 0) {
-    step('Inviting standing team members to Supabase org');
-    for (const member of STANDING_TEAM_MEMBERS) {
-      try {
-        const res = await fetch(`${MGMT}/v1/organizations/${orgId}/members/invite`, {
-          method: 'POST',
-          headers: {
-            'Authorization': `Bearer ${token}`,
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ email: member.email, role: member.role }),
-        });
-        const text = await res.text();
-        if (res.ok) {
-          log(`Invited ${member.email} to org as ${member.role}`);
-        } else if (res.status === 409 || text.includes('already') || text.includes('exists')) {
-          log(`${member.email} is already a member of this org`);
-        } else {
-          warn(`Could not invite ${member.email}: ${text.slice(0, 200)}\n  Add manually: supabase.com/dashboard/org/${orgId}/members`);
-        }
-      } catch (err) {
-        warn(`Invite failed for ${member.email}: ${err.message}`);
-      }
-    }
+    const memberList = STANDING_TEAM_MEMBERS.map(m => `    • ${m.email} (${m.role}) — github: ${m.github || 'n/a'}`).join('\n');
+    warn(
+      `Standing team members must be invited manually to the Supabase org:\n${memberList}\n` +
+      `  → supabase.com/dashboard/org/${orgId}/members\n` +
+      `  (Only needed once per org — already done if this org was previously provisioned.)`
+    );
   }
 
   // ── 5. Create project (skip if --ref provided) ───────────────────────────

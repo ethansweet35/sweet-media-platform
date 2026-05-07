@@ -243,8 +243,9 @@ These team members have access to all client projects and are auto-invited to ev
 | Name | GitHub | Email | Platforms |
 |---|---|---|---|
 | Jake Champion | `jakechampion88` | `jake@sweetmediaservices.com` | GitHub, Supabase (org), Vercel |
+| Sean | TBD | `sean@sweetmediaservices.com` | Vercel; GitHub pending username; Supabase pending manual invite |
 
-**Adding a new team member**: update `STANDING_TEAM_MEMBERS` in `scripts/setup-new-client.mjs` and run the backfill manually for existing projects.
+**Adding a new team member**: update `STANDING_TEAM_MEMBERS` in `scripts/setup-new-client.mjs`. Supabase org invites must be done manually — the Management API does not expose an invite endpoint. Go to `supabase.com/dashboard/org/kmeuzygedlrlwdtmdzrp/members`. GitHub invites require the developer's username: `gh api /repos/ethansweet35/sweet-media-platform/collaborators/<username> -X PUT -f permission=push`.
 
 **Env access**: developers use `vercel env pull .env.local` from any app directory once they have Vercel team access — no manual secret sharing required.
 
