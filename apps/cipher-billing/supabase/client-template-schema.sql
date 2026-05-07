@@ -215,13 +215,16 @@ with check (exists (select 1 from public.admin_users au where lower(au.email) = 
 
 create table if not exists public.blog_queue (
   id uuid primary key default gen_random_uuid(),
-  topic text not null,
-  keyword text,
-  status text not null default 'queued',
-  notes text,
-  scheduled_for timestamptz,
-  result_post_id uuid references public.blog_posts(id) on delete set null,
+  primary_keyword text not null default '',
+  blog_title text not null default '',
+  url_slug text not null default '',
+  writing_guidelines text,
+  status text not null default 'pending',
+  model_id text,
+  batch_model_id text,
+  generated_post_id uuid references public.blog_posts(id) on delete set null,
   error_message text,
+  scheduled_publish_at timestamptz,
   created_at timestamptz not null default now(),
   updated_at timestamptz not null default now()
 );
@@ -239,11 +242,10 @@ create table if not exists public.blog_knowledge_base (
 
 create table if not exists public.internal_links (
   id uuid primary key default gen_random_uuid(),
-  source_url text,
-  target_url text not null,
-  anchor_text text,
-  status text not null default 'active',
-  notes text,
+  keyword text not null default '',
+  href text not null default '',
+  priority integer not null default 0,
+  active boolean not null default true,
   created_at timestamptz not null default now(),
   updated_at timestamptz not null default now()
 );
@@ -288,6 +290,9 @@ create policy "Admins can manage blog knowledge base" on public.blog_knowledge_b
 
 drop policy if exists "Admins can manage internal links" on public.internal_links;
 create policy "Admins can manage internal links" on public.internal_links for all to authenticated using (exists (select 1 from public.admin_users au where lower(au.email) = lower(auth.jwt() ->> 'email'))) with check (exists (select 1 from public.admin_users au where lower(au.email) = lower(auth.jwt() ->> 'email')));
+
+drop policy if exists "Public can read active internal links" on public.internal_links;
+create policy "Public can read active internal links" on public.internal_links for select to anon, authenticated using (active = true);
 
 drop policy if exists "Admins can manage tracked pages" on public.tracked_pages;
 create policy "Authenticated users can manage tracked pages" on public.tracked_pages for all to authenticated using (true) with check (true);
