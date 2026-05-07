@@ -237,26 +237,51 @@ async function main() {
 
     // ── 8. Seed brand_settings ──────────────────────────────────────────────
     step('Seeding brand_settings');
+    const safeName = name.replace(/'/g, "''");
     await runSQL(token, ref, `
       insert into public.brand_settings (
-        site_key, site_name, site_url, image_bucket, image_folder,
+        site_key, site_name, site_url,
+        author_name, author_title, author_bio,
+        tone, audience,
+        cta_heading, cta_body, cta_button_label, cta_button_url,
+        image_bucket, image_folder,
         image_style_prompt, image_negative_prompt
       ) values (
         '${slug}',
-        '${name.replace(/'/g, "''")}',
+        '${safeName}',
         '${siteUrl}',
+        '${safeName}',
+        'Editorial Team',
+        'Helpful educational resources from ${safeName}.',
+        'clear, trustworthy, professional, warm, conversion-focused',
+        'prospective clients and their families seeking services',
+        'Ready to get started?',
+        'Contact our team today to learn more.',
+        'Contact Us',
+        '/contact-us',
         'site-assets',
-        'blog-featured',
-        'Create a clean, professional editorial blog featured image aligned with the brand. Use a consistent color palette, calm composition, premium lighting, and visually relevant imagery.',
+        'images',
+        'Create a clean, professional editorial blog featured image for ${safeName}. Use a consistent brand color palette, calm composition, premium lighting, and visually relevant imagery that reflects the services offered.',
         'No logos, no watermarks, no distorted text, no cluttered layouts.'
       )
       on conflict (site_key) where site_key is not null
       do update set
-        site_name  = excluded.site_name,
-        site_url   = excluded.site_url,
+        site_name   = excluded.site_name,
+        site_url    = excluded.site_url,
+        author_name = excluded.author_name,
+        author_title = excluded.author_title,
+        author_bio  = excluded.author_bio,
+        tone        = excluded.tone,
+        audience    = excluded.audience,
+        cta_heading = excluded.cta_heading,
+        cta_body    = excluded.cta_body,
+        cta_button_label = excluded.cta_button_label,
+        cta_button_url   = excluded.cta_button_url,
         image_bucket = excluded.image_bucket,
         image_folder = excluded.image_folder,
-        updated_at = now();
+        image_style_prompt = excluded.image_style_prompt,
+        image_negative_prompt = excluded.image_negative_prompt,
+        updated_at  = now();
     `);
     log('brand_settings seeded');
 
@@ -432,6 +457,17 @@ async function main() {
         '  Copy it from Dashboard → Project Settings → API into apps/<slug>/.env.local after scaffold.',
     );
     anon_key = '← paste NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY from Supabase Dashboard → API';
+  } else {
+    // Validate the anon key belongs to this project ref (catches copy-paste errors)
+    try {
+      const payloadB64 = anon_key.split('.')[1];
+      if (payloadB64) {
+        const payload = JSON.parse(Buffer.from(payloadB64, 'base64').toString('utf8'));
+        if (payload.ref && payload.ref !== ref) {
+          warn(`⚠️  Anon key ref "${payload.ref}" does not match project ref "${ref}". Double-check you have the right key.`);
+        }
+      }
+    } catch { /* ignore parse errors */ }
   }
 
   // ── 14b. Scaffold Next app from client-template ─────────────────────────────

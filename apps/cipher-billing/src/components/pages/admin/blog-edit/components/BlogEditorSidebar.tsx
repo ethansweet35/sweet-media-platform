@@ -273,9 +273,9 @@ export default function BlogEditorSidebar({ form, onChange, postDate, slugError 
         <div className="bg-neutral-50 rounded-xl p-3 border border-neutral-100">
           <p className="text-[9px] tracking-[0.15em] uppercase font-semibold text-neutral-400 mb-2">Google Preview</p>
           <p className="text-sm font-medium leading-snug line-clamp-1" style={{ color: "#1a0dab" }}>
-            {form.excerpt ? form.excerpt.slice(0, 60) + "..." : "Post title here"} | Client Brand
+            {form.excerpt ? form.excerpt.slice(0, 60) + "..." : "Post title here"} | Cipher Billing
           </p>
-          <p className="text-xs mt-0.5" style={{ color: "#006621" }}>sweetmedia.com/blog/{form.slug || "post-slug"}</p>
+          <p className="text-xs mt-0.5" style={{ color: "#006621" }}>cipherbilling.com/blog/{form.slug || "post-slug"}</p>
           <p className="text-xs text-neutral-500 mt-0.5 line-clamp-2">
             {form.metaDescription || form.excerpt || "No description set."}
           </p>

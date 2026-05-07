@@ -138,8 +138,11 @@ export async function runScaffold(opts) {
 
   if (brandReplace) {
     replaceBrandStrings(destDir, {
+      slug,
       displayName,
       siteUrl: siteUrl.replace(/\/$/, ''),
+      supabaseRef,
+      anonKey,
       contactEmail,
     });
   }
@@ -153,11 +156,16 @@ export async function runScaffold(opts) {
 
 /**
  * Replace template literals in text files under src/ and public/ (excluding binary-ish extensions).
+ * Also patches specific files that have hard-coded Inner Peak / template Supabase refs.
  */
-function replaceBrandStrings(appRoot, { displayName, siteUrl, contactEmail }) {
+function replaceBrandStrings(appRoot, { slug, displayName, siteUrl, supabaseRef, anonKey, contactEmail }) {
   const roots = [join(appRoot, 'src'), join(appRoot, 'public'), join(appRoot, 'docs')]
     .filter((p) => existsSync(p));
   const textExt = /\.(tsx?|jsx?|mjs|cjs|css|md|txt|json)$/i;
+
+  // The Inner Peak Supabase ref that bleeds through from shared defaults
+  const INNER_PEAK_REF = 'ynmldknprfusujudvutq';
+  const apexDomain = siteUrl.replace(/^https?:\/\/(www\.)?/, '').replace(/\/.*$/, '');
 
   function walk(dir) {
     for (const name of readdirSync(dir)) {
@@ -172,9 +180,64 @@ function replaceBrandStrings(appRoot, { displayName, siteUrl, contactEmail }) {
 
       let s = readFileSync(full, 'utf8');
       const before = s;
+
+      // Core brand name replacements
       s = s.split('Client Brand').join(displayName);
       s = s.split('hello@example.com').join(contactEmail);
       s = s.split('https://example.com').join(siteUrl);
+
+      // Fix ogDefaults.ts — remove any stale Inner Peak Supabase URL
+      if (full.endsWith('ogDefaults.ts')) {
+        s = s.replace(
+          /https:\/\/ynmldknprfusujudvutq\.supabase\.co\/[^\s"']*/g,
+          `https://${supabaseRef}.supabase.co/storage/v1/object/public/site-assets/images/og-default.jpg`,
+        );
+      }
+
+      // Fix markdownToBlog.ts — remove stale Inner Peak author photo default
+      if (full.endsWith('markdownToBlog.ts')) {
+        s = s.replace(
+          /authorPhoto: frontmatter\.authorPhoto \|\| ["']https:\/\/ynmldknprfusujudvutq[^"']*["']/g,
+          `authorPhoto: frontmatter.authorPhoto || ""`,
+        );
+        s = s.replace(
+          /author: frontmatter\.author \|\| ["']Client Brand["']/g,
+          `author: frontmatter.author || "${displayName}"`,
+        );
+        s = s.replace(
+          /authorRole: frontmatter\.authorRole \|\| ["']Content Team["']/g,
+          `authorRole: frontmatter.authorRole || "Editorial Team"`,
+        );
+        s = s.replace(
+          /authorBio: frontmatter\.authorBio \|\| ["']Client-centered[^"']*["']/g,
+          `authorBio: frontmatter.authorBio || "Helpful educational resources from ${displayName}."`,
+        );
+      }
+
+      // Fix admin/layout.tsx — replace "Client Brand Admin" brandName
+      if (full.includes('admin') && full.endsWith('layout.tsx')) {
+        s = s.replace(
+          /brandName="Client Brand Admin"/g,
+          `brandName="${displayName}"`,
+        );
+        s = s.replace(
+          /brandInitial="C"/g,
+          `brandInitial="${displayName.split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase()}"`,
+        );
+      }
+
+      // Fix blog [slug] metadata — "Client Brand" in OG siteName / description
+      if (full.includes('blog') && full.includes('[slug]') && full.endsWith('page.tsx')) {
+        s = s.replace(/siteName: "Client Brand"/g, `siteName: "${displayName}"`);
+        s = s.replace(/from Client Brand\./g, `from ${displayName}.`);
+      }
+
+      // Fix BlogEditorSidebar SEO preview domain
+      if (full.endsWith('BlogEditorSidebar.tsx')) {
+        s = s.replace(/sweetmedia\.com\/blog\//g, `${apexDomain}/blog/`);
+        s = s.replace(/\| Client Brand/g, `| ${displayName}`);
+      }
+
       if (s !== before) writeFileSync(full, s, 'utf8');
     }
   }
