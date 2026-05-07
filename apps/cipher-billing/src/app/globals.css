@@ -1,0 +1,53 @@
+@import "tailwindcss";
+
+@source "../**/*.{js,ts,jsx,tsx,mdx}";
+@source "../../src/**/*.{js,ts,jsx,tsx,mdx}";
+
+:root {
+  --color-primary: #000000;
+  --color-secondary: #aab3b9;
+  --color-accent: #166c96;
+  --color-accent-secondary: #aab3b9;
+  --color-background: #ffffff;
+  --color-surface: #ffffff;
+  --color-muted: #aab3b9;
+  --color-dark-blue: #0d1833;
+  --color-medium-blue: #101e3f;
+  --color-beige: #d7bda6;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  /* next/font injects --font-marcellus / --font-montserrat on <body> */
+  --font-heading: var(--font-marcellus, "Marcellus"), ui-serif, Georgia, serif;
+  --font-body: var(--font-montserrat, "Montserrat"), system-ui, sans-serif;
+  background: var(--color-background);
+  color: var(--color-primary);
+  font-family: var(--font-body);
+}
+
+/**
+ * Paragraphs inherit Montserrat from body; headings get serif via h1–h6 rule below.
+ * Use this class on non-heading elements (e.g. stat figures) that must match Marcellus titles.
+ */
+.font-marcellus {
+  font-family: var(--font-marcellus), "Marcellus", ui-serif, Georgia, serif;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-heading);
+}
+
+button,
+a {
+  transition: all 180ms ease;
+}
