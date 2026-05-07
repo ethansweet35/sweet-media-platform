@@ -556,9 +556,10 @@ ${adminEmail
   : '• No admin email set — re-run with --admin-email to create admin access'
 }
 ─── Team access ─────────────────────────────────────
-${STANDING_TEAM_MEMBERS.map(m => `• Supabase org invite sent → ${m.email}`).join('\n')}
+${STANDING_TEAM_MEMBERS.map(m => `• Supabase org invite MANUAL REQUIRED → ${m.email} at supabase.com/dashboard/org/${orgId}/members`).join('\n')}
 • Vercel: add team members manually at vercel.com/teams → Members
   (run \`vercel env pull .env.local\` from any app dir once they have access)
+• GitHub: add collaborators manually at github.com/ethansweet35/sweet-media-platform/settings/access
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 `);
