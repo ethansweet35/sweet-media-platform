@@ -1,0 +1,97 @@
+---
+description: Section composition standards — forbidden layout anti-patterns and compositional variety requirements for all client homepages
+globs: apps/**/*.{ts,tsx}
+alwaysApply: false
+---
+
+# Section Composition Standards
+
+## The Repetition Problem
+
+The most common way a website looks "templated" is when every section uses the same structural formula: `eyebrow label → h2 heading → body paragraph → content block`. This pattern is recognizable and generic at 3+ uses per page. It signals template, not craft.
+
+**Rule: The `eyebrow → h2 → paragraph` header pattern is limited to 3 sections per homepage.** Remaining sections must use a different entry point.
+
+## Forbidden Anti-Patterns
+
+### 1. Unbalanced 2-column grid headers
+Using `grid grid-cols-2` for a heading-on-left + description-on-right header where content heights are unpredictable. This creates dead whitespace when one column is taller.
+
+**Forbidden:**
+```tsx
+<div className="grid grid-cols-1 lg:grid-cols-[1fr_380px] gap-10">
+  <div><h2>Heading</h2></div>
+  <div><p>Paragraph that might be much longer or shorter than the heading</p></div>
+</div>
+```
+
+**Use instead:** Full-width heading with the description positioned below-right:
+```tsx
+<div className="flex flex-col gap-4">
+  <h2>Heading</h2>
+  <div className="flex justify-end">
+    <p className="max-w-sm text-right lg:text-left">Description</p>
+  </div>
+</div>
+```
+
+Or: stacked layout where heading is full-width and description is a single narrower line below it.
+
+### 2. Consecutive sections with the same grid structure
+No two consecutive sections may use the same primary layout grid (e.g., two 3-column card grids back to back). Break the rhythm intentionally.
+
+### 3. Background alternation as the only section differentiation
+Alternating `bg-white` / `bg-whisper-gray` without any compositional variation between sections creates a striped effect that reads as template. Background differentiation must be paired with layout differentiation.
+
+### 4. All headings at the same size
+If every section h2 is `clamp(38px, 4.5vw, 60px)`, the page has no typographic hierarchy at a macro level. At least one section should break the size rhythm — either significantly larger or significantly smaller and paired with something else carrying the visual weight.
+
+### 5. Standard card grids without variation
+A grid of 4–6 identical cards with the same padding, border-radius, and content structure repeated across multiple sections. Cards must vary — mix open list rows with contained cards, or vary card sizes within a grid.
+
+---
+
+## Required Compositional Variety
+
+Every homepage must contain at least **2 Compositional Moments** — sections where the layout departs significantly from a standard grid. Classify each section before building:
+
+| Level | Description | Examples |
+|---|---|---|
+| **Standard** | Clean content section, standard grid, standard heading | Services card grid, Insurance panel |
+| **Elevated** | Section has a distinct structural choice that differs from its neighbors | Full-width heading with right-positioned sub, numbered editorial list |
+| **Signature** | The layout itself is the visual; the section makes you stop | Mega heading at 100px+, giant pull-quote filling a dark section, conditions as flowing magazine typography |
+
+At least 2 sections must be **Signature** level.
+
+---
+
+## Section Composition Plan (required before building)
+
+Before writing any section's code, define its treatment in one line:
+
+```
+Section: [Name]
+Level: Standard / Elevated / Signature
+Layout: [e.g. "mega-heading full-width, conditions in 2-col editorial list below"]
+Heading pattern: [e.g. "none — quote IS the heading" / "full-width h2 only, no eyebrow" / "standard eyebrow+h2"]
+Background: [token name]
+Compositional departure: [what makes this not a generic grid, or "none" for Standard]
+```
+
+If a section is Standard, make sure it's not consecutive with another Standard section.
+
+---
+
+## Grid Alignment Rules
+
+When a 2-column split IS used and content height imbalance is possible:
+
+- Use `items-end` when the right column (description) tends to be longer than the left (heading)
+- Use `items-start` when the left column (heading) tends to be taller
+- Never rely on a column layout being visually balanced when content is dynamic or prose-length
+
+---
+
+## Typography Contrast at Page Scale
+
+Squint at the page. Every heading should be roughly the same visual weight — if they are, the page looks flat. At least one section should have a heading at 2× or more the standard h2 size (i.e., 100px+ on desktop), and at least one section should have no display heading at all — letting the content itself carry the section.

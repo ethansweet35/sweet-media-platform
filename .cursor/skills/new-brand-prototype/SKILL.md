@@ -120,14 +120,36 @@ Build `apps/[slug]/src/app/design-preview/page.tsx` as a single Server Component
 
 **Stop here. Show the user the design-preview page and get explicit approval before Phase 7.**
 
+## Phase 6.5 — Section Composition Plan
+
+Before writing any component, define every homepage section's composition. Read `platform-section-composition.mdc` for the full rules. For each section, complete:
+
+```
+Section: [Name]
+Level: Standard / Elevated / Signature
+Layout archetype: [specific — not "grid with content"]
+Heading pattern: [eyebrow+h2 / full-width h2 / mega-heading / no-heading / quote-as-heading]
+Background: [token]
+Compositional departure: [what makes it distinct, or "none" for Standard]
+```
+
+**Before proceeding, verify:**
+- [ ] At least 2 Signature sections
+- [ ] `eyebrow → h2 → paragraph` pattern used 3 times max
+- [ ] No two consecutive sections share the same grid structure
+- [ ] At least one heading at 100px+ on desktop
+- [ ] At least one section with no display heading
+
+Present the Section Composition Plan and get approval before Phase 7.
+
 ## Phase 7 — Homepage Build
 
-Build the full homepage. Decompose into section components under `src/views/home/components/` — not inline in `page.tsx`. The page route should be a thin wrapper that imports the view.
+Build the full homepage using the approved Design DNA, tokens, and Section Composition Plan. Decompose into named section components under `src/views/home/components/`. The page route is a thin wrapper.
 
 Apply all 8 registered Design DNA choices throughout. Every section must:
 - Use the approved palette (no new hex values introduced)
 - Use the approved fonts (no new families introduced)
-- Follow the section rhythm (alternating backgrounds, standard padding)
+- Follow the section rhythm and apply all axis choices consistently
 - Match the motion language choice (don't add animations if the axis is `static-cinematic`)
 
 Validate before declaring done:

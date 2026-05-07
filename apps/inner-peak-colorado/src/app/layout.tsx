@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Cormorant_Garamond, DM_Sans } from "next/font/google";
+import Script from "next/script";
 import "./globals.css";
 import Layout from "@/components/feature/Layout";
 import { getPublicSiteOrigin } from "@/lib/publicSiteUrl";
@@ -45,10 +46,47 @@ export default function RootLayout({
       <head>
         <link rel="preconnect" href="https://cdn.jsdelivr.net" crossOrigin="anonymous" />
         <link
-          rel="stylesheet"
+          rel="preload"
+          as="style"
           href="https://cdn.jsdelivr.net/npm/remixicon@4.6.0/fonts/remixicon.css"
           crossOrigin="anonymous"
         />
+        <Script id="load-remixicon-styles" strategy="afterInteractive">{`
+          (function() {
+            var cssHref = "https://cdn.jsdelivr.net/npm/remixicon@4.6.0/fonts/remixicon.css";
+            var inject = function () {
+              if (document.querySelector('link[href="' + cssHref + '"][rel="stylesheet"]')) return;
+              var link = document.createElement("link");
+              link.rel = "stylesheet";
+              link.href = cssHref;
+              link.crossOrigin = "anonymous";
+              document.head.appendChild(link);
+            };
+            if (document.readyState === "complete") {
+              if ("requestIdleCallback" in window) {
+                window.requestIdleCallback(inject, { timeout: 1200 });
+              } else {
+                setTimeout(inject, 400);
+              }
+              return;
+            }
+            window.addEventListener("load", function onLoad() {
+              window.removeEventListener("load", onLoad);
+              if ("requestIdleCallback" in window) {
+                window.requestIdleCallback(inject, { timeout: 1200 });
+              } else {
+                setTimeout(inject, 400);
+              }
+            });
+          })();
+        `}</Script>
+        <noscript>
+          <link
+            rel="stylesheet"
+            href="https://cdn.jsdelivr.net/npm/remixicon@4.6.0/fonts/remixicon.css"
+            crossOrigin="anonymous"
+          />
+        </noscript>
       </head>
       <body className="min-h-full">
         <Layout>{children}</Layout>

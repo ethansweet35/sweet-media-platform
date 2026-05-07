@@ -327,7 +327,7 @@ export default function Navbar() {
               height={40}
               className={`h-10 w-auto object-contain transition-all duration-500 ${logoFilter}`}
               sizes="160px"
-              priority
+              loading="lazy"
               quality={60}
             />
           </Link>
