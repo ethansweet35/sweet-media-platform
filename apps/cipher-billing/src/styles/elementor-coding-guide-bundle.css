@@ -1,0 +1,13 @@
+/**
+ * Vendored Elementor CSS (`vendor-elementor-reimbursement/` shared chunks + `post-571.css`).
+ * Imported only from the coding-guide route layout so Turbopack bundles into the route CSS chunk.
+ */
+@import "./vendor-elementor-reimbursement/frontend.min.css";
+@import "./vendor-elementor-reimbursement/post-8.css";
+@import "./vendor-elementor-reimbursement/base-desktop.css";
+@import "./vendor-elementor-reimbursement/widget-heading.min.css";
+@import "./vendor-elementor-reimbursement/widget-divider.min.css";
+@import "./vendor-elementor-reimbursement/widget-animated-headline.min.css";
+@import "./vendor-elementor-reimbursement/widget-icon-box.min.css";
+@import "./vendor-elementor-reimbursement/widget-icon-list.min.css";
+@import "./vendor-elementor-reimbursement/post-571.css";

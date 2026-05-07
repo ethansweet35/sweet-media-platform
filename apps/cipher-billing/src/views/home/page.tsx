@@ -269,7 +269,7 @@ export default function HomePage() {
               partner.
             </p>
             <Link
-              href="/behavioral-health-revenue-cycle-management"
+              href="/our-solution"
               className="mt-8 inline-flex items-center gap-2 rounded-[3px] bg-[#166C96] px-6 py-3 text-[11px] font-semibold uppercase tracking-[0.14em] text-white hover:bg-[#145a82]"
             >
               <span aria-hidden className="text-sm">

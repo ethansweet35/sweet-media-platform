@@ -13,41 +13,54 @@ const companyChildren = [
   { label: "Our Team", path: "/our-team" },
 ];
 
+/** Matches live Elementor menu (order + labels) — see cipherbilling.com */
 const resourceChildren = [
-  { label: "Blog", path: "/blog" },
+  { label: "Behavioral Health Reimbursements By State", path: "/behavioral-health-reimbursement-rates-by-state" },
+  { label: "Behavioral Health Billing Codes", path: "/behavioral-health-coding-guide" },
+  { label: "Blogs", path: "/blog" },
   { label: "FAQ", path: "/faq" },
-  { label: "Resources", path: "/resources" },
-  { label: "Coding Guide", path: "/behavioral-health-coding-guide" },
 ];
 
-const mainNav = [
+type MainNavItem =
+  | { type: "link"; label: string; path: string }
+  | {
+      type: "dropdown";
+      label: string;
+      /** If set, top label navigates here (Our Company). Omit for WP-style anchor-only parents (Resources). */
+      dropdownHref?: string;
+      children: { label: string; path: string }[];
+    };
+
+const mainNav: MainNavItem[] = [
   {
-    type: "dropdown" as const,
+    type: "dropdown",
     label: "Our Company",
+    /** Top-level click goes here (matches WP); submenu still lists Company + Team */
+    dropdownHref: "/our-company",
     children: companyChildren,
   },
   {
-    type: "link" as const,
+    type: "link",
     label: "Our Solution",
-    path: "/behavioral-health-revenue-cycle-management",
+    path: "/our-solution",
   },
   {
-    type: "link" as const,
+    type: "link",
     label: "Our Process",
-    path: "/our-process",
+    path: "/our-process-2",
   },
   {
-    type: "dropdown" as const,
+    type: "dropdown",
     label: "Resources",
     children: resourceChildren,
   },
   {
-    type: "link" as const,
+    type: "link",
     label: "Careers",
     path: "/careers",
   },
   {
-    type: "link" as const,
+    type: "link",
     label: "Contact Us",
     path: "/contact-us",
   },
@@ -75,7 +88,7 @@ function pathMatches(pathname: string, path: string) {
 }
 
 export default function Navbar() {
-  const pathname = usePathname();
+  const pathname = usePathname() ?? "";
   const [mobileOpen, setMobileOpen] = useState(false);
 
   useEffect(() => {
@@ -144,16 +157,26 @@ export default function Navbar() {
               }
 
               const anyChildActive = item.children.some((c) => pathMatches(pathname, c.path));
+              const dropdownHref = item.dropdownHref;
 
               return (
                 <div key={item.label} className="group relative">
-                  <button
-                    type="button"
-                    className={`flex items-center gap-1 ${linkClass} ${anyChildActive ? "text-[var(--color-dark-blue)]" : ""}`}
-                  >
-                    {item.label}
-                    <ChevronDown className="opacity-80" />
-                  </button>
+                  {dropdownHref ? (
+                    <Link
+                      href={dropdownHref}
+                      className={`flex items-center gap-1 ${linkClass} ${anyChildActive ? "text-[var(--color-dark-blue)]" : ""}`}
+                    >
+                      {item.label}
+                      <ChevronDown className="opacity-80" />
+                    </Link>
+                  ) : (
+                    <span
+                      className={`flex cursor-default items-center gap-1 ${linkClass} ${anyChildActive ? "text-[var(--color-dark-blue)]" : ""}`}
+                    >
+                      {item.label}
+                      <ChevronDown className="opacity-80" />
+                    </span>
+                  )}
                   <div
                     className="invisible absolute left-1/2 top-full z-50 min-w-[220px] -translate-x-1/2 pt-2 opacity-0 transition-all duration-150 group-hover:visible group-hover:opacity-100 group-focus-within:visible group-focus-within:opacity-100"
                     role="menu"

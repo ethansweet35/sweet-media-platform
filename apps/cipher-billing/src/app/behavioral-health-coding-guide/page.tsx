@@ -4,7 +4,8 @@ import BehavioralHealthCodingGuidePage from "@/views/behavioral-health-coding-gu
 
 const fallbackMetadata: Metadata = {
   title: "Behavioral Health Coding Guide | Cipher Billing",
-  description: "",
+  description:
+    "CPT, HCPCS, and ICD-10 coding for behavioral health and addiction treatment billing—from evaluation codes to modifiers and claim accuracy.",
 };
 
 export async function generateMetadata(): Promise<Metadata> {

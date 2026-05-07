@@ -4,7 +4,8 @@ import OurProcess2Page from "@/views/our-process-2/page";
 
 const fallbackMetadata: Metadata = {
   title: "Our Process | Cipher Billing",
-  description: "",
+  description:
+    "Our proven behavioral health billing process: onboarding, partnership, and measurable results—with the stats to back it up.",
 };
 
 export async function generateMetadata(): Promise<Metadata> {

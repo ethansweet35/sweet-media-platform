@@ -1,66 +1,187 @@
-/*
- * Contact Us | Cipher Billing Behavioral Health Experts
- * Word count: ~244 words
- * Excerpt: Get In Touch Contact Us Ready to eliminate billing complexity and maximize your clinic&#8217;s revenue? Our team of behavioral health billing specialists is standing by. Reach out and receive a free p
- *
- * Track B build instructions:
- * 1. Use the WP HTML reference below to understand the page structure
- * 2. Replace this stub with brand-specific Next.js components
- * 3. Apply the approved design token CSS variables throughout
- * 4. Follow new-brand-prototype Phase 6.5 section composition plan
- * 5. Mark buildStatus "complete" in migration-report-*.json when done
- *
- * --- WP HTML Reference (for content/structure reference only) ---
- * 		<div data-elementor-type="wp-page" data-elementor-id="75" class="elementor elementor-75" data-elementor-post-type="page">
- * 				<div class="elementor-element elementor-element-a656aa5 e-flex e-con-boxed e-con e-parent" data-id="a656aa5" data-element_type="container" data-e-type="container" data-settings="{&quot;background_background&quot;:&quot;classic&quot;}">
- * 					<div class="e-con-inner">
- * 		<div class="elementor-element elementor-element-361e942 e-con-full e-flex e-con e-child" data-id="361e942" data-element_type="container" data-e-type="container">
- * 				<div class="elementor-element elementor-element-79b99f4 elementor-widget__width-initial elementor-widget-mobile__width-initial elementor-widget-divider--view-line elementor-widget elementor-widget-divider" data-id="79b99f4" data-element_type="widget" data-e-type="widget" data-widget_type="divider.default">
- * 							<div class="elementor-divider">
- * 			<span class="elementor-divider-separator">
- * 						</span>
- * 		</div>
- * 						</div>
- * 				<div class="elementor-element elementor-element-76973b8 elementor-widget elementor-widget-text-editor" data-id="76973b8" data-element_type="widget" data-e-type="widget" data-widget_type="text-editor.default">
- * 									Get In Touch								</div>
- * 				<div class="elementor-element elementor-element-73c0623 elementor-widget__width-initial elementor-widget-mobile__width-initial elementor-widget-divider--view-line elementor-widget elementor-widget-divider" data-id="73c0623" data-element_type="widget" data-e-type="widget" data-widget_type="divider.default">
- * 							<div class="elementor-divider">
- * 			<span class="elementor-divider-separator">
- * 						</span>
- * 		</div>
- * 						</div>
- * 				</div>
- * 		<div class="elementor-element elementor-element-656639b e-con-full e-flex e-con e-child" data-id="656639b" data-element_type="container" data-e-type="container">
- * 				<div class="elementor-element elementor-element-516a27b elementor-widget elementor-widget-heading" data-id="516a27b" data-element_type="widget" data-e-type="widget" data-widget_type="heading.default">
- * 					<h1 class="elementor-heading-title elementor-size-default">Contact Us</h1>				</div>
- * 				<div class="elementor-element elementor-element-6ed84b1 elementor-widget elementor-widget-text-editor" data-id="6ed84b1" data-element_type="widget" data-e-type="widget" data-widget_type="text-editor.default">
- * 									<p>Ready to eliminate billing complexity and maximize your clinic&#8217;s revenue? Our team of behavioral health billing specialists is standing by. Reach out and receive a free practice audit within 24 hours.</p>								</div>
- * 				</div>
- * 					</div>
- * 				</div>
- * 		<div class="elementor-element elementor-element-6841c6b e-flex e-con-boxed e-con e-parent" data-id="6841c6b" data-element_type="container" data-e-type="container" data-settings="{&quot;background_background&quot;:&quot;classic&quot;}">
- * 					<div class="e-con-inner">
- * 		<div class="elementor-element elementor-element-7b292f6 e-con-full e-flex e-con e-child" data-id="7b292f6" data-element_type="container" data-e-type="container" data-settings="{&quot;background_background&quot;:&quot;classic&quot;}">
- * 				<div class="elementor-element elementor-element-7a3839f elementor-widget elementor-widget-heading" data-id="7a3839f" data-element_type="widget" data-e-type="widget" data-widget_type="heading.default">
- * 					<h4 class="elementor-heading-title elementor-size-default">Send Us a Message</h4>				</div>
- * 				<div class="elementor-element elementor-element-37ae1d3 elementor-button-align-stretch elementor-widget elementor-widget-form" data-id="37ae1d3" data-element_type="widget" data-e-type="widget" data-settings="{&quot;step_next_label&quot;:&quot;Next&quot;,&quot;step_previous_label&quot;:&quot;Previous&quot;,&quot;button_width&quot;:&quot;100&quot;,&quot;step_type&quot;:&quot;number_text&quot;,&quot;step_icon_shape&quot;:&quot;circle&quot;}" data-widget_type="form.default">
- * 							<form class="elementor-form" method="post" name="New Form" aria-label="New For
- * ... (truncated)
- * ---
- */
+import Image from "next/image";
+import Link from "next/link";
+
+import ContactUsForm from "./components/ContactUsForm";
+
+const IMG_HERO =
+  "https://cipherbilling.com/wp-content/uploads/2026/04/Untitled-design-2026-04-09T173830.974.png";
+
+const contactPhoneDisplay = "714-867-1331";
+const contactPhoneHref = "tel:+17148671331";
+const contactEmail = "info@cipherbilling.com";
+
+const processSteps = [
+  {
+    icon: "ri-checkbox-circle-line",
+    step: "Step 01 • Instant",
+    title: "Submission Received",
+    body: "Your inquiry is instantly logged into our secure HIPAA-compliant system and assigned to a senior billing specialist.",
+  },
+  {
+    icon: "ri-search-eye-line",
+    step: "Step 02 • Within 4 Hours",
+    title: "Initial Audit & Research",
+    body: "Our analysts conduct a preliminary review of your facility type and market location to identify common regional billing leaks.",
+  },
+  {
+    icon: "ri-calendar-event-line",
+    step: "Step 03 • Next 24 Hours",
+    title: "Discovery Call",
+    body: "We connect for a 30-minute deep dive to review your audit results and map out a customized revenue recovery plan.",
+  },
+] as const;
 
 export default function ContactUsPage() {
   return (
-    <main className="min-h-screen">
-      {/* TODO: Build Contact Us | Cipher Billing Behavioral Health Experts page — reference WP HTML in the comment above */}
-      <section className="mx-auto max-w-5xl px-6 py-24">
-        <h1 className="mb-6 text-5xl font-semibold tracking-tight">
-          Contact Us | Cipher Billing Behavioral Health Experts
-        </h1>
-        <p className="text-lg text-slate-600">
-          {/* Replace with brand-specific content and layout */}
-          Approximately 244 words of content to migrate.
-        </p>
+    <main className="bg-[#F5F7FA] text-[#0D1833]">
+      {/* Hero — post-75 container a656aa5 */}
+      <section className="relative min-h-[410px] overflow-hidden">
+        <div className="absolute inset-0">
+          <Image
+            src={IMG_HERO}
+            alt=""
+            fill
+            priority
+            className="object-cover object-center"
+            sizes="100vw"
+          />
+          <div
+            className="absolute inset-0"
+            style={{
+              backgroundImage:
+                "linear-gradient(270deg, rgba(11, 26, 46, 0.62) 0%, rgba(16, 30, 63, 0.92) 100%)",
+            }}
+          />
+        </div>
+        <div className="relative mx-auto flex min-h-[410px] max-w-[1140px] flex-col justify-center px-5 py-16 md:py-24">
+          <div className="flex max-w-3xl flex-col gap-4">
+            <div className="flex flex-wrap items-center gap-4">
+              <span className="h-px w-12 min-w-[48px] bg-white/80" aria-hidden />
+              <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-[#166C96]">Get In Touch</p>
+              <span className="h-px w-12 min-w-[48px] bg-white/80" aria-hidden />
+            </div>
+            <h1 className="font-[var(--font-heading)] text-4xl font-medium tracking-[-0.02em] text-white md:text-5xl">
+              Contact Us
+            </h1>
+            <p className="max-w-2xl text-sm leading-relaxed text-white/90 md:text-base">
+              Ready to eliminate billing complexity and maximize your clinic&apos;s revenue? Our team of behavioral health
+              billing specialists is standing by. Reach out and receive a free practice audit within 24 hours.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* Form + sidebar */}
+      <section className="mx-auto max-w-[1140px] px-5 py-16 md:py-24">
+        <div className="grid gap-12 lg:grid-cols-[1.15fr_0.85fr] lg:items-start lg:gap-10">
+          <ContactUsForm />
+
+          <div className="flex flex-col gap-8">
+            <div className="rounded-xl border border-[#166C96]/15 bg-white p-8 shadow-sm">
+              <h3 className="font-marcellus text-xl font-medium text-[#0D1833]">Contact Information</h3>
+
+              <div className="mt-8 flex gap-4 border-b border-[#e5eaf0] pb-8">
+                <div
+                  className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-[#166C96]/25 bg-[#166C96]/08 text-[#166C96]"
+                  aria-hidden
+                >
+                  <i className="ri-phone-line text-lg leading-none" />
+                </div>
+                <div className="min-w-0 pt-0.5">
+                  <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-[#5a6570]">Phone</p>
+                  <a
+                    href={contactPhoneHref}
+                    className="mt-1 block text-sm font-semibold text-[#0D1833] hover:text-[#166C96]"
+                  >
+                    {contactPhoneDisplay}
+                  </a>
+                  <p className="mt-1 text-xs leading-relaxed text-[#6b7580]">Mon–Fri, 8AM–5:30PM PST</p>
+                </div>
+              </div>
+
+              <div className="mt-8 flex gap-4 border-b border-[#e5eaf0] pb-8">
+                <div
+                  className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-[#166C96]/25 bg-[#166C96]/08 text-[#166C96]"
+                  aria-hidden
+                >
+                  <i className="ri-mail-line text-lg leading-none" />
+                </div>
+                <div className="min-w-0 pt-0.5">
+                  <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-[#5a6570]">Email</p>
+                  <a
+                    href={`mailto:${contactEmail}`}
+                    className="mt-1 block text-sm font-semibold text-[#0D1833] hover:text-[#166C96]"
+                  >
+                    {contactEmail}
+                  </a>
+                  <p className="mt-1 text-xs leading-relaxed text-[#6b7580]">General inquiries</p>
+                </div>
+              </div>
+
+              <div className="mt-8 flex gap-4">
+                <div
+                  className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-[#166C96]/25 bg-[#166C96]/08 text-[#166C96]"
+                  aria-hidden
+                >
+                  <i className="ri-building-line text-lg leading-none" />
+                </div>
+                <div className="min-w-0 pt-0.5">
+                  <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-[#5a6570]">Office</p>
+                  <p className="mt-1 text-sm font-semibold text-[#0D1833]">1665 Scenic Ave suite 250</p>
+                  <p className="mt-1 text-xs leading-relaxed text-[#6b7580]">Costa Mesa, CA 92626</p>
+                </div>
+              </div>
+            </div>
+
+            <div
+              className="rounded-xl border border-white/10 p-8 text-white shadow-lg"
+              style={{
+                backgroundImage: "linear-gradient(145deg, #101E3F 0%, #166C96 100%)",
+              }}
+            >
+              <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-white/90">Free Practice Audit</p>
+              <h4 className="mt-3 font-marcellus text-lg font-medium leading-snug md:text-xl">
+                Not Sure Where Your Revenue Is Leaking?
+              </h4>
+              <p className="mt-3 text-sm leading-relaxed text-white/90">
+                We&apos;ll audit your current billing workflow at no cost and show you exactly where you&apos;re losing revenue —
+                no strings attached.
+              </p>
+              <Link
+                href="#contact-form"
+                className="mt-6 inline-flex w-full items-center justify-center rounded bg-white px-4 py-3 text-center text-[11px] font-semibold uppercase tracking-[0.2em] text-[#101E3F] hover:bg-white/95"
+              >
+                Claim Your Free Audit
+              </Link>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* What happens next */}
+      <section className="border-t border-[#e2e8ef] bg-white py-16 md:py-24">
+        <div className="mx-auto max-w-[1140px] px-5">
+          <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-[#166C96]">The Cipher Process</p>
+          <h2 className="mt-3 font-[var(--font-heading)] text-3xl font-medium text-[#0D1833] md:text-[2.25rem]">
+            What Happens <span className="text-[#246D92]">Next?</span>
+          </h2>
+
+          <div className="mt-12 grid gap-10 md:grid-cols-3 md:gap-8">
+            {processSteps.map((s) => (
+              <div key={s.title} className="relative">
+                <div
+                  className="flex h-12 w-12 items-center justify-center rounded-full bg-[#166C96]/12 text-[#166C96]"
+                  aria-hidden
+                >
+                  <i className={`${s.icon} text-xl`} />
+                </div>
+                <p className="mt-5 text-[11px] font-semibold uppercase tracking-[0.18em] text-[#246D92]">{s.step}</p>
+                <h3 className="mt-2 font-[var(--font-body)] text-lg font-semibold text-[#0D1833]">{s.title}</h3>
+                <p className="mt-3 text-sm leading-relaxed text-[#4a5565]">{s.body}</p>
+              </div>
+            ))}
+          </div>
+        </div>
       </section>
     </main>
   );

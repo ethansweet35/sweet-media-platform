@@ -30,7 +30,12 @@ It must always reflect the **exact** infrastructure every new client needs.
 - Current buckets: `site-assets` (public)
 
 ### Vercel / Next.js Env Vars
-- Add a new env var that every client app needs → add it to the `.env.local` printout in step 15 and document it in the "Next steps" output
+- Add a new env var that every client app needs → add it to **`scripts/scaffold-client-app.mjs`** (`.env.local` lines) and the **`setup-new-client.mjs`** summary (step 15), so new apps get the same vars automatically.
+- Current generated keys include: `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`, `NEXT_PUBLIC_SITE_ID`, `NEXT_PUBLIC_SITE_URL`.
+
+### App scaffold (Next.js)
+- Companion script: **`scripts/scaffold-client-app.mjs`** (copy `apps/client-template` → `apps/<slug>`, package name, `next.config` Supabase host, `.env.local`, optional brand string replacement).
+- **`setup-new-client.mjs`** runs it after fetching the anon key unless **`--no-scaffold`** is passed.
 
 ## Never
 - Never assume a Supabase change made to one brand (e.g. sweet-media) is automatically live on another brand's project — each brand has its own Supabase project and must be provisioned independently

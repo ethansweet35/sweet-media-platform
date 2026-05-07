@@ -1,0 +1,12 @@
+/**
+ * Safety net: remote Elementor CSS can fail (CORS, adblock, offline). Raw SVG icons in
+ * icon-box widgets otherwise render at intrinsic viewport-sized dimensions.
+ */
+.elementor-kit-8 svg.e-font-icon-svg {
+  width: 1em;
+  height: 1em;
+  max-width: 3rem;
+  max-height: 3rem;
+  display: inline-block;
+  vertical-align: middle;
+}

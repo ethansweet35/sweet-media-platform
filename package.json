@@ -6,7 +6,10 @@
     "dev": "turbo dev --filter=!@sweetmedia/client-template",
     "build": "turbo build --filter=!@sweetmedia/client-template",
     "lint": "turbo lint --filter=!@sweetmedia/client-template",
-    "typecheck": "turbo typecheck --filter=!@sweetmedia/client-template"
+    "typecheck": "turbo typecheck --filter=!@sweetmedia/client-template",
+    "new-client": "node scripts/setup-new-client.mjs",
+    "scaffold-client": "node scripts/scaffold-client-app.mjs",
+    "publish-client": "node scripts/publish-client-to-vercel.mjs"
   },
   "devDependencies": {
     "@types/turndown": "^5.0.6",

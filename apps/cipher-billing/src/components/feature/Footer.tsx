@@ -4,16 +4,16 @@ import Image from "next/image";
 const navLinks = [
   { label: "Home", path: "/" },
   { label: "Our Company", path: "/our-company" },
-  { label: "Our Solution", path: "/behavioral-health-revenue-cycle-management" },
-  { label: "Our Process", path: "/our-process" },
-  { label: "Resources", path: "/blog" },
+  { label: "Our Solution", path: "/our-solution" },
+  { label: "Our Process", path: "/our-process-2" },
+  { label: "Resources", path: "/resources" },
   { label: "Careers", path: "/careers" },
   { label: "Contact Us", path: "/contact-us" },
 ];
 
 const services = [
-  { label: "Insurance Billing", path: "/behavioral-health-revenue-cycle-management" },
-  { label: "Credentialing", path: "/our-process" },
+  { label: "Insurance Billing", path: "/our-solution" },
+  { label: "Credentialing", path: "/contact-us" },
   { label: "Denial Management", path: "/blog" },
   { label: "Revenue Cycle Consulting", path: "/behavioral-health-rcm-lp" },
   { label: "Blog", path: "/blog" },

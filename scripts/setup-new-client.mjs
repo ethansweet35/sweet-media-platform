@@ -12,6 +12,10 @@
  *   --region    AWS region (default: us-east-1)
  *   --org       Supabase org ID (auto-detected if you only have one)
  *   --admin-email  Seed the admin_users table with this email
+ *   --no-scaffold      Do not copy apps/client-template → apps/<slug> or write .env.local
+ *   --force-scaffold   Replace existing apps/<slug> when scaffolding (destructive)
+ *   --no-brand-replace Pass through to scaffold (skip Client Brand → --name replacements)
+ *   --skip-pnpm        Skip `pnpm install` at repo root after scaffold
  *
  * Prerequisites:
  *   - Run `supabase login` once before using this script
@@ -65,6 +69,10 @@ async function runSQL(token, ref, sql) {
 function getArg(flag) {
   const i = process.argv.indexOf(flag);
   return i >= 0 ? process.argv[i + 1] : null;
+}
+
+function hasFlag(flag) {
+  return process.argv.includes(flag);
 }
 
 function loadEnvFile() {
@@ -369,9 +377,65 @@ async function main() {
 
   // ── 14. Get project API keys ───────────────────────────────────────────────
   step('Fetching project API keys');
-  const { anon_key } = await api(token, 'GET', `/v1/projects/${ref}/api-keys`)
-    .then(keys => ({ anon_key: keys.find(k => k.name === 'anon')?.api_key }))
-    .catch(() => ({ anon_key: '← get from Supabase dashboard → Project Settings → API' }));
+  const scaffoldMod = await import('./scaffold-client-app.mjs');
+  let anon_key = null;
+  try {
+    const rawKeys = await api(token, 'GET', `/v1/projects/${ref}/api-keys`);
+    const keys = scaffoldMod.parseApiKeysResponse(rawKeys);
+    anon_key =
+      keys.find((k) => k.name === 'anon')?.api_key ??
+      keys.find((k) => String(k.name || '').toLowerCase().includes('anon'))?.api_key ??
+      null;
+  } catch {
+    anon_key = null;
+  }
+  if (!anon_key) {
+    warn(
+      'Could not fetch anon/public API key automatically.\n' +
+        '  Copy it from Dashboard → Project Settings → API into apps/<slug>/.env.local after scaffold.',
+    );
+    anon_key = '← paste NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY from Supabase Dashboard → API';
+  }
+
+  // ── 14b. Scaffold Next app from client-template ─────────────────────────────
+  const appDir = join(REPO_ROOT, 'apps', slug);
+  const anonLooksValid = typeof anon_key === 'string' && !anon_key.includes('←');
+  if (!hasFlag('--no-scaffold') && anonLooksValid) {
+    if (!existsSync(appDir) || hasFlag('--force-scaffold')) {
+      step(`Scaffolding apps/${slug} from client-template`);
+      try {
+        await scaffoldMod.runScaffold({
+          slug,
+          displayName: name,
+          siteUrl,
+          supabaseRef: ref,
+          anonKey: anon_key,
+          force: hasFlag('--force-scaffold'),
+          brandReplace: !hasFlag('--no-brand-replace'),
+        });
+        log(`Next.js app created at apps/${slug} with .env.local`);
+
+        if (!hasFlag('--skip-pnpm')) {
+          step('pnpm install (monorepo root)');
+          try {
+            execSync('pnpm install', { cwd: REPO_ROOT, stdio: 'inherit' });
+            log('pnpm install completed');
+          } catch {
+            warn('pnpm install failed — run from repo root: pnpm install');
+          }
+        }
+      } catch (err) {
+        warn(`Scaffold failed: ${err instanceof Error ? err.message : String(err)}`);
+      }
+    } else {
+      warn(
+        `apps/${slug} already exists — skipped scaffold.\n` +
+          `  Delete the folder or re-run with --force-scaffold to replace it.`,
+      );
+    }
+  } else if (hasFlag('--no-scaffold')) {
+    log('Skipping scaffold (--no-scaffold)');
+  }
 
   // ── 15. Done — print summary ──────────────────────────────────────────────
   console.log(`
@@ -382,21 +446,19 @@ async function main() {
 Project ref : ${ref}
 Dashboard   : https://supabase.com/dashboard/project/${ref}
 
-─── Copy this into apps/${slug}/.env.local ─────────
+─── Env (also written to apps/${slug}/.env.local if scaffold ran) ─────────
 
 NEXT_PUBLIC_SUPABASE_URL=${supabaseUrl}
 NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=${anon_key}
 NEXT_PUBLIC_SITE_ID=${slug}
+NEXT_PUBLIC_SITE_URL=${siteUrl.replace(/\/$/, '')}
 
 ─── Next steps ──────────────────────────────────────
 
-1. Copy apps/client-template → apps/${slug}
-2. Update apps/${slug}/package.json name to @sweetmedia/${slug}
-3. Paste the .env.local above
-4. Update next.config.ts image hostname to ${ref}.supabase.co
-5. Run: pnpm install
-6. Build and test: pnpm --filter @sweetmedia/${slug} dev
-${adminEmail ? '' : '7. Add admin user in Supabase Auth, then run:\n   insert into public.admin_users (email, role) values (\'your@email.com\', \'admin\');'}
+1. Dev: pnpm --filter @sweetmedia/${slug} dev
+2. Build: pnpm --filter @sweetmedia/${slug} build
+${existsSync(appDir) ? '' : `3. Scaffold was skipped — run manually:\n   node scripts/scaffold-client-app.mjs --slug ${slug} --name "${name.replace(/"/g, '\\"')}" --url ${siteUrl} --ref ${ref} --anon-key "<anon_key>"\n`}
+${adminEmail ? '' : '• Add admin user in Supabase Auth, then SQL:\n   insert into public.admin_users (email, role) values (\'your@email.com\', \'admin\');'}
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 `);
