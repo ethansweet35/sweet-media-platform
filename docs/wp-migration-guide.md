@@ -2,6 +2,170 @@
 
 This guide covers the complete workflow for migrating a WordPress/Elementor site into the monorepo as a fully independent brand app. Every site follows this same two-track sequence.
 
+**Canonical repeat process:** The steps below match what was used for **Cipher Billing** (`cipherbilling.com` → `apps/cipher-billing`). For each new WordPress site, run the same commands in the same order and apply the same build rules — only the slug, URLs, and page-specific copy change.
+
+---
+
+## Replication playbook (use for every WordPress site)
+
+Follow this sequence end-to-end. Skipping steps is how designs drift.
+
+### Phase 1 — Supabase + app shell
+
+1. **Provision infrastructure**
+
+   ```bash
+   node scripts/setup-new-client.mjs \
+     --slug  brand-slug \
+     --name  "Brand Display Name" \
+     --url   https://example.com \
+     --admin-email your@email.com
+   ```
+
+   If Supabase returns **“project name already exists”**, pick a distinct `--name` (e.g. `"Brand Name Test"`) while keeping `--slug` as the real site key (`NEXT_PUBLIC_SITE_ID`).
+
+2. **Clone the app from template**
+
+   ```bash
+   cp -r apps/client-template apps/brand-slug
+   ```
+
+3. **Wire the app**
+   - `apps/brand-slug/package.json` → `"name": "@sweetmedia/brand-slug"`
+   - `apps/brand-slug/.env.local` → paste `NEXT_PUBLIC_SUPABASE_*` and `NEXT_PUBLIC_SITE_ID` from the setup script output
+   - `apps/brand-slug/next.config.ts` → add **both**:
+     - `https://<ref>.supabase.co` (blog/OG images from Storage)
+     - `https://<live-wp-hostname>` (migrations often load hero/video/logo URLs from the old site until assets are re-hosted)
+
+4. **Install**
+
+   ```bash
+   pnpm install
+   ```
+
+### Phase 2 — Content + inventory (automated)
+
+5. **Migrate blogs + page inventory**
+
+   ```bash
+   node scripts/migrate-wordpress-content.mjs \
+     --wp-url         https://example.com \
+     --site-id        brand-slug \
+     --supabase-ref   <ref> \
+     --supabase-key   <service_role_key>
+   ```
+
+   - Produces `migration-report-brand-slug.json` at repo root (all WP pages + raw HTML for build reference).
+   - Run `--dry-run` first if you only want to validate the REST API.
+   - Optional: `--skip-images` for a fast first pass, then re-run without it to re-host featured images to Supabase.
+
+### Phase 3 — Design spec (tokens + screenshots + computed layout)
+
+6. **Static token extraction (CSS / Elementor globals)**
+
+   ```bash
+   node scripts/extract-wp-design-tokens.mjs --wp-url https://example.com
+   ```
+
+   - Writes `design-tokens-<hostname>.json` with Elementor `--e-global-color-*` and typography vars when present.
+   - If the fetch fails, some hosts (e.g. Cloudflare) block non-browser `User-Agent` patterns — the script uses a minimal fetch profile for compatibility.
+
+7. **Visual audit (full-page screenshots + computed styles)**
+
+   Requires Playwright browsers installed (from repo root):
+
+   ```bash
+   PLAYWRIGHT_BROWSERS_PATH=0 npx playwright install chromium
+   PLAYWRIGHT_BROWSERS_PATH=0 node scripts/visual-audit-wp.mjs \
+     --wp-url https://example.com \
+     --site-id brand-slug
+   ```
+
+   - Reads **`migration-report-brand-slug.json`** for the URL list (run Phase 2 first).
+   - Outputs:
+     - `wp-screenshots/brand-slug/<page-slug>/{desktop,tablet,mobile}.png`
+     - `design-tokens-brand-slug-computed.json`
+
+8. **Merge Elementor “Site Settings” colors into the token sheet**
+
+   Open Elementor → Site Settings → Global Colors on the live WP site and copy **exact hex values** into `design-tokens-brand-slug-computed.json` → `platformTokenSheet` (or maintain a parallel `design-tokens-brand-slug-final.json`). Map semantics explicitly, e.g.:
+   - **Medium blue** → primary section backgrounds
+   - **Primary blue** → nav links, accents, primary buttons
+   - **Dark blue** → top bar / footer strip / deep panels
+
+   Automated extraction cannot read those labels — this manual merge step is what prevents “almost right” palettes.
+
+### Phase 4 — Route stubs (optional but recommended)
+
+9. **Scaffold App Router + view stubs from the migration report**
+
+   ```bash
+   node scripts/scaffold-wp-pages.mjs \
+     --site-id  brand-slug \
+     --app-slug brand-slug \
+     --overwrite
+   ```
+
+   Each stub includes the **original WP HTML as a comment** at the top of the view file — use it as structure reference while rebuilding in React.
+
+### Phase 5 — Page build for ~95% visual match (Cipher method)
+
+This is **manual** Next.js + Tailwind work, not another automated converter.
+
+10. **Homepage first (always)**
+
+    - **Visual target:** `wp-screenshots/brand-slug/<home-slug>/desktop.png` side-by-side with localhost.
+    - **Exact copy & numbers:** Pull from the **live HTML**, not from memory. Quick approach:
+
+      ```bash
+      curl -sL "https://example.com/" | node -e "/* small script: print headings, $ amounts, video .mp4 URLs */"
+      ```
+
+      Use the **real** hero video URL from WP uploads if the page uses `background_video` (Cipher used `.../video2-compressed.mp4`).
+
+    - **Fonts:** In `src/app/layout.tsx`, use `next/font/google` for the brand’s display + body fonts (Cipher: Marcellus + Montserrat). Map variables on `<body>` and wire `--font-marcellus` / `--font-montserrat` in `globals.css` so headings/body match Elementor.
+
+    - **Globals:** Set CSS variables for brand hex colors (`--color-medium-blue`, `--color-dark-blue`, `--color-accent`, etc.) and use them in sections instead of one-off random hex classes where possible.
+
+    - **Chrome:** Replace template `Navbar`, `Footer`, and strip template-only UI from `Layout` (floating CTAs, generic “client brand” copy).
+
+    - **Nav:** Match the **published WP menu** labels and destinations (Cipher used six top-level items including Our Solution vs Our Services — mirror what WP shows).
+
+    - **`next/image`:** Add every external image hostname to `next.config.ts` `images.remotePatterns`. Use `sizes` on any `Image` with `fill`.
+
+    - **Forms:** Point contact forms at `apps/.../src/app/api/contact/route.ts` and align field **names** with what the route reads (`name`, `email`, `phone`, `service`, `message`, etc.).
+
+11. **Inner pages**
+
+    Same loop per route: screenshot folder + WP HTML comment in the scaffold + token sheet. Priority: conversion pages → company/contact → long-tail.
+
+12. **Tracked pages sync** (when Supabase env is available in the shell)
+
+    ```bash
+    export SUPABASE_SERVICE_ROLE_KEY=...
+    pnpm --filter @sweetmedia/brand-slug exec npx tsx scripts/sync-tracked-pages.ts
+    ```
+
+    The script needs **both** `NEXT_PUBLIC_SUPABASE_URL` (from `.env.local` or export) and **`SUPABASE_SERVICE_ROLE_KEY`** — without the service role key it exits early (non-fatal).
+
+### Phase 6 — Dev server reliability (macOS)
+
+13. If **`next dev` hangs on “Compiling / …”** with Turbopack, use Webpack:
+
+    ```bash
+    unset MallocStackLogging
+    unset MallocStackLoggingNoCompact
+    pnpm --filter @sweetmedia/brand-slug exec next dev --webpack
+    ```
+
+### Phase 7 — Console hygiene (what Cipher surfaced)
+
+14. **Duplicate React `key` warnings** — If two footer/nav links share the same `href`, never use `key={path}` alone; use `key={\`nav-${label}\`}` / `key={\`svc-${label}\`}`.
+
+15. **`Multiple GoTrueClient instances`** — Often benign in dev when multiple Supabase client modules load; note for later if auth behaves oddly. Not a blocker for static marketing pages.
+
+16. **`next/image` “fill” + `sizes`** — Performance hint; add `sizes` to remove the warning.
+
 ---
 
 ## Prerequisites
@@ -241,6 +405,8 @@ Once verification passes (minimum 48 hours after cutover):
 
 ## Quick Reference: Command Cheatsheet
 
+Same order as **Replication playbook** above (Cipher Billing reference).
+
 ```bash
 # 1. Provision Supabase
 node scripts/setup-new-client.mjs --slug brand --name "Brand" --url https://brand.com
@@ -248,24 +414,30 @@ node scripts/setup-new-client.mjs --slug brand --name "Brand" --url https://bran
 # 2. Copy template
 cp -r apps/client-template apps/brand
 
-# 3. Extract design tokens
-node scripts/extract-wp-design-tokens.mjs --wp-url https://brand.com
-
-# 4. Migrate blog content (dry run first)
+# 3. Migrate blog + migration-report JSON (before visual audit)
 node scripts/migrate-wordpress-content.mjs --wp-url https://brand.com --site-id brand \
   --supabase-ref <ref> --supabase-key <key> --dry-run
-# Then for real:
 node scripts/migrate-wordpress-content.mjs --wp-url https://brand.com --site-id brand \
   --supabase-ref <ref> --supabase-key <key>
 
-# 5. Scaffold page stubs (after app is copied)
-node scripts/scaffold-wp-pages.mjs --site-id brand --app-slug brand
+# 4. Static CSS token extraction
+node scripts/extract-wp-design-tokens.mjs --wp-url https://brand.com
 
-# 6. Register routes
+# 5. Full screenshots + computed tokens (install browsers once per machine)
+PLAYWRIGHT_BROWSERS_PATH=0 npx playwright install chromium
+PLAYWRIGHT_BROWSERS_PATH=0 node scripts/visual-audit-wp.mjs \
+  --wp-url https://brand.com --site-id brand
+
+# 6. Merge Elementor Site Settings hex values into design-tokens-*-computed.json (manual step)
+
+# 7. Scaffold page stubs
+node scripts/scaffold-wp-pages.mjs --site-id brand --app-slug brand --overwrite
+
+# 8. Register routes (needs service role in env)
 pnpm --filter @sweetmedia/brand exec npx tsx scripts/sync-tracked-pages.ts
 
-# 7. Dev
-pnpm --filter @sweetmedia/brand dev
+# 9. Dev (Webpack if Turbopack hangs on macOS)
+pnpm --filter @sweetmedia/brand exec next dev --webpack
 ```
 
 ---

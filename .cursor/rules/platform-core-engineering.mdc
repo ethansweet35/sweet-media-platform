@@ -14,3 +14,8 @@ alwaysApply: true
 - Use `eslint` and `typescript` feedback as source of truth for correctness.
 - Keep implementation-focused prompts concise; avoid roleplay/persona boilerplate.
 - Treat each client app as a distinct brand; never copy another client's page layout or styling by default.
+
+## Icons (client marketing sites)
+
+- Use **Remix Icon** as the default icon set—same as `@sweetmedia/inner-peak-colorado` and `@sweetmedia/sweet-media`: `<i className="ri-*-line">` with the stylesheet from **`https://cdn.jsdelivr.net/npm/remixicon@4.6.0/fonts/remixicon.css`** (load via `layout.tsx` pattern shared with `apps/client-template` / `apps/cipher-billing` / `apps/inner-peak-colorado`).
+- Prefer **`npm`/`pnpm` icon packages only when Remix does not cover the glyph**; avoid mixing multiple general-purpose icon libraries in one app.
