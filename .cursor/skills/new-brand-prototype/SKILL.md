@@ -1,11 +1,47 @@
 ---
 name: new-brand-prototype
-description: Guided intake and build workflow for creating a new brand website prototype on this platform. Use when starting a new brand, new client site, or new web prototype from scratch. Guides through Design DNA axis selection, Refero visual research, design token definition, image generation, design-preview page, and homepage build. Use eagerly whenever a new app directory is being set up or a user says "new brand", "new client", or "build a site for".
+description: Guided intake and build workflow for creating a new brand website prototype on this platform. Use when starting a new brand, new client site, or new web prototype from scratch. Guides through Design DNA axis selection, Refero visual research, design token definition, image generation, design-preview page, and homepage build. Use eagerly whenever a new app directory is being set up or a user says "new brand", "new client", or "build a site for". Also covers WordPress migration replicate mode — when migrating an existing site, follow the Replicate Mode section before Phase 4.
 ---
 
 # New Brand Prototype Workflow
 
 Complete every phase in sequence. Do not skip ahead.
+
+---
+
+## Replicate Mode — Migrating an Existing WordPress/Elementor Site
+
+Use this mode instead of Phases 1–4 when the goal is to **preserve an existing design** (e.g. migrating from WordPress/Elementor). The build phases (5–8) remain identical.
+
+### RM-1 — Run the Design Token Extractor
+
+```bash
+node scripts/extract-wp-design-tokens.mjs --wp-url https://existing-site.com
+```
+
+This writes `design-tokens-[slug].json` to the repo root with extracted Elementor global colors, font families detected from Google Fonts links, and a `platformTokenSheet` scaffold to fill in.
+
+### RM-2 — Verify in Browser DevTools
+
+Open the live WordPress site and complete the `platformTokenSheet` in the JSON file:
+
+- **Colors:** Inspect hero background, section backgrounds, headings, body text, CTA button, CTA text. Use Elements → Computed → background-color / color.
+- **Fonts:** Elements → Computed → font-family on `h1` and `p`. Check for Google Fonts `<link>` tags in `<head>`.
+- **Spacing:** Box model on 2-3 representative sections — record the padding-top/bottom values.
+- **Border radius:** Inspect CTA buttons and any card components.
+- **Accent:** CTA button background color = accent primary.
+
+### RM-3 — Take Viewport Screenshots
+
+Capture screenshots at 375px, 768px, 1440px for every page using the browser's responsive mode. These are your reference documents for Track B page building. Store them locally — do not commit to the repo.
+
+### RM-4 — Map to Design DNA Axes
+
+Using the extracted tokens, assign the 8 Design DNA axes to accurately describe the *existing* design rather than inventing a new one. Explain each axis choice in terms of what exists on the live site.
+
+Then **skip directly to Phase 4** using the completed `platformTokenSheet` as your token values. Phase 5 (image generation) is required for any pages where WP images cannot be re-hosted exactly.
+
+---
 
 ## Phase 1 — Brand Intake
 
