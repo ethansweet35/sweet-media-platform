@@ -14,9 +14,27 @@ Do this first — none of it requires access to the repo or any platform.
 
 ---
 
+**Homebrew** (Mac package manager — needed to install everything else)
+
+In your terminal, run:
+
+```bash
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+```
+
+Follow the prompts. If you already have Homebrew, skip this.
+
+---
+
 **Node.js 22+ LTS**
 
-Go to [nodejs.org](https://nodejs.org), download the LTS installer, and run it. When it finishes, confirm it worked by opening your terminal and typing:
+In your terminal, run:
+
+```bash
+brew install node
+```
+
+Confirm it worked:
 
 ```bash
 node --version
@@ -46,7 +64,11 @@ You should see `10.33.2`.
 
 **Cursor IDE**
 
-Go to [cursor.com](https://cursor.com) and download the app. This is the IDE everyone on the team uses — do not use VS Code for this project.
+```bash
+brew install --cask cursor
+```
+
+Or download from [cursor.com](https://cursor.com) if the cask isn't available. This is the IDE everyone on the team uses — do not use VS Code for this project.
 
 ---
 
