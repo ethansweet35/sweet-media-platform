@@ -26,136 +26,169 @@ export default function BlogGrid({ searchQuery }: BlogGridProps) {
       ? posts
       : posts.filter((p) => p.category === activeCategory);
 
+  const tabCategories = catsLoading
+    ? ["All", "Billing", "Coding", "Compliance", "RCM", "Reimbursement"]
+    : categories;
+
   return (
-    <section className="w-full" style={{ background: "#F5F5F3" }}>
-      <div className="max-w-screen-xl mx-auto px-6 py-16 md:py-24">
-        {/* Section header */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
+    <section className="w-full bg-[#F5F7FA]">
+      <div className="max-w-7xl mx-auto px-6 md:px-12 py-16 md:py-24">
+
+        {/* Header row */}
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-12 border-b border-[#101E3F]/10 pb-8">
           <div>
-            <div className="flex items-center gap-3 mb-4 justify-center lg:justify-start">
-              <div className="w-8 h-px bg-neutral-300" />
-              <span className="text-[10px] tracking-[0.3em] uppercase text-neutral-400 font-semibold">
-                {isSearching ? `Search Results for "${searchQuery}"` : "Latest Articles"}
+            <div className="flex items-center gap-4 mb-3">
+              <div className="w-8 h-px bg-[#166C96]" />
+              <span
+                className="text-[10px] tracking-[0.35em] uppercase text-[#166C96] font-semibold"
+                style={{ fontFamily: "'Montserrat', sans-serif" }}
+              >
+                {isSearching ? `Results · "${searchQuery}"` : "All Articles"}
               </span>
             </div>
             <h2
-              className="text-2xl md:text-3xl font-light text-neutral-900 text-center lg:text-left"
-              style={{ fontFamily: "'Inter', serif" }}
+              className="text-[#101E3F]"
+              style={{
+                fontFamily: "'Marcellus', serif",
+                fontSize: "clamp(24px, 3vw, 38px)",
+              }}
             >
-              {isSearching ? `${filtered.length} Articles Found` : "All Insights"}
+              {isSearching ? `${filtered.length} articles found` : "Billing Resource Library"}
             </h2>
           </div>
 
-          {/* Category pills */}
+          {/* Category tabs */}
           {!isSearching && (
-            <div className="flex flex-wrap gap-2">
-              {catsLoading
-                ? ["All", "Mental Health", "Addiction Recovery", "Trauma", "Virtual Care", "Clientsen’s Wellness", "Family Support"].map((cat) => (
-                    <button
-                      key={cat}
-                      onClick={() => setActiveCategory(cat)}
-                      className={`text-[11px] tracking-[0.12em] uppercase font-medium px-4 py-2 rounded-full transition-all duration-200 cursor-pointer whitespace-nowrap ${
-                        activeCategory === cat
-                          ? "bg-[#1F2937] text-[#F8FAFC]"
-                          : "bg-white text-neutral-500 hover:text-neutral-800 border border-neutral-200"
-                      }`}
-                    >
-                      {cat}
-                    </button>
-                  ))
-                : categories.map((cat) => (
-                    <button
-                      key={cat}
-                      onClick={() => setActiveCategory(cat)}
-                      className={`text-[11px] tracking-[0.12em] uppercase font-medium px-4 py-2 rounded-full transition-all duration-200 cursor-pointer whitespace-nowrap ${
-                        activeCategory === cat
-                          ? "bg-[#1F2937] text-[#F8FAFC]"
-                          : "bg-white text-neutral-500 hover:text-neutral-800 border border-neutral-200"
-                      }`}
-                    >
-                      {cat}
-                    </button>
-                  ))}
+            <div className="flex flex-wrap gap-0 border border-[#101E3F]/10 overflow-hidden">
+              {tabCategories.map((cat) => (
+                <button
+                  key={cat}
+                  onClick={() => setActiveCategory(cat)}
+                  className={`text-[10px] tracking-[0.2em] uppercase font-semibold px-4 py-2.5 transition-all duration-150 cursor-pointer whitespace-nowrap border-r border-[#101E3F]/10 last:border-r-0 ${
+                    activeCategory === cat
+                      ? "bg-[#101E3F] text-white"
+                      : "bg-white text-[#101E3F]/50 hover:bg-[#101E3F]/5 hover:text-[#101E3F]"
+                  }`}
+                  style={{ fontFamily: "'Montserrat', sans-serif" }}
+                >
+                  {cat}
+                </button>
+              ))}
             </div>
           )}
         </div>
 
         {/* Loading skeleton */}
         {loading && (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-px bg-[#101E3F]/8">
             {[1, 2, 3, 4, 5, 6].map((i) => (
-              <div key={i} className="bg-white rounded-2xl overflow-hidden border border-neutral-100 animate-pulse">
-                <div className="aspect-[16/10] bg-neutral-100" />
-                <div className="p-5 md:p-6 space-y-3">
-                  <div className="h-3 bg-neutral-100 rounded w-1/3" />
-                  <div className="h-5 bg-neutral-100 rounded w-3/4" />
-                  <div className="h-4 bg-neutral-100 rounded w-full" />
-                  <div className="h-4 bg-neutral-100 rounded w-2/3" />
-                </div>
+              <div key={i} className="bg-white p-6 animate-pulse space-y-4">
+                <div className="h-44 bg-neutral-100" />
+                <div className="h-3 bg-neutral-100 w-1/3" />
+                <div className="h-5 bg-neutral-100 w-full" />
+                <div className="h-4 bg-neutral-100 w-2/3" />
               </div>
             ))}
           </div>
         )}
 
-        {/* Post grid */}
-        {!loading && (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+        {/* Post grid — separated by 1px gap = grid lines effect */}
+        {!loading && filtered.length > 0 && (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-px bg-[#101E3F]/10">
             {filtered.map((post) => (
               <article
                 key={post.id}
                 onClick={() => router.push(`/blog/${post.slug}`)}
-                className="group bg-white rounded-2xl overflow-hidden border border-neutral-100 hover:border-neutral-200 transition-all duration-300 hover:shadow-[0_4px_24px_rgba(0,0,0,0.06)] cursor-pointer"
+                className="group bg-white cursor-pointer flex flex-col overflow-hidden hover:z-10 hover:shadow-[0_8px_32px_rgba(16,30,63,0.12)] transition-all duration-300 relative"
               >
                 {/* Image */}
-                <div className="relative overflow-hidden">
-                  <Image
-                    src={post.image}
-                    alt={post.title}
-                    width={1200}
-                    height={750}
-                    loading="lazy"
-                    className="w-full h-auto block"
-                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 400px"
-                  />
-                  <div className="absolute top-3 left-3">
-                    <span className="inline-block bg-white/90 backdrop-blur-sm text-[10px] tracking-[0.15em] uppercase font-bold text-[#1F2937] px-2.5 py-1 rounded-full">
-                      {post.category}
-                    </span>
+                {post.image ? (
+                  <div className="relative overflow-hidden" style={{ aspectRatio: "16/9" }}>
+                    <Image
+                      src={post.image}
+                      alt={post.title}
+                      fill
+                      loading="lazy"
+                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 380px"
+                      className="object-cover object-center group-hover:scale-[1.03] transition-transform duration-500"
+                    />
+                    {/* Blue left accent on hover */}
+                    <div className="absolute inset-y-0 left-0 w-1 bg-[#166C96] opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                   </div>
-                </div>
+                ) : (
+                  <div className="bg-[#101E3F]/5" style={{ aspectRatio: "16/9" }}>
+                    <div className="absolute inset-y-0 left-0 w-1 bg-[#166C96] opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                  </div>
+                )}
 
                 {/* Content */}
-                <div className="p-5 md:p-6">
-                  <div className="flex items-center gap-2 mb-3">
-                    <span className="text-[11px] text-neutral-400">{post.date}</span>
-                    <span className="w-1 h-1 rounded-full bg-neutral-300" />
-                    <span className="text-[11px] text-neutral-400">{post.readTime}</span>
+                <div className="flex-1 flex flex-col p-6">
+                  {/* Category + date */}
+                  <div className="flex items-center justify-between mb-3">
+                    <span
+                      className="text-[9px] tracking-[0.3em] uppercase font-semibold text-[#166C96] border border-[#166C96]/30 px-2 py-0.5"
+                      style={{ fontFamily: "'Montserrat', sans-serif" }}
+                    >
+                      {post.category}
+                    </span>
+                    <span
+                      className="text-[10px] text-[#101E3F]/35"
+                      style={{ fontFamily: "'Montserrat', sans-serif" }}
+                    >
+                      {post.date}
+                    </span>
                   </div>
 
                   <h3
-                    className="text-lg font-medium text-neutral-900 leading-snug mb-3 group-hover:text-[#1F2937] transition-colors"
-                    style={{ fontFamily: "'Inter', serif" }}
+                    className="text-[#101E3F] leading-snug mb-3 flex-1 group-hover:text-[#166C96] transition-colors"
+                    style={{
+                      fontFamily: "'Marcellus', serif",
+                      fontSize: "clamp(16px, 1.5vw, 20px)",
+                    }}
                   >
                     {post.title}
                   </h3>
 
-                  <p className="text-sm text-neutral-500 leading-relaxed mb-5 line-clamp-2">
+                  <p
+                    className="text-[#101E3F]/55 text-[13px] leading-relaxed mb-5 line-clamp-2"
+                    style={{ fontFamily: "'Montserrat', sans-serif" }}
+                  >
                     {post.excerpt}
                   </p>
 
-                  <div className="flex items-center justify-between pt-4 border-t border-neutral-100">
+                  {/* Footer */}
+                  <div className="flex items-center justify-between pt-4 border-t border-[#101E3F]/8">
                     <div className="flex items-center gap-2">
-                      <div className="w-7 h-7 rounded-full bg-[#1F2937] flex items-center justify-center">
-                        <span className="text-white text-[10px] font-bold">
-                          {post.author.split(" ").map((n) => n[0]).join("")}
+                      <div className="w-6 h-6 bg-[#101E3F] flex items-center justify-center flex-shrink-0">
+                        <span
+                          className="text-white text-[8px] font-bold"
+                          style={{ fontFamily: "'Montserrat', sans-serif" }}
+                        >
+                          {post.author ? post.author.split(" ").map((n) => n[0]).join("").slice(0, 2) : "CB"}
                         </span>
                       </div>
-                      <span className="text-[11px] text-neutral-500">{post.author}</span>
+                      <div>
+                        <span
+                          className="text-[11px] text-[#101E3F]/60 block"
+                          style={{ fontFamily: "'Montserrat', sans-serif" }}
+                        >
+                          {post.author || "Cipher Billing"}
+                        </span>
+                        <span
+                          className="text-[10px] text-[#101E3F]/35"
+                          style={{ fontFamily: "'Montserrat', sans-serif" }}
+                        >
+                          {post.readTime}
+                        </span>
+                      </div>
                     </div>
 
-                    <span className="flex items-center gap-1 text-[11px] tracking-[0.1em] uppercase font-medium text-[#1F2937] group-hover:text-[#2563EB] transition-colors">
+                    <span
+                      className="text-[10px] tracking-[0.2em] uppercase font-semibold text-[#166C96] flex items-center gap-1 group-hover:gap-2 transition-all"
+                      style={{ fontFamily: "'Montserrat', sans-serif" }}
+                    >
                       Read
-                      <i className="ri-arrow-right-line text-xs group-hover:translate-x-0.5 transition-transform"></i>
+                      <i className="ri-arrow-right-line text-xs" />
                     </span>
                   </div>
                 </div>
@@ -166,11 +199,14 @@ export default function BlogGrid({ searchQuery }: BlogGridProps) {
 
         {/* Empty state */}
         {!loading && filtered.length === 0 && (
-          <div className="text-center py-20">
-            <i className="ri-article-line text-4xl text-neutral-300 mb-4"></i>
-            <p className="text-sm text-neutral-400">
+          <div className="text-center py-24 border border-[#101E3F]/10 bg-white">
+            <i className="ri-file-search-line text-4xl text-[#101E3F]/20 mb-4 block" />
+            <p
+              className="text-sm text-[#101E3F]/40"
+              style={{ fontFamily: "'Montserrat', sans-serif" }}
+            >
               {isSearching
-                ? `No articles found for "${searchQuery}". Try a different search term.`
+                ? `No articles found for "${searchQuery}". Try different keywords.`
                 : "No articles in this category yet."}
             </p>
           </div>

@@ -8,19 +8,18 @@ export default function BlogFeatured() {
   const { posts, loading } = useBlogPosts();
   const router = useRouter();
 
-  const post = posts.find((p) => p.featured);
+  const post = posts.find((p) => p.featured) ?? posts[0];
 
   if (loading) {
     return (
-      <section className="w-full bg-white">
-        <div className="max-w-screen-xl mx-auto px-6 py-16 md:py-24">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-center animate-pulse">
-            <div className="aspect-[4/3] bg-neutral-100 rounded-2xl" />
-            <div className="space-y-4">
-              <div className="h-4 bg-neutral-100 rounded w-1/3" />
-              <div className="h-8 bg-neutral-100 rounded w-3/4" />
-              <div className="h-4 bg-neutral-100 rounded w-full" />
-              <div className="h-4 bg-neutral-100 rounded w-2/3" />
+      <section className="w-full bg-white border-b border-neutral-100">
+        <div className="max-w-7xl mx-auto px-6 md:px-12 py-16 animate-pulse">
+          <div className="grid grid-cols-1 lg:grid-cols-[1fr_420px] gap-0">
+            <div className="bg-neutral-100 h-[360px]" />
+            <div className="bg-[#101E3F]/5 p-10 space-y-4">
+              <div className="h-3 bg-neutral-200 w-1/3 rounded" />
+              <div className="h-8 bg-neutral-200 w-full rounded" />
+              <div className="h-4 bg-neutral-200 w-3/4 rounded" />
             </div>
           </div>
         </div>
@@ -31,73 +30,114 @@ export default function BlogFeatured() {
   if (!post) return null;
 
   return (
-    <section className="w-full bg-white">
-      <div className="max-w-screen-xl mx-auto px-6 py-16 md:py-24">
-        <div className="flex items-center gap-3 mb-10 justify-center lg:justify-start">
-          <div className="w-8 h-px bg-neutral-300" />
-          <span className="text-[10px] tracking-[0.3em] uppercase text-neutral-400 font-semibold">
-            Featured Article
+    <section className="w-full bg-white border-b border-neutral-100">
+      <div className="max-w-7xl mx-auto px-6 md:px-12 py-14 md:py-20">
+        {/* Section label */}
+        <div className="flex items-center gap-4 mb-8">
+          <div className="w-8 h-px bg-[#166C96]" />
+          <span
+            className="text-[10px] tracking-[0.35em] uppercase text-[#166C96] font-semibold"
+            style={{ fontFamily: "'Montserrat', sans-serif" }}
+          >
+            Featured Resource
           </span>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-center">
-          {/* Image */}
-          <div className="relative rounded-2xl overflow-hidden">
-            <Image
-              src={post.image}
-              alt={post.title}
-              width={1200}
-              height={900}
-              priority
-              className="w-full h-auto block"
-              sizes="(max-width: 1024px) 100vw, 50vw"
-            />
-            <div className="absolute top-4 left-4">
-              <span className="inline-block bg-white/90 backdrop-blur-sm text-[10px] tracking-[0.2em] uppercase font-bold text-[#1F2937] px-3 py-1.5 rounded-full">
+        {/* Card — image left, navy content right */}
+        <div
+          className="grid grid-cols-1 lg:grid-cols-[1fr_440px] overflow-hidden border border-[#101E3F]/10 cursor-pointer group"
+          onClick={() => router.push(`/blog/${post.slug}`)}
+        >
+          {/* Image panel */}
+          <div className="relative overflow-hidden" style={{ minHeight: "340px" }}>
+            {post.image ? (
+              <Image
+                src={post.image}
+                alt={post.title}
+                fill
+                priority
+                sizes="(max-width: 1024px) 100vw, 55vw"
+                className="object-cover object-center group-hover:scale-[1.02] transition-transform duration-700"
+              />
+            ) : (
+              <div className="w-full h-full bg-[#101E3F]/10" />
+            )}
+            {/* Blue category tag */}
+            <div className="absolute top-0 left-0">
+              <span
+                className="inline-block bg-[#166C96] text-white text-[9px] tracking-[0.3em] uppercase font-semibold px-4 py-2"
+                style={{ fontFamily: "'Montserrat', sans-serif" }}
+              >
                 {post.category}
               </span>
             </div>
           </div>
 
-          {/* Content */}
-          <div>
-            <div className="flex items-center gap-3 mb-5">
-              <span className="text-[11px] text-neutral-400">{post.date}</span>
-              <span className="w-1 h-1 rounded-full bg-neutral-300" />
-              <span className="text-[11px] text-neutral-400">{post.readTime}</span>
+          {/* Navy content panel */}
+          <div className="bg-[#101E3F] p-8 md:p-10 flex flex-col justify-between">
+            <div>
+              <div
+                className="flex items-center gap-3 mb-6 text-white/40"
+                style={{ fontFamily: "'Montserrat', sans-serif" }}
+              >
+                <span className="text-[11px]">{post.date}</span>
+                <span className="w-px h-3 bg-white/20" />
+                <span className="text-[11px]">{post.readTime}</span>
+              </div>
+
+              <h2
+                className="text-white leading-[1.1] mb-5"
+                style={{
+                  fontFamily: "'Marcellus', serif",
+                  fontSize: "clamp(22px, 2.5vw, 34px)",
+                }}
+              >
+                {post.title}
+              </h2>
+
+              <p
+                className="text-white/55 text-sm leading-[1.85] mb-8"
+                style={{ fontFamily: "'Montserrat', sans-serif" }}
+              >
+                {post.excerpt}
+              </p>
             </div>
 
-            <h2
-              className="text-2xl md:text-3xl lg:text-4xl font-light text-neutral-900 leading-snug mb-5"
-              style={{ fontFamily: "'Inter', serif" }}
-            >
-              {post.title}
-            </h2>
-
-            <p className="text-sm md:text-base text-neutral-500 leading-relaxed mb-8">
-              {post.excerpt}
-            </p>
-
-            <div className="flex items-center justify-between">
+            <div className="flex items-center justify-between border-t border-white/10 pt-6">
+              {/* Author */}
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-full bg-[#1F2937] flex items-center justify-center">
-                  <span className="text-white text-xs font-bold">
-                    {post.author.split(" ").map((n) => n[0]).join("")}
+                <div className="w-9 h-9 bg-[#166C96] flex items-center justify-center flex-shrink-0">
+                  <span
+                    className="text-white text-[10px] font-bold"
+                    style={{ fontFamily: "'Montserrat', sans-serif" }}
+                  >
+                    {post.author ? post.author.split(" ").map((n) => n[0]).join("").slice(0, 2) : "CB"}
                   </span>
                 </div>
                 <div>
-                  <p className="text-sm font-medium text-neutral-800">{post.author}</p>
-                  <p className="text-[11px] text-neutral-400">{post.authorRole}</p>
+                  <p
+                    className="text-[12px] text-white/80 font-medium"
+                    style={{ fontFamily: "'Montserrat', sans-serif" }}
+                  >
+                    {post.author || "Cipher Billing"}
+                  </p>
+                  <p
+                    className="text-[10px] text-white/35"
+                    style={{ fontFamily: "'Montserrat', sans-serif" }}
+                  >
+                    {post.authorRole || "Billing Team"}
+                  </p>
                 </div>
               </div>
 
-              <button
-                onClick={() => router.push(`/blog/${post.slug}`)}
-                className="group flex items-center gap-2 text-[11px] tracking-[0.15em] uppercase font-bold text-[#1F2937] hover:text-[#2563EB] transition-colors cursor-pointer whitespace-nowrap"
+              {/* CTA */}
+              <span
+                className="flex items-center gap-2 text-[#166C96] text-[11px] tracking-[0.2em] uppercase font-semibold group-hover:gap-3 transition-all"
+                style={{ fontFamily: "'Montserrat', sans-serif" }}
               >
                 Read Article
-                <i className="ri-arrow-right-line text-sm group-hover:translate-x-1 transition-transform"></i>
-              </button>
+                <i className="ri-arrow-right-line text-xs" />
+              </span>
             </div>
           </div>
         </div>

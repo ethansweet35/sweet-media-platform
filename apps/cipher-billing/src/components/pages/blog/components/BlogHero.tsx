@@ -12,75 +12,122 @@ export default function BlogHero({ searchQuery, onSearchChange }: BlogHeroProps)
   const [isFocused, setIsFocused] = useState(false);
 
   return (
-    <section className="relative w-full overflow-hidden bg-[#101E3F]">
-      <div
-        className="absolute inset-0 opacity-[0.06]"
-        style={{
-          backgroundImage:
-            "radial-gradient(circle at 1px 1px, #F8FAFC 1px, transparent 0)",
-          backgroundSize: "34px 34px",
-        }}
-      />
-      <div className="absolute -top-24 right-0 w-96 h-96 rounded-full bg-[#166C96]/15 blur-3xl" />
-      <div className="absolute bottom-0 left-0 w-80 h-80 rounded-full bg-[#D7BDA6]/10 blur-3xl" />
+    <section className="relative w-full bg-[#101E3F]">
+      {/* Top rule */}
+      <div className="w-full h-1 bg-[#166C96]" />
 
-      <div className="relative max-w-7xl mx-auto px-8 md:px-16 pt-36 pb-20 md:pt-44 md:pb-28">
-        <div className="flex items-center gap-2 mb-8">
+      <div className="max-w-7xl mx-auto px-6 md:px-12 pt-32 pb-16 md:pt-40 md:pb-20">
+        {/* Breadcrumb */}
+        <div className="flex items-center gap-2 mb-10">
           <Link
             href="/"
-            className="text-[10px] tracking-[0.25em] uppercase text-[#E2E8F0]/45 hover:text-[#E2E8F0]/80 transition-colors"
+            className="text-[10px] tracking-[0.3em] uppercase text-white/35 hover:text-white/70 transition-colors"
+            style={{ fontFamily: "'Montserrat', sans-serif" }}
           >
             Home
           </Link>
-          <span className="text-[#E2E8F0]/25">/</span>
-          <span className="text-[10px] tracking-[0.25em] uppercase text-[#166C96]">
-            Resources
+          <span className="text-white/20 text-xs">›</span>
+          <span
+            className="text-[10px] tracking-[0.3em] uppercase text-[#166C96]"
+            style={{ fontFamily: "'Montserrat', sans-serif" }}
+          >
+            Resource Hub
           </span>
         </div>
 
-        <div className="max-w-3xl">
-          <span className="text-xs uppercase tracking-[0.35em] text-[#166C96] font-medium" style={{ fontFamily: "'Montserrat', sans-serif" }}>
-            Cipher Billing Resource Hub
-          </span>
-
-          <h1
-            className="text-[#F8FAFC] leading-[1.08] mt-6 mb-6"
-            style={{ fontFamily: "'Marcellus', serif", fontSize: "clamp(38px, 5.5vw, 72px)" }}
-          >
-            Behavioral health billing{" "}
-            <em className="text-[#166C96] not-italic">made clear.</em>
-          </h1>
-
-          <p className="text-[#E2E8F0]/70 font-light text-base md:text-lg leading-[1.9] max-w-2xl mb-10" style={{ fontFamily: "'Montserrat', sans-serif" }}>
-            Coding guides, reimbursement insights, compliance updates, and revenue cycle management resources from the Cipher Billing team.
-          </p>
-
-          <div
-            className={`max-w-xl flex items-center gap-3 bg-[#F8FAFC]/10 backdrop-blur-sm border px-5 py-3 transition-all duration-200 ${
-              isFocused ? "border-[#166C96]/50 bg-[#F8FAFC]/15" : "border-[#F8FAFC]/15"
-            }`}
-          >
-            <i className="ri-search-line text-[#E2E8F0]/45 text-lg" />
-            <input
-              type="text"
-              value={searchQuery}
-              onChange={(e) => onSearchChange(e.target.value)}
-              onFocus={() => setIsFocused(true)}
-              onBlur={() => setIsFocused(false)}
-              placeholder="Search articles..."
-              className="flex-1 bg-transparent text-sm text-[#F8FAFC] placeholder:text-[#E2E8F0]/35 focus:outline-none"
-              style={{ fontFamily: "'Montserrat', sans-serif" }}
-            />
-            {searchQuery && (
-              <button
-                onClick={() => onSearchChange("")}
-                className="w-6 h-6 flex items-center justify-center bg-[#F8FAFC]/10 hover:bg-[#F8FAFC]/20 text-[#E2E8F0]/60 transition-colors cursor-pointer"
-                aria-label="Clear search"
+        <div className="grid grid-cols-1 lg:grid-cols-[1fr_auto] gap-12 items-end">
+          <div>
+            {/* Eyebrow */}
+            <div className="flex items-center gap-4 mb-6">
+              <div className="w-10 h-px bg-[#166C96]" />
+              <span
+                className="text-[10px] tracking-[0.4em] uppercase text-[#166C96] font-semibold"
+                style={{ fontFamily: "'Montserrat', sans-serif" }}
               >
-                <i className="ri-close-line text-xs" />
-              </button>
-            )}
+                Cipher Billing · Resource Hub
+              </span>
+            </div>
+
+            <h1
+              className="text-[#F8FAFC] leading-[1.05]"
+              style={{
+                fontFamily: "'Marcellus', serif",
+                fontSize: "clamp(36px, 5vw, 68px)",
+              }}
+            >
+              Billing intelligence
+              <br />
+              <span className="text-[#166C96]">built for behavioral health.</span>
+            </h1>
+
+            <p
+              className="text-white/55 text-sm md:text-base leading-[1.85] mt-6 max-w-xl"
+              style={{ fontFamily: "'Montserrat', sans-serif" }}
+            >
+              Coding guides, reimbursement rate tables, compliance updates, and RCM strategy — written by billers who specialize in mental health and substance use treatment.
+            </p>
           </div>
+
+          {/* Search */}
+          <div className="lg:mb-1">
+            <p
+              className="text-[9px] tracking-[0.35em] uppercase text-white/30 mb-3"
+              style={{ fontFamily: "'Montserrat', sans-serif" }}
+            >
+              Search articles
+            </p>
+            <div
+              className={`flex items-center gap-3 border px-4 py-3 bg-white/5 transition-all duration-200 ${
+                isFocused ? "border-[#166C96] bg-white/8" : "border-white/15"
+              }`}
+              style={{ minWidth: "300px" }}
+            >
+              <i className="ri-search-line text-white/35 text-base flex-shrink-0" />
+              <input
+                type="text"
+                value={searchQuery}
+                onChange={(e) => onSearchChange(e.target.value)}
+                onFocus={() => setIsFocused(true)}
+                onBlur={() => setIsFocused(false)}
+                placeholder="e.g. CPT 90837, prior auth..."
+                className="flex-1 bg-transparent text-[13px] text-white placeholder:text-white/25 focus:outline-none"
+                style={{ fontFamily: "'Montserrat', sans-serif" }}
+              />
+              {searchQuery && (
+                <button
+                  onClick={() => onSearchChange("")}
+                  className="text-white/40 hover:text-white/70 transition-colors cursor-pointer"
+                  aria-label="Clear"
+                >
+                  <i className="ri-close-line text-sm" />
+                </button>
+              )}
+            </div>
+          </div>
+        </div>
+
+        {/* Bottom stat strip */}
+        <div className="mt-14 pt-8 border-t border-white/10 grid grid-cols-3 gap-8 max-w-sm">
+          {[
+            { val: "25+", label: "Articles" },
+            { val: "10+", label: "CPT guides" },
+            { val: "50", label: "States covered" },
+          ].map((s) => (
+            <div key={s.label}>
+              <p
+                className="text-xl font-semibold text-white"
+                style={{ fontFamily: "'Marcellus', serif" }}
+              >
+                {s.val}
+              </p>
+              <p
+                className="text-[10px] tracking-[0.2em] uppercase text-white/35 mt-0.5"
+                style={{ fontFamily: "'Montserrat', sans-serif" }}
+              >
+                {s.label}
+              </p>
+            </div>
+          ))}
         </div>
       </div>
     </section>
