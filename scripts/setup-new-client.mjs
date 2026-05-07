@@ -11,7 +11,7 @@
  * Optional flags:
  *   --region    AWS region (default: us-east-1)
  *   --org       Supabase org ID (auto-detected if you only have one)
- *   --admin-email  Seed the admin_users table with this email
+ *   --admin-email  Seed the admin_users table AND create Supabase Auth user (required for admin login)
  *   --no-scaffold      Do not copy apps/client-template → apps/<slug> or write .env.local
  *   --force-scaffold   Replace existing apps/<slug> when scaffolding (destructive)
  *   --no-brand-replace Pass through to scaffold (skip Client Brand → --name replacements)
@@ -309,7 +309,7 @@ async function main() {
     console.log('');
     log('Storage bucket "site-assets" created (public)');
 
-    // ── 11. Seed admin user (optional) ─────────────────────────────────────
+    // ── 11. Seed admin user + create Supabase Auth user (optional) ──────────
     if (adminEmail) {
       step(`Seeding admin user: ${adminEmail}`);
       await runSQL(token, ref, `
@@ -318,6 +318,43 @@ async function main() {
         on conflict (email) do update set role = excluded.role;
       `);
       log(`admin_users seeded with ${adminEmail}`);
+
+      // Create Supabase Auth user so the email/password login works immediately
+      step(`Creating Supabase Auth user: ${adminEmail}`);
+      const tempPassword = 'ChangeMe123!';
+      try {
+        const apiKeys = await api(token, 'GET', `/v1/projects/${ref}/api-keys`);
+        const serviceKey = apiKeys.find(k => k.name === 'service_role')?.api_key;
+        if (serviceKey) {
+          const authRes = await fetch(`https://${ref}.supabase.co/auth/v1/admin/users`, {
+            method: 'POST',
+            headers: {
+              'Authorization': `Bearer ${serviceKey}`,
+              'apikey': serviceKey,
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              email: adminEmail,
+              password: tempPassword,
+              email_confirm: true,
+            }),
+          });
+          const authJson = await authRes.json();
+          if (authJson.id) {
+            log(`Auth user created for ${adminEmail} (temp password: ${tempPassword})`);
+          } else if (authJson.msg?.includes('already') || authJson.code === 'email_exists') {
+            log(`Auth user already exists for ${adminEmail}`);
+          } else {
+            warn(`Auth user creation returned: ${JSON.stringify(authJson).slice(0, 200)}`);
+          }
+        } else {
+          warn('Could not retrieve service_role key — create Auth user manually in Supabase dashboard.');
+        }
+      } catch (err) {
+        warn(`Auth user creation failed: ${err.message}\nCreate manually in Supabase dashboard → Authentication → Users`);
+      }
+    } else {
+      warn('No --admin-email provided — add one to enable admin login:\n  node scripts/setup-new-client.mjs --ref ' + ref + ' --admin-email you@email.com');
     }
   }
 
@@ -458,7 +495,10 @@ NEXT_PUBLIC_SITE_URL=${siteUrl.replace(/\/$/, '')}
 1. Dev: pnpm --filter @sweetmedia/${slug} dev
 2. Build: pnpm --filter @sweetmedia/${slug} build
 ${existsSync(appDir) ? '' : `3. Scaffold was skipped — run manually:\n   node scripts/scaffold-client-app.mjs --slug ${slug} --name "${name.replace(/"/g, '\\"')}" --url ${siteUrl} --ref ${ref} --anon-key "<anon_key>"\n`}
-${adminEmail ? '' : '• Add admin user in Supabase Auth, then SQL:\n   insert into public.admin_users (email, role) values (\'your@email.com\', \'admin\');'}
+${adminEmail
+  ? `• Admin login ready: ${adminEmail} / ChangeMe123! → change password after first login`
+  : '• No admin email set — re-run with --admin-email to create admin access'
+}
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 `);

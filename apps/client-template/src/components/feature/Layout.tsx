@@ -8,17 +8,20 @@ import Footer from './Footer';
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
+  const isAdmin = pathname?.startsWith('/admin');
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  }, [pathname]);
+    if (!isAdmin) window.scrollTo({ top: 0, behavior: 'smooth' });
+  }, [pathname, isAdmin]);
 
   useEffect(() => {
     const onScroll = () => setVisible(window.scrollY > 300);
     window.addEventListener('scroll', onScroll, { passive: true });
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
+
+  if (isAdmin) return <>{children}</>;
 
   return (
     <div className="min-h-screen flex flex-col bg-[#F8FAFC]">
