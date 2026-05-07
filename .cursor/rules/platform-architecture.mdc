@@ -235,6 +235,21 @@ Tailwind v4 — `@import "tailwindcss"` in `globals.css`; `@tailwindcss/postcss`
 
 ---
 
+## Team Access
+
+### Standing Developers
+These team members have access to all client projects and are auto-invited to every new Supabase org via `setup-new-client.mjs`:
+
+| Name | GitHub | Email | Platforms |
+|---|---|---|---|
+| Jake Champion | `jakechampion88` | `jake@sweetmediaservices.com` | GitHub, Supabase (org), Vercel |
+
+**Adding a new team member**: update `STANDING_TEAM_MEMBERS` in `scripts/setup-new-client.mjs` and run the backfill manually for existing projects.
+
+**Env access**: developers use `vercel env pull .env.local` from any app directory once they have Vercel team access — no manual secret sharing required.
+
+---
+
 ## Known Issues / Drift
 
 1. **`client-template-schema.sql` column drift**: `blog_queue` and `internal_links` in SQL differ from `admin-core` TS types and Edge Functions. Live DBs are ahead of the checked-in SQL.

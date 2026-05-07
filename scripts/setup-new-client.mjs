@@ -34,6 +34,13 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 const REPO_ROOT = join(__dirname, '..');
 const MGMT = 'https://api.supabase.com';
 
+// ─── Standing Team Members ────────────────────────────────────────────────────
+// These developers are auto-invited to every new Supabase org on provisioning.
+// Add/remove entries here to update who gets access to all future client projects.
+const STANDING_TEAM_MEMBERS = [
+  { email: 'jake@sweetmediaservices.com', role: 'developer', github: 'jakechampion88' },
+];
+
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 
 function log(msg)  { console.log(`\n✅  ${msg}`); }
@@ -185,6 +192,33 @@ async function main() {
       console.log('\nMultiple orgs found:');
       orgs.forEach((o, i) => console.log(`  ${i + 1}. ${o.name}  →  ${o.id}`));
       orgId = await prompt('Paste your org ID: ');
+    }
+  }
+
+  // ── 4b. Invite standing team members to the org ──────────────────────────
+  if (STANDING_TEAM_MEMBERS.length > 0) {
+    step('Inviting standing team members to Supabase org');
+    for (const member of STANDING_TEAM_MEMBERS) {
+      try {
+        const res = await fetch(`${MGMT}/v1/organizations/${orgId}/members/invite`, {
+          method: 'POST',
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ email: member.email, role: member.role }),
+        });
+        const text = await res.text();
+        if (res.ok) {
+          log(`Invited ${member.email} to org as ${member.role}`);
+        } else if (res.status === 409 || text.includes('already') || text.includes('exists')) {
+          log(`${member.email} is already a member of this org`);
+        } else {
+          warn(`Could not invite ${member.email}: ${text.slice(0, 200)}\n  Add manually: supabase.com/dashboard/org/${orgId}/members`);
+        }
+      } catch (err) {
+        warn(`Invite failed for ${member.email}: ${err.message}`);
+      }
     }
   }
 
@@ -535,6 +569,10 @@ ${adminEmail
   ? `• Admin login ready: ${adminEmail} / ChangeMe123! → change password after first login`
   : '• No admin email set — re-run with --admin-email to create admin access'
 }
+─── Team access ─────────────────────────────────────
+${STANDING_TEAM_MEMBERS.map(m => `• Supabase org invite sent → ${m.email}`).join('\n')}
+• Vercel: add team members manually at vercel.com/teams → Members
+  (run \`vercel env pull .env.local\` from any app dir once they have access)
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 `);
