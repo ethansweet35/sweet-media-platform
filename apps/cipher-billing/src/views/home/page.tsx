@@ -118,7 +118,15 @@ export default function HomePage() {
       </section>
 
       {/* Welcome + By the numbers — two-column stats (matches WP) */}
-      <section className="bg-[#101E3F] text-white">
+      <section className="relative overflow-hidden bg-[#101E3F] text-white">
+        <div
+          aria-hidden
+          className="pointer-events-none absolute -top-28 left-1/2 h-72 w-72 -translate-x-1/2 rounded-full bg-[#166C96]/25 blur-3xl"
+        />
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/25 to-transparent"
+        />
         <div className="mx-auto max-w-[1140px] px-6 py-20 md:py-28">
           <div className="mx-auto max-w-3xl text-center">
             <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-[#166C96]">
@@ -180,8 +188,16 @@ export default function HomePage() {
       </section>
 
       {/* What Makes Us Unique — 3 cols + circular image */}
-      <section className="bg-[#101E3F] text-white">
-        <div className="mx-auto max-w-[1140px] px-6 pb-20 md:pb-28">
+      <section className="relative overflow-hidden bg-[#101E3F] text-white">
+        <div
+          aria-hidden
+          className="pointer-events-none absolute -left-28 top-1/3 h-80 w-80 rounded-full bg-[#D7BDA6]/10 blur-3xl"
+        />
+        <div
+          aria-hidden
+          className="pointer-events-none absolute -right-24 top-12 h-64 w-64 rounded-full bg-[#166C96]/20 blur-3xl"
+        />
+        <div className="mx-auto max-w-[1140px] px-6 py-20 md:py-28">
           <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-[#166C96]">
             BY THE NUMBERS
           </p>
@@ -214,7 +230,11 @@ export default function HomePage() {
       </section>
 
       {/* Who We Are */}
-      <section className="bg-[#101E3F] text-white">
+      <section className="relative overflow-hidden bg-[#101E3F] text-white">
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_12%_24%,rgba(255,255,255,0.08),transparent_36%)]"
+        />
         <div className="mx-auto grid max-w-[1140px] gap-12 px-6 py-20 md:grid-cols-2 md:items-center md:py-28">
           <div className="max-w-xl">
             <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-[#166C96]">ABOUT US</p>
@@ -248,7 +268,11 @@ export default function HomePage() {
       </section>
 
       {/* What You Can Expect */}
-      <section className="bg-[#101E3F] text-white">
+      <section className="relative overflow-hidden bg-[#101E3F] text-white">
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_86%_20%,rgba(22,108,150,0.28),transparent_42%)]"
+        />
         <div className="mx-auto grid max-w-[1140px] gap-12 px-6 py-20 md:grid-cols-2 md:items-center md:py-28">
           <div className="relative order-2 aspect-[4/3] w-full max-w-lg overflow-hidden rounded-sm border border-white/10 md:order-1">
             <Image
@@ -282,8 +306,16 @@ export default function HomePage() {
       </section>
 
       {/* Our Process — headline + intro row, then 4 steps */}
-      <section className="bg-[#101E3F] text-white">
-        <div className="mx-auto max-w-[1140px] px-6 pb-24">
+      <section className="relative overflow-hidden bg-[#101E3F] text-white">
+        <div
+          aria-hidden
+          className="pointer-events-none absolute bottom-0 right-0 h-72 w-72 translate-x-1/3 translate-y-1/3 rounded-full bg-[#166C96]/20 blur-3xl"
+        />
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/15 to-transparent"
+        />
+        <div className="mx-auto max-w-[1140px] px-6 py-20 md:py-28">
           <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.1fr)] lg:items-end lg:gap-12">
             <div>
               <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-[#166C96]">SIMPLE &amp; EFFECTIVE</p>
