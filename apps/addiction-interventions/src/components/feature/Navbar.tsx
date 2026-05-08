@@ -49,7 +49,7 @@ const PHONE_DISPLAY = "949-776-7093";
 const PHONE_HREF = "tel:9497767093";
 
 const LOGO_URL =
-  "https://addictioninterventions.com/wp-content/uploads/2025/07/cropped-Untitled-design-2025-07-09T160603.260.png";
+  "https://addictioninterventions.com/wp-content/uploads/2025/07/Frys-Baskersville-3.png";
 
 export default function Navbar() {
   const pathname = usePathname();
@@ -75,34 +75,28 @@ export default function Navbar() {
 
   return (
     <header className="sticky top-0 z-50 shadow-sm">
-      {/* Top utility bar */}
-      <div className="bg-[#8FAC87] px-6 py-2 text-xs">
-        <div className="mx-auto flex max-w-7xl items-center justify-between gap-4">
-          <span className="hidden text-white/90 sm:inline">
-            Available 24/7 — speak with a certified interventionist now.
+      {/* Top utility bar — visible on desktop only, matches original WP header */}
+      <div className="hidden bg-[#8FAC87] px-6 py-2 text-xs lg:block">
+        <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 lg:px-10">
+          <span className="flex items-center gap-1.5 text-white/90">
+            <i className="ri-map-pin-line text-sm"></i>
+            3822 Campus Dr #300-B, Newport Beach, CA 92660
           </span>
-          <span className="text-white/90 sm:hidden">Available 24/7</span>
-          <a
-            href={PHONE_HREF}
-            className="font-semibold text-white transition hover:text-white/80"
-          >
-            <i className="ri-phone-line mr-1.5 align-middle"></i>
-            {PHONE_DISPLAY}
-          </a>
+          <span className="font-semibold text-white">1500+ Families Helped</span>
         </div>
       </div>
 
       {/* Main nav */}
       <nav className="border-b border-[#EFEFEF] bg-white">
         <div className="mx-auto flex max-w-7xl items-center justify-between gap-6 px-6 py-3 lg:px-10">
-          {/* Logo */}
+          {/* Logo — 500×132 combined wordmark */}
           <Link href="/" className="flex shrink-0 items-center">
             <Image
               src={LOGO_URL}
-              alt="Addiction Interventions"
-              width={260}
-              height={60}
-              className="h-14 w-auto object-contain"
+              alt="Addiction Interventions — Intervene Today. Change Tomorrow."
+              width={251}
+              height={66}
+              className="h-16 w-auto object-contain"
               priority
               unoptimized
             />

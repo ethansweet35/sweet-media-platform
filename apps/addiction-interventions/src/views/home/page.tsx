@@ -137,8 +137,8 @@ export default async function HomePage() {
           className="object-cover object-center"
           sizes="100vw"
         />
-        {/* Sage-tinted dark overlay */}
-        <div className="absolute inset-0 bg-gradient-to-r from-[#2d4a30]/88 via-[#3a5e3d]/70 to-transparent" />
+        {/* Brand sage overlay matching original color palette */}
+        <div className="absolute inset-0 bg-gradient-to-r from-[#507969]/90 via-[#507969]/70 to-[#507969]/30" />
 
         <div className={`relative z-10 ${CONTAINER} py-36`}>
           <div className="max-w-2xl">
