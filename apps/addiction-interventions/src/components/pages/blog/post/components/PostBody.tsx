@@ -20,7 +20,7 @@ function AutoLinkedText({ segments }: { segments: LinkSegment[] }) {
           <Link
             key={i}
             href={seg.href ?? "/"}
-            className="text-[#1F2937] underline underline-offset-2 hover:opacity-70 transition-opacity"
+            className="text-[#507969] underline underline-offset-2 hover:text-[#3E5B50] transition-colors"
           >
             {seg.content}
           </Link>
@@ -84,7 +84,7 @@ function InlineText({
               href={seg.href}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-[#1F2937] underline underline-offset-2 hover:opacity-70 transition-opacity"
+              className="text-[#507969] underline underline-offset-2 hover:text-[#3E5B50] transition-colors"
             >
               {seg.content}
             </a>
@@ -94,7 +94,7 @@ function InlineText({
           <Link
             key={i}
             href={seg.href ?? "/"}
-            className="text-[#1F2937] underline underline-offset-2 hover:opacity-70 transition-opacity"
+            className="text-[#507969] underline underline-offset-2 hover:text-[#3E5B50] transition-colors"
           >
             {seg.content}
           </Link>
@@ -131,7 +131,7 @@ export default function PostBody({ sections, autoLinkMap, currentSlug, usedHrefs
             return (
               <p
                 key={i}
-                className="text-[#3A4A3C]/75 text-base md:text-[17px] leading-[1.85] mb-6"
+                className="text-[#4B4B4B] text-base md:text-[17px] leading-[1.85] mb-6"
               >
                 <InlineText text={section.text ?? ""} autoLinkMap={autoLinkMap} currentSlug={currentSlug} usedHrefs={usedHrefs} />
               </p>
@@ -141,8 +141,8 @@ export default function PostBody({ sections, autoLinkMap, currentSlug, usedHrefs
             return (
               <h2
                 key={i}
-                className="text-2xl md:text-3xl font-light text-[#1F2937] mt-12 mb-5"
-                style={{ fontFamily: "'Inter', serif" }}
+                className="font-heading font-bold text-[#1A1A17] text-2xl md:text-3xl mt-12 mb-5"
+                style={{ letterSpacing: "-0.01em" }}
               >
                 <InlineText text={section.text ?? ""} autoLinkMap={autoLinkMap} currentSlug={currentSlug} usedHrefs={usedHrefs} enableAutoLink={false} />
               </h2>
@@ -152,7 +152,7 @@ export default function PostBody({ sections, autoLinkMap, currentSlug, usedHrefs
             return (
               <h3
                 key={i}
-                className="text-lg font-semibold text-[#3A4A3C] mt-8 mb-3 tracking-tight"
+                className="font-heading font-bold text-[#1A1A17] text-lg mt-8 mb-3 tracking-tight"
               >
                 <InlineText text={section.text ?? ""} autoLinkMap={autoLinkMap} currentSlug={currentSlug} usedHrefs={usedHrefs} enableAutoLink={false} />
               </h3>
@@ -162,13 +162,11 @@ export default function PostBody({ sections, autoLinkMap, currentSlug, usedHrefs
             return (
               <blockquote
                 key={i}
-                className="relative my-10 pl-8 border-l-4 border-[#1F2937]"
+                className="relative my-10 pl-6 border-l-4 border-[#8FAC87] bg-[#F5F3E7] py-5 pr-6 rounded-r-xl"
               >
-                <p
-                  className="text-xl md:text-2xl font-light text-[#3A4A3C] leading-relaxed italic"
-                  style={{ fontFamily: "'Inter', serif" }}
-                >
-                  &ldquo;<InlineText text={section.text ?? ""} autoLinkMap={autoLinkMap} currentSlug={currentSlug} usedHrefs={usedHrefs} />&rdquo;
+                <i className="ri-double-quotes-l text-2xl text-[#8FAC87]/50 block mb-2" />
+                <p className="font-heading text-xl md:text-2xl font-bold italic text-[#1A1A17] leading-snug">
+                  <InlineText text={section.text ?? ""} autoLinkMap={autoLinkMap} currentSlug={currentSlug} usedHrefs={usedHrefs} />
                 </p>
               </blockquote>
             );
@@ -181,19 +179,19 @@ export default function PostBody({ sections, autoLinkMap, currentSlug, usedHrefs
                   section.variant === "warning"
                     ? "bg-amber-50 border border-amber-200"
                     : section.variant === "tip"
-                    ? "bg-emerald-50 border border-emerald-200"
-                    : "bg-[#1F2937]/5 border border-[#1F2937]/15"
+                    ? "bg-[#8FAC87]/10 border border-[#8FAC87]/30"
+                    : "bg-[#F5F3E7] border border-[#EFEFEF]"
                 }`}
               >
                 <div className={`w-6 h-6 flex items-center justify-center flex-shrink-0 mt-0.5 ${
-                  section.variant === "warning" ? "text-amber-500" : section.variant === "tip" ? "text-emerald-600" : "text-[#1F2937]"
+                  section.variant === "warning" ? "text-amber-500" : "text-[#507969]"
                 }`}>
                   <i className={`text-lg ${
                     section.variant === "warning" ? "ri-alert-line" : section.variant === "tip" ? "ri-lightbulb-line" : "ri-information-line"
                   }`}></i>
                 </div>
                 <p className={`text-sm leading-relaxed ${
-                  section.variant === "warning" ? "text-amber-800" : section.variant === "tip" ? "text-emerald-800" : "text-[#1F2937]/80"
+                  section.variant === "warning" ? "text-amber-800" : "text-[#4B4B4B]"
                 }`}>
                   {section.text}
                 </p>
@@ -204,9 +202,9 @@ export default function PostBody({ sections, autoLinkMap, currentSlug, usedHrefs
             return (
               <ul key={i} className="my-6 space-y-3">
                 {section.items?.map((item, j) => (
-                  <li key={j} className="flex gap-3 text-[#3A4A3C]/75 text-base leading-relaxed">
-                    <span className="w-5 h-5 rounded-full bg-[#1F2937]/10 flex items-center justify-center flex-shrink-0 mt-0.5">
-                      <i className="ri-check-line text-[10px] text-[#1F2937]"></i>
+                  <li key={j} className="flex gap-3 text-[#4B4B4B] text-base leading-relaxed">
+                    <span className="w-5 h-5 rounded-full bg-[#8FAC87] flex items-center justify-center flex-shrink-0 mt-0.5">
+                      <i className="ri-check-line text-[10px] text-white"></i>
                     </span>
                     <InlineText text={item} autoLinkMap={autoLinkMap} currentSlug={currentSlug} usedHrefs={usedHrefs} />
                   </li>
@@ -218,8 +216,8 @@ export default function PostBody({ sections, autoLinkMap, currentSlug, usedHrefs
             return (
               <ol key={i} className="my-6 space-y-4">
                 {section.items?.map((item, j) => (
-                  <li key={j} className="flex gap-4 text-[#3A4A3C]/75 text-base leading-relaxed">
-                    <span className="w-7 h-7 rounded-full bg-[#1F2937] text-white text-[11px] font-bold flex items-center justify-center flex-shrink-0 mt-0.5">
+                  <li key={j} className="flex gap-4 text-[#4B4B4B] text-base leading-relaxed">
+                    <span className="w-7 h-7 rounded-full bg-[#3E5B50] text-white text-[11px] font-bold flex items-center justify-center flex-shrink-0 mt-0.5">
                       {j + 1}
                     </span>
                     <span className="pt-0.5"><InlineText text={item} autoLinkMap={autoLinkMap} currentSlug={currentSlug} usedHrefs={usedHrefs} /></span>
@@ -232,14 +230,13 @@ export default function PostBody({ sections, autoLinkMap, currentSlug, usedHrefs
             return (
               <div key={i} className="my-10 grid grid-cols-1 sm:grid-cols-3 gap-4">
                 {section.stats?.map((stat, j) => (
-                  <div key={j} className="bg-[#1F2937] rounded-xl p-5 text-center">
+                  <div key={j} className={`rounded-2xl p-5 text-center ${j % 2 === 1 ? "bg-[#3E5B50]" : "bg-[#F5F3E7] border border-[#EFEFEF]"}`}>
                     <p
-                      className="text-2xl md:text-3xl font-bold text-white mb-1"
-                      style={{ fontFamily: "'Inter', serif" }}
+                      className={`font-heading text-3xl md:text-4xl font-bold mb-1 ${j % 2 === 1 ? "text-white" : "text-[#3E5B50]"}`}
                     >
                       {stat.value}
                     </p>
-                    <p className="text-[11px] tracking-[0.15em] uppercase text-white/50 font-medium">
+                    <p className={`text-[11px] tracking-[0.15em] uppercase font-semibold ${j % 2 === 1 ? "text-[#8FAC87]" : "text-[#4B4B4B]/60"}`}>
                       {stat.label}
                     </p>
                   </div>
@@ -249,11 +246,11 @@ export default function PostBody({ sections, autoLinkMap, currentSlug, usedHrefs
 
           case "table":
             return (
-              <div key={i} className="my-8 w-full overflow-x-auto rounded-xl border border-[#6B7D67]/20">
+              <div key={i} className="my-8 w-full overflow-x-auto rounded-xl border border-[#EFEFEF]">
                 <table className="w-full text-sm text-left border-collapse">
                   {section.tableHeaders && section.tableHeaders.length > 0 && (
                     <thead>
-                      <tr className="bg-[#1F2937]">
+                      <tr className="bg-[#3E5B50]">
                         {section.tableHeaders.map((header, j) => (
                           <th
                             key={j}
@@ -269,13 +266,13 @@ export default function PostBody({ sections, autoLinkMap, currentSlug, usedHrefs
                     {section.tableRows?.map((row, j) => (
                       <tr
                         key={j}
-                        className={j % 2 === 0 ? "bg-[#F8FAFC]" : "bg-[#E2E8F0]"}
+                        className={j % 2 === 0 ? "bg-white" : "bg-[#F5F3E7]"}
                       >
                         {row.map((cell, k) => (
                           <td
                             key={k}
-                            className={`px-4 py-3 text-neutral-700 leading-relaxed border-t border-neutral-100 ${
-                              k === 0 ? "font-medium text-[#1F2937]" : ""
+                            className={`px-4 py-3 text-[#4B4B4B] leading-relaxed border-t border-[#EFEFEF] ${
+                              k === 0 ? "font-semibold text-[#1A1A17]" : ""
                             }`}
                           >
                             <InlineText text={cell} autoLinkMap={autoLinkMap} currentSlug={currentSlug} usedHrefs={usedHrefs} />
@@ -289,7 +286,7 @@ export default function PostBody({ sections, autoLinkMap, currentSlug, usedHrefs
             );
 
           case "divider":
-            return <hr key={i} className="my-10 border-neutral-100" />;
+            return <hr key={i} className="my-10 border-[#EFEFEF]" />;
 
           default:
             return null;
