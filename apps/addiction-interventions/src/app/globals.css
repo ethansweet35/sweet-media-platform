@@ -6,7 +6,7 @@
 
 /*
  * Addiction Interventions brand tokens.
- * Original sage + cream palette. Cormorant Garamond serif headings.
+ * Original sage + cream palette. Playfair Display serif headings.
  */
 :root {
   /* Brand palette (original) */
@@ -27,7 +27,7 @@
   --color-muted: var(--color-ink-muted);
 
   /* Typography */
-  --font-heading: var(--font-cormorant), Georgia, serif;
+  --font-heading: var(--font-playfair), Georgia, serif;
   --font-body: var(--font-montserrat), system-ui, sans-serif;
 }
 
@@ -57,8 +57,8 @@
   h5,
   h6 {
     font-family: var(--font-heading);
-    font-weight: 600;
-    letter-spacing: -0.02em;
+    font-weight: 700;
+    letter-spacing: -0.01em;
     line-height: 1.15;
   }
 

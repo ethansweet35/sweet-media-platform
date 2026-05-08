@@ -39,7 +39,7 @@ export default function Footer() {
         <div className="grid gap-12 md:grid-cols-[1.6fr_1fr_1fr_1fr]">
           {/* Brand column */}
           <div>
-            <h2 className="font-heading text-3xl font-semibold tracking-tight text-white">
+            <h2 className="font-heading text-3xl font-bold text-white">
               Addiction Interventions
             </h2>
             <p className="mt-4 max-w-sm text-sm leading-7 text-white/60">
