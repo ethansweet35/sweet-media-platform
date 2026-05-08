@@ -108,7 +108,7 @@ export default function Navbar() {
 
       {/* Main nav */}
       <nav className="border-b border-[#EFEFEF] bg-white">
-        <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-6 py-3 lg:gap-8 lg:px-10 lg:py-4">
+        <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-6 py-2 lg:gap-8 lg:px-10 lg:py-3">
           {/* Logo */}
           <Link
             href="/"
