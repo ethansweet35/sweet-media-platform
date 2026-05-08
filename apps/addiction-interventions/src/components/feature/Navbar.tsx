@@ -28,7 +28,12 @@ const navItems: NavItem[] = [
       { label: "Ketamine Interventions", path: "/substance-abuse-interventions/ketamine", group: "Substance Use" },
       // Mental Health
       { label: "Mental Health Interventions", path: "/mental-health-interventions", group: "Mental Health" },
-      { label: "Depression Interventions", path: "/depression-interventions", group: "Mental Health" },
+      { label: "Anxiety Interventions", path: "/mental-health-interventions/anxiety", group: "Mental Health" },
+      { label: "Depression Interventions", path: "/mental-health-interventions/depression", group: "Mental Health" },
+      { label: "Bipolar Disorder Interventions", path: "/mental-health-interventions/bipolar", group: "Mental Health" },
+      { label: "PTSD Interventions", path: "/mental-health-interventions/ptsd", group: "Mental Health" },
+      { label: "OCD Interventions", path: "/mental-health-interventions/ocd", group: "Mental Health" },
+      { label: "Self-Medicating Interventions", path: "/mental-health-interventions/self-medicating", group: "Mental Health" },
       // Specialty & Family
       { label: "Family Interventions", path: "/family-interventions", group: "Specialty & Family" },
       { label: "Teen Interventions", path: "/interventions-for-teens", group: "Specialty & Family" },
@@ -217,9 +222,13 @@ export default function Navbar() {
                               </div>
                               <ul className="space-y-1 text-sm">
                                 {[
-                                  { label: "Mental Health Interventions", path: "/mental-health-interventions" },
-                                  { label: "Depression Interventions", path: "/depression-interventions" },
-                                  // Future: Anxiety, Bipolar, PTSD, OCD
+                                  { label: "All Mental Health Interventions", path: "/mental-health-interventions" },
+                                  { label: "Anxiety Interventions", path: "/mental-health-interventions/anxiety" },
+                                  { label: "Depression Interventions", path: "/mental-health-interventions/depression" },
+                                  { label: "Bipolar Disorder Interventions", path: "/mental-health-interventions/bipolar" },
+                                  { label: "PTSD Interventions", path: "/mental-health-interventions/ptsd" },
+                                  { label: "OCD Interventions", path: "/mental-health-interventions/ocd" },
+                                  { label: "Self-Medicating Interventions", path: "/mental-health-interventions/self-medicating" },
                                 ].map((l) => (
                                   <li key={l.path}>
                                     <Link href={l.path} className="block rounded-md px-2 py-1.5 text-[#4B4B4B] hover:bg-[#F5F3E7] hover:text-[#6F8E68]">
@@ -227,8 +236,10 @@ export default function Navbar() {
                                     </Link>
                                   </li>
                                 ))}
-                                <li className="px-2 pt-1 text-xs text-[#8FAC87]">Anxiety, Bipolar, PTSD &amp; OCD coming soon</li>
                               </ul>
+                              <Link href="/mental-health-interventions" className="mt-3 inline-flex items-center gap-1 text-xs font-semibold text-[#507969] hover:gap-1.5">
+                                View all mental health interventions <i className="ri-arrow-right-line"></i>
+                              </Link>
                             </div>
 
                             {/* Specialty & Family Column */}
