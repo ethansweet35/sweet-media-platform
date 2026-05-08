@@ -19,11 +19,56 @@ const PHONE_HREF = "tel:9497767093";
 
 const CONTAINER = "mx-auto w-full max-w-7xl px-6 lg:px-10";
 
-const stats = [
-  { value: "1,500+", label: "Families Helped" },
-  { value: "24/7", label: "Always Available" },
-  { value: "50", label: "States Served" },
-  { value: "100%", label: "Confidential" },
+const heroBullets = [
+  { icon: "ri-shield-check-line", text: "100% Confidential" },
+  { icon: "ri-map-pin-2-line", text: "All 50 States" },
+  { icon: "ri-award-line", text: "Joint Commission Accredited" },
+  { icon: "ri-time-line", text: "Available 24 / 7" },
+];
+
+const whyUs = [
+  {
+    icon: "ri-heart-pulse-line",
+    title: "Compassionate Approach",
+    desc: "We lead with empathy, not confrontation. Every intervention is built around love, respect, and the genuine desire for your loved one to heal.",
+  },
+  {
+    icon: "ri-medal-2-line",
+    title: "Certified Specialists",
+    desc: "Our interventionists are formally trained and certified — bringing structure, experience, and calm confidence to the most difficult moments.",
+  },
+  {
+    icon: "ri-family-line",
+    title: "Whole-Family Focus",
+    desc: "Recovery doesn't happen in isolation. We work with the entire family system to rebuild healthy dynamics that support lasting change.",
+  },
+];
+
+const steps = [
+  {
+    num: "01",
+    icon: "ri-phone-line",
+    title: "Free Confidential Call",
+    desc: "Tell us what's happening. We listen without judgment and help you understand your options — no commitment required.",
+  },
+  {
+    num: "02",
+    icon: "ri-group-3-line",
+    title: "Family Preparation",
+    desc: "We guide your family through what to say, what to expect, and how to hold loving, firm boundaries.",
+  },
+  {
+    num: "03",
+    icon: "ri-discuss-line",
+    title: "The Intervention",
+    desc: "Our certified interventionist leads a structured, compassionate conversation — opening the door to treatment.",
+  },
+  {
+    num: "04",
+    icon: "ri-seedling-line",
+    title: "Ongoing Support",
+    desc: "We don't disappear after the intervention. We stay with your family through placement, treatment, and beyond.",
+  },
 ];
 
 const services = [
@@ -31,68 +76,79 @@ const services = [
     icon: "ri-goblet-line",
     label: "Alcohol Addiction",
     path: "/alcohol-abuse-interventions",
-    desc: "Our intervention team has helped over 1,000 families struggling with alcohol take the next step toward recovery.",
+    desc: "Our team has helped over 1,000 families struggling with alcohol take the next step toward recovery.",
   },
   {
     icon: "ri-capsule-line",
     label: "Drug Addiction",
     path: "/drug-abuse-interventions",
-    desc: "We help break the cycle of drug dependence, guiding loved ones and families toward lasting recovery with compassion.",
+    desc: "We help break the cycle of drug dependence with compassion, guiding loved ones toward lasting recovery.",
   },
   {
     icon: "ri-mental-health-line",
     label: "Mental Health",
     path: "/mental-health-interventions",
-    desc: "Depression, anxiety, PTSD — we guide loved ones toward treatment that fits their unique mental health needs.",
+    desc: "Depression, anxiety, PTSD — we guide loved ones toward treatment that fits their unique needs.",
   },
   {
     icon: "ri-brain-line",
     label: "Dual Diagnosis",
     path: "/dual-diagnosis-interventions",
-    desc: "Specialized care for co-occurring mental health and substance use disorders, with integrated treatment support.",
+    desc: "Specialized care for co-occurring mental health and substance use disorders with integrated support.",
   },
   {
     icon: "ri-alarm-warning-line",
     label: "Crisis Interventions",
     path: "/crisis-interventions",
-    desc: "When every hour matters, our crisis team responds with urgency, guiding families through the most difficult moments.",
+    desc: "When every hour matters, our crisis team responds with urgency, guiding families through the hardest moments.",
   },
   {
     icon: "ri-user-heart-line",
     label: "Teen Interventions",
     path: "/interventions-for-teens",
-    desc: "Gentle, evidence-based approaches designed for families navigating addiction or mental health with a teenager.",
+    desc: "Gentle, evidence-based approaches for families navigating addiction or mental health with a teenager.",
   },
   {
     icon: "ri-briefcase-4-line",
     label: "Executive Interventions",
     path: "/interventions-for-executives",
-    desc: "Discreet, professional support for executives and high-profile individuals impacted by addiction or mental health.",
+    desc: "Discreet, professional support for executives impacted by addiction or mental health challenges.",
   },
   {
     icon: "ri-group-line",
     label: "Family Interventions",
     path: "/family-interventions",
-    desc: "Empowering families to build a supportive environment and encourage lasting, meaningful change together.",
+    desc: "Empowering families to build a supportive environment that encourages meaningful, lasting change.",
   },
+];
+
+const aboutChecklist = [
+  "Fully customized intervention plan for your situation",
+  "Certified interventionist present throughout the process",
+  "Pre-intervention coaching and family preparation",
+  "Treatment placement coordination and follow-through",
+  "Accredited by The Joint Commission",
 ];
 
 const testimonials = [
   {
+    stars: 5,
     quote:
-      "David Gates is an exceptional interventionist! He responded immediately to the crisis with our son, who was struggling with addiction. David spent hours on the phone with our family, providing guidance and working out a step-by-step plan. The plan worked beautifully.",
+      "David Gates is an exceptional interventionist! He responded immediately to the crisis with our son. David spent hours on the phone with our family, working out a step-by-step plan. The plan worked beautifully.",
     author: "J.M.",
     detail: "Mother of a recovering adult son",
   },
   {
+    stars: 5,
     quote:
-      "I had no idea where to turn. Within 24 hours of calling, we had a plan and a certified interventionist ready to help. Professional, compassionate, and completely confidential from start to finish.",
+      "Within 24 hours of calling, we had a plan and a certified interventionist ready to help. Professional, compassionate, and completely confidential from start to finish.",
     author: "R.T.",
     detail: "Spouse of a client",
   },
   {
+    stars: 5,
     quote:
-      "Our family had been stuck in this painful cycle for years. The intervention completely changed the direction of our lives. We finally feel hope again — something we hadn't felt in a very long time.",
+      "Our family had been stuck in this painful cycle for years. The intervention completely changed the direction of our lives. We finally feel hope again.",
     author: "K.L.",
     detail: "Parent of two adult children",
   },
@@ -133,17 +189,14 @@ export default async function HomePage() {
           className="object-cover object-center"
           sizes="100vw"
         />
-        {/* Layered overlay — darker on left where text lives */}
         <div className="absolute inset-0 bg-gradient-to-t from-[#3E5B50]/85 via-[#3E5B50]/50 to-[#3E5B50]/30" />
         <div className="absolute inset-0 bg-gradient-to-r from-[#3E5B50]/80 via-[#3E5B50]/40 to-transparent" />
 
         <div className={`relative z-10 ${CONTAINER}`}>
-          {/* Eyebrow */}
           <p className="brand-eyebrow mb-5 text-[#8FAC87]">
             Certified Intervention Specialists — Nationwide
           </p>
 
-          {/* Display heading with italic emphasis */}
           <h1 className="font-heading mb-2 max-w-3xl text-5xl font-bold leading-[1.08] text-white md:text-6xl lg:text-7xl">
             Mental Health,
           </h1>
@@ -175,23 +228,25 @@ export default async function HomePage() {
             </Link>
           </div>
 
-          {/* Inline trust signals */}
-          <div className="mt-10 flex flex-wrap gap-x-8 gap-y-3">
-            {stats.map((s) => (
-              <div key={s.label} className="flex items-baseline gap-2">
-                <span className="font-heading text-2xl font-bold text-[#8FAC87]">{s.value}</span>
-                <span className="text-xs uppercase tracking-[0.1em] text-white/60">{s.label}</span>
+          {/* Icon trust bullets */}
+          <div className="mt-12 flex flex-wrap gap-x-8 gap-y-3">
+            {heroBullets.map((b) => (
+              <div key={b.text} className="flex items-center gap-2">
+                <span className="flex h-6 w-6 items-center justify-center rounded-full bg-[#8FAC87]/30 text-[#8FAC87]">
+                  <i className={`${b.icon} text-xs`}></i>
+                </span>
+                <span className="text-sm font-medium text-white/80">{b.text}</span>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* ── Intro / What we do ───────────────────────────────────────────── */}
+      {/* ── Intro — pull-quote + Why Us ──────────────────────────────────── */}
       <section className="bg-[#F5F3E7] py-24">
         <div className={CONTAINER}>
-          <div className="grid gap-16 lg:grid-cols-[1fr_1.4fr] lg:items-center">
-            {/* Left: Big editorial quote */}
+          {/* Pull-quote row */}
+          <div className="mb-20 grid gap-16 lg:grid-cols-[1fr_1.4fr] lg:items-center">
             <div className="relative">
               <span className="font-heading pointer-events-none absolute -top-8 -left-4 select-none text-[10rem] leading-none text-[#8FAC87]/20 md:text-[14rem]">&ldquo;</span>
               <blockquote className="relative font-heading text-2xl font-medium italic leading-relaxed text-[#3E5B50] md:text-3xl">
@@ -202,21 +257,15 @@ export default async function HomePage() {
                 David Gates — Lead Interventionist
               </p>
             </div>
-
-            {/* Right: Text + accreditation */}
             <div>
               <p className="brand-eyebrow mb-4 text-[#8FAC87]">Our Mission</p>
               <h2 className="font-heading mb-6 text-4xl font-bold leading-tight text-[#1A1A17] md:text-5xl">
-                Interventions For Any Situation
+                Interventions For <span className="italic text-[#507969]">Any Situation</span>
               </h2>
-              <p className="mb-5 leading-relaxed text-[#4B4B4B]">
-                No two situations are the same, which is why we offer customized interventions for any circumstance.
-                Our trained specialists guide families through a structured process designed to break through denial,
-                encourage acceptance, and open the door to treatment.
-              </p>
               <p className="mb-8 leading-relaxed text-[#4B4B4B]">
-                Whether it&rsquo;s alcohol, drug use, mental health challenges, or dual diagnosis — we provide
-                compassionate support every step of the way.
+                No two situations are the same. Our trained specialists guide families through a structured
+                process designed to break through denial, encourage acceptance, and open the door to
+                treatment — whether it&rsquo;s alcohol, drugs, mental health, or dual diagnosis.
               </p>
               <div className="flex flex-wrap items-center gap-6">
                 <a
@@ -236,10 +285,71 @@ export default async function HomePage() {
               </div>
             </div>
           </div>
+
+          {/* Why Us — 3-up icon cards */}
+          <div className="grid gap-6 sm:grid-cols-3">
+            {whyUs.map((w) => (
+              <div
+                key={w.title}
+                className="relative overflow-hidden rounded-3xl bg-white p-8 shadow-sm ring-1 ring-[#EFEFEF]"
+              >
+                {/* Decorative circle */}
+                <div className="pointer-events-none absolute -right-6 -top-6 h-24 w-24 rounded-full bg-[#8FAC87]/10" />
+                <span className="mb-5 flex h-12 w-12 items-center justify-center rounded-2xl bg-[#8FAC87]/15 text-[#507969]">
+                  <i className={`${w.icon} text-2xl`}></i>
+                </span>
+                <h3 className="font-heading mb-3 text-xl font-bold text-[#1A1A17]">{w.title}</h3>
+                <p className="text-sm leading-relaxed text-[#4B4B4B]">{w.desc}</p>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
 
-      {/* ── Services — editorial asymmetric ──────────────────────────────── */}
+      {/* ── How It Works — numbered steps ────────────────────────────────── */}
+      <section className="bg-[#3E5B50] py-24 text-white">
+        <div className={CONTAINER}>
+          <div className="mb-14 text-center">
+            <p className="brand-eyebrow mb-3 text-[#8FAC87]">The Process</p>
+            <h2 className="font-heading text-4xl font-bold md:text-5xl">
+              What Happens When You Call
+            </h2>
+          </div>
+
+          <div className="relative grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
+            {/* Connector line on desktop */}
+            <div className="pointer-events-none absolute top-10 left-0 right-0 hidden h-px lg:block"
+              style={{ background: "linear-gradient(to right, transparent, #8FAC87 20%, #8FAC87 80%, transparent)" }}
+            />
+
+            {steps.map((s, i) => (
+              <div key={s.num} className="relative flex flex-col items-center text-center">
+                {/* Step circle */}
+                <div className="relative z-10 mb-5 flex h-20 w-20 items-center justify-center rounded-full border-2 border-[#8FAC87]/40 bg-[#507969]">
+                  <i className={`${s.icon} text-2xl text-[#8FAC87]`}></i>
+                  <span className="absolute -top-2 -right-2 flex h-6 w-6 items-center justify-center rounded-full bg-[#8FAC87] text-xs font-bold text-white">
+                    {i + 1}
+                  </span>
+                </div>
+                <h3 className="font-heading mb-3 text-lg font-bold">{s.title}</h3>
+                <p className="text-sm leading-relaxed text-white/70">{s.desc}</p>
+              </div>
+            ))}
+          </div>
+
+          <div className="mt-14 text-center">
+            <a
+              href={PHONE_HREF}
+              className="inline-flex items-center gap-2.5 rounded-full bg-[#8FAC87] px-9 py-4 text-sm font-semibold text-white shadow-lg transition hover:bg-[#6F8E68]"
+            >
+              <i className="ri-phone-fill"></i>
+              Start with a Free Call — {PHONE_DISPLAY}
+            </a>
+          </div>
+        </div>
+      </section>
+
+      {/* ── Services — tiled grid ─────────────────────────────────────────── */}
       <section className="bg-white py-24">
         <div className={CONTAINER}>
           <div className="mb-16 flex flex-col gap-2 lg:flex-row lg:items-end lg:justify-between">
@@ -249,12 +359,12 @@ export default async function HomePage() {
                 Every Family&rsquo;s <span className="italic text-[#507969]">Situation</span> Is Different
               </h2>
             </div>
-            <p className="max-w-sm text-sm leading-relaxed text-[#4B4B4B] lg:text-right">
+            <p className="max-w-xs text-sm leading-relaxed text-[#4B4B4B] lg:text-right">
               We specialize in customized, compassionate interventions — whatever your loved one is facing.
             </p>
           </div>
 
-          <div className="grid gap-px bg-[#EFEFEF] border border-[#EFEFEF] overflow-hidden rounded-2xl sm:grid-cols-2 lg:grid-cols-4">
+          <div className="grid gap-px overflow-hidden rounded-2xl border border-[#EFEFEF] bg-[#EFEFEF] sm:grid-cols-2 lg:grid-cols-4">
             {services.map((s, i) => (
               <Link
                 key={s.label}
@@ -263,12 +373,10 @@ export default async function HomePage() {
                   i % 2 === 0 ? "bg-white" : "bg-[#F5F3E7]/70"
                 } hover:bg-white`}
               >
-                <span className="flex h-10 w-10 items-center justify-center rounded-lg bg-[#8FAC87]/15 text-[#6F8E68] transition group-hover:bg-[#8FAC87] group-hover:text-white">
+                <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#8FAC87]/15 text-[#507969] transition group-hover:bg-[#8FAC87] group-hover:text-white">
                   <i className={`${s.icon} text-lg`}></i>
                 </span>
-                <h3 className="font-heading text-lg font-bold text-[#1A1A17]">
-                  {s.label}
-                </h3>
+                <h3 className="font-heading text-lg font-bold text-[#1A1A17]">{s.label}</h3>
                 <p className="text-sm leading-relaxed text-[#4B4B4B]">{s.desc}</p>
                 <span className="mt-auto flex items-center gap-1.5 text-xs font-semibold uppercase tracking-[0.1em] text-[#8FAC87]">
                   Learn more <i className="ri-arrow-right-line transition group-hover:translate-x-0.5"></i>
@@ -279,25 +387,51 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* ── About — two-column immersive ─────────────────────────────────── */}
-      <section className="bg-[#3E5B50] py-24 text-white">
+      {/* ── About — immersive dark sage with checklist ───────────────────── */}
+      <section className="bg-[#F5F3E7] py-24">
         <div className={`${CONTAINER} grid gap-16 lg:grid-cols-2 lg:items-center`}>
-          {/* Text first on desktop */}
-          <div className="order-2 lg:order-1">
-            <p className="brand-eyebrow mb-5 text-[#8FAC87]">Our Commitment</p>
-            <h2 className="font-heading mb-6 text-4xl font-bold leading-tight md:text-5xl">
+          {/* Image with floating card */}
+          <div className="relative">
+            <div className="relative aspect-[4/3] overflow-hidden rounded-3xl shadow-2xl">
+              <Image
+                src={ABOUT_IMAGE}
+                alt="A compassionate family conversation about recovery"
+                fill
+                className="object-cover"
+                sizes="(max-width: 1024px) 100vw, 50vw"
+              />
+            </div>
+            {/* Floating stat card */}
+            <div className="absolute -bottom-5 -right-5 rounded-2xl bg-[#3E5B50] px-6 py-5 shadow-xl">
+              <p className="font-heading text-4xl font-bold text-white">1,500+</p>
+              <p className="mt-0.5 text-xs font-semibold uppercase tracking-[0.12em] text-[#8FAC87]">Families Helped</p>
+            </div>
+          </div>
+
+          {/* Text + checklist */}
+          <div>
+            <p className="brand-eyebrow mb-4 text-[#8FAC87]">Our Commitment</p>
+            <h2 className="font-heading mb-6 text-4xl font-bold leading-tight text-[#1A1A17] md:text-5xl">
               Walking Beside You<br />
-              <span className="italic text-[#8FAC87]">On This Healing Journey</span>
+              <span className="italic text-[#507969]">On This Healing Journey</span>
             </h2>
-            <p className="mb-5 leading-relaxed text-white/75">
-              At the core of our mission is a deep commitment to helping individuals and families navigate the path to recovery.
-              With every intervention, we provide the guidance, structure, and support needed to break through denial and take
-              meaningful steps toward healing.
+            <p className="mb-8 leading-relaxed text-[#4B4B4B]">
+              At the core of our mission is a deep commitment to helping individuals and families navigate
+              the path to recovery. Our approach is rooted in empathy, professionalism, and proven success.
             </p>
-            <p className="mb-10 leading-relaxed text-white/75">
-              Our approach is rooted in empathy, professionalism, and proven success — helping people not only access
-              treatment but build the foundation for lasting recovery. Accredited by The Joint Commission.
-            </p>
+
+            {/* Icon checklist */}
+            <ul className="mb-10 grid gap-3">
+              {aboutChecklist.map((item) => (
+                <li key={item} className="flex items-start gap-3">
+                  <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-[#8FAC87] text-white">
+                    <i className="ri-check-line text-xs"></i>
+                  </span>
+                  <span className="text-sm leading-relaxed text-[#4B4B4B]">{item}</span>
+                </li>
+              ))}
+            </ul>
+
             <div className="flex flex-wrap gap-4">
               <a
                 href={PHONE_HREF}
@@ -308,35 +442,17 @@ export default async function HomePage() {
               </a>
               <Link
                 href="/about-us"
-                className="inline-flex items-center gap-2 rounded-full border border-white/30 px-7 py-3.5 text-sm font-semibold text-white transition hover:border-white/60"
+                className="inline-flex items-center gap-2 rounded-full border border-[#8FAC87]/40 px-7 py-3.5 text-sm font-semibold text-[#507969] transition hover:border-[#8FAC87] hover:bg-[#8FAC87]/10"
               >
-                Meet Our Team
+                Meet Our Team <i className="ri-arrow-right-line"></i>
               </Link>
-            </div>
-          </div>
-
-          {/* Image */}
-          <div className="order-1 lg:order-2">
-            <div className="relative aspect-[4/3] overflow-hidden rounded-3xl shadow-2xl">
-              <Image
-                src={ABOUT_IMAGE}
-                alt="A compassionate family conversation about recovery"
-                fill
-                className="object-cover"
-                sizes="(max-width: 1024px) 100vw, 50vw"
-              />
-              {/* Floating stat card */}
-              <div className="absolute bottom-6 left-6 rounded-2xl bg-white/95 px-5 py-4 shadow-xl backdrop-blur-sm">
-                <p className="font-heading text-3xl font-bold text-[#3E5B50]">1,500+</p>
-                <p className="mt-0.5 text-xs font-semibold uppercase tracking-[0.12em] text-[#4B4B4B]">Families Helped Nationwide</p>
-              </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* ── Testimonials — editorial pull-quote style ─────────────────────── */}
-      <section className="bg-[#F5F3E7] py-24">
+      {/* ── Testimonials ─────────────────────────────────────────────────── */}
+      <section className="bg-white py-24">
         <div className={CONTAINER}>
           <div className="mb-16 text-center">
             <p className="brand-eyebrow mb-3 text-[#8FAC87]">Family Stories</p>
@@ -350,28 +466,47 @@ export default async function HomePage() {
             {testimonials.map((t, i) => (
               <figure
                 key={i}
-                className="relative flex flex-col rounded-3xl bg-white p-8 shadow-sm ring-1 ring-[#EFEFEF]"
+                className="relative flex flex-col rounded-3xl bg-[#F5F3E7] p-8 ring-1 ring-[#EFEFEF]"
               >
-                {/* Large decorative quote mark */}
-                <span className="font-heading absolute -top-4 left-6 text-6xl leading-none text-[#8FAC87]">&ldquo;</span>
-                <blockquote className="font-heading mt-4 flex-1 text-lg font-medium italic leading-relaxed text-[#1A1A17]">
+                {/* Stars */}
+                <div className="mb-4 flex gap-0.5">
+                  {Array.from({ length: t.stars }).map((_, si) => (
+                    <i key={si} className="ri-star-fill text-[#8FAC87] text-sm"></i>
+                  ))}
+                </div>
+                {/* Decorative quote mark */}
+                <span className="font-heading absolute top-4 right-6 text-5xl leading-none text-[#8FAC87]/25">&rdquo;</span>
+                <blockquote className="font-heading flex-1 text-lg font-medium italic leading-relaxed text-[#1A1A17]">
                   {t.quote}
                 </blockquote>
-                <figcaption className="mt-6 border-t border-[#EFEFEF] pt-5">
-                  <p className="font-semibold text-[#1A1A17]">{t.author}</p>
-                  <p className="mt-0.5 text-sm text-[#4B4B4B]">{t.detail}</p>
+                <figcaption className="mt-6 flex items-center gap-3 border-t border-[#EFEFEF] pt-5">
+                  <span className="flex h-9 w-9 items-center justify-center rounded-full bg-[#8FAC87] text-white">
+                    <i className="ri-user-line text-sm"></i>
+                  </span>
+                  <div>
+                    <p className="text-sm font-bold text-[#1A1A17]">{t.author}</p>
+                    <p className="text-xs text-[#4B4B4B]">{t.detail}</p>
+                  </div>
                 </figcaption>
               </figure>
             ))}
+          </div>
+
+          {/* Google review callout */}
+          <div className="mt-10 flex items-center justify-center gap-3 rounded-2xl border border-[#EFEFEF] bg-[#F5F3E7] px-8 py-5">
+            <i className="ri-google-fill text-2xl text-[#507969]"></i>
+            <p className="text-sm text-[#4B4B4B]">
+              <span className="font-bold text-[#1A1A17]">5.0 stars</span> based on verified Google reviews —{" "}
+              <span className="font-medium">families trust Addiction Interventions nationwide.</span>
+            </p>
           </div>
         </div>
       </section>
 
       {/* ── Nationwide ───────────────────────────────────────────────────── */}
-      <section className="bg-white py-24">
+      <section className="bg-[#F5F3E7] py-24">
         <div className={CONTAINER}>
           <div className="grid gap-16 lg:grid-cols-[1.2fr_1fr] lg:items-center">
-            {/* Map */}
             <div className="overflow-hidden rounded-2xl border border-[#EFEFEF] shadow-sm">
               <Image
                 src={MAP_IMAGE}
@@ -381,19 +516,30 @@ export default async function HomePage() {
                 className="h-auto w-full"
               />
             </div>
-
-            {/* Text */}
             <div>
               <p className="brand-eyebrow mb-4 text-[#8FAC87]">We Come to You</p>
               <h2 className="font-heading mb-6 text-4xl font-bold leading-tight text-[#1A1A17] md:text-5xl">
-                Our Services Are Offered{" "}
-                <span className="italic text-[#507969]">Nationwide</span>
+                Available in <span className="italic text-[#507969]">Every State</span>
               </h2>
               <p className="mb-8 leading-relaxed text-[#4B4B4B]">
-                Whether your loved one is in a major city, a small town, or a rural community —
-                our nationwide network of certified interventionists is ready to help guide your family
-                through the process of recovery, no matter where you are.
+                Our nationwide network of certified interventionists is ready to help guide your
+                family through the process of recovery — no matter where you are located.
               </p>
+              {/* Icon list */}
+              <ul className="mb-8 grid gap-3">
+                {[
+                  { icon: "ri-plane-line", text: "Interventionists travel to you — no matter the location" },
+                  { icon: "ri-user-star-line", text: "Local knowledge, national standards of care" },
+                  { icon: "ri-home-heart-line", text: "In-home or facility-based interventions available" },
+                ].map((item) => (
+                  <li key={item.text} className="flex items-start gap-3">
+                    <span className="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-[#8FAC87]/15 text-[#507969]">
+                      <i className={`${item.icon} text-sm`}></i>
+                    </span>
+                    <span className="text-sm leading-relaxed text-[#4B4B4B]">{item.text}</span>
+                  </li>
+                ))}
+              </ul>
               <div className="flex flex-wrap gap-4">
                 <a
                   href={PHONE_HREF}
@@ -416,7 +562,7 @@ export default async function HomePage() {
 
       {/* ── Blog ─────────────────────────────────────────────────────────── */}
       {posts.length > 0 && (
-        <section className="bg-[#F5F3E7] py-24">
+        <section className="bg-white py-24">
           <div className={CONTAINER}>
             <div className="mb-16 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
               <div>
@@ -439,9 +585,9 @@ export default async function HomePage() {
                 <Link
                   key={post.slug}
                   href={`/blog/${post.slug}`}
-                  className={`group flex flex-col overflow-hidden rounded-3xl transition hover:shadow-lg ${
+                  className={`group flex flex-col overflow-hidden rounded-3xl bg-white transition hover:shadow-lg ${
                     i === 0 ? "border-2 border-[#8FAC87]/30" : "border border-[#EFEFEF]"
-                  } bg-white`}
+                  }`}
                 >
                   {post.hero_image_url && (
                     <div className="relative h-52 overflow-hidden">
@@ -463,7 +609,7 @@ export default async function HomePage() {
                         {post.excerpt}
                       </p>
                     )}
-                    <span className="mt-auto pt-5 flex items-center gap-1.5 text-sm font-semibold text-[#6F8E68]">
+                    <span className="mt-auto flex items-center gap-1.5 pt-5 text-sm font-semibold text-[#6F8E68]">
                       Read More <i className="ri-arrow-right-line transition group-hover:translate-x-0.5"></i>
                     </span>
                   </div>
@@ -474,40 +620,67 @@ export default async function HomePage() {
         </section>
       )}
 
-      {/* ── Bottom CTA — warm, personal ──────────────────────────────────── */}
+      {/* ── Bottom CTA ───────────────────────────────────────────────────── */}
       <section className="relative overflow-hidden bg-[#3E5B50] py-32">
-        {/* Subtle decorative circle */}
-        <div className="pointer-events-none absolute -right-32 -top-32 h-96 w-96 rounded-full bg-[#507969]/30" />
+        <div className="pointer-events-none absolute -right-32 -top-32 h-96 w-96 rounded-full bg-[#507969]/40" />
         <div className="pointer-events-none absolute -left-20 bottom-0 h-64 w-64 rounded-full bg-[#8FAC87]/15" />
+        <div className="pointer-events-none absolute right-1/4 bottom-10 h-40 w-40 rounded-full bg-[#8FAC87]/10" />
 
-        <div className={`${CONTAINER} relative z-10 text-center`}>
-          <p className="brand-eyebrow mb-5 text-[#8FAC87]">You Don&rsquo;t Have to Do This Alone</p>
-          <h2 className="font-heading mb-4 text-4xl font-bold text-white md:text-5xl lg:text-6xl">
-            Speak to a Certified
-          </h2>
-          <h2 className="font-heading mb-8 text-4xl font-bold italic text-[#8FAC87] md:text-5xl lg:text-6xl">
-            Interventionist
-          </h2>
-          <p className="mx-auto mb-12 max-w-xl text-lg leading-relaxed text-white/75">
-            Our goal is to ensure that you are fully informed and empowered to make the best decisions for your family.
-            Call us 24/7 — we&rsquo;re here to answer all of your questions.
-          </p>
-          <div className="flex flex-wrap justify-center gap-4">
-            <a
-              href={PHONE_HREF}
-              className="inline-flex items-center gap-2.5 rounded-full bg-white px-10 py-4 text-base font-semibold text-[#3E5B50] shadow-xl transition hover:bg-[#F5F3E7]"
-            >
-              <i className="ri-phone-fill"></i>
-              Call Now | {PHONE_DISPLAY}
-            </a>
-            <Link
-              href="/contact"
-              className="inline-flex items-center gap-2 rounded-full border border-white/40 px-10 py-4 text-base font-semibold text-white transition hover:border-white/70 hover:bg-white/10"
-            >
-              Request a Consultation
-            </Link>
+        <div className={`${CONTAINER} relative z-10`}>
+          <div className="grid gap-16 lg:grid-cols-[1fr_auto] lg:items-center">
+            {/* Left: text */}
+            <div>
+              <p className="brand-eyebrow mb-5 text-[#8FAC87]">You Don&rsquo;t Have to Do This Alone</p>
+              <h2 className="font-heading mb-2 text-4xl font-bold text-white md:text-5xl lg:text-6xl">
+                Speak to a Certified
+              </h2>
+              <h2 className="font-heading mb-8 text-4xl font-bold italic text-[#8FAC87] md:text-5xl lg:text-6xl">
+                Interventionist
+              </h2>
+              <p className="mb-10 max-w-lg text-lg leading-relaxed text-white/75">
+                Call us 24/7 — we&rsquo;re here to ensure you are fully informed and empowered to make
+                the best decisions for your family.
+              </p>
+              <div className="flex flex-wrap gap-4">
+                <a
+                  href={PHONE_HREF}
+                  className="inline-flex items-center gap-2.5 rounded-full bg-white px-10 py-4 text-base font-semibold text-[#3E5B50] shadow-xl transition hover:bg-[#F5F3E7]"
+                >
+                  <i className="ri-phone-fill"></i>
+                  Call Now | {PHONE_DISPLAY}
+                </a>
+                <Link
+                  href="/contact"
+                  className="inline-flex items-center gap-2 rounded-full border border-white/40 px-10 py-4 text-base font-semibold text-white transition hover:border-white/70 hover:bg-white/10"
+                >
+                  Request a Consultation
+                </Link>
+              </div>
+            </div>
+
+            {/* Right: icon feature list */}
+            <div className="flex flex-col gap-4 lg:min-w-[280px]">
+              {[
+                { icon: "ri-lock-line", label: "100% Confidential" },
+                { icon: "ri-time-line", label: "Available 24 / 7" },
+                { icon: "ri-map-pin-2-line", label: "Nationwide Coverage" },
+                { icon: "ri-award-line", label: "Joint Commission Accredited" },
+                { icon: "ri-heart-line", label: "Compassionate Specialists" },
+              ].map((item) => (
+                <div
+                  key={item.label}
+                  className="flex items-center gap-4 rounded-2xl border border-white/10 bg-white/5 px-5 py-4 backdrop-blur-sm"
+                >
+                  <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[#8FAC87]/20 text-[#8FAC87]">
+                    <i className={`${item.icon} text-lg`}></i>
+                  </span>
+                  <span className="text-sm font-semibold text-white">{item.label}</span>
+                </div>
+              ))}
+            </div>
           </div>
-          <p className="mt-8 text-xs uppercase tracking-[0.18em] text-white/40">
+
+          <p className="mt-12 text-center text-xs uppercase tracking-[0.18em] text-white/30">
             Confidential · Available 24/7 · All 50 States
           </p>
         </div>
