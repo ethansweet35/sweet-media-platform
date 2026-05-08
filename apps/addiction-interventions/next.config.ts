@@ -47,10 +47,7 @@ const nextConfig: NextConfig = {
       // ── Old flat methodology URLs → canonical /intervention-types/ ────────
       { source: "/arise-intervention",              destination: "/intervention-types/arise",         permanent: true },
       { source: "/the-johnson-model-intervention",  destination: "/intervention-types/johnson-model", permanent: true },
-      // Old WP nested paths for methodology pages
-      { source: "/intervention-services/arise-intervention",          destination: "/intervention-types/arise",         permanent: true },
-      { source: "/intervention-services/the-johnson-model-intervention", destination: "/intervention-types/johnson-model", permanent: true },
-      { source: "/intervention-types/arise-intervention",             destination: "/intervention-types/arise",         permanent: true },
+      { source: "/intervention-types/arise-intervention", destination: "/intervention-types/arise",   permanent: true },
 
       // ── WP nested /resources/[slug] → flat ──────────────────────────────
       { source: "/resources/intervention-quiz",                        destination: "/intervention-quiz",            permanent: true },
