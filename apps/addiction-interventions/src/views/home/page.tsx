@@ -124,7 +124,7 @@ export default async function HomePage() {
     <div className="overflow-x-hidden">
 
       {/* ── Hero ─────────────────────────────────────────────────────────── */}
-      <section className="relative flex min-h-screen items-end pb-20 pt-40">
+      <section className="relative flex min-h-screen items-center py-32">
         <Image
           src={HERO_IMAGE}
           alt="A family finding hope through compassionate intervention"
@@ -133,9 +133,9 @@ export default async function HomePage() {
           className="object-cover object-center"
           sizes="100vw"
         />
-        {/* Layered overlay: deep at bottom-left, fading right */}
-        <div className="absolute inset-0 bg-gradient-to-t from-[#3E5B50]/95 via-[#507969]/60 to-[#507969]/20" />
-        <div className="absolute inset-0 bg-gradient-to-r from-[#3E5B50]/70 via-transparent to-transparent" />
+        {/* Layered overlay — darker on left where text lives */}
+        <div className="absolute inset-0 bg-gradient-to-t from-[#3E5B50]/85 via-[#3E5B50]/50 to-[#3E5B50]/30" />
+        <div className="absolute inset-0 bg-gradient-to-r from-[#3E5B50]/80 via-[#3E5B50]/40 to-transparent" />
 
         <div className={`relative z-10 ${CONTAINER}`}>
           {/* Eyebrow */}
@@ -147,7 +147,7 @@ export default async function HomePage() {
           <h1 className="font-heading mb-2 max-w-3xl text-5xl font-bold leading-[1.08] text-white md:text-6xl lg:text-7xl">
             Mental Health,
           </h1>
-          <h1 className="font-heading mb-2 max-w-3xl text-5xl font-bold italic leading-[1.08] text-[#c2d4bb] md:text-6xl lg:text-7xl">
+          <h1 className="font-heading mb-2 max-w-3xl text-5xl font-bold italic leading-[1.08] text-[#8FAC87] md:text-6xl lg:text-7xl">
             Addiction,
           </h1>
           <h1 className="font-heading mb-8 max-w-3xl text-5xl font-bold leading-[1.08] text-white md:text-6xl lg:text-7xl">
@@ -287,7 +287,7 @@ export default async function HomePage() {
             <p className="brand-eyebrow mb-5 text-[#8FAC87]">Our Commitment</p>
             <h2 className="font-heading mb-6 text-4xl font-bold leading-tight md:text-5xl">
               Walking Beside You<br />
-              <span className="italic text-[#c2d4bb]">On This Healing Journey</span>
+              <span className="italic text-[#8FAC87]">On This Healing Journey</span>
             </h2>
             <p className="mb-5 leading-relaxed text-white/75">
               At the core of our mission is a deep commitment to helping individuals and families navigate the path to recovery.
@@ -485,7 +485,7 @@ export default async function HomePage() {
           <h2 className="font-heading mb-4 text-4xl font-bold text-white md:text-5xl lg:text-6xl">
             Speak to a Certified
           </h2>
-          <h2 className="font-heading mb-8 text-4xl font-bold italic text-[#c2d4bb] md:text-5xl lg:text-6xl">
+          <h2 className="font-heading mb-8 text-4xl font-bold italic text-[#8FAC87] md:text-5xl lg:text-6xl">
             Interventionist
           </h2>
           <p className="mx-auto mb-12 max-w-xl text-lg leading-relaxed text-white/75">
