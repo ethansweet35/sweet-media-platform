@@ -108,20 +108,20 @@ export default function Navbar() {
 
       {/* Main nav */}
       <nav className="border-b border-[#EFEFEF] bg-white">
-        <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-6 py-3.5 sm:gap-6 lg:px-10 lg:py-4">
-          {/* Logo — 500×132 combined wordmark */}
+        <div className="mx-auto flex max-w-7xl items-center justify-between gap-2 px-4 py-2 sm:gap-3 sm:px-5 lg:gap-6 lg:px-10 lg:py-2.5">
+          {/* Logo — tall wordmark; tight nav padding so it fills the bar */}
           <Link
             href="/"
-            className="flex min-w-0 max-w-[min(100%,300px)] shrink-0 items-center sm:max-w-[min(100%,360px)] lg:max-w-[420px]"
+            className="flex min-h-0 min-w-0 flex-1 items-center lg:flex-initial lg:max-w-[min(100%,560px)]"
           >
             <Image
               src={NAV_LOGO_URL}
               alt="Addiction Interventions — Intervene Today. Change Tomorrow."
-              width={500}
-              height={130}
-              className="h-16 w-auto max-w-full object-contain object-left sm:h-[4.75rem] lg:h-20 xl:h-[5.25rem]"
+              width={800}
+              height={208}
+              className="h-20 w-auto max-w-[calc(100vw-3.75rem)] object-contain object-left sm:h-24 md:h-28 lg:h-32 xl:h-[8.75rem]"
               priority
-              sizes="(max-width: 640px) 300px, (max-width: 1024px) 360px, 420px"
+              sizes="(max-width: 640px) 90vw, (max-width: 1024px) 420px, 560px"
             />
           </Link>
 

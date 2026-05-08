@@ -46,10 +46,10 @@ export default function Footer() {
               <Image
                 src={NAV_LOGO_URL}
                 alt="Addiction Interventions"
-                width={500}
-                height={130}
-                className="h-16 w-auto max-w-[min(100%,320px)] object-contain brightness-0 invert sm:h-[4.75rem] md:h-20 lg:h-[5.25rem] lg:max-w-[380px]"
-                sizes="(max-width: 768px) 280px, (max-width: 1024px) 340px, 380px"
+                width={800}
+                height={208}
+                className="h-24 w-auto max-w-[min(100%,420px)] object-contain brightness-0 invert sm:h-28 md:h-32 lg:h-36 lg:max-w-[480px]"
+                sizes="(max-width: 768px) 90vw, (max-width: 1024px) 380px, 480px"
               />
             </Link>
             <p className="mt-5 max-w-sm text-sm leading-7 text-white/60">
