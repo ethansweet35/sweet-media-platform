@@ -8,7 +8,7 @@ import { useEffect, useRef, useState } from "react";
 type NavItem = {
   label: string;
   path: string;
-  children?: { label: string; path: string }[];
+  children?: { label: string; path: string; group?: string }[];
 };
 
 const navItems: NavItem[] = [
@@ -17,15 +17,27 @@ const navItems: NavItem[] = [
     label: "Intervention Services",
     path: "/intervention-services",
     children: [
-      { label: "Alcohol Abuse Interventions", path: "/alcohol-abuse-interventions" },
-      { label: "Drug Abuse Interventions", path: "/drug-abuse-interventions" },
-      { label: "Mental Health Interventions", path: "/mental-health-interventions" },
-      { label: "Family Interventions", path: "/family-interventions" },
-      { label: "Teen Interventions", path: "/interventions-for-teens" },
-      { label: "Executive Interventions", path: "/interventions-for-executives" },
-      { label: "Crisis Interventions", path: "/crisis-interventions" },
-      { label: "Dual Diagnosis Interventions", path: "/dual-diagnosis-interventions" },
-      { label: "ARISE® Intervention", path: "/intervention-types/arise" },
+      // Substance Use — unified under /substance-abuse-interventions/*
+      { label: "Substance Abuse Interventions", path: "/substance-abuse-interventions", group: "Substance Use" },
+      { label: "Alcohol Interventions", path: "/substance-abuse-interventions/alcohol", group: "Substance Use" },
+      { label: "Drug Abuse Interventions", path: "/substance-abuse-interventions/drug", group: "Substance Use" },
+      { label: "Heroin Interventions", path: "/substance-abuse-interventions/heroin", group: "Substance Use" },
+      { label: "Cocaine Interventions", path: "/substance-abuse-interventions/cocaine", group: "Substance Use" },
+      { label: "Meth Interventions", path: "/substance-abuse-interventions/meth", group: "Substance Use" },
+      { label: "Opioid Interventions", path: "/substance-abuse-interventions/opioid", group: "Substance Use" },
+      { label: "Ketamine Interventions", path: "/substance-abuse-interventions/ketamine", group: "Substance Use" },
+      // Mental Health
+      { label: "Mental Health Interventions", path: "/mental-health-interventions", group: "Mental Health" },
+      { label: "Depression Interventions", path: "/depression-interventions", group: "Mental Health" },
+      // Specialty & Family
+      { label: "Family Interventions", path: "/family-interventions", group: "Specialty & Family" },
+      { label: "Teen Interventions", path: "/interventions-for-teens", group: "Specialty & Family" },
+      { label: "Executive Interventions", path: "/interventions-for-executives", group: "Specialty & Family" },
+      { label: "Crisis Interventions", path: "/crisis-interventions", group: "Specialty & Family" },
+      { label: "Dual Diagnosis Interventions", path: "/dual-diagnosis-interventions", group: "Specialty & Family" },
+      // Methods
+      { label: "ARISE® Intervention", path: "/intervention-types/arise", group: "Intervention Models" },
+      { label: "Johnson Model Intervention", path: "/intervention-types/johnson-model", group: "Intervention Models" },
     ],
   },
   {
@@ -132,19 +144,172 @@ export default function Navbar() {
 
                   {hasChildren && openSubmenu === item.label && (
                     <div
-                      className="absolute left-0 top-full z-50 min-w-[280px] rounded-xl border border-[#EFEFEF] bg-white p-2 shadow-xl ring-1 ring-black/[0.03]"
+                      className="absolute left-1/2 top-full z-50 w-[min(100vw-3rem,1100px)] -translate-x-1/2 rounded-2xl border border-[#EFEFEF] bg-white p-8 shadow-2xl ring-1 ring-black/[0.03]"
                       onMouseEnter={() => openMenu(item.label)}
                       onMouseLeave={scheduleClose}
                     >
-                      {item.children!.map((child) => (
-                        <Link
-                          key={child.path}
-                          href={child.path}
-                          className="block rounded-lg px-3 py-2 text-sm text-[#4B4B4B] transition hover:bg-[#F5F3E7] hover:text-[#6F8E68]"
-                        >
-                          {child.label}
-                        </Link>
-                      ))}
+                      {item.label === "Intervention Services" ? (
+                        // Mega menu for Intervention Services — guides users by category
+                        <div>
+                          <div className="mb-6 flex items-center justify-between border-b border-[#EFEFEF] pb-4">
+                            <div>
+                              <p className="font-heading text-2xl font-bold text-[#1A1A17]">Intervention Services</p>
+                              <p className="text-sm text-[#4B4B4B]">Compassionate, structured support tailored to your situation</p>
+                            </div>
+                            <div className="flex items-center gap-3">
+                              <Link href="/intervention-services" className="rounded-full border border-[#8FAC87] px-5 py-2 text-sm font-semibold text-[#507969] hover:bg-[#8FAC87] hover:text-white">
+                                Browse all services
+                              </Link>
+                              <a href={PHONE_HREF} className="rounded-full bg-[#8FAC87] px-5 py-2 text-sm font-semibold text-white">
+                                Call {PHONE_DISPLAY}
+                              </a>
+                            </div>
+                          </div>
+
+                          <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-4">
+                            {/* Substance Use Column */}
+                            <div>
+                              <div className="mb-3 flex items-center gap-3">
+                                <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#8FAC87]/15 text-[#507969]">
+                                  <i className="ri-drop-line text-xl"></i>
+                                </span>
+                                <div>
+                                  <Link href="/substance-abuse-interventions" className="font-heading text-lg font-bold text-[#1A1A17] hover:text-[#507969]">
+                                    Substance Use
+                                  </Link>
+                                  <p className="text-xs text-[#4B4B4B]">Alcohol, opioids, stimulants &amp; more</p>
+                                </div>
+                              </div>
+                              <ul className="space-y-1 text-sm">
+                                {[
+                                  { label: "Alcohol Interventions", path: "/substance-abuse-interventions/alcohol" },
+                                  { label: "Drug Abuse Interventions", path: "/substance-abuse-interventions/drug" },
+                                  { label: "Heroin Interventions", path: "/substance-abuse-interventions/heroin" },
+                                  { label: "Cocaine Interventions", path: "/substance-abuse-interventions/cocaine" },
+                                  { label: "Meth Interventions", path: "/substance-abuse-interventions/meth" },
+                                  { label: "Opioid Interventions", path: "/substance-abuse-interventions/opioid" },
+                                  { label: "Ketamine Interventions", path: "/substance-abuse-interventions/ketamine" },
+                                ].map((l) => (
+                                  <li key={l.path}>
+                                    <Link href={l.path} className="block rounded-md px-2 py-1.5 text-[#4B4B4B] hover:bg-[#F5F3E7] hover:text-[#6F8E68]">
+                                      {l.label}
+                                    </Link>
+                                  </li>
+                                ))}
+                              </ul>
+                              <Link href="/substance-abuse-interventions" className="mt-3 inline-flex items-center gap-1 text-xs font-semibold text-[#507969] hover:gap-1.5">
+                                View all substance interventions <i className="ri-arrow-right-line"></i>
+                              </Link>
+                            </div>
+
+                            {/* Mental Health Column */}
+                            <div>
+                              <div className="mb-3 flex items-center gap-3">
+                                <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#8FAC87]/15 text-[#507969]">
+                                  <i className="ri-mental-health-line text-xl"></i>
+                                </span>
+                                <div>
+                                  <Link href="/mental-health-interventions" className="font-heading text-lg font-bold text-[#1A1A17] hover:text-[#507969]">
+                                    Mental Health
+                                  </Link>
+                                  <p className="text-xs text-[#4B4B4B]">Depression, anxiety, bipolar, PTSD &amp; more</p>
+                                </div>
+                              </div>
+                              <ul className="space-y-1 text-sm">
+                                {[
+                                  { label: "Mental Health Interventions", path: "/mental-health-interventions" },
+                                  { label: "Depression Interventions", path: "/depression-interventions" },
+                                  // Future: Anxiety, Bipolar, PTSD, OCD
+                                ].map((l) => (
+                                  <li key={l.path}>
+                                    <Link href={l.path} className="block rounded-md px-2 py-1.5 text-[#4B4B4B] hover:bg-[#F5F3E7] hover:text-[#6F8E68]">
+                                      {l.label}
+                                    </Link>
+                                  </li>
+                                ))}
+                                <li className="px-2 pt-1 text-xs text-[#8FAC87]">Anxiety, Bipolar, PTSD &amp; OCD coming soon</li>
+                              </ul>
+                            </div>
+
+                            {/* Specialty & Family Column */}
+                            <div>
+                              <div className="mb-3 flex items-center gap-3">
+                                <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#8FAC87]/15 text-[#507969]">
+                                  <i className="ri-focus-3-line text-xl"></i>
+                                </span>
+                                <div>
+                                  <Link href="/intervention-services" className="font-heading text-lg font-bold text-[#1A1A17] hover:text-[#507969]">
+                                    Specialty Situations
+                                  </Link>
+                                  <p className="text-xs text-[#4B4B4B]">Teens, executives, crisis, family &amp; dual diagnosis</p>
+                                </div>
+                              </div>
+                              <ul className="space-y-1 text-sm">
+                                {[
+                                  { label: "Family Interventions", path: "/family-interventions" },
+                                  { label: "Interventions for Teens", path: "/interventions-for-teens" },
+                                  { label: "Executive Interventions", path: "/interventions-for-executives" },
+                                  { label: "Crisis Interventions", path: "/crisis-interventions" },
+                                  { label: "Dual Diagnosis Interventions", path: "/dual-diagnosis-interventions" },
+                                ].map((l) => (
+                                  <li key={l.path}>
+                                    <Link href={l.path} className="block rounded-md px-2 py-1.5 text-[#4B4B4B] hover:bg-[#F5F3E7] hover:text-[#6F8E68]">
+                                      {l.label}
+                                    </Link>
+                                  </li>
+                                ))}
+                              </ul>
+                            </div>
+
+                            {/* Intervention Models Column */}
+                            <div>
+                              <div className="mb-3 flex items-center gap-3">
+                                <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#8FAC87]/15 text-[#507969]">
+                                  <i className="ri-team-line text-xl"></i>
+                                </span>
+                                <div>
+                                  <Link href="/intervention-services" className="font-heading text-lg font-bold text-[#1A1A17] hover:text-[#507969]">
+                                    Our Methods
+                                  </Link>
+                                  <p className="text-xs text-[#4B4B4B]">Proven, evidence-based approaches</p>
+                                </div>
+                              </div>
+                              <ul className="space-y-1 text-sm">
+                                {[
+                                  { label: "ARISE® Intervention", path: "/intervention-types/arise" },
+                                  { label: "The Johnson Model", path: "/intervention-types/johnson-model" },
+                                ].map((l) => (
+                                  <li key={l.path}>
+                                    <Link href={l.path} className="block rounded-md px-2 py-1.5 text-[#4B4B4B] hover:bg-[#F5F3E7] hover:text-[#6F8E68]">
+                                      {l.label}
+                                    </Link>
+                                  </li>
+                                ))}
+                              </ul>
+                              <div className="mt-4 rounded-lg bg-[#F5F3E7] p-3 text-xs text-[#4B4B4B]">
+                                Not sure which model fits? <Link href="/intervention-services" className="font-semibold text-[#507969] underline">Start with our overview</Link> or call us.
+                              </div>
+                            </div>
+                          </div>
+
+                          <div className="mt-6 border-t border-[#EFEFEF] pt-4 text-center text-xs text-[#4B4B4B]">
+                            Still unsure? <a href={PHONE_HREF} className="font-semibold text-[#507969]">Speak with a certified interventionist now</a> — we’ll guide you to the right service in minutes.
+                          </div>
+                        </div>
+                      ) : (
+                        // Default simple dropdown for other items (Resources)
+                        <div className="min-w-[260px]">
+                          {item.children!.map((child) => (
+                            <Link
+                              key={child.path}
+                              href={child.path}
+                              className="block rounded-lg px-3 py-2 text-sm text-[#4B4B4B] transition hover:bg-[#F5F3E7] hover:text-[#6F8E68]"
+                            >
+                              {child.label}
+                            </Link>
+                          ))}
+                        </div>
+                      )}
                     </div>
                   )}
                 </div>

@@ -66,6 +66,15 @@ const nextConfig: NextConfig = {
       { source: "/resources/how-to-plan-an-intervention-for-success",  destination: "/how-to-plan-an-intervention-for-success", permanent: true },
       { source: "/resources/is-it-time-for-an-intervention",           destination: "/is-it-time-for-an-intervention", permanent: true },
       { source: "/resources/find-your-missing-loved-one",              destination: "/find-your-missing-loved-one",  permanent: true },
+
+      // ── New unified substance URL structure (old flat paths → /substance-abuse-interventions/*) ──
+      { source: "/alcohol-abuse-interventions",          destination: "/substance-abuse-interventions/alcohol", permanent: true },
+      { source: "/drug-abuse-interventions",             destination: "/substance-abuse-interventions/drug",    permanent: true },
+      { source: "/drug-abuse-interventions/heroin",      destination: "/substance-abuse-interventions/heroin", permanent: true },
+      { source: "/drug-abuse-interventions/cocaine",     destination: "/substance-abuse-interventions/cocaine", permanent: true },
+      { source: "/drug-abuse-interventions/meth",        destination: "/substance-abuse-interventions/meth",   permanent: true },
+      { source: "/drug-abuse-interventions/opioid",      destination: "/substance-abuse-interventions/opioid", permanent: true },
+      { source: "/drug-abuse-interventions/ketamine",    destination: "/substance-abuse-interventions/ketamine", permanent: true },
     ];
   },
 };

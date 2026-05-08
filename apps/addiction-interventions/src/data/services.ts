@@ -257,6 +257,90 @@ export const SERVICES: ServiceConfig[] = [
       "OCD is one of the most treatable serious mental health conditions when matched with the right exposure-and-response-prevention (ERP) program. Our placements prioritise OCD-specialised clinicians over general mental health centres.",
     related: ["mental-health-interventions", "family-interventions", "dual-diagnosis-interventions"],
   },
+  {
+    slug: "depression-interventions",
+    displayName: "Depression Interventions",
+    shortName: "Depression",
+    category: "mental-health",
+    navIcon: "ri-cloud-windy-line",
+    heroHeadline: "Depression Interventions",
+    heroBody:
+      "Clinical depression can render a person unable to seek the help they need. We step in when the family has watched their loved one decline for too long — and guide them toward the level of care that will make a real difference.",
+    overviewBody:
+      "Depression interventions focus on connection before consequence. We help your loved one feel less alone, dismantle the shame that keeps them stuck, and move them toward residential, partial hospitalisation, or intensive outpatient programs tailored to treatment-resistant depression.",
+    signs: [
+      "Withdrawal from family, friends, and previously enjoyed activities",
+      "Persistent sadness, hopelessness, or numbness lasting weeks",
+      "Significant changes in sleep, appetite, or personal hygiene",
+      "Statements about being a burden or not wanting to be here",
+      "Inability to work, attend school, or manage daily tasks",
+      "Previous suicide attempts or current suicidal ideation",
+    ],
+    related: ["mental-health-interventions", "crisis-interventions", "dual-diagnosis-interventions"],
+  },
+  {
+    slug: "anxiety-interventions",
+    displayName: "Anxiety Interventions",
+    shortName: "Anxiety",
+    category: "mental-health",
+    navIcon: "ri-pulse-line",
+    heroHeadline: "Anxiety Interventions",
+    heroBody:
+      "Severe anxiety disorders can make normal life impossible — yet those suffering rarely seek help on their own. We help families break through the avoidance and denial to get their loved one into effective treatment.",
+    overviewBody:
+      "Panic disorder, social anxiety, agoraphobia, and generalised anxiety disorder can be just as disabling as any addiction. Our interventions are designed to meet a highly anxious individual where they are — with calm, structure, and a compassionate path forward.",
+    signs: [
+      "Refusing to leave the house or avoiding social situations",
+      "Frequent panic attacks disrupting daily life",
+      "Self-medicating anxiety with alcohol or benzodiazepines",
+      "Inability to hold a job or maintain relationships due to worry",
+      "Physical symptoms — racing heart, shortness of breath, chest tightness",
+      "Reassurance-seeking that consumes the entire family",
+    ],
+    related: ["mental-health-interventions", "ocd-interventions", "dual-diagnosis-interventions"],
+  },
+  {
+    slug: "bipolar-interventions",
+    displayName: "Bipolar Disorder Interventions",
+    shortName: "Bipolar",
+    category: "mental-health",
+    navIcon: "ri-arrow-up-down-line",
+    heroHeadline: "Bipolar Disorder Interventions",
+    heroBody:
+      "Bipolar disorder's manic highs make the need for help nearly impossible to see — until the crash. We help families intervene during the window between episodes, with a plan that addresses both mood instability and any co-occurring substance use.",
+    overviewBody:
+      "Intervening with someone who has bipolar disorder requires timing, clinical expertise, and a treatment recommendation that integrates psychiatric medication management with evidence-based therapy. We specialise in placements for complex mood disorders.",
+    signs: [
+      "Grandiose plans, reckless spending, or risk-taking during manic phases",
+      "Severe depression following manic episodes",
+      "Refusal to take prescribed mood stabilisers",
+      "Substance use to manage mood swings",
+      "Destroyed relationships, finances, or careers across cycles",
+      "Hospitalisation history or previous involuntary holds",
+    ],
+    related: ["mental-health-interventions", "dual-diagnosis-interventions", "crisis-interventions"],
+  },
+  {
+    slug: "ptsd-interventions",
+    displayName: "PTSD Interventions",
+    shortName: "PTSD",
+    category: "mental-health",
+    navIcon: "ri-shield-flash-line",
+    heroHeadline: "PTSD Interventions",
+    heroBody:
+      "Post-traumatic stress disorder changes the entire nervous system — and families often suffer alongside it. We help loved ones access trauma-specialised treatment before the isolation, hypervigilance, and self-medication cause irreversible damage.",
+    overviewBody:
+      "PTSD interventions require a trauma-informed approach at every step. We work with treatment centres that offer EMDR, prolonged exposure, and somatic therapies proven to treat the root cause — not just the symptoms.",
+    signs: [
+      "Nightmares, flashbacks, or severe reactivity to triggers",
+      "Emotional numbness and withdrawal from relationships",
+      "Hypervigilance that makes home life exhausting for everyone",
+      "Self-medicating with alcohol, cannabis, or opioids",
+      "Inability to work or function in public spaces",
+      "Explosive anger or emotional outbursts that feel out of character",
+    ],
+    related: ["mental-health-interventions", "dual-diagnosis-interventions", "family-interventions"],
+  },
 ];
 
 export const SERVICE_BY_SLUG = new Map(SERVICES.map((s) => [s.slug, s]));

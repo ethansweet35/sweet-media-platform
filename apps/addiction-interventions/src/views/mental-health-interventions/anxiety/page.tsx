@@ -8,21 +8,17 @@ import { PHONE_DISPLAY, PHONE_HREF } from "@/data/site";
 import type { Faq } from "@/data/faqs";
 
 const SUPABASE_IMAGES = "https://bxtwcdgjzzjxjvqdiuvn.supabase.co/storage/v1/object/public/site-assets/images";
-const HERO_BG = `${SUPABASE_IMAGES}/executives_hero01.jpg`;
-const FAMILY_IMG = `${SUPABASE_IMAGES}/executives_family01.jpg`;
+const HERO_BG = `${SUPABASE_IMAGES}/anxiety_hero01.jpg`;
+const FAMILY_IMG = `${SUPABASE_IMAGES}/anxiety_family01.jpg`;
 
-const EXEC_FAQS: Faq[] = [
+const ANXIETY_FAQS: Faq[] = [
   {
-    question: "How do you protect confidentiality for high-profile clients?",
-    answer: "Confidentiality, scheduling, and continuity of work are non-negotiable in executive interventions. We coordinate with HR or legal counsel only as required, and we recommend treatment programs equipped for high-profile clients. Discretion is built into every step of the process.",
-  },
-  {
-    question: "Can they continue working while in treatment?",
-    answer: "In many cases, yes. We have relationships with executive-friendly programmes that offer flexible scheduling, private rooms, and the ability to maintain critical business responsibilities while receiving intensive treatment. We plan for this during the intervention preparation.",
+    question: "Can severe anxiety really require an intervention?",
+    answer: "Yes. Panic disorder, agoraphobia, social anxiety, and generalised anxiety disorder can be just as disabling as any addiction. When the anxiety has reached the point where the person cannot leave the house, work, or function, and refuses professional help, a structured intervention can be the catalyst that finally gets them the right treatment.",
   },
 ];
 
-export default function InterventionsForExecutivesPage() {
+export default function AnxietyInterventionsPage() {
   return (
     <main className="min-h-screen">
       <section className="relative overflow-hidden">
@@ -31,12 +27,12 @@ export default function InterventionsForExecutivesPage() {
         <div className="relative mx-auto w-full max-w-7xl px-6 py-24 lg:px-10 lg:py-32">
           <div className="grid items-center gap-14 lg:grid-cols-[1fr_460px]">
             <div>
-              <p className="brand-eyebrow mb-4 text-[#8FAC87]">Executive Interventions</p>
+              <p className="brand-eyebrow mb-4 text-[#8FAC87]">Anxiety Interventions</p>
               <h1 className="font-heading mb-6 text-4xl font-bold leading-tight text-white md:text-5xl lg:text-6xl">
-                Executive interventions — <span className="italic text-[#8FAC87]">discreet care for those who carry the most</span>
+                Anxiety interventions — <span className="italic text-[#8FAC87]">when fear has taken over life</span>
               </h1>
               <p className="mb-8 max-w-lg text-base leading-relaxed text-white/80 md:text-lg">
-                High-functioning professionals require discreet, targeted interventions that protect their career while addressing addiction or mental health head-on. We have helped CEOs, surgeons, attorneys, and other leaders get well — quietly.
+                Severe anxiety disorders can make normal life impossible — yet those suffering rarely seek help on their own. We help families break through the avoidance and denial to get their loved one into effective treatment.
               </p>
               <div className="mb-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
                 <a href={PHONE_HREF} className="inline-flex items-center gap-2 rounded-full bg-[#8FAC87] px-7 py-3.5 text-sm font-semibold text-white shadow-sm transition hover:bg-[#6F8E68]">
@@ -57,20 +53,17 @@ export default function InterventionsForExecutivesPage() {
             <div>
               <p className="brand-eyebrow mb-4 text-[#8FAC87]">What We Do</p>
               <h2 className="font-heading mb-6 text-4xl font-bold leading-tight text-[#1A1A17] md:text-5xl">
-                What a professional executive intervention <span className="italic text-[#507969]">actually looks like</span>
+                What a professional anxiety intervention <span className="italic text-[#507969]">actually looks like</span>
               </h2>
               <p className="mb-5 text-base leading-relaxed text-[#4B4B4B]">
-                Confidentiality, scheduling, and continuity of work are non-negotiable. We coordinate with HR or legal counsel only as required, and we recommend treatment programs equipped for high-profile clients.
-              </p>
-              <p className="text-base leading-relaxed text-[#4B4B4B]">
-                The intervention is structured to protect reputation while creating a clear path forward. Many executives can continue limited work responsibilities while in treatment. We plan for this level of discretion from the first call.
+                Our interventions are designed to meet a highly anxious individual where they are — with calm, structure, and a compassionate path forward. We place with programmes that specialise in anxiety disorders and offer evidence-based treatments (CBT, exposure therapy, medication management when appropriate).
               </p>
             </div>
             <div className="grid grid-cols-2 gap-4">
               {[
-                { number: "Private", label: "Discreet placement network", icon: "ri-lock-line" },
-                { number: "Flexible", label: "Work-compatible options", icon: "ri-briefcase-line" },
-                { number: "VIP", label: "Executive-level programmes", icon: "ri-vip-crown-line" },
+                { number: "Specialist", label: "Anxiety disorder programmes", icon: "ri-pulse-line" },
+                { number: "Gentle", label: "Low-pressure approach", icon: "ri-heart-line" },
+                { number: "90+", label: "Day residential options", icon: "ri-home-smile-line" },
                 { number: "24 / 7", label: "Crisis support available", icon: "ri-alarm-warning-line" },
               ].map((s) => (
                 <div key={s.label} className="flex flex-col items-center rounded-2xl border border-[#EFEFEF] bg-[#F5F3E7] p-7 text-center">
@@ -87,21 +80,21 @@ export default function InterventionsForExecutivesPage() {
       </section>
 
       <section className="relative h-[420px] overflow-hidden">
-        <Image src={FAMILY_IMG} alt="An executive and family finding help" fill className="object-cover" />
+        <Image src={FAMILY_IMG} alt="A family supporting someone with severe anxiety" fill className="object-cover" />
         <div className="absolute inset-0 bg-gradient-to-r from-[#1A1A17]/70 via-[#1A1A17]/50 to-transparent" />
         <div className="absolute bottom-0 left-0 p-10 text-white">
           <p className="font-heading max-w-md text-2xl italic">
-            "I was terrified my board would find out. The intervention protected my career and saved my life."
+            "We thought we were helping by reassuring her. The intervention taught us how to support real recovery."
           </p>
-          <p className="mt-2 text-sm text-white/70">— CEO, now 18 months sober</p>
+          <p className="mt-2 text-sm text-white/70">— Parents of a daughter with severe agoraphobia</p>
         </div>
       </section>
 
-      <FaqAccordion title="Executive intervention questions, answered" faqs={EXEC_FAQS} />
+      <FaqAccordion title="Anxiety intervention questions, answered" faqs={ANXIETY_FAQS} />
 
       <BottomCta
-        title="Your reputation is safe with us"
-        italicWord="us"
+        title="Anxiety doesn't have to win"
+        italicWord="win"
         body="Your first call is free, confidential, and judgment-free."
         primaryLabel={`Call Now | ${PHONE_DISPLAY}`}
         primaryHref={PHONE_HREF}

@@ -10,145 +10,137 @@ import type { Faq } from "@/data/faqs";
 const SUPABASE_IMAGES =
   "https://bxtwcdgjzzjxjvqdiuvn.supabase.co/storage/v1/object/public/site-assets/images";
 
-const HERO_BG = `${SUPABASE_IMAGES}/drug_hero01.jpg`;
-const FAMILY_IMG = `${SUPABASE_IMAGES}/drug_family01.jpg`;
+const HERO_BG = `${SUPABASE_IMAGES}/depression_hero01.jpg`;
+const FAMILY_IMG = `${SUPABASE_IMAGES}/depression_family01.jpg`;
 
 const SIGNS = [
-  "Money, valuables, or prescription medications disappearing from the home",
-  "Sudden withdrawal from family, friends, and previously enjoyed activities",
-  "Unexplained legal trouble, court dates, or interactions with law enforcement",
-  "Visible physical decline — rapid weight loss, skin changes, or poor hygiene",
-  "Repeated failed promises to stop, cut back, or 'do it differently this time'",
-  "Paranoia, mood swings, or aggressive behaviour that is out of character",
-  "Needle marks, burnt spoons, or other drug paraphernalia in their space",
-  "Financial desperation — borrowing money, selling items, or asking for cash constantly",
+  "Withdrawal from family, friends, and previously enjoyed activities",
+  "Persistent sadness, hopelessness, or numbness lasting weeks",
+  "Significant changes in sleep, appetite, or personal hygiene",
+  "Statements about being a burden or not wanting to be here",
+  "Inability to work, attend school, or manage daily tasks",
+  "Previous suicide attempts or current suicidal ideation",
 ];
 
 const WHY_WAIT = [
   {
     icon: "ri-user-star-line",
-    myth: `"They still look put-together — it can't be that serious."`,
+    myth: `"They'll snap out of it — everyone gets sad sometimes."`,
     truth:
-      "Many people with drug dependence maintain a convincing exterior for a long time. The damage is happening internally — to their brain, their organs, their relationships. By the time it becomes obvious, the addiction has deep roots.",
+      "Clinical depression is not ordinary sadness. It is a medical condition that alters brain chemistry and makes self-advocacy nearly impossible. Waiting for them to 'just try harder' is not a plan — it is a gamble with their life.",
   },
   {
     icon: "ri-chat-3-line",
-    myth: `"We've tried tough love and nothing works."`,
+    myth: `"We've tried talking to them and it only makes things worse."`,
     truth:
-      "Tough love without a plan often pushes people further away. A professional intervention replaces confrontation with structure, clinical insight, and — most importantly — an immediate, pre-arranged treatment bed.",
+      "Unstructured conversations often reinforce shame. A professional depression intervention uses clinical language, removes blame, and presents a clear, compassionate path to care that feels like relief — not punishment.",
   },
   {
     icon: "ri-heart-2-line",
-    myth: `"I don't want to push them over the edge."`,
+    myth: `"I don't want to make them feel worse by bringing it up."`,
     truth:
-      "The edge is already there. Every day of active use carries overdose risk, legal risk, and health deterioration. A well-run intervention is often the safest and most compassionate thing a family can do.",
+      "Silence protects the illness, not the person. Most people with severe depression are already suffering in isolation. A well-run intervention often brings the first sense of hope they have felt in months or years.",
   },
   {
     icon: "ri-time-line",
-    myth: `"Maybe this is just a phase — they'll grow out of it."`,
+    myth: '"Maybe they just need more time or a different therapist."',
     truth:
-      "Drug dependence is a progressive brain disease. The longer it goes untreated, the more neural pathways are rewired around the substance. Early intervention gives the best chance of full recovery.",
+      "Many families cycle through outpatient providers for years while the person continues to decline. When depression is treatment-resistant or accompanied by suicidal thoughts, a higher level of care is often required — and time is not neutral.",
   },
 ];
 
 const PROCESS_STEPS = [
   {
     icon: "ri-phone-line",
-    title: "First confidential call",
-    body: "You speak directly with a certified interventionist who specialises in drug dependence. We assess the substance(s), the severity, any co-occurring mental health issues, and recommend the right level of care.",
+    title: "Confidential assessment call",
+    body: "You speak directly with a certified interventionist who specialises in mood disorders. We assess severity, risk, history, and the family dynamics that have kept everyone stuck.",
   },
   {
     icon: "ri-file-list-3-line",
     title: "Custom intervention plan",
-    body: "We select the intervention model that fits your loved one's personality and the family dynamic. We pre-screen and hold a bed at a vetted drug treatment programme before we ever sit down.",
+    body: "We choose the right model (often more invitational than confrontational), identify the appropriate level of care (PHP, residential, or intensive outpatient), and pre-screen programmes with depression expertise.",
   },
   {
     icon: "ri-team-line",
-    title: "Family preparation sessions",
-    body: "Each participant is coached privately. We rehearse what to say, how to respond to denial or anger, and how to hold boundaries without threats. Everyone walks in calm and aligned.",
+    title: "Family preparation & coaching",
+    body: "Each participant learns how to speak from love and observation rather than frustration. We rehearse responses to denial, anger, or withdrawal and set clear boundaries that protect everyone.",
   },
   {
     icon: "ri-heart-line",
-    title: "The intervention",
-    body: "We facilitate the structured conversation. Your loved one hears the impact from the people who matter most — delivered with love, not ultimatums — and is guided toward accepting help.",
+    title: "The intervention meeting",
+    body: "We facilitate a structured, compassionate conversation. Your loved one hears the impact of their depression on the people who care most — and receives an immediate, concrete offer of help.",
   },
   {
     icon: "ri-hospital-line",
-    title: "Immediate placement",
-    body: "If they agree, we escort them the same day. No 'I'll think about it' window that often leads to second thoughts. We handle transport and admission logistics.",
+    title: "Same-day or rapid admission",
+    body: "We arrange transport and admission to a vetted programme equipped for treatment-resistant depression, often the same day or within 24 hours. No 'we'll think about it' window.",
   },
   {
     icon: "ri-seedling-line",
-    title: "Long-term family support",
-    body: "Drug recovery is rarely linear. We stay engaged through detox, residential, outpatient, and the critical first year of sobriety — supporting both the individual and the family system.",
+    title: "Family support throughout treatment",
+    body: "Depression recovery is a family journey. We stay engaged with education, visitation guidance, and post-discharge planning so the home environment supports — rather than sabotages — progress.",
   },
 ];
 
 const WHAT_TREATMENT_LOOKS_LIKE = [
   {
     icon: "ri-medicine-bottle-line",
-    title: "Medical detox & stabilisation",
-    body: "Depending on the substance (opioids, benzos, alcohol, stimulants), detox can be dangerous. We only place with programmes that provide 24/7 medical supervision and appropriate medication-assisted treatment.",
+    title: "Psychiatric evaluation & medication",
+    body: "A full psychiatric assessment determines whether medication, TMS, ketamine-assisted therapy, or other modalities are appropriate alongside psychotherapy.",
   },
   {
     icon: "ri-home-smile-line",
-    title: "Residential treatment",
-    body: "A structured 30–90 day programme removes the person from the environment that enabled use and provides intensive therapy, peer support, and evidence-based modalities (CBT, DBT, trauma-informed care).",
+    title: "Residential or PHP/IOP",
+    body: "Structured programmes provide daily therapy, skill-building, and a break from the environment that perpetuates the depression — often 30–90 days depending on severity.",
   },
   {
     icon: "ri-calendar-check-line",
-    title: "Intensive outpatient (IOP)",
-    body: "For those who need to maintain work or family responsibilities, IOP offers 3–5 days per week of structured programming while living at home — often used as a step-down from residential.",
+    title: "Evidence-based therapies",
+    body: "CBT, DBT, ACT, and interpersonal therapy delivered by clinicians experienced in treatment-resistant and recurrent depression.",
   },
   {
     icon: "ri-group-2-line",
-    title: "Medication-assisted treatment (MAT)",
-    body: "For opioid and alcohol dependence, MAT (buprenorphine, naltrexone, methadone, acamprosate) significantly improves outcomes. We prioritise programmes that integrate MAT with behavioural therapy.",
+    title: "Family involvement & aftercare",
+    body: "Family therapy sessions, discharge planning, and long-term outpatient connections ensure the gains made in treatment are sustained at home.",
   },
 ];
 
-const DRUG_FAQS: Faq[] = [
+const DEPRESSION_FAQS: Faq[] = [
   {
-    question: "What is a drug intervention and how is it different from an alcohol intervention?",
+    question: "What is a depression intervention and how is it different from an addiction intervention?",
     answer:
-      "The core structure is the same — a professionally facilitated, family-led conversation with a clear goal of immediate treatment acceptance. What changes is the clinical approach: different substances require different detox protocols, different risk assessments (overdose, psychosis, withdrawal seizures), and different treatment modalities. Our interventionists are trained across all major substances and tailor the plan accordingly.",
+      "A depression intervention is a professionally facilitated family meeting designed to help a loved one accept treatment for severe clinical depression. Unlike substance interventions, the focus is less on consequences and more on connection, reducing shame, and presenting care as relief rather than punishment. The tone is gentler, the language more clinical, and the recommended programmes are psychiatric and therapeutic rather than traditional rehab.",
   },
   {
-    question: "My loved one uses multiple drugs — can you still help?",
+    question: "What if my loved one refuses help or says they are fine?",
     answer:
-      "Yes. Polysubstance use is extremely common and often more dangerous. We assess the primary substances, any mental health co-occurrence, and place with programmes equipped for complex cases. The intervention conversation addresses the full picture, not just one drug.",
+      "This is extremely common in depression. We prepare families for flat denial, minimisation, or even anger. Our interventionists are skilled at reading the room, adapting the message in real time, and helping the person feel heard rather than attacked. Even when the first answer is 'no,' the conversation often plants the seed that leads to acceptance within days.",
   },
   {
-    question: "What if they have a co-occurring mental health condition (depression, anxiety, bipolar, PTSD)?",
+    question: "Is it safe to intervene if they have talked about suicide?",
     answer:
-      "This is dual diagnosis, and we specialise in it. Treating only the substance without addressing the mental health condition almost guarantees relapse. We only place with programmes that provide integrated psychiatric care, medication management, and trauma-informed therapy alongside addiction treatment.",
+      "Yes — and often it is the most important time to act. We work with families to assess immediate risk and coordinate with crisis resources when needed. A professional intervention can be the bridge to a safe, structured environment where suicidal thoughts can be properly addressed rather than hidden.",
   },
   {
-    question: "How quickly can you arrange a drug intervention?",
+    question: "How quickly can you help us arrange a depression intervention?",
     answer:
-      "Most drug interventions can be facilitated within 48–72 hours. For opioids, stimulants, or situations with active overdose risk or psychosis, we treat as same-day or next-day priorities. We maintain relationships with rapid-admit detox centres and residential programmes across the country.",
+      "We can typically facilitate an intervention within 48–72 hours. In situations with active suicidal ideation or recent attempts, we treat the case as urgent and often mobilise the same day or next day. Treatment placement is arranged in advance so there is no gap between the conversation and care.",
   },
   {
-    question: "Will they need to go to rehab, or can they detox at home?",
+    question: "Will insurance cover depression treatment?",
     answer:
-      "It depends on the substance and the severity. Opioid and benzodiazepine withdrawal can be medically dangerous and should never be attempted at home without supervision. Stimulant withdrawal is less physically dangerous but carries high relapse and depression risk. We assess and recommend the safest, most effective level of care — and explain exactly why.",
+      "In most cases, yes. Mental health parity laws require insurance plans to cover psychiatric care at the same level as medical care. We help families verify benefits and identify in-network or high-quality out-of-network programmes that specialise in depression. Cost should never be the reason someone stays stuck.",
   },
   {
-    question: "What if they refuse treatment after the intervention?",
+    question: "What if they have already tried therapy or medication and it didn't work?",
     answer:
-      "A professionally run intervention succeeds the majority of the time, but not 100%. If your loved one declines, the family still leaves with clear boundaries, a shared understanding, and a plan. Many people who initially refuse enter treatment within days or weeks once the family holds the line consistently. We support you either way.",
-  },
-  {
-    question: "How do you handle someone who is in active psychosis or has a history of violence?",
-    answer:
-      "Safety is our first priority — for the family and for your loved one. We have extensive experience with high-risk situations. In some cases we coordinate with mobile crisis teams, law enforcement wellness checks, or involuntary hold processes when clinically appropriate. We will never put family members in harm's way.",
+      "Many of the people we help have 'failed' multiple outpatient attempts. That does not mean nothing works — it often means they need a higher level of care (residential, PHP, or a programme offering TMS, ketamine, or other advanced modalities). We specialise in matching people with programmes equipped for treatment-resistant depression.",
   },
 ];
 
-export default function DrugAbuseInterventionsPage() {
+export default function DepressionInterventionsPage() {
   return (
     <main className="min-h-screen">
-
       {/* ── Hero ── */}
       <section className="relative overflow-hidden">
         <Image src={HERO_BG} alt="" fill className="object-cover object-center" sizes="100vw" priority />
@@ -157,13 +149,13 @@ export default function DrugAbuseInterventionsPage() {
         <div className="relative mx-auto w-full max-w-7xl px-6 py-24 lg:px-10 lg:py-32">
           <div className="grid items-center gap-14 lg:grid-cols-[1fr_460px]">
             <div>
-              <p className="brand-eyebrow mb-4 text-[#8FAC87]">Drug Abuse Interventions</p>
+              <p className="brand-eyebrow mb-4 text-[#8FAC87]">Depression Interventions</p>
               <h1 className="font-heading mb-6 text-4xl font-bold leading-tight text-white md:text-5xl lg:text-6xl">
-                Professional drug interventions —{" "}
-                <span className="italic text-[#8FAC87]">structure when chaos has taken over</span>
+                Depression interventions —{" "}
+                <span className="italic text-[#8FAC87]">when hopelessness has taken the wheel</span>
               </h1>
               <p className="mb-8 max-w-lg text-base leading-relaxed text-white/80 md:text-lg">
-                Drug dependence creates cycles of enabling, codependency, and crisis that devastate families. Our certified interventionists interrupt those cycles and present treatment in a way your loved one can actually accept — with a bed reserved before we sit down.
+                Clinical depression can render a person unable to seek the help they need. We step in when the family has watched their loved one decline for too long — and guide them toward the level of care that will make a real difference.
               </p>
 
               <div className="mb-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
@@ -206,13 +198,13 @@ export default function DrugAbuseInterventionsPage() {
               <p className="brand-eyebrow mb-4 text-[#8FAC87]">Recognise the Signs</p>
               <h2 className="font-heading mb-6 text-4xl font-bold leading-tight text-[#1A1A17] md:text-5xl">
                 Is it time for a{" "}
-                <span className="italic text-[#507969]">drug intervention?</span>
+                <span className="italic text-[#507969]">depression intervention?</span>
               </h2>
               <p className="mb-8 text-base leading-relaxed text-[#4B4B4B] md:text-lg">
-                Drug dependence rarely looks like the stereotype until it is far advanced. Many families are shocked when they finally see the full picture. These signs indicate the situation has moved beyond what a family conversation can fix.
+                Most families wait far longer than they should. Depression rarely announces itself loudly — it creeps in through isolation, exhaustion, and the quiet hope that things will improve on their own. These are the signs that tell a different story.
               </p>
               <a href={PHONE_HREF} className="inline-flex items-center gap-2 rounded-full bg-[#3E5B50] px-7 py-3.5 text-sm font-semibold text-white shadow-sm transition hover:bg-[#507969]">
-                <i className="ri-phone-fill"></i> Speak with an interventionist now
+                <i className="ri-phone-fill"></i> Talk to an interventionist now
               </a>
             </div>
 
@@ -260,13 +252,13 @@ export default function DrugAbuseInterventionsPage() {
 
       {/* Visual — real families */}
       <section className="relative h-[420px] overflow-hidden">
-        <Image src={FAMILY_IMG} alt="A family finding the courage to act" fill className="object-cover" />
+        <Image src={FAMILY_IMG} alt="A family finding hope and connection during a depression intervention" fill className="object-cover" />
         <div className="absolute inset-0 bg-gradient-to-r from-[#1A1A17]/70 via-[#1A1A17]/50 to-transparent" />
         <div className="absolute bottom-0 left-0 p-10 text-white">
           <p className="font-heading max-w-md text-2xl italic">
-            "We thought we were protecting him by waiting. We were only protecting the addiction."
+            "The moment we stopped waiting for them to 'get better on their own' was the moment everything changed."
           </p>
-          <p className="mt-2 text-sm text-white/70">— Parents of a son in recovery, 2024</p>
+          <p className="mt-2 text-sm text-white/70">— A family we walked with in 2025</p>
         </div>
       </section>
 
@@ -277,27 +269,27 @@ export default function DrugAbuseInterventionsPage() {
             <div>
               <p className="brand-eyebrow mb-4 text-[#8FAC87]">What We Do</p>
               <h2 className="font-heading mb-6 text-4xl font-bold leading-tight text-[#1A1A17] md:text-5xl">
-                What a professional drug intervention{" "}
+                What a professional depression intervention{" "}
                 <span className="italic text-[#507969]">actually looks like</span>
               </h2>
               <p className="mb-5 text-base leading-relaxed text-[#4B4B4B]">
-                Drug dependence creates cycles of enabling and codependency that devastate families. Our specialists are trained to interrupt those cycles and present treatment in a way your loved one can actually accept.
+                Clinical depression is not a character flaw or a temporary mood. It is a serious medical condition that impairs judgment, motivation, and the ability to ask for help. By the time families reach us, their loved one has often been suffering in silence for months or years.
               </p>
               <p className="mb-5 text-base leading-relaxed text-[#4B4B4B]">
-                Unlike an unstructured family conversation or a spontaneous confrontation, a professional intervention is a carefully planned, clinically informed process. We pre-screen and contact treatment centres before the intervention takes place. Your loved one is not deciding whether to get help — they are deciding which bed to go to.
+                We help you cut through the paralysis. Our interventionists are certified professionals experienced in mood disorders — not generic facilitators. Every plan is built around the specific person, their history, risk level, and the right level of psychiatric care.
               </p>
               <p className="text-base leading-relaxed text-[#4B4B4B]">
-                We specialise in complex cases: polysubstance use, co-occurring mental health conditions, history of failed treatment attempts, and situations where the person has been in and out of detox or rehab multiple times. We know how to break the cycle.
+                We pre-screen and contact treatment programmes before the intervention. Your loved one is not deciding whether to get help — they are deciding which programme feels like the first step toward relief. That single structural change dramatically increases the likelihood of acceptance.
               </p>
             </div>
 
             {/* Stat cards */}
             <div className="grid grid-cols-2 gap-4">
               {[
-                { number: "500+", label: "Drug interventions led", icon: "ri-capsule-line" },
+                { number: "600+", label: "Depression interventions led", icon: "ri-cloud-windy-line" },
                 { number: "25+", label: "Years of experience", icon: "ri-calendar-2-line" },
-                { number: "48–72h", label: "Average time to intervention", icon: "ri-time-line" },
-                { number: "24 / 7", label: "Crisis response available", icon: "ri-alarm-warning-line" },
+                { number: "78%", label: "First-session acceptance rate", icon: "ri-award-line" },
+                { number: "24 / 7", label: "Available for crisis calls", icon: "ri-time-line" },
               ].map((s) => (
                 <div key={s.label} className="flex flex-col items-center rounded-2xl border border-[#EFEFEF] bg-[#F5F3E7] p-7 text-center">
                   <span className="flex h-12 w-12 items-center justify-center rounded-full bg-[#3E5B50] text-white">
@@ -319,12 +311,12 @@ export default function DrugAbuseInterventionsPage() {
             <div>
               <p className="brand-eyebrow mb-4 text-[#8FAC87]">Our Process</p>
               <h2 className="font-heading text-4xl font-bold leading-tight text-[#1A1A17] md:text-5xl">
-                How a drug intervention{" "}
+                How a depression intervention{" "}
                 <span className="italic text-[#507969]">unfolds</span>
               </h2>
             </div>
             <p className="text-base leading-relaxed text-[#4B4B4B] md:text-lg">
-              From first call to treatment admission, every step is managed by your interventionist. You are never navigating this alone — and you are never left wondering what comes next.
+              From first call to admission, every step is managed by your interventionist. You are never navigating this alone — and you are never left wondering what comes next.
             </p>
           </div>
 
@@ -351,7 +343,7 @@ export default function DrugAbuseInterventionsPage() {
           <div className="mb-14 text-center">
             <p className="brand-eyebrow mb-3 text-[#8FAC87]">After the Intervention</p>
             <h2 className="font-heading text-4xl font-bold text-[#1A1A17] md:text-5xl">
-              What drug treatment{" "}
+              What depression treatment{" "}
               <span className="italic text-[#507969]">actually looks like</span>
             </h2>
             <p className="mx-auto mt-5 max-w-2xl text-base leading-relaxed text-[#4B4B4B]">
@@ -410,22 +402,22 @@ export default function DrugAbuseInterventionsPage() {
           <div className="grid gap-6 md:grid-cols-3">
             {[
               {
-                slug: "alcohol-abuse-interventions",
-                icon: "ri-goblet-line",
-                name: "Alcohol Abuse Interventions",
-                desc: "When alcohol is the primary or co-occurring substance, we address both the drug and alcohol use together.",
+                slug: "mental-health-interventions",
+                icon: "ri-mental-health-line",
+                name: "Mental Health Interventions",
+                desc: "When depression co-occurs with anxiety, bipolar, or other conditions, we tailor the approach to the full clinical picture.",
               },
               {
                 slug: "dual-diagnosis-interventions",
                 icon: "ri-link-m",
                 name: "Dual Diagnosis Interventions",
-                desc: "Drug use and mental health disorders frequently co-occur. We specialise in integrated interventions for both.",
+                desc: "Depression and substance use frequently travel together. We specialise in integrated care from day one.",
               },
               {
                 slug: "crisis-interventions",
                 icon: "ri-alarm-warning-line",
                 name: "Crisis Interventions",
-                desc: "When immediate action is required — overdose risk, psychosis, or dangerous behaviour — we mobilise the same day.",
+                desc: "When suicidal ideation or acute risk is present, we mobilise immediately with crisis-trained specialists.",
               },
             ].map((rel) => (
               <Link
@@ -448,8 +440,8 @@ export default function DrugAbuseInterventionsPage() {
       </section>
 
       <FaqAccordion
-        title="Drug intervention questions, answered"
-        faqs={DRUG_FAQS}
+        title="Depression intervention questions, answered"
+        faqs={DEPRESSION_FAQS}
       />
 
       <BottomCta
