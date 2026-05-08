@@ -5,6 +5,10 @@ import { createClient } from "@supabase/supabase-js";
 const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL!;
 const SUPABASE_ANON_KEY = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
 
+const DAVID_PHOTO =
+  "https://bxtwcdgjzzjxjvqdiuvn.supabase.co/storage/v1/object/public/site-assets/images/team_david-gates.png";
+const JENNIFER_PHOTO =
+  "https://bxtwcdgjzzjxjvqdiuvn.supabase.co/storage/v1/object/public/site-assets/images/team_jennifer-mcdaniel.png";
 const HERO_IMAGE =
   "https://bxtwcdgjzzjxjvqdiuvn.supabase.co/storage/v1/object/public/site-assets/images/ai_home_hero01.jpg";
 const ABOUT_IMAGE =
@@ -471,9 +475,9 @@ export default async function HomePage() {
             <div className="relative overflow-hidden rounded-3xl bg-[#F5F3E7] p-10">
               <div className="pointer-events-none absolute -right-8 -top-8 h-40 w-40 rounded-full bg-[#8FAC87]/10" />
               <div className="relative z-10 flex flex-col gap-6 sm:flex-row sm:items-start">
-                {/* Avatar */}
-                <div className="flex h-24 w-24 shrink-0 items-center justify-center rounded-2xl bg-[#3E5B50] shadow-lg">
-                  <span className="font-heading text-3xl font-bold text-[#8FAC87]">DG</span>
+                {/* Headshot */}
+                <div className="relative h-24 w-24 shrink-0 overflow-hidden rounded-2xl shadow-lg">
+                  <Image src={DAVID_PHOTO} alt="David Allen Gates" fill className="object-cover object-top" sizes="96px" />
                 </div>
                 <div className="flex-1">
                   <div className="mb-1 flex flex-wrap items-center gap-3">
@@ -518,9 +522,9 @@ export default async function HomePage() {
             <div className="relative overflow-hidden rounded-3xl bg-[#F5F3E7] p-10">
               <div className="pointer-events-none absolute -right-8 -top-8 h-40 w-40 rounded-full bg-[#8FAC87]/10" />
               <div className="relative z-10 flex flex-col gap-6 sm:flex-row sm:items-start">
-                {/* Avatar */}
-                <div className="flex h-24 w-24 shrink-0 items-center justify-center rounded-2xl bg-[#3E5B50] shadow-lg">
-                  <span className="font-heading text-3xl font-bold text-[#8FAC87]">JM</span>
+                {/* Headshot */}
+                <div className="relative h-24 w-24 shrink-0 overflow-hidden rounded-2xl shadow-lg">
+                  <Image src={JENNIFER_PHOTO} alt="Jennifer Miela-McDaniel" fill className="object-cover object-top" sizes="96px" />
                 </div>
                 <div className="flex-1">
                   <div className="mb-1 flex flex-wrap items-center gap-3">
