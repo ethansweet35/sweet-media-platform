@@ -1,7 +1,6 @@
-import LocationLanding from "@/components/templates/LocationLanding";
-import { LOCATION_BY_SLUG } from "@/data/locations";
+import StatePageTemplate from "@/components/templates/StatePageTemplate";
+import { STATE_PAGES } from "@/data/state-pages";
 
 export default function SouthDakotaPage() {
-  const config = LOCATION_BY_SLUG.get("south-dakota")!;
-  return <LocationLanding config={config} />;
+  return <StatePageTemplate config={STATE_PAGES["south-dakota"]} />;
 }

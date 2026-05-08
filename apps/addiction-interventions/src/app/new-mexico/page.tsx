@@ -3,8 +3,8 @@ import { resolveTrackedPageMetadata } from "@sweetmedia/admin-core";
 import NewMexicoPage from "@/views/new-mexico/page";
 
 const fallbackMetadata: Metadata = {
-  title: "Addiction Interventions New Mexico | Addiction Interventions",
-  description: "",
+  title: "Drug & Alcohol Intervention Services in New Mexico | Addiction Interventions",
+  description: "Certified interventionists serving New Mexico. On-site addiction and mental health interventions — families helped within 24–48 hours. Free confidential consultation: 949-776-7093.",
 };
 
 export async function generateMetadata(): Promise<Metadata> {

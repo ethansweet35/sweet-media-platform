@@ -3,8 +3,8 @@ import { resolveTrackedPageMetadata } from "@sweetmedia/admin-core";
 import LouisianaPage from "@/views/louisiana/page";
 
 const fallbackMetadata: Metadata = {
-  title: "Addiction Interventions Louisiana | Addiction Interventions",
-  description: "",
+  title: "Drug & Alcohol Intervention Services in Louisiana | Addiction Interventions",
+  description: "Certified interventionists serving Louisiana. On-site addiction and mental health interventions — families helped within 24–48 hours. Free confidential consultation: 949-776-7093.",
 };
 
 export async function generateMetadata(): Promise<Metadata> {

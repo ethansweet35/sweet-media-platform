@@ -3,8 +3,8 @@ import { resolveTrackedPageMetadata } from "@sweetmedia/admin-core";
 import DrugInterventionWyomingPage from "@/views/drug-intervention-wyoming/page";
 
 const fallbackMetadata: Metadata = {
-  title: "Drug Intervention Wyoming | Addiction Interventions",
-  description: "",
+  title: "Drug & Alcohol Intervention Services in Wyoming | Addiction Interventions",
+  description: "Certified interventionists serving Wyoming. On-site addiction and mental health interventions — families helped within 24–48 hours. Free confidential consultation: 949-776-7093.",
 };
 
 export async function generateMetadata(): Promise<Metadata> {

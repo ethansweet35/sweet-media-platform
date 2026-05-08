@@ -3,8 +3,8 @@ import { resolveTrackedPageMetadata } from "@sweetmedia/admin-core";
 import ConnecticutPage from "@/views/connecticut/page";
 
 const fallbackMetadata: Metadata = {
-  title: "Addiction Intervention Connecticut | Addiction Interventions",
-  description: "",
+  title: "Drug & Alcohol Intervention Services in Connecticut | Addiction Interventions",
+  description: "Certified interventionists serving Connecticut. On-site addiction and mental health interventions — families helped within 24–48 hours. Free confidential consultation: 949-776-7093.",
 };
 
 export async function generateMetadata(): Promise<Metadata> {
