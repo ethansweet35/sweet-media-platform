@@ -141,12 +141,12 @@ export default function MethInterventionPage() {
             {[
               {
                 icon: "ri-user-star-line",
-                myth: '"They were always so responsible — this can't be meth."',
+                myth: `"They were always so responsible — this can't be meth."`,
                 truth: "Meth use is exploding across all demographics. High-achieving professionals, parents, and students are all vulnerable. The stereotype no longer matches reality.",
               },
               {
                 icon: "ri-time-line",
-                myth: '"Maybe they'll just stop on their own."',
+                myth: `"Maybe they'll just stop on their own."`,
                 truth: "Meth is one of the most addictive substances known. The dopamine surge rewires the brain's reward system so completely that voluntary cessation is extremely rare without structured treatment.",
               },
             ].map((item) => (
