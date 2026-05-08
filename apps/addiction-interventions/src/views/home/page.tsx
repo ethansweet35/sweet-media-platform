@@ -451,6 +451,128 @@ export default async function HomePage() {
         </div>
       </section>
 
+      {/* ── Meet the Team ────────────────────────────────────────────────── */}
+      <section className="bg-white py-24">
+        <div className={CONTAINER}>
+          <div className="mb-16 text-center">
+            <p className="brand-eyebrow mb-3 text-[#8FAC87]">Who You&rsquo;ll Work With</p>
+            <h2 className="font-heading text-4xl font-bold text-[#1A1A17] md:text-5xl">
+              Meet the{" "}
+              <span className="italic text-[#507969]">Co-Founders</span>
+            </h2>
+            <p className="mx-auto mt-5 max-w-2xl text-base leading-relaxed text-[#4B4B4B]">
+              David and Jennifer Gates founded Addiction Interventions with a single purpose: to give families the
+              professional structure and compassionate guidance they need to break through denial and begin real healing.
+            </p>
+          </div>
+
+          <div className="grid gap-10 lg:grid-cols-2">
+            {/* David */}
+            <div className="relative overflow-hidden rounded-3xl bg-[#F5F3E7] p-10">
+              <div className="pointer-events-none absolute -right-8 -top-8 h-40 w-40 rounded-full bg-[#8FAC87]/10" />
+              <div className="relative z-10 flex flex-col gap-6 sm:flex-row sm:items-start">
+                {/* Avatar */}
+                <div className="flex h-24 w-24 shrink-0 items-center justify-center rounded-2xl bg-[#3E5B50] shadow-lg">
+                  <span className="font-heading text-3xl font-bold text-[#8FAC87]">DG</span>
+                </div>
+                <div className="flex-1">
+                  <div className="mb-1 flex flex-wrap items-center gap-3">
+                    <h3 className="font-heading text-2xl font-bold text-[#1A1A17]">David Allen Gates</h3>
+                    <span className="rounded-full bg-[#8FAC87]/20 px-3 py-0.5 text-xs font-semibold text-[#507969]">
+                      Co-Founder
+                    </span>
+                  </div>
+                  <p className="mb-4 text-sm font-semibold uppercase tracking-[0.12em] text-[#8FAC87]">
+                    Lead Interventionist · CIP · ICAADC
+                  </p>
+                  <p className="text-sm leading-relaxed text-[#4B4B4B]">
+                    David has more than 20 years of experience directing nationally recognized addiction treatment programs.
+                    He has personally led over 1,500 interventions for families in crisis — and as someone in long-term
+                    recovery himself, he brings a rare perspective to every family he serves.
+                  </p>
+                  <ul className="mt-5 grid gap-2">
+                    {[
+                      "Certified Intervention Professional (CIP)",
+                      "Internationally Certified Alcohol & Drug Counselor (ICAADC)",
+                      "Trained in ARISE®, Johnson Model & Family Systems Intervention",
+                    ].map((c) => (
+                      <li key={c} className="flex items-start gap-2.5">
+                        <span className="mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center rounded-full bg-[#8FAC87] text-white">
+                          <i className="ri-check-line text-[10px]"></i>
+                        </span>
+                        <span className="text-xs leading-relaxed text-[#4B4B4B]">{c}</span>
+                      </li>
+                    ))}
+                  </ul>
+                  <a
+                    href="/david-gates"
+                    className="mt-6 inline-flex items-center gap-1.5 text-sm font-semibold text-[#507969] underline-offset-4 hover:underline"
+                  >
+                    Read David&rsquo;s full bio <i className="ri-arrow-right-line"></i>
+                  </a>
+                </div>
+              </div>
+            </div>
+
+            {/* Jennifer */}
+            <div className="relative overflow-hidden rounded-3xl bg-[#F5F3E7] p-10">
+              <div className="pointer-events-none absolute -right-8 -top-8 h-40 w-40 rounded-full bg-[#8FAC87]/10" />
+              <div className="relative z-10 flex flex-col gap-6 sm:flex-row sm:items-start">
+                {/* Avatar */}
+                <div className="flex h-24 w-24 shrink-0 items-center justify-center rounded-2xl bg-[#3E5B50] shadow-lg">
+                  <span className="font-heading text-3xl font-bold text-[#8FAC87]">JG</span>
+                </div>
+                <div className="flex-1">
+                  <div className="mb-1 flex flex-wrap items-center gap-3">
+                    <h3 className="font-heading text-2xl font-bold text-[#1A1A17]">Jennifer Gates</h3>
+                    <span className="rounded-full bg-[#8FAC87]/20 px-3 py-0.5 text-xs font-semibold text-[#507969]">
+                      Co-Founder
+                    </span>
+                  </div>
+                  <p className="mb-4 text-sm font-semibold uppercase tracking-[0.12em] text-[#8FAC87]">
+                    Lead Interventionist · Family Systems Specialist
+                  </p>
+                  <p className="text-sm leading-relaxed text-[#4B4B4B]">
+                    Jennifer brings a deeply relational, family-systems approach to every intervention she leads. Her
+                    background in family dynamics and recovery coaching means she doesn&rsquo;t just focus on the person
+                    struggling — she supports the entire family unit through every stage of the process.
+                  </p>
+                  <ul className="mt-5 grid gap-2">
+                    {[
+                      "Certified Intervention Professional (CIP)",
+                      "Specializes in family systems, codependency & enabling recovery",
+                      "Trained in trauma-informed intervention practices",
+                    ].map((c) => (
+                      <li key={c} className="flex items-start gap-2.5">
+                        <span className="mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center rounded-full bg-[#8FAC87] text-white">
+                          <i className="ri-check-line text-[10px]"></i>
+                        </span>
+                        <span className="text-xs leading-relaxed text-[#4B4B4B]">{c}</span>
+                      </li>
+                    ))}
+                  </ul>
+                  <a
+                    href={PHONE_HREF}
+                    className="mt-6 inline-flex items-center gap-1.5 text-sm font-semibold text-[#507969] underline-offset-4 hover:underline"
+                  >
+                    Speak with our team <i className="ri-arrow-right-line"></i>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Bottom note */}
+          <p className="mt-10 text-center text-sm text-[#4B4B4B]">
+            <i className="ri-phone-line mr-1.5 text-[#8FAC87]"></i>
+            When you call, you speak directly with David or Jennifer — never a call center.{" "}
+            <a href={PHONE_HREF} className="font-semibold text-[#507969] underline-offset-4 hover:underline">
+              Call {PHONE_DISPLAY}
+            </a>
+          </p>
+        </div>
+      </section>
+
       {/* ── Testimonials ─────────────────────────────────────────────────── */}
       <section className="bg-white py-24">
         <div className={CONTAINER}>
