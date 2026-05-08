@@ -1,4 +1,6 @@
+import Image from "next/image";
 import Link from "next/link";
+import { NAV_LOGO_URL } from "@/data/site";
 
 const PHONE_DISPLAY = "949-776-7093";
 const PHONE_HREF = "tel:9497767093";
@@ -40,13 +42,15 @@ export default function Footer() {
         <div className="grid gap-12 md:grid-cols-[1.6fr_1fr_1fr_1fr]">
           {/* Brand column */}
           <div>
-            <Link href="/" className="flex flex-col items-start leading-none">
-              <span className="font-heading text-2xl font-bold tracking-tight text-white">
-                Addiction Interventions
-              </span>
-              <span className="mt-1 text-[0.6rem] font-semibold uppercase tracking-[0.18em] text-[#8FAC87]">
-                Intervene Today · Change Tomorrow
-              </span>
+            <Link href="/">
+              <Image
+                src={NAV_LOGO_URL}
+                alt="Addiction Interventions"
+                width={1358}
+                height={244}
+                className="h-11 w-auto max-w-[min(100%,320px)] object-contain brightness-0 invert sm:h-12 lg:h-14"
+                sizes="(max-width: 640px) 240px, (max-width: 1024px) 280px, 320px"
+              />
             </Link>
             <p className="mt-5 max-w-sm text-sm leading-7 text-white/60">
               Compassionate, family-centered addiction and mental health interventions.

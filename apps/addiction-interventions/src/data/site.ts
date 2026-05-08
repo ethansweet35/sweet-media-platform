@@ -10,7 +10,7 @@ export const BRAND_NAME = "Addiction Interventions";
 
 /** Navbar/footer wordmark — Supabase CDN (reliable on Vercel; WP hotlink can 403). */
 export const NAV_LOGO_URL =
-  "https://bxtwcdgjzzjxjvqdiuvn.supabase.co/storage/v1/object/public/site-assets/images/brand_wordmark_navbar_v2.png";
+  "https://bxtwcdgjzzjxjvqdiuvn.supabase.co/storage/v1/object/public/site-assets/images/brand_wordmark_navbar_v3.png";
 
 export const TRUST_SIGNALS = {
   familiesHelpedTagline: "1,500+ Families Helped",
