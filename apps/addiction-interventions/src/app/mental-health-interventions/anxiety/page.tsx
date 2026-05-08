@@ -9,7 +9,7 @@ const fallbackMetadata: Metadata = {
 };
 
 export async function generateMetadata(): Promise<Metadata> {
-  return resolveTrackedPageMetadata("/anxiety", fallbackMetadata);
+  return resolveTrackedPageMetadata("/mental-health-interventions/anxiety", fallbackMetadata);
 }
 
 export default function Page() {

@@ -1,16 +1,16 @@
 import type { Metadata } from "next";
 import { resolveTrackedPageMetadata } from "@sweetmedia/admin-core";
-import MethInterventionPage from "@/views/meth-intervention/page";
+import CocaineInterventionPage from "@/views/cocaine-intervention/page";
 
 const fallbackMetadata: Metadata = {
-  title: "Meth Intervention | Addiction Interventions",
+  title: "Cocaine Intervention | Addiction Interventions",
   description: "",
 };
 
 export async function generateMetadata(): Promise<Metadata> {
-  return resolveTrackedPageMetadata("/meth-intervention", fallbackMetadata);
+  return resolveTrackedPageMetadata("/drug-abuse-interventions/cocaine", fallbackMetadata);
 }
 
 export default function Page() {
-  return <MethInterventionPage />;
+  return <CocaineInterventionPage />;
 }

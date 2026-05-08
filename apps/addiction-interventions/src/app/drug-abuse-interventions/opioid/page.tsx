@@ -8,7 +8,7 @@ const fallbackMetadata: Metadata = {
 };
 
 export async function generateMetadata(): Promise<Metadata> {
-  return resolveTrackedPageMetadata("/opioid-intervention", fallbackMetadata);
+  return resolveTrackedPageMetadata("/drug-abuse-interventions/opioid", fallbackMetadata);
 }
 
 export default function Page() {
