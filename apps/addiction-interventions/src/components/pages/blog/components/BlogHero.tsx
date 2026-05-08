@@ -24,8 +24,8 @@ export default function BlogHero({ searchQuery, onSearchChange }: BlogHeroProps)
       <div className="absolute -top-24 right-0 w-96 h-96 rounded-full bg-[#DDA15E]/10 blur-3xl" />
       <div className="absolute bottom-0 left-0 w-80 h-80 rounded-full bg-[#8FA489]/10 blur-3xl" />
 
-      <div className="relative max-w-7xl mx-auto px-8 md:px-16 pt-36 pb-20 md:pt-44 md:pb-28">
-        <div className="flex items-center gap-2 mb-8">
+      <div className="relative max-w-7xl mx-auto px-8 md:px-16 pt-20 pb-12 md:pt-24 md:pb-16">
+        <div className="flex items-center gap-2 mb-5">
           <Link
             href="/"
             className="text-[10px] tracking-[0.25em] uppercase text-[#E2E8F0]/45 hover:text-[#E2E8F0]/80 transition-colors"
@@ -44,14 +44,14 @@ export default function BlogHero({ searchQuery, onSearchChange }: BlogHeroProps)
           </span>
 
           <h1
-            className="font-serif text-[#F8FAFC] leading-[1.08] mt-6 mb-6"
-            style={{ fontSize: "clamp(42px, 6vw, 78px)" }}
+            className="font-serif text-[#F8FAFC] leading-[1.08] mt-4 mb-4"
+            style={{ fontSize: "clamp(36px, 5vw, 62px)" }}
           >
             Thoughtful guidance for{" "}
             <em className="text-[#DDA15E]">healing at home.</em>
           </h1>
 
-          <p className="text-[#E2E8F0]/70 font-light text-base md:text-lg leading-[1.9] max-w-2xl mb-10">
+          <p className="text-[#E2E8F0]/70 font-light text-base leading-[1.8] max-w-2xl mb-7">
             Mental health, addiction recovery, trauma-informed care, and wellness resources from the Addiction Interventions team.
           </p>
 

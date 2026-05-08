@@ -28,7 +28,7 @@ export default function BlogGrid({ searchQuery }: BlogGridProps) {
 
   return (
     <section className="w-full" style={{ background: "#F5F5F3" }}>
-      <div className="max-w-screen-xl mx-auto px-6 py-16 md:py-24">
+      <div className="max-w-screen-xl mx-auto px-6 py-10 md:py-14">
         {/* Section header */}
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
           <div>

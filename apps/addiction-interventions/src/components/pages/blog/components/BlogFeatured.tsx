@@ -13,7 +13,7 @@ export default function BlogFeatured() {
   if (loading) {
     return (
       <section className="w-full bg-white">
-        <div className="max-w-screen-xl mx-auto px-6 py-16 md:py-24">
+        <div className="max-w-screen-xl mx-auto px-6 py-10 md:py-14">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-center animate-pulse">
             <div className="aspect-[4/3] bg-neutral-100 rounded-2xl" />
             <div className="space-y-4">
@@ -32,8 +32,8 @@ export default function BlogFeatured() {
 
   return (
     <section className="w-full bg-white">
-      <div className="max-w-screen-xl mx-auto px-6 py-16 md:py-24">
-        <div className="flex items-center gap-3 mb-10 justify-center lg:justify-start">
+      <div className="max-w-screen-xl mx-auto px-6 py-10 md:py-14">
+        <div className="flex items-center gap-3 mb-8 justify-center lg:justify-start">
           <div className="w-8 h-px bg-neutral-300" />
           <span className="text-[10px] tracking-[0.3em] uppercase text-neutral-400 font-semibold">
             Featured Article
