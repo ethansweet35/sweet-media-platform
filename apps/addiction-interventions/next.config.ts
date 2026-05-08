@@ -21,12 +21,12 @@ const nextConfig: NextConfig = {
       { source: "/intervention-services/drug-abuse-interventions",     destination: "/drug-abuse-interventions",     permanent: true },
       { source: "/intervention-services/dual-diagnosis-interventions", destination: "/dual-diagnosis-interventions", permanent: true },
       { source: "/intervention-services/mental-health-interventions",  destination: "/mental-health-interventions",  permanent: true },
-      { source: "/intervention-services/arise-intervention",           destination: "/arise-intervention",           permanent: true },
+      { source: "/intervention-services/arise-intervention",           destination: "/intervention-types/arise",           permanent: true },
       { source: "/intervention-services/crisis-interventions",         destination: "/crisis-interventions",         permanent: true },
       { source: "/intervention-services/family-interventions",         destination: "/family-interventions",         permanent: true },
       { source: "/intervention-services/interventions-for-teens",      destination: "/interventions-for-teens",      permanent: true },
       { source: "/intervention-services/interventions-for-executives", destination: "/interventions-for-executives", permanent: true },
-      { source: "/intervention-services/the-johnson-model-intervention", destination: "/the-johnson-model-intervention", permanent: true },
+      { source: "/intervention-services/the-johnson-model-intervention", destination: "/intervention-types/johnson-model", permanent: true },
       { source: "/intervention-services/opioid-intervention",          destination: "/opioid-intervention",          permanent: true },
       { source: "/intervention-services/heroin-intervention",          destination: "/heroin-intervention",          permanent: true },
       { source: "/intervention-services/meth-intervention",            destination: "/meth-intervention",            permanent: true },
@@ -44,19 +44,13 @@ const nextConfig: NextConfig = {
       { source: "/intervention-services/intervention-services-by-type/dual-diagnosis-interventions",       destination: "/dual-diagnosis-interventions",    permanent: true },
       { source: "/intervention-services-by-type",                                                          destination: "/intervention-services",           permanent: true },
 
-      // ── WP nested /intervention-types/[slug] → flat ─────────────────────
-      { source: "/intervention-types",                              destination: "/intervention-services",           permanent: true },
-      { source: "/intervention-types/johnson-model",                destination: "/the-johnson-model-intervention", permanent: true },
-      { source: "/intervention-types/arise",                        destination: "/arise-intervention",             permanent: true },
-      { source: "/intervention-types/arise-intervention",           destination: "/arise-intervention",             permanent: true },
-      { source: "/intervention-types/crisis-interventions",         destination: "/crisis-interventions",           permanent: true },
-      { source: "/intervention-types/family-interventions",         destination: "/family-interventions",           permanent: true },
-      { source: "/intervention-types/interventions-for-teens",      destination: "/interventions-for-teens",        permanent: true },
-      { source: "/intervention-types/interventions-for-executives", destination: "/interventions-for-executives",   permanent: true },
-      { source: "/intervention-types/mental-health-interventions",  destination: "/mental-health-interventions",    permanent: true },
-      { source: "/intervention-types/dual-diagnosis-interventions", destination: "/dual-diagnosis-interventions",   permanent: true },
-      { source: "/intervention-types/alcohol-abuse-interventions",  destination: "/alcohol-abuse-interventions",    permanent: true },
-      { source: "/intervention-types/drug-abuse-interventions",     destination: "/drug-abuse-interventions",       permanent: true },
+      // ── Old flat methodology URLs → canonical /intervention-types/ ────────
+      { source: "/arise-intervention",              destination: "/intervention-types/arise",         permanent: true },
+      { source: "/the-johnson-model-intervention",  destination: "/intervention-types/johnson-model", permanent: true },
+      // Old WP nested paths for methodology pages
+      { source: "/intervention-services/arise-intervention",          destination: "/intervention-types/arise",         permanent: true },
+      { source: "/intervention-services/the-johnson-model-intervention", destination: "/intervention-types/johnson-model", permanent: true },
+      { source: "/intervention-types/arise-intervention",             destination: "/intervention-types/arise",         permanent: true },
 
       // ── WP nested /resources/[slug] → flat ──────────────────────────────
       { source: "/resources/intervention-quiz",                        destination: "/intervention-quiz",            permanent: true },

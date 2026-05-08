@@ -8,7 +8,7 @@ const fallbackMetadata: Metadata = {
 };
 
 export async function generateMetadata(): Promise<Metadata> {
-  return resolveTrackedPageMetadata("/arise-intervention", fallbackMetadata);
+  return resolveTrackedPageMetadata("/intervention-types/arise", fallbackMetadata);
 }
 
 export default function Page() {

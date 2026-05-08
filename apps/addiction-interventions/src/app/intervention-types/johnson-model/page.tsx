@@ -8,7 +8,7 @@ const fallbackMetadata: Metadata = {
 };
 
 export async function generateMetadata(): Promise<Metadata> {
-  return resolveTrackedPageMetadata("/the-johnson-model-intervention", fallbackMetadata);
+  return resolveTrackedPageMetadata("/intervention-types/johnson-model", fallbackMetadata);
 }
 
 export default function Page() {
