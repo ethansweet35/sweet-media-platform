@@ -520,28 +520,29 @@ export default async function HomePage() {
               <div className="relative z-10 flex flex-col gap-6 sm:flex-row sm:items-start">
                 {/* Avatar */}
                 <div className="flex h-24 w-24 shrink-0 items-center justify-center rounded-2xl bg-[#3E5B50] shadow-lg">
-                  <span className="font-heading text-3xl font-bold text-[#8FAC87]">JG</span>
+                  <span className="font-heading text-3xl font-bold text-[#8FAC87]">JM</span>
                 </div>
                 <div className="flex-1">
                   <div className="mb-1 flex flex-wrap items-center gap-3">
-                    <h3 className="font-heading text-2xl font-bold text-[#1A1A17]">Jennifer Gates</h3>
+                    <h3 className="font-heading text-2xl font-bold text-[#1A1A17]">Jennifer Miela-McDaniel</h3>
                     <span className="rounded-full bg-[#8FAC87]/20 px-3 py-0.5 text-xs font-semibold text-[#507969]">
                       Co-Founder
                     </span>
                   </div>
                   <p className="mb-4 text-sm font-semibold uppercase tracking-[0.12em] text-[#8FAC87]">
-                    Lead Interventionist · Family Systems Specialist
+                    Clinical Director · Lead Interventionist · CADC II · BRI · CTP · CFMI · ICADC
                   </p>
                   <p className="text-sm leading-relaxed text-[#4B4B4B]">
-                    Jennifer brings a deeply relational, family-systems approach to every intervention she leads. Her
-                    background in family dynamics and recovery coaching means she doesn&rsquo;t just focus on the person
-                    struggling — she supports the entire family unit through every stage of the process.
+                    Jennifer has over 20 years of experience beginning in 1993 as a drug and alcohol counselor. A trauma
+                    specialist trained in five different intervention models, she uses each intervention as an opportunity
+                    to interrupt destructive life patterns — healing the entire family system, not just the individual.
+                    She specializes in drug, alcohol, gambling, eating disorders, adolescence, and geriatric interventions.
                   </p>
                   <ul className="mt-5 grid gap-2">
                     {[
-                      "Certified Intervention Professional (CIP)",
-                      "Specializes in family systems, codependency & enabling recovery",
-                      "Trained in trauma-informed intervention practices",
+                      "Certified ARISE® Interventionist — invitational, non-confrontational approach",
+                      "Trauma specialist trained in 5 intervention models",
+                      "Specializes in adolescent, geriatric & eating disorder interventions",
                     ].map((c) => (
                       <li key={c} className="flex items-start gap-2.5">
                         <span className="mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center rounded-full bg-[#8FAC87] text-white">
@@ -552,10 +553,10 @@ export default async function HomePage() {
                     ))}
                   </ul>
                   <a
-                    href={PHONE_HREF}
+                    href="/about-us"
                     className="mt-6 inline-flex items-center gap-1.5 text-sm font-semibold text-[#507969] underline-offset-4 hover:underline"
                   >
-                    Speak with our team <i className="ri-arrow-right-line"></i>
+                    Read Jennifer&rsquo;s full bio <i className="ri-arrow-right-line"></i>
                   </a>
                 </div>
               </div>
