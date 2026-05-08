@@ -1,5 +1,9 @@
+import Link from "next/link";
 import PageHero from "@/components/sections/PageHero";
+import TrustStrip from "@/components/sections/TrustStrip";
+import BottomCta from "@/components/sections/BottomCta";
 import Quiz, { type QuizConfig } from "@/components/quiz/Quiz";
+import { PHONE_DISPLAY, PHONE_HREF } from "@/data/site";
 
 const STANDARD_OPTIONS = [
   { label: "Never / not at all", score: 0 },
@@ -115,7 +119,41 @@ export default function InterventionQuizPage() {
         secondaryCta={undefined as unknown as { label: string; href: string }}
         showTrustLine={false}
       />
+
+      <TrustStrip />
+
+      {/* Context strip */}
+      <section className="bg-[#F5F3E7] py-12">
+        <div className="mx-auto w-full max-w-4xl px-6 lg:px-10">
+          <div className="grid gap-6 sm:grid-cols-3 text-center">
+            {[
+              { icon: "ri-time-line", title: "2 minutes", desc: "10 quick questions about what you're observing" },
+              { icon: "ri-eye-off-line", title: "Fully anonymous", desc: "No email, no account, no data stored" },
+              { icon: "ri-award-line", title: "Clinically designed", desc: "Built by certified interventionists" },
+            ].map((f) => (
+              <div key={f.title} className="flex flex-col items-center gap-3 rounded-2xl bg-white px-6 py-6 shadow-sm ring-1 ring-[#EFEFEF]">
+                <span className="flex h-12 w-12 items-center justify-center rounded-2xl bg-[#3E5B50] text-white">
+                  <i className={`${f.icon} text-xl`}></i>
+                </span>
+                <p className="font-heading font-bold text-[#1A1A17]">{f.title}</p>
+                <p className="text-sm text-[#4B4B4B]">{f.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       <Quiz config={CONFIG} />
+
+      <BottomCta
+        title="Want to skip the quiz and talk directly?"
+        italicWord="directly"
+        body="Your first call is free, confidential, and judgment-free. A certified interventionist will listen and tell you honestly what comes next."
+        primaryLabel={`Call Now | ${PHONE_DISPLAY}`}
+        primaryHref={PHONE_HREF}
+        secondaryLabel="Read: Is It Time for an Intervention?"
+        secondaryHref="/is-it-time-for-an-intervention"
+      />
     </main>
   );
 }

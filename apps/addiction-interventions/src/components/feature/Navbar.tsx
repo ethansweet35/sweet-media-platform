@@ -49,12 +49,17 @@ const navItems: NavItem[] = [
     label: "Resources",
     path: "/resources",
     children: [
-      { label: "Intervention Quiz", path: "/intervention-quiz" },
-      { label: "Codependency Assessment", path: "/codependency-assessment" },
-      { label: "How To Plan an Intervention", path: "/how-to-plan-an-intervention-for-success" },
-      { label: "Is It Time For An Intervention?", path: "/is-it-time-for-an-intervention" },
-      { label: "Find Your Missing Loved One", path: "/find-your-missing-loved-one" },
-      { label: "FAQs", path: "/faqs" },
+      // Assessments
+      { label: "Intervention Quiz", path: "/intervention-quiz", group: "Assessments" },
+      { label: "Codependency Assessment", path: "/codependency-assessment", group: "Assessments" },
+      { label: "Is It Time For An Intervention?", path: "/is-it-time-for-an-intervention", group: "Assessments" },
+      // Family Guides
+      { label: "How To Plan an Intervention", path: "/how-to-plan-an-intervention-for-success", group: "Family Guides" },
+      { label: "Find Your Missing Loved One", path: "/find-your-missing-loved-one", group: "Family Guides" },
+      // Support & Reference
+      { label: "FAQs", path: "/faqs", group: "Support & Reference" },
+      { label: "Blog", path: "/blog", group: "Support & Reference" },
+      { label: "Contact Us", path: "/contact", group: "Support & Reference" },
     ],
   },
   { label: "Service Areas", path: "/service-areas" },
@@ -307,8 +312,135 @@ export default function Navbar() {
                             Still unsure? <a href={PHONE_HREF} className="font-semibold text-[#507969]">Speak with a certified interventionist now</a> — we’ll guide you to the right service in minutes.
                           </div>
                         </div>
+                      ) : item.label === "Resources" ? (
+                        // Mega menu for Resources
+                        <div>
+                          <div className="mb-6 flex items-center justify-between border-b border-[#EFEFEF] pb-4">
+                            <div>
+                              <p className="font-heading text-2xl font-bold text-[#1A1A17]">Family Resources</p>
+                              <p className="text-sm text-[#4B4B4B]">Tools, guides, and answers for families in crisis</p>
+                            </div>
+                            <div className="flex items-center gap-3">
+                              <Link href="/resources" className="rounded-full border border-[#8FAC87] px-5 py-2 text-sm font-semibold text-[#507969] hover:bg-[#8FAC87] hover:text-white">
+                                Browse all resources
+                              </Link>
+                              <a href={PHONE_HREF} className="rounded-full bg-[#8FAC87] px-5 py-2 text-sm font-semibold text-white">
+                                Call {PHONE_DISPLAY}
+                              </a>
+                            </div>
+                          </div>
+
+                          <div className="grid grid-cols-3 gap-8">
+                            {/* Assessments */}
+                            <div>
+                              <div className="mb-3 flex items-center gap-3">
+                                <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#8FAC87]/15 text-[#507969]">
+                                  <i className="ri-survey-line text-xl"></i>
+                                </span>
+                                <div>
+                                  <p className="font-heading text-lg font-bold text-[#1A1A17]">Self-Assessments</p>
+                                  <p className="text-xs text-[#4B4B4B]">Quick, anonymous, no email required</p>
+                                </div>
+                              </div>
+                              <ul className="space-y-1 text-sm">
+                                {[
+                                  { label: "Intervention Quiz", path: "/intervention-quiz", icon: "ri-questionnaire-line", desc: "Is intervention needed?" },
+                                  { label: "Codependency Assessment", path: "/codependency-assessment", icon: "ri-link-m", desc: "Are you enabling?" },
+                                  { label: "Is It Time For An Intervention?", path: "/is-it-time-for-an-intervention", icon: "ri-time-line", desc: "Honest self-assessment" },
+                                ].map((l) => (
+                                  <li key={l.path}>
+                                    <Link href={l.path} className="group flex items-start gap-3 rounded-lg px-2 py-2.5 hover:bg-[#F5F3E7]">
+                                      <span className="mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-[#F5F3E7] text-[#507969] group-hover:bg-white">
+                                        <i className={`${l.icon} text-sm`}></i>
+                                      </span>
+                                      <span>
+                                        <span className="block text-sm font-medium text-[#1A1A17] group-hover:text-[#507969]">{l.label}</span>
+                                        <span className="block text-xs text-[#4B4B4B]">{l.desc}</span>
+                                      </span>
+                                    </Link>
+                                  </li>
+                                ))}
+                              </ul>
+                            </div>
+
+                            {/* Family Guides */}
+                            <div>
+                              <div className="mb-3 flex items-center gap-3">
+                                <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#8FAC87]/15 text-[#507969]">
+                                  <i className="ri-book-open-line text-xl"></i>
+                                </span>
+                                <div>
+                                  <p className="font-heading text-lg font-bold text-[#1A1A17]">Family Guides</p>
+                                  <p className="text-xs text-[#4B4B4B]">Step-by-step guidance from the front lines</p>
+                                </div>
+                              </div>
+                              <ul className="space-y-1 text-sm">
+                                {[
+                                  { label: "How to Plan an Intervention", path: "/how-to-plan-an-intervention-for-success", icon: "ri-calendar-check-line", desc: "7-step planning guide" },
+                                  { label: "Find Your Missing Loved One", path: "/find-your-missing-loved-one", icon: "ri-search-eye-line", desc: "Crisis action steps" },
+                                ].map((l) => (
+                                  <li key={l.path}>
+                                    <Link href={l.path} className="group flex items-start gap-3 rounded-lg px-2 py-2.5 hover:bg-[#F5F3E7]">
+                                      <span className="mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-[#F5F3E7] text-[#507969] group-hover:bg-white">
+                                        <i className={`${l.icon} text-sm`}></i>
+                                      </span>
+                                      <span>
+                                        <span className="block text-sm font-medium text-[#1A1A17] group-hover:text-[#507969]">{l.label}</span>
+                                        <span className="block text-xs text-[#4B4B4B]">{l.desc}</span>
+                                      </span>
+                                    </Link>
+                                  </li>
+                                ))}
+                              </ul>
+                            </div>
+
+                            {/* Support & Reference */}
+                            <div>
+                              <div className="mb-3 flex items-center gap-3">
+                                <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#8FAC87]/15 text-[#507969]">
+                                  <i className="ri-customer-service-2-line text-xl"></i>
+                                </span>
+                                <div>
+                                  <p className="font-heading text-lg font-bold text-[#1A1A17]">Support & Reference</p>
+                                  <p className="text-xs text-[#4B4B4B]">Answers and direct access to our team</p>
+                                </div>
+                              </div>
+                              <ul className="space-y-1 text-sm">
+                                {[
+                                  { label: "FAQs", path: "/faqs", icon: "ri-question-answer-line", desc: "Common intervention questions" },
+                                  { label: "Blog", path: "/blog", icon: "ri-article-line", desc: "Expert articles & insights" },
+                                  { label: "Contact Us", path: "/contact", icon: "ri-phone-line", desc: "Free confidential call" },
+                                ].map((l) => (
+                                  <li key={l.path}>
+                                    <Link href={l.path} className="group flex items-start gap-3 rounded-lg px-2 py-2.5 hover:bg-[#F5F3E7]">
+                                      <span className="mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-[#F5F3E7] text-[#507969] group-hover:bg-white">
+                                        <i className={`${l.icon} text-sm`}></i>
+                                      </span>
+                                      <span>
+                                        <span className="block text-sm font-medium text-[#1A1A17] group-hover:text-[#507969]">{l.label}</span>
+                                        <span className="block text-xs text-[#4B4B4B]">{l.desc}</span>
+                                      </span>
+                                    </Link>
+                                  </li>
+                                ))}
+                              </ul>
+
+                              <div className="mt-5 rounded-xl bg-[#3E5B50] p-4 text-white">
+                                <p className="text-sm font-semibold">Need help right now?</p>
+                                <p className="mt-1 text-xs text-white/70">Our team answers 24 / 7 — no voicemail, no waiting.</p>
+                                <a href={PHONE_HREF} className="mt-3 inline-flex items-center gap-1.5 text-sm font-bold text-[#8FAC87] hover:text-white">
+                                  <i className="ri-phone-fill"></i> {PHONE_DISPLAY}
+                                </a>
+                              </div>
+                            </div>
+                          </div>
+
+                          <div className="mt-6 border-t border-[#EFEFEF] pt-4 text-center text-xs text-[#4B4B4B]">
+                            Not sure where to start? <Link href="/intervention-quiz" className="font-semibold text-[#507969]">Take the 2-minute quiz</Link> — no email required.
+                          </div>
+                        </div>
                       ) : (
-                        // Default simple dropdown for other items (Resources)
+                        // Default simple dropdown for any other items
                         <div className="min-w-[260px]">
                           {item.children!.map((child) => (
                             <Link

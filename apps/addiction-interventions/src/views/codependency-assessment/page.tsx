@@ -1,5 +1,8 @@
 import PageHero from "@/components/sections/PageHero";
+import TrustStrip from "@/components/sections/TrustStrip";
+import BottomCta from "@/components/sections/BottomCta";
 import Quiz, { type QuizConfig } from "@/components/quiz/Quiz";
+import { PHONE_DISPLAY, PHONE_HREF } from "@/data/site";
 
 const STANDARD_OPTIONS = [
   { label: "Almost never", score: 0 },
@@ -115,7 +118,52 @@ export default function CodependencyAssessmentPage() {
         secondaryCta={undefined as unknown as { label: string; href: string }}
         showTrustLine={false}
       />
+
+      <TrustStrip />
+
+      {/* Why this matters */}
+      <section className="bg-[#F5F3E7] py-12">
+        <div className="mx-auto w-full max-w-4xl px-6 lg:px-10">
+          <div className="rounded-3xl bg-[#3E5B50] p-8 text-white">
+            <div className="grid gap-8 md:grid-cols-2 md:items-center">
+              <div>
+                <p className="brand-eyebrow mb-3 text-[#8FAC87]">Why This Matters</p>
+                <h2 className="font-heading text-2xl font-bold md:text-3xl">
+                  Codependency is one of the strongest predictors of <span className="italic text-[#8FAC87]">whether recovery takes hold</span>
+                </h2>
+                <p className="mt-4 text-sm leading-relaxed text-white/75">
+                  Families that break codependent patterns before and during treatment see dramatically better outcomes. This assessment helps you understand where you stand — honestly and without judgment.
+                </p>
+              </div>
+              <div className="grid gap-4 sm:grid-cols-2">
+                {[
+                  { icon: "ri-heart-pulse-line", text: "Anonymous — no data stored" },
+                  { icon: "ri-time-line", text: "Takes 2 minutes" },
+                  { icon: "ri-shield-check-line", text: "Clinically designed" },
+                  { icon: "ri-refresh-line", text: "Retake anytime" },
+                ].map((f) => (
+                  <div key={f.text} className="flex items-center gap-3 rounded-xl bg-white/10 px-4 py-3">
+                    <i className={`${f.icon} text-[#8FAC87] text-lg`}></i>
+                    <span className="text-sm font-medium text-white">{f.text}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       <Quiz config={CONFIG} />
+
+      <BottomCta
+        title="Want to talk through what you discovered?"
+        italicWord="discovered"
+        body="Our interventionists work with families every day on exactly these patterns. Your first call is free, confidential, and judgment-free."
+        primaryLabel={`Call Now | ${PHONE_DISPLAY}`}
+        primaryHref={PHONE_HREF}
+        secondaryLabel="Take the Intervention Quiz"
+        secondaryHref="/intervention-quiz"
+      />
     </main>
   );
 }
