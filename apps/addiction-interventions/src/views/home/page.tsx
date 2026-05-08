@@ -183,8 +183,8 @@ export default async function HomePage() {
   return (
     <div className="overflow-x-hidden">
 
-      {/* ── Hero ─────────────────────────────────────────────────────────── */}
-      <section className="relative flex min-h-screen items-center py-32">
+      {/* ── Hero: top-aligned on mobile (avoids huge gap under sticky nav); centered on md+ ── */}
+      <section className="relative min-h-[72vh] md:min-h-screen">
         <Image
           src={HERO_IMAGE}
           alt="A family finding hope through compassionate intervention"
@@ -196,7 +196,9 @@ export default async function HomePage() {
         <div className="absolute inset-0 bg-gradient-to-t from-[#3E5B50]/85 via-[#3E5B50]/50 to-[#3E5B50]/30" />
         <div className="absolute inset-0 bg-gradient-to-r from-[#3E5B50]/80 via-[#3E5B50]/40 to-transparent" />
 
-        <div className={`relative z-10 ${CONTAINER}`}>
+        <div
+          className={`relative z-10 flex min-h-[72vh] flex-col justify-start pb-14 pt-10 md:min-h-screen md:justify-center md:pb-24 md:pt-16 lg:pb-32 lg:pt-24 ${CONTAINER}`}
+        >
           <p className="brand-eyebrow mb-5 text-[#8FAC87]">
             Certified Intervention Specialists — Nationwide
           </p>

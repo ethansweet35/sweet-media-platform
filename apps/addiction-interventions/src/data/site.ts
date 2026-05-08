@@ -8,6 +8,10 @@ export const PHONE_HREF = "tel:9497767093";
 
 export const BRAND_NAME = "Addiction Interventions";
 
+/** Navbar/footer wordmark — Supabase CDN (reliable on Vercel; WP hotlink can 403). */
+export const NAV_LOGO_URL =
+  "https://bxtwcdgjzzjxjvqdiuvn.supabase.co/storage/v1/object/public/site-assets/images/brand_wordmark_navbar.png";
+
 export const TRUST_SIGNALS = {
   familiesHelpedTagline: "1,500+ Families Helped",
   accreditation: "Accredited by The Joint Commission",

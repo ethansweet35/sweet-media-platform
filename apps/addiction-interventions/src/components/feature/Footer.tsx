@@ -1,10 +1,9 @@
 import Image from "next/image";
 import Link from "next/link";
+import { NAV_LOGO_URL } from "@/data/site";
 
 const PHONE_DISPLAY = "949-776-7093";
 const PHONE_HREF = "tel:9497767093";
-const LOGO_URL =
-  "https://addictioninterventions.com/wp-content/uploads/2025/07/Frys-Baskersville-3.png";
 
 const serviceLinks = [
   { label: "Substance Abuse Interventions", path: "/substance-abuse-interventions" },
@@ -45,12 +44,12 @@ export default function Footer() {
           <div>
             <Link href="/">
               <Image
-                src={LOGO_URL}
+                src={NAV_LOGO_URL}
                 alt="Addiction Interventions"
-                width={220}
-                height={58}
-                className="h-14 w-auto object-contain brightness-0 invert"
-                unoptimized
+                width={500}
+                height={130}
+                className="h-12 w-auto max-w-[220px] object-contain brightness-0 invert md:h-14"
+                sizes="220px"
               />
             </Link>
             <p className="mt-5 max-w-sm text-sm leading-7 text-white/60">

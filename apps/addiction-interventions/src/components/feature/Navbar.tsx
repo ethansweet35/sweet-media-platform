@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
+import { NAV_LOGO_URL } from "@/data/site";
 
 type NavItem = {
   label: string;
@@ -70,9 +71,6 @@ const navItems: NavItem[] = [
 const PHONE_DISPLAY = "949-776-7093";
 const PHONE_HREF = "tel:9497767093";
 
-const LOGO_URL =
-  "https://addictioninterventions.com/wp-content/uploads/2025/07/Frys-Baskersville-3.png";
-
 export default function Navbar() {
   const pathname = usePathname();
   const [openSubmenu, setOpenSubmenu] = useState<string | null>(null);
@@ -112,15 +110,15 @@ export default function Navbar() {
       <nav className="border-b border-[#EFEFEF] bg-white">
         <div className="mx-auto flex max-w-7xl items-center justify-between gap-6 px-6 py-3 lg:px-10">
           {/* Logo — 500×132 combined wordmark */}
-          <Link href="/" className="flex shrink-0 items-center">
+          <Link href="/" className="flex min-w-0 max-w-[min(100%,220px)] shrink-0 items-center">
             <Image
-              src={LOGO_URL}
+              src={NAV_LOGO_URL}
               alt="Addiction Interventions — Intervene Today. Change Tomorrow."
-              width={251}
-              height={66}
-              className="h-16 w-auto object-contain"
+              width={500}
+              height={130}
+              className="h-12 w-auto max-w-full object-contain object-left md:h-16"
               priority
-              unoptimized
+              sizes="(max-width: 1024px) 200px, 260px"
             />
           </Link>
 
