@@ -119,9 +119,9 @@ export default function Navbar() {
               alt="Addiction Interventions — Intervene Today. Change Tomorrow."
               width={800}
               height={160}
-              className="h-14 w-auto sm:h-16 lg:h-[4.5rem] xl:h-20"
+              className="h-9 w-auto sm:h-10 lg:h-11"
               priority
-              sizes="(max-width: 640px) 340px, (max-width: 1024px) 400px, 480px"
+              sizes="(max-width: 640px) 220px, (max-width: 1024px) 260px, 300px"
             />
           </Link>
 
