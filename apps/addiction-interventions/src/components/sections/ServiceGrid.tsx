@@ -10,14 +10,14 @@ export type ServiceGridItem = {
 export const DEFAULT_SERVICE_GRID: ServiceGridItem[] = [
   {
     title: "Alcohol Addiction Interventions",
-    href: "/alcohol-abuse-interventions",
+    href: "/substance-abuse-interventions/alcohol",
     blurb:
       "Helped over 1,000 people struggling with alcohol take the next step in recovery.",
     icon: "ri-goblet-line",
   },
   {
     title: "Drug Addiction Interventions",
-    href: "/drug-abuse-interventions",
+    href: "/substance-abuse-interventions/drug",
     blurb:
       "Break the cycle of enabling and codependency that often surrounds drug use.",
     icon: "ri-capsule-line",

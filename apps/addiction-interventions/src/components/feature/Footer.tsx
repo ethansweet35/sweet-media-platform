@@ -7,8 +7,9 @@ const LOGO_URL =
   "https://addictioninterventions.com/wp-content/uploads/2025/07/Frys-Baskersville-3.png";
 
 const serviceLinks = [
-  { label: "Alcohol Abuse Interventions", path: "/alcohol-abuse-interventions" },
-  { label: "Drug Abuse Interventions", path: "/drug-abuse-interventions" },
+  { label: "Substance Abuse Interventions", path: "/substance-abuse-interventions" },
+  { label: "Alcohol Abuse Interventions", path: "/substance-abuse-interventions/alcohol" },
+  { label: "Drug Abuse Interventions", path: "/substance-abuse-interventions/drug" },
   { label: "Mental Health Interventions", path: "/mental-health-interventions" },
   { label: "Family Interventions", path: "/family-interventions" },
   { label: "Teen Interventions", path: "/interventions-for-teens" },

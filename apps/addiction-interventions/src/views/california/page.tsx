@@ -135,15 +135,15 @@ const CA_PROCESS = [
 ];
 
 const CA_CONDITIONS = [
-  { label: "Alcohol abuse", href: "/alcohol-abuse-interventions" },
-  { label: "Cocaine addiction", href: "/cocaine-intervention" },
-  { label: "Heroin / opioids", href: "/heroin-intervention" },
-  { label: "Meth use", href: "/meth-intervention" },
-  { label: "Ketamine misuse", href: "/ketamine-addiction" },
-  { label: "Prescription drugs", href: "/opioid-intervention" },
-  { label: "Anxiety crises", href: "/anxiety" },
-  { label: "Depression", href: "/depression" },
-  { label: "Self-medicating", href: "/self-medicating" },
+  { label: "Alcohol abuse", href: "/substance-abuse-interventions/alcohol" },
+  { label: "Cocaine addiction", href: "/substance-abuse-interventions/cocaine" },
+  { label: "Heroin / opioids", href: "/substance-abuse-interventions/heroin" },
+  { label: "Meth use", href: "/substance-abuse-interventions/meth" },
+  { label: "Ketamine misuse", href: "/substance-abuse-interventions/ketamine" },
+  { label: "Prescription drugs", href: "/substance-abuse-interventions/opioid" },
+  { label: "Anxiety crises", href: "/mental-health-interventions/anxiety" },
+  { label: "Depression", href: "/mental-health-interventions/depression" },
+  { label: "Self-medicating", href: "/mental-health-interventions/self-medicating" },
   { label: "Dual diagnosis", href: "/dual-diagnosis-interventions" },
   { label: "Teen interventions", href: "/interventions-for-teens" },
   { label: "Executive interventions", href: "/interventions-for-executives" },
@@ -202,14 +202,14 @@ export default function CaliforniaPage() {
         <div className="pointer-events-none absolute -right-20 top-1/3 h-96 w-96 rounded-full bg-[#507969]/30 blur-3xl" />
 
         <div className={`relative ${CONTAINER} py-20 md:py-28`}>
-          <div className="grid gap-12 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
+          <div className="grid gap-12 lg:grid-cols-[1.1fr_0.9fr] lg:items-start">
             <div>
               <p className="brand-eyebrow mb-4 text-[#8FAC87] flex items-center gap-2">
                 <i className="ri-shield-check-line text-base" />
                 Certified Interventionists Serving California 24/7
               </p>
               <h1 className="font-heading text-4xl font-bold leading-tight text-white md:text-5xl lg:text-6xl">
-                Family interventions across <span className="italic text-[#8FAC87]">California</span> — from Eureka to Chula Vista.
+                Interventions across <span className="italic text-[#8FAC87]">California</span> — from Eureka to Chula Vista.
               </h1>
               <p className="mt-6 max-w-xl text-base leading-relaxed text-white/80 md:text-lg">
                 On-site addiction and mental health interventions in every California county. Our team is on the ground in 24–48 hours, vetted across the state's treatment landscape, and stays with your family for the full recovery year.
@@ -248,17 +248,8 @@ export default function CaliforniaPage() {
             </div>
 
             {/* Inline lead form */}
-            <div id="contact-ca" className="rounded-3xl bg-white p-6 md:p-8 shadow-2xl ring-1 ring-[#EFEFEF]">
-              <p className="brand-eyebrow text-[#8FAC87] mb-2">Free, Confidential Consultation</p>
-              <h2 className="font-heading text-2xl font-bold text-[#1A1A17] md:text-3xl">
-                Speak with a California specialist.
-              </h2>
-              <p className="mt-2 text-sm text-[#4B4B4B]">
-                Most families hear back within 15 minutes. We never share your information.
-              </p>
-              <div className="mt-5">
-                <HeroContactForm />
-              </div>
+            <div id="contact-ca">
+              <HeroContactForm />
             </div>
           </div>
         </div>
@@ -288,8 +279,8 @@ export default function CaliforniaPage() {
       {/* ── WHY CALIFORNIA FAMILIES CALL US ──────────────────────────── */}
       <section className="bg-white py-20 md:py-24">
         <div className={CONTAINER}>
-          <div className="grid gap-12 lg:grid-cols-[0.9fr_1.1fr] lg:items-center">
-            <div className="relative aspect-[4/5] rounded-3xl overflow-hidden ring-1 ring-[#EFEFEF] order-2 lg:order-1">
+          <div className="grid gap-12 lg:grid-cols-[0.9fr_1.1fr] lg:items-stretch">
+            <div className="relative min-h-[380px] rounded-3xl overflow-hidden ring-1 ring-[#EFEFEF] order-2 lg:order-1">
               <Image
                 src={INTERVENTION_IMAGE}
                 alt="California family meeting with an interventionist in their living room"
@@ -297,7 +288,7 @@ export default function CaliforniaPage() {
                 sizes="(max-width: 1024px) 100vw, 480px"
                 className="object-cover"
               />
-              <div className="absolute -bottom-4 -right-4 hidden md:block rounded-2xl bg-[#3E5B50] px-6 py-5 shadow-xl">
+              <div className="absolute bottom-5 right-5 rounded-2xl bg-[#3E5B50] px-6 py-5 shadow-xl">
                 <p className="font-heading text-3xl font-bold text-white">300+</p>
                 <p className="mt-0.5 text-[10px] font-semibold uppercase tracking-[0.12em] text-[#8FAC87]">
                   CA families helped
@@ -409,7 +400,7 @@ export default function CaliforniaPage() {
         <div className="pointer-events-none absolute -left-20 -top-20 h-72 w-72 rounded-full bg-[#507969]/40" />
         <div className="pointer-events-none absolute -right-20 -bottom-20 h-72 w-72 rounded-full bg-[#8FAC87]/15" />
         <div className={`relative ${CONTAINER}`}>
-          <div className="grid gap-10 lg:grid-cols-[1.4fr_1fr] lg:items-center">
+          <div className="grid gap-10 lg:grid-cols-[1.4fr_1fr] lg:items-end">
             <div>
               <p className="brand-eyebrow mb-3 text-[#8FAC87]">Don't wait for the next California crisis</p>
               <h2 className="font-heading text-3xl font-bold text-white md:text-4xl lg:text-5xl">
@@ -441,7 +432,7 @@ export default function CaliforniaPage() {
       {/* ── CONDITIONS WE TREAT IN CA ────────────────────────────────── */}
       <section className="bg-white py-20 md:py-24">
         <div className={CONTAINER}>
-          <div className="grid gap-10 lg:grid-cols-[1fr_1.4fr]">
+          <div className="grid gap-10 lg:grid-cols-[1fr_1.4fr] lg:items-center">
             <div>
               <p className="brand-eyebrow mb-3 text-[#8FAC87]">Every Kind of California Case</p>
               <h2 className="font-heading text-3xl font-bold text-[#1A1A17] md:text-4xl">

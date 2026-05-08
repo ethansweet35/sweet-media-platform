@@ -15,37 +15,37 @@ const SUBSTANCE_SERVICES = [
     icon: "ri-goblet-line",
     title: "Alcohol Abuse Interventions",
     body: "Structured interventions for alcohol use disorder — from functioning drinkers to daily dependency. We lead with clinical clarity and same-day placement.",
-    href: "/alcohol-abuse-interventions",
+    href: "/substance-abuse-interventions/alcohol",
   },
   {
     icon: "ri-capsule-line",
     title: "Drug Abuse Interventions",
     body: "Comprehensive intervention services for all substance use disorders. We work with every substance, every severity, and every family situation.",
-    href: "/drug-abuse-interventions",
+    href: "/substance-abuse-interventions/drug",
   },
   {
     icon: "ri-medicine-bottle-line",
     title: "Opioid Interventions",
     body: "Fentanyl, heroin, prescription painkillers — opioid interventions require urgent, informed action. We move fast and know the treatment landscape.",
-    href: "/drug-abuse-interventions/opioid",
+    href: "/substance-abuse-interventions/opioid",
   },
   {
     icon: "ri-flask-line",
     title: "Methamphetamine Interventions",
     body: "Meth use creates extreme psychiatric complexity. We specialise in interventions that account for the unique challenges of stimulant use disorder.",
-    href: "/drug-abuse-interventions/meth",
+    href: "/substance-abuse-interventions/meth",
   },
   {
     icon: "ri-leaf-line",
     title: "Cocaine & Crack Interventions",
     body: "Cocaine and crack addiction escalate quickly. We provide structured interventions and placement in programs with specific stimulant treatment expertise.",
-    href: "/drug-abuse-interventions/cocaine",
+    href: "/substance-abuse-interventions/cocaine",
   },
   {
     icon: "ri-heart-pulse-line",
     title: "Heroin Interventions",
     body: "Heroin addiction carries fatal risk every day. Our interventions prioritise speed, safety, and medically supervised withdrawal options from day one.",
-    href: "/drug-abuse-interventions/heroin",
+    href: "/substance-abuse-interventions/heroin",
   },
 ];
 
@@ -66,7 +66,7 @@ const MENTAL_HEALTH_SERVICES = [
     icon: "ri-cloud-windy-line",
     title: "Depression Interventions",
     body: "Depression that goes untreated often leads to substance use, self-harm, or worse. We help families intervene before the situation becomes a crisis.",
-    href: "/depression-interventions",
+    href: "/mental-health-interventions/depression",
   },
   {
     icon: "ri-psychotherapy-line",
@@ -108,13 +108,13 @@ const MODELS = [
     icon: "ri-hand-heart-line",
     title: "ARISE® Model",
     body: "Invitational, non-confrontational. The loved one is engaged from the first call. 83% enter treatment within 1–3 sessions.",
-    href: "/arise-intervention",
+    href: "/intervention-types/arise",
   },
   {
     icon: "ri-shield-flash-line",
     title: "Johnson Model",
     body: "Structured confrontation for situations where softer approaches have failed. Rigorously prepared, clinically supervised, highly effective when appropriate.",
-    href: "/the-johnson-model-intervention",
+    href: "/intervention-types/johnson-model",
   },
 ];
 

@@ -79,13 +79,13 @@ const services = [
   {
     icon: "ri-goblet-line",
     label: "Alcohol Addiction",
-    path: "/alcohol-abuse-interventions",
+    path: "/substance-abuse-interventions/alcohol",
     desc: "Our team has helped over 1,000 families struggling with alcohol take the next step toward recovery.",
   },
   {
     icon: "ri-capsule-line",
     label: "Drug Addiction",
-    path: "/drug-abuse-interventions",
+    path: "/substance-abuse-interventions/drug",
     desc: "We help break the cycle of drug dependence with compassion, guiding loved ones toward lasting recovery.",
   },
   {
