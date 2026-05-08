@@ -1,10 +1,8 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
-import { NAV_LOGO_URL } from "@/data/site";
 
 type NavItem = {
   label: string;
@@ -110,19 +108,13 @@ export default function Navbar() {
       <nav className="border-b border-[#EFEFEF] bg-white">
         <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-6 py-2 lg:gap-8 lg:px-10 lg:py-3">
           {/* Logo */}
-          <Link
-            href="/"
-            className="flex shrink-0 items-center"
-          >
-            <Image
-              src={NAV_LOGO_URL}
-              alt="Addiction Interventions — Intervene Today. Change Tomorrow."
-              width={800}
-              height={160}
-              className="h-9 w-auto sm:h-10 lg:h-11"
-              priority
-              sizes="(max-width: 640px) 220px, (max-width: 1024px) 260px, 300px"
-            />
+          <Link href="/" className="flex shrink-0 flex-col items-start leading-none">
+            <span className="font-heading text-xl font-bold tracking-tight text-[#1A1A17] sm:text-2xl lg:text-[1.6rem]">
+              Addiction Interventions
+            </span>
+            <span className="mt-0.5 text-[0.55rem] font-semibold uppercase tracking-[0.18em] text-[#8FAC87] sm:text-[0.6rem]">
+              Intervene Today · Change Tomorrow
+            </span>
           </Link>
 
           {/* Desktop nav */}
