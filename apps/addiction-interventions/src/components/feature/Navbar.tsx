@@ -108,17 +108,20 @@ export default function Navbar() {
 
       {/* Main nav */}
       <nav className="border-b border-[#EFEFEF] bg-white">
-        <div className="mx-auto flex max-w-7xl items-center justify-between gap-6 px-6 py-3 lg:px-10">
+        <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-6 py-3.5 sm:gap-6 lg:px-10 lg:py-4">
           {/* Logo — 500×132 combined wordmark */}
-          <Link href="/" className="flex min-w-0 max-w-[min(100%,220px)] shrink-0 items-center">
+          <Link
+            href="/"
+            className="flex min-w-0 max-w-[min(100%,300px)] shrink-0 items-center sm:max-w-[min(100%,360px)] lg:max-w-[420px]"
+          >
             <Image
               src={NAV_LOGO_URL}
               alt="Addiction Interventions — Intervene Today. Change Tomorrow."
               width={500}
               height={130}
-              className="h-12 w-auto max-w-full object-contain object-left md:h-16"
+              className="h-16 w-auto max-w-full object-contain object-left sm:h-[4.75rem] lg:h-20 xl:h-[5.25rem]"
               priority
-              sizes="(max-width: 1024px) 200px, 260px"
+              sizes="(max-width: 640px) 300px, (max-width: 1024px) 360px, 420px"
             />
           </Link>
 

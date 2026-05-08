@@ -48,8 +48,8 @@ export default function Footer() {
                 alt="Addiction Interventions"
                 width={500}
                 height={130}
-                className="h-12 w-auto max-w-[220px] object-contain brightness-0 invert md:h-14"
-                sizes="220px"
+                className="h-16 w-auto max-w-[min(100%,320px)] object-contain brightness-0 invert sm:h-[4.75rem] md:h-20 lg:h-[5.25rem] lg:max-w-[380px]"
+                sizes="(max-width: 768px) 280px, (max-width: 1024px) 340px, 380px"
               />
             </Link>
             <p className="mt-5 max-w-sm text-sm leading-7 text-white/60">
