@@ -39,7 +39,7 @@ const MGMT = 'https://api.supabase.com';
 // Add/remove entries here to update who gets access to all future client projects.
 const STANDING_TEAM_MEMBERS = [
   { email: 'jake@sweetmediaservices.com', role: 'developer', github: 'jakechampion88' },
-  { email: 'sean@sweetmediaservices.com', role: 'developer', github: null }, // update github username when known
+  { email: 'sean@sweetmediaservices.com', role: 'developer', github: 'Maverick0114' },
 ];
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
