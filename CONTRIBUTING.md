@@ -291,6 +291,40 @@ Open your browser to `http://localhost:3000`.
 
 ---
 
+## Git cheat sheet
+
+All of these are run from the **repo root** unless noted.
+
+| Command | What it does |
+|---|---|
+| `git status` | See what files you've changed |
+| `git pull` | Pull the latest changes from main |
+| `git checkout -b feature/my-branch` | Create a new branch and switch to it |
+| `git checkout main` | Switch back to main |
+| `git add .` | Stage all changed files |
+| `git add apps/addiction-interventions/` | Stage only one app's files |
+| `git commit -m "description of change"` | Commit staged changes |
+| `git push` | Push your branch to GitHub |
+| `git push -u origin HEAD` | Push a brand-new branch for the first time |
+| `git log --oneline -10` | See the last 10 commits |
+| `git diff` | See unstaged changes line by line |
+| `git stash` | Temporarily shelve uncommitted changes |
+| `git stash pop` | Restore shelved changes |
+
+**Typical daily flow:**
+
+```bash
+git pull                                  # always start with latest
+git checkout -b feature/my-change         # new branch for your work
+# ... make changes ...
+git add .
+git commit -m "what you did"
+git push -u origin HEAD                   # first push on a new branch
+# open a PR on GitHub for review
+```
+
+---
+
 ## Quick reference
 
 All of these are run from the **repo root** (`sweet-media-platform/`) unless the "Where" column says otherwise.
