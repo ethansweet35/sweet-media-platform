@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Poppins, Montserrat } from "next/font/google";
+import { Cormorant_Garamond, Montserrat } from "next/font/google";
 import Script from "next/script";
 import "./globals.css";
 import Layout from "@/components/feature/Layout";
@@ -9,8 +9,8 @@ import { Providers } from "./providers";
 const REMIXICON_CSS =
   "https://cdn.jsdelivr.net/npm/remixicon@4.6.0/fonts/remixicon.css";
 
-const poppins = Poppins({
-  variable: "--font-poppins",
+const cormorant = Cormorant_Garamond({
+  variable: "--font-cormorant",
   subsets: ["latin"],
   weight: ["400", "500", "600", "700"],
   display: "swap",
@@ -72,7 +72,7 @@ export default function RootLayout({
           <link rel="stylesheet" href={REMIXICON_CSS} crossOrigin="anonymous" />
         </noscript>
       </head>
-      <body className={`${poppins.variable} ${montserrat.variable} antialiased`}>
+      <body className={`${cormorant.variable} ${montserrat.variable} antialiased`}>
         <Providers>
           <Layout>{children}</Layout>
         </Providers>

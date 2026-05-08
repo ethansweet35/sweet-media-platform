@@ -11,7 +11,7 @@ const serviceLinks = [
   { label: "Teen Interventions", path: "/interventions-for-teens" },
   { label: "Crisis Interventions", path: "/crisis-interventions" },
   { label: "Dual Diagnosis Interventions", path: "/dual-diagnosis-interventions" },
-  { label: "ARISE® Intervention", path: "/arise-intervention" },
+  { label: "ARISE® Intervention", path: "/intervention-types/arise" },
 ];
 
 const resourceLinks = [
@@ -27,30 +27,33 @@ const resourceLinks = [
 const aboutLinks = [
   { label: "About Us", path: "/about-us" },
   { label: "Why Choose Us", path: "/why-choose-us" },
+  { label: "David Gates", path: "/david-gates" },
   { label: "Service Areas", path: "/service-areas" },
-  { label: "Privacy Policy", path: "/privacy-policy" },
   { label: "Contact", path: "/contact" },
 ];
 
 export default function Footer() {
   return (
-    <footer className="mt-24 bg-[var(--color-cream)] text-[var(--color-ink)]">
+    <footer className="bg-[#2C4A2E] text-white">
       <div className="mx-auto max-w-7xl px-6 py-16">
-        <div className="grid gap-10 md:grid-cols-[1.4fr_1fr_1fr_1fr]">
+        <div className="grid gap-12 md:grid-cols-[1.6fr_1fr_1fr_1fr]">
+          {/* Brand column */}
           <div>
-            <h2 className="text-2xl font-semibold tracking-tight">Addiction Interventions</h2>
-            <p className="mt-4 max-w-md text-sm leading-7 text-[var(--color-ink-muted)]">
+            <h2 className="font-heading text-3xl font-semibold tracking-tight text-[#F5F0E4]">
+              Addiction Interventions
+            </h2>
+            <p className="mt-4 max-w-sm text-sm leading-7 text-white/60">
               Compassionate, family-centered addiction and mental health interventions.
               Trusted by more than 1,500 families nationwide.
             </p>
             <a
               href={PHONE_HREF}
-              className="mt-6 inline-flex items-center gap-2 rounded-full bg-[var(--color-sage)] px-5 py-3 text-sm font-semibold text-white shadow-sm hover:bg-[var(--color-sage-deep)]"
+              className="mt-7 inline-flex items-center gap-2 rounded-full bg-[#F5F0E4] px-6 py-3 text-sm font-semibold text-[#2C4A2E] shadow transition hover:bg-white"
             >
               <i className="ri-phone-fill"></i>
               Call {PHONE_DISPLAY}
             </a>
-            <p className="mt-4 text-xs uppercase tracking-[0.18em] text-[var(--color-ink-muted)]">
+            <p className="mt-4 text-xs uppercase tracking-[0.18em] text-white/40">
               Available 24/7
             </p>
           </div>
@@ -60,9 +63,9 @@ export default function Footer() {
           <FooterColumn title="Company" links={aboutLinks} />
         </div>
 
-        <div className="mt-12 flex flex-col gap-3 border-t border-[var(--color-divider)] pt-6 text-xs text-[var(--color-ink-muted)] md:flex-row md:items-center md:justify-between">
+        <div className="mt-14 flex flex-col gap-3 border-t border-white/10 pt-7 text-xs text-white/40 md:flex-row md:items-center md:justify-between">
           <p>© {new Date().getFullYear()} Addiction Interventions. All rights reserved.</p>
-          <p>Accredited by The Joint Commission.</p>
+          <p>Accredited by The Joint Commission. Serving all 50 states.</p>
         </div>
       </div>
     </footer>
@@ -78,7 +81,7 @@ function FooterColumn({
 }) {
   return (
     <div>
-      <h3 className="text-xs font-semibold uppercase tracking-[0.2em] text-[var(--color-ink-muted)]">
+      <h3 className="text-xs font-semibold uppercase tracking-[0.2em] text-[#8FAC87]">
         {title}
       </h3>
       <div className="mt-5 grid gap-3">
@@ -86,7 +89,7 @@ function FooterColumn({
           <Link
             key={link.path}
             href={link.path}
-            className="text-sm text-[var(--color-ink)] hover:text-[var(--color-sage-deep)]"
+            className="text-sm text-white/60 transition hover:text-[#F5F0E4]"
           >
             {link.label}
           </Link>

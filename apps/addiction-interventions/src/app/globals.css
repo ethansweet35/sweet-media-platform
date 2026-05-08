@@ -5,29 +5,31 @@
 @source "../../../../packages/admin-core/src/**/*.{js,ts,jsx,tsx}";
 
 /*
- * Addiction Interventions brand tokens — derived from the live homepage palette only.
- * Do NOT add legacy navy/orange/forest colors here without product approval; the
- * live site is being consolidated to a sage + cream system.
+ * Addiction Interventions brand tokens — warm editorial direction.
+ * Deep forest green + rich cream ivory + Cormorant Garamond serif headings.
  */
 :root {
-  /* Brand palette (homepage-verified) */
-  --color-sage: #8FAC87;          /* primary brand accent */
-  --color-sage-deep: #6F8E68;     /* darker hover/pressed (derived ~15% darker) */
-  --color-cream: #F5F3E7;         /* warm neutral background */
+  /* Brand palette */
+  --color-forest: #2C4A2E;        /* primary — deep earthy green */
+  --color-forest-light: #3D6640;  /* hover/active state */
+  --color-sage: #8FAC87;          /* mid-tone accent */
+  --color-sage-deep: #6F8E68;     /* sage hover */
+  --color-cream: #F5F0E4;         /* warm ivory background */
+  --color-cream-deep: #EDE8D8;    /* slightly richer cream for alternating sections */
   --color-surface: #FFFFFF;
-  --color-ink: #000000;           /* primary text */
-  --color-ink-muted: #4B4B4B;     /* secondary text */
-  --color-divider: #EFEFEF;
+  --color-ink: #1A1A17;           /* warm near-black */
+  --color-ink-muted: #5C5A52;     /* warm muted text */
+  --color-divider: #E8E3D8;       /* warm divider */
 
   /* Semantic aliases used across the app + admin-core utilities */
-  --color-primary: var(--color-ink);
+  --color-primary: var(--color-forest);
   --color-secondary: var(--color-ink-muted);
   --color-accent: var(--color-sage);
   --color-background: var(--color-surface);
   --color-muted: var(--color-ink-muted);
 
   /* Typography */
-  --font-heading: var(--font-poppins), system-ui, sans-serif;
+  --font-heading: var(--font-cormorant), Georgia, serif;
   --font-body: var(--font-montserrat), system-ui, sans-serif;
 }
 
@@ -58,7 +60,8 @@
   h6 {
     font-family: var(--font-heading);
     font-weight: 600;
-    letter-spacing: -0.01em;
+    letter-spacing: -0.02em;
+    line-height: 1.15;
   }
 
   button,
