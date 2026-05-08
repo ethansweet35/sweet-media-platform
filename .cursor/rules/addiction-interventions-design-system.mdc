@@ -1,0 +1,163 @@
+---
+description: Design system for apps/addiction-interventions — apply when editing any page, component, template, or section in that app.
+globs: apps/addiction-interventions/**
+alwaysApply: true
+---
+
+# Addiction Interventions — Design System
+
+## Brand Colors
+```
+Sage accent:    #8FAC87   — CTAs, eyebrows, icons, star ratings, checkmarks
+Sage deep:      #507969   — italic emphasis in headings, icon hover states
+Sage hover:     #6F8E68   — button hover
+Dark sage:      #3E5B50   — dark section backgrounds (About, CTA, Process strip)
+Cream:          #F5F3E7   — alternating section backgrounds
+Cream border:   #EFEFEF   — card borders, dividers
+Body text:      #4B4B4B   — paragraph text on light backgrounds
+Ink:            #1A1A17   — headings and primary text
+White:          #FFFFFF   — section backgrounds, card fills
+```
+
+## Section Background Rhythm
+Alternate sections using this pattern to create visual cadence:
+1. White → 2. Cream (#F5F3E7) → 3. Dark sage (#3E5B50) → repeat
+Dark sage sections always use white/sage text. Never use the old #3a5c3c.
+
+## Typography
+- **Heading font**: `font-heading` class → Playfair Display (loaded as `--font-playfair`)
+- **Body font**: Montserrat (`--font-montserrat`)
+- Headings: `font-bold` (700) with `letter-spacing: -0.01em`
+- Italic emphasis word inside headings: `<span className="italic text-[#507969]">word</span>` (on light bg) or `<span className="italic text-[#8FAC87]">word</span>` (on dark bg)
+- Eyebrows: `<p className="brand-eyebrow mb-3 text-[#8FAC87]">Label</p>` — all caps, 0.05em tracking
+- H1 on hero: text-5xl → md:text-6xl → lg:text-7xl, font-bold
+- H2 section headings: text-4xl → md:text-5xl, font-bold
+- H3 card headings: text-lg → text-xl, font-bold
+
+## Layout Container
+```tsx
+const CONTAINER = "mx-auto w-full max-w-7xl px-6 lg:px-10";
+```
+Use this for every section. Never mix max-w-5xl or max-w-6xl on new pages.
+
+## Buttons
+Primary (filled):
+```tsx
+className="inline-flex items-center gap-2 rounded-full bg-[#8FAC87] px-7 py-3.5 text-sm font-semibold text-white shadow-sm transition hover:bg-[#6F8E68]"
+```
+Secondary (outlined, on light bg):
+```tsx
+className="inline-flex items-center gap-2 rounded-full border border-[#8FAC87]/40 px-7 py-3.5 text-sm font-semibold text-[#507969] transition hover:border-[#8FAC87] hover:bg-[#8FAC87]/10"
+```
+Secondary (outlined, on dark bg):
+```tsx
+className="inline-flex items-center gap-2 rounded-full border border-white/40 px-7 py-3.5 text-sm font-semibold text-white transition hover:border-white/70 hover:bg-white/10"
+```
+Text link:
+```tsx
+className="inline-flex items-center gap-1.5 text-sm font-semibold text-[#507969] underline-offset-4 hover:underline"
+```
+
+## Icon Checklist
+```tsx
+<ul className="grid gap-3">
+  {items.map((item) => (
+    <li key={item} className="flex items-start gap-3">
+      <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-[#8FAC87] text-white">
+        <i className="ri-check-line text-xs"></i>
+      </span>
+      <span className="text-sm leading-relaxed text-[#4B4B4B]">{item}</span>
+    </li>
+  ))}
+</ul>
+```
+
+## Icon Feature List (dark section)
+```tsx
+<div className="flex items-center gap-4 rounded-2xl border border-white/10 bg-white/5 px-5 py-4">
+  <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[#8FAC87]/20 text-[#8FAC87]">
+    <i className="ri-lock-line text-lg"></i>
+  </span>
+  <span className="text-sm font-semibold text-white">Label</span>
+</div>
+```
+
+## Cards (light section)
+Rounded-3xl, white bg, ring-1 ring-[#EFEFEF] or border border-[#EFEFEF]:
+```tsx
+className="rounded-3xl bg-white p-8 shadow-sm ring-1 ring-[#EFEFEF]"
+```
+Tiled grid with alternating fill (for service grids):
+```tsx
+<div className="grid gap-px overflow-hidden rounded-2xl border border-[#EFEFEF] bg-[#EFEFEF] sm:grid-cols-2 lg:grid-cols-4">
+  {/* odd cells: bg-white, even cells: bg-[#F5F3E7]/70 */}
+</div>
+```
+
+## Decorative Circles (for dark sections)
+```tsx
+<div className="pointer-events-none absolute -right-32 -top-32 h-96 w-96 rounded-full bg-[#507969]/40" />
+<div className="pointer-events-none absolute -left-20 bottom-0 h-64 w-64 rounded-full bg-[#8FAC87]/15" />
+```
+Add `relative overflow-hidden` to the section.
+
+## Floating Stat Card (on images)
+```tsx
+<div className="absolute -bottom-5 -right-5 rounded-2xl bg-[#3E5B50] px-6 py-5 shadow-xl">
+  <p className="font-heading text-4xl font-bold text-white">1,500+</p>
+  <p className="mt-0.5 text-xs font-semibold uppercase tracking-[0.12em] text-[#8FAC87]">Families Helped</p>
+</div>
+```
+
+## Page Hero (non-homepage)
+Dark sage overlay on a full-width image, content left-aligned:
+- eyebrow in #8FAC87
+- H1 with italic emphasis word
+- Body paragraph
+- Primary + secondary CTA
+- Trust bullet strip below (`items-center gap-8` row of icon + text)
+For pages without an approved AI image, use a cream background with dark text instead.
+
+## PageHero Component Usage Pattern
+```tsx
+<PageHero
+  eyebrow="Intervention Services"
+  headline="Alcohol Abuse Interventions"
+  italicWord="Alcohol"        // wraps first matching word in italic + #507969
+  body="..."
+/>
+```
+
+## Process Steps Style
+4 steps in a dark sage section (#3E5B50), circle icons with numbered badge,
+horizontal connector line on desktop (via absolute positioned div).
+
+## Star Ratings
+```tsx
+{Array.from({ length: 5 }).map((_, i) => (
+  <i key={i} className="ri-star-fill text-[#8FAC87] text-sm"></i>
+))}
+```
+
+## Logo
+- Navbar: `https://addictioninterventions.com/wp-content/uploads/2025/07/Frys-Baskersville-3.png` (500×132, h-14 w-auto)
+- Footer: same URL, with `brightness-0 invert` for white-on-dark rendering
+
+## Phone
+```
+Display: 949-776-7093
+Href:    tel:9497767093
+```
+
+## Icons
+Remix Icon 4.6.0 via CDN (already loaded in layout.tsx). Class pattern: `ri-*-line` or `ri-*-fill`.
+Common icons used in this app:
+- ri-phone-fill / ri-phone-line
+- ri-check-line (checklist)
+- ri-star-fill (ratings)
+- ri-shield-check-line (trust)
+- ri-map-pin-2-line (location)
+- ri-award-line (accreditation)
+- ri-time-line (availability)
+- ri-arrow-right-line (links)
+- ri-heart-pulse-line, ri-medal-2-line, ri-family-line (why-us cards)

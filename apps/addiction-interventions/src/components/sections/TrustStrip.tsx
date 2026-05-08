@@ -1,24 +1,21 @@
-import { TRUST_SIGNALS } from "@/data/site";
-
 const ITEMS = [
-  { icon: "ri-group-line", label: TRUST_SIGNALS.familiesHelpedTagline },
-  { icon: "ri-shield-check-line", label: TRUST_SIGNALS.accreditation },
-  { icon: "ri-time-line", label: `${TRUST_SIGNALS.availability} crisis line` },
-  { icon: "ri-map-pin-line", label: "Nationwide on-site coverage" },
+  { icon: "ri-group-line", label: "1,500+ Families Helped Nationwide" },
+  { icon: "ri-award-line", label: "Joint Commission Accredited" },
+  { icon: "ri-time-line", label: "Available 24 / 7 — Crisis Line" },
+  { icon: "ri-shield-check-line", label: "100% Confidential" },
+  { icon: "ri-map-pin-2-line", label: "All 50 States Covered" },
 ];
 
 export default function TrustStrip() {
   return (
-    <section className="border-y border-[var(--color-divider)] bg-white">
-      <div className="mx-auto grid max-w-7xl gap-6 px-6 py-8 sm:grid-cols-2 lg:grid-cols-4">
+    <section className="border-y border-[#EFEFEF] bg-white py-5">
+      <div className="mx-auto flex w-full max-w-7xl flex-wrap items-center justify-between gap-x-6 gap-y-4 px-6 lg:px-10">
         {ITEMS.map((item) => (
-          <div key={item.label} className="flex items-center gap-3">
-            <div className="flex h-10 w-10 flex-none items-center justify-center rounded-full bg-[var(--color-cream)] text-[var(--color-sage-deep)]">
-              <i className={`text-xl ${item.icon}`}></i>
-            </div>
-            <span className="text-sm font-medium text-[var(--color-ink)]">
-              {item.label}
+          <div key={item.label} className="flex items-center gap-2.5">
+            <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#8FAC87]/15 text-[#507969]">
+              <i className={`${item.icon} text-sm`}></i>
             </span>
+            <span className="text-sm font-medium text-[#1A1A17]">{item.label}</span>
           </div>
         ))}
       </div>
