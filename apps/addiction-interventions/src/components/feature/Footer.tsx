@@ -1,7 +1,10 @@
+import Image from "next/image";
 import Link from "next/link";
 
 const PHONE_DISPLAY = "949-776-7093";
 const PHONE_HREF = "tel:9497767093";
+const LOGO_URL =
+  "https://addictioninterventions.com/wp-content/uploads/2025/07/Frys-Baskersville-3.png";
 
 const serviceLinks = [
   { label: "Alcohol Abuse Interventions", path: "/alcohol-abuse-interventions" },
@@ -34,15 +37,22 @@ const aboutLinks = [
 
 export default function Footer() {
   return (
-    <footer className="bg-[#3a5c3c] text-white">
+    <footer className="bg-[#3E5B50] text-white">
       <div className="mx-auto max-w-7xl px-6 py-16 lg:px-10">
         <div className="grid gap-12 md:grid-cols-[1.6fr_1fr_1fr_1fr]">
           {/* Brand column */}
           <div>
-            <h2 className="font-heading text-3xl font-bold text-white">
-              Addiction Interventions
-            </h2>
-            <p className="mt-4 max-w-sm text-sm leading-7 text-white/60">
+            <Link href="/">
+              <Image
+                src={LOGO_URL}
+                alt="Addiction Interventions"
+                width={220}
+                height={58}
+                className="h-14 w-auto object-contain brightness-0 invert"
+                unoptimized
+              />
+            </Link>
+            <p className="mt-5 max-w-sm text-sm leading-7 text-white/60">
               Compassionate, family-centered addiction and mental health interventions.
               Trusted by more than 1,500 families nationwide.
             </p>
