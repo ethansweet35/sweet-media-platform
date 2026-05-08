@@ -108,15 +108,21 @@ export default function BlogGrid({ searchQuery }: BlogGridProps) {
               >
                 {/* Image */}
                 <div className="relative overflow-hidden">
-                  <Image
-                    src={post.image}
-                    alt={post.title}
-                    width={1200}
-                    height={750}
-                    loading="lazy"
-                    className="w-full h-auto block"
-                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 400px"
-                  />
+                  {post.image ? (
+                    <Image
+                      src={post.image}
+                      alt={post.title}
+                      width={1200}
+                      height={750}
+                      loading="lazy"
+                      className="w-full h-auto block"
+                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 400px"
+                    />
+                  ) : (
+                    <div className="aspect-[16/10] bg-gradient-to-br from-[#3E5B50] to-[#1A1A17] flex items-center justify-center">
+                      <i className="ri-article-line text-4xl text-white/20"></i>
+                    </div>
+                  )}
                   <div className="absolute top-3 left-3">
                     <span className="inline-block bg-white/90 backdrop-blur-sm text-[10px] tracking-[0.15em] uppercase font-bold text-[#1F2937] px-2.5 py-1 rounded-full">
                       {post.category}

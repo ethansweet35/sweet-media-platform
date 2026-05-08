@@ -43,15 +43,21 @@ export default function BlogFeatured() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-center">
           {/* Image */}
           <div className="relative rounded-2xl overflow-hidden">
-            <Image
-              src={post.image}
-              alt={post.title}
-              width={1200}
-              height={900}
-              priority
-              className="w-full h-auto block"
-              sizes="(max-width: 1024px) 100vw, 50vw"
-            />
+            {post.image ? (
+              <Image
+                src={post.image}
+                alt={post.title}
+                width={1200}
+                height={900}
+                priority
+                className="w-full h-auto block"
+                sizes="(max-width: 1024px) 100vw, 50vw"
+              />
+            ) : (
+              <div className="aspect-[4/3] bg-gradient-to-br from-[#3E5B50] to-[#1A1A17] flex items-center justify-center">
+                <i className="ri-article-line text-6xl text-white/20"></i>
+              </div>
+            )}
             <div className="absolute top-4 left-4">
               <span className="inline-block bg-white/90 backdrop-blur-sm text-[10px] tracking-[0.2em] uppercase font-bold text-[#1F2937] px-3 py-1.5 rounded-full">
                 {post.category}
