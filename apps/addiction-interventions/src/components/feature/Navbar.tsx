@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
@@ -47,6 +48,9 @@ const navItems: NavItem[] = [
 const PHONE_DISPLAY = "949-776-7093";
 const PHONE_HREF = "tel:9497767093";
 
+const LOGO_URL =
+  "https://addictioninterventions.com/wp-content/uploads/2025/07/cropped-Untitled-design-2025-07-09T160603.260.png";
+
 export default function Navbar() {
   const pathname = usePathname();
   const [openSubmenu, setOpenSubmenu] = useState<string | null>(null);
@@ -71,16 +75,16 @@ export default function Navbar() {
 
   return (
     <header className="sticky top-0 z-50 shadow-sm">
-      {/* Top utility bar — forest green */}
-      <div className="bg-[#2C4A2E] px-6 py-2 text-xs">
+      {/* Top utility bar */}
+      <div className="bg-[#8FAC87] px-6 py-2 text-xs">
         <div className="mx-auto flex max-w-7xl items-center justify-between gap-4">
-          <span className="hidden text-white/70 sm:inline">
+          <span className="hidden text-white/90 sm:inline">
             Available 24/7 — speak with a certified interventionist now.
           </span>
-          <span className="text-white/70 sm:hidden">Available 24/7</span>
+          <span className="text-white/90 sm:hidden">Available 24/7</span>
           <a
             href={PHONE_HREF}
-            className="font-semibold text-[#F5F0E4] transition hover:text-white"
+            className="font-semibold text-white transition hover:text-white/80"
           >
             <i className="ri-phone-line mr-1.5 align-middle"></i>
             {PHONE_DISPLAY}
@@ -88,17 +92,24 @@ export default function Navbar() {
         </div>
       </div>
 
-      {/* Main nav — white */}
-      <nav className="bg-white/95 backdrop-blur-xl">
-        <div className="mx-auto flex max-w-7xl items-center justify-between gap-6 px-6 py-4">
-          <Link href="/" className="flex items-baseline gap-2">
-            <span className="font-heading text-2xl font-semibold tracking-tight text-[#2C4A2E]">
-              Addiction Interventions
-            </span>
+      {/* Main nav */}
+      <nav className="border-b border-[#EFEFEF] bg-white">
+        <div className="mx-auto flex max-w-7xl items-center justify-between gap-6 px-6 py-3 lg:px-10">
+          {/* Logo */}
+          <Link href="/" className="flex shrink-0 items-center">
+            <Image
+              src={LOGO_URL}
+              alt="Addiction Interventions"
+              width={260}
+              height={60}
+              className="h-14 w-auto object-contain"
+              priority
+              unoptimized
+            />
           </Link>
 
           {/* Desktop nav */}
-          <div className="hidden items-center gap-1 lg:flex">
+          <div className="hidden items-center gap-0.5 lg:flex">
             {navItems.map((item) => {
               const active =
                 pathname === item.path || pathname?.startsWith(item.path + "/");
@@ -113,10 +124,10 @@ export default function Navbar() {
                 >
                   <Link
                     href={item.path}
-                    className={`flex items-center gap-1 px-3 py-2 text-sm font-medium transition-colors ${
+                    className={`flex items-center gap-0.5 rounded-md px-3 py-2 text-sm font-medium transition-colors ${
                       active
-                        ? "text-[#2C4A2E]"
-                        : "text-[#1A1A17] hover:text-[#2C4A2E]"
+                        ? "text-[#6F8E68]"
+                        : "text-[#1A1A17] hover:text-[#6F8E68]"
                     }`}
                   >
                     {item.label}
@@ -127,7 +138,7 @@ export default function Navbar() {
 
                   {hasChildren && openSubmenu === item.label && (
                     <div
-                      className="absolute left-0 top-full z-50 min-w-[280px] rounded-xl border border-[#E8E3D8] bg-white p-2 shadow-xl ring-1 ring-black/[0.03]"
+                      className="absolute left-0 top-full z-50 min-w-[280px] rounded-xl border border-[#EFEFEF] bg-white p-2 shadow-xl ring-1 ring-black/[0.03]"
                       onMouseEnter={() => openMenu(item.label)}
                       onMouseLeave={scheduleClose}
                     >
@@ -135,7 +146,7 @@ export default function Navbar() {
                         <Link
                           key={child.path}
                           href={child.path}
-                          className="block rounded-lg px-3 py-2 text-sm text-[#5C5A52] transition hover:bg-[#F5F0E4] hover:text-[#2C4A2E]"
+                          className="block rounded-lg px-3 py-2 text-sm text-[#4B4B4B] transition hover:bg-[#F5F3E7] hover:text-[#6F8E68]"
                         >
                           {child.label}
                         </Link>
@@ -150,7 +161,7 @@ export default function Navbar() {
           {/* Desktop CTA */}
           <a
             href={PHONE_HREF}
-            className="hidden items-center gap-2 rounded-full bg-[#2C4A2E] px-5 py-3 text-sm font-semibold text-white shadow-sm transition hover:bg-[#3D6640] lg:inline-flex"
+            className="hidden shrink-0 items-center gap-2 rounded-full bg-[#8FAC87] px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-[#6F8E68] lg:inline-flex"
           >
             <i className="ri-phone-fill"></i>
             Call Now
@@ -170,7 +181,7 @@ export default function Navbar() {
 
         {/* Mobile drawer */}
         {mobileOpen && (
-          <div className="border-t border-[#E8E3D8] bg-white px-4 py-4 lg:hidden">
+          <div className="border-t border-[#EFEFEF] bg-white px-4 py-4 lg:hidden">
             <div className="grid gap-1">
               {navItems.map((item) => {
                 const hasChildren = !!item.children?.length;
@@ -180,14 +191,14 @@ export default function Navbar() {
                     <div className="flex items-center justify-between">
                       <Link
                         href={item.path}
-                        className="flex-1 rounded-md px-3 py-3 text-base font-medium text-[#1A1A17] transition hover:bg-[#F5F0E4] hover:text-[#2C4A2E]"
+                        className="flex-1 rounded-md px-3 py-3 text-base font-medium text-[#1A1A17] transition hover:bg-[#F5F3E7] hover:text-[#6F8E68]"
                       >
                         {item.label}
                       </Link>
                       {hasChildren && (
                         <button
                           type="button"
-                          className="px-3 py-3 text-[#5C5A52]"
+                          className="px-3 py-3 text-[#4B4B4B]"
                           aria-label={expanded ? "Collapse" : "Expand"}
                           onClick={() =>
                             setMobileExpanded(expanded ? null : item.label)
@@ -202,12 +213,12 @@ export default function Navbar() {
                       )}
                     </div>
                     {hasChildren && expanded && (
-                      <div className="ml-3 grid gap-0.5 border-l border-[#E8E3D8] pl-3 pb-2">
+                      <div className="ml-3 grid gap-0.5 border-l border-[#EFEFEF] pl-3 pb-2">
                         {item.children!.map((child) => (
                           <Link
                             key={child.path}
                             href={child.path}
-                            className="rounded-md px-3 py-2 text-sm text-[#5C5A52] transition hover:bg-[#F5F0E4] hover:text-[#2C4A2E]"
+                            className="rounded-md px-3 py-2 text-sm text-[#4B4B4B] transition hover:bg-[#F5F3E7] hover:text-[#6F8E68]"
                           >
                             {child.label}
                           </Link>
@@ -219,7 +230,7 @@ export default function Navbar() {
               })}
               <a
                 href={PHONE_HREF}
-                className="mt-3 inline-flex items-center justify-center gap-2 rounded-full bg-[#2C4A2E] px-5 py-3 text-sm font-semibold text-white"
+                className="mt-3 inline-flex items-center justify-center gap-2 rounded-full bg-[#8FAC87] px-5 py-3 text-sm font-semibold text-white"
               >
                 <i className="ri-phone-fill"></i>
                 Call {PHONE_DISPLAY}

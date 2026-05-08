@@ -5,24 +5,22 @@
 @source "../../../../packages/admin-core/src/**/*.{js,ts,jsx,tsx}";
 
 /*
- * Addiction Interventions brand tokens — warm editorial direction.
- * Deep forest green + rich cream ivory + Cormorant Garamond serif headings.
+ * Addiction Interventions brand tokens.
+ * Original sage + cream palette. Cormorant Garamond serif headings.
  */
 :root {
-  /* Brand palette */
-  --color-forest: #2C4A2E;        /* primary — deep earthy green */
-  --color-forest-light: #3D6640;  /* hover/active state */
-  --color-sage: #8FAC87;          /* mid-tone accent */
-  --color-sage-deep: #6F8E68;     /* sage hover */
-  --color-cream: #F5F0E4;         /* warm ivory background */
-  --color-cream-deep: #EDE8D8;    /* slightly richer cream for alternating sections */
+  /* Brand palette (original) */
+  --color-sage: #8FAC87;          /* primary brand accent */
+  --color-sage-deep: #6F8E68;     /* darker hover/pressed */
+  --color-cream: #F5F3E7;         /* warm neutral background */
+  --color-cream-deep: #EDE9D9;    /* slightly richer cream for alternating sections */
   --color-surface: #FFFFFF;
   --color-ink: #1A1A17;           /* warm near-black */
-  --color-ink-muted: #5C5A52;     /* warm muted text */
-  --color-divider: #E8E3D8;       /* warm divider */
+  --color-ink-muted: #4B4B4B;     /* secondary text */
+  --color-divider: #EFEFEF;
 
   /* Semantic aliases used across the app + admin-core utilities */
-  --color-primary: var(--color-forest);
+  --color-primary: var(--color-sage-deep);
   --color-secondary: var(--color-ink-muted);
   --color-accent: var(--color-sage);
   --color-background: var(--color-surface);

@@ -34,12 +34,12 @@ const aboutLinks = [
 
 export default function Footer() {
   return (
-    <footer className="bg-[#2C4A2E] text-white">
-      <div className="mx-auto max-w-7xl px-6 py-16">
+    <footer className="bg-[#3a5c3c] text-white">
+      <div className="mx-auto max-w-7xl px-6 py-16 lg:px-10">
         <div className="grid gap-12 md:grid-cols-[1.6fr_1fr_1fr_1fr]">
           {/* Brand column */}
           <div>
-            <h2 className="font-heading text-3xl font-semibold tracking-tight text-[#F5F0E4]">
+            <h2 className="font-heading text-3xl font-semibold tracking-tight text-white">
               Addiction Interventions
             </h2>
             <p className="mt-4 max-w-sm text-sm leading-7 text-white/60">
@@ -48,7 +48,7 @@ export default function Footer() {
             </p>
             <a
               href={PHONE_HREF}
-              className="mt-7 inline-flex items-center gap-2 rounded-full bg-[#F5F0E4] px-6 py-3 text-sm font-semibold text-[#2C4A2E] shadow transition hover:bg-white"
+              className="mt-7 inline-flex items-center gap-2 rounded-full bg-[#8FAC87] px-6 py-3 text-sm font-semibold text-white shadow transition hover:bg-[#6F8E68]"
             >
               <i className="ri-phone-fill"></i>
               Call {PHONE_DISPLAY}
@@ -89,7 +89,7 @@ function FooterColumn({
           <Link
             key={link.path}
             href={link.path}
-            className="text-sm text-white/60 transition hover:text-[#F5F0E4]"
+            className="text-sm text-white/60 transition hover:text-white"
           >
             {link.label}
           </Link>
