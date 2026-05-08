@@ -1,0 +1,71 @@
+/*
+ * Bridge fixes for the Elementor homepage.
+ * All rules are unlayered so they beat globals.css @layer base styles.
+ * Scoped to .elementor-4848 to avoid bleeding into other routes.
+ */
+
+/* ── Hero image stacking ────────────────────────────────────────────────── */
+
+/*
+ * Base frontend.min.css sets z-index:1 on .elementor-element.elementor-absolute
+ * (specificity 0,2,0). The page CSS sets z-index:-1 on the hero image widget
+ * (specificity 0,1,0) — base wins without !important.
+ * Force z-index:-1 so the image sits behind the text and dark overlay.
+ */
+.elementor-4848 .elementor-element-ffd9f79 {
+  z-index: -1 !important;
+}
+
+/*
+ * Create an isolation stacking context on the hero container so that z-index:-1
+ * is relative to the hero container, not the root (which would hide it behind body bg).
+ * overflow:hidden clips the wave shape divider so it doesn't bleed into the next section.
+ */
+.elementor-4848 .elementor-element-2e2d30b {
+  isolation: isolate;
+  overflow: hidden;
+}
+
+/* ── Hero image dimensions ───────────────────────────────────────────────── */
+/*
+ * Re-assert explicit height — Tailwind preflight's img { height: auto } can
+ * collapse the absolutely-positioned hero image.
+ */
+.elementor-4848 .elementor-element-ffd9f79 img {
+  height: 614px !important;
+  width: 100% !important;
+  max-width: none !important;
+  object-fit: cover;
+}
+
+@media (max-width: 1024px) {
+  .elementor-4848 .elementor-element-ffd9f79 img {
+    height: 450px !important;
+  }
+}
+
+@media (max-width: 767px) {
+  .elementor-4848 .elementor-element-ffd9f79 img {
+    height: 300px !important;
+  }
+}
+
+/* ── Blog / posts widget image gaps ─────────────────────────────────────── */
+/*
+ * The posts widget uses a padding-bottom aspect ratio trick on .elementor-post__thumbnail
+ * (padding-bottom: 66%). The img inside is position:absolute + centered via top/left/transform.
+ * Tailwind preflight's img { height: auto } makes the image shorter than the container
+ * (blog images are 16:9 ≈ 56%; container is 66%), leaving visible background gaps.
+ * Force height:100% + object-fit:cover so the image fills the container entirely.
+ */
+.elementor-4848 .elementor-element-09ef7e6 .elementor-post__thumbnail img {
+  height: 100% !important;
+  width: 100% !important;
+  max-width: none !important;
+  object-fit: cover;
+}
+
+/* <picture> wrapper defaults to inline — make it block so it doesn't add line-height gaps */
+.elementor-4848 .elementor-element-09ef7e6 .elementor-post__thumbnail picture {
+  display: block;
+}
