@@ -18,6 +18,8 @@ export default function ServiceAreasPage() {
         eyebrow="Service Areas"
         headline="On-site interventions, nationwide."
         body="Our certified interventionists travel to every state in the country. Find your area below — or call us for help anywhere our state pages don't yet list."
+        image="https://bxtwcdgjzzjxjvqdiuvn.supabase.co/storage/v1/object/public/site-assets/images/ai_service-areas_hero01.jpg"
+        imageAlt="Families connected across the United States map"
       />
 
       <TrustStrip />

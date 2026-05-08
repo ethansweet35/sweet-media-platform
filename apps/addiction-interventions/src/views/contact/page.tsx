@@ -55,6 +55,8 @@ export default function ContactPage() {
         primaryCta={{ label: `Call ${PHONE_DISPLAY}`, href: PHONE_HREF }}
         secondaryCta={undefined as unknown as { label: string; href: string }}
         showTrustLine={false}
+        image="https://bxtwcdgjzzjxjvqdiuvn.supabase.co/storage/v1/object/public/site-assets/images/ai_contact_hero01.jpg"
+        imageAlt="Addiction interventionist consulting with a family at a table"
       />
 
       <section className="mx-auto max-w-7xl px-6 py-20">

@@ -75,6 +75,8 @@ export default function WhyChooseUsPage() {
         eyebrow="Why Families Choose Us"
         headline="The intervention you actually need — not the one you saw on TV."
         body="A different methodology, a different definition of success, and a team that stays with you long after day one."
+        image="https://bxtwcdgjzzjxjvqdiuvn.supabase.co/storage/v1/object/public/site-assets/images/ai_why-choose-us_hero01.jpg"
+        imageAlt="Professional interventionist in a counseling office setting"
       />
 
       <TrustStrip />

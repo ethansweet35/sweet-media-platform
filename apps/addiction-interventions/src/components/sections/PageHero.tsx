@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import { PHONE_DISPLAY, PHONE_HREF } from "@/data/site";
 
@@ -10,6 +11,9 @@ export type PageHeroProps = {
   primaryCta?: { label: string; href: string };
   secondaryCta?: { label: string; href: string };
   showTrustLine?: boolean;
+  /** When provided, renders a full-bleed dark-overlay hero; falls back to cream bg */
+  image?: string;
+  imageAlt?: string;
 };
 
 const trustBullets = [
@@ -27,19 +31,85 @@ export default function PageHero({
   primaryCta = { label: `Call ${PHONE_DISPLAY}`, href: PHONE_HREF },
   secondaryCta = { label: "Request a Consultation", href: "/contact" },
   showTrustLine = true,
+  image,
+  imageAlt,
 }: PageHeroProps) {
   const isPhone = primaryCta.href.startsWith("tel:");
 
-  /* Optionally wrap a word in italic + sage colour */
   let headlineNode: React.ReactNode = headline;
   if (italicWord && headline.includes(italicWord)) {
     const [before, after] = headline.split(italicWord);
     headlineNode = (
       <>
         {before}
-        <span className="italic text-[#507969]">{italicWord}</span>
+        <span className={`italic ${image ? "text-[#8FAC87]" : "text-[#507969]"}`}>
+          {italicWord}
+        </span>
         {after}
       </>
+    );
+  }
+
+  if (image) {
+    return (
+      <section className="relative w-full overflow-hidden min-h-[480px] md:min-h-[560px] flex items-end">
+        <Image
+          src={image}
+          alt={imageAlt ?? headline}
+          fill
+          priority
+          sizes="100vw"
+          className="object-cover object-center"
+        />
+        {/* Dark sage gradient overlay */}
+        <div className="absolute inset-0 bg-gradient-to-r from-[#1A1A17]/85 via-[#1A1A17]/60 to-[#1A1A17]/20" />
+        {/* Decorative circles */}
+        <div className="pointer-events-none absolute -right-32 -top-32 h-96 w-96 rounded-full bg-[#507969]/30" />
+
+        <div className="relative w-full mx-auto max-w-7xl px-6 lg:px-10 py-16 md:py-24">
+          {eyebrow && (
+            <p className="brand-eyebrow mb-4 text-[#8FAC87]">{eyebrow}</p>
+          )}
+          <h1 className="font-heading max-w-3xl text-4xl font-bold leading-tight text-white md:text-5xl lg:text-6xl">
+            {headlineNode}
+          </h1>
+          {body && (
+            <p className="mt-6 max-w-xl text-base leading-relaxed text-white/75 md:text-lg">
+              {body}
+            </p>
+          )}
+          <div className="mt-8 flex flex-wrap gap-4">
+            <a
+              href={primaryCta.href}
+              className="inline-flex items-center gap-2 rounded-full bg-[#8FAC87] px-7 py-3.5 text-sm font-semibold text-white shadow-sm transition hover:bg-[#6F8E68]"
+            >
+              {isPhone && <i className="ri-phone-fill text-base"></i>}
+              {primaryCta.label}
+            </a>
+            {secondaryCta && (
+              <Link
+                href={secondaryCta.href}
+                className="inline-flex items-center gap-2 rounded-full border border-white/40 px-7 py-3.5 text-sm font-semibold text-white transition hover:border-white/70 hover:bg-white/10"
+              >
+                {secondaryCta.label}
+              </Link>
+            )}
+          </div>
+
+          {showTrustLine && (
+            <div className="mt-10 flex flex-wrap gap-x-8 gap-y-3">
+              {trustBullets.map((b) => (
+                <div key={b.text} className="flex items-center gap-2">
+                  <span className="flex h-6 w-6 items-center justify-center rounded-full bg-[#8FAC87]/25 text-[#8FAC87]">
+                    <i className={`${b.icon} text-xs`}></i>
+                  </span>
+                  <span className="text-sm font-medium text-white/80">{b.text}</span>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+      </section>
     );
   }
 

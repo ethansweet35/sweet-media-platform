@@ -20,6 +20,8 @@ export default function ConditionLanding({ config }: { config: ConditionConfig }
         eyebrow={config.heroEyebrow ?? "Mental Health Support"}
         headline={config.heroHeadline}
         body={config.heroBody}
+        image={config.heroImage}
+        imageAlt={config.heroImageAlt}
       />
 
       <TrustStrip />

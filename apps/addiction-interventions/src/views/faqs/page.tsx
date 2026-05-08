@@ -14,6 +14,8 @@ export default function FaqsPage() {
         eyebrow="Frequently Asked Questions"
         headline="Honest answers from certified interventionists."
         body="The most common questions families ask before, during, and after an intervention. Don't see yours? Pick up the phone — we'll answer it."
+        image="https://bxtwcdgjzzjxjvqdiuvn.supabase.co/storage/v1/object/public/site-assets/images/ai_faqs_hero01.jpg"
+        imageAlt="Family and counselor in a group discussion setting"
       />
 
       <section className="bg-white">

@@ -44,6 +44,9 @@ export default function DavidGatesPage() {
         eyebrow="Lead Interventionist & Co-Founder"
         headline="David Allen Gates"
         body="Over 5,000 families supported. More than two decades of front-line intervention experience. A practitioner who has walked the road himself."
+        image="https://bxtwcdgjzzjxjvqdiuvn.supabase.co/storage/v1/object/public/site-assets/images/ai_david-gates_hero01.jpg"
+        imageAlt="David Allen Gates, certified addiction interventionist"
+        showTrustLine={false}
       />
 
       <TrustStrip />

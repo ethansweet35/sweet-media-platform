@@ -14,6 +14,8 @@ export type ConditionConfig = {
   heroEyebrow?: string;
   heroHeadline: string;
   heroBody: string;
+  heroImage?: string;
+  heroImageAlt?: string;
 
   // What it is
   whatItIsTitle?: string;
@@ -51,6 +53,8 @@ export const CONDITIONS: ConditionConfig[] = [
     heroHeadline: "Interventions for People Struggling with Anxiety",
     heroBody:
       "When anxiety takes over a loved one's life, families often feel powerless. Our compassionate, family-centred interventions help you bridge the gap — without making things worse.",
+    heroImage: "https://bxtwcdgjzzjxjvqdiuvn.supabase.co/storage/v1/object/public/site-assets/images/ai_anxiety_hero01.jpg",
+    heroImageAlt: "Young woman sitting by a window, struggling with anxiety",
     whatItIsTitle: "What anxiety actually looks like at home",
     whatItIsBody: [
       "Anxiety disorders are far more than worry. They include generalised anxiety disorder, panic disorder, social anxiety, agoraphobia, OCD, and PTSD — and each shows up at home in distinctive ways.",
@@ -91,6 +95,8 @@ export const CONDITIONS: ConditionConfig[] = [
     heroHeadline: "Interventions for People Struggling with Depression",
     heroBody:
       "Depression doesn't always look like sadness. When a loved one stops engaging, stops fighting, or starts hinting that life isn't worth living, your family needs a clear plan — and you need it now.",
+    heroImage: "https://bxtwcdgjzzjxjvqdiuvn.supabase.co/storage/v1/object/public/site-assets/images/ai_depression_hero01.jpg",
+    heroImageAlt: "Person in distress receiving supportive comfort from a family member",
     whatItIsTitle: "What major depression actually looks like",
     whatItIsBody: [
       "Major depressive disorder is a medical condition that changes how the brain processes motivation, energy, and meaning. It is not laziness, weakness, or a phase someone can simply think their way out of.",
@@ -131,6 +137,8 @@ export const CONDITIONS: ConditionConfig[] = [
     heroHeadline: "Interventions for Loved Ones Who Are Self-Medicating",
     heroBody:
       "When alcohol, cannabis, or prescription drugs are quietly being used to manage anxiety, depression, trauma, or chronic pain, the substance use and the underlying condition both have to be treated — at the same time.",
+    heroImage: "https://bxtwcdgjzzjxjvqdiuvn.supabase.co/storage/v1/object/public/site-assets/images/ai_self-medicating_hero01.jpg",
+    heroImageAlt: "Person holding a glass of whiskey alone at dusk, struggling with self-medication",
     whatItIsTitle: "What self-medicating actually means",
     whatItIsBody: [
       "Self-medicating is the use of alcohol, drugs, or other substances to manage an underlying condition that has not been properly diagnosed or treated. Common drivers include anxiety, depression, PTSD, ADHD, chronic pain, insomnia, and unresolved grief.",
