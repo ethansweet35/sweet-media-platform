@@ -14,6 +14,7 @@
     "@supabase/supabase-js": "^2.105.1",
     "@sweetmedia/admin-core": "workspace:*",
     "@sweetmedia/blog-core": "workspace:*",
+    "@sweetmedia/seo-schema": "workspace:*",
     "dotenv": "^17.4.2",
     "next": "16.2.4",
     "react": "19.2.4",

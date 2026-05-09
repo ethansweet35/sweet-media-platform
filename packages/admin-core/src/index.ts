@@ -45,3 +45,5 @@ export { default as AdminInternalLinksPage } from "./views/AdminInternalLinksPag
 export { default as AdminKnowledgeBasePage } from "./views/AdminKnowledgeBasePage";
 export { default as AdminLinkHealthPage } from "./views/AdminLinkHealthPage";
 export { default as AdminSetupPage } from "./views/AdminSetupPage";
+export { default as AdminBrandSettingsPage } from "./views/AdminBrandSettingsPage";
+export { useBrandSettings, type BrandSettingsRow, type BusinessHoursRow } from "./hooks/useBrandSettings";

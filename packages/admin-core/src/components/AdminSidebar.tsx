@@ -36,6 +36,10 @@ const seoItems: NavItem[] = [
   { href: "/admin/sitemap", label: "Sitemap", icon: "ri-map-2-line" },
 ];
 
+const settingsItems: NavItem[] = [
+  { href: "/admin/brand-settings", label: "Brand Settings", icon: "ri-building-2-line" },
+];
+
 function isActiveRoute(pathname: string, href: string): boolean {
   if (href === "/admin") {
     return pathname === "/admin" || pathname === "/admin/";
@@ -128,6 +132,7 @@ export default function AdminSidebar({
       <div className="flex-1 overflow-y-auto px-3 pb-8 pt-6">
         <NavSection title="Content" items={contentItems} pathname={pathname ?? ""} />
         <NavSection title="SEO tools" items={seoItems} pathname={pathname ?? ""} />
+        <NavSection title="Settings" items={settingsItems} pathname={pathname ?? ""} />
       </div>
 
       <div className="border-t border-black/[0.06] px-4 py-4">

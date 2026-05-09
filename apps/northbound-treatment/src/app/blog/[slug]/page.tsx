@@ -13,6 +13,8 @@ import {
   fetchPublishedBlogPostSlugs,
 } from "@sweetmedia/blog-core";
 import { AuthProvider } from "@sweetmedia/admin-core";
+import { buildArticleSchema } from "@sweetmedia/seo-schema";
+import { fetchBrandSettingsForServer } from "@/lib/fetchBrandSettings";
 
 export const revalidate = 3600;
 
@@ -123,12 +125,24 @@ export default async function Page({ params, searchParams }: PageProps) {
   const post = await fetchPublishedBlogPostForRender(slug);
   if (!post) notFound();
 
-  const [allPosts, manualMappings] = await Promise.all([
+  const [allPosts, manualMappings, settings] = await Promise.all([
     fetchPublishedBlogPostsForListing(),
     fetchManualLinkMappingsForServer(),
+    fetchBrandSettingsForServer(),
   ]);
 
   const autoLinkMap = buildManualOnlyLinkMap(manualMappings);
+  const articleSchema = settings ? buildArticleSchema(post, settings) : null;
 
-  return <BlogPostViewServer post={post} allPosts={allPosts} autoLinkMap={autoLinkMap} />;
+  return (
+    <>
+      {articleSchema && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }}
+        />
+      )}
+      <BlogPostViewServer post={post} allPosts={allPosts} autoLinkMap={autoLinkMap} />
+    </>
+  );
 }
