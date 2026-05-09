@@ -5,6 +5,7 @@ import AdminPageHeader from "../components/AdminPageHeader";
 import { useInternalLinks } from "../hooks/useInternalLinks";
 import { useBlogPosts } from "@sweetmedia/blog-core";
 import { useLinkUtilization } from "../hooks/useLinkUtilization";
+import { useTrackedPages } from "../hooks/useTrackedPages";
 import type { InternalLink } from "../hooks/useInternalLinks";
 
 interface LinkForm {
@@ -21,22 +22,11 @@ const DEFAULT_FORM: LinkForm = {
   active: true,
 };
 
-const HREF_PRESETS = [
-  { label: "SEO Service", href: "/seo" },
-  { label: "Paid Media", href: "/paid-media" },
-  { label: "Social Media", href: "/social-media" },
-  { label: "Web Development", href: "/web-dev" },
-  { label: "Industries", href: "/industries" },
-  { label: "Results", href: "/results" },
-  { label: "About", href: "/about" },
-  { label: "Contact", href: "/contact" },
-  { label: "Blog", href: "/blog" },
-];
-
 export default function InternalLinksPage() {
   const { links, loading, error, refetch, createLink, updateLink, deleteLink } = useInternalLinks();
   const { posts: blogPosts, loading: blogLoading } = useBlogPosts();
   const { utilization, loading: utilLoading, refetch: refetchUtil } = useLinkUtilization(links);
+  const { pages: trackedPages, loading: pagesLoading } = useTrackedPages();
 
   const [searchQuery, setSearchQuery] = useState("");
   const [blogSearch, setBlogSearch] = useState("");
@@ -323,24 +313,35 @@ export default function InternalLinksPage() {
                     className="w-full border border-neutral-200 rounded-xl px-3.5 py-2.5 text-sm text-neutral-800 placeholder:text-neutral-300 focus:outline-none focus:border-[#3d6f7f] transition-colors"
                   />
 
-                  {/* Service Page Presets */}
+                  {/* Site Pages Presets */}
                   <div className="mt-3">
-                    <p className="text-[10px] tracking-[0.15em] uppercase font-semibold text-neutral-400 mb-2">Service Pages</p>
-                    <div className="flex flex-wrap gap-1.5">
-                      {HREF_PRESETS.map((preset) => (
-                        <button
-                          key={preset.href}
-                          onClick={() => setPresetHref(preset.href)}
-                          className={`text-[10px] tracking-wide px-2.5 py-1 rounded-lg border transition-colors cursor-pointer whitespace-nowrap ${
-                            form.href === preset.href
-                              ? "bg-[#3d6f7f] text-white border-[#3d6f7f]"
-                              : "bg-white text-neutral-500 border-neutral-200 hover:border-neutral-300"
-                          }`}
-                        >
-                          {preset.label}
-                        </button>
-                      ))}
-                    </div>
+                    <p className="text-[10px] tracking-[0.15em] uppercase font-semibold text-neutral-400 mb-2">Site Pages</p>
+                    {pagesLoading ? (
+                      <div className="flex items-center gap-1.5 text-xs text-neutral-400">
+                        <i className="ri-loader-4-line animate-spin text-xs"></i>
+                        Loading pages…
+                      </div>
+                    ) : trackedPages.length === 0 ? (
+                      <p className="text-[10px] text-neutral-400">No tracked pages found.</p>
+                    ) : (
+                      <div className="flex flex-wrap gap-1.5">
+                        {trackedPages
+                          .filter((p) => p.is_active)
+                          .map((page) => (
+                            <button
+                              key={page.route_path}
+                              onClick={() => setPresetHref(page.route_path)}
+                              className={`text-[10px] tracking-wide px-2.5 py-1 rounded-lg border transition-colors cursor-pointer whitespace-nowrap ${
+                                form.href === page.route_path
+                                  ? "bg-[#3d6f7f] text-white border-[#3d6f7f]"
+                                  : "bg-white text-neutral-500 border-neutral-200 hover:border-neutral-300"
+                              }`}
+                            >
+                              {page.page_title}
+                            </button>
+                          ))}
+                      </div>
+                    )}
                   </div>
 
                   {/* Blog Posts Presets */}
