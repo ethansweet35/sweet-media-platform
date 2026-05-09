@@ -1,0 +1,247 @@
+---
+description: Northbound Treatment — Design System Reference. Use as source of truth for every page, section, and component built in apps/northbound-treatment.
+globs: apps/northbound-treatment/**
+alwaysApply: true
+---
+
+# Northbound Treatment — Design System
+
+Use this as the single source of truth when building any page, section, or component inside `apps/northbound-treatment`.
+
+---
+
+## Brand Palette
+
+All tokens are defined in `src/app/globals.css` via `@theme inline` and available as Tailwind utilities (`bg-navy`, `text-terracotta`, etc.).
+
+| Token | Hex | Usage |
+|---|---|---|
+| `navy` | `#1b2a47` | Primary dark, headings on light, dark section backgrounds, buttons |
+| `navy-light` | `#2a3d66` | Button hover, secondary navy tint |
+| `terracotta` | `#e97a52` | Primary accent — CTAs, eyebrows, icons, star ratings, links |
+| `terracotta-light` | `#f09068` | Hover state for terracotta elements |
+| `espresso` | `#2c2a28` | Body text on light backgrounds |
+| `sand` | `#eef2f7` | Alternating section background (cool slate-blue, not warm beige) |
+| `sand-light` | `#ffffff` | Primary white background |
+| `sand-dark` | `#cdd8e8` | Borders and dividers |
+| `agave` | `#7a8b76` | Subtle accent (used sparingly) |
+
+**Never use warm beige (`#f4efe6`, `#e5dccb`), old charcoal (`#374151`), or old navy (`#4a6a92`) — these are retired.**
+
+---
+
+## Typography
+
+| Role | Class | Font | Notes |
+|---|---|---|---|
+| All headings | `font-heading` | Playfair Display (serif) | Loaded as `--font-playfair` |
+| Body / UI | `font-sans` or default | DM Sans | Loaded as `--font-dm-sans` |
+| Italic accent word in headings | `<span className="italic text-terracotta">word</span>` | — | Use on light bg |
+| Italic accent on dark bg | `<span className="italic text-terracotta-light">word</span>` | — | Use on navy bg |
+| Eyebrows | `text-xs font-semibold uppercase tracking-[0.14em] text-terracotta` | DM Sans | Always above h2 |
+
+**H1 hero**: `font-heading text-5xl md:text-6xl lg:text-7xl font-bold text-white` (on dark), or `text-navy` (on light)
+**H2 sections**: `font-heading text-4xl md:text-5xl font-bold text-navy` (light) or `text-white` (dark)
+**H3 cards**: `font-heading text-lg md:text-xl font-bold`
+
+---
+
+## Layout Container
+
+```tsx
+const CONTAINER = "mx-auto w-full max-w-7xl px-6 lg:px-10";
+```
+
+Use on **every** section. Never use `max-w-5xl` or `max-w-6xl` on new pages.
+
+---
+
+## Section Background Rhythm
+
+Alternate between these to create visual cadence throughout a page:
+
+1. **White** (`bg-white` / `bg-sand-light`) — default
+2. **Slate** (`bg-sand`) — cool `#eef2f7` tint, alternating sections
+3. **Navy** (`bg-navy`) — dark accent sections (CTA strips, modalities, testimonials, insurance)
+
+Dark navy sections always use `text-white` and `text-terracotta` for accents. Never put dark-bg sections back-to-back without a white/slate break.
+
+---
+
+## Borders & Radius
+
+- `--radius-*` tokens are all `0` — **sharp corners everywhere** (no `rounded-full` on structural containers)
+- Exception: decorative floating cards, pills, and stat overlays use `rounded-2xl` / `rounded-3xl` / `rounded-full` intentionally
+- Dividers: `border-sand-dark` (`#cdd8e8`)
+- Architectural lines: use `.architectural-border`, `.architectural-border-top`, `.architectural-border-bottom`, `.architectural-border-l` utility classes
+
+---
+
+## Buttons
+
+**Primary (navy fill):**
+```tsx
+className="inline-flex items-center gap-2 bg-navy px-7 py-3.5 text-sm font-semibold text-white shadow-sm transition hover:bg-navy-light"
+```
+
+**Primary (terracotta fill):**
+```tsx
+className="inline-flex items-center gap-2 bg-terracotta px-7 py-3.5 text-sm font-semibold text-white shadow-sm transition hover:bg-terracotta-light"
+```
+
+**Outline on light bg:**
+```tsx
+className="inline-flex items-center gap-2 border border-terracotta/30 px-7 py-3.5 text-sm font-semibold text-terracotta transition hover:border-terracotta hover:bg-terracotta/5"
+```
+
+**Outline on dark bg:**
+```tsx
+className="inline-flex items-center gap-2 border border-white/30 px-7 py-3.5 text-sm font-semibold text-white transition hover:border-white/60 hover:bg-white/10"
+```
+
+**Text link:**
+```tsx
+className="inline-flex items-center gap-1.5 text-sm font-semibold text-terracotta underline-offset-4 hover:underline"
+```
+
+---
+
+## Icons
+
+Remix Icon 4.6.0, loaded in `layout.tsx` via `<link>` in `<head>`. Class pattern: `ri-*-line` or `ri-*-fill`.
+
+Common icons used in this app:
+- `ri-phone-fill` / `ri-phone-line` — phone CTA
+- `ri-check-line` — checklist items
+- `ri-star-fill` — ratings
+- `ri-shield-check-line` — trust / accreditation
+- `ri-map-pin-2-line` — location
+- `ri-award-line` — credentials
+- `ri-arrow-right-line` — CTA link arrow
+- `ri-heart-line` — personalized care
+- `ri-brain-line` — mental health
+- `ri-leaf-line` — holistic / nature
+
+**Never use lucide-react or other icon packages** — Remix Icon only.
+
+---
+
+## Shared Components (in `src/views/shared/`)
+
+### `PageHero`
+Full-width dark hero for all inner pages.
+
+```tsx
+import PageHero from "@/views/shared/PageHero";
+
+<PageHero
+  eyebrow="Treatment Programs"
+  headline="Drug & Alcohol Detox"
+  italicWord="Detox"           // wraps first matching word in italic + terracotta
+  body="Safe, medically supervised withdrawal..."
+  image="https://ahufsygjwpbymomfdazb.supabase.co/storage/v1/object/public/site-assets/images/nbt_XXX.jpg"
+  imageAlt="Alt text"
+  breadcrumbs={[{ label: "Programs", href: "/programs/" }, { label: "Detox" }]}
+/>
+```
+
+### `SectionHeader`
+Centered or left-aligned eyebrow + h2 + optional body.
+
+```tsx
+import SectionHeader from "@/views/shared/SectionHeader";
+
+<SectionHeader
+  eyebrow="Our Approach"
+  headline="Evidence-Based Treatment"
+  italicWord="Treatment"
+  body="Optional supporting paragraph..."
+  align="center"   // "left" | "center" (default: "left")
+  dark={false}     // true = white text (for navy sections)
+/>
+```
+
+### `CtaBanner`
+Navy bottom-of-page CTA strip.
+
+```tsx
+import CtaBanner from "@/views/shared/CtaBanner";
+
+<CtaBanner
+  headline="Ready to Start Your Recovery?"
+  body="Our admissions team is available 24/7."
+  primaryCta={{ label: "Verify Insurance", href: "/insurance/" }}
+  secondaryCta={{ label: "Call (866) 311-0003", href: "tel:8663110003" }}
+/>
+```
+
+---
+
+## Chrome
+
+All pages (including inner pages) share the same three chrome components:
+
+- `HomeTopBar` — slim top bar with social icons + phone
+- `HomeNavigation` — fixed main nav + mega menus
+- `HomeFooter` — navy footer
+
+These are wired into `src/components/feature/Layout.tsx` for all non-home, non-admin routes.
+Homepage (`/`) renders its own chrome directly in `src/app/page.tsx`.
+
+---
+
+## Images
+
+- Storage: `https://ahufsygjwpbymomfdazb.supabase.co/storage/v1/object/public/site-assets/`
+- Logos: `.../logos/northbound-logo.png`
+- Page images: `.../images/nbt_<route>_<section><index>.jpg`
+- All image URLs centralized in `src/views/home/assets.ts`
+- **Every new page needs unique AI-generated images** — never reuse another page's image
+- Naming: `nbt_<route-prefix>_<section><index>.jpg` (e.g. `nbt_detox_hero01.jpg`)
+
+---
+
+## Nav & Page Routes (from `menuData.ts`)
+
+### Main Pages to Build (priority order)
+1. **Admissions** — `/admissions/`
+2. **Treatment Services hub** — `/treatment/`
+3. **What We Treat hub** — `/addiction-treatment-resources/`
+4. **Locations** — `/locations/`
+5. **Contact** — `/contact-us/`
+
+### Treatment Program Templates
+Detox, Residential, PHP, IOP, Sober Living, Online/Telehealth, Interventions, Aftercare, Alumni
+
+### Insurance Templates
+Aetna, Anthem, Beacon Health, BCBS, Cigna, Compsych, First Health, GEHA, Health Net, ILWU, Magellan, MHN, NYSHIP, Premera, TriCare, USAMCO
+
+### What We Treat Templates
+**Substance**: Adderall, Alcohol, Cocaine, Heroin, Inhalants, Marijuana, Meth, Oxycodone, Prescription, Sedatives, Suboxone, Opioid
+**Dual Diagnosis**: Anxiety, Bipolar, BPD, Depression, Co-Dependency, Trauma, OCD
+
+### Location Templates
+Newport Beach, Garden Grove, San Diego, Seattle
+
+### Signature Service Templates
+Adventure Therapy, Dual-Diagnosis, Faith-Based, Family Services, Music Recovery, Wolf Therapy, VA Program
+
+---
+
+## Key Numbers / Brand Facts (for page copy)
+- Founded: **1988** (38+ years)
+- Lives helped: **10,000+** by 2020
+- Leadership expertise: **200+ years combined**
+- Staff who are alumni: **1/3 of entire team**
+- Staff-to-client ratio: **1:1**
+- Outcome study: **>97% abstinence** from illicit drugs (USC, 2015)
+- Google rating: **4.6/5** from **224+ reviews**
+- DHCS License: **#300661CP**
+- Phone: **(866) 311-0003** · href `tel:8663110003`
+- Insurance accepted: **15+ major plans**
+
+---
+
+## Supabase Project
+- Ref: `ahufsygjwpbymomfdazb`
+- Storage base: `https://ahufsygjwpbymomfdazb.supabase.co/storage/v1/object/public/site-assets`

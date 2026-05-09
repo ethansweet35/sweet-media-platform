@@ -186,7 +186,7 @@ function DesktopMenuItem({
   );
 }
 
-/** Whether this item gets the full-width layout with a CTA sidebar card. */
+/** Whether this item gets the CTA sidebar card. */
 function hasCta(label: string) {
   return label === "Treatment Services" || label === "Admissions";
 }
@@ -206,13 +206,11 @@ function MegaMenuPanel({
 
   const gridColsClass = showCta
     ? cols >= 3
-      ? "lg:grid-cols-[1fr_1fr_1fr_260px]"
-      : "lg:grid-cols-[1fr_1fr_260px]"
-    : cols >= 3
-      ? "lg:grid-cols-3"
-      : cols === 2
-        ? "lg:grid-cols-2"
-        : "lg:grid-cols-1 max-w-sm";
+      ? "lg:grid-cols-[1fr_1fr_1fr_240px]"
+      : "lg:grid-cols-[1fr_1fr_240px]"
+    : cols >= 2
+      ? "lg:grid-cols-2"
+      : "lg:grid-cols-1 max-w-sm";
 
   return (
     <div
@@ -226,32 +224,35 @@ function MegaMenuPanel({
       {/* Terracotta → navy gradient accent bar */}
       <div className="h-[3px] w-full bg-gradient-to-r from-terracotta via-navy to-espresso" />
 
-      {/* Panel body */}
       <div className="border-b border-sand-dark bg-white">
-        {/* Architectural corner brackets */}
+        {/* Corner brackets */}
         <div className="pointer-events-none absolute left-6 top-[3px] h-8 w-8 border-l border-t border-sand-dark/60" />
         <div className="pointer-events-none absolute right-6 top-[3px] h-8 w-8 border-r border-t border-sand-dark/60" />
 
-        <div className="mx-auto max-w-7xl px-6 py-10 lg:px-12">
-          <div className={`grid grid-cols-1 gap-10 ${gridColsClass}`}>
+        <div className="mx-auto max-w-7xl px-6 py-8 lg:px-12">
+          <div className={`grid grid-cols-1 gap-8 ${gridColsClass}`}>
             {item.sections.map((section) => (
-              <MegaMenuColumn
-                key={section.heading}
-                section={section}
-                onClose={onClose}
-              />
+              <MegaMenuColumn key={section.heading} section={section} onClose={onClose} />
             ))}
-
             {showCta && <MegaMenuCta onClose={onClose} />}
           </div>
         </div>
 
-        {/* Bottom strip: availability bar */}
+        {/* Bottom availability bar */}
         <div className="border-t border-sand-dark/60 bg-sand px-6 py-3 lg:px-12">
           <div className="mx-auto flex max-w-7xl items-center justify-between">
-            <div className="flex items-center gap-2 text-[10px] font-medium uppercase tracking-[0.18em] text-espresso/60">
-              <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-terracotta"></span>
-              Admissions counselors available 24 / 7
+            <div className="flex items-center gap-6">
+              <div className="flex items-center gap-2 text-[10px] font-semibold uppercase tracking-[0.18em] text-espresso/50">
+                <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-terracotta" />
+                Admissions counselors available 24 / 7
+              </div>
+              <div className="hidden items-center gap-4 lg:flex">
+                {["38+ Years", "10,000+ Served", ">97% Outcomes", "DHCS Licensed"].map((t) => (
+                  <span key={t} className="text-[10px] font-semibold text-espresso/30">
+                    {t}
+                  </span>
+                ))}
+              </div>
             </div>
             <a
               href="tel:8663110003"
@@ -267,108 +268,139 @@ function MegaMenuPanel({
   );
 }
 
-function MegaMenuColumn({
-  section,
-  onClose,
-}: {
-  section: MegaSection;
-  onClose: () => void;
-}) {
-  const twoCol = section.links.length > 8;
+function MegaMenuColumn({ section, onClose }: { section: MegaSection; onClose: () => void }) {
+  // Insurance column: compact pill grid (4 cols)
+  const isInsurance = section.heading === "Verify Insurance";
+  // Long lists get 2-col grid
+  const twoCol = !isInsurance && section.links.length > 8;
 
   return (
-    <div>
-      {/* Section heading — serif, with decorative line */}
-      <div className="mb-5 flex items-center gap-3 border-b border-sand-dark pb-4">
-        <div className="h-4 w-[2px] flex-shrink-0 bg-terracotta" />
-        {section.headingHref ? (
-          <Link
-            href={section.headingHref}
-            onClick={onClose}
-            className="group flex items-center gap-1.5 font-serif text-base text-espresso transition-colors hover:text-terracotta"
-          >
-            {section.heading}
-            <i className="ri-arrow-right-line text-xs leading-none opacity-0 transition-all duration-200 group-hover:translate-x-0.5 group-hover:opacity-100" />
-          </Link>
-        ) : (
-          <span className="font-serif text-base text-espresso">
-            {section.heading}
-          </span>
+    <div className="flex flex-col">
+      {/* ── Section header ── */}
+      <div className="mb-4 border-b border-sand-dark pb-4">
+        <div className="flex items-center gap-2.5">
+          {section.icon && (
+            <span className="flex h-7 w-7 shrink-0 items-center justify-center bg-navy">
+              <i className={`${section.icon} text-xs text-terracotta`} />
+            </span>
+          )}
+          {section.headingHref ? (
+            <Link
+              href={section.headingHref}
+              onClick={onClose}
+              className="group flex items-center gap-1 font-heading text-sm font-bold text-navy transition-colors hover:text-terracotta"
+            >
+              {section.heading}
+              <i className="ri-arrow-right-line text-xs opacity-0 transition-all duration-200 group-hover:translate-x-0.5 group-hover:opacity-100" />
+            </Link>
+          ) : (
+            <span className="font-heading text-sm font-bold text-navy">{section.heading}</span>
+          )}
+        </div>
+        {section.description && (
+          <p className="mt-1.5 pl-[2.375rem] text-[11px] leading-relaxed text-espresso/45">
+            {section.description}
+          </p>
         )}
       </div>
 
-      <ul
-        className={
-          twoCol ? "grid grid-cols-2 gap-x-6 gap-y-0.5" : "space-y-0.5"
-        }
-      >
-        {section.links.map((link) => (
-          <li key={`${link.label}-${link.href}`}>
+      {/* ── Links ── */}
+      {isInsurance ? (
+        /* Insurance: 2-col pill grid */
+        <div className="grid grid-cols-2 gap-px overflow-hidden border border-sand-dark bg-sand-dark">
+          {section.links.map((link) => (
             <Link
+              key={`${link.label}-${link.href}`}
               href={link.href}
               onClick={onClose}
-              className="group/link flex items-center gap-2 py-1.5 text-sm font-light text-espresso/75 transition-all duration-200 hover:text-terracotta"
+              className="group flex items-center gap-2 bg-white px-3 py-2.5 text-[11px] font-semibold text-espresso/70 transition-colors hover:bg-navy hover:text-white"
             >
-              <i className="ri-arrow-right-s-line text-xs leading-none text-sand-dark transition-all duration-200 group-hover/link:translate-x-0.5 group-hover/link:text-terracotta" />
+              <i className="ri-shield-check-line text-xs text-terracotta transition-colors group-hover:text-white" />
               {link.label}
             </Link>
-          </li>
-        ))}
-      </ul>
+          ))}
+        </div>
+      ) : (
+        <ul className={twoCol ? "grid grid-cols-2 gap-x-4 gap-y-0" : "space-y-0"}>
+          {section.links.map((link) => (
+            <li key={`${link.label}-${link.href}`}>
+              <Link
+                href={link.href}
+                onClick={onClose}
+                className="group/link flex items-center gap-3 py-2 text-sm text-espresso/70 transition-all duration-200 hover:text-navy"
+              >
+                {link.icon ? (
+                  <span className="flex h-7 w-7 shrink-0 items-center justify-center bg-sand transition-colors group-hover/link:bg-navy">
+                    <i className={`${link.icon} text-xs text-navy transition-colors group-hover/link:text-terracotta`} />
+                  </span>
+                ) : (
+                  <i className="ri-arrow-right-s-line text-xs text-sand-dark transition-all group-hover/link:translate-x-0.5 group-hover/link:text-terracotta" />
+                )}
+                <span className="leading-snug">{link.label}</span>
+              </Link>
+            </li>
+          ))}
+        </ul>
+      )}
     </div>
   );
 }
 
-/** Espresso CTA card that appears as the rightmost column on big menus. */
+/** Dark CTA card — rightmost column on Treatment Services & Admissions menus. */
 function MegaMenuCta({ onClose }: { onClose: () => void }) {
   return (
-    <div className="relative overflow-hidden bg-espresso p-8">
-      {/* Decorative circles */}
-      <div className="pointer-events-none absolute -right-8 -top-8 h-32 w-32 rounded-full bg-navy/30" />
-      <div className="pointer-events-none absolute -bottom-6 -left-6 h-24 w-24 rounded-full bg-terracotta/20" />
+    <div className="relative flex flex-col overflow-hidden bg-navy p-7">
+      <div className="pointer-events-none absolute -right-8 -top-8 h-32 w-32 rounded-full bg-navy-light/60" />
+      <div className="pointer-events-none absolute -bottom-6 -left-6 h-24 w-24 rounded-full bg-terracotta/15" />
 
-      <div className="relative z-10">
-        <div className="mb-4 flex items-center gap-2">
+      <div className="relative z-10 flex flex-1 flex-col">
+        <div className="mb-3 flex items-center gap-2">
           <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-terracotta" />
-          <span className="text-[9px] font-bold uppercase tracking-[0.22em] text-terracotta">
-            Available 24 / 7
-          </span>
+          <span className="text-[9px] font-bold uppercase tracking-[0.22em] text-terracotta">Available 24 / 7</span>
         </div>
 
-        <h3 className="mb-2 font-serif text-xl text-sand-light">
-          Ready to start?
-        </h3>
-        <p className="mb-6 text-xs font-light leading-relaxed text-sand-dark">
-          Speak with an admissions counselor today. Your call is completely
-          confidential.
+        <h3 className="font-heading text-lg font-bold text-white">Ready to start your recovery?</h3>
+        <p className="mt-2 text-xs leading-relaxed text-white/55">
+          One confidential call is all it takes. Our team is standing by.
         </p>
 
-        <a
-          href="tel:8663110003"
-          onClick={onClose}
-          className="mb-3 flex items-center gap-2 bg-terracotta px-5 py-3 text-xs font-bold uppercase tracking-[0.15em] text-white transition-colors hover:bg-terracotta-light"
-        >
-          <i className="ri-phone-line text-sm leading-none" />
-          (866) 311-0003
-        </a>
-
-        <a
-          href="/admissions"
-          onClick={onClose}
-          className="flex items-center gap-2 border border-white/20 px-5 py-3 text-xs font-bold uppercase tracking-[0.15em] text-sand-light transition-colors hover:border-white/50 hover:bg-white/5"
-        >
-          <i className="ri-file-list-line text-sm leading-none" />
-          Start Online Intake
-        </a>
-
-        <div className="mt-6 border-t border-white/10 pt-4">
-          <p className="mb-1 text-[9px] font-bold uppercase tracking-[0.18em] text-sand-dark">
-            DHCS License
-          </p>
-          <p className="text-[10px] font-light text-sand-dark/70">
-            #300661CP — State Licensed Facility
-          </p>
+        {/* Trust metrics */}
+        <div className="my-5 grid grid-cols-2 gap-2">
+          {[
+            { value: "38+", label: "Years" },
+            { value: "10k+", label: "Served" },
+            { value: ">97%", label: "Outcomes" },
+            { value: "1:1", label: "Staff ratio" },
+          ].map((s) => (
+            <div key={s.label} className="border border-white/10 bg-white/5 px-3 py-2 text-center">
+              <p className="font-heading text-base font-bold text-white">{s.value}</p>
+              <p className="text-[9px] font-semibold uppercase tracking-widest text-terracotta">{s.label}</p>
+            </div>
+          ))}
         </div>
+
+        <div className="mt-auto space-y-2">
+          <a
+            href="tel:8663110003"
+            onClick={onClose}
+            className="flex items-center justify-center gap-2 bg-terracotta px-5 py-3 text-xs font-bold uppercase tracking-[0.15em] text-white transition hover:bg-terracotta-light"
+          >
+            <i className="ri-phone-line text-sm" />
+            (866) 311-0003
+          </a>
+          <Link
+            href="/admissions/"
+            onClick={onClose}
+            className="flex items-center justify-center gap-2 border border-white/20 px-5 py-3 text-xs font-bold uppercase tracking-[0.15em] text-white transition hover:border-white/50 hover:bg-white/5"
+          >
+            <i className="ri-file-list-line text-sm" />
+            Start Intake Online
+          </Link>
+        </div>
+
+        <p className="mt-4 text-center text-[9px] font-semibold uppercase tracking-widest text-white/25">
+          DHCS #300661CP · NAATP Member
+        </p>
       </div>
     </div>
   );

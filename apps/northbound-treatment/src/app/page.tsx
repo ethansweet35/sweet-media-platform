@@ -1,9 +1,26 @@
 import type { Metadata } from "next";
 import { resolveTrackedPageMetadata } from "@sweetmedia/admin-core";
 
+import HomeFooter from "@/views/home/chrome/HomeFooter";
+import HomeNavigation from "@/views/home/chrome/HomeNavigation";
+import HomeTopBar from "@/views/home/chrome/HomeTopBar";
+import AboutUs from "@/views/home/sections/AboutUs";
+import ClinicalModalities from "@/views/home/sections/ClinicalModalities";
+import Hero from "@/views/home/sections/Hero";
+import InsuranceMarquee from "@/views/home/sections/InsuranceMarquee";
+import Locations from "@/views/home/sections/Locations";
+import WhyUsApart from "@/views/home/sections/WhyUsApart";
+import Process from "@/views/home/sections/Process";
+import InsuranceProviders from "@/views/home/sections/InsuranceProviders";
+import SignatureServices from "@/views/home/sections/SignatureServices";
+import Testimonial from "@/views/home/sections/Testimonial";
+import TreatmentServices from "@/views/home/sections/TreatmentServices";
+import WhatWeTreat from "@/views/home/sections/WhatWeTreat";
+
 const fallbackMetadata: Metadata = {
-  title: "Northbound Treatment Homepage | Northbound Treatment",
-  description: "A blank homepage starter for a new client website.",
+  title: "Northbound Treatment | Addiction Treatment Center in Orange County",
+  description:
+    "For 30+ years, Northbound Treatment Services has provided lifesaving, evidence-based addiction and mental-health treatment across Southern California and the Pacific Northwest. Drug & alcohol detox, residential, PHP, IOP, and aftercare.",
 };
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -12,24 +29,24 @@ export async function generateMetadata(): Promise<Metadata> {
 
 export default function Page() {
   return (
-    <main className="min-h-screen bg-[var(--color-background)] px-6 py-24 text-[var(--color-primary)]">
-      <section className="mx-auto max-w-5xl">
-        <p className="mb-4 text-xs font-semibold uppercase tracking-[0.25em] text-[var(--color-accent)]">
-          Client Template
-        </p>
-        <h1 className="mb-6 max-w-3xl text-5xl font-semibold tracking-tight md:text-7xl">
-          Northbound Treatment Homepage
-        </h1>
-        <p className="max-w-2xl text-lg leading-8 text-slate-600">
-          A blank homepage starter for a new client website.
-        </p>
-        <div className="mt-10 rounded-3xl border border-slate-200 bg-white p-8 shadow-sm">
-          <p className="text-sm leading-7 text-slate-600">
-            Replace this starter section with client-specific copy, layout, imagery, and conversion elements.
-            The admin, blog, Supabase, and shared package infrastructure are already wired into this template.
-          </p>
-        </div>
-      </section>
-    </main>
+    <div className="min-h-screen bg-sand-light">
+      <HomeTopBar />
+      <HomeNavigation />
+      <main>
+        <Hero />
+        <InsuranceMarquee />
+        <AboutUs />
+        <TreatmentServices />
+        <SignatureServices />
+        <Process />
+        <WhatWeTreat />
+        <ClinicalModalities />
+        <Locations />
+        <WhyUsApart />
+        <InsuranceProviders />
+        <Testimonial />
+      </main>
+      <HomeFooter />
+    </div>
   );
 }

@@ -44,3 +44,4 @@ next-env.d.ts
 .upload.env
 .env.local
 .env.*.local
+.env*.local

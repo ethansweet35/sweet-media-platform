@@ -1,23 +1,28 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
-import Script from "next/script";
+import { DM_Sans, Playfair_Display } from "next/font/google";
 import "./globals.css";
 import Layout from "@/components/feature/Layout";
 import { Providers } from "./providers";
 
-/** Platform standard: Remix Icon via CDN (same as inner-peak-colorado / sweet-media marketing patterns). */
-const REMIXICON_CSS =
-  "https://cdn.jsdelivr.net/npm/remixicon@4.6.0/fonts/remixicon.css";
-
-const inter = Inter({
-  variable: "--font-inter",
+const dmSans = DM_Sans({
+  variable: "--font-dm-sans",
   subsets: ["latin"],
+  display: "swap",
+  weight: ["300", "400", "500", "700"],
+});
+
+const playfair = Playfair_Display({
+  variable: "--font-playfair",
+  subsets: ["latin"],
+  display: "swap",
+  style: ["normal", "italic"],
+  weight: ["400", "500", "600", "700"],
 });
 
 export const metadata: Metadata = {
-  title: "Northbound Treatment | Website Template",
+  title: "Northbound Treatment | Addiction Treatment Center in Orange County",
   description:
-    "A reusable client website template with admin, blog, Supabase, and brand settings infrastructure.",
+    "Northbound Treatment Services has provided lifesaving, evidence-based addiction and mental-health treatment for more than 30 years. Drug & alcohol detox, residential, PHP, IOP, and aftercare across Southern California and the Pacific Northwest.",
 };
 
 export default function RootLayout({
@@ -26,44 +31,15 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" className={`${dmSans.variable} ${playfair.variable}`}>
       <head>
-        <link rel="preconnect" href="https://cdn.jsdelivr.net" crossOrigin="anonymous" />
-        <link rel="preload" as="style" href={REMIXICON_CSS} crossOrigin="anonymous" />
-        <Script id="load-remixicon-styles" strategy="afterInteractive">{`
-          (function() {
-            var cssHref = "${REMIXICON_CSS}";
-            var inject = function () {
-              if (document.querySelector('link[href="' + cssHref + '"][rel="stylesheet"]')) return;
-              var link = document.createElement("link");
-              link.rel = "stylesheet";
-              link.href = cssHref;
-              link.crossOrigin = "anonymous";
-              document.head.appendChild(link);
-            };
-            if (document.readyState === "complete") {
-              if ("requestIdleCallback" in window) {
-                window.requestIdleCallback(inject, { timeout: 1200 });
-              } else {
-                setTimeout(inject, 400);
-              }
-              return;
-            }
-            window.addEventListener("load", function onLoad() {
-              window.removeEventListener("load", onLoad);
-              if ("requestIdleCallback" in window) {
-                window.requestIdleCallback(inject, { timeout: 1200 });
-              } else {
-                setTimeout(inject, 400);
-              }
-            });
-          })();
-        `}</Script>
-        <noscript>
-          <link rel="stylesheet" href={REMIXICON_CSS} crossOrigin="anonymous" />
-        </noscript>
+        <link
+          rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/remixicon@4.6.0/fonts/remixicon.css"
+          crossOrigin="anonymous"
+        />
       </head>
-      <body className={`${inter.variable} antialiased`}>
+      <body className="antialiased">
         <Providers>
           <Layout>{children}</Layout>
         </Providers>

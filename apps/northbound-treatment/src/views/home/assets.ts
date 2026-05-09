@@ -25,6 +25,8 @@ export const SIGNATURE_IMAGES = {
   yoga: `${SUPABASE_BASE}/images/nbt_signature_yoga.jpg`,
 } as const;
 
+export const WHY_US_IMAGE = `${SUPABASE_BASE}/images/nbt_why_us_hero.jpg`;
+
 export const LOCATION_IMAGES = {
   newportBeach: `${SUPABASE_BASE}/images/nbt_location_newport-beach.jpg`,
   gardenGrove: `${SUPABASE_BASE}/images/nbt_location_garden-grove.jpg`,

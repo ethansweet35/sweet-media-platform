@@ -131,7 +131,7 @@ export default function TreatmentServices() {
 
               <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-terracotta/0 via-terracotta/0 to-terracotta/5 opacity-0 transition-opacity duration-700 group-hover:opacity-100"></div>
 
-              <span className="mb-6 inline-block border border-navy/30 px-3 py-1 text-[10px] font-bold uppercase tracking-[0.22em] text-navy transition-all duration-300 group-hover:border-navy group-hover:bg-navy/5">
+              <span className="mb-6 inline-block text-[10px] font-bold uppercase tracking-[0.22em] text-navy">
                 {service.badge}
               </span>
 

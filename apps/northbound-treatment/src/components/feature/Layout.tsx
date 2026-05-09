@@ -1,75 +1,85 @@
-'use client';
+"use client";
 
-import { usePathname } from 'next/navigation';
-import Link from 'next/link';
-import { useEffect, useState } from 'react';
-import Navbar from './Navbar';
-import Footer from './Footer';
+import { usePathname } from "next/navigation";
+import { useEffect, useState } from "react";
+import HomeFooter from "@/views/home/chrome/HomeFooter";
+import HomeNavigation from "@/views/home/chrome/HomeNavigation";
+import HomeTopBar from "@/views/home/chrome/HomeTopBar";
 
+/**
+ * Global layout wrapper.
+ *
+ * - Admin routes: children only (AdminGuard + AdminChrome handle their own shell)
+ * - Homepage (/): children only — page.tsx renders TopBar + Nav + Footer directly
+ * - All other routes: shared Northbound chrome (TopBar, Nav, Footer)
+ */
 export default function Layout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
-  const isAdmin = pathname?.startsWith('/admin');
-  const [visible, setVisible] = useState(false);
+  const isAdmin = pathname?.startsWith("/admin");
+  const isHome = pathname === "/";
+
+  const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
-    if (!isAdmin) window.scrollTo({ top: 0, behavior: 'smooth' });
+    if (!isAdmin) window.scrollTo({ top: 0, behavior: "smooth" });
   }, [pathname, isAdmin]);
 
   useEffect(() => {
-    const onScroll = () => setVisible(window.scrollY > 300);
-    window.addEventListener('scroll', onScroll, { passive: true });
-    return () => window.removeEventListener('scroll', onScroll);
+    const onScroll = () => setScrolled(window.scrollY > 300);
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  if (isAdmin) return <>{children}</>;
+  if (isAdmin || isHome) return <>{children}</>;
 
   return (
-    <div className="min-h-screen flex flex-col bg-[#F8FAFC]">
-      <Navbar />
-      <div className="flex-1">
-        {children}
-      </div>
-      <Footer />
+    <div className="min-h-screen bg-white">
+      <HomeTopBar />
+      <HomeNavigation />
+      {/* pt accounts for fixed TopBar (h-10) + Nav (h-20) */}
+      <main className="pt-[7.5rem]">{children}</main>
+      <HomeFooter />
 
-      {/* Mobile sticky CTA — only visible on small screens, fades in after scroll */}
+      {/* Mobile sticky CTA — fades in after scroll */}
       <div
-        className={`md:hidden fixed bottom-0 left-0 right-0 z-50 transition-transform duration-500 ${
-          visible ? 'translate-y-0' : 'translate-y-full'
+        className={`fixed bottom-0 left-0 right-0 z-50 transition-transform duration-500 md:hidden ${
+          scrolled ? "translate-y-0" : "translate-y-full"
         }`}
       >
-        <div className="bg-[#1F2937] px-4 py-3 flex items-center gap-3">
+        <div className="flex items-center gap-3 bg-navy px-4 py-3">
           <a
-            href="tel:+17197338556"
-            className="whitespace-nowrap cursor-pointer flex-1 flex items-center justify-center gap-2 py-3.5 rounded-full bg-[#2563EB] text-[#F8FAFC] text-xs uppercase tracking-widest font-medium active:bg-[#DDA15E] transition-colors duration-200"
+            href="tel:8663110003"
+            className="flex flex-1 items-center justify-center gap-2 rounded-full bg-terracotta py-3.5 text-xs font-semibold uppercase tracking-widest text-white transition active:bg-terracotta-light"
           >
-            <i className="ri-phone-line text-sm"></i>
+            <i className="ri-phone-line text-sm" />
             Call Now — Free Help
           </a>
-          <Link
-            href="/admissions#inquiry-form"
-            className="whitespace-nowrap cursor-pointer flex items-center justify-center gap-2 px-5 py-3.5 rounded-full border border-[#F8FAFC]/30 text-[#F8FAFC] text-xs uppercase tracking-widest font-medium active:bg-[#F8FAFC]/10 transition-colors duration-200"
+          <a
+            href="/admissions/"
+            className="flex items-center justify-center gap-2 rounded-full border border-white/30 px-5 py-3.5 text-xs font-semibold uppercase tracking-widest text-white transition active:bg-white/10"
           >
-            <i className="ri-file-list-line text-sm"></i>
-            Apply
-          </Link>
+            <i className="ri-file-list-line text-sm" />
+            Admissions
+          </a>
         </div>
       </div>
 
       {/* Desktop floating call button — bottom-right, appears after scroll */}
       <div
-        className={`hidden md:flex fixed bottom-8 right-8 z-50 flex-col items-end gap-3 transition-all duration-500 ${
-          visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4 pointer-events-none'
+        className={`fixed bottom-8 right-8 z-50 hidden transition-all duration-500 md:flex ${
+          scrolled
+            ? "translate-y-0 opacity-100"
+            : "pointer-events-none translate-y-4 opacity-0"
         }`}
       >
         <a
-          href="tel:+17197338556"
-          className="whitespace-nowrap cursor-pointer flex items-center gap-3 pl-5 pr-6 py-4 rounded-full bg-[#2563EB] text-[#F8FAFC] text-xs uppercase tracking-widest font-medium hover:bg-[#1F2937] transition-all duration-300 group"
-          style={{ boxShadow: '0 8px 32px rgba(200,121,90,0.35)' }}
+          href="tel:8663110003"
+          className="flex items-center gap-3 bg-navy pl-5 pr-6 py-4 text-xs font-semibold uppercase tracking-widest text-white shadow-2xl transition hover:bg-terracotta"
         >
-          <div className="w-7 h-7 flex items-center justify-center rounded-full bg-[#F8FAFC]/20 group-hover:bg-[#F8FAFC]/10 transition-colors duration-300 flex-shrink-0">
-            <i className="ri-phone-line text-sm"></i>
-          </div>
-          Call Now — Free Help
+          <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-terracotta/30">
+            <i className="ri-phone-line text-sm" />
+          </span>
+          (866) 311-0003
         </a>
       </div>
     </div>
