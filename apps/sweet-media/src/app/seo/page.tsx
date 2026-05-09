@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { resolveTrackedPageMetadata } from "@sweetmedia/admin-core";
-import SeoPage from "@/pages/seo/page";
+import SeoPage from "@/views/seo/page";
 
 const fallbackMetadata: Metadata = {
   title: "SEO for Treatment Centers | Behavioral Health Search Optimization | Sweet Media",

@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { resolveTrackedPageMetadata } from "@sweetmedia/admin-core";
-import WebDevPage from "@/pages/web-dev/page";
+import WebDevPage from "@/views/web-dev/page";
 
 const fallbackMetadata: Metadata = {
   title: "Web Development for Treatment Centers | CRO & UX | Sweet Media",

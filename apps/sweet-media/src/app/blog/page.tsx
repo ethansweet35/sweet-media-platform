@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { resolveTrackedPageMetadata } from "@sweetmedia/admin-core";
-import BlogPage from "@/pages/blog/page";
+import BlogPage from "@/views/blog/page";
 
 export const dynamic = "force-dynamic";
 

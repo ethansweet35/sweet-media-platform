@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { resolveTrackedPageMetadata } from "@sweetmedia/admin-core";
-import ResultsPage from "@/pages/results/page";
+import ResultsPage from "@/views/results/page";
 
 const fallbackMetadata: Metadata = {
   title: "Results & Case Studies | Sweet Media | Behavioral Health Marketing",

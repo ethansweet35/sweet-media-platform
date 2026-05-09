@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { resolveTrackedPageMetadata } from "@sweetmedia/admin-core";
-import SocialMediaPage from "@/pages/social-media/page";
+import SocialMediaPage from "@/views/social-media/page";
 
 const fallbackMetadata: Metadata = {
   title: "Social Media for Treatment Centers | Content & Community | Sweet Media",

@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { resolveTrackedPageMetadata } from "@sweetmedia/admin-core";
-import CaliforniaPrimeRecoveryPage from "@/pages/case-studies/california-prime-recovery/page";
+import CaliforniaPrimeRecoveryPage from "@/views/case-studies/california-prime-recovery/page";
 
 const fallbackMetadata: Metadata = {
   title: "California Prime Recovery Case Study | 30% CPA Reduction | Sweet Media",

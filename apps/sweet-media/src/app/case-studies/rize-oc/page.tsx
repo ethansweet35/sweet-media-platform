@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { resolveTrackedPageMetadata } from "@sweetmedia/admin-core";
-import RizeOcPage from "@/pages/case-studies/rize-oc/page";
+import RizeOcPage from "@/views/case-studies/rize-oc/page";
 
 const fallbackMetadata: Metadata = {
   title: "Rize OC Case Study | $10K to $300K/Month, 67% CPA Drop | Sweet Media",

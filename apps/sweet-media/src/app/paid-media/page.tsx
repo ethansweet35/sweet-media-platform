@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { resolveTrackedPageMetadata } from "@sweetmedia/admin-core";
-import PaidMediaPage from "@/pages/paid-media/page";
+import PaidMediaPage from "@/views/paid-media/page";
 
 const fallbackMetadata: Metadata = {
   title: "Paid Media for Treatment Centers | Google Ads, Meta & CTV | Sweet Media",

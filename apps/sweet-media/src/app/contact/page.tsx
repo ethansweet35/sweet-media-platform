@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { resolveTrackedPageMetadata } from "@sweetmedia/admin-core";
-import ContactPage from "@/pages/contact/page";
+import ContactPage from "@/views/contact/page";
 
 const fallbackMetadata: Metadata = {
   title: "Contact Sweet Media | Free Strategy Call for Treatment Centers",
