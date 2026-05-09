@@ -1,8 +1,6 @@
 /**
- * About — consolidated layout:
- *  1. Header (eyebrow + headline + supporting tagline)
- *  2. Two-column main: alumni pull-quote + body + program tags + CTA | YouTube
- *  3. Clean borderless stats strip at the bottom
+ * About — header + two-column (copy | video) + bottom stats strip.
+ * Quote dropped; alumni point folded into the body copy.
  */
 
 const STATS = [
@@ -50,39 +48,43 @@ export default function AboutUs() {
         {/* ── Main two-column ───────────────────────────────────────────── */}
         <div className="grid items-start gap-12 lg:grid-cols-2 lg:gap-16">
 
-          {/* Left — alumni quote + body + tags + CTA */}
-          <div className="space-y-7">
-            <div className="relative border-l-4 border-navy pl-8">
-              <i className="ri-double-quotes-l absolute -left-1 -top-3 text-4xl text-navy/10" />
+          {/* Left — copy column */}
+          <div className="flex flex-col gap-8">
+
+            {/* Body copy */}
+            <div className="space-y-5">
               <p className="text-lg font-light leading-relaxed text-espresso/80">
-                One third of the Northbound Treatment Services® team are alumni
-                themselves, so there is a real understanding of what someone
-                walking through our doors for the first time is going through.
+                Our leadership team brings <span className="font-medium text-navy">200+ years of combined behavioral healthcare experience</span> — and one third of our staff are alumni themselves, so when you walk through our door, you're met with people who have stood exactly where you stand.
+              </p>
+              <p className="font-light leading-relaxed text-espresso/65">
+                Trauma-informed and evidence-based, we combine medical expertise
+                with holistic healing — CBT, DBT, EMDR, yoga, art therapy, and
+                psychiatry — built around individualized plans that address the
+                whole person, mind, body, and spirit.
               </p>
             </div>
 
-            <p className="font-light leading-relaxed text-espresso/70">
-              Our leadership team brings 200+ years of combined behavioral
-              healthcare experience. Our trauma-informed, evidence-based approach
-              combines medical expertise with holistic healing — CBT, DBT, EMDR,
-              yoga, art therapy, and psychiatry — built around individualized
-              plans that address the whole person.
-            </p>
-
-            <div className="flex flex-wrap gap-2">
-              {PROGRAM_TAGS.map((tag) => (
-                <span
-                  key={tag}
-                  className="border border-navy/20 bg-white px-3 py-1.5 text-[10px] font-bold uppercase tracking-[0.15em] text-navy"
-                >
-                  {tag}
-                </span>
-              ))}
+            {/* Program tags */}
+            <div className="border-y border-sand-dark py-5">
+              <p className="mb-3 text-[10px] font-bold uppercase tracking-[0.22em] text-espresso/40">
+                Unique to Northbound
+              </p>
+              <div className="flex flex-wrap gap-2">
+                {PROGRAM_TAGS.map((tag) => (
+                  <span
+                    key={tag}
+                    className="border border-navy/20 bg-white px-3 py-1.5 text-[10px] font-bold uppercase tracking-[0.15em] text-navy"
+                  >
+                    {tag}
+                  </span>
+                ))}
+              </div>
             </div>
 
+            {/* CTA */}
             <a
               href="/about"
-              className="inline-flex items-center gap-2 bg-navy px-8 py-4 text-xs font-bold uppercase tracking-[0.2em] text-white transition-colors duration-300 hover:bg-terracotta"
+              className="inline-flex w-max items-center gap-2 bg-navy px-8 py-4 text-xs font-bold uppercase tracking-[0.2em] text-white transition-colors duration-300 hover:bg-terracotta"
             >
               Learn More About Us
               <i className="ri-arrow-right-line text-sm leading-none" />
