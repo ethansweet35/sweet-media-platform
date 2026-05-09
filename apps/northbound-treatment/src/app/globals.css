@@ -4,40 +4,62 @@
 @source "../../src/**/*.{js,ts,jsx,tsx,mdx}";
 @source "../../../../packages/admin-core/src/**/*.{js,ts,jsx,tsx}";
 
-:root {
-  /* Northbound Treatment brand palette (from Figma) */
+@custom-variant dark (&:is(.dark *));
 
-  /* Neutrals */
-  --color-sand-light: #fdfbf7; /* main background */
-  --color-sand: #f4efe6; /* secondary background */
-  --color-sand-dark: #e5dccb; /* borders, subtle accents */
-  --color-espresso: #2c2a28; /* text, dark elements */
+/* ----------------------------------------------------------------------
+ * Northbound Treatment design system (from Figma)
+ * - Sharp corners (radius 0)
+ * - Playfair Display (headings) + DM Sans (body)
+ * - Sand / Espresso / Terracotta / Navy / Agave palette
+ * ---------------------------------------------------------------------- */
 
-  /* Accents */
-  --color-terracotta: #e97a52; /* primary accent / CTAs */
-  --color-terracotta-light: #f09068; /* hover states, gradients */
-  --color-navy: #4a6a92; /* secondary / trust elements */
-  --color-navy-light: #5a7aa2; /* lighter navy variation */
-  --color-agave: #7a8b76; /* sage green accent / focus ring */
-  --color-agave-dark: #5d6b5a; /* darker green variation */
+@theme inline {
+  /* Brand color tokens — exposed as Tailwind utilities (bg-sand, text-terracotta, …). */
+  --color-sand: #f4efe6;
+  --color-sand-light: #ffffff;
+  --color-sand-dark: #e5dccb;
 
-  /* Semantic aliases (used by Tailwind utilities and component code) */
-  --color-primary: var(--color-terracotta); /* primary CTA */
-  --color-secondary: var(--color-navy); /* secondary / trust */
-  --color-accent: var(--color-agave); /* focus / ring */
-  --color-background: var(--color-sand-light);
-  --color-surface: #ffffff; /* cards, form bg */
-  --color-text: var(--color-espresso);
-  --color-muted: #6b6b68; /* derived warm gray for muted copy */
-  --color-border: var(--color-sand-dark);
+  --color-espresso: #2c2a28;
 
-  /* Fonts — placeholder until Figma file confirms */
-  --font-heading: Inter, system-ui, sans-serif;
-  --font-body: Inter, system-ui, sans-serif;
+  --color-terracotta: #e97a52;
+  --color-terracotta-light: #f09068;
+
+  --color-navy: #4a6a92;
+  --color-navy-light: #5a7aa2;
+
+  --color-agave: #7a8b76;
+  --color-agave-dark: #5d6b5a;
+
+  /* Semantic aliases used by admin-core / shared UI */
+  --color-background: #fdfbf7;
+  --color-foreground: #2c2a28;
+  --color-surface: #ffffff;
+  --color-text: #2c2a28;
+  --color-muted: #6b6b68;
+  --color-border: #e5dccb;
+  --color-primary: #e97a52;
+  --color-secondary: #4a6a92;
+  --color-accent: #7a8b76;
+  --color-ring: #7a8b76;
+
+  /* Sharp corners everywhere — overrides Tailwind defaults */
+  --radius-sm: 0;
+  --radius-md: 0;
+  --radius-lg: 0;
+  --radius-xl: 0;
+  --radius-2xl: 0;
+  --radius-3xl: 0;
+
+  /* Brand fonts — wired from next/font in layout.tsx */
+  --font-heading: var(--font-playfair, "Playfair Display"), Georgia, serif;
+  --font-body: var(--font-dm-sans, "DM Sans"), system-ui, -apple-system, sans-serif;
+  --font-serif: var(--font-playfair, "Playfair Display"), Georgia, serif;
+  --font-sans: var(--font-dm-sans, "DM Sans"), system-ui, -apple-system, sans-serif;
 }
 
 html {
   scroll-behavior: smooth;
+  font-size: 16px;
 }
 
 body {
@@ -45,6 +67,8 @@ body {
   background: var(--color-background);
   color: var(--color-text);
   font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 h1,
@@ -59,4 +83,94 @@ h6 {
 button,
 a {
   transition: all 180ms ease;
+}
+
+::selection {
+  background-color: var(--color-terracotta);
+  color: white;
+}
+
+/* ----------------------------------------------------------------------
+ * Architectural border utilities (1px sand-dark frames around hero
+ * cards, location tiles, modality cards, etc.)
+ * ---------------------------------------------------------------------- */
+.architectural-border {
+  border: 1px solid var(--color-sand-dark);
+}
+.architectural-border-top {
+  border-top: 1px solid var(--color-sand-dark);
+}
+.architectural-border-bottom {
+  border-bottom: 1px solid var(--color-sand-dark);
+}
+.architectural-border-l {
+  border-left: 1px solid var(--color-sand-dark);
+}
+
+.text-outline {
+  color: transparent;
+  -webkit-text-stroke: 1px rgba(44, 42, 40, 0.1);
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* ----------------------------------------------------------------------
+ * Animations (insurance marquee, hero blob pulse, floating particles)
+ * ---------------------------------------------------------------------- */
+@keyframes scroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+.animate-scroll {
+  animation: scroll 30s linear infinite;
+}
+
+@keyframes pulse-slow {
+  0%,
+  100% {
+    opacity: 0.5;
+  }
+  50% {
+    opacity: 0.35;
+  }
+}
+.animate-pulse-slow {
+  animation: pulse-slow 6s ease-in-out infinite;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.animate-fadeInUp {
+  animation: fadeInUp 0.8s ease-out;
+}
+
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-20px);
+  }
+}
+.animate-float {
+  animation: float 6s ease-in-out infinite;
 }
