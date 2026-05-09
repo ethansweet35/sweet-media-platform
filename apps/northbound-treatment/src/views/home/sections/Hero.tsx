@@ -96,7 +96,7 @@ export default function Hero() {
                   </span>
                 </div>
 
-                <div className="flex h-11 w-11 flex-shrink-0 rotate-45 items-center justify-center rounded-sm bg-[#4A5D7A] shadow-md transition-transform duration-300 hover:scale-110">
+                <div className="flex h-11 w-11 flex-shrink-0 rotate-45 items-center justify-center rounded-sm bg-navy shadow-md transition-transform duration-300 hover:scale-110">
                   <div className="-rotate-45 flex flex-col items-center text-center">
                     <div className="mb-0.5 h-3.5 w-3.5 rounded-sm border border-white bg-terracotta" />
                     <span className="block text-[4px] font-bold uppercase leading-none text-white">
