@@ -13,11 +13,18 @@
  *     --supabase-key  eyJhbGciOiJIUzI1NiIsInR5...  (service role key)
  *
  * Optional flags:
- *   --wp-user       WP application username (needed for password-protected content)
- *   --wp-pass       WP application password
- *   --skip-images   Skip image re-hosting; use original WP image URLs instead
- *   --dry-run       Fetch and report only — no DB writes, no image uploads
- *   --post-status   WP post status to migrate (default: publish)
+ *   --wp-user           WP application username (needed for password-protected content)
+ *   --wp-pass           WP application password
+ *   --skip-images       Skip image re-hosting; use original WP image URLs instead
+ *   --dry-run           Fetch and report only — no DB writes, no image uploads
+ *   --post-status       WP post status to migrate (default: publish)
+ *   --keep-slugs <csv>  CSV file with column "path" or "slug" — only migrate posts whose slug
+ *                       (or /blog/<slug>/ path) appears in the file. Use this to filter to
+ *                       a curated keep list (typical workflow: ranking analysis CSV).
+ *   --redirect-map <csv>  CSV file with columns "from_path,to_path" — applied as a link rewriter
+ *                       to migrated post content. Any internal markdown link to a `from_path`
+ *                       URL is rewritten to its `to_path` so dropped posts don't leave dead
+ *                       internal links. Strongly recommended whenever --keep-slugs is used.
  *
  * Prerequisites:
  *   - Run `node scripts/setup-new-client.mjs` first to provision the Supabase project
@@ -90,6 +97,53 @@ function slugify(text = '') {
 }
 
 /** Fetch all pages of a WP REST endpoint with pagination */
+/**
+ * Rewrite any markdown link that targets a dropped URL via the redirect map.
+ *
+ * Handles all common forms a WP-converted markdown link can take:
+ *   - [text](https://wp-host.com/dropped/)
+ *   - [text](https://www.wp-host.com/dropped/)
+ *   - [text](/dropped/)         (relative)
+ *   - [text](dropped/)          (relative without leading slash)
+ *
+ * The redirect map keys are absolute paths (e.g. `/blog/foo/`), so we normalize
+ * each link target to its pathname before lookup.
+ */
+function rewriteMarkdownLinks(markdown, redirectMap, wpUrl) {
+  if (!markdown || !redirectMap) return markdown;
+
+  const wpHosts = new Set();
+  try {
+    const u = new URL(wpUrl);
+    wpHosts.add(u.hostname);
+    wpHosts.add(u.hostname.replace(/^www\./, ''));
+    wpHosts.add('www.' + u.hostname.replace(/^www\./, ''));
+  } catch { /* ignore */ }
+
+  // Match: [anchor text](url)  — handles balanced parens in url with backslash-escapes
+  return markdown.replace(/\[([^\]]*)\]\(([^)]+)\)/g, (match, text, target) => {
+    let pathname = target.trim();
+    // Strip whitespace + optional title in url like (url "title")
+    pathname = pathname.replace(/\s+["'].*$/, '');
+    // Skip non-http(s) targets like mailto:, tel:, javascript:
+    if (/^(mailto:|tel:|javascript:|#)/i.test(pathname)) return match;
+    // Resolve absolute URL → just pathname; relative URLs treated as paths
+    try {
+      if (/^https?:\/\//i.test(pathname)) {
+        const u = new URL(pathname);
+        if (!wpHosts.has(u.hostname)) return match; // external link — don't touch
+        pathname = u.pathname + (u.search || '') + (u.hash || '');
+      }
+    } catch { return match; }
+    if (!pathname.startsWith('/')) pathname = '/' + pathname;
+
+    // Try exact match, then try with/without trailing slash
+    let to = redirectMap.get(pathname) || redirectMap.get(pathname.replace(/\/$/, '')) || redirectMap.get(pathname + '/');
+    if (!to) return match;
+    return `[${text}](${to})`;
+  });
+}
+
 async function wpFetchAll(baseUrl, endpoint, auth, params = {}) {
   const results = [];
   let page = 1;
@@ -233,9 +287,59 @@ async function main() {
   const skipImages  = hasFlag('--skip-images');
   const dryRun      = hasFlag('--dry-run');
   const postStatus  = getArg('--post-status') || 'publish';
+  const keepSlugsFile = getArg('--keep-slugs');
+  const redirectMapFile = getArg('--redirect-map');
 
   if (!wpUrl)   die('--wp-url is required (e.g. https://example.com)');
   if (!siteId)  die('--site-id is required (e.g. brand-slug)');
+
+  // Build keep-slug filter (Set<slug>)
+  let keepSlugs = null;
+  if (keepSlugsFile) {
+    if (!existsSync(keepSlugsFile)) die(`--keep-slugs file not found: ${keepSlugsFile}`);
+    const lines = readFileSync(keepSlugsFile, 'utf8').split(/\r?\n/).filter(Boolean);
+    const header = lines[0].split(',').map(h => h.trim().toLowerCase().replace(/^"|"$/g, ''));
+    const pathIdx = header.indexOf('path');
+    const slugIdx = header.indexOf('slug');
+    const decisionIdx = header.indexOf('decision');
+    keepSlugs = new Set();
+    for (const line of lines.slice(1)) {
+      const cells = line.split(',');
+      // If a "decision" column exists, accept anything that isn't "drop"
+      if (decisionIdx >= 0) {
+        const decision = (cells[decisionIdx] || '').trim().toLowerCase();
+        if (decision === 'drop') continue;
+      }
+      let slug = null;
+      if (slugIdx >= 0) slug = (cells[slugIdx] || '').trim();
+      if (!slug && pathIdx >= 0) {
+        const p = (cells[pathIdx] || '').trim();
+        const m = p.match(/\/blog\/([^/]+)\/?$/);
+        if (m) slug = m[1];
+      }
+      if (slug) keepSlugs.add(slug);
+    }
+    log(`Keep-slug filter loaded: ${keepSlugs.size} slugs from ${keepSlugsFile}`);
+  }
+
+  // Build redirect map for link rewriting (Map<fromPath, toPath>)
+  let redirectMap = null;
+  if (redirectMapFile) {
+    if (!existsSync(redirectMapFile)) die(`--redirect-map file not found: ${redirectMapFile}`);
+    redirectMap = new Map();
+    const lines = readFileSync(redirectMapFile, 'utf8').split(/\r?\n/).filter(Boolean);
+    const header = lines[0].split(',').map(h => h.trim().toLowerCase().replace(/^"|"$/g, ''));
+    const fromIdx = header.indexOf('from_path');
+    const toIdx = header.indexOf('to_path');
+    if (fromIdx < 0 || toIdx < 0) die('--redirect-map CSV must have "from_path" and "to_path" columns');
+    for (const line of lines.slice(1)) {
+      const cells = line.split(',');
+      const from = (cells[fromIdx] || '').trim();
+      const to = (cells[toIdx] || '').trim();
+      if (from && to) redirectMap.set(from, to);
+    }
+    log(`Redirect map loaded: ${redirectMap.size} rules from ${redirectMapFile}`);
+  }
 
   // Supabase args are required unless --dry-run is set
   if (!dryRun) {
@@ -342,10 +446,22 @@ async function main() {
     try {
       const title   = stripHtml(post.title?.rendered || 'Untitled');
       const wpSlug  = post.slug || slugify(title);
+
+      // Apply keep-slug filter (if configured)
+      if (keepSlugs && !keepSlugs.has(wpSlug)) {
+        skippedCount++;
+        continue;
+      }
+
       const rawHtml = stripWpShortcodes(post.content?.rendered || '');
 
       // Convert HTML → Markdown
-      const markdown = turndown.turndown(rawHtml);
+      let markdown = turndown.turndown(rawHtml);
+
+      // Apply redirect map: rewrite any markdown link that targets a dropped URL
+      if (redirectMap) {
+        markdown = rewriteMarkdownLinks(markdown, redirectMap, wpUrl);
+      }
 
       // Excerpt — prefer WP excerpt, fall back to first 160 chars of plain text
       const rawExcerpt = post.excerpt?.rendered || '';
@@ -463,10 +579,15 @@ async function main() {
     const title       = stripHtml(page.title?.rendered || '');
     const slug        = page.slug || slugify(title);
 
-    // Suggested Next.js route
-    const parentId = page.parent;
-    const suggestedRoute = slug === 'home' || page.link === wpUrl + '/' ? '/'
-      : `/${slug}`;
+    // Suggested Next.js route — preserves the live WP URL nesting exactly.
+    // E.g. /about/code-of-ethics/ stays as a nested route, not flattened to /code-of-ethics/.
+    let suggestedRoute = '/';
+    try {
+      const wpPathname = new URL(page.link).pathname;
+      suggestedRoute = wpPathname || '/';
+    } catch {
+      suggestedRoute = slug === 'home' ? '/' : `/${slug}/`;
+    }
 
     return {
       id:              page.id,
