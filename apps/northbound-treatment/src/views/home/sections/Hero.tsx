@@ -24,14 +24,14 @@ export default function Hero() {
         sizes="100vw"
       />
 
-      {/* ── Gradient overlay: dark on left (text), medium on right (form) ── */}
-      <div className="absolute inset-0 bg-gradient-to-r from-espresso/90 via-espresso/70 to-espresso/50" />
+      {/* ── Primary overlay: deep navy left → lighter navy right ────────── */}
+      <div className="absolute inset-0 bg-gradient-to-r from-navy/95 via-navy/80 to-navy/40" />
 
-      {/* ── Subtle vignette to ground the page edges ─────────────────── */}
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_40%,rgba(44,42,40,0.5)_100%)]" />
+      {/* ── Bottom dark band so the section has a grounded feel ──────────── */}
+      <div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-navy/60 to-transparent" />
 
-      {/* ── Terracotta warm accent glow — top-right, echoes the photo sky ── */}
-      <div className="pointer-events-none absolute -right-40 -top-20 h-[500px] w-[500px] rounded-full bg-terracotta/20 blur-[160px]" />
+      {/* ── Terracotta warm glow — top-right, echoes the sunset sky ─────── */}
+      <div className="pointer-events-none absolute -right-20 -top-20 h-[480px] w-[480px] rounded-full bg-terracotta/25 blur-[140px]" />
 
       {/* ── Content ───────────────────────────────────────────────────── */}
       <div className="relative z-10 mx-auto w-full max-w-7xl px-6 lg:px-12">
@@ -128,7 +128,7 @@ export default function Hero() {
 
           {/* Right — contact + insurance form (dark frosted card) */}
           <div className="relative z-30 mt-12 lg:col-span-6 lg:mt-0">
-            <div className="relative overflow-hidden border border-white/10 bg-espresso/80 p-6 shadow-2xl backdrop-blur-md lg:p-8">
+            <div className="relative overflow-hidden border border-white/10 bg-navy-light/60 p-6 shadow-2xl backdrop-blur-md lg:p-8">
               {/* Top gradient accent bar */}
               <div className="absolute left-0 top-0 h-1 w-full bg-gradient-to-r from-terracotta via-navy to-espresso" />
 
