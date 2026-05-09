@@ -29,7 +29,8 @@ export default function InternalLinksPage() {
   const { pages: trackedPages, loading: pagesLoading } = useTrackedPages();
 
   const [searchQuery, setSearchQuery] = useState("");
-  const [blogSearch, setBlogSearch] = useState("");
+  const [presetTab, setPresetTab] = useState<"pages" | "blogs">("pages");
+  const [presetSearch, setPresetSearch] = useState("");
   const [form, setForm] = useState<LinkForm>(DEFAULT_FORM);
   const [editingId, setEditingId] = useState<string | null>(null);
   const [deletingId, setDeletingId] = useState<string | null>(null);
@@ -55,12 +56,6 @@ export default function InternalLinksPage() {
         l.href.toLowerCase().includes(q)
     );
   }, [links, searchQuery]);
-
-  const filteredBlogPosts = useMemo(() => {
-    if (!blogSearch) return blogPosts;
-    const q = blogSearch.toLowerCase();
-    return blogPosts.filter((p) => p.title.toLowerCase().includes(q));
-  }, [blogPosts, blogSearch]);
 
   const filteredUtilization = useMemo(() => {
     if (!utilSearch) return utilization;
@@ -313,90 +308,129 @@ export default function InternalLinksPage() {
                     className="w-full border border-neutral-200 rounded-xl px-3.5 py-2.5 text-sm text-neutral-800 placeholder:text-neutral-300 focus:outline-none focus:border-[#3d6f7f] transition-colors"
                   />
 
-                  {/* Site Pages Presets */}
-                  <div className="mt-3">
-                    <p className="text-[10px] tracking-[0.15em] uppercase font-semibold text-neutral-400 mb-2">Site Pages</p>
-                    {pagesLoading ? (
-                      <div className="flex items-center gap-1.5 text-xs text-neutral-400">
-                        <i className="ri-loader-4-line animate-spin text-xs"></i>
-                        Loading pages…
+                  {/* Destination picker */}
+                  <div className="mt-3 bg-neutral-50 border border-neutral-200 rounded-xl overflow-hidden">
+                    {/* Tabs + search */}
+                    <div className="px-3 pt-2.5 pb-2 border-b border-neutral-200 space-y-2">
+                      <div className="flex gap-1 bg-neutral-100 rounded-lg p-0.5">
+                        <button
+                          onClick={() => { setPresetTab("pages"); setPresetSearch(""); }}
+                          className={`flex-1 text-[10px] tracking-[0.1em] uppercase font-bold py-1.5 rounded-md transition-colors cursor-pointer ${
+                            presetTab === "pages"
+                              ? "bg-white text-[#3d6f7f] shadow-sm"
+                              : "text-neutral-400 hover:text-neutral-600"
+                          }`}
+                        >
+                          <i className="ri-pages-line mr-1 text-xs"></i>
+                          Pages
+                        </button>
+                        <button
+                          onClick={() => { setPresetTab("blogs"); setPresetSearch(""); }}
+                          className={`flex-1 text-[10px] tracking-[0.1em] uppercase font-bold py-1.5 rounded-md transition-colors cursor-pointer ${
+                            presetTab === "blogs"
+                              ? "bg-white text-[#3d6f7f] shadow-sm"
+                              : "text-neutral-400 hover:text-neutral-600"
+                          }`}
+                        >
+                          <i className="ri-article-line mr-1 text-xs"></i>
+                          Blog Posts
+                        </button>
                       </div>
-                    ) : trackedPages.length === 0 ? (
-                      <p className="text-[10px] text-neutral-400">No tracked pages found.</p>
-                    ) : (
-                      <div className="flex flex-wrap gap-1.5">
-                        {trackedPages
-                          .filter((p) => p.is_active)
-                          .map((page) => (
-                            <button
-                              key={page.route_path}
-                              onClick={() => setPresetHref(page.route_path)}
-                              className={`text-[10px] tracking-wide px-2.5 py-1 rounded-lg border transition-colors cursor-pointer whitespace-nowrap ${
-                                form.href === page.route_path
-                                  ? "bg-[#3d6f7f] text-white border-[#3d6f7f]"
-                                  : "bg-white text-neutral-500 border-neutral-200 hover:border-neutral-300"
-                              }`}
-                            >
-                              {page.page_title}
-                            </button>
-                          ))}
+                      <div className="flex items-center gap-2 bg-white border border-neutral-200 rounded-lg px-2.5 py-1.5">
+                        <i className="ri-search-line text-neutral-400 text-xs flex-shrink-0"></i>
+                        <input
+                          type="text"
+                          value={presetSearch}
+                          onChange={(e) => setPresetSearch(e.target.value)}
+                          placeholder={presetTab === "pages" ? "Search pages…" : "Search blog posts…"}
+                          className="flex-1 bg-transparent text-xs text-neutral-700 placeholder:text-neutral-400 focus:outline-none min-w-0"
+                        />
+                        {presetSearch && (
+                          <button
+                            onClick={() => setPresetSearch("")}
+                            className="w-4 h-4 flex items-center justify-center rounded-full bg-neutral-200 hover:bg-neutral-300 text-neutral-500 transition-colors cursor-pointer flex-shrink-0"
+                          >
+                            <i className="ri-close-line text-[8px]"></i>
+                          </button>
+                        )}
                       </div>
-                    )}
-                  </div>
+                    </div>
 
-                  {/* Blog Posts Presets */}
-                  <div className="mt-3">
-                    <p className="text-[10px] tracking-[0.15em] uppercase font-semibold text-neutral-400 mb-2">Blog Posts</p>
-                    <div className="bg-neutral-50 border border-neutral-200 rounded-xl overflow-hidden">
-                      <div className="px-3 py-2 border-b border-neutral-200">
-                        <div className="flex items-center gap-2 bg-white border border-neutral-200 rounded-lg px-2.5 py-1.5">
-                          <i className="ri-search-line text-neutral-400 text-xs flex-shrink-0"></i>
-                          <input
-                            type="text"
-                            value={blogSearch}
-                            onChange={(e) => setBlogSearch(e.target.value)}
-                            placeholder="Search blog posts..."
-                            className="flex-1 bg-transparent text-xs text-neutral-700 placeholder:text-neutral-400 focus:outline-none min-w-0"
-                          />
-                          {blogSearch && (
-                            <button
-                              onClick={() => setBlogSearch("")}
-                              className="w-4 h-4 flex items-center justify-center rounded-full bg-neutral-200 hover:bg-neutral-300 text-neutral-500 transition-colors cursor-pointer flex-shrink-0"
-                            >
-                              <i className="ri-close-line text-[8px]"></i>
-                            </button>
-                          )}
-                        </div>
-                      </div>
-                      <div className="max-h-[180px] overflow-y-auto">
-                        {blogLoading ? (
+                    {/* Scrollable list */}
+                    <div className="max-h-[200px] overflow-y-auto">
+                      {presetTab === "pages" ? (
+                        pagesLoading ? (
                           <div className="px-3 py-4 text-center">
                             <i className="ri-loader-4-line animate-spin text-neutral-300 text-sm"></i>
                           </div>
-                        ) : filteredBlogPosts.length === 0 ? (
+                        ) : (() => {
+                          const filtered = trackedPages
+                            .filter((p) => p.is_active)
+                            .filter((p) =>
+                              !presetSearch ||
+                              p.page_title.toLowerCase().includes(presetSearch.toLowerCase()) ||
+                              p.route_path.toLowerCase().includes(presetSearch.toLowerCase())
+                            );
+                          return filtered.length === 0 ? (
+                            <div className="px-3 py-4 text-center">
+                              <p className="text-xs text-neutral-400">
+                                {presetSearch ? "No pages match your search." : "No tracked pages found."}
+                              </p>
+                            </div>
+                          ) : (
+                            <div className="divide-y divide-neutral-100">
+                              {filtered.map((page) => (
+                                <button
+                                  key={page.route_path}
+                                  onClick={() => setPresetHref(page.route_path)}
+                                  className={`w-full text-left px-3 py-2.5 transition-colors cursor-pointer ${
+                                    form.href === page.route_path
+                                      ? "bg-[#3d6f7f]/5 text-[#3d6f7f] font-medium"
+                                      : "text-neutral-600 hover:bg-neutral-100"
+                                  }`}
+                                >
+                                  <span className="truncate block text-xs">{page.page_title}</span>
+                                  <span className="truncate block text-[10px] text-neutral-400 mt-0.5">{page.route_path}</span>
+                                </button>
+                              ))}
+                            </div>
+                          );
+                        })()
+                      ) : (
+                        blogLoading ? (
                           <div className="px-3 py-4 text-center">
-                            <p className="text-xs text-neutral-400">
-                              {blogSearch ? "No blog posts match your search." : "No published blog posts found."}
-                            </p>
+                            <i className="ri-loader-4-line animate-spin text-neutral-300 text-sm"></i>
                           </div>
-                        ) : (
-                          <div className="divide-y divide-neutral-100">
-                            {filteredBlogPosts.map((post) => (
-                              <button
-                                key={post.id}
-                                onClick={() => setPresetHref(`/blog/${post.slug}`)}
-                                className={`w-full text-left px-3 py-2 text-xs transition-colors cursor-pointer ${
-                                  form.href === `/blog/${post.slug}`
-                                    ? "bg-[#3d6f7f]/5 text-[#3d6f7f] font-medium"
-                                    : "text-neutral-600 hover:bg-neutral-100"
-                                }`}
-                              >
-                                <span className="truncate block">{post.title}</span>
-                              </button>
-                            ))}
-                          </div>
-                        )}
-                      </div>
+                        ) : (() => {
+                          const filtered = blogPosts.filter((p) =>
+                            !presetSearch ||
+                            p.title.toLowerCase().includes(presetSearch.toLowerCase())
+                          );
+                          return filtered.length === 0 ? (
+                            <div className="px-3 py-4 text-center">
+                              <p className="text-xs text-neutral-400">
+                                {presetSearch ? "No blog posts match your search." : "No published blog posts found."}
+                              </p>
+                            </div>
+                          ) : (
+                            <div className="divide-y divide-neutral-100">
+                              {filtered.map((post) => (
+                                <button
+                                  key={post.id}
+                                  onClick={() => setPresetHref(`/blog/${post.slug}`)}
+                                  className={`w-full text-left px-3 py-2.5 transition-colors cursor-pointer ${
+                                    form.href === `/blog/${post.slug}`
+                                      ? "bg-[#3d6f7f]/5 text-[#3d6f7f] font-medium"
+                                      : "text-neutral-600 hover:bg-neutral-100"
+                                  }`}
+                                >
+                                  <span className="truncate block text-xs">{post.title}</span>
+                                </button>
+                              ))}
+                            </div>
+                          );
+                        })()
+                      )}
                     </div>
                   </div>
                 </div>
