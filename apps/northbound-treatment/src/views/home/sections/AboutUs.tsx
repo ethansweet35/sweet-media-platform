@@ -29,12 +29,13 @@ export default function AboutUs() {
       <div className="relative z-10 mx-auto max-w-7xl px-6 lg:px-12">
 
         {/* ── Header ────────────────────────────────────────────────────── */}
-        <div className="mb-14 max-w-3xl">
-          <div className="mb-4 flex items-center gap-3">
+        <div className="mx-auto mb-14 max-w-3xl text-center">
+          <div className="mb-4 flex items-center justify-center gap-3">
             <div className="h-[2px] w-12 bg-navy" />
             <p className="text-xs font-bold uppercase tracking-[0.2em] text-navy">
               Our Story
             </p>
+            <div className="h-[2px] w-12 bg-navy" />
           </div>
           <h2 className="mb-5 font-serif text-5xl leading-tight text-espresso lg:text-6xl">
             About Northbound
