@@ -66,6 +66,7 @@ create table if not exists public.brand_settings (
   state text,
   zip text,
   phone text,
+  schema_phone text,
   latitude numeric(10,7),
   longitude numeric(10,7),
   business_hours jsonb default '[]'::jsonb,

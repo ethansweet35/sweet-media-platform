@@ -227,7 +227,7 @@ export function buildMedicalOrganizationSchema(
     name: settings.site_name,
     url: settings.site_url ?? undefined,
     logo: buildLogoImageObject(settings),
-    telephone: settings.phone ?? undefined,
+    telephone: settings.schema_phone ?? settings.phone ?? undefined,
     address: buildPostalAddress(settings),
     geo: buildGeoCoordinates(settings),
     sameAs: sameAs.length > 0 ? sameAs : undefined,
@@ -264,7 +264,7 @@ export function buildLocalBusinessSchema(
     "@id": localBusinessId,
     name: settings.site_name,
     url: settings.site_url ?? undefined,
-    telephone: settings.phone ?? undefined,
+    telephone: settings.schema_phone ?? settings.phone ?? undefined,
     address: buildPostalAddress(settings),
     geo: buildGeoCoordinates(settings),
     openingHoursSpecification: buildOpeningHoursSpecifications(

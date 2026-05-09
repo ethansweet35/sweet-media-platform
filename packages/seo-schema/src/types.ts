@@ -125,6 +125,13 @@ export interface BrandSettings {
   // ─── Migration 20260509000001: contact + location ─────────────────
   /** Primary public phone number, formatted as displayed on the site. */
   phone: string | null;
+  /**
+   * Static, tracking-free phone number reserved for Schema.org JSON-LD.
+   * Use this instead of `phone` in structured data so that CallRail DNI
+   * or other client-side number-swapping never pollutes the schema output
+   * that crawlers read server-side. Falls back to `phone` when null.
+   */
+  schema_phone: string | null;
   street_address: string | null;
   city: string | null;
   /** US 2-letter state code preferred (e.g. "CA"). */

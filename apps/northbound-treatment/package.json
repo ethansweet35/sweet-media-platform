@@ -8,6 +8,7 @@
     "postbuild": "tsx scripts/sync-tracked-pages.ts",
     "start": "next start",
     "lint": "eslint",
+    "typecheck": "tsc --noEmit",
     "upload:images": "node scripts/upload-images-to-supabase.mjs"
   },
   "dependencies": {

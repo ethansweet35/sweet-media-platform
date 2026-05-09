@@ -12,6 +12,7 @@ const team = [
     role: 'Chief Executive Officer',
     bio: 'Karynne Witkin is a behavioral healthcare executive with over a decade of experience in mental health and substance use. Holding a Master\'s in Industrial-Organizational Psychology, she is passionate about creating safe, healing spaces for women and building compassionate, highly-aligned teams to deliver quality care.',
     color: '#C8795A',
+    // TODO: migrate to Supabase storage — see Batch 6 cleanup
     image: 'https://static.readdy.ai/image/6b088a02f9104b1e1fbb75888c91e42d/521f4f896d8c82d7867d9552f69c2acc.png',
   },
   {
@@ -19,6 +20,7 @@ const team = [
     role: 'Clinical Director / Co-Founder',
     bio: 'Stephanie Behrens is a multi-state Licensed Professional Counselor (LPC) and clinical leader specializing in substance use and mental health. Dedicated to evidence-based, trauma-informed care, she creates safe, transformative spaces for women to heal core wounds, move beyond survival, and build lives of resilience and lasting recovery.',
     color: '#6B7D67',
+    // TODO: migrate to Supabase storage — see Batch 6 cleanup
     image: 'https://static.readdy.ai/image/6b088a02f9104b1e1fbb75888c91e42d/e4f83cf452dfd55d97475f6ed3b89052.png',
   },
   {
@@ -26,6 +28,7 @@ const team = [
     role: 'Administration Officer / Co-Founder',
     bio: 'With over 12 years in behavioral healthcare and a decade focused on compliance, Kayli builds strong, ethical foundations for quality care. At Inner Peak Wellness, she empowers women to confidently take ownership of their mental health, ensuring they feel supported, connected, and capable of meaningful change.',
     color: '#DDA15E',
+    // TODO: migrate to Supabase storage — see Batch 6 cleanup
     image: 'https://static.readdy.ai/image/6b088a02f9104b1e1fbb75888c91e42d/a4ad1835b429fb132cf82e4a3ab87678.png',
   },
   {
@@ -33,6 +36,7 @@ const team = [
     role: 'Marketing Director / Co-Founder',
     bio: 'Drawing on 10+ years in behavioral health and her own transformative experience in women\'s aftercare, Jen Ramsden is a passionate advocate for gender-specific care. At Inner Peak Wellness, she works alongside a dedicated team to expand access to tailored resources, helping women find peace, healing, and community.',
     color: '#8FA489',
+    // TODO: migrate to Supabase storage — see Batch 6 cleanup
     image: 'https://static.readdy.ai/image/6b088a02f9104b1e1fbb75888c91e42d/c76334302c7e5e86146b904d7e412cd6.png',
   },
 ];
