@@ -10,14 +10,16 @@
  * Northbound Treatment design system (from Figma)
  * - Sharp corners (radius 0)
  * - Playfair Display (headings) + DM Sans (body)
- * - Sand / Espresso / Terracotta / Navy / Agave palette
+ * - Navy / Terracotta / Slate palette (no warm beige)
  * ---------------------------------------------------------------------- */
 
 @theme inline {
-  /* Brand color tokens — exposed as Tailwind utilities (bg-sand, text-terracotta, …). */
-  --color-sand: #f4efe6;
-  --color-sand-light: #ffffff;
-  --color-sand-dark: #e5dccb;
+  /* Brand color tokens — exposed as Tailwind utilities (bg-slate, text-terracotta, …).
+   * "sand" names kept for backward compat with existing class usage.
+   * Values replaced with cool blue-slate tones to complement navy + terracotta. */
+  --color-sand: #eef2f7;       /* alternating section background — cool slate-blue */
+  --color-sand-light: #ffffff; /* primary white background */
+  --color-sand-dark: #cdd8e8;  /* borders and dividers — cool blue-gray */
 
   --color-espresso: #2c2a28;
 
@@ -31,16 +33,16 @@
   --color-agave-dark: #5d6b5a;
 
   /* Semantic aliases used by admin-core / shared UI */
-  --color-background: #fdfbf7;
+  --color-background: #ffffff;
   --color-foreground: #2c2a28;
   --color-surface: #ffffff;
   --color-text: #2c2a28;
-  --color-muted: #6b6b68;
-  --color-border: #e5dccb;
+  --color-muted: #64748b;
+  --color-border: #cdd8e8;
   --color-primary: #e97a52;
   --color-secondary: #1b2a47;
   --color-accent: #7a8b76;
-  --color-ring: #7a8b76;
+  --color-ring: #1b2a47;
 
   /* Sharp corners everywhere — overrides Tailwind defaults */
   --radius-sm: 0;
