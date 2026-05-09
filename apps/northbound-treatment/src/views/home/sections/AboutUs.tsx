@@ -81,9 +81,9 @@ export default function AboutUs() {
         </div>
 
         {/* ── Stats strip ───────────────────────────────────────────────── */}
-        <div className="mt-16 grid grid-cols-2 gap-8 border-t border-sand-dark pt-10 lg:grid-cols-4 lg:gap-4">
+        <div className="mt-16 grid grid-cols-2 gap-8 border-t border-sand-dark pt-10 text-center lg:grid-cols-4 lg:gap-4">
           {STATS.map((stat) => (
-            <div key={stat.value} className="text-center lg:text-left">
+            <div key={stat.value}>
               <p className="font-serif text-4xl font-bold text-navy lg:text-5xl">
                 {stat.value}
               </p>
