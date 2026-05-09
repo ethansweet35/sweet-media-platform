@@ -18,6 +18,23 @@ export default function FaqsPage() {
         imageAlt="Family and counselor in a group discussion setting"
       />
 
+      <section className="bg-[#F5F3E7] py-12">
+        <div className="mx-auto max-w-4xl px-6 lg:px-10">
+          <p className="brand-eyebrow mb-3 text-[#8FAC87]">Before You Read</p>
+          <h2 className="font-heading mb-5 text-2xl font-bold text-[#1A1A17] md:text-3xl">
+            What families most need to know
+          </h2>
+          <div className="grid gap-4 text-base leading-relaxed text-[#4B4B4B] md:grid-cols-2">
+            <p>
+              Every question in this section came from a real family conversation — before an intervention, during the planning process, or in the uncertain days that follow. We have compiled the ones we hear most often into honest, straightforward answers that don&apos;t minimise the difficulty of what your family is facing. If your question isn&apos;t here, call us: we answer the phone.
+            </p>
+            <p>
+              One thing we want families to know before reading: there are no wrong questions. The situations that feel too complicated, too shameful, or too far gone to bring up are exactly the situations we were trained for. What looks impossible from the inside has often been resolved by a structured, well-prepared intervention. We have seen families come back from circumstances that felt irretrievable — and we want that for yours.
+            </p>
+          </div>
+        </div>
+      </section>
+
       <section className="bg-white">
         <div className="mx-auto max-w-4xl px-6 py-20">
           {FAQ_GROUPS.map((group, gi) => (

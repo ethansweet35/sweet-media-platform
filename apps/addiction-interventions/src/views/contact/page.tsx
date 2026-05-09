@@ -59,6 +59,35 @@ export default function ContactPage() {
         imageAlt="Addiction interventionist consulting with a family at a table"
       />
 
+      {/* Why families hesitate — and why they should call anyway */}
+      <section className="bg-[#F5F3E7] py-12">
+        <div className="mx-auto max-w-4xl px-6 lg:px-10">
+          <div className="grid gap-6 text-sm leading-relaxed text-[#4B4B4B] md:grid-cols-3">
+            <div>
+              <span className="mb-2 flex h-9 w-9 items-center justify-center rounded-xl bg-[#8FAC87]/15 text-[#507969]">
+                <i className="ri-time-line text-lg"></i>
+              </span>
+              <h3 className="font-heading mb-2 text-base font-bold text-[#1A1A17]">&ldquo;Is it the right time?&rdquo;</h3>
+              <p>Most families wait too long. There is no perfect window — but there is a right one. Our first call helps you honestly assess where your loved one is, whether the situation warrants intervention now, and what the risk of waiting actually looks like.</p>
+            </div>
+            <div>
+              <span className="mb-2 flex h-9 w-9 items-center justify-center rounded-xl bg-[#8FAC87]/15 text-[#507969]">
+                <i className="ri-lock-line text-lg"></i>
+              </span>
+              <h3 className="font-heading mb-2 text-base font-bold text-[#1A1A17]">&ldquo;Is this confidential?&rdquo;</h3>
+              <p>Completely. We never share family information with employers, insurance companies, or anyone outside your immediate care team without your written consent. Everything discussed on the first call stays between you and our interventionist.</p>
+            </div>
+            <div>
+              <span className="mb-2 flex h-9 w-9 items-center justify-center rounded-xl bg-[#8FAC87]/15 text-[#507969]">
+                <i className="ri-money-dollar-circle-line text-lg"></i>
+              </span>
+              <h3 className="font-heading mb-2 text-base font-bold text-[#1A1A17]">&ldquo;What does this cost?&rdquo;</h3>
+              <p>The first consultation is always free. We quote honest, transparent pricing on that call — and we believe our fee is always less than the cost of one more month of continued addiction or untreated mental illness. We also work with families across a range of budgets.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
       <section className="mx-auto max-w-7xl px-6 py-20">
         <div className="grid gap-12 lg:grid-cols-[1.4fr_1fr]">
           {/* Form column */}

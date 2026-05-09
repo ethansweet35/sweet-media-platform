@@ -68,6 +68,13 @@ const nextConfig: NextConfig = {
       { source: "/resources/is-it-time-for-an-intervention",           destination: "/is-it-time-for-an-intervention", permanent: true },
       { source: "/resources/find-your-missing-loved-one",              destination: "/find-your-missing-loved-one",  permanent: true },
 
+      // ── Missing flat MH/state/author URLs → canonical ──────────────────
+      { source: "/anxiety-interventions",    destination: "/mental-health-interventions/anxiety",    permanent: true },
+      { source: "/bipolar-interventions",    destination: "/mental-health-interventions/bipolar",    permanent: true },
+      { source: "/ptsd-interventions",       destination: "/mental-health-interventions/ptsd",       permanent: true },
+      { source: "/california-interventions", destination: "/california",                             permanent: true },
+      { source: "/author/aaron",             destination: "/about-us",                               permanent: true },
+
       // ── New unified substance URL structure (old flat paths → /substance-abuse-interventions/*) ──
       { source: "/alcohol-abuse-interventions",          destination: "/substance-abuse-interventions/alcohol", permanent: true },
       { source: "/drug-abuse-interventions",             destination: "/substance-abuse-interventions/drug",    permanent: true },

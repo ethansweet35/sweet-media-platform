@@ -108,6 +108,43 @@ export default function ResourcesPage() {
 
       <TrustStrip />
 
+      {/* How to use this resource centre */}
+      <section className="bg-[#F5F3E7] py-14">
+        <div className={CONTAINER}>
+          <div className="grid gap-6 text-base leading-relaxed text-[#4B4B4B] md:grid-cols-[1.4fr_1fr]">
+            <div>
+              <p className="brand-eyebrow mb-3 text-[#8FAC87]">How to Use This Page</p>
+              <h2 className="font-heading mb-4 text-2xl font-bold leading-tight text-[#1A1A17] md:text-3xl">
+                Start wherever you are in the process
+              </h2>
+              <p className="mb-3">
+                Not every family arrives at this page with the same level of certainty. Some are in the middle of an acute crisis and need to act today. Others have been quietly watching a situation deteriorate for months and aren&apos;t sure whether what they are seeing is serious enough to warrant professional help. Most are somewhere in between — they know something is wrong but haven&apos;t been able to get their loved one to acknowledge it.
+              </p>
+              <p>
+                These resources are designed to meet you wherever you are. The self-assessments are a good starting point if you are still evaluating the situation. The planning guides are designed for families who are ready to move forward and want to understand what a structured intervention actually involves. The blog and FAQ cover the full range of questions that come up across the entire arc — from first concern through long-term recovery. And if you want to skip all of it and simply talk to someone, we are available 24 hours a day.
+              </p>
+            </div>
+            <div className="grid content-start gap-4">
+              {[
+                { icon: "ri-compass-3-line", title: "Not sure where to start?", body: "Take the 2-minute Intervention Quiz. It gives you an honest, evidence-based read on whether your loved one's situation warrants professional intervention — with no email and no judgment." },
+                { icon: "ri-calendar-check-line", title: "Ready to plan?", body: "Go directly to our Planning Guide. It covers every step from assembling the right team to confirming a treatment bed before the intervention day." },
+                { icon: "ri-phone-line", title: "In an active crisis?", body: "Skip the reading and call us now. We are available 24/7 and can help you assess the situation and mobilise a certified interventionist within hours." },
+              ].map((tip) => (
+                <div key={tip.title} className="flex items-start gap-4 rounded-2xl border border-[#EFEFEF] bg-white p-5 shadow-sm">
+                  <span className="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-[#8FAC87]/15 text-[#507969]">
+                    <i className={`${tip.icon} text-lg`}></i>
+                  </span>
+                  <div>
+                    <h3 className="font-heading text-sm font-bold text-[#1A1A17]">{tip.title}</h3>
+                    <p className="mt-1 text-xs leading-relaxed text-[#4B4B4B]">{tip.body}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Self-Assessments */}
       <section className="bg-white py-24">
         <div className={CONTAINER}>

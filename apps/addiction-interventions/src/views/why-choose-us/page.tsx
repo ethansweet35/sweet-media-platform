@@ -81,6 +81,30 @@ export default function WhyChooseUsPage() {
 
       <TrustStrip />
 
+      {/* Intro prose */}
+      <section className="bg-[#F5F3E7] py-16">
+        <div className="mx-auto max-w-4xl px-6 lg:px-10">
+          <p className="brand-eyebrow mb-3 text-[#8FAC87]">Our Philosophy</p>
+          <h2 className="font-heading mb-5 text-3xl font-bold leading-tight text-[#1A1A17] md:text-4xl">
+            What we actually believe about <span className="italic text-[#507969]">interventions and recovery</span>
+          </h2>
+          <div className="grid gap-5 text-base leading-relaxed text-[#4B4B4B] md:grid-cols-2">
+            <p>
+              Most intervention services operate on a transactional model: a family calls in distress, a professional shows up for a few hours, the loved one is placed in a program, and the service disappears. That model produces short-term placements that often don&apos;t hold. Addiction and mental health disorders are not single-day problems, and the family dynamics that fuel them don&apos;t resolve the moment someone accepts treatment.
+            </p>
+            <p>
+              We built Addiction Interventions around a different belief: that lasting recovery requires the entire family system to change, not just the person in treatment. That means we invest in preparing every family member before the intervention day, we stay engaged through every transition in the treatment process, and we are available to families in the months that follow — because the hardest moments often come after placement, not before it.
+            </p>
+            <p>
+              We also believe in radical transparency about treatment quality. We have no financial relationships with treatment centres that would bias our referrals. When we recommend a programme, it is because we believe it is clinically appropriate for that specific person — not because a referral fee is attached to the placement. Families deserve honest counsel, especially when the stakes are this high.
+            </p>
+            <p>
+              Our interventionists are certified, credentialed, and experienced across every substance class and major mental health condition. We have worked in all 50 states, with families from every background and income level, in situations ranging from early-stage concern to active medical crisis. Whatever you are facing, we have almost certainly faced something similar — and we know what works.
+            </p>
+          </div>
+        </div>
+      </section>
+
       {/* Differentiators */}
       <section className="bg-white">
         <div className="mx-auto max-w-7xl px-6 py-20">

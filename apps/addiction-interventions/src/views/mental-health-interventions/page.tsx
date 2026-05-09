@@ -128,21 +128,25 @@ export default function MentalHealthInterventionsPage() {
 
       <section className="bg-white py-24">
         <div className="mx-auto w-full max-w-7xl px-6 lg:px-10">
-          <div className="mb-12">
+          <div className="mb-5">
             <p className="brand-eyebrow mb-3 text-[#8FAC87]">Our Specialties</p>
             <h2 className="font-heading text-3xl font-bold text-[#1A1A17] md:text-4xl">
               Conditions we intervene on
             </h2>
           </div>
+          <p className="mb-12 max-w-3xl text-base leading-relaxed text-[#4B4B4B]">
+            Mental health conditions become intervention-ready when symptoms have progressed to the point where the person can no longer recognise their need for help, when safety is at risk, or when the family has exhausted every other avenue. Each condition below has its own intervention framework — the language we use, the treatment programmes we recommend, and the boundaries we help families hold are calibrated specifically to that diagnosis.
+          </p>
           <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
             {[
-              { slug: "ocd-interventions", icon: "ri-loop-left-line", name: "OCD Interventions", desc: "Severe obsessive-compulsive disorder that has taken over daily life and family functioning." },
-              { slug: "depression-interventions", icon: "ri-cloud-windy-line", name: "Depression Interventions", desc: "Clinical depression that has rendered a person unable to seek help on their own." },
-              { slug: "anxiety-interventions", icon: "ri-pulse-line", name: "Anxiety Interventions", desc: "Panic disorder, agoraphobia, social anxiety, or generalised anxiety that has become disabling." },
-              { slug: "bipolar-interventions", icon: "ri-arrow-up-down-line", name: "Bipolar Disorder Interventions", desc: "Manic and depressive episodes that are destroying relationships, finances, and careers." },
-              { slug: "ptsd-interventions", icon: "ri-shield-flash-line", name: "PTSD Interventions", desc: "Post-traumatic stress that has created hypervigilance, isolation, and self-medication." },
+              { href: "/mental-health-interventions/ocd", icon: "ri-loop-left-line", name: "OCD Interventions", desc: "Severe obsessive-compulsive disorder that has taken over daily life and family functioning." },
+              { href: "/mental-health-interventions/depression", icon: "ri-cloud-windy-line", name: "Depression Interventions", desc: "Clinical depression that has rendered a person unable to seek help on their own." },
+              { href: "/mental-health-interventions/anxiety", icon: "ri-pulse-line", name: "Anxiety Interventions", desc: "Panic disorder, agoraphobia, social anxiety, or generalised anxiety that has become disabling." },
+              { href: "/mental-health-interventions/bipolar", icon: "ri-arrow-up-down-line", name: "Bipolar Disorder Interventions", desc: "Manic and depressive episodes that are destroying relationships, finances, and careers." },
+              { href: "/mental-health-interventions/ptsd", icon: "ri-shield-flash-line", name: "PTSD Interventions", desc: "Post-traumatic stress that has created hypervigilance, isolation, and self-medication." },
+              { href: "/mental-health-interventions/self-medicating", icon: "ri-capsule-line", name: "Self-Medicating Interventions", desc: "Substance use as a coping mechanism for undiagnosed or untreated mental health conditions." },
             ].map((svc) => (
-              <Link key={svc.slug} href={`/${svc.slug}`} className="group flex flex-col rounded-2xl border border-[#EFEFEF] bg-[#F5F3E7]/50 p-7 shadow-sm transition hover:border-[#8FAC87]/40 hover:shadow-md">
+              <Link key={svc.href} href={svc.href} className="group flex flex-col rounded-2xl border border-[#EFEFEF] bg-[#F5F3E7]/50 p-7 shadow-sm transition hover:border-[#8FAC87]/40 hover:shadow-md">
                 <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-[#8FAC87]/15 text-[#507969] transition group-hover:bg-[#8FAC87] group-hover:text-white">
                   <i className={`${svc.icon} text-xl`}></i>
                 </span>

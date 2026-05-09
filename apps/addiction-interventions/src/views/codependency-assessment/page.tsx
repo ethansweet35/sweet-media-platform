@@ -153,6 +153,24 @@ export default function CodependencyAssessmentPage() {
         </div>
       </section>
 
+      {/* What codependency really means */}
+      <section className="bg-white py-14">
+        <div className="mx-auto max-w-4xl px-6 lg:px-10">
+          <p className="brand-eyebrow mb-3 text-[#8FAC87]">Understanding Your Results</p>
+          <h2 className="font-heading mb-5 text-2xl font-bold text-[#1A1A17] md:text-3xl">
+            What codependency actually <span className="italic text-[#507969]">looks like in a family</span>
+          </h2>
+          <div className="grid gap-5 text-sm leading-relaxed text-[#4B4B4B] md:grid-cols-2">
+            <p>
+              Codependency is not a character flaw. It is a learned response to living with someone whose behaviour is unpredictable and distressing. Families develop enabling patterns — covering for the person, absorbing their consequences, adjusting entire household routines around their moods — as a form of protective love. The problem is that these patterns, however well-intentioned, remove the natural pressure that often motivates someone to accept help.
+            </p>
+            <p>
+              The research on addiction treatment is clear: when family members reduce enabling behaviour and establish consistent boundaries, treatment outcomes improve significantly. That does not mean withdrawing love or support. It means redirecting that energy in ways that help rather than protect the addiction. Our interventionists work with families before, during, and after the intervention to reshape these patterns — because that work is just as important as getting your loved one through the door of a treatment facility.
+            </p>
+          </div>
+        </div>
+      </section>
+
       <Quiz config={CONFIG} />
 
       <BottomCta
