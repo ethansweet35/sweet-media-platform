@@ -49,42 +49,18 @@ export default function AboutUs() {
         <div className="grid items-start gap-12 lg:grid-cols-2 lg:gap-16">
 
           {/* Left — copy column */}
-          <div className="flex flex-col gap-8">
-
-            {/* Body copy */}
-            <div className="space-y-5">
-              <p className="text-lg font-light leading-relaxed text-espresso/80">
-                Our leadership team brings <span className="font-medium text-navy">200+ years of combined behavioral healthcare experience</span> — and one third of our staff are alumni themselves, so when you walk through our door, you're met with people who have stood exactly where you stand.
-              </p>
-              <p className="font-light leading-relaxed text-espresso/65">
-                Trauma-informed and evidence-based, we combine medical expertise
-                with holistic healing — CBT, DBT, EMDR, yoga, art therapy, and
-                psychiatry — built around individualized plans that address the
-                whole person, mind, body, and spirit.
-              </p>
-            </div>
-
-            {/* Program tags */}
-            <div className="border-y border-sand-dark py-5">
-              <p className="mb-3 text-[10px] font-bold uppercase tracking-[0.22em] text-espresso/40">
-                Unique to Northbound
-              </p>
-              <div className="flex flex-wrap gap-2">
-                {PROGRAM_TAGS.map((tag) => (
-                  <span
-                    key={tag}
-                    className="border border-navy/20 bg-white px-3 py-1.5 text-[10px] font-bold uppercase tracking-[0.15em] text-navy"
-                  >
-                    {tag}
-                  </span>
-                ))}
-              </div>
-            </div>
-
-            {/* CTA */}
+          <div className="flex flex-col items-start gap-6 lg:pr-6">
+            <p className="text-lg font-light leading-relaxed text-espresso/80">
+              Our leadership team brings <span className="font-medium text-navy">200+ years of combined behavioral healthcare experience</span> — and one third of our staff are alumni themselves, so when you walk through our door, you're met with people who have stood exactly where you stand.
+            </p>
+            <p className="font-light leading-relaxed text-espresso/70">
+              Trauma-informed and evidence-based, we combine medical expertise
+              with holistic healing to create individualized plans that address the
+              whole person: mind, body, and spirit.
+            </p>
             <a
               href="/about"
-              className="inline-flex w-max items-center gap-2 bg-navy px-8 py-4 text-xs font-bold uppercase tracking-[0.2em] text-white transition-colors duration-300 hover:bg-terracotta"
+              className="mt-2 inline-flex w-max items-center gap-2 bg-navy px-8 py-4 text-xs font-bold uppercase tracking-[0.2em] text-white transition-colors duration-300 hover:bg-terracotta"
             >
               Learn More About Us
               <i className="ri-arrow-right-line text-sm leading-none" />
