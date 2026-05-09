@@ -5,12 +5,33 @@
 @source "../../../../packages/admin-core/src/**/*.{js,ts,jsx,tsx}";
 
 :root {
-  --color-primary: #1f2937;
-  --color-secondary: #334155;
-  --color-accent: #2563eb;
-  --color-background: #f8fafc;
-  --color-surface: #ffffff;
-  --color-muted: #64748b;
+  /* Northbound Treatment brand palette (from Figma) */
+
+  /* Neutrals */
+  --color-sand-light: #fdfbf7; /* main background */
+  --color-sand: #f4efe6; /* secondary background */
+  --color-sand-dark: #e5dccb; /* borders, subtle accents */
+  --color-espresso: #2c2a28; /* text, dark elements */
+
+  /* Accents */
+  --color-terracotta: #e97a52; /* primary accent / CTAs */
+  --color-terracotta-light: #f09068; /* hover states, gradients */
+  --color-navy: #4a6a92; /* secondary / trust elements */
+  --color-navy-light: #5a7aa2; /* lighter navy variation */
+  --color-agave: #7a8b76; /* sage green accent / focus ring */
+  --color-agave-dark: #5d6b5a; /* darker green variation */
+
+  /* Semantic aliases (used by Tailwind utilities and component code) */
+  --color-primary: var(--color-terracotta); /* primary CTA */
+  --color-secondary: var(--color-navy); /* secondary / trust */
+  --color-accent: var(--color-agave); /* focus / ring */
+  --color-background: var(--color-sand-light);
+  --color-surface: #ffffff; /* cards, form bg */
+  --color-text: var(--color-espresso);
+  --color-muted: #6b6b68; /* derived warm gray for muted copy */
+  --color-border: var(--color-sand-dark);
+
+  /* Fonts — placeholder until Figma file confirms */
   --font-heading: Inter, system-ui, sans-serif;
   --font-body: Inter, system-ui, sans-serif;
 }
@@ -22,7 +43,7 @@ html {
 body {
   margin: 0;
   background: var(--color-background);
-  color: var(--color-primary);
+  color: var(--color-text);
   font-family: var(--font-body);
 }
 
