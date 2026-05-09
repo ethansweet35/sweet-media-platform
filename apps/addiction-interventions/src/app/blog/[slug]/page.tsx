@@ -4,15 +4,22 @@ import { Suspense } from "react";
 import BlogPostPreviewPage from "@/views/blog/post/page";
 import BlogPostViewServer from "@/views/blog/post/BlogPostViewServer";
 import { DEFAULT_OG_IMAGE } from "@/lib/ogDefaults";
-import { fetchPublishedBlogPostForMetadata } from "@/lib/fetchBlogPostForMetadata";
 import {
+  buildManualOnlyLinkMap,
   fetchManualLinkMappingsForServer,
+  fetchPublishedBlogPostForMetadata,
   fetchPublishedBlogPostForRender,
   fetchPublishedBlogPostsForListing,
-} from "@/lib/fetchBlogPostForRender";
-import { buildManualOnlyLinkMap } from "@sweetmedia/blog-core";
+  fetchPublishedBlogPostSlugs,
+} from "@sweetmedia/blog-core";
+import { AuthProvider } from "@sweetmedia/admin-core";
 
-export const dynamic = "force-dynamic";
+export const revalidate = 3600;
+
+export async function generateStaticParams(): Promise<{ slug: string }[]> {
+  const slugs = await fetchPublishedBlogPostSlugs();
+  return slugs.map((slug) => ({ slug }));
+}
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://addictioninterventions.com";
 
@@ -105,9 +112,11 @@ export default async function Page({ params, searchParams }: PageProps) {
 
   if (previewAdminRequested(sp)) {
     return (
-      <Suspense fallback={<BlogPostLoadingShell />}>
-        <BlogPostPreviewPage slug={slug} />
-      </Suspense>
+      <AuthProvider>
+        <Suspense fallback={<BlogPostLoadingShell />}>
+          <BlogPostPreviewPage slug={slug} />
+        </Suspense>
+      </AuthProvider>
     );
   }
 

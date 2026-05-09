@@ -1,7 +1,5 @@
 import type { Metadata } from "next";
-import { AdminGuard } from "@sweetmedia/admin-core";
-import { AdminChrome } from "@sweetmedia/admin-core";
-import { Providers } from "../providers";
+import { AdminGuard, AdminChrome, AuthProvider } from "@sweetmedia/admin-core";
 
 export const metadata: Metadata = {
   robots: {
@@ -14,12 +12,12 @@ export default function AdminLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <Providers>
+    <AuthProvider>
       <AdminGuard>
         <AdminChrome brandName="Inner Peak Admin" brandInitial="I">
           {children}
         </AdminChrome>
       </AdminGuard>
-    </Providers>
+    </AuthProvider>
   );
 }

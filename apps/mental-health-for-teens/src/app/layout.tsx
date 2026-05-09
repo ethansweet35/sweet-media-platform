@@ -3,7 +3,6 @@ import { Inter } from "next/font/google";
 import Script from "next/script";
 import "./globals.css";
 import Layout from "@/components/feature/Layout";
-import { Providers } from "./providers";
 
 const REMIXICON_CSS =
   "https://cdn.jsdelivr.net/npm/remixicon@4.6.0/fonts/remixicon.css";
@@ -14,7 +13,11 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "Client Brand | Website Template",
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL!),
+  title: {
+    default: "Client Brand | Website Template",
+    template: "%s | Mental Health For Teens",
+  },
   description:
     "A reusable client website template with admin, blog, Supabase, and brand settings infrastructure.",
 };
@@ -63,9 +66,7 @@ export default function RootLayout({
         </noscript>
       </head>
       <body className={`${inter.variable} antialiased bg-canvas-white text-midnight-ink`}>
-        <Providers>
-          <Layout>{children}</Layout>
-        </Providers>
+        <Layout>{children}</Layout>
       </body>
     </html>
   );

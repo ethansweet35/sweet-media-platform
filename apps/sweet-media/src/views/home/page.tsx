@@ -1,5 +1,4 @@
 import SiteHeader from "@/components/feature/SiteHeader";
-import Seo, { buildOrganizationSchema, buildWebPageSchema, buildFAQSchema, DEFAULT_OG_IMAGE } from "@/components/feature/Seo";
 import HomeFaq, { HOME_FAQS } from "@/components/pages/home/components/HomeFaq";
 import HeroSection from "@/components/pages/home/components/HeroSection";
 import IndustriesSection from "@/components/pages/home/components/IndustriesSection";
@@ -16,20 +15,6 @@ import Footer from "@/components/pages/home/components/Footer";
 export default function Home() {
   return (
     <>
-      <Seo
-        title="Sweet Media | Behavioral Health Digital Marketing Agency"
-        description="Sweet Media is a boutique digital marketing agency exclusively serving behavioral health treatment centers. SEO, Google Ads, Meta Ads, and website development for detox, residential, and IOP programs."
-        keywords="behavioral health marketing, treatment center marketing, addiction treatment SEO, rehab marketing, digital marketing for treatment centers"
-        canonical="/"
-        ogType="website"
-        ogImage={DEFAULT_OG_IMAGE}
-        lastModified="2026-04-25"
-        schema={[
-          buildOrganizationSchema(),
-          buildWebPageSchema("/", "Sweet Media | Behavioral Health Digital Marketing Agency", "Boutique digital marketing for behavioral health treatment centers.", "2026-04-25"),
-          buildFAQSchema(HOME_FAQS.map((f) => ({ question: f.q, answer: f.a }))),
-        ]}
-      />
       <main className="w-full min-h-screen bg-white">
         <SiteHeader ctaLabel="Get Started" ctaHref="/#getting-started" heroTheme="dark" />
         <section>

@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { DM_Sans, Playfair_Display } from "next/font/google";
 import "./globals.css";
 import Layout from "@/components/feature/Layout";
-import { Providers } from "./providers";
 
 const dmSans = DM_Sans({
   variable: "--font-dm-sans",
@@ -20,7 +19,11 @@ const playfair = Playfair_Display({
 });
 
 export const metadata: Metadata = {
-  title: "Northbound Treatment | Addiction Treatment Center in Orange County",
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL!),
+  title: {
+    default: "Northbound Treatment | Addiction Treatment Center in Orange County",
+    template: "%s | Northbound Treatment",
+  },
   description:
     "Northbound Treatment Services has provided lifesaving, evidence-based addiction and mental-health treatment for more than 30 years. Drug & alcohol detox, residential, PHP, IOP, and aftercare across Southern California and the Pacific Northwest.",
 };
@@ -40,9 +43,7 @@ export default function RootLayout({
         />
       </head>
       <body className="antialiased">
-        <Providers>
-          <Layout>{children}</Layout>
-        </Providers>
+        <Layout>{children}</Layout>
       </body>
     </html>
   );

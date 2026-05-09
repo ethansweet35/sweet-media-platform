@@ -113,12 +113,22 @@ export async function resolveTrackedPageMetadata(
   routePath: string,
   fallbackMetadata: Metadata
 ): Promise<Metadata> {
+  const baseMetadata: Metadata = fallbackMetadata.alternates?.canonical
+    ? fallbackMetadata
+    : {
+        ...fallbackMetadata,
+        alternates: {
+          ...fallbackMetadata.alternates,
+          canonical: routePath,
+        },
+      };
+
   const data = await fetchTrackedPageMetadataCached(routePath);
   if (!data) {
-    return fallbackMetadata;
+    return baseMetadata;
   }
 
   const seoTitle = toNonEmptyString(data.seo_title);
   const metaDescription = toNonEmptyString(data.meta_description);
-  return mergeTrackedMetadata(fallbackMetadata, seoTitle, metaDescription);
+  return mergeTrackedMetadata(baseMetadata, seoTitle, metaDescription);
 }

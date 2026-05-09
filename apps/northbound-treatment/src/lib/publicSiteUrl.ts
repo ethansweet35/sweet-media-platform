@@ -1,10 +1,6 @@
-const DEFAULT_ORIGIN = "https://www.northboundtreatment.com";
-
-/** Prefer NEXT_PUBLIC_SITE_URL in env; omit trailing slash. */
+/** Canonical site origin read from env; omits trailing slash. */
 export function getPublicSiteOrigin(): string {
-  const raw = process.env.NEXT_PUBLIC_SITE_URL?.trim();
-  const base = (raw && raw.length > 0 ? raw : DEFAULT_ORIGIN).replace(/\/+$/, "");
-  return base;
+  return process.env.NEXT_PUBLIC_SITE_URL!.replace(/\/+$/, "");
 }
 
 export function canonicalBlogPostUrl(slug: string): string {

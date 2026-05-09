@@ -3,7 +3,6 @@ import { Cormorant_Garamond, DM_Sans } from "next/font/google";
 import Script from "next/script";
 import "./globals.css";
 import Layout from "@/components/feature/Layout";
-import { getPublicSiteOrigin } from "@/lib/publicSiteUrl";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 
 const cormorant = Cormorant_Garamond({
@@ -21,9 +20,12 @@ const dmSans = DM_Sans({
 /** Tab / PWA icons: RealFaviconGenerator assets in `src/app/` (`icon.svg`, `icon.png`, `favicon.ico`, `apple-icon.png`) + `public/web-app-manifest-*.png`. */
 
 export const metadata: Metadata = {
-  metadataBase: new URL(getPublicSiteOrigin()),
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL!),
   applicationName: "Inner Peak Colorado",
-  title: "Inner Peak Colorado | Women's Virtual Mental Health & Addiction Treatment",
+  title: {
+    default: "Inner Peak Colorado | Women's Virtual Mental Health & Addiction Treatment",
+    template: "%s | Inner Peak Colorado",
+  },
   description:
     "Inner Peak Colorado offers premium virtual mental health and addiction treatment exclusively for women. Evidence-based, trauma-informed care rooted in Colorado healing nature.",
   appleWebApp: {

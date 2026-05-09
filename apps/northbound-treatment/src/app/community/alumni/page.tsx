@@ -5,6 +5,7 @@ export const metadata: Metadata = {
   title: "Alumni Programs & Community | Northbound Treatment Services",
   description:
     "Northbound's Alumni Association connects 500+ clean and sober former clients through weekly meetings, monthly events, sobriety milestone celebrations, and lifelong community support in Orange County, CA.",
+  alternates: { canonical: '/community/alumni' },
 };
 
 export default function Page() {

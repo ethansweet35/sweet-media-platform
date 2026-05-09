@@ -46,7 +46,7 @@ if (!inventoryPath || !analysisPath) {
 }
 
 // ---------- Cruft pages → manual redirect destinations ----------
-// Source of truth: apps/northbound-treatment-migration/deleted-pages.md
+// Source of truth: per-client deleted pages decisions captured during migration review
 const CRUFT_PAGE_REDIRECTS = {
   '/alcohol-detox-2/': '/alcohol-detox/',
   '/drug-rehab-2/': '/',

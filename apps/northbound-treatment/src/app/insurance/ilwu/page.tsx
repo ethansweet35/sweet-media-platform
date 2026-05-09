@@ -5,6 +5,7 @@ export const metadata: Metadata = {
   title: "ILWU Union Health Plan Coverage for Addiction Treatment | Northbound",
   description:
     "Northbound accepts ILWU union health plan coverage for addiction treatment. Verify your ILWU-PMA benefits for detox, residential, PHP, and IOP addiction treatment programs.",
+  alternates: { canonical: '/insurance/ilwu' },
 };
 
 export default function Page() {

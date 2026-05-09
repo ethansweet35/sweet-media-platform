@@ -3,7 +3,6 @@ import { Marcellus, Montserrat } from "next/font/google";
 import Script from "next/script";
 import "./globals.css";
 import Layout from "@/components/feature/Layout";
-import { Providers } from "./providers";
 
 /** Same Remix Icon major version as `@sweetmedia/inner-peak-colorado` — platform standard (CDN, no npm dep). */
 const REMIXICON_CSS =
@@ -21,7 +20,11 @@ const montserrat = Montserrat({
 });
 
 export const metadata: Metadata = {
-  title: "Cipher Billing | Behavioral Health Billing Services",
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL!),
+  title: {
+    default: "Cipher Billing | Behavioral Health Billing Services",
+    template: "%s | Cipher Billing",
+  },
   description:
     "Behavioral health billing services focused on airtight compliance, transparent service, and measurable revenue growth.",
 };
@@ -70,9 +73,7 @@ export default function RootLayout({
         </noscript>
       </head>
       <body className={`${marcellus.variable} ${montserrat.variable} antialiased`}>
-        <Providers>
-          <Layout>{children}</Layout>
-        </Providers>
+        <Layout>{children}</Layout>
       </body>
     </html>
   );

@@ -275,7 +275,7 @@ export default function BlogEditorSidebar({ form, onChange, postDate, slugError 
           <p className="text-sm font-medium leading-snug line-clamp-1" style={{ color: "#1a0dab" }}>
             {form.excerpt ? form.excerpt.slice(0, 60) + "..." : "Post title here"} | Northbound Treatment
           </p>
-          <p className="text-xs mt-0.5" style={{ color: "#006621" }}>northboundtreatment.com/blog/{form.slug || "post-slug"}</p>
+          <p className="text-xs mt-0.5" style={{ color: "#006621" }}>{process.env.NEXT_PUBLIC_SITE_URL?.replace(/^https?:\/\//, "").replace(/\/$/, "")}/blog/{form.slug || "post-slug"}</p>
           <p className="text-xs text-neutral-500 mt-0.5 line-clamp-2">
             {form.metaDescription || form.excerpt || "No description set."}
           </p>

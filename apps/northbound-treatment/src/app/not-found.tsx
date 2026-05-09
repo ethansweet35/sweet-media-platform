@@ -1,32 +1,26 @@
-import Link from 'next/link';
+import Link from "next/link";
 
 export default function NotFound() {
   return (
-    <main className="min-h-screen flex items-center justify-center bg-[#F8FAFC] px-8">
-      <div className="max-w-lg text-center flex flex-col items-center gap-8">
-        <span className="text-[11px] uppercase tracking-[0.3em] text-[#6B7D67] font-medium">Page Not Found</span>
-        <h1 className="font-serif text-[#1F2937] leading-[1.1]" style={{ fontSize: 'clamp(60px, 10vw, 120px)' }}>
-          404
-        </h1>
-        <p className="text-[#3A4A3C]/65 font-light text-base leading-[1.9]">
-          We couldn&apos;t find the page you were looking for. It may have moved or no longer exists.
+    <div className="flex min-h-screen w-full items-center justify-center bg-background px-6 text-foreground">
+      <div className="mx-auto max-w-md text-center">
+        <p className="text-xs font-medium tracking-[0.18em] uppercase text-muted">
+          404 — Page not found
         </p>
-        <div className="flex flex-wrap justify-center gap-4">
-          <Link
-            href="/"
-            className="whitespace-nowrap cursor-pointer inline-flex items-center gap-2 px-8 py-4 rounded-full bg-[#1F2937] text-[#F8FAFC] text-xs uppercase tracking-widest font-medium hover:bg-[#2563EB] transition-all duration-300"
-          >
-            <i className="ri-home-line"></i>
-            Return Home
-          </Link>
-          <Link
-            href="/contact"
-            className="whitespace-nowrap cursor-pointer inline-flex items-center gap-2 px-8 py-4 rounded-full border border-[#1F2937] text-[#1F2937] text-xs uppercase tracking-widest font-medium hover:bg-[#1F2937] hover:text-[#F8FAFC] transition-all duration-300"
-          >
-            Contact Us
-          </Link>
-        </div>
+        <h1 className="font-heading mt-4 text-5xl font-semibold md:text-6xl">
+          We can&apos;t find that page
+        </h1>
+        <p className="mt-4 text-base text-muted">
+          The link may be broken or the page may have moved. Head back to the
+          homepage and we&apos;ll get you on your way.
+        </p>
+        <Link
+          href="/"
+          className="mt-8 inline-flex items-center justify-center bg-foreground px-6 py-3 text-sm font-medium text-background transition hover:opacity-90"
+        >
+          Back to homepage
+        </Link>
       </div>
-    </main>
+    </div>
   );
 }

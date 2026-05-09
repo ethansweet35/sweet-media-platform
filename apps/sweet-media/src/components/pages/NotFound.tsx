@@ -1,18 +1,12 @@
 "use client";
 
 import { usePathname } from "next/navigation";
-import Seo from "@/components/feature/Seo";
 
 export default function NotFound() {
   const pathname = usePathname();
 
   return (
     <>
-      <Seo
-        title="Page Not Found | Sweet Media"
-        description="The page you are looking for does not exist."
-        noindex
-      />
       <div className="relative flex flex-col items-center justify-center h-screen text-center px-4">
         <h1 className="absolute bottom-0 text-9xl md:text-[12rem] font-black text-gray-50 select-none pointer-events-none z-0">
           404

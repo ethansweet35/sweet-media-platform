@@ -5,6 +5,7 @@ export const metadata: Metadata = {
   title: "ComPsych EAP & Behavioral Health Coverage for Addiction Treatment | Northbound",
   description:
     "Northbound accepts ComPsych behavioral health and EAP coverage for addiction treatment. Verify your ComPsych benefits for detox, residential, PHP, and IOP programs.",
+  alternates: { canonical: '/insurance/compsych' },
 };
 
 export default function Page() {

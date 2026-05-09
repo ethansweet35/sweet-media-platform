@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { resolveTrackedPageMetadata } from "@sweetmedia/admin-core";
 import BlogPage from "@/views/blog/page";
 
+export const revalidate = 3600;
+
 const fallbackMetadata: Metadata = {
   title: "Blog | Cipher Billing",
   description: "",

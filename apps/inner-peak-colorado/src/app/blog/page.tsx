@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { resolveTrackedPageMetadata } from "@sweetmedia/admin-core";
 import BlogPage from "@/views/blog/page";
 
-export const dynamic = "force-dynamic";
+export const revalidate = 3600;
 
 const BLOG_OG_IMAGE =
   "https://papiwmobmdbtzeeebmpr.supabase.co/storage/v1/object/public/site-assets/images/og-blog.jpg";

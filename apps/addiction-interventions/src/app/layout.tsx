@@ -3,7 +3,6 @@ import { Playfair_Display, Montserrat } from "next/font/google";
 import Script from "next/script";
 import "./globals.css";
 import Layout from "@/components/feature/Layout";
-import { Providers } from "./providers";
 
 /** Platform standard: Remix Icon via CDN (same as inner-peak-colorado / sweet-media marketing patterns). */
 const REMIXICON_CSS =
@@ -25,7 +24,11 @@ const montserrat = Montserrat({
 });
 
 export const metadata: Metadata = {
-  title: "Addiction Interventions | Family & Crisis Intervention Experts",
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL!),
+  title: {
+    default: "Addiction Interventions | Family & Crisis Intervention Experts",
+    template: "%s | Addiction Interventions",
+  },
   description:
     "Compassionate, family-centered addiction and mental health interventions. 1,500+ families helped nationwide. Speak with a certified interventionist 24/7.",
 };
@@ -74,9 +77,7 @@ export default function RootLayout({
         </noscript>
       </head>
       <body className={`${playfair.variable} ${montserrat.variable} antialiased`}>
-        <Providers>
-          <Layout>{children}</Layout>
-        </Providers>
+        <Layout>{children}</Layout>
       </body>
     </html>
   );
