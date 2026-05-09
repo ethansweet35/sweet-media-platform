@@ -1,0 +1,41 @@
+@import "tailwindcss";
+
+@source "../**/*.{js,ts,jsx,tsx,mdx}";
+@source "../../src/**/*.{js,ts,jsx,tsx,mdx}";
+@source "../../../../packages/admin-core/src/**/*.{js,ts,jsx,tsx}";
+
+:root {
+  --color-primary: #1f2937;
+  --color-secondary: #334155;
+  --color-accent: #2563eb;
+  --color-background: #f8fafc;
+  --color-surface: #ffffff;
+  --color-muted: #64748b;
+  --font-heading: Inter, system-ui, sans-serif;
+  --font-body: Inter, system-ui, sans-serif;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  background: var(--color-background);
+  color: var(--color-primary);
+  font-family: var(--font-body);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-heading);
+}
+
+button,
+a {
+  transition: all 180ms ease;
+}
