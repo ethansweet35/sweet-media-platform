@@ -88,6 +88,8 @@ export default function AdminBlogDashboard() {
   const [searchQuery, setSearchQuery] = useState("");
   const [filterStatus, setFilterStatus] = useState<FilterStatus>("all");
   const [filterCategory, setFilterCategory] = useState("All");
+  const [pageSize, setPageSize] = useState<10 | 20 | 50>(10);
+  const [currentPage, setCurrentPage] = useState(1);
   const [deletingPost, setDeletingPost] = useState<BlogPost | null>(null);
   const [togglingId, setTogglingId] = useState<string | null>(null);
   const [approvingForPublishId, setApprovingForPublishId] = useState<string | null>(null);
@@ -132,6 +134,13 @@ export default function AdminBlogDashboard() {
     });
   }, [posts, searchQuery, filterStatus, filterCategory]);
 
+  const totalPages = Math.max(1, Math.ceil(filtered.length / pageSize));
+  const safePage = Math.min(currentPage, totalPages);
+  const paginated = useMemo(
+    () => filtered.slice((safePage - 1) * pageSize, safePage * pageSize),
+    [filtered, safePage, pageSize],
+  );
+
   // Selection handlers
   const handleSelectId = useCallback((id: string, checked: boolean) => {
     setSelectedIds((prev) => {
@@ -144,11 +153,11 @@ export default function AdminBlogDashboard() {
 
   const handleSelectAll = useCallback((checked: boolean) => {
     if (checked) {
-      setSelectedIds(new Set(filtered.map((p) => p.id)));
+      setSelectedIds(new Set(paginated.map((p) => p.id)));
     } else {
       setSelectedIds(new Set());
     }
-  }, [filtered]);
+  }, [paginated]);
 
   const clearSelection = () => setSelectedIds(new Set());
 
@@ -495,17 +504,38 @@ export default function AdminBlogDashboard() {
           </div>
         )}
 
-        {/* Results count */}
-        <div className="flex items-center justify-between mb-4">
+        {/* Results count + page size */}
+        <div className="flex items-center justify-between mb-4 flex-wrap gap-3">
           <p className="text-sm text-neutral-500">
-            Showing <span className="font-semibold text-neutral-800">{filtered.length}</span> of{" "}
-            <span className="font-semibold text-neutral-800">{posts.length}</span> posts
+            Showing{" "}
+            <span className="font-semibold text-neutral-800">
+              {filtered.length === 0 ? 0 : (safePage - 1) * pageSize + 1}–{Math.min(safePage * pageSize, filtered.length)}
+            </span>{" "}
+            of <span className="font-semibold text-neutral-800">{filtered.length}</span> posts
           </p>
-          {selectedCount === 0 && (
-            <p className="text-[11px] text-neutral-400">
-              Select posts to use bulk actions
-            </p>
-          )}
+          <div className="flex items-center gap-3">
+            {selectedCount === 0 && (
+              <p className="text-[11px] text-neutral-400 hidden sm:block">
+                Select posts to use bulk actions
+              </p>
+            )}
+            <div className="flex items-center gap-1.5">
+              <span className="text-[11px] text-neutral-400">Show</span>
+              {([10, 20, 50] as const).map((n) => (
+                <button
+                  key={n}
+                  onClick={() => { setPageSize(n); setCurrentPage(1); }}
+                  className={`px-2.5 py-1 rounded-lg text-[11px] font-semibold transition-all cursor-pointer ${
+                    pageSize === n
+                      ? "bg-[#3d6f7f] text-white"
+                      : "bg-neutral-100 text-neutral-500 hover:bg-neutral-200"
+                  }`}
+                >
+                  {n}
+                </button>
+              ))}
+            </div>
+          </div>
         </div>
 
         {/* API test result panel */}
@@ -554,21 +584,85 @@ export default function AdminBlogDashboard() {
 
         {/* Table */}
         {!loading && !error && (
-          <AdminBlogTable
-            posts={filtered}
-            onDelete={setDeletingPost}
-            onToggleStatus={handleToggleStatus}
-            onToggleApprovedForPublish={handleToggleApprovedForPublish}
-            onToggleFeatured={handleToggleFeatured}
-            onPreview={handlePreview}
-            onRegenerateImage={handleRegenerateImage}
-            togglingId={togglingId}
-            approvingForPublishId={approvingForPublishId}
-            selectedIds={selectedIds}
-            onSelectId={handleSelectId}
-            onSelectAll={handleSelectAll}
-            imageGenStatuses={imageGenStatuses}
-          />
+          <>
+            <AdminBlogTable
+              posts={paginated}
+              onDelete={setDeletingPost}
+              onToggleStatus={handleToggleStatus}
+              onToggleApprovedForPublish={handleToggleApprovedForPublish}
+              onToggleFeatured={handleToggleFeatured}
+              onPreview={handlePreview}
+              onRegenerateImage={handleRegenerateImage}
+              togglingId={togglingId}
+              approvingForPublishId={approvingForPublishId}
+              selectedIds={selectedIds}
+              onSelectId={handleSelectId}
+              onSelectAll={handleSelectAll}
+              imageGenStatuses={imageGenStatuses}
+            />
+            {/* Pagination */}
+            {totalPages > 1 && (
+              <div className="flex items-center justify-between mt-4 flex-wrap gap-3">
+                <p className="text-[11px] text-neutral-400">
+                  Page {safePage} of {totalPages}
+                </p>
+                <div className="flex items-center gap-1">
+                  <button
+                    onClick={() => setCurrentPage(1)}
+                    disabled={safePage === 1}
+                    className="w-8 h-8 flex items-center justify-center rounded-lg text-neutral-500 hover:bg-neutral-100 disabled:opacity-30 disabled:cursor-not-allowed cursor-pointer transition-colors"
+                  >
+                    <i className="ri-skip-left-line text-sm" />
+                  </button>
+                  <button
+                    onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
+                    disabled={safePage === 1}
+                    className="w-8 h-8 flex items-center justify-center rounded-lg text-neutral-500 hover:bg-neutral-100 disabled:opacity-30 disabled:cursor-not-allowed cursor-pointer transition-colors"
+                  >
+                    <i className="ri-arrow-left-s-line text-sm" />
+                  </button>
+                  {Array.from({ length: totalPages }, (_, i) => i + 1)
+                    .filter((n) => n === 1 || n === totalPages || Math.abs(n - safePage) <= 2)
+                    .reduce<(number | "…")[]>((acc, n, idx, arr) => {
+                      if (idx > 0 && (arr[idx - 1] as number) < n - 1) acc.push("…");
+                      acc.push(n);
+                      return acc;
+                    }, [])
+                    .map((item, idx) =>
+                      item === "…" ? (
+                        <span key={`ellipsis-${idx}`} className="w-8 text-center text-xs text-neutral-400">…</span>
+                      ) : (
+                        <button
+                          key={item}
+                          onClick={() => setCurrentPage(item as number)}
+                          className={`w-8 h-8 flex items-center justify-center rounded-lg text-xs font-semibold transition-colors cursor-pointer ${
+                            safePage === item
+                              ? "bg-[#3d6f7f] text-white"
+                              : "text-neutral-600 hover:bg-neutral-100"
+                          }`}
+                        >
+                          {item}
+                        </button>
+                      )
+                    )}
+                  <button
+                    onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
+                    disabled={safePage === totalPages}
+                    className="w-8 h-8 flex items-center justify-center rounded-lg text-neutral-500 hover:bg-neutral-100 disabled:opacity-30 disabled:cursor-not-allowed cursor-pointer transition-colors"
+                  >
+                    <i className="ri-arrow-right-s-line text-sm" />
+                  </button>
+                  <button
+                    onClick={() => setCurrentPage(totalPages)}
+                    disabled={safePage === totalPages}
+                    className="w-8 h-8 flex items-center justify-center rounded-lg text-neutral-500 hover:bg-neutral-100 disabled:opacity-30 disabled:cursor-not-allowed cursor-pointer transition-colors"
+                  >
+                    <i className="ri-skip-right-line text-sm" />
+                  </button>
+                </div>
+              </div>
+            )}
+          </>
         )}
       </div>
 

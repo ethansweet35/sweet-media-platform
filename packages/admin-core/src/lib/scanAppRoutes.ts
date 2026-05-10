@@ -185,6 +185,7 @@ export async function syncTrackedPages(cwd: string): Promise<void> {
   const payloads = toInsert.map((row, idx) => ({
     route_path: row.routePath,
     page_title: row.derivedTitle,
+    default_seo_title: row.derivedTitle,
     display_order: baseOrder + (idx + 1) * 10,
     is_active: true,
     seo_title: null as string | null,
@@ -206,6 +207,29 @@ export async function syncTrackedPages(cwd: string): Promise<void> {
       return;
     }
     insertedAttempted = payloads.length;
+  }
+
+  // Back-fill default_seo_title on existing rows that still have it null.
+  const existingNullRows = kept.filter((k) => existingSet.has(k.routePath));
+  if (existingNullRows.length > 0) {
+    const { data: nullTitleRows } = await supabase
+      .from("tracked_pages")
+      .select("id, route_path")
+      .in("route_path", existingNullRows.map((k) => k.routePath))
+      .is("default_seo_title", null);
+
+    const toBackfill = (nullTitleRows ?? []) as { id: string; route_path: string }[];
+    for (const row of toBackfill) {
+      const match = kept.find((k) => k.routePath === row.route_path);
+      if (!match) continue;
+      await supabase
+        .from("tracked_pages")
+        .update({ default_seo_title: match.derivedTitle })
+        .eq("id", row.id);
+    }
+    if (toBackfill.length > 0) {
+      console.log(`[sync-tracked-pages] Back-filled default_seo_title for ${toBackfill.length} existing rows.`);
+    }
   }
 
   console.log(`[sync-tracked-pages] Routes targeted for inventory: ${kept.length}`);
