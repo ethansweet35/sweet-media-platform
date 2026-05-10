@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 import CtaBanner from "@/views/shared/CtaBanner";
+import FacilityGallery from "@/views/shared/FacilityGallery";
 import { AutoLinkedTextClient } from "@sweetmedia/blog-core";
 
 const BASE = "https://ahufsygjwpbymomfdazb.supabase.co/storage/v1/object/public/site-assets/images";
@@ -362,6 +363,16 @@ export default function NewportBeachPage() {
           </div>
         </div>
       </section>
+
+      {/* ─── FACILITY GALLERY ─── */}
+      <FacilityGallery
+        facility="newport"
+        locationLabel="Newport Beach"
+        eyebrow="Inside the Campus"
+        heading="A Closer Look at Newport Beach"
+        italicWord="Newport"
+        intro="Take a tour through our flagship coastal campus — seven integrated buildings, gender-specific homes, healing gardens, and modern clinical spaces just minutes from the Pacific."
+      />
 
       <CtaBanner
         headline="Start Treatment at Newport Beach"

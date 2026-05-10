@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 import CtaBanner from "@/views/shared/CtaBanner";
+import FacilityGallery from "@/views/shared/FacilityGallery";
 import { AutoLinkedTextClient } from "@sweetmedia/blog-core";
 
 const BASE = "https://ahufsygjwpbymomfdazb.supabase.co/storage/v1/object/public/site-assets/images";
@@ -294,6 +295,16 @@ export default function SanDiegoPage() {
           </div>
         </div>
       </section>
+
+      {/* ─── FACILITY GALLERY ─── */}
+      <FacilityGallery
+        facility="sandiego"
+        locationLabel="San Diego"
+        eyebrow="Inside the Facility"
+        heading="A Closer Look at San Diego"
+        italicWord="San Diego"
+        intro="Take a tour through our San Diego center — a calm, supportive setting in La Jolla designed for healing, with art and music therapy spaces, comfortable rooms, and dorm-style houses."
+      />
 
       <CtaBanner
         headline="Start Treatment in San Diego"

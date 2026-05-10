@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 import CtaBanner from "@/views/shared/CtaBanner";
+import FacilityGallery from "@/views/shared/FacilityGallery";
 import { AutoLinkedTextClient } from "@sweetmedia/blog-core";
 
 const BASE = "https://ahufsygjwpbymomfdazb.supabase.co/storage/v1/object/public/site-assets/images";
@@ -347,6 +348,16 @@ export default function SeattlePage() {
           </div>
         </div>
       </section>
+
+      {/* ─── FACILITY GALLERY ─── */}
+      <FacilityGallery
+        facility="seattle"
+        locationLabel="Seattle"
+        eyebrow="Inside the Hub"
+        heading="A Closer Look at Seattle"
+        italicWord="Seattle"
+        intro="Our Lower Queen Anne support hub blends Pacific Northwest calm with the convenience of urban Seattle — a welcoming space for assessments, case management, and ongoing care."
+      />
 
       <CtaBanner
         headline="Washington Residents: Help Is Available Now"

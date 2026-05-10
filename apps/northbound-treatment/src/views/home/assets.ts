@@ -83,10 +83,10 @@ export const SUBSTANCE_PAGE_IMAGES = {
 } as const;
 
 export const LOCATION_IMAGES = {
-  newportBeach: `${SUPABASE_BASE}/images/nbt_location_newport-beach.jpg`,
-  gardenGrove: `${SUPABASE_BASE}/images/nbt_location_garden-grove.jpg`,
-  sanDiego: `${SUPABASE_BASE}/images/nbt_location_san-diego.jpg`,
-  seattle: `${SUPABASE_BASE}/images/nbt_location_seattle.jpg`,
+  newportBeach: `${SUPABASE_BASE}/images/facility/newport/1.webp`,
+  gardenGrove: `${SUPABASE_BASE}/images/facility/grove/2.webp`,
+  sanDiego: `${SUPABASE_BASE}/images/facility/sandiego/1.webp`,
+  seattle: `${SUPABASE_BASE}/images/facility/seattle/1.webp`,
 } as const;
 
 export const NEWPORT_BEACH_IMAGES = {

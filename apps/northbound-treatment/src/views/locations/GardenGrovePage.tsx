@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useState } from "react";
 import { GARDEN_GROVE_IMAGES } from "@/views/home/assets";
 import CtaBanner from "@/views/shared/CtaBanner";
+import FacilityGallery from "@/views/shared/FacilityGallery";
 import { AutoLinkedTextClient } from "@sweetmedia/blog-core";
 
 const SUPABASE_BASE =
@@ -573,6 +574,16 @@ export default function GardenGrovePage() {
           </p>
         </div>
       </section>
+
+      {/* ─── FACILITY GALLERY ─── */}
+      <FacilityGallery
+        facility="grove"
+        locationLabel="Garden Grove"
+        eyebrow="Inside The Grove"
+        heading="A Closer Look at Garden Grove"
+        italicWord="Garden"
+        intro="Step inside our Garden Grove campus — comfortable residential living, a chef's kitchen, an on-site gym, fire pit, volleyball court, and the homelike spaces where real recovery takes root."
+      />
 
       <CtaBanner
         headline="Ready to Start at The Grove?"
