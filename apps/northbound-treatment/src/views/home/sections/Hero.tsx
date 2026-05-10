@@ -125,36 +125,25 @@ export default function Hero() {
               </a>
 
               {/* Accreditation badges */}
-              <div className="flex flex-wrap items-center gap-2.5 opacity-90">
-                {/* LegitScript Certified */}
-                <div className="flex h-9 flex-shrink-0 items-center rounded bg-white px-2.5 shadow-sm transition-transform duration-300 hover:scale-105">
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img
-                    src="https://ahufsygjwpbymomfdazb.supabase.co/storage/v1/object/public/site-assets/logos/legitscript-certified.svg"
-                    alt="LegitScript Certified"
-                    className="h-5 w-auto object-contain"
-                  />
-                </div>
-
-                {/* NAATP Member */}
-                <div className="flex h-9 flex-shrink-0 items-center rounded bg-white px-2.5 shadow-sm transition-transform duration-300 hover:scale-105">
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img
-                    src="https://ahufsygjwpbymomfdazb.supabase.co/storage/v1/object/public/site-assets/logos/naatp-member.png"
-                    alt="NAATP Member"
-                    className="h-5 w-auto object-contain"
-                  />
-                </div>
-
-                {/* The Joint Commission Accredited */}
-                <div className="flex h-9 flex-shrink-0 items-center rounded bg-white px-2.5 shadow-sm transition-transform duration-300 hover:scale-105">
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img
-                    src="https://ahufsygjwpbymomfdazb.supabase.co/storage/v1/object/public/site-assets/logos/joint-commission.png"
-                    alt="The Joint Commission Accredited"
-                    className="h-5 w-auto object-contain"
-                  />
-                </div>
+              <div className="flex flex-wrap items-center gap-4 opacity-75">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src="https://ahufsygjwpbymomfdazb.supabase.co/storage/v1/object/public/site-assets/logos/legitscript-certified.svg"
+                  alt="LegitScript Certified"
+                  className="h-7 w-auto object-contain brightness-0 invert transition-opacity hover:opacity-100"
+                />
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src="https://ahufsygjwpbymomfdazb.supabase.co/storage/v1/object/public/site-assets/logos/naatp-icon.png"
+                  alt="NAATP Member"
+                  className="h-7 w-auto object-contain brightness-0 invert transition-opacity hover:opacity-100"
+                />
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src="https://ahufsygjwpbymomfdazb.supabase.co/storage/v1/object/public/site-assets/logos/joint-commission.png"
+                  alt="The Joint Commission Accredited"
+                  className="h-7 w-auto object-contain brightness-0 invert transition-opacity hover:opacity-100"
+                />
               </div>
             </div>
 
