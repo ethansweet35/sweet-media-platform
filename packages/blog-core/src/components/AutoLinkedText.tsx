@@ -72,8 +72,12 @@ export async function AutoLinkedText({
   const effectivePath = currentPath ?? registry.currentPath;
 
   // Drop any mapping that points to the current page so we never self-link.
-  const mappings = effectivePath
-    ? allMappings.filter((m) => m.href !== effectivePath)
+  // Normalize trailing slashes on both sides — DB rows and hardcoded hrefs
+  // commonly include a trailing "/" while route paths from generateMetadata
+  // do not. Without normalization the self-link filter never matches.
+  const normalizedSelf = effectivePath ? normalizePath(effectivePath) : null;
+  const mappings = normalizedSelf
+    ? allMappings.filter((m) => normalizePath(m.href) !== normalizedSelf)
     : allMappings;
 
   if (mappings.length === 0) {
@@ -119,6 +123,12 @@ export async function AutoLinkedText({
 export function initPageAutoLinks(path: string): void {
   const registry = getPageAutoLinkRegistry();
   registry.currentPath = path;
+}
+
+/** Strip a single trailing slash so "/foo/" and "/foo" compare equal. */
+function normalizePath(path: string): string {
+  if (!path || path === "/") return path;
+  return path.endsWith("/") ? path.slice(0, -1) : path;
 }
 
 export default AutoLinkedText;

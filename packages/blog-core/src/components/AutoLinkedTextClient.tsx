@@ -106,9 +106,11 @@ export function AutoLinkedTextClient({
   const segments = useMemo(() => {
     if (!text || !mappings || mappings.length === 0) return null;
 
-    // Exclude self-links automatically.
-    const filtered = effectivePath
-      ? mappings.filter((m) => m.href !== effectivePath)
+    // Exclude self-links automatically — normalize trailing slashes so
+    // "/foo" and "/foo/" compare equal.
+    const normalizedSelf = effectivePath ? normalizePath(effectivePath) : null;
+    const filtered = normalizedSelf
+      ? mappings.filter((m) => normalizePath(m.href) !== normalizedSelf)
       : mappings;
     if (filtered.length === 0) return null;
 
@@ -148,6 +150,12 @@ export function AutoLinkedTextClient({
       })}
     </>
   );
+}
+
+/** Strip a single trailing slash so "/foo/" and "/foo" compare equal. */
+function normalizePath(path: string): string {
+  if (!path || path === "/") return path;
+  return path.endsWith("/") ? path.slice(0, -1) : path;
 }
 
 export default AutoLinkedTextClient;
