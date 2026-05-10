@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import CtaBanner from "@/views/shared/CtaBanner";
+import { AutoLinkedText } from "@sweetmedia/blog-core";
 
 const BASE =
   "https://ahufsygjwpbymomfdazb.supabase.co/storage/v1/object/public/site-assets/images";
@@ -171,7 +172,7 @@ export default function AdventurePage() {
         <div className="relative z-10 pt-28 lg:pt-32">
           <div className="mx-auto w-full max-w-7xl px-6 lg:px-10">
             <p className="text-xs font-semibold uppercase tracking-[0.18em] text-terracotta">
-              Signature Services — Northbound Treatment
+              <AutoLinkedText>{"Signature Services — Northbound Treatment"}</AutoLinkedText>
             </p>
           </div>
         </div>
@@ -189,9 +190,7 @@ export default function AdventurePage() {
               </h1>
 
               <p className="mt-6 max-w-xl text-lg leading-relaxed text-white/80">
-                Recovery doesn't only happen inside four walls. Our Adventure Therapy Program takes
-                healing into the world — building resilience, self-discovery, and purpose through the
-                transformative power of nature and experience.
+                <AutoLinkedText>{"Recovery doesn't only happen inside four walls. Our Adventure Therapy Program takes\n                healing into the world — building resilience, self-discovery, and purpose through the\n                transformative power of nature and experience."}</AutoLinkedText>
               </p>
 
               <div className="mt-10 flex flex-wrap gap-4">
@@ -233,10 +232,7 @@ export default function AdventurePage() {
             <span className="italic text-terracotta">It's how you return to it.</span>"
           </blockquote>
           <p className="mx-auto mt-8 max-w-2xl text-base leading-relaxed text-espresso/70">
-            At Northbound, our Adventure Therapy Program is not recreation — it is precision-designed
-            experiential treatment. Each outing is mapped to specific therapeutic goals: resilience,
-            mindfulness, identity, community, and purpose. What feels like adventure is, in fact,
-            profound clinical work.
+            <AutoLinkedText>{"At Northbound, our Adventure Therapy Program is not recreation — it is precision-designed\n            experiential treatment. Each outing is mapped to specific therapeutic goals: resilience,\n            mindfulness, identity, community, and purpose. What feels like adventure is, in fact,\n            profound clinical work."}</AutoLinkedText>
           </p>
           <div className="mx-auto mt-6 h-px w-12 bg-terracotta" />
         </div>
@@ -281,15 +277,10 @@ export default function AdventurePage() {
                 <span className="italic text-terracotta">Meets the World</span>
               </h2>
               <p className="mt-6 leading-relaxed text-espresso/80">
-                Traditional therapy builds insight within the safety of a clinical setting. Adventure
-                Therapy takes that insight and tests it — in trails, galleries, gardens, and farms —
-                where the unpredictability of real life creates real healing.
+                <AutoLinkedText>{"Traditional therapy builds insight within the safety of a clinical setting. Adventure\n                Therapy takes that insight and tests it — in trails, galleries, gardens, and farms —\n                where the unpredictability of real life creates real healing."}</AutoLinkedText>
               </p>
               <p className="mt-4 leading-relaxed text-espresso/80">
-                Each outing integrates cognitive-behavioral principles, mindfulness techniques, and
-                structured group reflection. The outdoors is not the backdrop. It is the treatment
-                modality — proven to reduce cortisol, build self-efficacy, and accelerate the
-                identity reformation that recovery demands.
+                <AutoLinkedText>{"Each outing integrates cognitive-behavioral principles, mindfulness techniques, and\n                structured group reflection. The outdoors is not the backdrop. It is the treatment\n                modality — proven to reduce cortisol, build self-efficacy, and accelerate the\n                identity reformation that recovery demands."}</AutoLinkedText>
               </p>
 
               <ul className="mt-8 space-y-4">
@@ -325,8 +316,7 @@ export default function AdventurePage() {
               The <span className="italic text-terracotta">Experiences</span>
             </h2>
             <p className="mt-4 max-w-xl text-base leading-relaxed text-espresso/70">
-              Every location is chosen for its unique therapeutic value. Each adventure is purposeful —
-              designed to surface specific insights, build targeted skills, and deepen recovery.
+              <AutoLinkedText>{"Every location is chosen for its unique therapeutic value. Each adventure is purposeful —\n              designed to surface specific insights, build targeted skills, and deepen recovery."}</AutoLinkedText>
             </p>
           </div>
 
@@ -363,14 +353,13 @@ export default function AdventurePage() {
         <div className="mx-auto w-full max-w-7xl px-6 lg:px-10">
           <div className="mb-14 text-center">
             <p className="text-xs font-semibold uppercase tracking-[0.14em] text-terracotta">
-              Evidence-Based Methodology
+              <AutoLinkedText>{"Evidence-Based Methodology"}</AutoLinkedText>
             </p>
             <h2 className="font-heading mt-3 text-4xl font-bold text-white md:text-5xl">
               Why It <span className="italic text-terracotta-light">Works</span>
             </h2>
             <p className="mx-auto mt-4 max-w-xl text-base leading-relaxed text-white/60">
-              Adventure Therapy is grounded in decades of clinical research showing that
-              experiential learning accelerates lasting behavioral change.
+              <AutoLinkedText>{"Adventure Therapy is grounded in decades of clinical research showing that\n              experiential learning accelerates lasting behavioral change."}</AutoLinkedText>
             </p>
           </div>
 
@@ -381,7 +370,7 @@ export default function AdventurePage() {
                   <i className={`${item.icon} text-lg text-terracotta`} />
                 </div>
                 <h3 className="font-heading text-lg font-bold text-white">{item.title}</h3>
-                <p className="mt-3 text-sm leading-relaxed text-white/60">{item.body}</p>
+                <p className="mt-3 text-sm leading-relaxed text-white/60"><AutoLinkedText>{item.body}</AutoLinkedText></p>
               </div>
             ))}
           </div>
@@ -395,10 +384,8 @@ export default function AdventurePage() {
                 { value: "1:1", label: "Staff-to-client ratio during every outing" },
               ].map((stat) => (
                 <div key={stat.label}>
-                  <p className="font-heading text-5xl font-bold text-terracotta">{stat.value}</p>
-                  <p className="mt-2 text-sm font-semibold uppercase tracking-[0.1em] text-white/50">
-                    {stat.label}
-                  </p>
+                  <p className="font-heading text-5xl font-bold text-terracotta"><AutoLinkedText>{stat.value}</AutoLinkedText></p>
+                  <p className="mt-2 text-sm font-semibold uppercase tracking-[0.1em] text-white/50"><AutoLinkedText>{stat.label}</AutoLinkedText></p>
                 </div>
               ))}
             </div>
@@ -413,7 +400,7 @@ export default function AdventurePage() {
             {/* Text */}
             <div>
               <p className="text-xs font-semibold uppercase tracking-[0.14em] text-terracotta">
-                A Program Unlike Any Other
+                <AutoLinkedText>{"A Program Unlike Any Other"}</AutoLinkedText>
               </p>
               <h2 className="font-heading mt-3 text-4xl font-bold text-navy md:text-5xl">
                 Healing <span className="italic text-terracotta">Beyond</span>
@@ -421,23 +408,17 @@ export default function AdventurePage() {
                 the Therapy Room
               </h2>
               <p className="mt-6 leading-relaxed text-espresso/80">
-                At Northbound, the path to recovery doesn't begin and end in a clinical office.
-                Our Adventure Therapy Program extends treatment into the living world — where
-                insights become experiences and experiences become transformation.
+                <AutoLinkedText>{"At Northbound, the path to recovery doesn't begin and end in a clinical office.\n                Our Adventure Therapy Program extends treatment into the living world — where\n                insights become experiences and experiences become transformation."}</AutoLinkedText>
               </p>
               <p className="mt-4 leading-relaxed text-espresso/80">
-                Led by experienced therapists at every outing, each adventure is paired with
-                structured pre-activity intention-setting and post-activity group processing.
-                What happens outdoors is brought back indoors — woven into your individual
-                treatment plan with intention and clinical rigor.
+                <AutoLinkedText>{"Led by experienced therapists at every outing, each adventure is paired with\n                structured pre-activity intention-setting and post-activity group processing.\n                What happens outdoors is brought back indoors — woven into your individual\n                treatment plan with intention and clinical rigor."}</AutoLinkedText>
               </p>
               <div className="mt-8 border-l-2 border-terracotta pl-5">
                 <p className="font-heading text-lg font-bold italic text-navy">
-                  "Step into the expansive and healing embrace of the great outdoors. Discover
-                  the restorative power of adventure — and the boundless potential within you."
+                  <AutoLinkedText>{"\"Step into the expansive and healing embrace of the great outdoors. Discover\n                  the restorative power of adventure — and the boundless potential within you.\""}</AutoLinkedText>
                 </p>
                 <p className="mt-2 text-xs font-semibold uppercase tracking-[0.1em] text-espresso/50">
-                  — Northbound Treatment Services
+                  <AutoLinkedText>{"— Northbound Treatment Services"}</AutoLinkedText>
                 </p>
               </div>
               <div className="mt-8 flex flex-wrap gap-4">
@@ -498,9 +479,7 @@ export default function AdventurePage() {
                 <div className="mb-4 flex h-10 w-10 items-center justify-center bg-terracotta/10 transition group-hover:bg-terracotta/20">
                   <i className={`${svc.icon} text-lg text-terracotta`} />
                 </div>
-                <p className="text-xs font-semibold uppercase tracking-[0.1em] text-espresso/40">
-                  {svc.tag}
-                </p>
+                <p className="text-xs font-semibold uppercase tracking-[0.1em] text-espresso/40"><AutoLinkedText>{svc.tag}</AutoLinkedText></p>
                 <h3 className="font-heading mt-2 text-lg font-bold text-navy">{svc.name}</h3>
                 <p className="mt-4 flex items-center gap-1 text-xs font-semibold text-terracotta">
                   Learn more <i className="ri-arrow-right-line transition group-hover:translate-x-1" />
@@ -548,12 +527,8 @@ function ExperienceCard({ exp, tall }: { exp: Experience; tall: boolean }) {
             </span>
           </div>
           <h3 className="font-heading text-xl font-bold text-white lg:text-2xl">{exp.title}</h3>
-          <p className="mt-1 text-xs font-semibold uppercase tracking-[0.1em] text-terracotta-light">
-            {exp.focus}
-          </p>
-          <p className="mt-2 text-sm leading-relaxed text-white/80 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
-            {exp.description}
-          </p>
+          <p className="mt-1 text-xs font-semibold uppercase tracking-[0.1em] text-terracotta-light"><AutoLinkedText>{exp.focus}</AutoLinkedText></p>
+          <p className="mt-2 text-sm leading-relaxed text-white/80 opacity-0 transition-opacity duration-300 group-hover:opacity-100"><AutoLinkedText>{exp.description}</AutoLinkedText></p>
         </div>
       </div>
     );
@@ -583,10 +558,8 @@ function ExperienceCard({ exp, tall }: { exp: Experience; tall: boolean }) {
       </div>
       <div>
         <h3 className="font-heading text-xl font-bold text-white lg:text-2xl">{exp.title}</h3>
-        <p className="mt-1 text-xs font-semibold uppercase tracking-[0.1em] text-white/60">
-          {exp.focus}
-        </p>
-        <p className="mt-3 text-sm leading-relaxed text-white/75">{exp.description}</p>
+        <p className="mt-1 text-xs font-semibold uppercase tracking-[0.1em] text-white/60"><AutoLinkedText>{exp.focus}</AutoLinkedText></p>
+        <p className="mt-3 text-sm leading-relaxed text-white/75"><AutoLinkedText>{exp.description}</AutoLinkedText></p>
       </div>
     </div>
   );

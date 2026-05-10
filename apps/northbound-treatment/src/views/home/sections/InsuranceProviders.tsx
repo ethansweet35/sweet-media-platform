@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { AutoLinkedText } from "@sweetmedia/blog-core";
 
 /**
  * InsuranceProviders — preferred in-network providers grid.
@@ -91,7 +92,7 @@ export default function InsuranceProviders() {
             A Preferred Provider for Most Insurance Plans
           </h2>
           <p className="font-light leading-relaxed text-white/55">
-            Northbound Treatment Services is an in-network preferred provider with 15+ major insurance plans. Our admissions team works directly with your insurer to verify benefits, minimize out-of-pocket costs, and remove every financial barrier between you and care.
+            <AutoLinkedText>{"Northbound Treatment Services is an in-network preferred provider with 15+ major insurance plans. Our admissions team works directly with your insurer to verify benefits, minimize out-of-pocket costs, and remove every financial barrier between you and care."}</AutoLinkedText>
           </p>
         </div>
 
@@ -117,9 +118,7 @@ export default function InsuranceProviders() {
                 <span className="text-[9px] font-bold uppercase tracking-[0.2em] text-terracotta">
                   {provider.tagline}
                 </span>
-                <p className="text-xs font-light leading-relaxed text-espresso/60">
-                  {provider.description}
-                </p>
+                <p className="text-xs font-light leading-relaxed text-espresso/60"><AutoLinkedText>{provider.description}</AutoLinkedText></p>
               </div>
 
               <a

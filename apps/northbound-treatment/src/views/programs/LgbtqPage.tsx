@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { AutoLinkedText } from "@sweetmedia/blog-core";
 
 const features = [
   { icon: "ri-user-heart-line", title: "LGBTQ+-Affirming Clinicians", body: "Our therapists and clinical staff are trained in LGBTQ+-affirming care and understand the unique stressors — including minority stress, discrimination, and family rejection — that compound addiction risk in the community." },
@@ -22,14 +23,12 @@ export default function LgbtqPage() {
       {/* Hero */}
       <section className="bg-[#1b2a47] py-24">
         <div className="mx-auto max-w-7xl px-6 lg:px-10">
-          <p className="mb-4 text-xs font-semibold uppercase tracking-[0.2em] text-[#e97a52]">Specialized Programs</p>
+          <p className="mb-4 text-xs font-semibold uppercase tracking-[0.2em] text-[#e97a52]"><AutoLinkedText>{"Specialized Programs"}</AutoLinkedText></p>
           <h1 className="font-heading text-5xl font-bold text-white md:text-6xl">
             LGBTQIA+ <span className="italic text-[#e97a52]">Drug Rehab</span>
           </h1>
           <p className="mt-6 max-w-2xl text-lg leading-8 text-white/70">
-            Historically, members of the LGBTQ+ community have faced discrimination when seeking
-            help for medical and mental health concerns. Northbound Treatment provides a fully affirming,
-            judgment-free environment where every person can heal as their authentic self.
+            <AutoLinkedText>{"Historically, members of the LGBTQ+ community have faced discrimination when seeking\n            help for medical and mental health concerns. Northbound Treatment provides a fully affirming,\n            judgment-free environment where every person can heal as their authentic self."}</AutoLinkedText>
           </p>
           <div className="mt-10 flex flex-wrap gap-4">
             <Link href="/admissions/" className="inline-flex items-center gap-2 bg-[#e97a52] px-7 py-3.5 text-sm font-semibold text-white transition hover:bg-[#f09068]">
@@ -48,8 +47,8 @@ export default function LgbtqPage() {
           <div className="grid grid-cols-1 sm:grid-cols-3 divide-y sm:divide-y-0 sm:divide-x divide-[#cdd8e8]">
             {stats.map((s) => (
               <div key={s.value} className="py-10 px-8">
-                <p className="font-heading text-4xl font-bold text-[#e97a52]">{s.value}</p>
-                <p className="mt-2 text-sm text-[#64748b] leading-6">{s.label}</p>
+                <p className="font-heading text-4xl font-bold text-[#e97a52]"><AutoLinkedText>{s.value}</AutoLinkedText></p>
+                <p className="mt-2 text-sm text-[#64748b] leading-6"><AutoLinkedText>{s.label}</AutoLinkedText></p>
               </div>
             ))}
           </div>
@@ -66,15 +65,10 @@ export default function LgbtqPage() {
                 Affirming Care Changes Outcomes
               </h2>
               <p className="text-sm leading-7 text-[#64748b] mb-4">
-                According to SAMHSA, approximately 86% of LGBTQ+ individuals struggling with addiction
-                had no desire to seek treatment — largely due to fear of discrimination or lack of
-                culturally competent care. That staggering number illustrates why affirming environments
-                aren&apos;t just nice to have: they&apos;re clinically essential.
+                <AutoLinkedText>{"According to SAMHSA, approximately 86% of LGBTQ+ individuals struggling with addiction\n                had no desire to seek treatment — largely due to fear of discrimination or lack of\n                culturally competent care. That staggering number illustrates why affirming environments\n                aren&apos;t just nice to have: they&apos;re clinically essential."}</AutoLinkedText>
               </p>
               <p className="text-sm leading-7 text-[#64748b]">
-                At Northbound, we have worked to actively dismantle those barriers. Our staff receive
-                ongoing training in LGBTQ+-affirming practices, and our community norms ensure every
-                client — regardless of identity — feels safe, respected, and ready to do the work of recovery.
+                <AutoLinkedText>{"At Northbound, we have worked to actively dismantle those barriers. Our staff receive\n                ongoing training in LGBTQ+-affirming practices, and our community norms ensure every\n                client — regardless of identity — feels safe, respected, and ready to do the work of recovery."}</AutoLinkedText>
               </p>
             </div>
             <div className="bg-[#eef2f7] p-8">
@@ -113,7 +107,7 @@ export default function LgbtqPage() {
                   <i className={`${f.icon} text-2xl`} />
                 </span>
                 <h3 className="font-heading text-xl font-bold text-[#1b2a47]">{f.title}</h3>
-                <p className="text-sm leading-7 text-[#64748b]">{f.body}</p>
+                <p className="text-sm leading-7 text-[#64748b]"><AutoLinkedText>{f.body}</AutoLinkedText></p>
               </div>
             ))}
           </div>
@@ -127,7 +121,7 @@ export default function LgbtqPage() {
             You deserve care that sees all of you.
           </h2>
           <p className="mt-4 text-white/70 max-w-xl mx-auto">
-            Our admissions team is available 24/7 — reach out confidentially, any time.
+            <AutoLinkedText>{"Our admissions team is available 24/7 — reach out confidentially, any time."}</AutoLinkedText>
           </p>
           <div className="mt-8 flex flex-wrap justify-center gap-4">
             <Link href="/admissions/" className="inline-flex items-center gap-2 bg-[#e97a52] px-8 py-4 text-sm font-semibold text-white transition hover:bg-[#f09068]">

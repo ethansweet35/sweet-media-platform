@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 import CtaBanner from "@/views/shared/CtaBanner";
+import { AutoLinkedTextClient } from "@sweetmedia/blog-core";
 
 const BASE = "https://ahufsygjwpbymomfdazb.supabase.co/storage/v1/object/public/site-assets/images";
 
@@ -110,7 +111,7 @@ function FaqItem({ q, a }: { q: string; a: string }) {
           <i className="ri-add-line text-xl"></i>
         </span>
       </button>
-      {open && <p className="pb-5 text-sm leading-relaxed text-[#4B5563]">{a}</p>}
+      {open && <p className="pb-5 text-sm leading-relaxed text-[#4B5563]"><AutoLinkedTextClient>{a}</AutoLinkedTextClient></p>}
     </div>
   );
 }
@@ -140,14 +141,14 @@ export default function SeattlePage() {
 
           <div className="max-w-3xl">
             <p className="mb-4 text-sm font-semibold uppercase tracking-[0.18em] text-[#E8622A]">
-              Seattle, Washington — Lower Queen Anne / Uptown
+              <AutoLinkedTextClient>{"Seattle, Washington — Lower Queen Anne / Uptown"}</AutoLinkedTextClient>
             </p>
             <h1 className="font-heading text-5xl font-bold leading-tight text-white md:text-6xl lg:text-7xl">
               Addiction Treatment{" "}
               <span className="italic text-[#E8622A]">in Seattle</span>
             </h1>
             <p className="mt-6 max-w-2xl text-lg leading-relaxed text-white/80">
-              Northbound&apos;s Seattle hub serves Washington state residents with clinical assessments, IOP, family support, alumni programming, and alternative sentencing services — connecting Pacific Northwest clients to Northbound&apos;s full treatment continuum.
+              <AutoLinkedTextClient>{"Northbound&apos;s Seattle hub serves Washington state residents with clinical assessments, IOP, family support, alumni programming, and alternative sentencing services — connecting Pacific Northwest clients to Northbound&apos;s full treatment continuum."}</AutoLinkedTextClient>
             </p>
 
             <div className="mt-8 flex flex-wrap gap-x-8 gap-y-4 border-t border-white/15 pt-8">
@@ -181,22 +182,22 @@ export default function SeattlePage() {
         <div className="mx-auto max-w-7xl px-6 lg:px-10">
           <div className="grid gap-16 lg:grid-cols-2 lg:items-center">
             <div>
-              <p className="mb-3 text-sm font-semibold uppercase tracking-[0.16em] text-[#E8622A]">Seattle Assessment & Support Hub</p>
+              <p className="mb-3 text-sm font-semibold uppercase tracking-[0.16em] text-[#E8622A]"><AutoLinkedTextClient>{"Seattle Assessment & Support Hub"}</AutoLinkedTextClient></p>
               <h2 className="font-heading text-4xl font-bold text-[#0B1F3A] md:text-5xl">
                 Your Gateway to{" "}
                 <span className="italic text-[#E8622A]">Recovery</span>
               </h2>
               <p className="mt-5 text-base leading-relaxed text-[#4B5563]">
-                Our Seattle services center is located in the vibrant Lower Queen Anne (Uptown) neighborhood — a walkable community of historic houses and boutique shops, right on Puget Sound and steps from the Space Needle. It&apos;s an inspiring, community-rooted setting for taking the first steps toward recovery.
+                <AutoLinkedTextClient>{"Our Seattle services center is located in the vibrant Lower Queen Anne (Uptown) neighborhood — a walkable community of historic houses and boutique shops, right on Puget Sound and steps from the Space Needle. It&apos;s an inspiring, community-rooted setting for taking the first steps toward recovery."}</AutoLinkedTextClient>
               </p>
               <p className="mt-4 text-base leading-relaxed text-[#4B5563]">
-                Seattle clients begin with a comprehensive clinical assessment at our local office. For those requiring medically supervised detox or residential treatment, we facilitate a smooth transition to our fully licensed Orange County facilities — where the Southern California environment becomes part of the healing. Clients then step down back to Seattle-based IOP or telehealth to complete their continuum of care.
+                <AutoLinkedTextClient>{"Seattle clients begin with a comprehensive clinical assessment at our local office. For those requiring medically supervised detox or residential treatment, we facilitate a smooth transition to our fully licensed Orange County facilities — where the Southern California environment becomes part of the healing. Clients then step down back to Seattle-based IOP or telehealth to complete their continuum of care."}</AutoLinkedTextClient>
               </p>
 
               <div className="mt-8 rounded-2xl border border-[#E5E7EB] bg-[#F5F7FF] p-6">
                 <p className="text-sm font-semibold text-[#0B1F3A]">The Seattle Crisis</p>
                 <p className="mt-2 text-sm leading-relaxed text-[#4B5563]">
-                  King County saw 1,312 suspected and confirmed overdose deaths in 2023 — a 16% increase from 2022, and more than double the 2019 figure. Washington state&apos;s overdose rate of 32.6 per 100,000 is more than double what it was a decade ago. Northbound is here to help.
+                  <AutoLinkedTextClient>{"King County saw 1,312 suspected and confirmed overdose deaths in 2023 — a 16% increase from 2022, and more than double the 2019 figure. Washington state&apos;s overdose rate of 32.6 per 100,000 is more than double what it was a decade ago. Northbound is here to help."}</AutoLinkedTextClient>
                 </p>
               </div>
             </div>
@@ -221,7 +222,7 @@ export default function SeattlePage() {
             <p className="mb-3 text-sm font-semibold uppercase tracking-[0.16em] text-[#E8622A]">The Seattle Pathway</p>
             <h2 className="font-heading text-4xl font-bold text-[#0B1F3A] md:text-5xl">Full Continuum for Washington Clients</h2>
             <p className="mt-4 text-[#4B5563]">
-              Seattle residents access Northbound&apos;s full treatment continuum — from local assessment to California residential care and back again.
+              <AutoLinkedTextClient>{"Seattle residents access Northbound&apos;s full treatment continuum — from local assessment to California residential care and back again."}</AutoLinkedTextClient>
             </p>
           </div>
 
@@ -235,7 +236,7 @@ export default function SeattlePage() {
                   <i className="ri-map-pin-line text-[10px]"></i> {p.location}
                 </div>
                 <h3 className={`mt-3 font-heading text-xl font-bold ${i === 0 ? "text-white" : "text-[#0B1F3A]"}`}>{p.name}</h3>
-                <p className={`mt-2 text-sm leading-relaxed ${i === 0 ? "text-white/75" : "text-[#4B5563]"}`}>{p.desc}</p>
+                <p className={`mt-2 text-sm leading-relaxed ${i === 0 ? "text-white/75" : "text-[#4B5563]"}`}><AutoLinkedTextClient>{p.desc}</AutoLinkedTextClient></p>
               </div>
             ))}
           </div>
@@ -256,7 +257,7 @@ export default function SeattlePage() {
                   <i className={`${s.icon} text-lg`}></i>
                 </span>
                 <h3 className="font-semibold text-white mb-2">{s.name}</h3>
-                <p className="text-sm leading-relaxed text-white/65">{s.desc}</p>
+                <p className="text-sm leading-relaxed text-white/65"><AutoLinkedTextClient>{s.desc}</AutoLinkedTextClient></p>
               </div>
             ))}
           </div>
@@ -274,7 +275,7 @@ export default function SeattlePage() {
                 <span className="italic text-[#E8622A]">Work</span>
               </h2>
               <p className="mt-4 text-base leading-relaxed text-[#4B5563]">
-                Whether you receive care in Seattle or at one of our California campuses, the same evidence-based clinical approach applies — personalized to your specific history, substance, and co-occurring conditions.
+                <AutoLinkedTextClient>{"Whether you receive care in Seattle or at one of our California campuses, the same evidence-based clinical approach applies — personalized to your specific history, substance, and co-occurring conditions."}</AutoLinkedTextClient>
               </p>
               <div className="mt-6 grid grid-cols-1 gap-3 sm:grid-cols-2">
                 {therapies.map((t) => (
@@ -288,7 +289,7 @@ export default function SeattlePage() {
               </div>
 
               <div className="mt-8 rounded-2xl bg-[#F5F7FF] p-6">
-                <p className="text-sm font-semibold text-[#0B1F3A] mb-2">Alumni Association — Seattle Chapter</p>
+                <p className="text-sm font-semibold text-[#0B1F3A] mb-2"><AutoLinkedTextClient>{"Alumni Association — Seattle Chapter"}</AutoLinkedTextClient></p>
                 <div className="space-y-2">
                   {alumniActivities.map((a) => (
                     <div key={a} className="flex items-center gap-2 text-sm text-[#4B5563]">
@@ -305,7 +306,7 @@ export default function SeattlePage() {
                 <Image src={IMAGES.nature} alt="Group walking through Pacific Northwest old-growth forest — nature therapy in recovery at Northbound Seattle" fill className="object-cover" />
               </div>
               <div className="absolute -top-5 -right-5 rounded-2xl bg-[#E8622A] px-5 py-4 shadow-xl">
-                <p className="text-xs font-bold uppercase tracking-wider text-white">Pacific Northwest Recovery</p>
+                <p className="text-xs font-bold uppercase tracking-wider text-white"><AutoLinkedTextClient>{"Pacific Northwest Recovery"}</AutoLinkedTextClient></p>
               </div>
             </div>
           </div>
@@ -330,7 +331,7 @@ export default function SeattlePage() {
         <div className="mx-auto max-w-7xl px-6 lg:px-10 text-center">
           <p className="mb-2 text-sm font-semibold uppercase tracking-[0.16em] text-[#E8622A]">Insurance</p>
           <h2 className="font-heading text-3xl font-bold text-[#0B1F3A] md:text-4xl">We Verify Your Benefits — Free & Confidential</h2>
-          <p className="mx-auto mt-4 max-w-xl text-sm leading-relaxed text-[#4B5563]">In-network with 15+ major carriers. Washington clients are covered for treatment at our California campuses under most PPO plans.</p>
+          <p className="mx-auto mt-4 max-w-xl text-sm leading-relaxed text-[#4B5563]"><AutoLinkedTextClient>{"In-network with 15+ major carriers. Washington clients are covered for treatment at our California campuses under most PPO plans."}</AutoLinkedTextClient></p>
           <div className="mt-6 flex flex-wrap justify-center gap-3 text-xs font-semibold text-[#6B7280]">
             {["Aetna", "Anthem BCBS", "Cigna", "Tricare", "MHN", "Multiplan", "Beacon", "ComPsych", "First Health"].map((ins) => (
               <span key={ins} className="rounded-full bg-[#F5F7FF] px-4 py-2 ring-1 ring-[#E5E7EB]">{ins}</span>

@@ -4,6 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import CtaBanner from "@/views/shared/CtaBanner";
+import { AutoLinkedTextClient } from "@sweetmedia/blog-core";
 
 const HERO =
   "https://ahufsygjwpbymomfdazb.supabase.co/storage/v1/object/public/site-assets/images/nbt_faqs_hero01.jpg";
@@ -154,7 +155,7 @@ export default function FaqsPage() {
             <span className="italic text-terracotta">Questions</span>
           </h1>
           <p className="mt-5 max-w-xl text-base leading-relaxed text-white/75">
-            We understand that entering addiction treatment is a new experience and there are many questions to be answered. Here are answers to the questions we hear most often.
+            <AutoLinkedTextClient>{"We understand that entering addiction treatment is a new experience and there are many questions to be answered. Here are answers to the questions we hear most often."}</AutoLinkedTextClient>
           </p>
 
           <div className="mt-8 flex flex-wrap items-center gap-4">
@@ -200,10 +201,10 @@ export default function FaqsPage() {
 
               {/* CTA card below sidebar */}
               <div className="mt-8 hidden border border-sand-dark bg-sand p-6 lg:block">
-                <p className="mb-1 text-xs font-semibold uppercase tracking-[0.1em] text-terracotta">Still Have Questions?</p>
-                <p className="font-heading text-lg font-bold text-navy">Talk to a Real Person</p>
+                <p className="mb-1 text-xs font-semibold uppercase tracking-[0.1em] text-terracotta"><AutoLinkedTextClient>{"Still Have Questions?"}</AutoLinkedTextClient></p>
+                <p className="font-heading text-lg font-bold text-navy"><AutoLinkedTextClient>{"Talk to a Real Person"}</AutoLinkedTextClient></p>
                 <p className="mt-2 text-xs leading-relaxed text-espresso/60">
-                  Our admissions team is available 24/7 and happy to answer any question — no obligation.
+                  <AutoLinkedTextClient>{"Our admissions team is available 24/7 and happy to answer any question — no obligation."}</AutoLinkedTextClient>
                 </p>
                 <a
                   href="tel:8663110003"
@@ -242,7 +243,7 @@ export default function FaqsPage() {
                       </span>
                     </button>
                     <div className={`overflow-hidden transition-all duration-300 ${openIndex === i ? "max-h-96 pb-6" : "max-h-0"}`}>
-                      <p className="text-sm leading-relaxed text-espresso/70">{faq.a}</p>
+                      <p className="text-sm leading-relaxed text-espresso/70"><AutoLinkedTextClient>{faq.a}</AutoLinkedTextClient></p>
                     </div>
                   </div>
                 ))}
@@ -250,8 +251,8 @@ export default function FaqsPage() {
 
               {/* Mobile CTA */}
               <div className="mt-10 border border-sand-dark bg-sand p-6 lg:hidden">
-                <p className="font-heading text-lg font-bold text-navy">Still Have Questions?</p>
-                <p className="mt-1 text-sm text-espresso/60">Speak with our admissions team 24/7.</p>
+                <p className="font-heading text-lg font-bold text-navy"><AutoLinkedTextClient>{"Still Have Questions?"}</AutoLinkedTextClient></p>
+                <p className="mt-1 text-sm text-espresso/60"><AutoLinkedTextClient>{"Speak with our admissions team 24/7."}</AutoLinkedTextClient></p>
                 <a href="tel:8663110003" className="mt-4 inline-flex items-center gap-2 bg-navy px-6 py-3 text-sm font-semibold text-white transition hover:bg-terracotta">
                   <i className="ri-phone-line" />
                   (866) 311-0003

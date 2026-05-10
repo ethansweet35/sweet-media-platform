@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import CtaBanner from "@/views/shared/CtaBanner";
 import PageHero from "@/views/shared/PageHero";
+import { AutoLinkedText } from "@sweetmedia/blog-core";
 
 const HERO =
   "https://ahufsygjwpbymomfdazb.supabase.co/storage/v1/object/public/site-assets/images/nbt_referrals_hero01.jpg";
@@ -106,23 +107,17 @@ export default function ReferralsPage() {
           <div className="grid gap-16 lg:grid-cols-2 lg:gap-24">
             <div>
               <p className="mb-3 text-xs font-semibold uppercase tracking-[0.14em] text-terracotta">
-                Why Refer to Northbound
+                <AutoLinkedText>{"Why Refer to Northbound"}</AutoLinkedText>
               </p>
               <h2 className="font-heading text-4xl font-bold leading-tight text-navy md:text-5xl">
                 A Partner Your{" "}
                 <span className="italic text-terracotta">Patients Can Trust</span>
               </h2>
               <p className="mt-5 text-base leading-relaxed text-espresso/70">
-                When you refer a patient to Northbound, you're partnering with a program
-                that has been transforming lives since 1988. We understand what referring
-                clinicians need: clear communication, fast intake, clinical transparency,
-                and the confidence that your patient will receive exceptional care.
+                <AutoLinkedText>{"When you refer a patient to Northbound, you're partnering with a program\n                that has been transforming lives since 1988. We understand what referring\n                clinicians need: clear communication, fast intake, clinical transparency,\n                and the confidence that your patient will receive exceptional care."}</AutoLinkedText>
               </p>
               <p className="mt-4 text-base leading-relaxed text-espresso/70">
-                Our clinical team — led by licensed MDs, PhDs, LMFTs, LCSWs, and
-                CADCs — operates with organizational health principles that mirror the
-                recovery values we teach. That means transparency, honesty, and genuine
-                partnership at every step.
+                <AutoLinkedText>{"Our clinical team — led by licensed MDs, PhDs, LMFTs, LCSWs, and\n                CADCs — operates with organizational health principles that mirror the\n                recovery values we teach. That means transparency, honesty, and genuine\n                partnership at every step."}</AutoLinkedText>
               </p>
               <div className="mt-8 flex flex-wrap gap-4">
                 <a
@@ -144,8 +139,8 @@ export default function ReferralsPage() {
               ].map((s, i) => (
                 <div key={s.label} className={`flex flex-col gap-3 p-8 ${i % 2 === 0 ? "bg-white" : "bg-sand"}`}>
                   <i className={`${s.icon} text-xl text-terracotta`} />
-                  <p className="font-heading text-3xl font-bold text-navy">{s.value}</p>
-                  <p className="text-xs font-semibold uppercase tracking-[0.1em] text-espresso/50">{s.label}</p>
+                  <p className="font-heading text-3xl font-bold text-navy"><AutoLinkedText>{s.value}</AutoLinkedText></p>
+                  <p className="text-xs font-semibold uppercase tracking-[0.1em] text-espresso/50"><AutoLinkedText>{s.label}</AutoLinkedText></p>
                 </div>
               ))}
             </div>
@@ -171,7 +166,7 @@ export default function ReferralsPage() {
                   <i className={`${item.icon} text-xl text-terracotta`} />
                 </div>
                 <h3 className="font-heading text-lg font-bold text-white">{item.title}</h3>
-                <p className="mt-3 text-sm leading-relaxed text-white/65">{item.body}</p>
+                <p className="mt-3 text-sm leading-relaxed text-white/65"><AutoLinkedText>{item.body}</AutoLinkedText></p>
               </div>
             ))}
           </div>
@@ -188,15 +183,10 @@ export default function ReferralsPage() {
                 Programs We <span className="italic text-terracotta">Offer</span>
               </h2>
               <p className="mt-5 text-base leading-relaxed text-espresso/70">
-                We provide a full continuum of care so you can refer patients at any stage
-                of their journey. From acute medically supervised detox to outpatient
-                alumni support, we have a clinically appropriate placement for virtually
-                every presentation.
+                <AutoLinkedText>{"We provide a full continuum of care so you can refer patients at any stage\n                of their journey. From acute medically supervised detox to outpatient\n                alumni support, we have a clinically appropriate placement for virtually\n                every presentation."}</AutoLinkedText>
               </p>
               <p className="mt-4 text-base leading-relaxed text-espresso/70">
-                We specialize in complex dual-diagnosis cases, co-occurring trauma,
-                young adults (Collegebound® and Careerbound®), veterans, and clients
-                with high treatment resistance.
+                <AutoLinkedText>{"We specialize in complex dual-diagnosis cases, co-occurring trauma,\n                young adults (Collegebound® and Careerbound®), veterans, and clients\n                with high treatment resistance."}</AutoLinkedText>
               </p>
               <a
                 href="tel:8663110003"
@@ -229,8 +219,7 @@ export default function ReferralsPage() {
               The Referral <span className="italic text-terracotta">Process</span>
             </h2>
             <p className="mx-auto mt-4 max-w-xl text-base leading-relaxed text-espresso/70">
-              We've designed our referral intake to be as frictionless as possible.
-              Most referrals are processed and confirmed within hours.
+              <AutoLinkedText>{"We've designed our referral intake to be as frictionless as possible.\n              Most referrals are processed and confirmed within hours."}</AutoLinkedText>
             </p>
           </div>
           <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
@@ -238,7 +227,7 @@ export default function ReferralsPage() {
               <div key={step.number} className={`border border-sand-dark p-8 ${i === 4 ? "md:col-span-2 lg:col-span-1" : ""}`}>
                 <span className="font-heading text-4xl font-bold text-navy/10">{step.number}</span>
                 <h3 className="font-heading mt-4 text-lg font-bold text-navy">{step.title}</h3>
-                <p className="mt-3 text-sm leading-relaxed text-espresso/65">{step.body}</p>
+                <p className="mt-3 text-sm leading-relaxed text-espresso/65"><AutoLinkedText>{step.body}</AutoLinkedText></p>
               </div>
             ))}
           </div>
@@ -264,7 +253,7 @@ export default function ReferralsPage() {
                 We Accept 15+ Major Insurance Plans
               </h3>
               <p className="mt-2 text-sm text-white/60">
-                Aetna · Anthem · BCBS · Cigna · Health Net · Magellan · TriCare · Compsych · and more
+                <AutoLinkedText>{"Aetna · Anthem · BCBS · Cigna · Health Net · Magellan · TriCare · Compsych · and more"}</AutoLinkedText>
               </p>
             </div>
             <div className="flex shrink-0 flex-wrap justify-center gap-4">

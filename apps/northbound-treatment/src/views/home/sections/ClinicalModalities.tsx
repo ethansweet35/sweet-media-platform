@@ -1,3 +1,4 @@
+import { AutoLinkedText } from "@sweetmedia/blog-core";
 /**
  * Clinical Modalities — navy background with icon-forward therapy cards.
  * Sticky left intro column, 2-col scrolling grid right.
@@ -62,16 +63,13 @@ export default function ClinicalModalities() {
             <div className="lg:sticky lg:top-32">
               <div className="mb-6 h-[2px] w-12 bg-terracotta"></div>
               <p className="mb-4 text-[10px] font-bold uppercase tracking-[0.22em] text-terracotta">
-                Evidence-Based Practices
+                <AutoLinkedText>{"Evidence-Based Practices"}</AutoLinkedText>
               </p>
               <h2 className="mb-6 font-serif text-4xl leading-[1.1] text-white lg:text-5xl">
                 Clinical Modalities.
               </h2>
               <p className="mb-8 text-sm font-light leading-relaxed text-white/60">
-                Healing is not a guessing game. We utilize highly effective,
-                rigorously researched therapeutic frameworks. By combining
-                these modalities, our clinical team creates a custom blueprint
-                for your psychological recovery.
+                <AutoLinkedText>{"Healing is not a guessing game. We utilize highly effective,\n                rigorously researched therapeutic frameworks. By combining\n                these modalities, our clinical team creates a custom blueprint\n                for your psychological recovery."}</AutoLinkedText>
               </p>
               <a
                 href="#contact"
@@ -106,9 +104,7 @@ export default function ClinicalModalities() {
                   <h4 className="mb-3 font-serif text-xl text-white">
                     {therapy.title}
                   </h4>
-                  <p className="text-sm font-light leading-relaxed text-white/55">
-                    {therapy.description}
-                  </p>
+                  <p className="text-sm font-light leading-relaxed text-white/55"><AutoLinkedText>{therapy.description}</AutoLinkedText></p>
                 </div>
               ))}
             </div>

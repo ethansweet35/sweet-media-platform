@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 import CtaBanner from "@/views/shared/CtaBanner";
+import { AutoLinkedTextClient } from "@sweetmedia/blog-core";
 
 const HERO =
   "https://ahufsygjwpbymomfdazb.supabase.co/storage/v1/object/public/site-assets/images/nbt_alumni_hero01.jpg";
@@ -116,7 +117,7 @@ export default function AlumniPage() {
             Family
           </h1>
           <p className="mt-6 max-w-xl text-lg leading-relaxed text-white/75">
-            Recovery built in community lasts. Northbound's alumni association connects 500+ former clients through weekly meetings, monthly adventures, sobriety milestone celebrations, and lifelong support — because the relationships formed in treatment are among the most powerful forces in sustained recovery.
+            <AutoLinkedTextClient>{"Recovery built in community lasts. Northbound's alumni association connects 500+ former clients through weekly meetings, monthly adventures, sobriety milestone celebrations, and lifelong support — because the relationships formed in treatment are among the most powerful forces in sustained recovery."}</AutoLinkedTextClient>
           </p>
 
           <div className="mt-8 flex flex-wrap gap-4">
@@ -141,8 +142,8 @@ export default function AlumniPage() {
         <div className={`${CONTAINER} grid grid-cols-2 gap-8 lg:grid-cols-4`}>
           {STATS.map((s) => (
             <div key={s.label} className="text-center">
-              <p className="font-heading text-4xl font-bold text-white">{s.value}</p>
-              <p className="mt-1 text-xs font-semibold uppercase tracking-widest text-white/70">{s.label}</p>
+              <p className="font-heading text-4xl font-bold text-white"><AutoLinkedTextClient>{s.value}</AutoLinkedTextClient></p>
+              <p className="mt-1 text-xs font-semibold uppercase tracking-widest text-white/70"><AutoLinkedTextClient>{s.label}</AutoLinkedTextClient></p>
             </div>
           ))}
         </div>
@@ -160,7 +161,7 @@ export default function AlumniPage() {
             "What Northbound offers is a long-term solution. There is a huge difference between physical abstinence and living in recovery. The Northbound alumni are made up of people in recovery who are emotionally balanced and spiritually fit. We help people find that enlightened state."
           </blockquote>
           <p className="mt-6 text-sm font-semibold text-terracotta">
-            Paul Alexander — CEO & Founder, Northbound Treatment Services
+            <AutoLinkedTextClient>{"Paul Alexander — CEO & Founder, Northbound Treatment Services"}</AutoLinkedTextClient>
           </p>
         </div>
       </section>
@@ -174,7 +175,7 @@ export default function AlumniPage() {
               How the <span className="italic text-terracotta">Alumni</span> Program Works
             </h2>
             <p className="mx-auto mt-4 max-w-2xl text-base leading-relaxed text-navy/60">
-              From weekly meetings to monthly adventures, Northbound's alumni program provides ongoing connection, accountability, and celebration throughout every stage of sustained recovery.
+              <AutoLinkedTextClient>{"From weekly meetings to monthly adventures, Northbound's alumni program provides ongoing connection, accountability, and celebration throughout every stage of sustained recovery."}</AutoLinkedTextClient>
             </p>
           </div>
 
@@ -189,14 +190,14 @@ export default function AlumniPage() {
                 </span>
                 <div>
                   <h3 className="font-heading text-base font-bold text-navy">{e.title}</h3>
-                  <p className="mt-2 text-sm leading-relaxed text-navy/60">{e.desc}</p>
+                  <p className="mt-2 text-sm leading-relaxed text-navy/60"><AutoLinkedTextClient>{e.desc}</AutoLinkedTextClient></p>
                 </div>
               </div>
             ))}
           </div>
 
           <p className="mt-10 text-center text-sm text-navy/40">
-            Open to all Northbound alumni and anyone in the recovery community — you don't have to have been a Northbound client to join.
+            <AutoLinkedTextClient>{"Open to all Northbound alumni and anyone in the recovery community — you don't have to have been a Northbound client to join."}</AutoLinkedTextClient>
           </p>
         </div>
       </section>
@@ -251,7 +252,7 @@ export default function AlumniPage() {
                 The Work <span className="italic text-terracotta">Exchange</span> Program
               </h2>
               <p className="mt-5 text-base leading-relaxed text-navy/70">
-                Eligible Northbound alumni can apply for the Work Exchange Program — working at Northbound after completing treatment while studying to become a Licensed Addiction Counselor. It's one of the most powerful bridges between personal recovery and professional purpose we offer.
+                <AutoLinkedTextClient>{"Eligible Northbound alumni can apply for the Work Exchange Program — working at Northbound after completing treatment while studying to become a Licensed Addiction Counselor. It's one of the most powerful bridges between personal recovery and professional purpose we offer."}</AutoLinkedTextClient>
               </p>
               <ul className="mt-6 grid gap-3">
                 {[
@@ -283,7 +284,7 @@ export default function AlumniPage() {
               </div>
               <h3 className="font-heading text-2xl font-bold text-white">One-Third of Our Staff Are Alumni</h3>
               <p className="mt-3 text-base leading-relaxed text-white/70">
-                About one-third of Northbound's clinical and support staff are graduates of the program. This means every client is supported by people who have walked the same path — who understand addiction not just academically, but personally.
+                <AutoLinkedTextClient>{"About one-third of Northbound's clinical and support staff are graduates of the program. This means every client is supported by people who have walked the same path — who understand addiction not just academically, but personally."}</AutoLinkedTextClient>
               </p>
               <div className="mt-8 grid grid-cols-2 gap-4">
                 {[

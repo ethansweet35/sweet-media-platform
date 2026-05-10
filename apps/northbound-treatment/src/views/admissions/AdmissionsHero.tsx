@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import { AutoLinkedText } from "@sweetmedia/blog-core";
 
 const ADMISSIONS_HERO =
   "https://ahufsygjwpbymomfdazb.supabase.co/storage/v1/object/public/site-assets/images/nbt_admissions_hero01.jpg";
@@ -50,10 +51,7 @@ export default function AdmissionsHero() {
             </h1>
 
             <p className="mt-5 max-w-lg text-base leading-relaxed text-white/75">
-              Whether you're seeking help for yourself or for someone you love,
-              you are likely experiencing one of the most challenging times in
-              your life. Our admissions team will work through every step with
-              you — from your first call through long-term aftercare.
+              <AutoLinkedText>{"Whether you're seeking help for yourself or for someone you love,\n              you are likely experiencing one of the most challenging times in\n              your life. Our admissions team will work through every step with\n              you — from your first call through long-term aftercare."}</AutoLinkedText>
             </p>
 
             {/* Quick trust points */}
@@ -87,7 +85,7 @@ export default function AdmissionsHero() {
 
             {/* DHCS badge */}
             <p className="mt-8 text-[10px] font-semibold uppercase tracking-[0.12em] text-white/30">
-              DHCS Licensed #300661CP · NAATP Member · 38+ Years
+              <AutoLinkedText>{"DHCS Licensed #300661CP · NAATP Member · 38+ Years"}</AutoLinkedText>
             </p>
           </div>
 
@@ -110,7 +108,7 @@ export default function AdmissionsHero() {
                     Request a Free Assessment
                   </h2>
                   <p className="mt-1 text-xs leading-relaxed text-white/50">
-                    Fill out the form and we'll call you immediately.
+                    <AutoLinkedText>{"Fill out the form and we'll call you immediately."}</AutoLinkedText>
                   </p>
                 </div>
 

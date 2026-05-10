@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { PROCESS_IMAGES } from "../assets";
+import { AutoLinkedText } from "@sweetmedia/blog-core";
 
 /**
  * Process — staggered 3-step timeline. Each step has a numbered badge in the
@@ -111,9 +112,7 @@ export default function Process() {
             The Northbound Process.
           </h2>
           <p className="font-light leading-relaxed text-espresso/70">
-            Finding an addiction treatment center you can truly trust matters.
-            That&rsquo;s why we rely on a center built around you, your needs,
-            and a definitive three-step journey to long-term recovery.
+            <AutoLinkedText>{"Finding an addiction treatment center you can truly trust matters.\n            That&rsquo;s why we rely on a center built around you, your needs,\n            and a definitive three-step journey to long-term recovery."}</AutoLinkedText>
           </p>
         </div>
 
@@ -151,9 +150,7 @@ export default function Process() {
                   >
                     {step.title}
                   </h3>
-                  <p className="text-sm font-light leading-relaxed text-espresso/70">
-                    {step.description}
-                  </p>
+                  <p className="text-sm font-light leading-relaxed text-espresso/70"><AutoLinkedText>{step.description}</AutoLinkedText></p>
                 </div>
 
                 <div

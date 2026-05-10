@@ -3,6 +3,7 @@ import Link from "next/link";
 import PageHero from "@/views/shared/PageHero";
 import CtaBanner from "@/views/shared/CtaBanner";
 import { LOCATION_IMAGES } from "@/views/home/assets";
+import { AutoLinkedText } from "@sweetmedia/blog-core";
 
 const HERO_IMAGE =
   "https://ahufsygjwpbymomfdazb.supabase.co/storage/v1/object/public/site-assets/images/nbt_locations_hero01.jpg";
@@ -138,16 +139,16 @@ export default function LocationsPage() {
           <div className="grid gap-12 lg:grid-cols-2 lg:gap-20 lg:items-center">
             <div>
               <p className="mb-3 text-xs font-semibold uppercase tracking-[0.14em] text-terracotta">
-                Environment as Medicine
+                <AutoLinkedText>{"Environment as Medicine"}</AutoLinkedText>
               </p>
               <h2 className="font-heading text-4xl font-bold text-navy md:text-5xl leading-tight">
                 Your environment shapes your <span className="italic text-terracotta">recovery.</span>
               </h2>
               <p className="mt-5 leading-relaxed text-navy/70">
-                At Northbound, we believe your surroundings aren't incidental to healing — they're essential to it. Every one of our treatment locations was chosen with intention: for its natural beauty, its community infrastructure, its proximity to real life, and its capacity to inspire hope.
+                <AutoLinkedText>{"At Northbound, we believe your surroundings aren't incidental to healing — they're essential to it. Every one of our treatment locations was chosen with intention: for its natural beauty, its community infrastructure, its proximity to real life, and its capacity to inspire hope."}</AutoLinkedText>
               </p>
               <p className="mt-4 leading-relaxed text-navy/70">
-                Our facilities are not isolated institutions removed from the world. They are fully integrated into vibrant, diverse communities — because the lessons learned in the real world are easier to practice in the real world.
+                <AutoLinkedText>{"Our facilities are not isolated institutions removed from the world. They are fully integrated into vibrant, diverse communities — because the lessons learned in the real world are easier to practice in the real world."}</AutoLinkedText>
               </p>
               <div className="mt-8 grid grid-cols-2 gap-4">
                 {[
@@ -157,8 +158,8 @@ export default function LocationsPage() {
                   { value: "15+", label: "Insurance Plans Accepted" },
                 ].map((stat) => (
                   <div key={stat.label} className="border border-navy/10 p-5">
-                    <p className="font-heading text-3xl font-bold text-terracotta">{stat.value}</p>
-                    <p className="mt-1 text-xs font-semibold uppercase tracking-[0.1em] text-navy/60">{stat.label}</p>
+                    <p className="font-heading text-3xl font-bold text-terracotta"><AutoLinkedText>{stat.value}</AutoLinkedText></p>
+                    <p className="mt-1 text-xs font-semibold uppercase tracking-[0.1em] text-navy/60"><AutoLinkedText>{stat.label}</AutoLinkedText></p>
                   </div>
                 ))}
               </div>
@@ -170,7 +171,7 @@ export default function LocationsPage() {
                     <i className={`${f.icon} text-lg text-terracotta`} />
                   </div>
                   <h3 className="mb-2 text-sm font-bold text-navy">{f.title}</h3>
-                  <p className="text-xs leading-relaxed text-navy/60">{f.body}</p>
+                  <p className="text-xs leading-relaxed text-navy/60"><AutoLinkedText>{f.body}</AutoLinkedText></p>
                 </div>
               ))}
             </div>
@@ -189,7 +190,7 @@ export default function LocationsPage() {
               Find the Right Location for Your Recovery
             </h2>
             <p className="mx-auto mt-4 max-w-2xl leading-relaxed text-navy/60">
-              Every Northbound campus offers the same commitment to evidence-based, individualized care — with environments tailored to support your unique recovery journey.
+              <AutoLinkedText>{"Every Northbound campus offers the same commitment to evidence-based, individualized care — with environments tailored to support your unique recovery journey."}</AutoLinkedText>
             </p>
           </div>
 
@@ -224,15 +225,13 @@ export default function LocationsPage() {
                 {/* Content */}
                 <div className="flex flex-col justify-between p-8 lg:p-10">
                   <div>
-                    <p className="mb-1 text-[10px] font-semibold uppercase tracking-[0.16em] text-terracotta">
-                      {loc.tagline}
-                    </p>
+                    <p className="mb-1 text-[10px] font-semibold uppercase tracking-[0.16em] text-terracotta"><AutoLinkedText>{loc.tagline}</AutoLinkedText></p>
                     <h3 className="font-heading text-3xl font-bold text-navy">{loc.name}</h3>
                     <p className="mt-1 flex items-center gap-1.5 text-xs text-navy/50">
                       <i className="ri-map-pin-2-line text-terracotta" />
                       {loc.address}
                     </p>
-                    <p className="mt-4 leading-relaxed text-navy/70">{loc.description}</p>
+                    <p className="mt-4 leading-relaxed text-navy/70"><AutoLinkedText>{loc.description}</AutoLinkedText></p>
 
                     {/* Highlights */}
                     <ul className="mt-6 grid gap-2 sm:grid-cols-2">
@@ -283,8 +282,8 @@ export default function LocationsPage() {
                   <i className={`${item.icon} text-lg text-terracotta`} />
                 </span>
                 <div>
-                  <p className="text-sm font-semibold text-white">{item.title}</p>
-                  <p className="text-xs text-white/50">{item.sub}</p>
+                  <p className="text-sm font-semibold text-white"><AutoLinkedText>{item.title}</AutoLinkedText></p>
+                  <p className="text-xs text-white/50"><AutoLinkedText>{item.sub}</AutoLinkedText></p>
                 </div>
               </div>
             ))}
@@ -298,13 +297,13 @@ export default function LocationsPage() {
           <div className="grid gap-12 lg:grid-cols-2 lg:items-center">
             <div>
               <p className="mb-3 text-xs font-semibold uppercase tracking-[0.14em] text-terracotta">
-                Out-of-State Admissions
+                <AutoLinkedText>{"Out-of-State Admissions"}</AutoLinkedText>
               </p>
               <h2 className="font-heading text-3xl font-bold text-navy md:text-4xl">
                 More than half of our clients travel from out of state.
               </h2>
               <p className="mt-4 leading-relaxed text-navy/70">
-                The quality of Northbound's programs draws clients from across the country. Our admissions team coordinates every step of travel — from benefits verification and intake paperwork to travel logistics and family communication — so your only job is to arrive ready to heal.
+                <AutoLinkedText>{"The quality of Northbound's programs draws clients from across the country. Our admissions team coordinates every step of travel — from benefits verification and intake paperwork to travel logistics and family communication — so your only job is to arrive ready to heal."}</AutoLinkedText>
               </p>
               <ul className="mt-6 space-y-3">
                 {[
@@ -323,13 +322,13 @@ export default function LocationsPage() {
             </div>
             <div className="bg-sand-light p-8 lg:p-10">
               <p className="mb-2 text-xs font-semibold uppercase tracking-[0.14em] text-terracotta">
-                Ready to Take the First Step?
+                <AutoLinkedText>{"Ready to Take the First Step?"}</AutoLinkedText>
               </p>
               <h3 className="font-heading text-2xl font-bold text-navy">
                 Our admissions team is available 24/7.
               </h3>
               <p className="mt-3 text-sm leading-relaxed text-navy/70">
-                Whether you're local to Orange County or calling from across the country, we can help you find the right program at the right Northbound location — at no cost or obligation to you.
+                <AutoLinkedText>{"Whether you're local to Orange County or calling from across the country, we can help you find the right program at the right Northbound location — at no cost or obligation to you."}</AutoLinkedText>
               </p>
               <div className="mt-8 space-y-3">
                 <Link
@@ -346,7 +345,7 @@ export default function LocationsPage() {
                 </Link>
               </div>
               <p className="mt-4 text-center text-xs text-navy/40">
-                Free assessment · No obligation · Confidential
+                <AutoLinkedText>{"Free assessment · No obligation · Confidential"}</AutoLinkedText>
               </p>
             </div>
           </div>

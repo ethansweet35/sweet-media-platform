@@ -1,3 +1,4 @@
+import { AutoLinkedText } from "@sweetmedia/blog-core";
 /**
  * What We Treat — two stacked sections (Substance Abuse on light bg,
  * Dual Diagnosis on espresso bg). Each has 8 condition cards in a 4-col
@@ -183,10 +184,7 @@ export default function WhatWeTreat() {
             What We Treat.
           </h2>
           <p className="mx-auto max-w-2xl font-light leading-relaxed text-espresso/70">
-            We provide specialized, evidence-based care tailored to the
-            individual. By utilizing a whole-person approach, we effectively
-            treat the root causes of both addiction and co-occurring mental
-            health disorders.
+            <AutoLinkedText>{"We provide specialized, evidence-based care tailored to the\n            individual. By utilizing a whole-person approach, we effectively\n            treat the root causes of both addiction and co-occurring mental\n            health disorders."}</AutoLinkedText>
           </p>
         </div>
 
@@ -200,11 +198,7 @@ export default function WhatWeTreat() {
               Substance Abuse Treatment
             </h3>
             <p className="relative z-10 max-w-4xl text-sm font-light leading-relaxed text-espresso/70">
-              Our clinical team utilizes proven protocols to safely manage
-              withdrawal and address the deep psychological and behavioral
-              impacts of chemical dependency. We specialize in treating
-              complex, severe, and polysubstance addictions with a focus on
-              sustainable, long-term sobriety.
+              <AutoLinkedText>{"Our clinical team utilizes proven protocols to safely manage\n              withdrawal and address the deep psychological and behavioral\n              impacts of chemical dependency. We specialize in treating\n              complex, severe, and polysubstance addictions with a focus on\n              sustainable, long-term sobriety."}</AutoLinkedText>
             </p>
           </div>
 
@@ -219,7 +213,7 @@ export default function WhatWeTreat() {
                 </div>
                 <div>
                   <h4 className="font-serif text-sm text-espresso">{item.name}</h4>
-                  <p className="text-[10px] font-semibold uppercase tracking-[0.14em] text-navy/60">{item.shortDesc}</p>
+                  <p className="text-[10px] font-semibold uppercase tracking-[0.14em] text-navy/60"><AutoLinkedText>{item.shortDesc}</AutoLinkedText></p>
                 </div>
               </div>
             ))}
@@ -236,11 +230,7 @@ export default function WhatWeTreat() {
               Dual Diagnosis & Mental Health
             </h3>
             <p className="relative z-10 max-w-4xl text-sm font-light leading-relaxed text-white/60">
-              Mental health and substance use are deeply intertwined. Treating
-              one without the other inevitably leads to relapse. Our
-              specialized psychiatric professionals treat co-occurring
-              disorders concurrently, ensuring that underlying traumas and
-              mental health barriers are resolved.
+              <AutoLinkedText>{"Mental health and substance use are deeply intertwined. Treating\n              one without the other inevitably leads to relapse. Our\n              specialized psychiatric professionals treat co-occurring\n              disorders concurrently, ensuring that underlying traumas and\n              mental health barriers are resolved."}</AutoLinkedText>
             </p>
           </div>
 
@@ -255,7 +245,7 @@ export default function WhatWeTreat() {
                 </div>
                 <div>
                   <h4 className="font-serif text-sm text-white">{item.name}</h4>
-                  <p className="text-[10px] font-semibold uppercase tracking-[0.14em] text-terracotta/70">{item.shortDesc}</p>
+                  <p className="text-[10px] font-semibold uppercase tracking-[0.14em] text-terracotta/70"><AutoLinkedText>{item.shortDesc}</AutoLinkedText></p>
                 </div>
               </div>
             ))}

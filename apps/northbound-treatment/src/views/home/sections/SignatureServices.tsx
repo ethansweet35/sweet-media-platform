@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { SIGNATURE_IMAGES } from "../assets";
+import { AutoLinkedText } from "@sweetmedia/blog-core";
 
 /**
  * Signature Services — espresso bg, 6-tile editorial grid using a 12-column
@@ -126,21 +127,18 @@ export default function SignatureServices() {
         <div className="mb-16 flex flex-col items-end justify-between gap-6 border-b border-sand-dark/20 pb-8 md:flex-row">
           <div className="max-w-2xl">
             <p className="mb-4 text-xs font-bold uppercase tracking-[0.22em] text-terracotta-light">
-              Holistic & Experiential
+              <AutoLinkedText>{"Holistic & Experiential"}</AutoLinkedText>
             </p>
             <h2 className="mb-6 font-serif text-4xl lg:text-5xl">
               Signature Services.
             </h2>
             <p className="font-light leading-relaxed text-sand-dark">
-              Because no two paths to recovery are identical, we offer unique,
-              highly specialized therapeutic modalities. We integrate
-              progressive holistic and experiential methods to help you
-              reconnect your mind, body, and spirit.
+              <AutoLinkedText>{"Because no two paths to recovery are identical, we offer unique,\n              highly specialized therapeutic modalities. We integrate\n              progressive holistic and experiential methods to help you\n              reconnect your mind, body, and spirit."}</AutoLinkedText>
             </p>
           </div>
           <div className="flex-shrink-0 pb-2">
             <p className="font-serif text-sm italic text-navy">
-              Curated healing experiences.
+              <AutoLinkedText>{"Curated healing experiences."}</AutoLinkedText>
             </p>
           </div>
         </div>
@@ -180,9 +178,7 @@ export default function SignatureServices() {
                       ? "max-w-lg"
                       : ""
                   }`}
-                >
-                  {tile.description}
-                </p>
+                ><AutoLinkedText>{tile.description}</AutoLinkedText></p>
               </div>
             </div>
           ))}

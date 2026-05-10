@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import { AutoLinkedText } from "@sweetmedia/blog-core";
 
 const BASE = "https://ahufsygjwpbymomfdazb.supabase.co/storage/v1/object/public/site-assets/images";
 
@@ -59,13 +60,13 @@ export default function TransitionalLivingPage() {
         <div className="relative z-10 mx-auto w-full max-w-7xl px-6 pb-16 pt-28 lg:px-10 lg:pb-20 lg:pt-36">
           <div className="max-w-3xl">
             <p className="text-xs font-semibold uppercase tracking-[0.18em] text-[#e97a52]">
-              Programs — Northbound Treatment Services
+              <AutoLinkedText>{"Programs — Northbound Treatment Services"}</AutoLinkedText>
             </p>
             <h1 className="font-heading mt-4 text-5xl font-bold leading-tight text-white md:text-6xl lg:text-7xl">
               Transitional <span className="italic text-[#e97a52]">Living</span> Programs
             </h1>
             <p className="mt-5 max-w-xl text-lg leading-relaxed text-white/70">
-              The bridge between intensive treatment and independent life is often where recovery is won or lost. Northbound's continuum of transitional programs — sober living, outpatient care, Collegebound®, and Careerbound® — provides the structure, accountability, and support needed to make that bridge strong.
+              <AutoLinkedText>{"The bridge between intensive treatment and independent life is often where recovery is won or lost. Northbound's continuum of transitional programs — sober living, outpatient care, Collegebound®, and Careerbound® — provides the structure, accountability, and support needed to make that bridge strong."}</AutoLinkedText>
             </p>
             <div className="mt-8 flex flex-wrap gap-4">
               <Link
@@ -92,19 +93,19 @@ export default function TransitionalLivingPage() {
           <div className="grid gap-12 lg:grid-cols-2 lg:gap-20 lg:items-center">
             <div>
               <p className="text-xs font-semibold uppercase tracking-[0.14em] text-[#e97a52]">
-                Why Transitional Living Matters
+                <AutoLinkedText>{"Why Transitional Living Matters"}</AutoLinkedText>
               </p>
               <h2 className="font-heading mt-3 text-4xl font-bold text-[#1b2a47] md:text-5xl">
                 The Bridge Between Treatment and <span className="italic text-[#e97a52]">Real Life</span>
               </h2>
               <p className="mt-5 leading-relaxed text-[#64748b]">
-                Research is clear: longer periods of structured support in recovery produce significantly better long-term outcomes. The transition from intensive residential treatment back to independent living is statistically one of the highest-risk periods in the recovery process — stress, isolation, familiar environments, and the absence of round-the-clock clinical structure all increase relapse risk.
+                <AutoLinkedText>{"Research is clear: longer periods of structured support in recovery produce significantly better long-term outcomes. The transition from intensive residential treatment back to independent living is statistically one of the highest-risk periods in the recovery process — stress, isolation, familiar environments, and the absence of round-the-clock clinical structure all increase relapse risk."}</AutoLinkedText>
               </p>
               <p className="mt-4 leading-relaxed text-[#64748b]">
-                Northbound's transitional living programs don't end recovery — they extend and deepen it. By providing structured environments, clinical oversight, and peer accountability during the critical 3–12 months after inpatient treatment, transitional programs dramatically improve the probability of sustained sobriety.
+                <AutoLinkedText>{"Northbound's transitional living programs don't end recovery — they extend and deepen it. By providing structured environments, clinical oversight, and peer accountability during the critical 3–12 months after inpatient treatment, transitional programs dramatically improve the probability of sustained sobriety."}</AutoLinkedText>
               </p>
               <p className="mt-4 leading-relaxed text-[#64748b]">
-                Whether a client is returning to college, rebuilding a career, or simply learning to live independently again, Northbound has a program designed for exactly that trajectory.
+                <AutoLinkedText>{"Whether a client is returning to college, rebuilding a career, or simply learning to live independently again, Northbound has a program designed for exactly that trajectory."}</AutoLinkedText>
               </p>
             </div>
             <div className="relative">
@@ -120,7 +121,7 @@ export default function TransitionalLivingPage() {
               <div className="absolute -bottom-5 -right-5 bg-[#1b2a47] px-6 py-5 shadow-xl">
                 <p className="font-heading text-3xl font-bold text-white">2×</p>
                 <p className="mt-0.5 text-xs font-semibold uppercase tracking-[0.12em] text-[#e97a52]">
-                  Better outcomes with 90+ days of structured support
+                  <AutoLinkedText>{"Better outcomes with 90+ days of structured support"}</AutoLinkedText>
                 </p>
               </div>
             </div>
@@ -133,7 +134,7 @@ export default function TransitionalLivingPage() {
         <div className="mx-auto w-full max-w-7xl px-6 lg:px-10">
           <div className="mb-12">
             <p className="text-xs font-semibold uppercase tracking-[0.14em] text-[#e97a52]">
-              The Full Transitional Continuum
+              <AutoLinkedText>{"The Full Transitional Continuum"}</AutoLinkedText>
             </p>
             <h2 className="font-heading mt-3 text-4xl font-bold text-[#1b2a47] md:text-5xl">
               Programs for Every <span className="italic text-[#e97a52]">Stage of Recovery</span>
@@ -146,7 +147,7 @@ export default function TransitionalLivingPage() {
                   <i className={`${level.icon} text-2xl text-[#e97a52]`} />
                 </div>
                 <h3 className="font-heading text-xl font-bold text-[#1b2a47]">{level.title}</h3>
-                <p className="mt-3 text-sm leading-relaxed text-[#64748b]">{level.description}</p>
+                <p className="mt-3 text-sm leading-relaxed text-[#64748b]"><AutoLinkedText>{level.description}</AutoLinkedText></p>
                 <ul className="mt-5 space-y-2">
                   {level.features.map((f) => (
                     <li key={f} className="flex items-start gap-2 text-sm text-[#64748b]">
@@ -167,8 +168,8 @@ export default function TransitionalLivingPage() {
           <div className="grid gap-10 text-center sm:grid-cols-3">
             {STATS.map((s) => (
               <div key={s.label}>
-                <p className="font-heading text-5xl font-bold text-[#e97a52]">{s.value}</p>
-                <p className="mt-2 text-sm font-semibold uppercase tracking-[0.1em] text-white/50">{s.label}</p>
+                <p className="font-heading text-5xl font-bold text-[#e97a52]"><AutoLinkedText>{s.value}</AutoLinkedText></p>
+                <p className="mt-2 text-sm font-semibold uppercase tracking-[0.1em] text-white/50"><AutoLinkedText>{s.label}</AutoLinkedText></p>
               </div>
             ))}
           </div>
@@ -198,7 +199,7 @@ export default function TransitionalLivingPage() {
                   <i className={`${item.icon} text-xl text-[#e97a52]`} />
                 </div>
                 <h3 className="font-heading text-base font-bold text-[#1b2a47]">{item.title}</h3>
-                <p className="mt-2 text-sm leading-relaxed text-[#64748b]">{item.body}</p>
+                <p className="mt-2 text-sm leading-relaxed text-[#64748b]"><AutoLinkedText>{item.body}</AutoLinkedText></p>
               </div>
             ))}
           </div>
@@ -214,7 +215,7 @@ export default function TransitionalLivingPage() {
                 Ready to Talk About What Comes After Treatment?
               </h2>
               <p className="mt-3 max-w-xl text-sm leading-relaxed text-white/80">
-                Our admissions team helps plan the full continuum — not just the first step. Call us 24/7 to discuss transitional living options.
+                <AutoLinkedText>{"Our admissions team helps plan the full continuum — not just the first step. Call us 24/7 to discuss transitional living options."}</AutoLinkedText>
               </p>
             </div>
             <div className="flex flex-wrap gap-4">

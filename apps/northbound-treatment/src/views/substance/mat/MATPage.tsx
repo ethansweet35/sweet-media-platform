@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { AutoLinkedTextClient } from "@sweetmedia/blog-core";
 
 const BASE = "https://ahufsygjwpbymomfdazb.supabase.co/storage/v1/object/public/site-assets/images";
 
@@ -120,13 +121,13 @@ export default function MATPage() {
         <div className="relative z-10 mx-auto w-full max-w-7xl px-6 pb-16 pt-28 lg:px-10 lg:pb-20 lg:pt-36">
           <div className="max-w-3xl">
             <p className="text-xs font-semibold uppercase tracking-[0.18em] text-[#e97a52]">
-              Clinical Treatment — Northbound Treatment Services
+              <AutoLinkedTextClient>{"Clinical Treatment — Northbound Treatment Services"}</AutoLinkedTextClient>
             </p>
             <h1 className="font-heading mt-4 text-5xl font-bold leading-tight text-white md:text-6xl lg:text-7xl">
               Medication-<span className="italic text-[#e97a52]">Assisted</span> Treatment
             </h1>
             <p className="mt-5 max-w-xl text-lg leading-relaxed text-white/70">
-              MAT combines FDA-approved medications with behavioral therapy and clinical support to treat opioid and alcohol use disorders. It is not a shortcut — it is evidence-based medicine that saves lives and dramatically improves recovery outcomes.
+              <AutoLinkedTextClient>{"MAT combines FDA-approved medications with behavioral therapy and clinical support to treat opioid and alcohol use disorders. It is not a shortcut — it is evidence-based medicine that saves lives and dramatically improves recovery outcomes."}</AutoLinkedTextClient>
             </p>
             <div className="mt-8 flex flex-wrap gap-4">
               <Link
@@ -177,13 +178,13 @@ export default function MATPage() {
                 Medicine That Makes <span className="italic text-[#e97a52]">Recovery Possible</span>
               </h2>
               <p className="mt-5 leading-relaxed text-[#64748b]">
-                Medication-assisted treatment (MAT) is the use of FDA-approved medications — in combination with behavioral therapy and counseling — to treat substance use disorders. The Substance Abuse and Mental Health Services Administration (SAMHSA) recognizes MAT as the gold standard for opioid use disorder, and its evidence base for alcohol use disorder is equally strong.
+                <AutoLinkedTextClient>{"Medication-assisted treatment (MAT) is the use of FDA-approved medications — in combination with behavioral therapy and counseling — to treat substance use disorders. The Substance Abuse and Mental Health Services Administration (SAMHSA) recognizes MAT as the gold standard for opioid use disorder, and its evidence base for alcohol use disorder is equally strong."}</AutoLinkedTextClient>
               </p>
               <p className="mt-4 leading-relaxed text-[#64748b]">
-                MAT works by reducing the physical symptoms — cravings, withdrawal, the compulsive drive to use — that make early recovery so difficult. With those physiological barriers reduced, clients can fully engage in the behavioral therapy that produces lasting change. MAT is not a substitute for therapy; it is a tool that makes therapy possible.
+                <AutoLinkedTextClient>{"MAT works by reducing the physical symptoms — cravings, withdrawal, the compulsive drive to use — that make early recovery so difficult. With those physiological barriers reduced, clients can fully engage in the behavioral therapy that produces lasting change. MAT is not a substitute for therapy; it is a tool that makes therapy possible."}</AutoLinkedTextClient>
               </p>
               <p className="mt-4 leading-relaxed text-[#64748b]">
-                Research is consistent: clients treated with MAT are significantly more likely to remain in treatment, less likely to relapse, less likely to overdose, and more likely to achieve sustained long-term recovery than those treated without medications. It is, simply, more effective medicine.
+                <AutoLinkedTextClient>{"Research is consistent: clients treated with MAT are significantly more likely to remain in treatment, less likely to relapse, less likely to overdose, and more likely to achieve sustained long-term recovery than those treated without medications. It is, simply, more effective medicine."}</AutoLinkedTextClient>
               </p>
             </div>
             <div className="relative">
@@ -198,7 +199,7 @@ export default function MATPage() {
               </div>
               <div className="absolute -bottom-5 -right-5 bg-[#e97a52] px-6 py-5 shadow-xl">
                 <p className="font-heading text-3xl font-bold text-white">3×</p>
-                <p className="mt-0.5 text-xs font-semibold uppercase tracking-[0.12em] text-white/80">Better Outcomes with MAT</p>
+                <p className="mt-0.5 text-xs font-semibold uppercase tracking-[0.12em] text-white/80"><AutoLinkedTextClient>{"Better Outcomes with MAT"}</AutoLinkedTextClient></p>
               </div>
             </div>
           </div>
@@ -209,12 +210,12 @@ export default function MATPage() {
       <section className="bg-[#eef2f7] py-16 lg:py-24">
         <div className="mx-auto w-full max-w-7xl px-6 lg:px-10">
           <div className="mb-12">
-            <p className="text-xs font-semibold uppercase tracking-[0.14em] text-[#e97a52]">FDA-Approved Options</p>
+            <p className="text-xs font-semibold uppercase tracking-[0.14em] text-[#e97a52]"><AutoLinkedTextClient>{"FDA-Approved Options"}</AutoLinkedTextClient></p>
             <h2 className="font-heading mt-3 text-4xl font-bold text-[#1b2a47] md:text-5xl">
               Medications Used in <span className="italic text-[#e97a52]">MAT</span>
             </h2>
             <p className="mt-4 max-w-2xl leading-relaxed text-[#64748b]">
-              Northbound's physicians evaluate every client individually to determine which medication — if any — is clinically appropriate. There is no one-size-fits-all approach to MAT.
+              <AutoLinkedTextClient>{"Northbound's physicians evaluate every client individually to determine which medication — if any — is clinically appropriate. There is no one-size-fits-all approach to MAT."}</AutoLinkedTextClient>
             </p>
           </div>
           <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
@@ -229,7 +230,7 @@ export default function MATPage() {
                   </span>
                 </div>
                 <h3 className="font-heading text-lg font-bold text-[#1b2a47]">{med.name}</h3>
-                <p className="mt-3 text-sm leading-relaxed text-[#64748b]">{med.body}</p>
+                <p className="mt-3 text-sm leading-relaxed text-[#64748b]"><AutoLinkedTextClient>{med.body}</AutoLinkedTextClient></p>
                 <ul className="mt-4 space-y-2">
                   {med.conditions.map((c) => (
                     <li key={c} className="flex items-center gap-2 text-xs text-[#64748b]">
@@ -256,9 +257,9 @@ export default function MATPage() {
           <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
             {STEPS.map((step) => (
               <div key={step.num} className="border border-white/10 bg-white/5 p-6">
-                <p className="font-heading text-4xl font-bold text-[#e97a52]/30">{step.num}</p>
+                <p className="font-heading text-4xl font-bold text-[#e97a52]/30"><AutoLinkedTextClient>{step.num}</AutoLinkedTextClient></p>
                 <h3 className="font-heading mt-3 text-base font-bold text-white">{step.title}</h3>
-                <p className="mt-2 text-sm leading-relaxed text-white/55">{step.body}</p>
+                <p className="mt-2 text-sm leading-relaxed text-white/55"><AutoLinkedTextClient>{step.body}</AutoLinkedTextClient></p>
               </div>
             ))}
           </div>
@@ -269,8 +270,8 @@ export default function MATPage() {
               { value: "24/7", label: "Medical oversight throughout treatment" },
             ].map((s) => (
               <div key={s.label}>
-                <p className="font-heading text-5xl font-bold text-[#e97a52]">{s.value}</p>
-                <p className="mt-2 text-sm font-semibold uppercase tracking-[0.1em] text-white/50">{s.label}</p>
+                <p className="font-heading text-5xl font-bold text-[#e97a52]"><AutoLinkedTextClient>{s.value}</AutoLinkedTextClient></p>
+                <p className="mt-2 text-sm font-semibold uppercase tracking-[0.1em] text-white/50"><AutoLinkedTextClient>{s.label}</AutoLinkedTextClient></p>
               </div>
             ))}
           </div>
@@ -287,7 +288,7 @@ export default function MATPage() {
                 About <span className="italic text-[#e97a52]">MAT</span>
               </h2>
               <p className="mt-4 text-sm leading-relaxed text-[#64748b]">
-                Have more questions? Our admissions team is available 24/7 with answers — and no obligation.
+                <AutoLinkedTextClient>{"Have more questions? Our admissions team is available 24/7 with answers — and no obligation."}</AutoLinkedTextClient>
               </p>
               <Link
                 href="tel:8663110003"
@@ -308,7 +309,7 @@ export default function MATPage() {
                   </button>
                   {openFaq === i && (
                     <div className="border-t border-[#cdd8e8] bg-[#eef2f7]/30 px-6 pb-5 pt-4">
-                      <p className="text-sm leading-relaxed text-[#64748b]">{faq.a}</p>
+                      <p className="text-sm leading-relaxed text-[#64748b]"><AutoLinkedTextClient>{faq.a}</AutoLinkedTextClient></p>
                     </div>
                   )}
                 </div>
@@ -327,7 +328,7 @@ export default function MATPage() {
                 Is MAT Right for You? Let&rsquo;s Find Out Together.
               </h2>
               <p className="mt-3 max-w-xl text-sm leading-relaxed text-white/80">
-                Northbound&rsquo;s physicians evaluate every client individually — no assumptions, no one-size-fits-all. Call us 24/7 for a free, confidential consultation.
+                <AutoLinkedTextClient>{"Northbound&rsquo;s physicians evaluate every client individually — no assumptions, no one-size-fits-all. Call us 24/7 for a free, confidential consultation."}</AutoLinkedTextClient>
               </p>
             </div>
             <div className="flex flex-wrap gap-4">

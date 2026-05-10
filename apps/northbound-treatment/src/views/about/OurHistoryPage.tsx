@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { AutoLinkedText } from "@sweetmedia/blog-core";
 
 const milestones = [
   {
@@ -50,8 +51,7 @@ export default function OurHistoryPage() {
             Our <span className="italic text-[#e97a52]">History</span>
           </h1>
           <p className="mt-6 max-w-2xl text-lg leading-8 text-white/70">
-            Over 38 years, Northbound Treatment has helped thousands achieve recovery and go on to live
-            fulfilling, healthy, successful lives. Here is our story.
+            <AutoLinkedText>{"Over 38 years, Northbound Treatment has helped thousands achieve recovery and go on to live\n            fulfilling, healthy, successful lives. Here is our story."}</AutoLinkedText>
           </p>
         </div>
       </section>
@@ -65,9 +65,9 @@ export default function OurHistoryPage() {
                 <div className="absolute -left-[2.85rem] flex h-10 w-10 items-center justify-center bg-[#e97a52] text-white text-xs font-bold">
                   {m.year.length <= 4 ? m.year.slice(-2) : "★"}
                 </div>
-                <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#e97a52] mb-1">{m.year}</p>
+                <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#e97a52] mb-1"><AutoLinkedText>{m.year}</AutoLinkedText></p>
                 <h3 className="font-heading text-2xl font-bold text-[#1b2a47] mb-3">{m.title}</h3>
-                <p className="text-sm leading-7 text-[#64748b] max-w-2xl">{m.body}</p>
+                <p className="text-sm leading-7 text-[#64748b] max-w-2xl"><AutoLinkedText>{m.body}</AutoLinkedText></p>
               </div>
             ))}
           </div>
@@ -81,7 +81,7 @@ export default function OurHistoryPage() {
             <h2 className="font-heading text-3xl font-bold text-[#1b2a47] md:text-4xl">
               Ready to write your own recovery story?
             </h2>
-            <p className="mt-3 text-[#64748b]">Our admissions team is available 24/7.</p>
+            <p className="mt-3 text-[#64748b]"><AutoLinkedText>{"Our admissions team is available 24/7."}</AutoLinkedText></p>
           </div>
           <Link
             href="/admissions/"

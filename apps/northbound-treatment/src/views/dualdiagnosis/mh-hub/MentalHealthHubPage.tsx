@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import { AutoLinkedText } from "@sweetmedia/blog-core";
 
 const BASE = "https://ahufsygjwpbymomfdazb.supabase.co/storage/v1/object/public/site-assets/images";
 
@@ -121,13 +122,13 @@ export default function MentalHealthHubPage() {
         <div className="relative z-10 mx-auto w-full max-w-7xl px-6 pb-16 pt-28 lg:px-10 lg:pb-20 lg:pt-36">
           <div className="max-w-3xl">
             <p className="text-xs font-semibold uppercase tracking-[0.18em] text-[#e97a52]">
-              Dual Diagnosis Treatment — Northbound Treatment Services
+              <AutoLinkedText>{"Dual Diagnosis Treatment — Northbound Treatment Services"}</AutoLinkedText>
             </p>
             <h1 className="font-heading mt-4 text-5xl font-bold leading-tight text-white md:text-6xl lg:text-7xl">
               Mental <span className="italic text-[#e97a52]">Health</span> Disorder Treatment
             </h1>
             <p className="mt-5 max-w-xl text-lg leading-relaxed text-white/70">
-              Addiction and mental health disorders are deeply interconnected — one rarely exists without the other. Northbound's integrated dual diagnosis program treats both simultaneously, delivering the complete clinical picture that lasting recovery requires.
+              <AutoLinkedText>{"Addiction and mental health disorders are deeply interconnected — one rarely exists without the other. Northbound's integrated dual diagnosis program treats both simultaneously, delivering the complete clinical picture that lasting recovery requires."}</AutoLinkedText>
             </p>
             <div className="mt-8 flex flex-wrap gap-4">
               <Link
@@ -162,19 +163,19 @@ export default function MentalHealthHubPage() {
           <div className="grid gap-12 lg:grid-cols-2 lg:gap-20 lg:items-center">
             <div>
               <p className="text-xs font-semibold uppercase tracking-[0.14em] text-[#e97a52]">
-                Why Co-Occurring Disorders Require Integrated Care
+                <AutoLinkedText>{"Why Co-Occurring Disorders Require Integrated Care"}</AutoLinkedText>
               </p>
               <h2 className="font-heading mt-3 text-4xl font-bold text-[#1b2a47] md:text-5xl">
                 You Can&apos;t Treat One Without <span className="italic text-[#e97a52]">the Other</span>
               </h2>
               <p className="mt-5 leading-relaxed text-[#64748b]">
-                More than half of people with a substance use disorder also have a co-occurring mental health condition — and more than half of people with a mental health disorder have a history of substance misuse. These are not coincidences; they share neurobiological pathways, and they reinforce each other in a cycle that neither willpower nor single-diagnosis treatment can break.
+                <AutoLinkedText>{"More than half of people with a substance use disorder also have a co-occurring mental health condition — and more than half of people with a mental health disorder have a history of substance misuse. These are not coincidences; they share neurobiological pathways, and they reinforce each other in a cycle that neither willpower nor single-diagnosis treatment can break."}</AutoLinkedText>
               </p>
               <p className="mt-4 leading-relaxed text-[#64748b]">
-                When depression is left untreated, the pull to self-medicate with alcohol is overwhelming. When PTSD goes unaddressed, stimulant or opioid use becomes the only relief that feels real. When anxiety drives benzo use for years, treating the addiction without the anxiety produces nothing but rapid relapse.
+                <AutoLinkedText>{"When depression is left untreated, the pull to self-medicate with alcohol is overwhelming. When PTSD goes unaddressed, stimulant or opioid use becomes the only relief that feels real. When anxiety drives benzo use for years, treating the addiction without the anxiety produces nothing but rapid relapse."}</AutoLinkedText>
               </p>
               <p className="mt-4 leading-relaxed text-[#64748b]">
-                Northbound's dual diagnosis model — developed over 38 years of clinical practice — integrates psychiatric care and addiction treatment into a single, coherent program. Every client receives both, from day one.
+                <AutoLinkedText>{"Northbound's dual diagnosis model — developed over 38 years of clinical practice — integrates psychiatric care and addiction treatment into a single, coherent program. Every client receives both, from day one."}</AutoLinkedText>
               </p>
             </div>
             <div className="relative">
@@ -190,7 +191,7 @@ export default function MentalHealthHubPage() {
               <div className="absolute -bottom-5 -right-5 bg-[#1b2a47] px-6 py-5 shadow-xl">
                 <p className="font-heading text-3xl font-bold text-white">50%+</p>
                 <p className="mt-0.5 text-xs font-semibold uppercase tracking-[0.12em] text-[#e97a52]">
-                  of addiction clients have co-occurring mental health conditions
+                  <AutoLinkedText>{"of addiction clients have co-occurring mental health conditions"}</AutoLinkedText>
                 </p>
               </div>
             </div>
@@ -209,7 +210,7 @@ export default function MentalHealthHubPage() {
               Mental Health Disorders We <span className="italic text-[#e97a52]">Specialize In</span>
             </h2>
             <p className="mt-4 max-w-2xl leading-relaxed text-[#64748b]">
-              Each condition below links to a dedicated page with full clinical detail — symptoms, treatment approaches, and how Northbound addresses the intersection with addiction.
+              <AutoLinkedText>{"Each condition below links to a dedicated page with full clinical detail — symptoms, treatment approaches, and how Northbound addresses the intersection with addiction."}</AutoLinkedText>
             </p>
           </div>
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
@@ -228,7 +229,7 @@ export default function MentalHealthHubPage() {
                   </span>
                 </div>
                 <h3 className="font-heading text-lg font-bold text-[#1b2a47]">{cond.name}</h3>
-                <p className="mt-2 text-sm leading-relaxed text-[#64748b]">{cond.description}</p>
+                <p className="mt-2 text-sm leading-relaxed text-[#64748b]"><AutoLinkedText>{cond.description}</AutoLinkedText></p>
                 <p className="mt-4 flex items-center gap-1 text-xs font-semibold text-[#e97a52]">
                   Learn more <i className="ri-arrow-right-line transition group-hover:translate-x-1" />
                 </p>
@@ -256,7 +257,7 @@ export default function MentalHealthHubPage() {
                   <i className={`${item.icon} text-xl text-[#e97a52]`} />
                 </div>
                 <h3 className="font-heading text-lg font-bold text-white">{item.title}</h3>
-                <p className="mt-3 text-sm leading-relaxed text-white/60">{item.body}</p>
+                <p className="mt-3 text-sm leading-relaxed text-white/60"><AutoLinkedText>{item.body}</AutoLinkedText></p>
               </div>
             ))}
           </div>
@@ -267,8 +268,8 @@ export default function MentalHealthHubPage() {
               { value: "24/7", label: "Psychiatric & clinical support" },
             ].map((s) => (
               <div key={s.label}>
-                <p className="font-heading text-5xl font-bold text-[#e97a52]">{s.value}</p>
-                <p className="mt-2 text-sm font-semibold uppercase tracking-[0.1em] text-white/50">{s.label}</p>
+                <p className="font-heading text-5xl font-bold text-[#e97a52]"><AutoLinkedText>{s.value}</AutoLinkedText></p>
+                <p className="mt-2 text-sm font-semibold uppercase tracking-[0.1em] text-white/50"><AutoLinkedText>{s.label}</AutoLinkedText></p>
               </div>
             ))}
           </div>
@@ -284,7 +285,7 @@ export default function MentalHealthHubPage() {
                 Mental Health Is Part of Addiction Recovery — Always.
               </h2>
               <p className="mt-3 max-w-xl text-sm leading-relaxed text-white/80">
-                Call our admissions team 24/7 for a free, confidential consultation. We&rsquo;ll help you understand what integrated dual diagnosis treatment looks like — and what it can mean for your recovery.
+                <AutoLinkedText>{"Call our admissions team 24/7 for a free, confidential consultation. We&rsquo;ll help you understand what integrated dual diagnosis treatment looks like — and what it can mean for your recovery."}</AutoLinkedText>
               </p>
             </div>
             <div className="flex flex-wrap gap-4">

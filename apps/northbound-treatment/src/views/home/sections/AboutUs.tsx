@@ -1,3 +1,4 @@
+import { AutoLinkedText } from "@sweetmedia/blog-core";
 /**
  * About — header + two-column (copy | video) + bottom stats strip.
  * Quote dropped; alumni point folded into the body copy.
@@ -41,8 +42,7 @@ export default function AboutUs() {
             About Northbound
           </h2>
           <p className="text-lg font-light leading-relaxed text-espresso/60">
-            Founded in 1988. Reborn with purpose in 2008. Trusted across
-            Southern California for 38+ years.
+            <AutoLinkedText>{"Founded in 1988. Reborn with purpose in 2008. Trusted across\n            Southern California for 38+ years."}</AutoLinkedText>
           </p>
         </div>
 
@@ -55,9 +55,7 @@ export default function AboutUs() {
               Our leadership team brings <span className="font-medium text-navy">200+ years of combined behavioral healthcare experience</span> — and one third of our staff are alumni themselves, so when you walk through our door, you're met with people who have stood exactly where you stand.
             </p>
             <p className="font-light leading-relaxed text-espresso/70">
-              Trauma-informed and evidence-based, we combine medical expertise
-              with holistic healing to create individualized plans that address the
-              whole person: mind, body, and spirit.
+              <AutoLinkedText>{"Trauma-informed and evidence-based, we combine medical expertise\n              with holistic healing to create individualized plans that address the\n              whole person: mind, body, and spirit."}</AutoLinkedText>
             </p>
             <a
               href="/about"
@@ -84,12 +82,8 @@ export default function AboutUs() {
         <div className="mt-16 grid grid-cols-2 gap-8 border-t border-sand-dark pt-10 text-center lg:grid-cols-4 lg:gap-4">
           {STATS.map((stat) => (
             <div key={stat.value}>
-              <p className="font-serif text-4xl font-bold text-navy lg:text-5xl">
-                {stat.value}
-              </p>
-              <p className="mt-2 text-[11px] font-semibold uppercase tracking-[0.18em] text-espresso/50">
-                {stat.label}
-              </p>
+              <p className="font-serif text-4xl font-bold text-navy lg:text-5xl"><AutoLinkedText>{stat.value}</AutoLinkedText></p>
+              <p className="mt-2 text-[11px] font-semibold uppercase tracking-[0.18em] text-espresso/50"><AutoLinkedText>{stat.label}</AutoLinkedText></p>
             </div>
           ))}
         </div>

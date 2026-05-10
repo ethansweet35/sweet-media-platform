@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { AutoLinkedText } from "@sweetmedia/blog-core";
 
 const values = [
   {
@@ -45,9 +46,7 @@ export default function CodeOfEthicsPage() {
             Code of <span className="italic text-[#e97a52]">Ethics</span>
           </h1>
           <p className="mt-6 max-w-2xl text-lg leading-8 text-white/70">
-            Northbound Treatment Services® was founded upon the principle that our clients' best interest
-            comes first — always. In order to impact as many lives as possible, we adhere to a strict set
-            of core values, operating principles, and bold goals.
+            <AutoLinkedText>{"Northbound Treatment Services® was founded upon the principle that our clients' best interest\n            comes first — always. In order to impact as many lives as possible, we adhere to a strict set\n            of core values, operating principles, and bold goals."}</AutoLinkedText>
           </p>
         </div>
       </section>
@@ -61,8 +60,7 @@ export default function CodeOfEthicsPage() {
             fulfilled life beyond addiction.
           </h2>
           <p className="mt-6 text-[#64748b] leading-7 max-w-3xl mx-auto">
-            In the last year alone, Northbound Treatment transformed the lives of over 10,000 people.
-            We take that responsibility seriously — and our code of ethics is the foundation that makes it possible.
+            <AutoLinkedText>{"In the last year alone, Northbound Treatment transformed the lives of over 10,000 people.\n            We take that responsibility seriously — and our code of ethics is the foundation that makes it possible."}</AutoLinkedText>
           </p>
         </div>
       </section>
@@ -81,7 +79,7 @@ export default function CodeOfEthicsPage() {
                   <i className={`${v.icon} text-2xl`} />
                 </span>
                 <h3 className="font-heading text-xl font-bold text-[#1b2a47]">{v.title}</h3>
-                <p className="text-sm leading-7 text-[#64748b]">{v.body}</p>
+                <p className="text-sm leading-7 text-[#64748b]"><AutoLinkedText>{v.body}</AutoLinkedText></p>
               </div>
             ))}
           </div>

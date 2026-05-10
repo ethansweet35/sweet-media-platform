@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 import CtaBanner from "@/views/shared/CtaBanner";
+import { AutoLinkedTextClient } from "@sweetmedia/blog-core";
 
 const BASE = "https://ahufsygjwpbymomfdazb.supabase.co/storage/v1/object/public/site-assets/images";
 
@@ -85,7 +86,7 @@ function FaqItem({ q, a }: { q: string; a: string }) {
           <i className="ri-add-line text-xl"></i>
         </span>
       </button>
-      {open && <p className="pb-5 text-sm leading-relaxed text-[#4B5563]">{a}</p>}
+      {open && <p className="pb-5 text-sm leading-relaxed text-[#4B5563]"><AutoLinkedTextClient>{a}</AutoLinkedTextClient></p>}
     </div>
   );
 }
@@ -115,14 +116,14 @@ export default function SanDiegoPage() {
 
           <div className="max-w-3xl">
             <p className="mb-4 text-sm font-semibold uppercase tracking-[0.18em] text-[#E8622A]">
-              La Jolla, California — San Diego County
+              <AutoLinkedTextClient>{"La Jolla, California — San Diego County"}</AutoLinkedTextClient>
             </p>
             <h1 className="font-heading text-5xl font-bold leading-tight text-white md:text-6xl lg:text-7xl">
               Drug Rehab in{" "}
               <span className="italic text-[#E8622A]">San Diego</span>
             </h1>
             <p className="mt-6 max-w-2xl text-lg leading-relaxed text-white/80">
-              Northbound&apos;s La Jolla center offers boutique outpatient and transitional programming — set in one of California&apos;s most beautiful coastal neighborhoods, with 7 miles of cliffs, coves, and surf-swept beaches surrounding you.
+              <AutoLinkedTextClient>{"Northbound&apos;s La Jolla center offers boutique outpatient and transitional programming — set in one of California&apos;s most beautiful coastal neighborhoods, with 7 miles of cliffs, coves, and surf-swept beaches surrounding you."}</AutoLinkedTextClient>
             </p>
 
             <div className="mt-8 flex flex-wrap gap-x-8 gap-y-4 border-t border-white/15 pt-8">
@@ -156,19 +157,19 @@ export default function SanDiegoPage() {
         <div className="mx-auto max-w-7xl px-6 lg:px-10">
           <div className="grid gap-16 lg:grid-cols-2 lg:items-center">
             <div>
-              <p className="mb-3 text-sm font-semibold uppercase tracking-[0.16em] text-[#E8622A]">La Jolla Outpatient Center</p>
+              <p className="mb-3 text-sm font-semibold uppercase tracking-[0.16em] text-[#E8622A]"><AutoLinkedTextClient>{"La Jolla Outpatient Center"}</AutoLinkedTextClient></p>
               <h2 className="font-heading text-4xl font-bold text-[#0B1F3A] md:text-5xl">
                 Recovery Set in{" "}
                 <span className="italic text-[#E8622A]">La Jolla</span>
               </h2>
               <p className="mt-5 text-base leading-relaxed text-[#4B5563]">
-                Our San Diego location sits in the heart of La Jolla Village — surrounded by 7 miles of sun-kissed beaches, dramatic sandstone cliffs, scenic coastal trails, and a vibrant recovery community. It&apos;s a setting that makes showing up to treatment feel like showing up to a better life.
+                <AutoLinkedTextClient>{"Our San Diego location sits in the heart of La Jolla Village — surrounded by 7 miles of sun-kissed beaches, dramatic sandstone cliffs, scenic coastal trails, and a vibrant recovery community. It&apos;s a setting that makes showing up to treatment feel like showing up to a better life."}</AutoLinkedTextClient>
               </p>
               <p className="mt-4 text-base leading-relaxed text-[#4B5563]">
-                This location specializes in outpatient care: PHP, IOP, standard outpatient, and telehealth. It&apos;s ideal for clients stepping down from our Garden Grove or Newport Beach residential programs, those beginning recovery from a stable living situation, or anyone who needs intensive support without leaving home.
+                <AutoLinkedTextClient>{"This location specializes in outpatient care: PHP, IOP, standard outpatient, and telehealth. It&apos;s ideal for clients stepping down from our Garden Grove or Newport Beach residential programs, those beginning recovery from a stable living situation, or anyone who needs intensive support without leaving home."}</AutoLinkedTextClient>
               </p>
               <p className="mt-4 text-base leading-relaxed text-[#4B5563]">
-                The Careerbound® resource center is available at this location — helping clients build career and educational plans as part of a recovery process that prepares them for a full life beyond treatment.
+                <AutoLinkedTextClient>{"The Careerbound® resource center is available at this location — helping clients build career and educational plans as part of a recovery process that prepares them for a full life beyond treatment."}</AutoLinkedTextClient>
               </p>
             </div>
 
@@ -178,7 +179,7 @@ export default function SanDiegoPage() {
               </div>
               <div className="absolute -bottom-6 -left-6 rounded-2xl bg-[#0B1F3A] px-6 py-5 shadow-xl">
                 <p className="font-heading text-2xl font-bold text-white">Careerbound®</p>
-                <p className="mt-0.5 text-xs font-semibold uppercase tracking-widest text-[#E8622A]">Career Reintegration Program</p>
+                <p className="mt-0.5 text-xs font-semibold uppercase tracking-widest text-[#E8622A]"><AutoLinkedTextClient>{"Career Reintegration Program"}</AutoLinkedTextClient></p>
               </div>
             </div>
           </div>
@@ -191,7 +192,7 @@ export default function SanDiegoPage() {
           <div className="mx-auto mb-14 max-w-2xl text-center">
             <p className="mb-3 text-sm font-semibold uppercase tracking-[0.16em] text-[#E8622A]">Treatment Options</p>
             <h2 className="font-heading text-4xl font-bold text-[#0B1F3A] md:text-5xl">Programs at San Diego</h2>
-            <p className="mt-4 text-[#4B5563]">Flexible, clinically rigorous care that fits your life — not the other way around.</p>
+            <p className="mt-4 text-[#4B5563]"><AutoLinkedTextClient>{"Flexible, clinically rigorous care that fits your life — not the other way around."}</AutoLinkedTextClient></p>
           </div>
 
           <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
@@ -204,7 +205,7 @@ export default function SanDiegoPage() {
                   {p.duration}
                 </div>
                 <h3 className={`mt-3 font-heading text-xl font-bold ${i === 0 ? "text-white" : "text-[#0B1F3A]"}`}>{p.name}</h3>
-                <p className={`mt-2 text-sm leading-relaxed ${i === 0 ? "text-white/75" : "text-[#4B5563]"}`}>{p.desc}</p>
+                <p className={`mt-2 text-sm leading-relaxed ${i === 0 ? "text-white/75" : "text-[#4B5563]"}`}><AutoLinkedTextClient>{p.desc}</AutoLinkedTextClient></p>
               </div>
             ))}
           </div>
@@ -216,16 +217,16 @@ export default function SanDiegoPage() {
         <div className="mx-auto max-w-7xl px-6 lg:px-10">
           <div className="grid gap-16 lg:grid-cols-2 lg:items-center">
             <div>
-              <p className="mb-3 text-sm font-semibold uppercase tracking-[0.16em] text-[#E8622A]">Community & Connection</p>
+              <p className="mb-3 text-sm font-semibold uppercase tracking-[0.16em] text-[#E8622A]"><AutoLinkedTextClient>{"Community & Connection"}</AutoLinkedTextClient></p>
               <h2 className="font-heading text-4xl font-bold text-[#0B1F3A] md:text-5xl">
                 The Power of{" "}
                 <span className="italic text-[#E8622A]">Peer Recovery</span>
               </h2>
               <p className="mt-4 text-base leading-relaxed text-[#4B5563]">
-                Group therapy at our La Jolla location brings together people who understand what you&apos;re going through. Led by licensed clinicians, these sessions build communication skills, reduce shame, and create real accountability — without judgment.
+                <AutoLinkedTextClient>{"Group therapy at our La Jolla location brings together people who understand what you&apos;re going through. Led by licensed clinicians, these sessions build communication skills, reduce shame, and create real accountability — without judgment."}</AutoLinkedTextClient>
               </p>
               <p className="mt-4 text-base leading-relaxed text-[#4B5563]">
-                San Diego has one of the strongest sober communities in California, and our outpatient programming is integrated with local Alcoholics Anonymous, Narcotics Anonymous, Al-Anon, and SMART Recovery groups to give you a foundation that extends well beyond our walls.
+                <AutoLinkedTextClient>{"San Diego has one of the strongest sober communities in California, and our outpatient programming is integrated with local Alcoholics Anonymous, Narcotics Anonymous, Al-Anon, and SMART Recovery groups to give you a foundation that extends well beyond our walls."}</AutoLinkedTextClient>
               </p>
 
               <div className="mt-8 space-y-3">
@@ -258,15 +259,15 @@ export default function SanDiegoPage() {
         <div className="mx-auto max-w-7xl px-6 lg:px-10">
           <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3 items-start">
             <div className="lg:col-span-1">
-              <p className="mb-3 text-sm font-semibold uppercase tracking-[0.16em] text-[#E8622A]">The Need in San Diego</p>
+              <p className="mb-3 text-sm font-semibold uppercase tracking-[0.16em] text-[#E8622A]"><AutoLinkedTextClient>{"The Need in San Diego"}</AutoLinkedTextClient></p>
               <h2 className="font-heading text-3xl font-bold text-white">Recovery Resources for Southern California</h2>
             </div>
             <div className="lg:col-span-2 space-y-4">
               <p className="text-sm leading-relaxed text-white/75">
-                California has one of the highest rates of substance use disorder in the nation — approximately 8% of residents meet addiction criteria, yet only 10% seek professional help. In San Diego County, methamphetamine and opioid use remain significant public health challenges.
+                <AutoLinkedTextClient>{"California has one of the highest rates of substance use disorder in the nation — approximately 8% of residents meet addiction criteria, yet only 10% seek professional help. In San Diego County, methamphetamine and opioid use remain significant public health challenges."}</AutoLinkedTextClient>
               </p>
               <p className="text-sm leading-relaxed text-white/75">
-                Northbound&apos;s La Jolla center extends quality, evidence-based care to San Diego County residents who may not be able to travel to Orange County for residential treatment — and provides a critical step-down destination for those completing higher levels of care.
+                <AutoLinkedTextClient>{"Northbound&apos;s La Jolla center extends quality, evidence-based care to San Diego County residents who may not be able to travel to Orange County for residential treatment — and provides a critical step-down destination for those completing higher levels of care."}</AutoLinkedTextClient>
               </p>
               <div className="mt-4 flex flex-wrap gap-4">
                 <Link href="tel:8663110003" className="inline-flex items-center gap-2 rounded-full bg-[#E8622A] px-6 py-3 text-sm font-semibold text-white transition hover:bg-[#d4531d]">

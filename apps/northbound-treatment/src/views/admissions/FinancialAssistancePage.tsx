@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { AutoLinkedText } from "@sweetmedia/blog-core";
 
 const options = [
   {
@@ -39,9 +40,7 @@ export default function FinancialAssistancePage() {
             Financial <span className="italic text-[#e97a52]">Assistance</span>
           </h1>
           <p className="mt-6 max-w-2xl text-lg leading-8 text-white/70">
-            We want to help you or your loved one get the healing and treatment that will be the start
-            of a new life. We don&apos;t want money to prevent anyone from getting help. Northbound is
-            committed to serving those who would ordinarily have difficulty affording our services.
+            <AutoLinkedText>{"We want to help you or your loved one get the healing and treatment that will be the start\n            of a new life. We don&apos;t want money to prevent anyone from getting help. Northbound is\n            committed to serving those who would ordinarily have difficulty affording our services."}</AutoLinkedText>
           </p>
           <div className="mt-10 flex flex-wrap gap-4">
             <Link href="/insurance/" className="inline-flex items-center gap-2 bg-[#e97a52] px-7 py-3.5 text-sm font-semibold text-white transition hover:bg-[#f09068]">
@@ -59,10 +58,9 @@ export default function FinancialAssistancePage() {
         <div className="mx-auto max-w-5xl px-6 lg:px-10 text-center">
           <i className="ri-heart-pulse-line text-4xl text-[#e97a52]" />
           <p className="mt-4 font-heading text-2xl font-bold text-[#1b2a47] md:text-3xl leading-snug">
-            &ldquo;We pledge that we will always try to find a way to get everyone who contacts us
-            the treatment they need.&rdquo;
+            <AutoLinkedText>{"&ldquo;We pledge that we will always try to find a way to get everyone who contacts us\n            the treatment they need.&rdquo;"}</AutoLinkedText>
           </p>
-          <p className="mt-4 text-sm text-[#64748b]">— Northbound Treatment Services®</p>
+          <p className="mt-4 text-sm text-[#64748b]"><AutoLinkedText>{"— Northbound Treatment Services®"}</AutoLinkedText></p>
         </div>
       </section>
 
@@ -80,7 +78,7 @@ export default function FinancialAssistancePage() {
                   <i className={`${o.icon} text-2xl`} />
                 </span>
                 <h3 className="font-heading text-2xl font-bold text-[#1b2a47]">{o.title}</h3>
-                <p className="text-sm leading-7 text-[#64748b] flex-1">{o.body}</p>
+                <p className="text-sm leading-7 text-[#64748b] flex-1"><AutoLinkedText>{o.body}</AutoLinkedText></p>
                 {o.cta && (
                   <Link href={o.cta.href} className="mt-2 self-start inline-flex items-center gap-1.5 text-sm font-semibold text-[#e97a52] hover:underline">
                     {o.cta.label} <i className="ri-arrow-right-line" />
@@ -99,7 +97,7 @@ export default function FinancialAssistancePage() {
             <h2 className="font-heading text-3xl font-bold text-white md:text-4xl">
               Let&apos;s find a way to make treatment work.
             </h2>
-            <p className="mt-3 text-white/70">Our financial counselors are ready to help — no commitment required.</p>
+            <p className="mt-3 text-white/70"><AutoLinkedText>{"Our financial counselors are ready to help — no commitment required."}</AutoLinkedText></p>
           </div>
           <Link href="/contact-us/" className="shrink-0 inline-flex items-center gap-2 bg-[#e97a52] px-8 py-4 text-sm font-semibold text-white transition hover:bg-[#f09068]">
             Talk to Us <i className="ri-arrow-right-line" />

@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 import CtaBanner from "@/views/shared/CtaBanner";
+import { AutoLinkedTextClient } from "@sweetmedia/blog-core";
 
 const BASE = "https://ahufsygjwpbymomfdazb.supabase.co/storage/v1/object/public/site-assets/images";
 
@@ -105,7 +106,7 @@ function FaqItem({ q, a }: { q: string; a: string }) {
           <i className="ri-add-line text-xl"></i>
         </span>
       </button>
-      {open && <p className="pb-5 text-sm leading-relaxed text-[#4B5563]">{a}</p>}
+      {open && <p className="pb-5 text-sm leading-relaxed text-[#4B5563]"><AutoLinkedTextClient>{a}</AutoLinkedTextClient></p>}
     </div>
   );
 }
@@ -135,7 +136,7 @@ export default function NewportBeachPage() {
 
           <div className="max-w-3xl">
             <p className="mb-4 text-sm font-semibold uppercase tracking-[0.18em] text-[#E8622A]">
-              Newport Beach, California — Orange County
+              <AutoLinkedTextClient>{"Newport Beach, California — Orange County"}</AutoLinkedTextClient>
             </p>
             <h1 className="font-heading text-5xl font-bold leading-tight text-white md:text-6xl lg:text-7xl">
               Drug & Alcohol{" "}
@@ -143,7 +144,7 @@ export default function NewportBeachPage() {
               in Newport Beach
             </h1>
             <p className="mt-6 max-w-2xl text-lg leading-relaxed text-white/80">
-              Northbound&apos;s Newport Beach campus is our flagship multi-building treatment center — nestled in one of Southern California&apos;s most stunning coastal communities, 42 miles of pristine Pacific beach as your backdrop for healing.
+              <AutoLinkedTextClient>{"Northbound&apos;s Newport Beach campus is our flagship multi-building treatment center — nestled in one of Southern California&apos;s most stunning coastal communities, 42 miles of pristine Pacific beach as your backdrop for healing."}</AutoLinkedTextClient>
             </p>
 
             <div className="mt-8 flex flex-wrap gap-x-8 gap-y-4 border-t border-white/15 pt-8">
@@ -183,13 +184,13 @@ export default function NewportBeachPage() {
                 <span className="italic text-[#E8622A]">Ideal for Recovery</span>
               </h2>
               <p className="mt-5 text-base leading-relaxed text-[#4B5563]">
-                Situated between San Diego to the south and Los Angeles to the north, Newport Beach offers some of the most stunning landscapes in all of California. Reminiscent of the Mediterranean — 42 miles of pristine beaches, natural beauty, and a casually sophisticated coastal vibe — it&apos;s a setting purpose-built for healing.
+                <AutoLinkedTextClient>{"Situated between San Diego to the south and Los Angeles to the north, Newport Beach offers some of the most stunning landscapes in all of California. Reminiscent of the Mediterranean — 42 miles of pristine beaches, natural beauty, and a casually sophisticated coastal vibe — it&apos;s a setting purpose-built for healing."}</AutoLinkedTextClient>
               </p>
               <p className="mt-4 text-base leading-relaxed text-[#4B5563]">
-                Our Newport Beach campus spans seven integrated buildings in close proximity to the beach and nature preserves. Each space — from gender-specific residential homes to our modern clinical hub — is well-appointed, private, and designed to reduce stress while maximizing focus on recovery.
+                <AutoLinkedTextClient>{"Our Newport Beach campus spans seven integrated buildings in close proximity to the beach and nature preserves. Each space — from gender-specific residential homes to our modern clinical hub — is well-appointed, private, and designed to reduce stress while maximizing focus on recovery."}</AutoLinkedTextClient>
               </p>
               <p className="mt-4 text-base leading-relaxed text-[#4B5563]">
-                Interacting with the outside world is part of treatment here: surf sessions twice per week, trips to Sequoia National Park, grocery outings, and community barbecues. Real life, practiced safely.
+                <AutoLinkedTextClient>{"Interacting with the outside world is part of treatment here: surf sessions twice per week, trips to Sequoia National Park, grocery outings, and community barbecues. Real life, practiced safely."}</AutoLinkedTextClient>
               </p>
 
               <div className="mt-8 grid grid-cols-3 gap-4">
@@ -199,8 +200,8 @@ export default function NewportBeachPage() {
                   { stat: "38+", label: "Years Experience" },
                 ].map((s) => (
                   <div key={s.label} className="rounded-2xl bg-[#F5F7FF] p-5 text-center">
-                    <p className="font-heading text-3xl font-bold text-[#0B1F3A]">{s.stat}</p>
-                    <p className="mt-1 text-xs font-semibold uppercase tracking-wider text-[#6B7280]">{s.label}</p>
+                    <p className="font-heading text-3xl font-bold text-[#0B1F3A]"><AutoLinkedTextClient>{s.stat}</AutoLinkedTextClient></p>
+                    <p className="mt-1 text-xs font-semibold uppercase tracking-wider text-[#6B7280]"><AutoLinkedTextClient>{s.label}</AutoLinkedTextClient></p>
                   </div>
                 ))}
               </div>
@@ -212,7 +213,7 @@ export default function NewportBeachPage() {
               </div>
               <div className="absolute -bottom-6 -left-6 rounded-2xl bg-[#0B1F3A] px-6 py-5 shadow-xl">
                 <p className="font-heading text-3xl font-bold text-white">Gender-Specific</p>
-                <p className="mt-0.5 text-xs font-semibold uppercase tracking-widest text-[#E8622A]">Men&apos;s & Women&apos;s Programs</p>
+                <p className="mt-0.5 text-xs font-semibold uppercase tracking-widest text-[#E8622A]"><AutoLinkedTextClient>{"Men&apos;s & Women&apos;s Programs"}</AutoLinkedTextClient></p>
               </div>
             </div>
           </div>
@@ -229,7 +230,7 @@ export default function NewportBeachPage() {
                 Life at<br /><span className="italic text-[#E8622A]">Newport Beach</span>
               </h2>
               <p className="mt-5 text-sm leading-relaxed text-white/70">
-                Our Newport Beach campus is built around the belief that beautiful environments accelerate healing. Every amenity, every space, every scheduled activity is designed with your recovery in mind.
+                <AutoLinkedTextClient>{"Our Newport Beach campus is built around the belief that beautiful environments accelerate healing. Every amenity, every space, every scheduled activity is designed with your recovery in mind."}</AutoLinkedTextClient>
               </p>
               <div className="mt-8 aspect-[4/3] overflow-hidden rounded-2xl shadow-lg">
                 <Image src={IMAGES.garden} alt="Peaceful healing garden at Northbound Newport Beach — lavender, stone paths, meditation seating" fill className="object-cover" />
@@ -242,8 +243,8 @@ export default function NewportBeachPage() {
                   <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#E8622A]/20 text-[#E8622A] mb-3">
                     <i className={`${f.icon} text-lg`}></i>
                   </span>
-                  <p className="font-semibold text-white">{f.label}</p>
-                  <p className="mt-1 text-sm leading-relaxed text-white/65">{f.desc}</p>
+                  <p className="font-semibold text-white"><AutoLinkedTextClient>{f.label}</AutoLinkedTextClient></p>
+                  <p className="mt-1 text-sm leading-relaxed text-white/65"><AutoLinkedTextClient>{f.desc}</AutoLinkedTextClient></p>
                 </div>
               ))}
             </div>
@@ -264,15 +265,15 @@ export default function NewportBeachPage() {
               </div>
             </div>
             <div>
-              <p className="mb-3 text-sm font-semibold uppercase tracking-[0.16em] text-[#E8622A]">The InVivo® Difference</p>
+              <p className="mb-3 text-sm font-semibold uppercase tracking-[0.16em] text-[#E8622A]"><AutoLinkedTextClient>{"The InVivo® Difference"}</AutoLinkedTextClient></p>
               <h2 className="font-heading text-4xl font-bold text-[#0B1F3A] md:text-5xl">
                 Recovery That <span className="italic text-[#E8622A]">Lives</span> in the Real World
               </h2>
               <p className="mt-4 text-base leading-relaxed text-[#4B5563]">
-                At Northbound, recovery isn&apos;t confined to four walls. Our InVivo® model puts clients in real-world situations — with clinical support — so the skills they build in treatment translate directly to life after discharge.
+                <AutoLinkedTextClient>{"At Northbound, recovery isn&apos;t confined to four walls. Our InVivo® model puts clients in real-world situations — with clinical support — so the skills they build in treatment translate directly to life after discharge."}</AutoLinkedTextClient>
               </p>
               <p className="mt-4 text-base leading-relaxed text-[#4B5563]">
-                In Newport Beach, that means surfing in the Pacific, trips to the grocery store, Sequoia excursions, and community barbecues. These aren&apos;t just activities — they&apos;re training for a full, sober life.
+                <AutoLinkedTextClient>{"In Newport Beach, that means surfing in the Pacific, trips to the grocery store, Sequoia excursions, and community barbecues. These aren&apos;t just activities — they&apos;re training for a full, sober life."}</AutoLinkedTextClient>
               </p>
 
               <div className="mt-8 grid grid-cols-2 gap-3">
@@ -305,7 +306,7 @@ export default function NewportBeachPage() {
           <div className="mx-auto mb-14 max-w-2xl text-center">
             <p className="mb-3 text-sm font-semibold uppercase tracking-[0.16em] text-[#E8622A]">Levels of Care</p>
             <h2 className="font-heading text-4xl font-bold text-[#0B1F3A] md:text-5xl">Programs at Newport Beach</h2>
-            <p className="mt-4 text-[#4B5563]">A full continuum from detox through alumni support — all under one clinical team.</p>
+            <p className="mt-4 text-[#4B5563]"><AutoLinkedTextClient>{"A full continuum from detox through alumni support — all under one clinical team."}</AutoLinkedTextClient></p>
           </div>
 
           <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
@@ -318,7 +319,7 @@ export default function NewportBeachPage() {
                   {p.duration}
                 </div>
                 <h3 className={`mt-3 font-heading text-xl font-bold ${p.highlight ? "text-white" : "text-[#0B1F3A]"}`}>{p.name}</h3>
-                <p className={`mt-2 text-sm leading-relaxed ${p.highlight ? "text-white/75" : "text-[#4B5563]"}`}>{p.desc}</p>
+                <p className={`mt-2 text-sm leading-relaxed ${p.highlight ? "text-white/75" : "text-[#4B5563]"}`}><AutoLinkedTextClient>{p.desc}</AutoLinkedTextClient></p>
               </div>
             ))}
           </div>
@@ -344,7 +345,7 @@ export default function NewportBeachPage() {
           <p className="mb-2 text-sm font-semibold uppercase tracking-[0.16em] text-[#E8622A]">Insurance</p>
           <h2 className="font-heading text-3xl font-bold text-[#0B1F3A] md:text-4xl">We Verify Your Benefits — Free & Confidential</h2>
           <p className="mx-auto mt-4 max-w-xl text-sm leading-relaxed text-[#4B5563]">
-            In-network with 15+ major carriers. Our team handles verification so you can focus on getting help.
+            <AutoLinkedTextClient>{"In-network with 15+ major carriers. Our team handles verification so you can focus on getting help."}</AutoLinkedTextClient>
           </p>
           <div className="mt-6 flex flex-wrap justify-center gap-3 text-xs font-semibold text-[#6B7280]">
             {["Aetna", "Anthem BCBS", "Cigna", "Tricare", "MHN", "Multiplan", "Beacon", "ComPsych", "First Health"].map((ins) => (

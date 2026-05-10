@@ -3,6 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
+import { AutoLinkedTextClient } from "@sweetmedia/blog-core";
 
 /* ─── Types ──────────────────────────────────────────────────────── */
 
@@ -135,7 +136,7 @@ function VerifyForm({ carrierName }: { carrierName: string }) {
       </button>
 
       <p className="text-center text-[10px] text-white/30">
-        Confidential · No obligation · Results within 1 business day
+        <AutoLinkedTextClient>{"Confidential · No obligation · Results within 1 business day"}</AutoLinkedTextClient>
       </p>
     </form>
   );
@@ -155,7 +156,7 @@ function FaqAccordion({ faqs }: { faqs: InsuranceFaq[] }) {
             <i className={`text-lg text-terracotta transition-transform ${open === i ? "ri-subtract-line rotate-0" : "ri-add-line"}`} />
           </button>
           {open === i && (
-            <p className="pb-5 text-sm leading-relaxed text-navy/60">{faq.a}</p>
+            <p className="pb-5 text-sm leading-relaxed text-navy/60"><AutoLinkedTextClient>{faq.a}</AutoLinkedTextClient></p>
           )}
         </div>
       ))}
@@ -202,7 +203,7 @@ export default function InsurancePageTemplate({ data }: { data: InsurancePageDat
                 {data.carrierName} Insurance for{" "}
                 <span className="italic text-terracotta-light">Addiction Treatment</span>
               </h1>
-              <p className="mt-4 max-w-lg text-base leading-relaxed text-white/70">{data.heroBody}</p>
+              <p className="mt-4 max-w-lg text-base leading-relaxed text-white/70"><AutoLinkedTextClient>{data.heroBody}</AutoLinkedTextClient></p>
 
               {/* Trust strip */}
               <div className="mt-8 flex flex-wrap gap-5">
@@ -245,9 +246,7 @@ export default function InsurancePageTemplate({ data }: { data: InsurancePageDat
             <h2 className="font-heading text-4xl font-bold text-navy md:text-5xl">
               {data.coverageHeadline}
             </h2>
-            <p className="mx-auto mt-4 max-w-2xl text-base leading-relaxed text-navy/60">
-              {data.coverageIntro}
-            </p>
+            <p className="mx-auto mt-4 max-w-2xl text-base leading-relaxed text-navy/60"><AutoLinkedTextClient>{data.coverageIntro}</AutoLinkedTextClient></p>
           </div>
 
           <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
@@ -261,7 +260,7 @@ export default function InsurancePageTemplate({ data }: { data: InsurancePageDat
                 </span>
                 <div>
                   <h3 className="font-heading text-base font-bold text-navy">{item.label}</h3>
-                  <p className="mt-1 text-sm leading-relaxed text-navy/60">{item.detail}</p>
+                  <p className="mt-1 text-sm leading-relaxed text-navy/60"><AutoLinkedTextClient>{item.detail}</AutoLinkedTextClient></p>
                 </div>
               </div>
             ))}
@@ -269,7 +268,7 @@ export default function InsurancePageTemplate({ data }: { data: InsurancePageDat
 
           {/* Disclaimer */}
           <p className="mt-8 text-center text-xs text-navy/35">
-            Coverage varies by plan, policy type, and clinical criteria. Northbound verifies your specific benefits at no cost before admission — call us or submit the form above.
+            <AutoLinkedTextClient>{"Coverage varies by plan, policy type, and clinical criteria. Northbound verifies your specific benefits at no cost before admission — call us or submit the form above."}</AutoLinkedTextClient>
           </p>
         </div>
       </section>
@@ -283,7 +282,7 @@ export default function InsurancePageTemplate({ data }: { data: InsurancePageDat
               How Insurance Verification Works
             </h2>
             <p className="mx-auto mt-4 max-w-xl text-base leading-relaxed text-white/60">
-              Northbound handles the complexity of insurance so you can focus on getting help — not paperwork.
+              <AutoLinkedTextClient>{"Northbound handles the complexity of insurance so you can focus on getting help — not paperwork."}</AutoLinkedTextClient>
             </p>
           </div>
 
@@ -301,7 +300,7 @@ export default function InsurancePageTemplate({ data }: { data: InsurancePageDat
                 </div>
                 <div>
                   <h3 className="font-heading text-lg font-bold text-white">{step.title}</h3>
-                  <p className="mt-2 text-sm leading-relaxed text-white/55">{step.body}</p>
+                  <p className="mt-2 text-sm leading-relaxed text-white/55"><AutoLinkedTextClient>{step.body}</AutoLinkedTextClient></p>
                 </div>
               </div>
             ))}
@@ -334,9 +333,7 @@ export default function InsurancePageTemplate({ data }: { data: InsurancePageDat
                 {data.aboutHeadline}
               </h2>
               {data.aboutBody.map((para, i) => (
-                <p key={i} className="mt-4 text-base leading-relaxed text-navy/65">
-                  {para}
-                </p>
+                <p key={i} className="mt-4 text-base leading-relaxed text-navy/65"><AutoLinkedTextClient>{para}</AutoLinkedTextClient></p>
               ))}
               <div className="mt-8 flex flex-wrap gap-3">
                 <a
@@ -364,8 +361,8 @@ export default function InsurancePageTemplate({ data }: { data: InsurancePageDat
                       <i className={`${fact.icon} text-sm text-terracotta`} />
                     </span>
                     <div>
-                      <p className="text-[10px] font-bold uppercase tracking-widest text-white/40">{fact.label}</p>
-                      <p className="text-sm font-semibold text-white">{fact.value}</p>
+                      <p className="text-[10px] font-bold uppercase tracking-widest text-white/40"><AutoLinkedTextClient>{fact.label}</AutoLinkedTextClient></p>
+                      <p className="text-sm font-semibold text-white"><AutoLinkedTextClient>{fact.value}</AutoLinkedTextClient></p>
                     </div>
                   </div>
                 ))}
@@ -394,7 +391,7 @@ export default function InsurancePageTemplate({ data }: { data: InsurancePageDat
               >
                 <i className="ri-phone-fill" /> (866) 311-0003
               </a>
-              <p className="mt-3 text-center text-[10px] text-white/30">Available 24/7 · Confidential · No Obligation</p>
+              <p className="mt-3 text-center text-[10px] text-white/30"><AutoLinkedTextClient>{"Available 24/7 · Confidential · No Obligation"}</AutoLinkedTextClient></p>
 
               <div className="mt-8 flex flex-col gap-2">
                 {["Free benefits verification", "15+ major insurance plans", "Most patients pay $0 out-of-pocket", "Same-day admissions available"].map((item) => (
@@ -422,7 +419,7 @@ export default function InsurancePageTemplate({ data }: { data: InsurancePageDat
         <section className="bg-white py-16">
           <div className={CONTAINER}>
             <p className="mb-6 text-center text-sm font-bold uppercase tracking-widest text-navy/40">
-              Other Insurance Plans We Accept
+              <AutoLinkedTextClient>{"Other Insurance Plans We Accept"}</AutoLinkedTextClient>
             </p>
             <div className="flex flex-wrap justify-center gap-3">
               {data.relatedCarriers.map((c) => (

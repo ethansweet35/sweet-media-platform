@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { AutoLinkedText } from "@sweetmedia/blog-core";
 
 const accreditations = [
   {
@@ -48,9 +49,7 @@ export default function AccreditationPage() {
             Accreditation &amp; <span className="italic text-[#e97a52]">Recognition</span>
           </h1>
           <p className="mt-6 max-w-2xl text-lg leading-8 text-white/70">
-            Not every treatment center is worthy of your trust. Northbound Treatment is proud to hold
-            accreditation from the industry's top organizations — recognizing our programs for impact,
-            safety, and quality of care.
+            <AutoLinkedText>{"Not every treatment center is worthy of your trust. Northbound Treatment is proud to hold\n            accreditation from the industry's top organizations — recognizing our programs for impact,\n            safety, and quality of care."}</AutoLinkedText>
           </p>
         </div>
       </section>
@@ -59,7 +58,7 @@ export default function AccreditationPage() {
       <section className="py-24 bg-white">
         <div className="mx-auto max-w-7xl px-6 lg:px-10">
           <div className="mb-12">
-            <p className="mb-3 text-xs font-semibold uppercase tracking-[0.2em] text-[#e97a52]">Certified &amp; Accredited</p>
+            <p className="mb-3 text-xs font-semibold uppercase tracking-[0.2em] text-[#e97a52]"><AutoLinkedText>{"Certified &amp; Accredited"}</AutoLinkedText></p>
             <h2 className="font-heading text-4xl font-bold text-[#1b2a47] md:text-5xl">Our Accreditations</h2>
           </div>
           <div className="grid gap-px bg-[#cdd8e8] sm:grid-cols-2 lg:grid-cols-3">
@@ -69,7 +68,7 @@ export default function AccreditationPage() {
                   <i className={`${a.icon} text-2xl`} />
                 </span>
                 <h3 className="font-heading text-lg font-bold text-[#1b2a47]">{a.name}</h3>
-                <p className="text-sm leading-7 text-[#64748b]">{a.body}</p>
+                <p className="text-sm leading-7 text-[#64748b]"><AutoLinkedText>{a.body}</AutoLinkedText></p>
               </div>
             ))}
           </div>
@@ -80,7 +79,7 @@ export default function AccreditationPage() {
       <section className="py-24 bg-[#eef2f7]">
         <div className="mx-auto max-w-7xl px-6 lg:px-10">
           <div className="mb-10">
-            <p className="mb-3 text-xs font-semibold uppercase tracking-[0.2em] text-[#e97a52]">Recognized Excellence</p>
+            <p className="mb-3 text-xs font-semibold uppercase tracking-[0.2em] text-[#e97a52]"><AutoLinkedText>{"Recognized Excellence"}</AutoLinkedText></p>
             <h2 className="font-heading text-4xl font-bold text-[#1b2a47] md:text-5xl">Awards &amp; Recognition</h2>
           </div>
           <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
@@ -101,7 +100,7 @@ export default function AccreditationPage() {
             Choose a program you can trust.
           </h2>
           <p className="mt-4 text-white/70 max-w-xl mx-auto">
-            Verify your insurance and speak with an admissions specialist today — at no cost to you.
+            <AutoLinkedText>{"Verify your insurance and speak with an admissions specialist today — at no cost to you."}</AutoLinkedText>
           </p>
           <div className="mt-8 flex flex-wrap justify-center gap-4">
             <Link href="/admissions/" className="inline-flex items-center gap-2 bg-[#e97a52] px-8 py-4 text-sm font-semibold text-white transition hover:bg-[#f09068]">

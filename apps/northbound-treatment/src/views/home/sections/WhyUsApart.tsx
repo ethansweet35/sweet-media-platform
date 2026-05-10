@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { WHY_US_IMAGE } from "../assets";
+import { AutoLinkedText } from "@sweetmedia/blog-core";
 
 const DIFFERENTIATORS = [
   {
@@ -52,9 +53,7 @@ export default function WhyUsApart() {
                 <span className="italic text-terracotta">Rehab</span> Apart
               </h2>
               <p className="mt-5 max-w-lg text-base leading-relaxed text-espresso/70">
-                For over 38 years, Northbound has built its reputation on a single
-                conviction: every person deserves treatment designed around their
-                story. Here's what that looks like in practice.
+                <AutoLinkedText>{"For over 38 years, Northbound has built its reputation on a single\n                conviction: every person deserves treatment designed around their\n                story. Here's what that looks like in practice."}</AutoLinkedText>
               </p>
             </div>
 
@@ -80,9 +79,7 @@ export default function WhyUsApart() {
                     <h3 className="font-heading text-lg font-bold text-navy">
                       {item.heading}
                     </h3>
-                    <p className="mt-2 text-sm leading-relaxed text-espresso/70">
-                      {item.body}
-                    </p>
+                    <p className="mt-2 text-sm leading-relaxed text-espresso/70"><AutoLinkedText>{item.body}</AutoLinkedText></p>
                   </div>
                 </div>
               ))}
@@ -133,10 +130,8 @@ export default function WhyUsApart() {
                 <div className="mb-3 flex gap-6">
                   {TRUST_STATS.map((s) => (
                     <div key={s.label} className="text-center">
-                      <p className="font-heading text-2xl font-bold text-white">{s.value}</p>
-                      <p className="mt-0.5 text-[10px] font-semibold uppercase tracking-widest text-terracotta">
-                        {s.label}
-                      </p>
+                      <p className="font-heading text-2xl font-bold text-white"><AutoLinkedText>{s.value}</AutoLinkedText></p>
+                      <p className="mt-0.5 text-[10px] font-semibold uppercase tracking-widest text-terracotta"><AutoLinkedText>{s.label}</AutoLinkedText></p>
                     </div>
                   ))}
                 </div>
@@ -147,7 +142,7 @@ export default function WhyUsApart() {
                     ))}
                   </div>
                   <p className="text-[11px] font-semibold text-white/80">
-                    4.6 · 224+ Google Reviews
+                    <AutoLinkedText>{"4.6 · 224+ Google Reviews"}</AutoLinkedText>
                   </p>
                 </div>
               </div>

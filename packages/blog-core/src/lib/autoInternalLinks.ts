@@ -363,7 +363,8 @@ export function autoLinkText(
   text: string,
   mappings: AutoLinkMapping[],
   currentSlug?: string,
-  usedHrefs?: Set<string>
+  usedHrefs?: Set<string>,
+  maxLinks: number = 4
 ): LinkSegment[] {
   if (!text || mappings.length === 0) {
     return [{ type: "text", content: text }];
@@ -443,7 +444,7 @@ export function autoLinkText(
       selected.push(m);
       used.push([m.start, m.end]);
       localUsedHrefs.add(m.href);
-      if (selected.length >= 4) break;
+      if (selected.length >= maxLinks) break;
     }
   }
 

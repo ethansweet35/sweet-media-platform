@@ -1,3 +1,4 @@
+import { AutoLinkedText } from "@sweetmedia/blog-core";
 /**
  * Espresso-bg scrolling marquee of in-network insurers. The keyframe is
  * defined in globals.css (.animate-scroll). The marquee row is duplicated so
@@ -23,7 +24,7 @@ export default function InsuranceMarquee() {
       <div className="flex flex-col items-center md:flex-row">
         <div className="relative z-10 mb-4 flex-shrink-0 bg-navy px-6 md:mb-0 md:border-r md:border-white/10 lg:px-12">
           <p className="text-xs font-bold uppercase tracking-[0.22em] text-terracotta">
-            In-Network Preferred Provider
+            <AutoLinkedText>{"In-Network Preferred Provider"}</AutoLinkedText>
           </p>
         </div>
         <div className="relative flex w-full overflow-hidden">

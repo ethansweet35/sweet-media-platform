@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { HERO_BG } from "../assets";
+import { AutoLinkedText } from "@sweetmedia/blog-core";
 
 /**
  * Hero — full-bleed coastal highway image background.
@@ -144,7 +145,7 @@ export default function Hero() {
                     Start Your Recovery
                   </h3>
                   <p className="text-xs font-light leading-relaxed text-white/50">
-                    Fill out the form and we&rsquo;ll call you immediately.
+                    <AutoLinkedText>{"Fill out the form and we&rsquo;ll call you immediately."}</AutoLinkedText>
                   </p>
                 </div>
 

@@ -1,3 +1,4 @@
+import { AutoLinkedText } from "@sweetmedia/blog-core";
 /**
  * Treatment Services — 6 program cards in a 3-col grid on desktop. Sand bg
  * with a giant ghost number behind each card and a terracotta bottom-bar
@@ -138,9 +139,7 @@ export default function TreatmentServices() {
               <h3 className="relative z-10 mb-4 font-serif text-2xl text-espresso transition-colors duration-300 group-hover:text-terracotta lg:text-3xl">
                 {service.title}
               </h3>
-              <p className="relative z-10 mb-6 min-h-[60px] text-sm font-light leading-relaxed text-espresso/70">
-                {service.description}
-              </p>
+              <p className="relative z-10 mb-6 min-h-[60px] text-sm font-light leading-relaxed text-espresso/70"><AutoLinkedText>{service.description}</AutoLinkedText></p>
 
               <ul className="relative z-10 mb-10 space-y-4">
                 {service.features.map((feature) => (

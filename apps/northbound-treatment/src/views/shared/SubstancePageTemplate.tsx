@@ -25,6 +25,7 @@
 import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { AutoLinkedTextClient } from "@sweetmedia/blog-core";
 
 /* ─── Types ────────────────────────────────────────────────────────────── */
 
@@ -102,7 +103,7 @@ export default function SubstancePageTemplate({ data }: { data: SubstancePageDat
             {/* Left — headline + CTAs */}
             <div className="flex flex-col justify-center">
               <p className="text-xs font-semibold uppercase tracking-[0.18em] text-terracotta">
-                Addiction Treatment — Northbound Treatment Services
+                <AutoLinkedTextClient>{"Addiction Treatment — Northbound Treatment Services"}</AutoLinkedTextClient>
               </p>
               <h1 className="font-heading mt-4 text-5xl font-bold leading-[1.05] text-white md:text-6xl lg:text-7xl">
                 {heroWords.map((part, i) =>
@@ -113,9 +114,7 @@ export default function SubstancePageTemplate({ data }: { data: SubstancePageDat
                   ),
                 )}
               </h1>
-              <p className="mt-5 max-w-xl text-lg leading-relaxed text-white/70">
-                {data.heroBody}
-              </p>
+              <p className="mt-5 max-w-xl text-lg leading-relaxed text-white/70"><AutoLinkedTextClient>{data.heroBody}</AutoLinkedTextClient></p>
               <div className="mt-8 flex flex-wrap gap-4">
                 <Link
                   href="tel:8663110003"
@@ -146,13 +145,13 @@ export default function SubstancePageTemplate({ data }: { data: SubstancePageDat
             <div className="hidden lg:flex lg:flex-col">
               <div className="flex flex-1 flex-col border border-white/10 bg-white/5 p-7 backdrop-blur-sm">
                 <p className="text-xs font-semibold uppercase tracking-[0.12em] text-terracotta">
-                  Free Confidential Consultation
+                  <AutoLinkedTextClient>{"Free Confidential Consultation"}</AutoLinkedTextClient>
                 </p>
                 <p className="font-heading mt-3 text-xl font-bold text-white">
-                  Ready to take the first step?
+                  <AutoLinkedTextClient>{"Ready to take the first step?"}</AutoLinkedTextClient>
                 </p>
                 <p className="mt-2 text-sm leading-relaxed text-white/55">
-                  Our admissions team is available around the clock — no cost, no obligation, no judgment.
+                  <AutoLinkedTextClient>{"Our admissions team is available around the clock — no cost, no obligation, no judgment."}</AutoLinkedTextClient>
                 </p>
                 <Link
                   href="tel:8663110003"
@@ -202,15 +201,13 @@ export default function SubstancePageTemplate({ data }: { data: SubstancePageDat
           {/* Left: text */}
           <div className="border-b border-sand-dark px-6 py-14 lg:border-b-0 lg:border-r lg:px-10 lg:py-20">
             <p className="text-xs font-semibold uppercase tracking-[0.14em] text-terracotta">
-              Understanding the Disease
+              <AutoLinkedTextClient>{"Understanding the Disease"}</AutoLinkedTextClient>
             </p>
             <h2 className="font-heading mt-3 text-4xl font-bold text-navy md:text-5xl">
               {data.whatItIsHeadline}
             </h2>
             {data.whatItIsBody.map((para, i) => (
-              <p key={i} className={`${i === 0 ? "mt-5" : "mt-4"} leading-relaxed text-espresso/80`}>
-                {para}
-              </p>
+              <p key={i} className={`${i === 0 ? "mt-5" : "mt-4"} leading-relaxed text-espresso/80`}><AutoLinkedTextClient>{para}</AutoLinkedTextClient></p>
             ))}
           </div>
 
@@ -238,8 +235,8 @@ export default function SubstancePageTemplate({ data }: { data: SubstancePageDat
             <div className="grid grid-cols-3 divide-x divide-sand-dark border-t border-sand-dark">
               {data.quickStats.map((s) => (
                 <div key={s.label} className="px-4 py-5 text-center">
-                  <p className="font-heading text-2xl font-bold text-terracotta">{s.value}</p>
-                  <p className="mt-1 text-[10px] leading-snug text-espresso/55">{s.label}</p>
+                  <p className="font-heading text-2xl font-bold text-terracotta"><AutoLinkedTextClient>{s.value}</AutoLinkedTextClient></p>
+                  <p className="mt-1 text-[10px] leading-snug text-espresso/55"><AutoLinkedTextClient>{s.label}</AutoLinkedTextClient></p>
                 </div>
               ))}
             </div>
@@ -254,15 +251,13 @@ export default function SubstancePageTemplate({ data }: { data: SubstancePageDat
           <div className="mb-8 flex flex-wrap items-end justify-between gap-6 border-b border-sand-dark pb-8">
             <div>
               <p className="text-xs font-semibold uppercase tracking-[0.14em] text-terracotta">
-                Recognizing the Problem
+                <AutoLinkedTextClient>{"Recognizing the Problem"}</AutoLinkedTextClient>
               </p>
               <h2 className="font-heading mt-2 text-4xl font-bold text-navy md:text-5xl">
                 Signs of{" "}
                 <span className="italic text-terracotta">{data.substanceName} Addiction</span>
               </h2>
-              <p className="mt-3 max-w-2xl text-base leading-relaxed text-espresso/70">
-                {data.warningBody}
-              </p>
+              <p className="mt-3 max-w-2xl text-base leading-relaxed text-espresso/70"><AutoLinkedTextClient>{data.warningBody}</AutoLinkedTextClient></p>
             </div>
             <Link
               href="tel:8663110003"
@@ -293,14 +288,12 @@ export default function SubstancePageTemplate({ data }: { data: SubstancePageDat
         <div className="mx-auto w-full max-w-7xl px-6 lg:px-10">
           <div className="mb-10">
             <p className="text-xs font-semibold uppercase tracking-[0.14em] text-terracotta">
-              The Path to Recovery
+              <AutoLinkedTextClient>{"The Path to Recovery"}</AutoLinkedTextClient>
             </p>
             <h2 className="font-heading mt-2 text-4xl font-bold text-white md:text-5xl">
               {data.recoveryHeadline}
             </h2>
-            <p className="mt-3 max-w-2xl text-base leading-relaxed text-white/55">
-              {data.recoveryIntro}
-            </p>
+            <p className="mt-3 max-w-2xl text-base leading-relaxed text-white/55"><AutoLinkedTextClient>{data.recoveryIntro}</AutoLinkedTextClient></p>
           </div>
 
           {/* Steps — compact horizontal cards that stack on mobile */}
@@ -315,11 +308,9 @@ export default function SubstancePageTemplate({ data }: { data: SubstancePageDat
                     Phase {idx + 1}
                   </span>
                 </div>
-                <p className="text-[10px] font-semibold uppercase tracking-[0.1em] text-white/35 mb-1">
-                  {step.phase}
-                </p>
+                <p className="text-[10px] font-semibold uppercase tracking-[0.1em] text-white/35 mb-1"><AutoLinkedTextClient>{step.phase}</AutoLinkedTextClient></p>
                 <h3 className="font-heading text-base font-bold text-white">{step.title}</h3>
-                <p className="mt-2 text-xs leading-relaxed text-white/55 flex-1">{step.body}</p>
+                <p className="mt-2 text-xs leading-relaxed text-white/55 flex-1"><AutoLinkedTextClient>{step.body}</AutoLinkedTextClient></p>
               </div>
             ))}
           </div>
@@ -332,7 +323,7 @@ export default function SubstancePageTemplate({ data }: { data: SubstancePageDat
           <div className="mb-10 flex flex-wrap items-end justify-between gap-6">
             <div>
               <p className="text-xs font-semibold uppercase tracking-[0.14em] text-terracotta">
-                Why Choose Northbound
+                <AutoLinkedTextClient>{"Why Choose Northbound"}</AutoLinkedTextClient>
               </p>
               <h2 className="font-heading mt-2 text-4xl font-bold text-navy md:text-5xl">
                 Treatment That Goes{" "}
@@ -354,7 +345,7 @@ export default function SubstancePageTemplate({ data }: { data: SubstancePageDat
                   <i className={`${d.icon} text-xl text-terracotta`} />
                 </div>
                 <h3 className="font-heading text-base font-bold text-navy">{d.title}</h3>
-                <p className="mt-2 text-sm leading-relaxed text-espresso/70">{d.body}</p>
+                <p className="mt-2 text-sm leading-relaxed text-espresso/70"><AutoLinkedTextClient>{d.body}</AutoLinkedTextClient></p>
               </div>
             ))}
           </div>
@@ -375,22 +366,20 @@ export default function SubstancePageTemplate({ data }: { data: SubstancePageDat
         </div>
         <div className="relative z-10 mx-auto w-full max-w-3xl px-6 py-20 text-center lg:py-28">
           <p className="text-xs font-semibold uppercase tracking-[0.18em] text-terracotta">
-            Recovery Is Possible
+            <AutoLinkedTextClient>{"Recovery Is Possible"}</AutoLinkedTextClient>
           </p>
           <h2 className="font-heading mt-4 text-4xl font-bold text-white md:text-5xl lg:text-6xl">
             {data.closingHeadline}
           </h2>
           {data.closingBody.map((para, i) => (
-            <p key={i} className={`${i === 0 ? "mt-6" : "mt-4"} mx-auto max-w-2xl leading-relaxed text-white/75`}>
-              {para}
-            </p>
+            <p key={i} className={`${i === 0 ? "mt-6" : "mt-4"} mx-auto max-w-2xl leading-relaxed text-white/75`}><AutoLinkedTextClient>{para}</AutoLinkedTextClient></p>
           ))}
           <div className="mx-auto mt-8 max-w-lg border border-white/20 px-6 py-5">
             <p className="font-heading text-base italic text-white/85">
               "{data.closingQuote}"
             </p>
             <p className="mt-2 text-xs font-semibold uppercase tracking-[0.1em] text-terracotta">
-              — Northbound Treatment Services
+              <AutoLinkedTextClient>{"— Northbound Treatment Services"}</AutoLinkedTextClient>
             </p>
           </div>
           <div className="mt-8 flex flex-wrap justify-center gap-4">
@@ -426,7 +415,7 @@ export default function SubstancePageTemplate({ data }: { data: SubstancePageDat
                 <span className="italic text-terracotta">Asked</span>
               </h2>
               <p className="mt-4 text-sm leading-relaxed text-espresso/70">
-                Have a question that's not here? Our admissions team answers every question — 24 hours a day, 7 days a week.
+                <AutoLinkedTextClient>{"Have a question that's not here? Our admissions team answers every question — 24 hours a day, 7 days a week."}</AutoLinkedTextClient>
               </p>
               <Link
                 href="tel:8663110003"
@@ -449,14 +438,14 @@ export default function SubstancePageTemplate({ data }: { data: SubstancePageDat
           <div className="grid items-center gap-8 lg:grid-cols-[1fr_auto]">
             <div>
               <p className="text-xs font-semibold uppercase tracking-[0.14em] text-terracotta">
-                Don't Let Cost Be a Barrier
+                <AutoLinkedTextClient>{"Don't Let Cost Be a Barrier"}</AutoLinkedTextClient>
               </p>
               <h2 className="font-heading mt-2 text-3xl font-bold text-white md:text-4xl">
                 We Work With 15+ Major{" "}
                 <span className="italic text-terracotta-light">Insurance Plans</span>
               </h2>
               <p className="mt-3 max-w-xl text-sm leading-relaxed text-white/55">
-                Northbound is in-network with Aetna, Anthem, Cigna, Tricare, and more. Our team verifies your benefits and explains your coverage — at no cost to you.
+                <AutoLinkedTextClient>{"Northbound is in-network with Aetna, Anthem, Cigna, Tricare, and more. Our team verifies your benefits and explains your coverage — at no cost to you."}</AutoLinkedTextClient>
               </p>
             </div>
             <div className="flex flex-wrap gap-4">
@@ -482,7 +471,7 @@ export default function SubstancePageTemplate({ data }: { data: SubstancePageDat
       <section className="border-t border-sand-dark bg-white py-10">
         <div className="mx-auto w-full max-w-7xl px-6 lg:px-10">
           <p className="mb-4 text-xs font-semibold uppercase tracking-[0.14em] text-espresso/40">
-            Other Addictions We Treat
+            <AutoLinkedTextClient>{"Other Addictions We Treat"}</AutoLinkedTextClient>
           </p>
           <div className="flex flex-wrap gap-2">
             {data.relatedSubstances.map((s) => (
@@ -522,7 +511,7 @@ function FaqAccordion({ faqs }: { faqs: SubstanceFaq[] }) {
           </button>
           {open === i && (
             <div className="border-t border-sand-dark bg-sand/20 px-6 pb-5 pt-4">
-              <p className="text-sm leading-relaxed text-espresso/80">{faq.answer}</p>
+              <p className="text-sm leading-relaxed text-espresso/80"><AutoLinkedTextClient>{faq.answer}</AutoLinkedTextClient></p>
             </div>
           )}
         </div>

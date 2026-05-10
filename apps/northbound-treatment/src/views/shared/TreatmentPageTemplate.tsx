@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 import CtaBanner from "./CtaBanner";
+import { AutoLinkedTextClient } from "@sweetmedia/blog-core";
 
 /* ─── Types ─────────────────────────────────────────────────── */
 
@@ -110,7 +111,7 @@ function TreatmentHero({ data }: { data: TreatmentPageData }) {
               ))}
             </nav>
 
-            <p className="mb-4 text-xs font-semibold uppercase tracking-[0.14em] text-terracotta">{data.eyebrow}</p>
+            <p className="mb-4 text-xs font-semibold uppercase tracking-[0.14em] text-terracotta"><AutoLinkedTextClient>{data.eyebrow}</AutoLinkedTextClient></p>
 
             <h1 className="font-heading text-4xl font-bold leading-tight text-white md:text-5xl lg:text-6xl">
               {data.italicWord
@@ -121,8 +122,8 @@ function TreatmentHero({ data }: { data: TreatmentPageData }) {
                 : data.programName}
             </h1>
 
-            <p className="mt-2 text-base font-semibold text-white/50">{data.tagline}</p>
-            <p className="mt-4 max-w-lg text-sm leading-relaxed text-white/70">{data.heroBody}</p>
+            <p className="mt-2 text-base font-semibold text-white/50"><AutoLinkedTextClient>{data.tagline}</AutoLinkedTextClient></p>
+            <p className="mt-4 max-w-lg text-sm leading-relaxed text-white/70"><AutoLinkedTextClient>{data.heroBody}</AutoLinkedTextClient></p>
 
             <ul className="mt-7 flex flex-col gap-2.5">
               {[
@@ -159,7 +160,7 @@ function TreatmentHero({ data }: { data: TreatmentPageData }) {
                     <span className="text-[9px] font-bold uppercase tracking-[0.22em] text-terracotta">Free · No Obligation · Confidential</span>
                   </div>
                   <h2 className="font-heading text-2xl font-bold text-white">Verify Your Coverage</h2>
-                  <p className="mt-1 text-xs text-white/50">Fill out the form — we'll call you right away.</p>
+                  <p className="mt-1 text-xs text-white/50"><AutoLinkedTextClient>{"Fill out the form — we'll call you right away."}</AutoLinkedTextClient></p>
                 </div>
 
                 <form className="space-y-4">
@@ -246,7 +247,7 @@ export default function TreatmentPageTemplate({ data }: { data: TreatmentPageDat
               </h2>
               <div className="mt-6 space-y-4">
                 {data.overviewBody.map((para, i) => (
-                  <p key={i} className="text-base leading-relaxed text-espresso/70">{para}</p>
+                  <p key={i} className="text-base leading-relaxed text-espresso/70"><AutoLinkedTextClient>{para}</AutoLinkedTextClient></p>
                 ))}
               </div>
               <a href="tel:8663110003" className="mt-8 inline-flex items-center gap-2 bg-navy px-7 py-3.5 text-sm font-semibold text-white transition hover:bg-terracotta">
@@ -267,8 +268,8 @@ export default function TreatmentPageTemplate({ data }: { data: TreatmentPageDat
                         <i className={`${fact.icon} text-base text-navy`} />
                       </span>
                       <div>
-                        <p className="text-[10px] font-semibold uppercase tracking-[0.1em] text-espresso/40">{fact.label}</p>
-                        <p className="mt-0.5 text-sm font-bold text-navy">{fact.value}</p>
+                        <p className="text-[10px] font-semibold uppercase tracking-[0.1em] text-espresso/40"><AutoLinkedTextClient>{fact.label}</AutoLinkedTextClient></p>
+                        <p className="mt-0.5 text-sm font-bold text-navy"><AutoLinkedTextClient>{fact.value}</AutoLinkedTextClient></p>
                       </div>
                     </div>
                   ))}
@@ -297,7 +298,7 @@ export default function TreatmentPageTemplate({ data }: { data: TreatmentPageDat
               <p className="mb-3 text-xs font-semibold uppercase tracking-[0.14em] text-terracotta">The Process</p>
               <h2 className="font-heading text-4xl font-bold text-white md:text-5xl">{data.stepsHeadline}</h2>
               {data.stepsIntro && (
-                <p className="mt-4 max-w-xl text-base leading-relaxed text-white/55">{data.stepsIntro}</p>
+                <p className="mt-4 max-w-xl text-base leading-relaxed text-white/55"><AutoLinkedTextClient>{data.stepsIntro}</AutoLinkedTextClient></p>
               )}
             </div>
             {/* Step count badge */}
@@ -341,7 +342,7 @@ export default function TreatmentPageTemplate({ data }: { data: TreatmentPageDat
 
                   {/* Body */}
                   <div className="flex items-center">
-                    <p className="text-sm leading-relaxed text-white/60">{step.body}</p>
+                    <p className="text-sm leading-relaxed text-white/60"><AutoLinkedTextClient>{step.body}</AutoLinkedTextClient></p>
                   </div>
                 </div>
               ))}
@@ -351,7 +352,7 @@ export default function TreatmentPageTemplate({ data }: { data: TreatmentPageDat
           {/* Bottom CTA strip */}
           <div className="mt-10 flex items-center justify-between border-t border-white/10 pt-8">
             <p className="text-xs font-semibold text-white/30">
-              Each step is guided by our clinical team — you are never alone in this process.
+              <AutoLinkedTextClient>{"Each step is guided by our clinical team — you are never alone in this process."}</AutoLinkedTextClient>
             </p>
             <a
               href="tel:8663110003"
@@ -373,13 +374,13 @@ export default function TreatmentPageTemplate({ data }: { data: TreatmentPageDat
                 <h2 className="font-heading text-4xl font-bold leading-tight text-navy md:text-5xl">{data.warningHeadline}</h2>
                 <div className="mt-5 space-y-4">
                   {(data.warningBody ?? []).map((p, i) => (
-                    <p key={i} className="text-base leading-relaxed text-espresso/70">{p}</p>
+                    <p key={i} className="text-base leading-relaxed text-espresso/70"><AutoLinkedTextClient>{p}</AutoLinkedTextClient></p>
                   ))}
                 </div>
               </div>
               {data.warningPoints && (
                 <div className="flex flex-col gap-4">
-                  <p className="text-xs font-semibold uppercase tracking-[0.1em] text-espresso/40">Withdrawal Symptoms Without Medical Support</p>
+                  <p className="text-xs font-semibold uppercase tracking-[0.1em] text-espresso/40"><AutoLinkedTextClient>{"Withdrawal Symptoms Without Medical Support"}</AutoLinkedTextClient></p>
                   <div className="grid grid-cols-2 gap-px overflow-hidden border border-sand-dark bg-sand-dark">
                     {data.warningPoints.map((point, i) => (
                       <div key={point} className={`flex items-center gap-3 px-5 py-4 ${i % 2 === 0 ? "bg-white" : "bg-sand"}`}>
@@ -389,7 +390,7 @@ export default function TreatmentPageTemplate({ data }: { data: TreatmentPageDat
                     ))}
                   </div>
                   <p className="text-sm leading-relaxed text-espresso/60">
-                    At Northbound, our clinical team is present around the clock to manage every symptom safely — so you never face this alone.
+                    <AutoLinkedTextClient>{"At Northbound, our clinical team is present around the clock to manage every symptom safely — so you never face this alone."}</AutoLinkedTextClient>
                   </p>
                   <a href="tel:8663110003" className="inline-flex items-center gap-2 bg-terracotta px-7 py-3.5 text-sm font-semibold text-white transition hover:bg-terracotta-light">
                     <i className="ri-phone-line" /> Get Safe Help Now
@@ -417,7 +418,7 @@ export default function TreatmentPageTemplate({ data }: { data: TreatmentPageDat
                   <i className={`${d.icon} text-xl text-navy transition group-hover:text-terracotta`} />
                 </div>
                 <h3 className="font-heading text-lg font-bold text-navy">{d.title}</h3>
-                <p className="mt-3 text-sm leading-relaxed text-espresso/65">{d.body}</p>
+                <p className="mt-3 text-sm leading-relaxed text-espresso/65"><AutoLinkedTextClient>{d.body}</AutoLinkedTextClient></p>
               </div>
             ))}
           </div>
@@ -427,7 +428,7 @@ export default function TreatmentPageTemplate({ data }: { data: TreatmentPageDat
       {/* 6 — Continuum of care (navy) */}
       <section className="bg-navy py-16 lg:py-20">
         <div className="mx-auto w-full max-w-7xl px-6 lg:px-10">
-          <p className="mb-8 text-center text-xs font-semibold uppercase tracking-[0.14em] text-terracotta">Your Recovery Journey</p>
+          <p className="mb-8 text-center text-xs font-semibold uppercase tracking-[0.14em] text-terracotta"><AutoLinkedTextClient>{"Your Recovery Journey"}</AutoLinkedTextClient></p>
           <div className="relative flex flex-wrap items-stretch justify-center gap-px overflow-hidden border border-white/10">
             {data.continuum.map((step, i) => (
               <Link
@@ -450,7 +451,7 @@ export default function TreatmentPageTemplate({ data }: { data: TreatmentPageDat
             ))}
           </div>
           <p className="mt-5 text-center text-[11px] text-white/30">
-            Highlighted step = current program · Click any step to learn more
+            <AutoLinkedTextClient>{"Highlighted step = current program · Click any step to learn more"}</AutoLinkedTextClient>
           </p>
         </div>
       </section>
@@ -465,7 +466,7 @@ export default function TreatmentPageTemplate({ data }: { data: TreatmentPageDat
                 Frequently Asked <span className="italic text-terracotta">Questions</span>
               </h2>
               <p className="mt-5 text-base leading-relaxed text-espresso/65">
-                Have a question not answered here? Call our admissions team — they're available 24/7.
+                <AutoLinkedTextClient>{"Have a question not answered here? Call our admissions team — they're available 24/7."}</AutoLinkedTextClient>
               </p>
               <a href="tel:8663110003" className="mt-7 inline-flex items-center gap-2 bg-navy px-7 py-3.5 text-sm font-semibold text-white transition hover:bg-terracotta">
                 <i className="ri-phone-line" /> (866) 311-0003
@@ -486,7 +487,7 @@ export default function TreatmentPageTemplate({ data }: { data: TreatmentPageDat
                     </span>
                   </button>
                   <div className={`overflow-hidden transition-all duration-300 ${openFaq === i ? "max-h-96 pb-6" : "max-h-0"}`}>
-                    <p className="text-sm leading-relaxed text-espresso/70">{faq.a}</p>
+                    <p className="text-sm leading-relaxed text-espresso/70"><AutoLinkedTextClient>{faq.a}</AutoLinkedTextClient></p>
                   </div>
                 </div>
               ))}

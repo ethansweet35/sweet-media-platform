@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import { AutoLinkedText } from "@sweetmedia/blog-core";
 
 const SUPABASE = "https://ahufsygjwpbymomfdazb.supabase.co/storage/v1/object/public/site-assets/images";
 
@@ -95,9 +96,7 @@ function MemberCard({ member }: { member: Member }) {
         <div className="absolute inset-0 bg-gradient-to-t from-[#1b2a47]/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
       </div>
       <div className="flex flex-col flex-1 p-6">
-        <p className="text-xs font-semibold uppercase tracking-[0.15em] text-[#e97a52] mb-1">
-          {member.title}
-        </p>
+        <p className="text-xs font-semibold uppercase tracking-[0.15em] text-[#e97a52] mb-1"><AutoLinkedText>{member.title}</AutoLinkedText></p>
         <h3 className="font-heading text-lg font-bold text-[#1b2a47] leading-tight">
           {member.name}
         </h3>
@@ -108,7 +107,7 @@ function MemberCard({ member }: { member: Member }) {
               <i className="ri-subtract-line hidden group-open/bio:inline" />
               Read Bio
             </summary>
-            <p className="mt-3 text-sm leading-7 text-[#64748b]">{member.bio}</p>
+            <p className="mt-3 text-sm leading-7 text-[#64748b]"><AutoLinkedText>{member.bio}</AutoLinkedText></p>
           </details>
         )}
       </div>
@@ -130,9 +129,7 @@ export default function TeamPage() {
             Meet the <span className="italic text-[#e97a52]">Team</span>
           </h1>
           <p className="mt-6 max-w-2xl text-lg leading-8 text-white/70">
-            More than any other aspect of the Northbound experience, it is our people that set us apart.
-            Our leadership, medical, and clinical staff are passionately committed to helping every
-            client achieve long-term recovery.
+            <AutoLinkedText>{"More than any other aspect of the Northbound experience, it is our people that set us apart.\n            Our leadership, medical, and clinical staff are passionately committed to helping every\n            client achieve long-term recovery."}</AutoLinkedText>
           </p>
           <div className="mt-10 flex flex-wrap gap-6">
             <Link
@@ -194,13 +191,11 @@ export default function TeamPage() {
               />
             </div>
             <div className="flex flex-col justify-center p-8 lg:p-12">
-              <p className="text-xs font-semibold uppercase tracking-[0.15em] text-[#e97a52] mb-2">
-                {medical[0].title}
-              </p>
+              <p className="text-xs font-semibold uppercase tracking-[0.15em] text-[#e97a52] mb-2"><AutoLinkedText>{medical[0].title}</AutoLinkedText></p>
               <h3 className="font-heading text-2xl font-bold text-[#1b2a47] mb-6">
                 {medical[0].name}
               </h3>
-              <p className="text-sm leading-7 text-[#64748b]">{medical[0].bio}</p>
+              <p className="text-sm leading-7 text-[#64748b]"><AutoLinkedText>{medical[0].bio}</AutoLinkedText></p>
             </div>
           </div>
         </div>
@@ -211,7 +206,7 @@ export default function TeamPage() {
         <div className="mx-auto max-w-7xl px-6 lg:px-10">
           <div className="mb-12">
             <p className="mb-3 text-xs font-semibold uppercase tracking-[0.2em] text-[#e97a52]">
-              Operations &amp; Clinical
+              <AutoLinkedText>{"Operations &amp; Clinical"}</AutoLinkedText>
             </p>
             <h2 className="font-heading text-4xl font-bold text-[#1b2a47] md:text-5xl">
               Leadership Team
@@ -232,7 +227,7 @@ export default function TeamPage() {
             Ready to join a team that changes lives?
           </h2>
           <p className="max-w-xl text-base text-white/70">
-            Northbound Treatment is always looking for compassionate, skilled professionals to grow our team.
+            <AutoLinkedText>{"Northbound Treatment is always looking for compassionate, skilled professionals to grow our team."}</AutoLinkedText>
           </p>
           <Link
             href="/contact-us/"

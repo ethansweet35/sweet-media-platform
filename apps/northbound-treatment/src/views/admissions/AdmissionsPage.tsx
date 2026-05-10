@@ -2,6 +2,7 @@ import Link from "next/link";
 import CtaBanner from "@/views/shared/CtaBanner";
 import AdmissionsHero from "./AdmissionsHero";
 import FaqAccordion from "./FaqAccordion";
+import { AutoLinkedText } from "@sweetmedia/blog-core";
 
 /* ─── Data ──────────────────────────────────────────────────── */
 
@@ -115,18 +116,10 @@ export default function AdmissionsPage() {
                 <span className="italic text-terracotta">is Simple</span>
               </h2>
               <p className="mt-5 text-base leading-relaxed text-espresso/70">
-                Whether you're seeking help for yourself or for someone you love, you
-                are likely experiencing one of the most challenging times in your
-                life. From the beginning of your admissions process, through
-                rehabilitation treatment and sobriety aftercare, we will work through
-                every step with you or your family.
+                <AutoLinkedText>{"Whether you're seeking help for yourself or for someone you love, you\n                are likely experiencing one of the most challenging times in your\n                life. From the beginning of your admissions process, through\n                rehabilitation treatment and sobriety aftercare, we will work through\n                every step with you or your family."}</AutoLinkedText>
               </p>
               <p className="mt-4 text-base leading-relaxed text-espresso/70">
-                Our admissions staff know just how to make the enrollment process as
-                stress-free as possible. You've already made one of the toughest
-                choices by acknowledging it's time to reach out for help with
-                addiction and mental health issues. Let Northbound Treatment help you
-                navigate and manage the rest.
+                <AutoLinkedText>{"Our admissions staff know just how to make the enrollment process as\n                stress-free as possible. You've already made one of the toughest\n                choices by acknowledging it's time to reach out for help with\n                addiction and mental health issues. Let Northbound Treatment help you\n                navigate and manage the rest."}</AutoLinkedText>
               </p>
               <div className="mt-8 flex flex-wrap gap-4">
                 <a
@@ -163,7 +156,7 @@ export default function AdmissionsPage() {
               ))}
               <div className="pt-6">
                 <p className="text-xs font-semibold uppercase tracking-[0.1em] text-espresso/40">
-                  Available 24 hours · 7 days a week
+                  <AutoLinkedText>{"Available 24 hours · 7 days a week"}</AutoLinkedText>
                 </p>
               </div>
             </div>
@@ -207,9 +200,7 @@ export default function AdmissionsPage() {
                 <h3 className="font-heading mt-4 text-xl font-bold text-white">
                   {step.title}
                 </h3>
-                <p className="mt-3 text-sm leading-relaxed text-white/65">
-                  {step.body}
-                </p>
+                <p className="mt-3 text-sm leading-relaxed text-white/65"><AutoLinkedText>{step.body}</AutoLinkedText></p>
                 <a
                   href="tel:8663110003"
                   className="mt-6 inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-[0.1em] text-terracotta transition hover:text-terracotta-light"
@@ -228,17 +219,14 @@ export default function AdmissionsPage() {
         <div className="mx-auto w-full max-w-7xl px-6 lg:px-10">
           <div className="mb-14 text-center">
             <p className="mb-3 text-xs font-semibold uppercase tracking-[0.14em] text-terracotta">
-              Preparing for Arrival
+              <AutoLinkedText>{"Preparing for Arrival"}</AutoLinkedText>
             </p>
             <h2 className="font-heading text-4xl font-bold text-navy md:text-5xl">
               What to{" "}
               <span className="italic text-terracotta">Bring</span>
             </h2>
             <p className="mx-auto mt-4 max-w-xl text-base leading-relaxed text-espresso/70">
-              Drug rehab is a huge step on the road to recovery. Spending time in a
-              rehab facility will be challenging but the reward is well worth the
-              hard work. To increase your comfort during your stay, we recommend
-              bringing the following items.
+              <AutoLinkedText>{"Drug rehab is a huge step on the road to recovery. Spending time in a\n              rehab facility will be challenging but the reward is well worth the\n              hard work. To increase your comfort during your stay, we recommend\n              bringing the following items."}</AutoLinkedText>
             </p>
           </div>
 
@@ -257,9 +245,7 @@ export default function AdmissionsPage() {
                   <h3 className="font-heading text-base font-bold text-navy">
                     {item.title}
                   </h3>
-                  <p className="mt-2 text-sm leading-relaxed text-espresso/65">
-                    {item.body}
-                  </p>
+                  <p className="mt-2 text-sm leading-relaxed text-espresso/65"><AutoLinkedText>{item.body}</AutoLinkedText></p>
                 </div>
               </div>
             ))}
@@ -282,19 +268,13 @@ export default function AdmissionsPage() {
                 Costs
               </h2>
               <p className="mt-2 text-sm font-semibold uppercase tracking-wide text-espresso/40">
-                We Are A Preferred Provider for Most Insurance Plans
+                <AutoLinkedText>{"We Are A Preferred Provider for Most Insurance Plans"}</AutoLinkedText>
               </p>
               <p className="mt-5 text-base leading-relaxed text-espresso/70">
-                Northbound is a preferred in-network provider with most major
-                insurance companies and over 15 insurance contracts, giving you a
-                wide net of coverage. We put mission before margin, ensuring you
-                receive the best care at an affordable cost for you or a loved one.
+                <AutoLinkedText>{"Northbound is a preferred in-network provider with most major\n                insurance companies and over 15 insurance contracts, giving you a\n                wide net of coverage. We put mission before margin, ensuring you\n                receive the best care at an affordable cost for you or a loved one."}</AutoLinkedText>
               </p>
               <p className="mt-4 text-base leading-relaxed text-espresso/70">
-                Our team works directly with your insurance provider to minimize
-                financial stress and ensure you can access the care you need. This
-                approach helps make addiction treatment affordable and accessible,
-                so you can focus on your health and healing.
+                <AutoLinkedText>{"Our team works directly with your insurance provider to minimize\n                financial stress and ensure you can access the care you need. This\n                approach helps make addiction treatment affordable and accessible,\n                so you can focus on your health and healing."}</AutoLinkedText>
               </p>
               <div className="mt-8 flex flex-wrap gap-4">
                 <Link
@@ -313,15 +293,14 @@ export default function AdmissionsPage() {
                 </a>
               </div>
               <p className="mt-5 text-xs text-espresso/40">
-                We are unable at this time to accept Medicare or Medicaid plans.
-                We do offer affordable self-pay and financing options.
+                <AutoLinkedText>{"We are unable at this time to accept Medicare or Medicaid plans.\n                We do offer affordable self-pay and financing options."}</AutoLinkedText>
               </p>
             </div>
 
             {/* Right: insurance provider grid */}
             <div>
               <p className="mb-5 text-xs font-semibold uppercase tracking-[0.1em] text-espresso/40">
-                Accepted Insurance Plans
+                <AutoLinkedText>{"Accepted Insurance Plans"}</AutoLinkedText>
               </p>
               <div className="grid grid-cols-3 gap-px overflow-hidden border border-sand-dark bg-sand-dark">
                 {INSURANCE_PROVIDERS.map((name) => (
@@ -336,7 +315,7 @@ export default function AdmissionsPage() {
                 ))}
               </div>
               <p className="mt-3 text-xs text-espresso/40">
-                + USAMCO, ILWU, NYSHIP, Beacon Health & more
+                <AutoLinkedText>{"+ USAMCO, ILWU, NYSHIP, Beacon Health & more"}</AutoLinkedText>
               </p>
             </div>
           </div>
@@ -352,12 +331,8 @@ export default function AdmissionsPage() {
           <div className="grid grid-cols-3 gap-px overflow-hidden border border-white/10 bg-white/10 lg:grid-cols-3">
             {STATS.map((s) => (
               <div key={s.label} className="bg-navy px-6 py-10 text-center">
-                <p className="font-heading text-4xl font-bold text-white md:text-5xl">
-                  {s.value}
-                </p>
-                <p className="mt-2 text-xs font-semibold uppercase tracking-[0.12em] text-terracotta">
-                  {s.label}
-                </p>
+                <p className="font-heading text-4xl font-bold text-white md:text-5xl"><AutoLinkedText>{s.value}</AutoLinkedText></p>
+                <p className="mt-2 text-xs font-semibold uppercase tracking-[0.12em] text-terracotta"><AutoLinkedText>{s.label}</AutoLinkedText></p>
               </div>
             ))}
           </div>
@@ -370,7 +345,7 @@ export default function AdmissionsPage() {
               genuinely cares. This is a place you can trust.
             </blockquote>
             <p className="mt-5 text-xs font-semibold uppercase tracking-[0.15em] text-terracotta">
-              — Kristen F., Alumni
+              <AutoLinkedText>{"— Kristen F., Alumni"}</AutoLinkedText>
             </p>
           </div>
 
@@ -408,9 +383,7 @@ export default function AdmissionsPage() {
                 <span className="italic text-terracotta">FAQ</span>
               </h2>
               <p className="mt-5 text-base leading-relaxed text-espresso/70">
-                We understand that this can be a confusing time and there are many
-                questions to be answered. Entering addiction treatment is a new
-                experience for many people, and every rehab is different.
+                <AutoLinkedText>{"We understand that this can be a confusing time and there are many\n                questions to be answered. Entering addiction treatment is a new\n                experience for many people, and every rehab is different."}</AutoLinkedText>
               </p>
               <a
                 href="tel:8663110003"

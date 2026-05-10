@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { AutoLinkedText } from "@sweetmedia/blog-core";
 
 const steps = [
   { icon: "ri-phone-line", title: "Call or Contact Us", body: "Reach out to our admissions team. We will assess your situation confidentially and determine whether alternative sentencing treatment is appropriate." },
@@ -28,9 +29,7 @@ export default function AlternativeSentencingPage() {
             Alternative <span className="italic text-[#e97a52]">Sentencing</span>
           </h1>
           <p className="mt-6 max-w-2xl text-lg leading-8 text-white/70">
-            Northbound offers treatment specifically designed for individuals who have experienced
-            legal repercussions as a result of their addiction. We have helped hundreds of clients
-            avoid incarceration through the completion of our alternative sentencing program.
+            <AutoLinkedText>{"Northbound offers treatment specifically designed for individuals who have experienced\n            legal repercussions as a result of their addiction. We have helped hundreds of clients\n            avoid incarceration through the completion of our alternative sentencing program."}</AutoLinkedText>
           </p>
           <div className="mt-10 flex flex-wrap gap-4">
             <Link href="/admissions/" className="inline-flex items-center gap-2 bg-[#e97a52] px-7 py-3.5 text-sm font-semibold text-white transition hover:bg-[#f09068]">
@@ -53,16 +52,10 @@ export default function AlternativeSentencingPage() {
                 Treatment Instead of Incarceration
               </h2>
               <p className="text-sm leading-7 text-[#64748b] mb-4">
-                Our clients often seek treatment as a result of a new or pending charge, and we have been
-                successful in helping them avoid jail time through the completion of our alternative
-                sentencing program. We understand that addiction and its resulting complications can cause
-                stress to everyone involved — families are in crisis and everyone is scared about the future.
+                <AutoLinkedText>{"Our clients often seek treatment as a result of a new or pending charge, and we have been\n                successful in helping them avoid jail time through the completion of our alternative\n                sentencing program. We understand that addiction and its resulting complications can cause\n                stress to everyone involved — families are in crisis and everyone is scared about the future."}</AutoLinkedText>
               </p>
               <p className="text-sm leading-7 text-[#64748b]">
-                An impending conviction threatens the individual&apos;s freedom, safety, and future
-                professional success. Our court services team will offer assistance to you and your
-                attorney to help demonstrate to the court that treatment — not incarceration — is the
-                right path forward.
+                <AutoLinkedText>{"An impending conviction threatens the individual&apos;s freedom, safety, and future\n                professional success. Our court services team will offer assistance to you and your\n                attorney to help demonstrate to the court that treatment — not incarceration — is the\n                right path forward."}</AutoLinkedText>
               </p>
             </div>
             <div className="bg-[#eef2f7] p-8">
@@ -95,7 +88,7 @@ export default function AlternativeSentencingPage() {
                   <i className={`${s.icon} text-xl text-[#1b2a47]`} />
                 </div>
                 <h3 className="font-heading text-lg font-bold text-[#1b2a47]">{s.title}</h3>
-                <p className="text-sm leading-7 text-[#64748b]">{s.body}</p>
+                <p className="text-sm leading-7 text-[#64748b]"><AutoLinkedText>{s.body}</AutoLinkedText></p>
               </div>
             ))}
           </div>
@@ -109,7 +102,7 @@ export default function AlternativeSentencingPage() {
             <h2 className="font-heading text-3xl font-bold text-white md:text-4xl">
               Time-sensitive? We move quickly.
             </h2>
-            <p className="mt-3 text-white/70">Call us now — our admissions team is available 24/7.</p>
+            <p className="mt-3 text-white/70"><AutoLinkedText>{"Call us now — our admissions team is available 24/7."}</AutoLinkedText></p>
           </div>
           <a href="tel:8663110003" className="shrink-0 inline-flex items-center gap-2 bg-[#e97a52] px-8 py-4 text-sm font-semibold text-white transition hover:bg-[#f09068]">
             <i className="ri-phone-fill" /> (866) 311-0003

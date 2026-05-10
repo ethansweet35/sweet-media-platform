@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { AutoLinkedText } from "@sweetmedia/blog-core";
 
 interface CtaItem {
   label: string;
@@ -35,15 +36,13 @@ export default function CtaBanner({
           {/* Text */}
           <div className="max-w-2xl">
             {eyebrow && (
-              <p className="mb-3 text-xs font-semibold uppercase tracking-[0.14em] text-terracotta">
-                {eyebrow}
-              </p>
+              <p className="mb-3 text-xs font-semibold uppercase tracking-[0.14em] text-terracotta"><AutoLinkedText>{eyebrow}</AutoLinkedText></p>
             )}
             <h2 className="font-heading text-3xl font-bold text-white md:text-4xl">
               {headline}
             </h2>
             {body && (
-              <p className="mt-3 text-base leading-relaxed text-white/70">{body}</p>
+              <p className="mt-3 text-base leading-relaxed text-white/70"><AutoLinkedText>{body}</AutoLinkedText></p>
             )}
           </div>
 

@@ -1,3 +1,4 @@
+import { AutoLinkedText } from "@sweetmedia/blog-core";
 /**
  * Testimonial — espresso bg, full-bleed centered alumni quote with stars
  * and Google rating eyebrow. Per Figma Testimonial.tsx.
@@ -14,7 +15,7 @@ export default function Testimonial() {
           ))}
         </div>
         <p className="mb-10 text-xs font-bold uppercase tracking-[0.22em] text-white/40">
-          4.6/5 on Google from 224+ Reviews
+          <AutoLinkedText>{"4.6/5 on Google from 224+ Reviews"}</AutoLinkedText>
         </p>
 
         <blockquote className="mb-10 font-serif text-3xl leading-relaxed text-white lg:text-4xl">
@@ -23,7 +24,7 @@ export default function Testimonial() {
           it works. I look forward to the alumni meetings every Friday.&rdquo;
         </blockquote>
         <p className="text-sm font-medium uppercase tracking-[0.22em] text-terracotta">
-          &mdash; Joshua Gingold, Alumni
+          <AutoLinkedText>{"&mdash; Joshua Gingold, Alumni"}</AutoLinkedText>
         </p>
       </div>
     </section>

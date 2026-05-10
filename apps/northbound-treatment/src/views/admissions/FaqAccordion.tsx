@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { AutoLinkedTextClient } from "@sweetmedia/blog-core";
 
 const FAQS = [
   {
@@ -66,7 +67,7 @@ export default function FaqAccordion() {
               open === i ? "max-h-96 pb-6" : "max-h-0"
             }`}
           >
-            <p className="text-sm leading-relaxed text-espresso/70">{faq.a}</p>
+            <p className="text-sm leading-relaxed text-espresso/70"><AutoLinkedTextClient>{faq.a}</AutoLinkedTextClient></p>
           </div>
         </div>
       ))}

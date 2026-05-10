@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import { AutoLinkedText } from "@sweetmedia/blog-core";
 
 export type Breadcrumb = { label: string; href?: string };
 
@@ -74,9 +75,7 @@ export default function PageHero({
         )}
 
         {/* Eyebrow */}
-        <p className="mb-4 text-xs font-semibold uppercase tracking-[0.14em] text-terracotta">
-          {eyebrow}
-        </p>
+        <p className="mb-4 text-xs font-semibold uppercase tracking-[0.14em] text-terracotta"><AutoLinkedText>{eyebrow}</AutoLinkedText></p>
 
         {/* Headline */}
         <h1 className="font-heading max-w-2xl text-4xl font-bold leading-tight text-white md:text-5xl lg:text-6xl">
@@ -94,9 +93,7 @@ export default function PageHero({
         </h1>
 
         {/* Body */}
-        <p className="mt-5 max-w-xl text-base leading-relaxed text-white/75">
-          {body}
-        </p>
+        <p className="mt-5 max-w-xl text-base leading-relaxed text-white/75"><AutoLinkedText>{body}</AutoLinkedText></p>
 
         {/* CTAs */}
         {(primaryCta || secondaryCta) && (

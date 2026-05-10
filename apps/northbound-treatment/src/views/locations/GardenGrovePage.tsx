@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useState } from "react";
 import { GARDEN_GROVE_IMAGES } from "@/views/home/assets";
 import CtaBanner from "@/views/shared/CtaBanner";
+import { AutoLinkedTextClient } from "@sweetmedia/blog-core";
 
 const SUPABASE_BASE =
   "https://ahufsygjwpbymomfdazb.supabase.co/storage/v1/object/public/site-assets";
@@ -113,7 +114,7 @@ function FaqItem({ q, a }: { q: string; a: string }) {
         </span>
       </button>
       {open && (
-        <p className="pb-5 text-sm leading-relaxed text-[#4B5563]">{a}</p>
+        <p className="pb-5 text-sm leading-relaxed text-[#4B5563]"><AutoLinkedTextClient>{a}</AutoLinkedTextClient></p>
       )}
     </div>
   );
@@ -146,7 +147,7 @@ export default function GardenGrovePage() {
 
           <div className="max-w-3xl">
             <p className="mb-4 text-sm font-semibold uppercase tracking-[0.18em] text-[#E8622A]">
-              Garden Grove, California — Orange County
+              <AutoLinkedTextClient>{"Garden Grove, California — Orange County"}</AutoLinkedTextClient>
             </p>
             <h1 className="font-heading text-5xl font-bold leading-tight text-white md:text-6xl lg:text-7xl">
               Drug & Alcohol{" "}
@@ -197,7 +198,7 @@ export default function GardenGrovePage() {
           <div className="grid gap-16 lg:grid-cols-2 lg:items-center">
             <div>
               <p className="mb-3 text-sm font-semibold uppercase tracking-[0.16em] text-[#E8622A]">
-                Our Flagship Location
+                <AutoLinkedTextClient>{"Our Flagship Location"}</AutoLinkedTextClient>
               </p>
               <h2 className="font-heading text-4xl font-bold text-[#0B1F3A] md:text-5xl">
                 Welcome to{" "}
@@ -207,10 +208,10 @@ export default function GardenGrovePage() {
                 When we founded our Garden Grove facility, we wanted to pay homage to the history of sprawling orange groves that once populated this city. The name <em>The Grove</em> was established as a symbol of hope — a place where we plant the seeds of recovery.
               </p>
               <p className="mt-4 text-base leading-relaxed text-[#4B5563]">
-                Garden Grove sits in Orange County, just one mile from the famed Disneyland Resort and 20 minutes from some of California&apos;s most iconic beaches. The city&apos;s vibrant diversity and deep community spirit make it an ideal backdrop for healing — connected enough to feel alive, peaceful enough to focus on what matters.
+                <AutoLinkedTextClient>{"Garden Grove sits in Orange County, just one mile from the famed Disneyland Resort and 20 minutes from some of California&apos;s most iconic beaches. The city&apos;s vibrant diversity and deep community spirit make it an ideal backdrop for healing — connected enough to feel alive, peaceful enough to focus on what matters."}</AutoLinkedTextClient>
               </p>
               <p className="mt-4 text-base leading-relaxed text-[#4B5563]">
-                As a two-phased residential treatment center, The Grove offers medically supervised detox followed by full residential care — all under one roof, staffed 24 hours a day.
+                <AutoLinkedTextClient>{"As a two-phased residential treatment center, The Grove offers medically supervised detox followed by full residential care — all under one roof, staffed 24 hours a day."}</AutoLinkedTextClient>
               </p>
 
               <div className="mt-8 grid grid-cols-2 gap-4 sm:grid-cols-3">
@@ -220,8 +221,8 @@ export default function GardenGrovePage() {
                   { stat: "24/7", label: "Medical Support" },
                 ].map((s) => (
                   <div key={s.label} className="rounded-2xl bg-[#F5F7FF] p-5 text-center">
-                    <p className="font-heading text-3xl font-bold text-[#0B1F3A]">{s.stat}</p>
-                    <p className="mt-1 text-xs font-semibold uppercase tracking-wider text-[#6B7280]">{s.label}</p>
+                    <p className="font-heading text-3xl font-bold text-[#0B1F3A]"><AutoLinkedTextClient>{s.stat}</AutoLinkedTextClient></p>
+                    <p className="mt-1 text-xs font-semibold uppercase tracking-wider text-[#6B7280]"><AutoLinkedTextClient>{s.label}</AutoLinkedTextClient></p>
                   </div>
                 ))}
               </div>
@@ -257,7 +258,7 @@ export default function GardenGrovePage() {
               Programs at Garden Grove
             </h2>
             <p className="mt-4 text-[#4B5563]">
-              Every client enters The Grove with a unique story. We offer a full continuum of care — from the first day of detox to long after discharge.
+              <AutoLinkedTextClient>{"Every client enters The Grove with a unique story. We offer a full continuum of care — from the first day of detox to long after discharge."}</AutoLinkedTextClient>
             </p>
           </div>
 
@@ -278,9 +279,7 @@ export default function GardenGrovePage() {
                 <h3 className={`mt-3 font-heading text-xl font-bold ${i === 0 ? "text-white" : "text-[#0B1F3A]"}`}>
                   {p.name}
                 </h3>
-                <p className={`mt-2 text-sm leading-relaxed ${i === 0 ? "text-white/75" : "text-[#4B5563]"}`}>
-                  {p.desc}
-                </p>
+                <p className={`mt-2 text-sm leading-relaxed ${i === 0 ? "text-white/75" : "text-[#4B5563]"}`}><AutoLinkedTextClient>{p.desc}</AutoLinkedTextClient></p>
               </div>
             ))}
           </div>
@@ -309,19 +308,19 @@ export default function GardenGrovePage() {
               </div>
               {/* community tag */}
               <div className="absolute -top-5 -right-5 rounded-2xl bg-[#E8622A] px-5 py-4 shadow-xl">
-                <p className="text-xs font-bold uppercase tracking-wider text-white">Community &amp; Wellness</p>
+                <p className="text-xs font-bold uppercase tracking-wider text-white"><AutoLinkedTextClient>{"Community &amp; Wellness"}</AutoLinkedTextClient></p>
               </div>
             </div>
 
             <div className="order-1 lg:order-2">
               <p className="mb-3 text-sm font-semibold uppercase tracking-[0.16em] text-[#E8622A]">
-                Services, Amenities &amp; Activities
+                <AutoLinkedTextClient>{"Services, Amenities &amp; Activities"}</AutoLinkedTextClient>
               </p>
               <h2 className="font-heading text-4xl font-bold text-[#0B1F3A] md:text-5xl">
                 Life at The Grove
               </h2>
               <p className="mt-4 text-base leading-relaxed text-[#4B5563]">
-                Recovery isn&apos;t just about stopping substance use — it&apos;s about rebuilding a life worth living. At The Grove, every day is designed to restore your body, mind, and sense of self.
+                <AutoLinkedTextClient>{"Recovery isn&apos;t just about stopping substance use — it&apos;s about rebuilding a life worth living. At The Grove, every day is designed to restore your body, mind, and sense of self."}</AutoLinkedTextClient>
               </p>
 
               <div className="mt-8 grid grid-cols-1 gap-3 sm:grid-cols-2">
@@ -340,8 +339,8 @@ export default function GardenGrovePage() {
                 {amenities.slice(0, 6).map((am) => (
                   <div key={am.label} className="rounded-2xl bg-[#F5F7FF] p-4">
                     <i className={`${am.icon} mb-2 text-lg text-[#0B1F3A]`}></i>
-                    <p className="text-xs font-bold text-[#0B1F3A]">{am.label}</p>
-                    <p className="mt-0.5 text-[10px] leading-snug text-[#6B7280]">{am.desc}</p>
+                    <p className="text-xs font-bold text-[#0B1F3A]"><AutoLinkedTextClient>{am.label}</AutoLinkedTextClient></p>
+                    <p className="mt-0.5 text-[10px] leading-snug text-[#6B7280]"><AutoLinkedTextClient>{am.desc}</AutoLinkedTextClient></p>
                   </div>
                 ))}
               </div>
@@ -363,7 +362,7 @@ export default function GardenGrovePage() {
                 <span className="italic text-[#E8622A]">The Grove</span>
               </h2>
               <p className="mt-5 text-sm leading-relaxed text-white/70">
-                Our multidisciplinary team — including MDs, PhDs, LMFTs, LCSWs, and CADCs — delivers evidence-based and holistic care tailored to your specific needs and history.
+                <AutoLinkedTextClient>{"Our multidisciplinary team — including MDs, PhDs, LMFTs, LCSWs, and CADCs — delivers evidence-based and holistic care tailored to your specific needs and history."}</AutoLinkedTextClient>
               </p>
               <Link
                 href="tel:8663110003"
@@ -397,17 +396,17 @@ export default function GardenGrovePage() {
           <div className="grid gap-16 lg:grid-cols-2 lg:items-center">
             <div>
               <p className="mb-3 text-sm font-semibold uppercase tracking-[0.16em] text-[#E8622A]">
-                Location &amp; Community
+                <AutoLinkedTextClient>{"Location &amp; Community"}</AutoLinkedTextClient>
               </p>
               <h2 className="font-heading text-4xl font-bold text-[#0B1F3A] md:text-5xl">
                 Rooted in{" "}
                 <span className="italic text-[#E8622A]">Orange County</span>
               </h2>
               <p className="mt-5 text-base leading-relaxed text-[#4B5563]">
-                Garden Grove is one of Orange County&apos;s most vibrant and diverse cities. Home to the bustling Little Saigon and Koreatown commercial districts, it reflects a deep hometown spirit and progressive energy — an ideal environment for people from all walks of life to find common ground in recovery.
+                <AutoLinkedTextClient>{"Garden Grove is one of Orange County&apos;s most vibrant and diverse cities. Home to the bustling Little Saigon and Koreatown commercial districts, it reflects a deep hometown spirit and progressive energy — an ideal environment for people from all walks of life to find common ground in recovery."}</AutoLinkedTextClient>
               </p>
               <p className="mt-4 text-base leading-relaxed text-[#4B5563]">
-                Our location puts you one mile from Disneyland Resort and 20 minutes from some of California&apos;s most beautiful beaches — available for structured beach bonfire outings and coastal therapy experiences that are unique to Southern California treatment.
+                <AutoLinkedTextClient>{"Our location puts you one mile from Disneyland Resort and 20 minutes from some of California&apos;s most beautiful beaches — available for structured beach bonfire outings and coastal therapy experiences that are unique to Southern California treatment."}</AutoLinkedTextClient>
               </p>
 
               <div className="mt-8 space-y-4">
@@ -426,9 +425,9 @@ export default function GardenGrovePage() {
 
               {/* OC context stat */}
               <div className="mt-8 rounded-2xl border border-[#E5E7EB] bg-[#F5F7FF] p-6">
-                <p className="text-sm font-semibold text-[#0B1F3A]">Orange County Context</p>
+                <p className="text-sm font-semibold text-[#0B1F3A]"><AutoLinkedTextClient>{"Orange County Context"}</AutoLinkedTextClient></p>
                 <p className="mt-2 text-sm leading-relaxed text-[#4B5563]">
-                  Drug and alcohol-related mortality in Orange County has risen since 2012, with a 45% increase in opioid-involved deaths from 2019 to 2020. Northbound has been part of the recovery solution in this community for over 38 years.
+                  <AutoLinkedTextClient>{"Drug and alcohol-related mortality in Orange County has risen since 2012, with a 45% increase in opioid-involved deaths from 2019 to 2020. Northbound has been part of the recovery solution in this community for over 38 years."}</AutoLinkedTextClient>
                 </p>
               </div>
             </div>
@@ -505,8 +504,8 @@ export default function GardenGrovePage() {
                   ))}
                 </div>
                 <p className="text-sm leading-relaxed text-[#374151]">&ldquo;{t.quote}&rdquo;</p>
-                <p className="mt-5 text-xs font-bold text-[#0B1F3A]">{t.name}</p>
-                <p className="text-[10px] text-[#9CA3AF]">Northbound Garden Grove Alumni</p>
+                <p className="mt-5 text-xs font-bold text-[#0B1F3A]"><AutoLinkedTextClient>{t.name}</AutoLinkedTextClient></p>
+                <p className="text-[10px] text-[#9CA3AF]"><AutoLinkedTextClient>{"Northbound Garden Grove Alumni"}</AutoLinkedTextClient></p>
               </div>
             ))}
           </div>
@@ -538,7 +537,7 @@ export default function GardenGrovePage() {
           <p className="mb-2 text-sm font-semibold uppercase tracking-[0.16em] text-[#E8622A]">Insurance</p>
           <h2 className="font-heading text-3xl font-bold text-[#0B1F3A] md:text-4xl">We Verify Your Benefits — Free & Confidential</h2>
           <p className="mx-auto mt-4 max-w-xl text-sm leading-relaxed text-[#4B5563]">
-            We work with 15+ major carriers including Aetna, Anthem/BCBS, Cigna, Tricare, MHN, and more. Our admissions team handles the verification process so you can focus on getting help.
+            <AutoLinkedTextClient>{"We work with 15+ major carriers including Aetna, Anthem/BCBS, Cigna, Tricare, MHN, and more. Our admissions team handles the verification process so you can focus on getting help."}</AutoLinkedTextClient>
           </p>
           <div className="mt-8 flex flex-wrap justify-center gap-3 text-xs font-semibold text-[#6B7280]">
             {["Aetna", "Anthem BCBS", "Cigna", "Tricare", "MHN", "Multiplan", "Beacon", "ComPsych", "First Health"].map((ins) => (
@@ -567,10 +566,10 @@ export default function GardenGrovePage() {
       <section className="bg-white py-12">
         <div className="mx-auto max-w-7xl px-6 lg:px-10">
           <p className="mb-4 text-xs font-semibold uppercase tracking-wider text-[#9CA3AF]">
-            Serving All of Southern California Including:
+            <AutoLinkedTextClient>{"Serving All of Southern California Including:"}</AutoLinkedTextClient>
           </p>
           <p className="text-sm leading-relaxed text-[#6B7280]">
-            Aliso Viejo · Anaheim · Brea · Buena Park · Costa Mesa · Cypress · Dana Point · Fountain Valley · Fullerton · Huntington Beach · La Jolla · La Habra · La Palma · Laguna Beach · Laguna Hills · Laguna Niguel · Lake Forest · Los Alamitos · Mission Viejo · Newport Beach · Orange County · Placentia · Santa Ana · San Clemente · San Diego · Seal Beach · Stanton · Tustin · Villa Park · Westminster · Yorba Linda
+            <AutoLinkedTextClient>{"Aliso Viejo · Anaheim · Brea · Buena Park · Costa Mesa · Cypress · Dana Point · Fountain Valley · Fullerton · Huntington Beach · La Jolla · La Habra · La Palma · Laguna Beach · Laguna Hills · Laguna Niguel · Lake Forest · Los Alamitos · Mission Viejo · Newport Beach · Orange County · Placentia · Santa Ana · San Clemente · San Diego · Seal Beach · Stanton · Tustin · Villa Park · Westminster · Yorba Linda"}</AutoLinkedTextClient>
           </p>
         </div>
       </section>

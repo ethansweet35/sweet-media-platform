@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { AutoLinkedText } from "@sweetmedia/blog-core";
 
 const LEVELS = [
   {
@@ -98,21 +99,20 @@ export default function ServicesHubPage() {
             <span className="text-[#e97a52]">Treatment Services</span>
           </nav>
 
-          <p className="text-xs font-semibold uppercase tracking-[0.22em] text-[#e97a52]">Full Continuum of Care</p>
+          <p className="text-xs font-semibold uppercase tracking-[0.22em] text-[#e97a52]"><AutoLinkedText>{"Full Continuum of Care"}</AutoLinkedText></p>
           <h1 className="font-heading mt-4 max-w-3xl text-5xl font-bold leading-tight text-white md:text-6xl">
             Treatment <span className="italic text-[#e97a52]">Services</span>
           </h1>
           <p className="mt-5 max-w-2xl text-base leading-relaxed text-white/55 md:text-lg">
-            Northbound provides evidence-based, individualized addiction treatment across every level of care —
-            from medical detox and residential through outpatient, virtual IOP, and long-term aftercare support.
+            <AutoLinkedText>{"Northbound provides evidence-based, individualized addiction treatment across every level of care —\n            from medical detox and residential through outpatient, virtual IOP, and long-term aftercare support."}</AutoLinkedText>
           </p>
 
           {/* Stats strip */}
           <div className="mt-10 grid grid-cols-2 gap-px border border-white/10 bg-white/10 sm:grid-cols-4">
             {STATS.map((s) => (
               <div key={s.label} className="bg-[#1b2a47] px-6 py-5 text-center">
-                <p className="font-heading text-3xl font-bold text-[#e97a52]">{s.value}</p>
-                <p className="mt-0.5 text-[10px] font-semibold uppercase tracking-[0.15em] text-white/40">{s.label}</p>
+                <p className="font-heading text-3xl font-bold text-[#e97a52]"><AutoLinkedText>{s.value}</AutoLinkedText></p>
+                <p className="mt-0.5 text-[10px] font-semibold uppercase tracking-[0.15em] text-white/40"><AutoLinkedText>{s.label}</AutoLinkedText></p>
               </div>
             ))}
           </div>
@@ -146,7 +146,7 @@ export default function ServicesHubPage() {
                   <h3 className="font-heading font-bold text-[#1b2a47] transition-colors group-hover:text-[#e97a52]">
                     {item.label}
                   </h3>
-                  <p className="mt-2 text-sm leading-relaxed text-[#64748b]">{item.desc}</p>
+                  <p className="mt-2 text-sm leading-relaxed text-[#64748b]"><AutoLinkedText>{item.desc}</AutoLinkedText></p>
                 </div>
                 <span className="mt-auto flex items-center gap-1 text-[11px] font-bold uppercase tracking-[0.1em] text-[#e97a52]">
                   Learn More <i className="ri-arrow-right-line text-xs transition-transform group-hover:translate-x-0.5" />
@@ -199,7 +199,7 @@ export default function ServicesHubPage() {
                 Ready to find the right <span className="italic text-[#e97a52]">level of care?</span>
               </h2>
               <p className="mt-3 max-w-md text-sm leading-relaxed text-white/50">
-                Our admissions team is available 24/7. One call is all it takes to get started — confidential, no obligation.
+                <AutoLinkedText>{"Our admissions team is available 24/7. One call is all it takes to get started — confidential, no obligation."}</AutoLinkedText>
               </p>
             </div>
             <div className="flex shrink-0 flex-col gap-3">

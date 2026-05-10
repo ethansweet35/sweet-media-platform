@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import { AutoLinkedText } from "@sweetmedia/blog-core";
 
 const BASE = "https://ahufsygjwpbymomfdazb.supabase.co/storage/v1/object/public/site-assets/images";
 
@@ -56,13 +57,13 @@ export default function MensResidentialPage() {
         <div className="relative z-10 mx-auto w-full max-w-7xl px-6 pb-16 pt-28 lg:px-10 lg:pb-20 lg:pt-36">
           <div className="max-w-3xl">
             <p className="text-xs font-semibold uppercase tracking-[0.18em] text-[#e97a52]">
-              Residential Programs — Northbound Treatment Services
+              <AutoLinkedText>{"Residential Programs — Northbound Treatment Services"}</AutoLinkedText>
             </p>
             <h1 className="font-heading mt-4 text-5xl font-bold leading-tight text-white md:text-6xl lg:text-7xl">
               Men&apos;s <span className="italic text-[#e97a52]">Residential</span> Treatment
             </h1>
             <p className="mt-5 max-w-xl text-lg leading-relaxed text-white/70">
-              Men face unique challenges in addiction — from the cultural barriers to seeking help, to the specific trauma patterns that drive use, to the identity and purpose disruption that addiction creates. Northbound's men's residential program is designed for exactly this.
+              <AutoLinkedText>{"Men face unique challenges in addiction — from the cultural barriers to seeking help, to the specific trauma patterns that drive use, to the identity and purpose disruption that addiction creates. Northbound's men's residential program is designed for exactly this."}</AutoLinkedText>
             </p>
             <div className="mt-8 flex flex-wrap gap-4">
               <Link
@@ -89,19 +90,19 @@ export default function MensResidentialPage() {
           <div className="grid gap-12 lg:grid-cols-2 lg:gap-20 lg:items-center">
             <div>
               <p className="text-xs font-semibold uppercase tracking-[0.14em] text-[#e97a52]">
-                Why Men&apos;s-Specific Treatment
+                <AutoLinkedText>{"Why Men&apos;s-Specific Treatment"}</AutoLinkedText>
               </p>
               <h2 className="font-heading mt-3 text-4xl font-bold text-[#1b2a47] md:text-5xl">
                 Men Don&apos;t Ask for Help — <span className="italic text-[#e97a52]">Until They Do</span>
               </h2>
               <p className="mt-5 leading-relaxed text-[#64748b]">
-                Men are three times more likely than women to develop a substance use disorder — and far less likely to seek treatment for it. The reasons are cultural, psychological, and relational: admitting struggle conflicts with masculine identity; asking for help feels like weakness; the consequences often have to become catastrophic before the wall comes down.
+                <AutoLinkedText>{"Men are three times more likely than women to develop a substance use disorder — and far less likely to seek treatment for it. The reasons are cultural, psychological, and relational: admitting struggle conflicts with masculine identity; asking for help feels like weakness; the consequences often have to become catastrophic before the wall comes down."}</AutoLinkedText>
               </p>
               <p className="mt-4 leading-relaxed text-[#64748b]">
-                When men do seek help, they need an environment that meets them where they are — that doesn't require immediate emotional fluency, that acknowledges the real barriers to vulnerability, and that builds trust through structure, accountability, and shared experience with other men who understand.
+                <AutoLinkedText>{"When men do seek help, they need an environment that meets them where they are — that doesn't require immediate emotional fluency, that acknowledges the real barriers to vulnerability, and that builds trust through structure, accountability, and shared experience with other men who understand."}</AutoLinkedText>
               </p>
               <p className="mt-4 leading-relaxed text-[#64748b]">
-                Northbound's men's residential program has been built around this clinical reality for nearly four decades. Brotherhood isn't a marketing word here — it's the mechanism of recovery.
+                <AutoLinkedText>{"Northbound's men's residential program has been built around this clinical reality for nearly four decades. Brotherhood isn't a marketing word here — it's the mechanism of recovery."}</AutoLinkedText>
               </p>
             </div>
             <div className="relative">
@@ -125,13 +126,13 @@ export default function MensResidentialPage() {
           <div className="grid gap-12 lg:grid-cols-2 lg:gap-20 lg:items-start">
             <div>
               <p className="text-xs font-semibold uppercase tracking-[0.14em] text-[#e97a52]">
-                Men-Specific Clinical Focus
+                <AutoLinkedText>{"Men-Specific Clinical Focus"}</AutoLinkedText>
               </p>
               <h2 className="font-heading mt-3 text-4xl font-bold text-[#1b2a47] md:text-5xl">
                 What Our Men&apos;s Program <span className="italic text-[#e97a52]">Addresses</span>
               </h2>
               <p className="mt-5 leading-relaxed text-[#64748b]">
-                Northbound's men's program addresses the clinical issues that drive addiction in men — not generic recovery content, but the specific patterns that research and experience show are most relevant to male addiction and recovery.
+                <AutoLinkedText>{"Northbound's men's program addresses the clinical issues that drive addiction in men — not generic recovery content, but the specific patterns that research and experience show are most relevant to male addiction and recovery."}</AutoLinkedText>
               </p>
               <ul className="mt-6 space-y-3">
                 {WHAT_WE_ADDRESS.map((item) => (
@@ -152,7 +153,7 @@ export default function MensResidentialPage() {
                   </div>
                   <div>
                     <h3 className="font-heading text-base font-bold text-[#1b2a47]">{item.title}</h3>
-                    <p className="mt-1 text-sm leading-relaxed text-[#64748b]">{item.body}</p>
+                    <p className="mt-1 text-sm leading-relaxed text-[#64748b]"><AutoLinkedText>{item.body}</AutoLinkedText></p>
                   </div>
                 </div>
               ))}
@@ -167,16 +168,16 @@ export default function MensResidentialPage() {
           <div className="grid gap-10 lg:grid-cols-[2fr_1fr] lg:gap-16 lg:items-center">
             <div>
               <p className="text-xs font-semibold uppercase tracking-[0.14em] text-[#e97a52]">
-                Specialized Programs for Men
+                <AutoLinkedText>{"Specialized Programs for Men"}</AutoLinkedText>
               </p>
               <h2 className="font-heading mt-3 text-4xl font-bold text-white md:text-5xl">
                 Veterans Track &amp; <span className="italic text-[#e97a52]">Careerbound®</span>
               </h2>
               <p className="mt-5 leading-relaxed text-white/65">
-                Two of Northbound's most specialized programs are built around men's most common recovery trajectories. The Veterans Track program provides culturally competent care for active military and veterans — honoring service, addressing combat trauma, and building recovery within the context of military identity. The Careerbound® program supports men in rebuilding professional lives disrupted by addiction.
+                <AutoLinkedText>{"Two of Northbound's most specialized programs are built around men's most common recovery trajectories. The Veterans Track program provides culturally competent care for active military and veterans — honoring service, addressing combat trauma, and building recovery within the context of military identity. The Careerbound® program supports men in rebuilding professional lives disrupted by addiction."}</AutoLinkedText>
               </p>
               <p className="mt-4 leading-relaxed text-white/65">
-                Both programs integrate into Northbound's residential and outpatient continuum — providing the vocational, identity, and community-level support that sustains sobriety beyond the clinical setting.
+                <AutoLinkedText>{"Both programs integrate into Northbound's residential and outpatient continuum — providing the vocational, identity, and community-level support that sustains sobriety beyond the clinical setting."}</AutoLinkedText>
               </p>
               <div className="mt-8 flex flex-wrap gap-4">
                 <Link
@@ -194,8 +195,8 @@ export default function MensResidentialPage() {
                 { value: "24/7", label: "Clinical support" },
               ].map((s) => (
                 <div key={s.label} className="border-l-4 border-[#e97a52] pl-5">
-                  <p className="font-heading text-4xl font-bold text-[#e97a52]">{s.value}</p>
-                  <p className="mt-1 text-sm font-semibold uppercase tracking-[0.1em] text-white/50">{s.label}</p>
+                  <p className="font-heading text-4xl font-bold text-[#e97a52]"><AutoLinkedText>{s.value}</AutoLinkedText></p>
+                  <p className="mt-1 text-sm font-semibold uppercase tracking-[0.1em] text-white/50"><AutoLinkedText>{s.label}</AutoLinkedText></p>
                 </div>
               ))}
             </div>
@@ -212,7 +213,7 @@ export default function MensResidentialPage() {
                 Asking for Help Is the Strongest Thing You Can Do.
               </h2>
               <p className="mt-3 max-w-xl text-sm leading-relaxed text-white/80">
-                Our admissions team is available 24/7. The call is confidential and costs nothing. Let us handle the insurance, answer your questions, and help you take the next step.
+                <AutoLinkedText>{"Our admissions team is available 24/7. The call is confidential and costs nothing. Let us handle the insurance, answer your questions, and help you take the next step."}</AutoLinkedText>
               </p>
             </div>
             <div className="flex flex-wrap gap-4">

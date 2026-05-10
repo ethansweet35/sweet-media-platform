@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { AutoLinkedText } from "@sweetmedia/blog-core";
 
 const strategies = [
   { icon: "ri-heart-line", title: "Educate Yourself on Addiction", body: "Understanding that addiction is a disease — not a moral failing — is the first step. The more you learn, the better equipped you'll be to respond with compassion rather than anger or shame." },
@@ -21,9 +22,7 @@ export default function SpouseOfAnAddictPage() {
             Spouse of an <span className="italic text-[#e97a52]">Addict</span>
           </h1>
           <p className="mt-6 max-w-2xl text-lg leading-8 text-white/70">
-            Being married to someone with a substance addiction is one of life&apos;s most painful and
-            disorienting experiences. Northbound is here to help you understand what you&apos;re going
-            through — and how to support your spouse without losing yourself.
+            <AutoLinkedText>{"Being married to someone with a substance addiction is one of life&apos;s most painful and\n            disorienting experiences. Northbound is here to help you understand what you&apos;re going\n            through — and how to support your spouse without losing yourself."}</AutoLinkedText>
           </p>
           <div className="mt-10 flex flex-wrap gap-4">
             <Link href="/admissions/" className="inline-flex items-center gap-2 bg-[#e97a52] px-7 py-3.5 text-sm font-semibold text-white transition hover:bg-[#f09068]">
@@ -46,8 +45,8 @@ export default function SpouseOfAnAddictPage() {
               { stat: "40%", label: "Of people in treatment have a co-occurring mental health disorder" },
             ].map((s) => (
               <div key={s.label} className="py-10 px-8">
-                <p className="font-heading text-4xl font-bold text-[#e97a52]">{s.stat}</p>
-                <p className="mt-2 text-sm text-[#64748b]">{s.label}</p>
+                <p className="font-heading text-4xl font-bold text-[#e97a52]"><AutoLinkedText>{s.stat}</AutoLinkedText></p>
+                <p className="mt-2 text-sm text-[#64748b]"><AutoLinkedText>{s.label}</AutoLinkedText></p>
               </div>
             ))}
           </div>
@@ -58,11 +57,10 @@ export default function SpouseOfAnAddictPage() {
       <section className="py-24 bg-white">
         <div className="mx-auto max-w-7xl px-6 lg:px-10">
           <div className="mb-12">
-            <p className="mb-3 text-xs font-semibold uppercase tracking-[0.2em] text-[#e97a52]">Guidance for Spouses</p>
+            <p className="mb-3 text-xs font-semibold uppercase tracking-[0.2em] text-[#e97a52]"><AutoLinkedText>{"Guidance for Spouses"}</AutoLinkedText></p>
             <h2 className="font-heading text-4xl font-bold text-[#1b2a47] md:text-5xl">How to Support Recovery</h2>
             <p className="mt-4 max-w-2xl text-[#64748b] leading-7">
-              Our team at Northbound hopes to give you the information and tools you need to help your
-              spouse achieve a full recovery — while also protecting your own wellbeing.
+              <AutoLinkedText>{"Our team at Northbound hopes to give you the information and tools you need to help your\n              spouse achieve a full recovery — while also protecting your own wellbeing."}</AutoLinkedText>
             </p>
           </div>
           <div className="grid gap-px bg-[#cdd8e8] sm:grid-cols-2 lg:grid-cols-3">
@@ -72,7 +70,7 @@ export default function SpouseOfAnAddictPage() {
                   <i className={`${s.icon} text-2xl`} />
                 </span>
                 <h3 className="font-heading text-xl font-bold text-[#1b2a47]">{s.title}</h3>
-                <p className="text-sm leading-7 text-[#64748b]">{s.body}</p>
+                <p className="text-sm leading-7 text-[#64748b]"><AutoLinkedText>{s.body}</AutoLinkedText></p>
               </div>
             ))}
           </div>
@@ -87,7 +85,7 @@ export default function SpouseOfAnAddictPage() {
               Our Family Services team is here for you too.
             </h2>
             <p className="mt-3 text-[#64748b] max-w-xl">
-              Northbound&apos;s family therapy program helps loved ones heal alongside their family member in treatment.
+              <AutoLinkedText>{"Northbound&apos;s family therapy program helps loved ones heal alongside their family member in treatment."}</AutoLinkedText>
             </p>
           </div>
           <Link href="/programs/family-therapy/" className="shrink-0 inline-flex items-center gap-2 bg-[#e97a52] px-8 py-4 text-sm font-semibold text-white transition hover:bg-[#f09068]">

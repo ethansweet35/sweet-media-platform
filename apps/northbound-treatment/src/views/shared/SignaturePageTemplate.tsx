@@ -8,6 +8,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import CtaBanner from "@/views/shared/CtaBanner";
+import { AutoLinkedText } from "@sweetmedia/blog-core";
 
 /* ─── Public types ─────────────────────────────────────────────────────── */
 
@@ -126,7 +127,7 @@ export default function SignaturePageTemplate({ data }: { data: SignaturePageDat
         <div className="relative z-10 pt-28 lg:pt-32">
           <div className="mx-auto w-full max-w-7xl px-6 lg:px-10">
             <p className="text-xs font-semibold uppercase tracking-[0.18em] text-terracotta">
-              Signature Services — Northbound Treatment
+              <AutoLinkedText>{"Signature Services — Northbound Treatment"}</AutoLinkedText>
             </p>
           </div>
         </div>
@@ -147,9 +148,7 @@ export default function SignaturePageTemplate({ data }: { data: SignaturePageDat
                   ),
                 )}
               </h1>
-              <p className="mt-6 max-w-xl text-lg leading-relaxed text-white/80">
-                {data.heroBody}
-              </p>
+              <p className="mt-6 max-w-xl text-lg leading-relaxed text-white/80"><AutoLinkedText>{data.heroBody}</AutoLinkedText></p>
               <div className="mt-10 flex flex-wrap gap-4">
                 <Link
                   href="/admissions/"
@@ -192,9 +191,7 @@ export default function SignaturePageTemplate({ data }: { data: SignaturePageDat
               data.pullQuote
             )}
           </blockquote>
-          <p className="mx-auto mt-8 max-w-2xl text-base leading-relaxed text-espresso/70">
-            {data.pullQuoteBody}
-          </p>
+          <p className="mx-auto mt-8 max-w-2xl text-base leading-relaxed text-espresso/70"><AutoLinkedText>{data.pullQuoteBody}</AutoLinkedText></p>
           <div className="mx-auto mt-6 h-px w-12 bg-terracotta" />
         </div>
       </section>
@@ -218,27 +215,21 @@ export default function SignaturePageTemplate({ data }: { data: SignaturePageDat
                 <p className="text-xs font-semibold uppercase tracking-[0.14em] text-terracotta">
                   Evidence-Based
                 </p>
-                <p className="mt-1 font-heading text-xl font-bold text-white">
-                  {data.whatItIsFloatingHeadline}
-                </p>
+                <p className="mt-1 font-heading text-xl font-bold text-white"><AutoLinkedText>{data.whatItIsFloatingHeadline}</AutoLinkedText></p>
               </div>
               <div className="absolute -left-4 -top-4 h-20 w-20 border-l-2 border-t-2 border-terracotta/40" />
             </div>
 
             {/* Text */}
             <div>
-              <p className="text-xs font-semibold uppercase tracking-[0.14em] text-terracotta">
-                {data.whatItIsEyebrow}
-              </p>
+              <p className="text-xs font-semibold uppercase tracking-[0.14em] text-terracotta"><AutoLinkedText>{data.whatItIsEyebrow}</AutoLinkedText></p>
               <h2 className="font-heading mt-3 text-4xl font-bold text-navy md:text-5xl">
                 {data.whatItIsHeadline}
                 <br />
                 <span className="italic text-terracotta">{data.whatItIsHeadlineItalic}</span>
               </h2>
               {data.whatItIsBody.map((para, i) => (
-                <p key={i} className={`${i === 0 ? "mt-6" : "mt-4"} leading-relaxed text-espresso/80`}>
-                  {para}
-                </p>
+                <p key={i} className={`${i === 0 ? "mt-6" : "mt-4"} leading-relaxed text-espresso/80`}><AutoLinkedText>{para}</AutoLinkedText></p>
               ))}
               <ul className="mt-8 space-y-4">
                 {data.whatItIsChecklist.map((item) => (
@@ -259,16 +250,12 @@ export default function SignaturePageTemplate({ data }: { data: SignaturePageDat
       <section className="bg-white py-20 lg:py-28">
         <div className="mx-auto w-full max-w-7xl px-6 lg:px-10">
           <div className="mb-14">
-            <p className="text-xs font-semibold uppercase tracking-[0.14em] text-terracotta">
-              {data.featuresEyebrow}
-            </p>
+            <p className="text-xs font-semibold uppercase tracking-[0.14em] text-terracotta"><AutoLinkedText>{data.featuresEyebrow}</AutoLinkedText></p>
             <h2 className="font-heading mt-3 text-4xl font-bold text-navy md:text-5xl">
               {data.featuresHeadline}{" "}
               <span className="italic text-terracotta">{data.featuresHeadlineItalic}</span>
             </h2>
-            <p className="mt-4 max-w-xl text-base leading-relaxed text-espresso/70">
-              {data.featuresIntro}
-            </p>
+            <p className="mt-4 max-w-xl text-base leading-relaxed text-espresso/70"><AutoLinkedText>{data.featuresIntro}</AutoLinkedText></p>
           </div>
           <FeatureGrid features={data.features} />
         </div>
@@ -278,16 +265,12 @@ export default function SignaturePageTemplate({ data }: { data: SignaturePageDat
       <section className="bg-navy py-20 lg:py-28">
         <div className="mx-auto w-full max-w-7xl px-6 lg:px-10">
           <div className="mb-14 text-center">
-            <p className="text-xs font-semibold uppercase tracking-[0.14em] text-terracotta">
-              {data.evidenceEyebrow}
-            </p>
+            <p className="text-xs font-semibold uppercase tracking-[0.14em] text-terracotta"><AutoLinkedText>{data.evidenceEyebrow}</AutoLinkedText></p>
             <h2 className="font-heading mt-3 text-4xl font-bold text-white md:text-5xl">
               {data.evidenceHeadline}{" "}
               <span className="italic text-terracotta-light">{data.evidenceHeadlineItalic}</span>
             </h2>
-            <p className="mx-auto mt-4 max-w-xl text-base leading-relaxed text-white/60">
-              {data.evidenceBody}
-            </p>
+            <p className="mx-auto mt-4 max-w-xl text-base leading-relaxed text-white/60"><AutoLinkedText>{data.evidenceBody}</AutoLinkedText></p>
           </div>
           <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
             {data.evidencePoints.map((pt) => (
@@ -296,7 +279,7 @@ export default function SignaturePageTemplate({ data }: { data: SignaturePageDat
                   <i className={`${pt.icon} text-lg text-terracotta`} />
                 </div>
                 <h3 className="font-heading text-lg font-bold text-white">{pt.title}</h3>
-                <p className="mt-3 text-sm leading-relaxed text-white/60">{pt.body}</p>
+                <p className="mt-3 text-sm leading-relaxed text-white/60"><AutoLinkedText>{pt.body}</AutoLinkedText></p>
               </div>
             ))}
           </div>
@@ -304,10 +287,8 @@ export default function SignaturePageTemplate({ data }: { data: SignaturePageDat
             <div className="grid gap-8 text-center sm:grid-cols-3">
               {data.stats.map((s) => (
                 <div key={s.label}>
-                  <p className="font-heading text-5xl font-bold text-terracotta">{s.value}</p>
-                  <p className="mt-2 text-sm font-semibold uppercase tracking-[0.1em] text-white/50">
-                    {s.label}
-                  </p>
+                  <p className="font-heading text-5xl font-bold text-terracotta"><AutoLinkedText>{s.value}</AutoLinkedText></p>
+                  <p className="mt-2 text-sm font-semibold uppercase tracking-[0.1em] text-white/50"><AutoLinkedText>{s.label}</AutoLinkedText></p>
                 </div>
               ))}
             </div>
@@ -320,17 +301,13 @@ export default function SignaturePageTemplate({ data }: { data: SignaturePageDat
         <div className="mx-auto w-full max-w-7xl px-6 lg:px-10">
           <div className="grid items-center gap-16 lg:grid-cols-2">
             <div>
-              <p className="text-xs font-semibold uppercase tracking-[0.14em] text-terracotta">
-                {data.closingEyebrow}
-              </p>
+              <p className="text-xs font-semibold uppercase tracking-[0.14em] text-terracotta"><AutoLinkedText>{data.closingEyebrow}</AutoLinkedText></p>
               <h2 className="font-heading mt-3 text-4xl font-bold text-navy md:text-5xl">
                 {data.closingHeadline}{" "}
                 <span className="italic text-terracotta">{data.closingHeadlineItalic}</span>
               </h2>
               {data.closingBody.map((para, i) => (
-                <p key={i} className={`${i === 0 ? "mt-6" : "mt-4"} leading-relaxed text-espresso/80`}>
-                  {para}
-                </p>
+                <p key={i} className={`${i === 0 ? "mt-6" : "mt-4"} leading-relaxed text-espresso/80`}><AutoLinkedText>{para}</AutoLinkedText></p>
               ))}
               <div className="mt-8 border-l-2 border-terracotta pl-5">
                 <p className="font-heading text-lg font-bold italic text-navy">
@@ -393,9 +370,7 @@ export default function SignaturePageTemplate({ data }: { data: SignaturePageDat
                 <div className="mb-4 flex h-10 w-10 items-center justify-center bg-terracotta/10 transition group-hover:bg-terracotta/20">
                   <i className={`${svc.icon} text-lg text-terracotta`} />
                 </div>
-                <p className="text-xs font-semibold uppercase tracking-[0.1em] text-espresso/40">
-                  {svc.tag}
-                </p>
+                <p className="text-xs font-semibold uppercase tracking-[0.1em] text-espresso/40"><AutoLinkedText>{svc.tag}</AutoLinkedText></p>
                 <h3 className="font-heading mt-2 text-lg font-bold text-navy">{svc.name}</h3>
                 <p className="mt-4 flex items-center gap-1 text-xs font-semibold text-terracotta">
                   Learn more{" "}
@@ -487,12 +462,8 @@ function FeatureCard({ feature: f, tall }: { feature: SignatureFeature; tall: bo
             </span>
           </div>
           <h3 className="font-heading text-xl font-bold text-white lg:text-2xl">{f.title}</h3>
-          <p className="mt-1 text-xs font-semibold uppercase tracking-[0.1em] text-terracotta-light">
-            {f.focus}
-          </p>
-          <p className="mt-2 text-sm leading-relaxed text-white/80 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
-            {f.description}
-          </p>
+          <p className="mt-1 text-xs font-semibold uppercase tracking-[0.1em] text-terracotta-light"><AutoLinkedText>{f.focus}</AutoLinkedText></p>
+          <p className="mt-2 text-sm leading-relaxed text-white/80 opacity-0 transition-opacity duration-300 group-hover:opacity-100"><AutoLinkedText>{f.description}</AutoLinkedText></p>
         </div>
       </div>
     );
@@ -520,10 +491,8 @@ function FeatureCard({ feature: f, tall }: { feature: SignatureFeature; tall: bo
       </div>
       <div>
         <h3 className="font-heading text-xl font-bold text-white lg:text-2xl">{f.title}</h3>
-        <p className="mt-1 text-xs font-semibold uppercase tracking-[0.1em] text-white/60">
-          {f.focus}
-        </p>
-        <p className="mt-3 text-sm leading-relaxed text-white/75">{f.description}</p>
+        <p className="mt-1 text-xs font-semibold uppercase tracking-[0.1em] text-white/60"><AutoLinkedText>{f.focus}</AutoLinkedText></p>
+        <p className="mt-3 text-sm leading-relaxed text-white/75"><AutoLinkedText>{f.description}</AutoLinkedText></p>
       </div>
     </div>
   );

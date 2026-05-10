@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { LOCATION_IMAGES } from "../assets";
+import { AutoLinkedText } from "@sweetmedia/blog-core";
 
 /**
  * Locations — 4 facility cards in a 2-col grid. Each card has hero image
@@ -111,10 +112,7 @@ export default function Locations() {
             </h2>
           </div>
           <p className="max-w-md text-sm font-light text-espresso/70">
-            We believe your environment dictates your healing. Our meticulously
-            designed, sun-drenched campuses are spread across the West Coast
-            to provide a restorative sanctuary away from the chaos of everyday
-            life.
+            <AutoLinkedText>{"We believe your environment dictates your healing. Our meticulously\n            designed, sun-drenched campuses are spread across the West Coast\n            to provide a restorative sanctuary away from the chaos of everyday\n            life."}</AutoLinkedText>
           </p>
         </div>
 
@@ -143,9 +141,7 @@ export default function Locations() {
                 <h4 className="mb-4 font-serif text-3xl text-espresso">
                   {loc.name}
                 </h4>
-                <p className="mb-6 text-sm font-light leading-relaxed text-espresso/70">
-                  {loc.description}
-                </p>
+                <p className="mb-6 text-sm font-light leading-relaxed text-espresso/70"><AutoLinkedText>{loc.description}</AutoLinkedText></p>
                 <ul className="mb-8 space-y-2 border-t border-sand-dark pt-6">
                   {loc.features.map((feature, fi) => (
                     <li

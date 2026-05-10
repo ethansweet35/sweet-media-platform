@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useState } from "react";
+import { AutoLinkedTextClient } from "@sweetmedia/blog-core";
 
 const locations = [
   {
@@ -86,14 +87,12 @@ export default function ContactPage() {
       {/* Hero */}
       <section className="bg-[#1b2a47] py-20">
         <div className="mx-auto max-w-7xl px-6 lg:px-10">
-          <p className="mb-4 text-xs font-semibold uppercase tracking-[0.2em] text-[#e97a52]">We&apos;re Here to Help</p>
+          <p className="mb-4 text-xs font-semibold uppercase tracking-[0.2em] text-[#e97a52]"><AutoLinkedTextClient>{"We&apos;re Here to Help"}</AutoLinkedTextClient></p>
           <h1 className="font-heading text-5xl font-bold text-white md:text-6xl">
             Contact <span className="italic text-[#e97a52]">Northbound</span>
           </h1>
           <p className="mt-5 max-w-2xl text-lg leading-8 text-white/70">
-            We know how difficult it can be to take that first step toward recovery. At Northbound,
-            you will never be alone on this path. Our admissions team is available 24 hours a day,
-            7 days a week.
+            <AutoLinkedTextClient>{"We know how difficult it can be to take that first step toward recovery. At Northbound,\n            you will never be alone on this path. Our admissions team is available 24 hours a day,\n            7 days a week."}</AutoLinkedTextClient>
           </p>
           <div className="mt-8 flex flex-wrap gap-6">
             {trust.map((t) => (
@@ -216,7 +215,7 @@ export default function ContactPage() {
 
                   {formState === "error" && (
                     <p className="text-sm text-red-600 font-medium">
-                      Something went wrong. Please try again or call us at (866) 311-0003.
+                      <AutoLinkedTextClient>{"Something went wrong. Please try again or call us at (866) 311-0003."}</AutoLinkedTextClient>
                     </p>
                   )}
 
@@ -233,7 +232,7 @@ export default function ContactPage() {
                   </button>
 
                   <p className="text-xs text-[#94a3b8] text-center">
-                    Your information is 100% confidential and never shared.
+                    <AutoLinkedTextClient>{"Your information is 100% confidential and never shared."}</AutoLinkedTextClient>
                   </p>
                 </form>
               )}
@@ -248,7 +247,7 @@ export default function ContactPage() {
                   Immediate Help
                 </p>
                 <p className="text-white/80 text-sm leading-6 mb-5">
-                  For immediate assistance, call our 24/7 admissions hotline. We answer every call.
+                  <AutoLinkedTextClient>{"For immediate assistance, call our 24/7 admissions hotline. We answer every call."}</AutoLinkedTextClient>
                 </p>
                 <a
                   href="tel:8663110003"
@@ -266,7 +265,7 @@ export default function ContactPage() {
               <div className="border border-[#cdd8e8] p-6">
                 <p className="text-xs font-semibold uppercase tracking-[0.15em] text-[#e97a52] mb-3">Insurance</p>
                 <p className="text-sm text-[#64748b] leading-6 mb-4">
-                  We&apos;re in-network with 15+ major insurance plans. Verify your coverage at no cost — in minutes.
+                  <AutoLinkedTextClient>{"We&apos;re in-network with 15+ major insurance plans. Verify your coverage at no cost — in minutes."}</AutoLinkedTextClient>
                 </p>
                 <Link href="/insurance/" className="inline-flex items-center gap-1.5 text-sm font-semibold text-[#1b2a47] hover:text-[#e97a52] transition-colors">
                   Verify Insurance <i className="ri-arrow-right-line" />
@@ -281,8 +280,8 @@ export default function ContactPage() {
                     <Link key={loc.name} href={loc.href} className="group flex items-start gap-3 hover:text-[#e97a52] transition-colors">
                       <i className={`${loc.icon} text-[#e97a52] mt-0.5 shrink-0`} />
                       <div>
-                        <p className="text-sm font-semibold text-[#1b2a47] group-hover:text-[#e97a52] transition-colors">{loc.name}</p>
-                        <p className="text-xs text-[#64748b]">{loc.address}</p>
+                        <p className="text-sm font-semibold text-[#1b2a47] group-hover:text-[#e97a52] transition-colors"><AutoLinkedTextClient>{loc.name}</AutoLinkedTextClient></p>
+                        <p className="text-xs text-[#64748b]"><AutoLinkedTextClient>{loc.address}</AutoLinkedTextClient></p>
                       </div>
                     </Link>
                   ))}
@@ -297,7 +296,7 @@ export default function ContactPage() {
                 </div>
                 <div className="flex items-center gap-3">
                   <i className="ri-star-fill text-[#e97a52]" />
-                  <p className="text-sm text-[#64748b]">4.6★ on Google — 224+ reviews</p>
+                  <p className="text-sm text-[#64748b]"><AutoLinkedTextClient>{"4.6★ on Google — 224+ reviews"}</AutoLinkedTextClient></p>
                 </div>
               </div>
 
@@ -315,8 +314,8 @@ export default function ContactPage() {
             {locations.map((loc) => (
               <Link key={loc.name} href={loc.href} className="group bg-white p-6 flex flex-col gap-3 hover:bg-[#1b2a47] transition-colors">
                 <i className={`${loc.icon} text-2xl text-[#e97a52]`} />
-                <p className="font-heading text-base font-bold text-[#1b2a47] group-hover:text-white transition-colors">{loc.name}</p>
-                <p className="text-xs text-[#64748b] group-hover:text-white/70 transition-colors">{loc.address}</p>
+                <p className="font-heading text-base font-bold text-[#1b2a47] group-hover:text-white transition-colors"><AutoLinkedTextClient>{loc.name}</AutoLinkedTextClient></p>
+                <p className="text-xs text-[#64748b] group-hover:text-white/70 transition-colors"><AutoLinkedTextClient>{loc.address}</AutoLinkedTextClient></p>
                 <span className="mt-auto text-xs font-semibold text-[#e97a52] flex items-center gap-1">
                   View location <i className="ri-arrow-right-line" />
                 </span>

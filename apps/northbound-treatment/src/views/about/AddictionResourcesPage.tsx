@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { AutoLinkedText } from "@sweetmedia/blog-core";
 
 const programs = [
   { icon: "ri-first-aid-kit-line", label: "Medical Detox", href: "/programs/detox/", desc: "Safe, 24/7 medically supervised withdrawal management." },
@@ -35,9 +36,7 @@ export default function AddictionResourcesPage() {
             Addiction Treatment <span className="italic text-[#e97a52]">Resources</span>
           </h1>
           <p className="mt-6 max-w-2xl text-lg leading-8 text-white/70">
-            Finding the right addiction treatment program — and the right timing — can make the
-            difference between relapse and recovery. We offer a wide range of drug and alcohol addiction
-            programs to help each individual find the perfect treatment option for their personal journey.
+            <AutoLinkedText>{"Finding the right addiction treatment program — and the right timing — can make the\n            difference between relapse and recovery. We offer a wide range of drug and alcohol addiction\n            programs to help each individual find the perfect treatment option for their personal journey."}</AutoLinkedText>
           </p>
         </div>
       </section>
@@ -49,9 +48,7 @@ export default function AddictionResourcesPage() {
             <p className="mb-3 text-xs font-semibold uppercase tracking-[0.2em] text-[#e97a52]">Levels of Care</p>
             <h2 className="font-heading text-4xl font-bold text-[#1b2a47] md:text-5xl">Treatment Programs</h2>
             <p className="mt-4 max-w-2xl text-[#64748b] leading-7">
-              We understand that everyone&apos;s addiction story is different. Our full continuum of care
-              ensures every client gets exactly the level of support they need — from acute medical
-              detox through long-term sober living.
+              <AutoLinkedText>{"We understand that everyone&apos;s addiction story is different. Our full continuum of care\n              ensures every client gets exactly the level of support they need — from acute medical\n              detox through long-term sober living."}</AutoLinkedText>
             </p>
           </div>
           <div className="grid gap-px bg-[#cdd8e8] sm:grid-cols-2 lg:grid-cols-4">
@@ -61,7 +58,7 @@ export default function AddictionResourcesPage() {
                   <i className={`${p.icon} text-2xl`} />
                 </span>
                 <h3 className="font-heading text-lg font-bold text-[#1b2a47]">{p.label}</h3>
-                <p className="text-sm text-[#64748b] leading-6">{p.desc}</p>
+                <p className="text-sm text-[#64748b] leading-6"><AutoLinkedText>{p.desc}</AutoLinkedText></p>
                 <span className="mt-auto text-xs font-semibold text-[#e97a52] flex items-center gap-1">
                   Learn more <i className="ri-arrow-right-line" />
                 </span>
@@ -97,7 +94,7 @@ export default function AddictionResourcesPage() {
         <div className="mx-auto max-w-7xl px-6 lg:px-10 flex flex-col md:flex-row items-center justify-between gap-8">
           <div>
             <h2 className="font-heading text-3xl font-bold text-white md:text-4xl">Not sure where to start?</h2>
-            <p className="mt-3 text-white/70">Our admissions specialists will guide you to the right program — at no cost.</p>
+            <p className="mt-3 text-white/70"><AutoLinkedText>{"Our admissions specialists will guide you to the right program — at no cost."}</AutoLinkedText></p>
           </div>
           <Link href="/admissions/" className="shrink-0 inline-flex items-center gap-2 bg-[#e97a52] px-8 py-4 text-sm font-semibold text-white transition hover:bg-[#f09068]">
             Speak with Admissions <i className="ri-arrow-right-line" />

@@ -1,3 +1,4 @@
+import { AutoLinkedText } from "@sweetmedia/blog-core";
 interface SectionHeaderProps {
   eyebrow: string;
   headline: string;
@@ -34,9 +35,7 @@ export default function SectionHeader({
     <div className={center ? "mx-auto text-center" : ""}>
       <p
         className={`mb-3 text-xs font-semibold uppercase tracking-[0.14em] text-terracotta`}
-      >
-        {eyebrow}
-      </p>
+      ><AutoLinkedText>{eyebrow}</AutoLinkedText></p>
       <h2
         className={`font-heading text-4xl font-bold leading-tight md:text-5xl ${
           dark ? "text-white" : "text-navy"
@@ -62,9 +61,7 @@ export default function SectionHeader({
           className={`mt-4 text-base leading-relaxed ${bodyWidth} ${
             center ? "mx-auto" : ""
           } ${dark ? "text-white/70" : "text-espresso/70"}`}
-        >
-          {body}
-        </p>
+        ><AutoLinkedText>{body}</AutoLinkedText></p>
       )}
     </div>
   );

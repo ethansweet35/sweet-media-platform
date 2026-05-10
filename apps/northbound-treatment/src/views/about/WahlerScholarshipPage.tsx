@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { AutoLinkedText } from "@sweetmedia/blog-core";
 
 export default function WahlerScholarshipPage() {
   return (
@@ -7,14 +8,12 @@ export default function WahlerScholarshipPage() {
       {/* Hero */}
       <section className="bg-[#1b2a47] py-24">
         <div className="mx-auto max-w-7xl px-6 lg:px-10">
-          <p className="mb-4 text-xs font-semibold uppercase tracking-[0.2em] text-[#e97a52]">Financial Assistance</p>
+          <p className="mb-4 text-xs font-semibold uppercase tracking-[0.2em] text-[#e97a52]"><AutoLinkedText>{"Financial Assistance"}</AutoLinkedText></p>
           <h1 className="font-heading text-5xl font-bold text-white md:text-6xl">
             The Wahler <span className="italic text-[#e97a52]">Scholarship</span>
           </h1>
           <p className="mt-6 max-w-2xl text-lg leading-8 text-white/70">
-            Northbound is committed to ensuring that cost is never a barrier to recovery.
-            The Wahler Scholarship was established to help individuals who might not otherwise
-            be able to afford treatment access the care they deserve.
+            <AutoLinkedText>{"Northbound is committed to ensuring that cost is never a barrier to recovery.\n            The Wahler Scholarship was established to help individuals who might not otherwise\n            be able to afford treatment access the care they deserve."}</AutoLinkedText>
           </p>
         </div>
       </section>
@@ -24,20 +23,15 @@ export default function WahlerScholarshipPage() {
         <div className="mx-auto max-w-5xl px-6 lg:px-10">
           <div className="grid gap-12 lg:grid-cols-2">
             <div>
-              <p className="mb-3 text-xs font-semibold uppercase tracking-[0.2em] text-[#e97a52]">About the Scholarship</p>
+              <p className="mb-3 text-xs font-semibold uppercase tracking-[0.2em] text-[#e97a52]"><AutoLinkedText>{"About the Scholarship"}</AutoLinkedText></p>
               <h2 className="font-heading text-3xl font-bold text-[#1b2a47] mb-6">
                 Named in Honor of Jason Wahler
               </h2>
               <p className="text-sm leading-7 text-[#64748b] mb-4">
-                The Wahler Scholarship honors Jason Wahler, a public advocate for addiction recovery and
-                mental health awareness who experienced firsthand the transformative power of Northbound&apos;s
-                programs. In his spirit, this scholarship is offered to individuals whose financial circumstances
-                would otherwise prevent them from receiving treatment.
+                <AutoLinkedText>{"The Wahler Scholarship honors Jason Wahler, a public advocate for addiction recovery and\n                mental health awareness who experienced firsthand the transformative power of Northbound&apos;s\n                programs. In his spirit, this scholarship is offered to individuals whose financial circumstances\n                would otherwise prevent them from receiving treatment."}</AutoLinkedText>
               </p>
               <p className="text-sm leading-7 text-[#64748b]">
-                We believe that a lack of funds should never be a reason someone cannot access help.
-                Our team will work with every applicant to explore all available options — including
-                insurance coverage, financing, and scholarship funds — to make treatment possible.
+                <AutoLinkedText>{"We believe that a lack of funds should never be a reason someone cannot access help.\n                Our team will work with every applicant to explore all available options — including\n                insurance coverage, financing, and scholarship funds — to make treatment possible."}</AutoLinkedText>
               </p>
             </div>
             <div className="bg-[#eef2f7] p-8 flex flex-col gap-6">
@@ -73,7 +67,7 @@ export default function WahlerScholarshipPage() {
             <h2 className="font-heading text-3xl font-bold text-white md:text-4xl">
               Other financial assistance options
             </h2>
-            <p className="mt-3 text-white/70">Insurance, financing, and payment plans are available.</p>
+            <p className="mt-3 text-white/70"><AutoLinkedText>{"Insurance, financing, and payment plans are available."}</AutoLinkedText></p>
           </div>
           <Link href="/financial-assistance/" className="shrink-0 inline-flex items-center gap-2 border border-white/30 px-8 py-4 text-sm font-semibold text-white transition hover:bg-white/10">
             Financial Assistance <i className="ri-arrow-right-line" />

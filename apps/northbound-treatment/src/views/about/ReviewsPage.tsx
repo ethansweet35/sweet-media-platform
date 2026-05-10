@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { AutoLinkedText } from "@sweetmedia/blog-core";
 
 const testimonials = [
   {
@@ -58,9 +59,7 @@ export default function ReviewsPage() {
             Reviews &amp; <span className="italic text-[#e97a52]">Testimonials</span>
           </h1>
           <p className="mt-6 max-w-2xl text-lg leading-8 text-white/70">
-            We know that a lot of research goes into choosing the right treatment program. Let the people
-            who have experienced Northbound tell you firsthand — from Detox through Residential to
-            living a substance-free life.
+            <AutoLinkedText>{"We know that a lot of research goes into choosing the right treatment program. Let the people\n            who have experienced Northbound tell you firsthand — from Detox through Residential to\n            living a substance-free life."}</AutoLinkedText>
           </p>
         </div>
       </section>
@@ -71,9 +70,9 @@ export default function ReviewsPage() {
           <div className="grid grid-cols-2 lg:grid-cols-4 divide-x divide-[#cdd8e8]">
             {stats.map((s) => (
               <div key={s.label} className="py-12 px-8 text-center">
-                <p className="font-heading text-4xl font-bold text-[#e97a52]">{s.value}</p>
-                <p className="mt-1 text-sm font-semibold text-[#1b2a47]">{s.label}</p>
-                <p className="text-xs text-[#64748b]">{s.sub}</p>
+                <p className="font-heading text-4xl font-bold text-[#e97a52]"><AutoLinkedText>{s.value}</AutoLinkedText></p>
+                <p className="mt-1 text-sm font-semibold text-[#1b2a47]"><AutoLinkedText>{s.label}</AutoLinkedText></p>
+                <p className="text-xs text-[#64748b]"><AutoLinkedText>{s.sub}</AutoLinkedText></p>
               </div>
             ))}
           </div>
@@ -97,8 +96,8 @@ export default function ReviewsPage() {
                 </div>
                 <p className="text-sm leading-7 text-[#64748b] flex-1 italic">&ldquo;{t.quote}&rdquo;</p>
                 <div>
-                  <p className="text-sm font-semibold text-[#1b2a47]">{t.author}</p>
-                  <p className="text-xs text-[#64748b]">{t.role}</p>
+                  <p className="text-sm font-semibold text-[#1b2a47]"><AutoLinkedText>{t.author}</AutoLinkedText></p>
+                  <p className="text-xs text-[#64748b]"><AutoLinkedText>{t.role}</AutoLinkedText></p>
                 </div>
               </div>
             ))}
@@ -113,7 +112,7 @@ export default function ReviewsPage() {
             <h2 className="font-heading text-3xl font-bold text-[#1b2a47] md:text-4xl">
               Ready to start your recovery story?
             </h2>
-            <p className="mt-3 text-[#64748b]">Speak with an admissions specialist today — it&apos;s free and confidential.</p>
+            <p className="mt-3 text-[#64748b]"><AutoLinkedText>{"Speak with an admissions specialist today — it&apos;s free and confidential."}</AutoLinkedText></p>
           </div>
           <Link href="/admissions/" className="shrink-0 inline-flex items-center gap-2 bg-[#e97a52] px-8 py-4 text-sm font-semibold text-white transition hover:bg-[#f09068]">
             Begin Admissions <i className="ri-arrow-right-line" />
