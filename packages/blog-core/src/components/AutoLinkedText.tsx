@@ -18,6 +18,7 @@
  */
 
 import type { ReactNode } from "react";
+import { headers } from "next/headers";
 import Link from "next/link";
 import { autoLinkText } from "../lib/autoInternalLinks";
 import {
@@ -59,13 +60,18 @@ export async function AutoLinkedText({
     return <>{children}</>;
   }
 
-  const [allMappings, registry] = await Promise.all([
+  const [allMappings, registry, headersList] = await Promise.all([
     getInternalLinkMappings(),
     Promise.resolve(getPageAutoLinkRegistry()),
+    headers().catch(() => null),
   ]);
 
-  // Resolve the effective current path: explicit prop wins, then registry.
-  const effectivePath = currentPath ?? registry.currentPath;
+  // Resolve the effective current path — priority order:
+  //   1. Explicit `currentPath` prop
+  //   2. Path registered via initPageAutoLinks() in the page root
+  //   3. `x-pathname` header injected by middleware (automatic, no props needed)
+  const xPathname = headersList?.get("x-pathname") ?? null;
+  const effectivePath = currentPath ?? registry.currentPath ?? xPathname;
 
   // Drop any mapping that points to the current page so we never self-link.
   const mappings = effectivePath
