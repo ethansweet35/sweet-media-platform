@@ -1,5 +1,3 @@
-import { supabase } from "./supabase";
-
 export interface SeoGenInput {
   type: "page" | "post";
   title: string;
@@ -14,29 +12,27 @@ export interface SeoGenResult {
   meta_description: string;
 }
 
+/**
+ * Calls the app's own Next.js API route (auto-deployed with every Vercel push).
+ * No separate edge function deployment needed.
+ * Requires OPENROUTER_API_KEY to be set in the Vercel project's environment variables.
+ */
 export async function callGenerateSeoMetadata(input: SeoGenInput): Promise<SeoGenResult> {
-  const {
-    data: { session },
-  } = await supabase.auth.getSession();
-  const token = session?.access_token;
-  if (!token) throw new Error("You must be logged in to use AI SEO.");
-
-  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL?.trim();
-  if (!supabaseUrl) throw new Error("NEXT_PUBLIC_SUPABASE_URL is not configured.");
-
-  const apikey =
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ??
-    process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY ??
-    "";
-
-  const res = await fetch(`${supabaseUrl}/functions/v1/generate-seo-metadata`, {
+  const res = await fetch("/api/admin/generate-seo-meta", {
     method: "POST",
-    headers: {
-      Authorization: `Bearer ${token}`,
-      apikey,
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(input),
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      type: input.type,
+      // page fields
+      page_title: input.title,
+      route_path: input.route,
+      // post fields
+      title: input.title,
+      excerpt: input.excerpt,
+      category: input.category,
+      // shared
+      keyword: input.keyword,
+    }),
   });
 
   let body: Record<string, unknown>;
