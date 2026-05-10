@@ -54,7 +54,7 @@ export default function Navbar() {
         </div>
 
         <Link
-          href="/contact"
+          href="/contact-us"
           className="hidden rounded-full border border-slate-950 px-6 py-3 text-xs font-semibold uppercase tracking-[0.18em] text-slate-950 hover:bg-slate-950 hover:text-white lg:inline-flex"
         >
           Contact Us

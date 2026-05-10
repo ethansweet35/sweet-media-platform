@@ -188,7 +188,12 @@ function DesktopMenuItem({
 
 /** Whether this item gets the CTA sidebar card. */
 function hasCta(label: string) {
-  return label === "Treatment Services" || label === "Admissions";
+  return (
+    label === "Treatment Services" ||
+    label === "Admissions" ||
+    label === "Locations" ||
+    label === "About"
+  );
 }
 
 function MegaMenuPanel({
@@ -207,7 +212,9 @@ function MegaMenuPanel({
   const gridColsClass = showCta
     ? cols >= 3
       ? "lg:grid-cols-[1fr_1fr_1fr_240px]"
-      : "lg:grid-cols-[1fr_1fr_240px]"
+      : cols >= 2
+        ? "lg:grid-cols-[1fr_1fr_240px]"
+        : "lg:grid-cols-[1fr_240px]"
     : cols >= 2
       ? "lg:grid-cols-2"
       : "lg:grid-cols-1 max-w-sm";

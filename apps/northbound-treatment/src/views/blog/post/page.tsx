@@ -51,11 +51,11 @@ export default function BlogPostPreviewPage({ slug }: { slug: string }) {
   if (loading || deferAuthForPreview) {
     return (
       <div className="min-h-screen bg-white">
-          <div className="max-w-screen-xl mx-auto px-6 pt-36 pb-20 animate-pulse">
-          <div className="h-4 bg-neutral-100 rounded w-1/4 mb-8" />
-          <div className="h-12 bg-neutral-100 rounded w-3/4 mb-6" />
-          <div className="h-4 bg-neutral-100 rounded w-1/3 mb-10" />
-          <div className="w-full h-[320px] md:h-[460px] bg-neutral-100 rounded-t-2xl" />
+        <div className="mx-auto w-full max-w-7xl animate-pulse px-6 pb-20 pt-36">
+          <div className="mb-8 h-3 w-1/4 bg-[#eef2f7]" />
+          <div className="mb-6 h-10 w-3/4 bg-[#eef2f7]" />
+          <div className="mb-10 h-4 w-1/3 bg-[#eef2f7]" />
+          <div className="h-[320px] w-full bg-[#eef2f7] md:h-[440px]" />
         </div>
       </div>
     );
@@ -63,22 +63,21 @@ export default function BlogPostPreviewPage({ slug }: { slug: string }) {
 
   if (error || !post) {
     return (
-      <div className="min-h-screen flex flex-col items-center justify-center bg-white">
-        <div className="text-center pt-32 pb-20 px-6">
-          <i className="ri-article-line text-5xl text-neutral-200 mb-6 block"></i>
-          <h1
-            className="text-2xl font-light text-neutral-800 mb-3"
-            style={{ fontFamily: "'Inter', serif" }}
-          >
-            Article Not Found
-          </h1>
-          <p className="text-sm text-neutral-400 mb-8">This article doesn&apos;t exist or may have been moved.</p>
+      <div className="flex min-h-screen flex-col items-center justify-center bg-white">
+        <div className="px-6 pb-20 pt-32 text-center">
+          <div className="mx-auto mb-6 flex h-16 w-16 items-center justify-center border border-[#cdd8e8] bg-[#eef2f7]">
+            <i className="ri-article-line text-2xl text-[#94a3b8]" />
+          </div>
+          <h1 className="font-heading mb-3 text-2xl font-bold text-[#1b2a47]">Article Not Found</h1>
+          <p className="mb-8 text-sm text-[#64748b]">
+            This article doesn&apos;t exist or may have been moved.
+          </p>
           <button
             type="button"
             onClick={() => router.push("/blog")}
-            className="bg-[#1F2937] text-white text-[11px] tracking-[0.2em] uppercase font-bold px-6 py-3 rounded-full cursor-pointer whitespace-nowrap"
+            className="bg-[#1b2a47] px-6 py-3 text-[11px] font-bold uppercase tracking-[0.2em] text-white transition-colors hover:bg-[#e97a52] cursor-pointer"
           >
-            Back to Blog
+            Back to Journal
           </button>
         </div>
       </div>
@@ -96,10 +95,10 @@ export default function BlogPostPreviewPage({ slug }: { slug: string }) {
     <div className="min-h-screen bg-white">
 
       {showDraftPreviewBanner ? (
-        <div className="max-w-screen-xl mx-auto px-6 pt-6">
+        <div className="mx-auto w-full max-w-7xl px-6 pt-6">
           <div
             role="note"
-            className="rounded-xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-900"
+            className="border-l-4 border-amber-400 bg-amber-50 px-4 py-3 text-sm text-amber-900"
           >
             Draft Preview — visible only to admins
           </div>
@@ -116,14 +115,13 @@ export default function BlogPostPreviewPage({ slug }: { slug: string }) {
             </div>
 
             <div className="flex-1 min-w-0 max-w-3xl">
-              <div className="mb-8 pb-8 border-b border-neutral-100">
-                <p
-                  className="text-lg md:text-xl text-neutral-700 leading-relaxed font-light italic"
-                  style={{ fontFamily: "'Inter', serif" }}
-                >
-                  {post.excerpt}
-                </p>
-              </div>
+              {post.excerpt && (
+                <div className="mb-8 border-l-4 border-[#e97a52] py-2 pl-5 pb-8 border-b border-b-[#eef2f7]">
+                  <p className="font-heading text-lg font-bold italic leading-relaxed text-[#1b2a47] md:text-xl">
+                    {post.excerpt}
+                  </p>
+                </div>
+              )}
 
               <PostBody
                 sections={firstHalf}
@@ -146,38 +144,64 @@ export default function BlogPostPreviewPage({ slug }: { slug: string }) {
               <PostBlogMobileShareRow title={post.title} canonicalUrl={canonicalUrl} />
             </div>
 
-            <div className="hidden xl:block w-56 flex-shrink-0">
-              <div className="sticky top-28">
-                <p className="text-[9px] tracking-[0.3em] uppercase text-neutral-400 font-semibold mb-4">
-                  In This Article
-                </p>
-                <nav className="flex flex-col gap-2">
-                  {post.content
-                    .filter((s) => s.type === "h2")
-                    .map((s, i) => (
-                      <span
-                        key={i}
-                        className="text-[12px] text-neutral-400 hover:text-[#1F2937] leading-snug cursor-pointer transition-colors py-1 border-l-2 border-transparent hover:border-[#1F2937] pl-3"
-                      >
-                        {s.text}
-                      </span>
-                    ))}
-                </nav>
-
-                <div className="mt-8 pt-6 border-t border-neutral-100">
-                  <p className="text-[9px] tracking-[0.3em] uppercase text-neutral-400 font-semibold mb-3">
-                    Tags
-                  </p>
-                  <div className="flex flex-wrap gap-1.5">
-                    {post.tags.map((tag) => (
-                      <span
-                        key={tag}
-                        className="text-[9px] tracking-widest uppercase text-[#1F2937] bg-[#1F2937]/6 px-2 py-1 rounded-full whitespace-nowrap"
-                      >
-                        {tag}
-                      </span>
-                    ))}
+            <div className="hidden w-52 shrink-0 xl:block">
+              <div className="sticky top-28 space-y-8">
+                <div>
+                  <div className="mb-4 flex items-center gap-3">
+                    <div className="h-[2px] w-6 bg-[#e97a52]" />
+                    <p className="text-[9px] font-bold uppercase tracking-[0.28em] text-[#e97a52]">
+                      In This Article
+                    </p>
                   </div>
+                  <nav className="flex flex-col gap-0.5">
+                    {post.content
+                      .filter((s) => s.type === "h2")
+                      .map((s, i) => (
+                        <span
+                          key={i}
+                          className="cursor-pointer border-l-2 border-transparent py-1.5 pl-3 text-[12px] leading-snug text-[#94a3b8] transition-colors hover:border-[#e97a52] hover:text-[#1b2a47]"
+                        >
+                          {s.text}
+                        </span>
+                      ))}
+                  </nav>
+                </div>
+
+                {post.tags?.length > 0 && (
+                  <div className="border-t border-[#eef2f7] pt-6">
+                    <div className="mb-3 flex items-center gap-3">
+                      <div className="h-[2px] w-6 bg-[#e97a52]" />
+                      <p className="text-[9px] font-bold uppercase tracking-[0.28em] text-[#e97a52]">
+                        Tags
+                      </p>
+                    </div>
+                    <div className="flex flex-wrap gap-1.5">
+                      {post.tags.map((tag) => (
+                        <span
+                          key={tag}
+                          className="border border-[#cdd8e8] bg-[#eef2f7] px-2 py-1 text-[9px] font-semibold uppercase tracking-wider text-[#64748b] whitespace-nowrap"
+                        >
+                          {tag}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                <div className="border border-[#cdd8e8] bg-[#eef2f7] p-5">
+                  <p className="font-heading text-sm font-bold text-[#1b2a47]">
+                    Ready to start recovery?
+                  </p>
+                  <p className="mt-1 text-[11px] leading-relaxed text-[#64748b]">
+                    Confidential, no-obligation call with our team.
+                  </p>
+                  <a
+                    href="tel:8888563990"
+                    className="mt-4 flex items-center gap-2 bg-[#e97a52] px-4 py-2.5 text-[10px] font-bold uppercase tracking-[0.15em] text-white transition-colors hover:bg-[#1b2a47]"
+                  >
+                    <i className="ri-phone-line" />
+                    Call Now
+                  </a>
                 </div>
               </div>
             </div>

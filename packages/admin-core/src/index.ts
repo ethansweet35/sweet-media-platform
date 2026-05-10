@@ -23,7 +23,8 @@ export { useBlogPostBySlug } from "./hooks/useBlogPostBySlug";
 export { useLinkUtilization, type LinkUtilization, type UtilizationStatus } from "./hooks/useLinkUtilization";
 export { getPublicSiteOrigin, canonicalBlogPostUrl } from "./lib/publicSiteUrl";
 export { resolveTrackedPageMetadata } from "./lib/resolveTrackedPageMetadata";
-export { scanAppRoutes, derivePageTitle, syncTrackedPages } from "./lib/scanAppRoutes";
+// scanAppRoutes / syncTrackedPages are server-only (use node:fs).
+// Import them from "@sweetmedia/admin-core/server" in Node.js scripts.
 export {
   buildSitemapEntries,
   toSitemapXml,

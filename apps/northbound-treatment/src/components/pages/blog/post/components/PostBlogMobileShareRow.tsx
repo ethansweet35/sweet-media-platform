@@ -5,21 +5,30 @@ interface PostBlogMobileShareRowProps {
   canonicalUrl: string;
 }
 
-export default function PostBlogMobileShareRow({ title, canonicalUrl }: PostBlogMobileShareRowProps) {
+export default function PostBlogMobileShareRow({
+  title,
+  canonicalUrl,
+}: PostBlogMobileShareRowProps) {
   const encodedTitle = encodeURIComponent(title);
   const encodedUrl = encodeURIComponent(canonicalUrl);
 
+  const btnBase =
+    "flex h-9 w-9 items-center justify-center border border-[#cdd8e8] text-[#94a3b8] transition-all hover:border-[#1b2a47] hover:bg-[#1b2a47] hover:text-white";
+
   return (
-    <div className="mt-10 pt-8 border-t border-neutral-100 lg:hidden">
-      <p className="text-[10px] tracking-[0.3em] uppercase text-neutral-400 font-semibold mb-4">
-        Share this article
-      </p>
-      <div className="flex items-center gap-3">
+    <div className="mt-10 border-t border-[#eef2f7] pt-8 lg:hidden">
+      <div className="mb-4 flex items-center gap-3">
+        <div className="h-[2px] w-6 bg-[#e97a52]" />
+        <p className="text-[10px] font-bold uppercase tracking-[0.28em] text-[#e97a52]">
+          Share This Article
+        </p>
+      </div>
+      <div className="flex items-center gap-2">
         <a
           href={`https://twitter.com/intent/tweet?text=${encodedTitle}&url=${encodedUrl}`}
           target="_blank"
           rel="nofollow noopener noreferrer"
-          className="w-9 h-9 flex items-center justify-center rounded-full bg-neutral-100 hover:bg-[#1F2937] hover:text-white text-neutral-400 transition-all duration-200 cursor-pointer"
+          className={btnBase}
         >
           <i className="ri-twitter-x-line text-sm" />
         </a>
@@ -27,9 +36,17 @@ export default function PostBlogMobileShareRow({ title, canonicalUrl }: PostBlog
           href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodedUrl}`}
           target="_blank"
           rel="nofollow noopener noreferrer"
-          className="w-9 h-9 flex items-center justify-center rounded-full bg-neutral-100 hover:bg-[#1F2937] hover:text-white text-neutral-400 transition-all duration-200 cursor-pointer"
+          className={btnBase}
         >
           <i className="ri-linkedin-fill text-sm" />
+        </a>
+        <a
+          href={`https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}`}
+          target="_blank"
+          rel="nofollow noopener noreferrer"
+          className={btnBase}
+        >
+          <i className="ri-facebook-fill text-sm" />
         </a>
       </div>
     </div>

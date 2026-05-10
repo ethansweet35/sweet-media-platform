@@ -42,7 +42,7 @@ export default function Footer() {
             <a href="mailto:hello@northboundtreatment.com" className="hover:text-white">
               hello@northboundtreatment.com
             </a>
-            <Link href="/contact" className="mt-2 inline-flex text-white hover:text-white/80">
+            <Link href="/contact-us" className="mt-2 inline-flex text-white hover:text-white/80">
               Contact Us
             </Link>
           </div>

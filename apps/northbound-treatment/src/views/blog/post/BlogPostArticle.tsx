@@ -13,7 +13,10 @@ interface BlogPostArticleProps {
   canonicalUrl: string;
 }
 
-/** Server component: renders full article markup (body + TOC) for SSR. */
+const h2Headings = (post: BlogPost) =>
+  post.content.filter((s) => s.type === "h2").map((s) => s.text ?? "");
+
+/** Server component: renders the full article body with sidebar TOC. */
 export default function BlogPostArticle({
   post,
   allPosts,
@@ -24,26 +27,30 @@ export default function BlogPostArticle({
   const midPoint = Math.ceil(contentSections.length / 2);
   const firstHalf = contentSections.slice(0, midPoint);
   const secondHalf = contentSections.slice(midPoint);
+  const headings = h2Headings(post);
 
   const usedHrefs = new Set<string>();
 
   return (
-    <section className="w-full bg-white">
-      <div className="max-w-screen-xl mx-auto px-6 py-12 md:py-16">
-        <div className="flex gap-10 lg:gap-16 items-start">
-          <div className="hidden lg:block w-12 flex-shrink-0 pt-2">
+    <div className="bg-white">
+      <div className="mx-auto w-full max-w-7xl px-6 py-12 lg:px-10 lg:py-16">
+        <div className="flex gap-10 lg:gap-14 xl:gap-16">
+
+          {/* ── Left: Share icons ── */}
+          <div className="hidden w-10 shrink-0 lg:block">
             <PostShare title={post.title} canonicalUrl={canonicalUrl} />
           </div>
 
-          <div className="flex-1 min-w-0 max-w-3xl">
-            <div className="mb-8 pb-8 border-b border-neutral-100">
-              <p
-                className="text-lg md:text-xl text-neutral-700 leading-relaxed font-light italic"
-                style={{ fontFamily: "'Inter', serif" }}
-              >
-                {post.excerpt}
-              </p>
-            </div>
+          {/* ── Center: Article body ── */}
+          <div className="min-w-0 flex-1">
+            {/* Excerpt lede */}
+            {post.excerpt && (
+              <div className="mb-8 border-l-4 border-[#e97a52] py-2 pl-5 pb-8 border-b border-b-[#eef2f7]">
+                <p className="font-heading text-lg font-bold italic leading-relaxed text-[#1b2a47] md:text-xl">
+                  {post.excerpt}
+                </p>
+              </div>
+            )}
 
             <PostBody
               sections={firstHalf}
@@ -66,43 +73,73 @@ export default function BlogPostArticle({
             <PostBlogMobileShareRow title={post.title} canonicalUrl={canonicalUrl} />
           </div>
 
-          <div className="hidden xl:block w-56 flex-shrink-0">
-            <div className="sticky top-28">
-              <p className="text-[9px] tracking-[0.3em] uppercase text-neutral-400 font-semibold mb-4">
-                In This Article
-              </p>
-              <nav className="flex flex-col gap-2">
-                {post.content
-                  .filter((s) => s.type === "h2")
-                  .map((s, i) => (
-                    <span
-                      key={`${post.id}-h2-${i}`}
-                      className="text-[12px] text-neutral-400 hover:text-[#1F2937] leading-snug cursor-pointer transition-colors py-1 border-l-2 border-transparent hover:border-[#1F2937] pl-3"
-                    >
-                      {s.text}
-                    </span>
-                  ))}
-              </nav>
+          {/* ── Right: Sticky TOC + Tags ── */}
+          {headings.length > 0 && (
+            <div className="hidden w-52 shrink-0 xl:block">
+              <div className="sticky top-28 space-y-8">
+                {/* TOC */}
+                <div>
+                  <div className="mb-4 flex items-center gap-3">
+                    <div className="h-[2px] w-6 bg-[#e97a52]" />
+                    <p className="text-[9px] font-bold uppercase tracking-[0.28em] text-[#e97a52]">
+                      In This Article
+                    </p>
+                  </div>
+                  <nav className="flex flex-col gap-0.5">
+                    {headings.map((heading, i) => (
+                      <span
+                        key={i}
+                        className="cursor-pointer border-l-2 border-transparent py-1.5 pl-3 text-[12px] leading-snug text-[#94a3b8] transition-colors hover:border-[#e97a52] hover:text-[#1b2a47]"
+                      >
+                        {heading}
+                      </span>
+                    ))}
+                  </nav>
+                </div>
 
-              <div className="mt-8 pt-6 border-t border-neutral-100">
-                <p className="text-[9px] tracking-[0.3em] uppercase text-neutral-400 font-semibold mb-3">
-                  Tags
-                </p>
-                <div className="flex flex-wrap gap-1.5">
-                  {post.tags.map((tag) => (
-                    <span
-                      key={tag}
-                      className="text-[9px] tracking-widest uppercase text-[#1F2937] bg-[#1F2937]/6 px-2 py-1 rounded-full whitespace-nowrap"
-                    >
-                      {tag}
-                    </span>
-                  ))}
+                {/* Tags */}
+                {post.tags?.length > 0 && (
+                  <div className="border-t border-[#eef2f7] pt-6">
+                    <div className="mb-3 flex items-center gap-3">
+                      <div className="h-[2px] w-6 bg-[#e97a52]" />
+                      <p className="text-[9px] font-bold uppercase tracking-[0.28em] text-[#e97a52]">
+                        Tags
+                      </p>
+                    </div>
+                    <div className="flex flex-wrap gap-1.5">
+                      {post.tags.map((tag) => (
+                        <span
+                          key={tag}
+                          className="border border-[#cdd8e8] bg-[#eef2f7] px-2 py-1 text-[9px] font-semibold uppercase tracking-wider text-[#64748b] whitespace-nowrap"
+                        >
+                          {tag}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {/* CTA card */}
+                <div className="border border-[#cdd8e8] bg-[#eef2f7] p-5">
+                  <p className="font-heading text-sm font-bold text-[#1b2a47]">
+                    Ready to start recovery?
+                  </p>
+                  <p className="mt-1 text-[11px] leading-relaxed text-[#64748b]">
+                    Confidential, no-obligation call with our team.
+                  </p>
+                  <a
+                    href="tel:8888563990"
+                    className="mt-4 flex items-center gap-2 bg-[#e97a52] px-4 py-2.5 text-[10px] font-bold uppercase tracking-[0.15em] text-white transition-colors hover:bg-[#1b2a47]"
+                  >
+                    <i className="ri-phone-line" />
+                    Call Now
+                  </a>
                 </div>
               </div>
             </div>
-          </div>
+          )}
         </div>
       </div>
-    </section>
+    </div>
   );
 }

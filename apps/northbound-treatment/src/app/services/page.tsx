@@ -1,9 +1,12 @@
 import type { Metadata } from "next";
 import { resolveTrackedPageMetadata } from "@sweetmedia/admin-core";
+import ServicesHubPage from "@/views/services/ServicesHubPage";
 
 const fallbackMetadata: Metadata = {
-  title: "Services | Northbound Treatment",
-  description: "Describe the client’s core services, programs, or offers.",
+  title: "Drug & Alcohol Treatment Services | Northbound Treatment",
+  description:
+    "Northbound Treatment offers a full continuum of addiction care — medical detox, residential treatment, PHP, IOP, and telehealth in Orange County, CA. 38+ years of evidence-based recovery programs.",
+  alternates: { canonical: "/services" },
 };
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -11,25 +14,5 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default function Page() {
-  return (
-    <main className="min-h-screen bg-[var(--color-background)] px-6 py-24 text-[var(--color-primary)]">
-      <section className="mx-auto max-w-5xl">
-        <p className="mb-4 text-xs font-semibold uppercase tracking-[0.25em] text-[var(--color-accent)]">
-          Client Template
-        </p>
-        <h1 className="mb-6 max-w-3xl text-5xl font-semibold tracking-tight md:text-7xl">
-          Services
-        </h1>
-        <p className="max-w-2xl text-lg leading-8 text-slate-600">
-          Describe the client’s core services, programs, or offers.
-        </p>
-        <div className="mt-10 rounded-3xl border border-slate-200 bg-white p-8 shadow-sm">
-          <p className="text-sm leading-7 text-slate-600">
-            Replace this starter section with client-specific copy, layout, imagery, and conversion elements.
-            The admin, blog, Supabase, and shared package infrastructure are already wired into this template.
-          </p>
-        </div>
-      </section>
-    </main>
-  );
+  return <ServicesHubPage />;
 }

@@ -91,11 +91,11 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 function BlogPostLoadingShell() {
   return (
     <div className="min-h-screen bg-white">
-      <div className="max-w-screen-xl mx-auto px-6 pt-36 pb-20 animate-pulse">
-        <div className="h-4 bg-neutral-100 rounded w-1/4 mb-8" />
-        <div className="h-12 bg-neutral-100 rounded w-3/4 mb-6" />
-        <div className="h-4 bg-neutral-100 rounded w-1/3 mb-10" />
-        <div className="w-full h-[320px] md:h-[460px] bg-neutral-100 rounded-t-2xl" />
+      <div className="mx-auto w-full max-w-7xl animate-pulse px-6 pb-20 pt-36">
+        <div className="mb-8 h-3 w-1/4 bg-[#eef2f7]" />
+        <div className="mb-6 h-10 w-3/4 bg-[#eef2f7]" />
+        <div className="mb-10 h-4 w-1/3 bg-[#eef2f7]" />
+        <div className="h-[320px] w-full bg-[#eef2f7] md:h-[440px]" />
       </div>
     </div>
   );

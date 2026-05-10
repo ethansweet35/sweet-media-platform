@@ -396,32 +396,116 @@ function parseTags(tagsStr: string | undefined): string[] {
 }
 
 /**
- * Parse inline markdown links [text](url) in a string.
- * Returns an array of text/link segments for rendering.
+ * Inline segment types produced by the inline markdown parser.
  */
 export interface InlineSegment {
-  type: "text" | "link";
+  type: "text" | "link" | "bold" | "italic" | "bolditalic";
   content: string;
   href?: string;
 }
 
-export function parseInlineLinks(text: string): InlineSegment[] {
+/**
+ * Parse inline markdown into typed segments.
+ *
+ * Handles (in priority order):
+ *   ***bold italic***  →  bolditalic
+ *   **bold**           →  bold
+ *   __bold__           →  bold
+ *   *italic*           →  italic
+ *   _italic_           →  italic
+ *   [text](url)        →  link
+ *
+ * Also strips AI-generated citation markers like \[1\] or [1], [2, 3]
+ * that appear without a URL and have no renderable destination.
+ */
+export function parseInlineMarkdown(text: string): InlineSegment[] {
+  // Strip citation markers: \[1\], \[1,2\], [1], [2,3] — numbers/commas only inside brackets
+  const cleaned = text
+    .replace(/\\\[\d[\d,\s]*\\\]/g, "")
+    .replace(/\[(\d[\d,\s]*)\](?!\()/g, "")
+    .replace(/\s{2,}/g, " ")
+    .trim();
+
   const segments: InlineSegment[] = [];
-  const linkRegex = /\[([^\]]+)\]\(([^)]+)\)/g;
-  let lastIndex = 0;
-  let match: RegExpExecArray | null;
+  let rem = cleaned;
 
-  while ((match = linkRegex.exec(text)) !== null) {
-    if (match.index > lastIndex) {
-      segments.push({ type: "text", content: text.slice(lastIndex, match.index) });
+  while (rem.length > 0) {
+    // ***bold italic***
+    const biMatch = rem.match(/^\*\*\*(.+?)\*\*\*/s);
+    if (biMatch) {
+      segments.push({ type: "bolditalic", content: biMatch[1] });
+      rem = rem.slice(biMatch[0].length);
+      continue;
     }
-    segments.push({ type: "link", content: match[1], href: match[2] });
-    lastIndex = match.index + match[0].length;
+
+    // **bold**
+    const boldMatch = rem.match(/^\*\*(.+?)\*\*/s);
+    if (boldMatch) {
+      segments.push({ type: "bold", content: boldMatch[1] });
+      rem = rem.slice(boldMatch[0].length);
+      continue;
+    }
+
+    // __bold__
+    const bold2Match = rem.match(/^__(.+?)__/s);
+    if (bold2Match) {
+      segments.push({ type: "bold", content: bold2Match[1] });
+      rem = rem.slice(bold2Match[0].length);
+      continue;
+    }
+
+    // *italic* (not **)
+    const italicMatch = rem.match(/^\*(?!\*)(.+?)(?<!\*)\*/s);
+    if (italicMatch) {
+      segments.push({ type: "italic", content: italicMatch[1] });
+      rem = rem.slice(italicMatch[0].length);
+      continue;
+    }
+
+    // _italic_ (not __)
+    const italic2Match = rem.match(/^_(?!_)(.+?)(?<!_)_/s);
+    if (italic2Match) {
+      segments.push({ type: "italic", content: italic2Match[1] });
+      rem = rem.slice(italic2Match[0].length);
+      continue;
+    }
+
+    // [text](url) link
+    const linkMatch = rem.match(/^\[([^\]]+)\]\(([^)]+)\)/);
+    if (linkMatch) {
+      segments.push({ type: "link", content: linkMatch[1], href: linkMatch[2] });
+      rem = rem.slice(linkMatch[0].length);
+      continue;
+    }
+
+    // Advance to the next special character, emitting plain text up to it
+    const nextSpecial = rem.search(/\*\*\*|\*\*|__|(?<!\*)\*(?!\*)|\[/);
+    if (nextSpecial === -1) {
+      segments.push({ type: "text", content: rem });
+      rem = "";
+    } else if (nextSpecial === 0) {
+      // Unmatched special char — emit single character as text to avoid infinite loop
+      segments.push({ type: "text", content: rem[0] });
+      rem = rem.slice(1);
+    } else {
+      segments.push({ type: "text", content: rem.slice(0, nextSpecial) });
+      rem = rem.slice(nextSpecial);
+    }
   }
 
-  if (lastIndex < text.length) {
-    segments.push({ type: "text", content: text.slice(lastIndex) });
+  // Merge adjacent text segments
+  const merged: InlineSegment[] = [];
+  for (const seg of segments) {
+    const last = merged[merged.length - 1];
+    if (seg.type === "text" && last?.type === "text") {
+      last.content += seg.content;
+    } else {
+      merged.push({ ...seg });
+    }
   }
 
-  return segments.length > 0 ? segments : [{ type: "text", content: text }];
+  return merged.length > 0 ? merged : [{ type: "text", content: text }];
 }
+
+/** Backward-compatible alias. */
+export const parseInlineLinks = parseInlineMarkdown;

@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { Resend } from 'resend';
 
-const TO = 'hello@northboundtreatment.com';
+const TO = process.env.CONTACT_TO_EMAIL ?? 'hello@northboundtreatment.com';
 const SUBJECT = 'New Contact Form Submission - Northbound Treatment';
 
 function row(label: string, value: string | undefined) {
@@ -14,9 +14,12 @@ function row(label: string, value: string | undefined) {
 
 function buildHtml(fields: Record<string, string | undefined>) {
   const rows = [
+    row('Seeking Help For', fields.seeking_for),
     row('Name', fields.name),
     row('Email', fields.email),
     row('Phone', fields.phone),
+    row('How They Heard', fields.how_heard),
+    row('Paying With', fields.paying_with),
     row('Program / Service', fields.service ?? fields.program),
     row('Insurance', fields.insurance ?? fields.insurance_provider),
     row('Member ID', fields.member_id),
@@ -38,7 +41,7 @@ function buildHtml(fields: Record<string, string | undefined>) {
       </table>
     </div>
     <div style="padding:16px 32px;background:#E2E8F0;font-size:12px;color:#6B7D67;border-top:1px solid #e0dbd0;">
-      Submitted via example.com
+      Submitted via northboundtreatment.com
     </div>
   </div>
 </body>
@@ -88,7 +91,7 @@ export async function POST(req: NextRequest) {
     : fields.email;
 
   const { error } = await resend.emails.send({
-    from: 'Northbound Treatment <no-reply@example.com>',
+    from: process.env.CONTACT_FROM_EMAIL ?? 'Northbound Treatment <noreply@northboundtreatment.com>',
     to: [TO],
     replyTo,
     subject: SUBJECT,

@@ -15,8 +15,7 @@ function getRelatedPosts(currentPost: BlogPost, allPosts: BlogPost[]): BlogPost[
     const postTags = post.tags.map((t) => t.toLowerCase());
     const tagOverlap = postTags.filter((t) => currentTags.has(t)).length;
     const sameCategory = post.category === currentPost.category ? 2 : 0;
-    const score = tagOverlap * 3 + sameCategory;
-    return { post, score };
+    return { post, score: tagOverlap * 3 + sameCategory };
   });
 
   scored.sort((a, b) => {
@@ -24,83 +23,85 @@ function getRelatedPosts(currentPost: BlogPost, allPosts: BlogPost[]): BlogPost[
     return new Date(b.post.publishedAt).getTime() - new Date(a.post.publishedAt).getTime();
   });
 
-  return scored.slice(0, 6).map((s) => s.post);
+  return scored.slice(0, 3).map((s) => s.post);
 }
 
 export default function PostRelated({ currentPost, allPosts }: PostRelatedProps) {
   const related = getRelatedPosts(currentPost, allPosts);
-
   if (related.length === 0) return null;
 
   return (
-    <section className="w-full bg-white border-t border-neutral-100">
-      <div className="max-w-screen-xl mx-auto px-6 py-16 md:py-20">
-        <div className="flex items-center gap-3 mb-10">
-          <div className="w-8 h-px bg-neutral-300" />
-          <span className="text-[10px] tracking-[0.3em] uppercase text-neutral-400 font-semibold">
+    <section className="border-t border-[#eef2f7] bg-white py-16 md:py-20">
+      <div className="mx-auto w-full max-w-7xl px-6 lg:px-10">
+        {/* Header */}
+        <div className="mb-10 flex items-center gap-4">
+          <div className="h-[2px] w-10 bg-[#e97a52]" />
+          <span className="text-[10px] font-bold uppercase tracking-[0.28em] text-[#e97a52]">
             Continue Reading
           </span>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+        {/* Gapless grid */}
+        <div className="grid grid-cols-1 gap-px bg-[#cdd8e8] md:grid-cols-3">
           {related.map((post) => (
-            <Link
-              key={post.id}
-              href={`/blog/${post.slug}`}
-              className="group bg-white rounded-2xl overflow-hidden border border-neutral-100 hover:border-neutral-200 transition-all duration-300 block"
-            >
-              <article>
-                <div className="relative aspect-[16/10] overflow-hidden">
+            <article key={post.id} className="group bg-white">
+              <Link href={`/blog/${post.slug}`} className="block">
+                {/* Image */}
+                <div className="relative overflow-hidden">
                   <Image
                     src={post.image}
                     alt={post.title}
-                    fill
+                    width={800}
+                    height={500}
                     loading="lazy"
-                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 380px"
-                    className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500"
+                    className="w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                    style={{ aspectRatio: "16/10" }}
+                    sizes="(max-width: 768px) 100vw, 33vw"
                   />
-                  <div className="absolute top-3 left-3">
-                    <span className="inline-block bg-white/90 backdrop-blur-sm text-[10px] tracking-[0.15em] uppercase font-bold text-[#1F2937] px-2.5 py-1 rounded-full">
+                  <div className="absolute left-0 top-4">
+                    <span className="bg-[#1b2a47] px-3 py-1 text-[9px] font-bold uppercase tracking-[0.2em] text-white">
                       {post.category}
                     </span>
                   </div>
                 </div>
 
-                <div className="p-5">
-                  <div className="flex items-center gap-2 mb-3">
-                    <span className="text-[11px] text-neutral-400">{post.date}</span>
-                    <span className="w-1 h-1 rounded-full bg-neutral-300" />
-                    <span className="text-[11px] text-neutral-400">{post.readTime}</span>
+                {/* Body */}
+                <div className="p-6">
+                  <div className="mb-3 flex items-center gap-2">
+                    <span className="text-[11px] text-[#94a3b8]">{post.date}</span>
+                    <span className="h-3 w-px bg-[#cdd8e8]" />
+                    <span className="text-[11px] text-[#94a3b8]">{post.readTime}</span>
                   </div>
 
-                  <h3
-                    className="text-base font-medium text-neutral-900 leading-snug mb-3 group-hover:text-[#1F2937] transition-colors line-clamp-2"
-                    style={{ fontFamily: "'Inter', serif" }}
-                  >
+                  <h3 className="font-heading mb-3 text-base font-bold leading-snug text-[#1b2a47] transition-colors duration-200 group-hover:text-[#e97a52] line-clamp-2">
                     {post.title}
                   </h3>
 
-                  <p className="text-sm text-neutral-500 leading-relaxed line-clamp-2 mb-4">
+                  <p className="mb-5 line-clamp-2 text-sm leading-relaxed text-[#64748b]">
                     {post.excerpt}
                   </p>
 
-                  <div className="flex items-center justify-between pt-3 border-t border-neutral-100">
+                  <div className="flex items-center justify-between border-t border-[#eef2f7] pt-4">
                     <div className="flex items-center gap-2">
-                      <div className="w-6 h-6 rounded-full bg-[#1F2937] flex items-center justify-center">
-                        <span className="text-white text-[9px] font-bold">
-                          {post.author.split(" ").map((n) => n[0]).join("")}
+                      <div className="flex h-7 w-7 items-center justify-center bg-[#1b2a47]">
+                        <span className="text-[9px] font-bold text-white">
+                          {post.author
+                            .split(" ")
+                            .map((n) => n[0])
+                            .join("")}
                         </span>
                       </div>
-                      <span className="text-[11px] text-neutral-500">{post.author}</span>
+                      <span className="text-[11px] font-medium text-[#64748b]">{post.author}</span>
                     </div>
-                    <span className="flex items-center gap-1 text-[11px] tracking-[0.1em] uppercase font-medium text-[#1F2937] group-hover:text-[#2563EB] transition-colors">
+
+                    <span className="flex items-center gap-1 text-[11px] font-bold uppercase tracking-[0.1em] text-[#e97a52] transition-colors hover:text-[#1b2a47]">
                       Read
-                      <i className="ri-arrow-right-line text-xs group-hover:translate-x-0.5 transition-transform"></i>
+                      <i className="ri-arrow-right-line text-xs transition-transform group-hover:translate-x-0.5" />
                     </span>
                   </div>
                 </div>
-              </article>
-            </Link>
+              </Link>
+            </article>
           ))}
         </div>
       </div>

@@ -2,41 +2,64 @@ import Link from "next/link";
 
 export default function PostCta() {
   return (
-    <section className="w-full bg-[#1F2937] py-16 md:py-20">
-      <div className="max-w-screen-xl mx-auto px-6">
-        <div className="max-w-2xl mx-auto text-center">
-          <div className="flex items-center justify-center gap-3 mb-6">
-            <div className="w-8 h-px bg-white/20" />
-            <span className="text-[10px] tracking-[0.3em] uppercase text-white/40 font-semibold">
-              Ready to Grow?
-            </span>
-            <div className="w-8 h-px bg-white/20" />
+    <section className="relative overflow-hidden bg-[#1b2a47] py-16 md:py-20">
+      {/* Decorative corner accents */}
+      <div className="pointer-events-none absolute left-6 top-6 h-12 w-12 border-l-2 border-t-2 border-white/10" />
+      <div className="pointer-events-none absolute right-6 bottom-6 h-12 w-12 border-r-2 border-b-2 border-white/10" />
+      {/* Terracotta glow */}
+      <div className="pointer-events-none absolute -right-24 -top-24 h-64 w-64 rounded-full bg-[#e97a52]/10 blur-3xl" />
+
+      <div className="relative mx-auto w-full max-w-7xl px-6 lg:px-10">
+        <div className="flex flex-col gap-10 md:flex-row md:items-center md:justify-between">
+          {/* Left */}
+          <div className="max-w-lg">
+            <p className="mb-3 text-xs font-bold uppercase tracking-[0.22em] text-[#e97a52]">
+              Take the Next Step
+            </p>
+            <h2 className="font-heading text-3xl font-bold leading-snug text-white md:text-4xl">
+              Recovery starts with a <span className="italic text-[#e97a52]">single call.</span>
+            </h2>
+            <p className="mt-4 text-sm leading-relaxed text-white/50">
+              Our admissions team is available 24/7 — confidential, no-obligation, and judgment-free.
+              Let us help you or your loved one find the right path forward.
+            </p>
+
+            {/* Trust indicators */}
+            <div className="mt-6 flex flex-wrap gap-5">
+              {["38+ Years of Experience", "10,000+ Lives Changed", "Evidence-Based Care"].map(
+                (t) => (
+                  <div key={t} className="flex items-center gap-2">
+                    <i className="ri-shield-check-line text-[#e97a52]" />
+                    <span className="text-[11px] font-semibold uppercase tracking-[0.12em] text-white/50">
+                      {t}
+                    </span>
+                  </div>
+                ),
+              )}
+            </div>
           </div>
 
-          <h2
-            className="text-2xl md:text-3xl font-light text-white mb-4 leading-snug"
-            style={{ fontFamily: "'Inter', serif" }}
-          >
-            Put These Insights to Work for Your Program
-          </h2>
-
-          <p className="text-sm text-white/50 leading-relaxed mb-8 max-w-lg mx-auto">
-            Northbound Treatment offers client-centered services. Reach out for a confidential consultation
-            and see exactly how we&apos;d apply these strategies to your facility.
-          </p>
-
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
-            <Link
-              href="/contact"
-              className="bg-white text-[#1F2937] text-[11px] tracking-[0.2em] uppercase font-bold px-7 py-3.5 rounded-full hover:bg-white/90 transition-all duration-200 whitespace-nowrap"
+          {/* Right — CTAs */}
+          <div className="flex shrink-0 flex-col gap-3">
+            <a
+              href="tel:8888563990"
+              className="flex items-center justify-center gap-2 bg-[#e97a52] px-8 py-4 text-[11px] font-bold uppercase tracking-[0.18em] text-white transition-colors hover:bg-white hover:text-[#1b2a47]"
             >
-              Book a Strategy Call
+              <i className="ri-phone-line" />
+              Call Us Now
+            </a>
+            <Link
+              href="/contact-us"
+              className="flex items-center justify-center gap-2 border border-white/20 px-8 py-4 text-[11px] font-bold uppercase tracking-[0.18em] text-white/70 transition-all hover:border-white/50 hover:text-white"
+            >
+              <i className="ri-mail-line" />
+              Send a Message
             </Link>
             <Link
               href="/blog"
-              className="border border-white/20 text-white/70 text-[11px] tracking-[0.2em] uppercase font-bold px-7 py-3.5 rounded-full hover:border-white/40 hover:text-white transition-all duration-200 whitespace-nowrap"
+              className="text-center text-[10px] uppercase tracking-[0.15em] text-white/30 transition-colors hover:text-white/60"
             >
-              More Articles
+              ← Back to Journal
             </Link>
           </div>
         </div>

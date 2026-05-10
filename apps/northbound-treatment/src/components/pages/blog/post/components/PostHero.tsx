@@ -10,121 +10,117 @@ interface PostHeroProps {
 
 export default function PostHero({ post }: PostHeroProps) {
   return (
-    <section className="relative w-full overflow-hidden bg-[#1F2937]">
-      <div
-        className="absolute inset-0 opacity-[0.08]"
-        style={{
-          backgroundImage:
-            "radial-gradient(circle at 1px 1px, #F8FAFC 1px, transparent 0)",
-          backgroundSize: "34px 34px",
-        }}
-      />
-      <div className="absolute -top-28 right-0 w-96 h-96 rounded-full bg-[#DDA15E]/10 blur-3xl" />
-      <div className="absolute bottom-0 left-0 w-80 h-80 rounded-full bg-[#8FA489]/10 blur-3xl" />
+    <section className="relative overflow-hidden bg-[#1b2a47] pb-0 pt-24 lg:pt-28">
+      {/* Corner accents */}
+      <div className="pointer-events-none absolute left-8 top-8 h-16 w-16 border-l-2 border-t-2 border-white/10" />
+      <div className="pointer-events-none absolute right-8 top-8 h-16 w-16 border-r-2 border-t-2 border-white/10" />
+      {/* Terracotta glow */}
+      <div className="pointer-events-none absolute -right-40 -top-40 h-[500px] w-[500px] rounded-full bg-[#e97a52]/8 blur-3xl" />
 
-      <div className="relative max-w-7xl mx-auto px-8 md:px-16 pt-36 pb-16 md:pt-44 md:pb-20">
-        <div className="flex items-center gap-2 mb-8">
+      <div className="relative mx-auto w-full max-w-7xl px-6 lg:px-10">
+        {/* Breadcrumb */}
+        <div className="mb-8 flex items-center gap-2">
           <Link
             href="/blog"
-            className="flex items-center gap-2 text-[10px] uppercase tracking-[0.25em] text-[#E2E8F0]/45 hover:text-[#E2E8F0]/80 transition-colors"
+            className="flex items-center gap-1.5 text-[10px] uppercase tracking-[0.25em] text-white/35 transition-colors hover:text-white/70"
           >
             <i className="ri-arrow-left-line text-xs" />
-            Blog
+            Journal
           </Link>
-          <span className="text-[#E2E8F0]/25">/</span>
-          <span className="text-[10px] uppercase tracking-[0.25em] text-[#DDA15E]">
+          <span className="text-white/20">/</span>
+          <span className="text-[10px] uppercase tracking-[0.25em] text-[#e97a52]">
             {post.category}
           </span>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,1fr)_420px] gap-12 lg:gap-16 items-end">
-          <div>
-            <span className="inline-flex items-center rounded-full border border-[#E2E8F0]/15 bg-[#E2E8F0]/10 px-4 py-2 text-[10px] uppercase tracking-[0.25em] text-[#DDA15E]">
-              {post.category}
-            </span>
+        <div className="grid grid-cols-1 items-end gap-12 lg:grid-cols-[1fr_420px]">
+          {/* Left — text */}
+          <div className="pb-12 lg:pb-16">
+            {/* Category pill */}
+            <div className="mb-6 inline-flex items-center border border-[#e97a52]/30 bg-[#e97a52]/10 px-4 py-1.5">
+              <span className="text-[10px] font-semibold uppercase tracking-[0.22em] text-[#e97a52]">
+                {post.category}
+              </span>
+            </div>
 
-            <h1
-              className="font-serif text-[#F8FAFC] leading-[1.08] mt-7 mb-7"
-              style={{ fontSize: "clamp(38px, 5.5vw, 76px)" }}
-            >
+            <h1 className="font-heading text-4xl font-bold leading-tight text-white md:text-5xl lg:text-[3.25rem]">
               {post.title}
             </h1>
 
-            {post.excerpt ? (
-              <p className="text-[#E2E8F0]/70 font-light text-base md:text-lg leading-[1.9] max-w-3xl">
+            {post.excerpt && (
+              <p className="mt-5 max-w-2xl text-base leading-relaxed text-white/55 md:text-lg">
                 {post.excerpt}
               </p>
-            ) : null}
+            )}
 
-            <div className="mt-9 flex flex-wrap items-center gap-4 md:gap-6 border-t border-[#E2E8F0]/10 pt-6">
+            {/* Meta strip */}
+            <div className="mt-8 flex flex-wrap items-center gap-5 border-t border-white/10 pt-6">
+              {/* Author */}
               <div className="flex items-center gap-3">
-                <div className="relative w-11 h-11 rounded-full overflow-hidden bg-[#E2E8F0]/10 flex-shrink-0">
+                <div className="relative h-10 w-10 shrink-0 overflow-hidden bg-white/10">
                   {post.authorPhoto ? (
                     <Image
                       src={post.authorPhoto}
                       alt={post.author}
                       fill
-                      sizes="44px"
+                      sizes="40px"
                       className="object-cover"
                     />
                   ) : (
-                    <div className="w-full h-full flex items-center justify-center text-[#DDA15E] text-xs">
-                      IP
+                    <div className="flex h-full w-full items-center justify-center text-[10px] font-bold text-[#e97a52]">
+                      {post.author
+                        .split(" ")
+                        .map((n) => n[0])
+                        .join("")}
                     </div>
                   )}
                 </div>
                 <div>
-                  <p className="text-sm font-medium text-[#F8FAFC] leading-tight">
+                  <p className="text-sm font-semibold leading-tight text-white">
                     {post.author || "Northbound Treatment"}
                   </p>
-                  <p className="text-[11px] text-[#E2E8F0]/45">
+                  <p className="text-[11px] text-white/40">
                     {post.authorRole || "Clinical Editorial Team"}
                   </p>
                 </div>
               </div>
 
-              <div className="hidden md:block w-px h-9 bg-[#E2E8F0]/10" />
+              <div className="hidden h-8 w-px bg-white/10 md:block" />
 
-              <div className="flex items-center gap-2 text-[#E2E8F0]/45">
+              <div className="flex items-center gap-1.5 text-white/40">
                 <i className="ri-calendar-line text-xs" />
                 <span className="text-[11px]">{post.date}</span>
               </div>
 
-              <div className="flex items-center gap-2 text-[#E2E8F0]/45">
+              <div className="flex items-center gap-1.5 text-white/40">
                 <i className="ri-time-line text-xs" />
                 <span className="text-[11px]">{post.readTime}</span>
               </div>
             </div>
           </div>
 
-          {post.image ? (
-            <div className="relative aspect-[3/2] w-full max-w-[520px] lg:ml-auto rounded-[2rem_0.75rem_2rem_0.75rem] overflow-hidden border border-[#E2E8F0]/10 bg-[#E2E8F0]/5 shadow-2xl shadow-black/20">
-              <Image
-                src={post.image}
-                alt={post.title}
-                fill
-                priority
-                sizes="(max-width: 1024px) 100vw, 420px"
-                className="object-cover object-center"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-[#1F2937]/40 via-transparent to-transparent" />
+          {/* Right — image, flush to bottom */}
+          {post.image && (
+            <div className="relative hidden self-end lg:block">
+              <div className="relative aspect-[4/3] w-full overflow-hidden border border-white/10">
+                <Image
+                  src={post.image}
+                  alt={post.title}
+                  fill
+                  priority
+                  sizes="420px"
+                  className="object-cover object-center"
+                />
+                {/* Gradient overlay at bottom to blend into page */}
+                <div className="absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-[#1b2a47]/60 to-transparent" />
+              </div>
             </div>
-          ) : null}
+          )}
         </div>
-
-        {post.tags?.length ? (
-          <div className="mt-8 flex flex-wrap gap-2">
-            {post.tags.map((tag) => (
-              <span
-                key={tag}
-                className="text-[9px] tracking-widest uppercase text-[#E2E8F0]/40 bg-[#E2E8F0]/5 border border-[#E2E8F0]/10 px-3 py-1.5 rounded-full"
-              >
-                {tag}
-              </span>
-            ))}
-          </div>
-        ) : null}
       </div>
+
+      {/* Bottom accent bar */}
+      <div className="h-[3px] bg-gradient-to-r from-[#e97a52] via-[#1b2a47] to-[#e97a52]/30" />
     </section>
   );
 }

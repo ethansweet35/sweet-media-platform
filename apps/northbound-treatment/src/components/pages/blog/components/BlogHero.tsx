@@ -12,76 +12,87 @@ export default function BlogHero({ searchQuery, onSearchChange }: BlogHeroProps)
   const [isFocused, setIsFocused] = useState(false);
 
   return (
-    <section className="relative w-full overflow-hidden bg-[#1F2937]">
-      <div
-        className="absolute inset-0 opacity-[0.08]"
-        style={{
-          backgroundImage:
-            "radial-gradient(circle at 1px 1px, #F8FAFC 1px, transparent 0)",
-          backgroundSize: "34px 34px",
-        }}
-      />
-      <div className="absolute -top-24 right-0 w-96 h-96 rounded-full bg-[#DDA15E]/10 blur-3xl" />
-      <div className="absolute bottom-0 left-0 w-80 h-80 rounded-full bg-[#8FA489]/10 blur-3xl" />
+    <section className="relative overflow-hidden bg-[#1b2a47] pt-28 pb-16 lg:pt-36 lg:pb-20">
+      {/* Architectural corner accents */}
+      <div className="pointer-events-none absolute left-8 top-8 h-16 w-16 border-l-2 border-t-2 border-white/10" />
+      <div className="pointer-events-none absolute right-8 top-8 h-16 w-16 border-r-2 border-t-2 border-white/10" />
 
-      <div className="relative max-w-7xl mx-auto px-8 md:px-16 pt-36 pb-20 md:pt-44 md:pb-28">
-        <div className="flex items-center gap-2 mb-8">
+      {/* Terracotta glow */}
+      <div className="pointer-events-none absolute -right-32 -top-32 h-96 w-96 rounded-full bg-[#e97a52]/10 blur-3xl" />
+      <div className="pointer-events-none absolute -left-20 bottom-0 h-64 w-64 rounded-full bg-[#e97a52]/5 blur-3xl" />
+
+      <div className="relative mx-auto w-full max-w-7xl px-6 lg:px-10">
+        {/* Breadcrumb */}
+        <div className="mb-8 flex items-center gap-2">
           <Link
             href="/"
-            className="text-[10px] tracking-[0.25em] uppercase text-[#E2E8F0]/45 hover:text-[#E2E8F0]/80 transition-colors"
+            className="text-[10px] uppercase tracking-[0.25em] text-white/35 transition-colors hover:text-white/70"
           >
             Home
           </Link>
-          <span className="text-[#E2E8F0]/25">/</span>
-          <span className="text-[10px] tracking-[0.25em] uppercase text-[#DDA15E]">
-            Resources
-          </span>
+          <span className="text-white/20">/</span>
+          <span className="text-[10px] uppercase tracking-[0.25em] text-[#e97a52]">Journal</span>
         </div>
 
-        <div className="max-w-3xl">
-          <span className="text-xs uppercase tracking-[0.35em] text-[#DDA15E] font-medium">
-            Northbound Treatment Journal
-          </span>
+        <div className="grid gap-12 lg:grid-cols-[1fr_auto] lg:items-end">
+          {/* Left — headline */}
+          <div>
+            <p className="text-xs font-semibold uppercase tracking-[0.22em] text-[#e97a52]">
+              Northbound Treatment Journal
+            </p>
+            <h1 className="font-heading mt-4 text-5xl font-bold leading-tight text-white md:text-6xl lg:text-7xl">
+              Recovery <span className="italic text-[#e97a52]">Insights</span>
+            </h1>
+            <p className="mt-4 max-w-xl text-base leading-relaxed text-white/55">
+              Clinical guidance on addiction, mental health, trauma, and the path to lasting recovery — from the Northbound Treatment team.
+            </p>
 
-          <h1
-            className="font-serif text-[#F8FAFC] leading-[1.08] mt-6 mb-6"
-            style={{ fontSize: "clamp(42px, 6vw, 78px)" }}
-          >
-            Thoughtful guidance for{" "}
-            <em className="text-[#DDA15E]">healing at home.</em>
-          </h1>
+            {/* Search */}
+            <div
+              className={`mt-8 flex max-w-lg items-center gap-3 border bg-white/5 px-5 py-3.5 transition-all duration-200 ${
+                isFocused ? "border-[#e97a52]/60 bg-white/10" : "border-white/15"
+              }`}
+            >
+              <i className="ri-search-line text-lg text-white/35" />
+              <input
+                type="text"
+                value={searchQuery}
+                onChange={(e) => onSearchChange(e.target.value)}
+                onFocus={() => setIsFocused(true)}
+                onBlur={() => setIsFocused(false)}
+                placeholder="Search articles…"
+                className="flex-1 bg-transparent text-sm text-white placeholder:text-white/30 focus:outline-none"
+              />
+              {searchQuery && (
+                <button
+                  onClick={() => onSearchChange("")}
+                  className="flex h-6 w-6 items-center justify-center bg-white/10 text-white/50 transition-colors hover:bg-white/20 hover:text-white"
+                  aria-label="Clear search"
+                >
+                  <i className="ri-close-line text-xs" />
+                </button>
+              )}
+            </div>
+          </div>
 
-          <p className="text-[#E2E8F0]/70 font-light text-base md:text-lg leading-[1.9] max-w-2xl mb-10">
-            Mental health, addiction recovery, trauma-informed care, and wellness resources from the Northbound Treatment team.
-          </p>
-
-          <div
-            className={`max-w-xl flex items-center gap-3 bg-[#F8FAFC]/10 backdrop-blur-sm border rounded-full px-5 py-3 transition-all duration-200 ${
-              isFocused ? "border-[#DDA15E]/50 bg-[#F8FAFC]/15" : "border-[#F8FAFC]/15"
-            }`}
-          >
-            <i className="ri-search-line text-[#E2E8F0]/45 text-lg" />
-            <input
-              type="text"
-              value={searchQuery}
-              onChange={(e) => onSearchChange(e.target.value)}
-              onFocus={() => setIsFocused(true)}
-              onBlur={() => setIsFocused(false)}
-              placeholder="Search articles..."
-              className="flex-1 bg-transparent text-sm text-[#F8FAFC] placeholder:text-[#E2E8F0]/35 focus:outline-none"
-            />
-            {searchQuery && (
-              <button
-              onClick={() => onSearchChange("")}
-                className="w-6 h-6 flex items-center justify-center rounded-full bg-[#F8FAFC]/10 hover:bg-[#F8FAFC]/20 text-[#E2E8F0]/60 transition-colors cursor-pointer"
-                aria-label="Clear search"
-              >
-                <i className="ri-close-line text-xs" />
-              </button>
-            )}
+          {/* Right — trust strip */}
+          <div className="hidden lg:flex lg:flex-col lg:items-end lg:gap-4">
+            {[
+              { value: "38+", label: "Years of expertise" },
+              { value: "10k+", label: "Lives changed" },
+              { value: ">97%", label: "Abstinence rate" },
+            ].map((s) => (
+              <div key={s.label} className="text-right">
+                <p className="font-heading text-3xl font-bold text-[#e97a52]">{s.value}</p>
+                <p className="text-[10px] font-semibold uppercase tracking-[0.15em] text-white/30">{s.label}</p>
+              </div>
+            ))}
           </div>
         </div>
       </div>
+
+      {/* Bottom accent bar */}
+      <div className="absolute bottom-0 left-0 right-0 h-[3px] bg-gradient-to-r from-[#e97a52] via-[#1b2a47] to-[#e97a52]/30" />
     </section>
   );
 }

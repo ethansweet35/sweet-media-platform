@@ -3,173 +3,163 @@ import SubstancePageTemplate, { type SubstancePageData } from "@/views/shared/Su
 const BASE = "https://ahufsygjwpbymomfdazb.supabase.co/storage/v1/object/public/site-assets/images";
 
 const data: SubstancePageData = {
-  /* ── Hero ─────────────────────────────────────────────────────────── */
   heroImage: `${BASE}/nbt_cocaine_hero01.jpg`,
-  heroImageAlt: "Person facing the devastation of cocaine and crack addiction — isolated, defeated, on the edge of change",
-  substanceName: "Cocaine & Crack",
-  heroHeadline: "Cocaine & Crack Addiction Treatment",
+  heroImageAlt: "Person in recovery from cocaine addiction looking toward the future at Northbound Treatment",
+  substanceName: "Cocaine",
+  heroHeadline: "Cocaine Addiction Treatment",
   heroItalicWord: "Addiction",
   heroBody:
-    "Cocaine and crack addiction are among the most powerful stimulant dependencies — driven by intense dopamine surges that rewire the brain's reward system. At Northbound, we treat the full spectrum of cocaine use disorder with evidence-based, individualized care that addresses addiction at its neurological and psychological roots.",
+    "Cocaine and crack cocaine addiction carry intense psychological cravings that can feel impossible to escape. Northbound's evidence-based stimulant addiction program addresses both the neurological patterns of cocaine dependency and the underlying factors that drive use — delivering real, measurable recovery.",
 
-  /* ── Understanding ────────────────────────────────────────────────── */
-  whatItIsHeadline: "What Is Cocaine & Crack Addiction?",
+  whatItIsHeadline: "What Is Cocaine Addiction?",
   whatItIsBody: [
-    "Cocaine is a powerful stimulant derived from the coca plant that floods the brain with dopamine, producing an intense but brief euphoria. Crack cocaine is a freebase, crystallized form of cocaine that produces an almost immediate high when smoked — making it the most rapidly addictive form of the drug. Both are classified as Schedule II controlled substances.",
-    "Crack triggers the release of far more dopamine than the brain can naturally replenish in a short timeframe. The result is a compulsive cycle: each subsequent use produces a lower high, driving the user to consume more, more frequently — a binge pattern that can consume days at a time. The brain's reward circuitry becomes dependent on cocaine-level dopamine stimulation, making natural pleasure essentially inaccessible during addiction.",
-    "Physical signs of cocaine dependency include dilated pupils, significant weight loss, insomnia, and deteriorating personal care. Prolonged use can cause paranoid psychosis, tactile hallucinations, and in severe cases, hallucinations that cause users to scratch their skin until it bleeds. Cocaine is also frequently adulterated with other substances — creating additional and unpredictable toxicity risks.",
+    "Cocaine is a powerful stimulant derived from coca plant leaves that floods the brain with dopamine, producing short-lived euphoria followed by a sharp crash. Crack cocaine is a freebase form of cocaine that is smoked and produces an even more rapid, intense — and briefer — high. Both forms produce a similar addiction profile: intense psychological cravings, compulsive use patterns, and escalating doses over time.",
+    "Unlike opioids or alcohol, cocaine doesn't produce the same severe physical withdrawal syndrome. But this doesn't make it less dangerous — cocaine addiction is primarily a psychological disease, driven by intense cravings, anxiety, depression, and anhedonia (the inability to feel pleasure without the drug) that can persist for weeks or months after stopping.",
+    "Cocaine causes serious cardiovascular damage over time, including elevated risk of heart attack and stroke, even in young, otherwise healthy people. When cocaine and alcohol are used together, the liver produces cocaethylene — a more toxic compound — significantly multiplying the health risk.",
   ],
   whatItIsImage: `${BASE}/nbt_cocaine_therapy01.jpg`,
-  whatItIsImageAlt: "Group therapy session for cocaine and crack addiction recovery at Northbound Treatment Services",
+  whatItIsImageAlt: "Group therapy session for stimulant addiction recovery at Northbound Treatment",
   quickStats: [
-    { value: "5M+", label: "Americans reported past-year cocaine use" },
-    { value: "1%", label: "Of teens will abuse crack cocaine during high school" },
+    { value: "5M+", label: "Americans use cocaine in any given year" },
+    { value: "72 hrs", label: "Typical cocaine crash duration after a binge" },
     { value: ">97%", label: "Drug abstinence rate in Northbound's USC outcomes study" },
   ],
 
-  /* ── Warning Signs ────────────────────────────────────────────────── */
   warningBody:
-    "Cocaine and crack addiction can escalate rapidly — from recreational use to destructive dependency in weeks. These are the clinical warning signs that professional treatment is needed.",
+    "Cocaine addiction often escalates in the context of social or professional environments, making it easy to minimize or deny. These are the warning signs that use has become a clinical problem.",
   warningSigns: [
-    "Using cocaine or crack in larger amounts or more frequently than intended",
-    "Spending hours or days on a binge with little else happening",
-    "Inability to stop using despite serious consequences",
-    "Intense cravings for cocaine that are almost impossible to resist",
-    "Noticeable physical changes: significant weight loss, poor personal hygiene, dilated pupils",
-    "Paranoia, aggression, or extreme mood swings — especially after binging",
-    "Tactile hallucinations or 'coke bugs' — the sensation of insects under the skin",
-    "Financial problems from spending excessively on cocaine or crack",
-    "Neglecting work, school, family, or relationships for drug use",
-    "Legal trouble related to obtaining or using cocaine",
+    "Using cocaine more frequently or in larger amounts than planned",
+    "Spending significant time obtaining, using, or recovering from cocaine",
+    "Strong cravings or urges to use cocaine between episodes",
+    "Continued use despite relationship, financial, or legal problems",
+    "Withdrawing from activities that were previously enjoyed",
+    "Experiencing crashes: fatigue, depression, irritability, hypersomnia after use",
+    "Escalating to crack cocaine or polysubstance use (mixing with alcohol, opioids)",
+    "Paranoia, anxiety, or psychosis during or after use",
+    "Significant weight loss or neglect of personal hygiene",
+    "Using cocaine to manage emotional pain, stress, or low mood",
   ],
 
-  /* ── Treatment Continuum ──────────────────────────────────────────── */
   recoveryHeadline: "What Cocaine Recovery Looks Like at Northbound",
   recoveryIntro:
-    "Cocaine and crack addiction require comprehensive clinical treatment — addressing both the physiological dependency and the deep psychological hold the drug creates. Northbound provides the full continuum of care.",
+    "Because cocaine addiction is primarily psychological, effective treatment focuses on restructuring thought patterns, building emotional regulation skills, and treating co-occurring mental health conditions. Northbound's stimulant-specialized program provides the clinical depth this requires.",
   careSteps: [
     {
       phase: "Days 1–14",
-      title: "Medical Assessment & Detox",
+      title: "Assessment & Medical Stabilization",
       icon: "ri-heart-pulse-line",
-      body: "Every client begins with a comprehensive biopsychosocial assessment. Cocaine withdrawal, while not physically dangerous in the same way as alcohol or opioids, produces intense psychological symptoms — severe depression, extreme fatigue, and powerful cravings. Northbound's one-eighty detox provides 24/7 clinical supervision and comfort care through this phase.",
+      body: "Every client begins with a comprehensive biopsychosocial evaluation. The cocaine crash phase — characterized by fatigue, depression, and intense cravings — is managed with clinical support, psychiatric care, and in some cases short-term medication assistance to ensure stability.",
     },
     {
       phase: "Weeks 2–12+",
       title: "Residential Inpatient Treatment",
       icon: "ri-home-heart-line",
-      body: "Residential care provides immersive 24/7 clinical treatment in Northbound's Orange County facilities. Individual therapy, group counseling, family therapy, CBT, DBT, EMDR, and dual-diagnosis treatment address the addiction alongside any co-occurring mental health conditions — typically depression, anxiety, or PTSD.",
+      body: "Residential care is the foundation of cocaine addiction recovery at Northbound. Daily programming includes individual therapy (CBT, DBT), group counseling, family sessions, and dual-diagnosis treatment for co-occurring depression, anxiety, or ADHD — which are extremely common in cocaine-addicted individuals.",
     },
     {
       phase: "Month 2–4",
       title: "Partial Hospitalization Program (PHP)",
       icon: "ri-sun-line",
-      body: "PHP provides structured, intensive clinical programming 5 days per week as clients begin transitioning to greater independence. This phase continues the therapeutic work while building the daily structure and coping strategies that sustain sobriety outside of treatment.",
+      body: "PHP provides 5 days per week of intensive outpatient-style programming while clients live in a supported environment. This phase builds on residential gains, with particular focus on relapse prevention skills and high-risk social situation management.",
     },
     {
       phase: "Month 3–6",
       title: "Intensive Outpatient Program (IOP)",
       icon: "ri-calendar-check-line",
-      body: "IOP provides 10–12 hours of weekly programming, allowing clients to re-engage with work, school, or family while maintaining robust clinical support. Clients learn to navigate real-world triggers and stressors in real time — with their treatment team alongside them.",
+      body: "Northbound's IOP allows clients to return to work, school, and family life while maintaining 10–12 hours of weekly clinical support. The InVivo® model specifically addresses the social and professional triggers that often drive cocaine use.",
     },
     {
       phase: "Ongoing",
-      title: "Aftercare & Alumni Program",
+      title: "Aftercare & Alumni Network",
       icon: "ri-refresh-line",
-      body: "Northbound's alumni program provides the lifelong community, accountability, and events that sustain sobriety. One-third of our staff are program alumni — ensuring the lived-experience perspective is always present in our clients' recovery journey.",
+      body: "Cocaine cravings can resurface months after cessation. Northbound's alumni community, continued case management, and specialized programs — Collegebound® and Careerbound® — provide the long-term structure and community that support lasting sobriety.",
     },
   ],
 
-  /* ── Why Northbound ───────────────────────────────────────────────── */
   differentiators: [
     {
       icon: "ri-brain-line",
-      title: "Dual-Diagnosis Expertise",
-      body: "Cocaine use disorder frequently co-occurs with depression, bipolar disorder, ADHD, and anxiety. Northbound's dual-diagnosis program treats both simultaneously — identifying and addressing the psychological drivers of stimulant use alongside the addiction itself.",
+      title: "Stimulant-Specific Expertise",
+      body: "Cocaine addiction presents differently from opioid or alcohol addiction. Our clinical team specializes in stimulant use disorders — the cravings, psychological patterns, and co-occurring conditions that make cocaine addiction uniquely challenging.",
     },
     {
-      icon: "ri-shield-check-line",
-      title: "Most Skilled Rehabilitation Team",
-      body: "The constellation of physical and mental health issues arising from crack cocaine addiction requires the most experienced clinical team. Northbound's leadership team has 200+ years of combined behavioral healthcare expertise — with a specific track record in stimulant addiction.",
+      icon: "ri-mental-health-line",
+      title: "Dual-Diagnosis Integrated Care",
+      body: "Depression, anxiety, ADHD, and bipolar disorder frequently co-occur with cocaine use. Northbound's psychiatrists and therapists treat the full picture — substance use and mental health together.",
     },
     {
-      icon: "ri-user-line",
-      title: "1:1 Staff-to-Client Ratio",
-      body: "Every client at Northbound receives deeply individualized clinical attention. Our 1:1 staff ratio ensures that treatment plans are responsive to each client's evolving needs — particularly critical during the high-risk early stages of cocaine recovery.",
+      icon: "ri-group-line",
+      title: "Group Therapy That Works",
+      body: "Northbound's group therapy model creates genuine peer accountability and community — a critical factor in stimulant recovery, where social environments often drive use.",
     },
     {
-      icon: "ri-family-line",
-      title: "Family Recovery Program",
-      body: "Northbound's monthly Family Program helps loved ones understand cocaine and crack addiction, heal the relational damage it causes, and learn how to support recovery effectively — because no one recovers in isolation.",
-    },
-    {
-      icon: "ri-graduation-cap-line",
-      title: "Collegebound® & Careerbound®",
-      body: "Many clients recovering from cocaine use disorder have seen their educational or professional trajectories derailed by addiction. Northbound's specialized programs help them rebuild — academically and professionally — while in treatment.",
+      icon: "ri-refresh-line",
+      title: "Relapse Prevention Focus",
+      body: "Our InVivo® model practices real-world coping skills during treatment — not just in a controlled setting — so that when triggers arise after discharge, clients are equipped to respond.",
     },
     {
       icon: "ri-award-line",
-      title: "Insurance Access & DHCS Licensed",
-      body: "DHCS licensed (#300661CP) and NAATP member, Northbound is in-network with 15+ major plans. Our admissions team verifies benefits at no cost before you make any commitment — so cost is never a barrier to starting.",
+      title: "38+ Years of Experience",
+      body: "Northbound has been treating substance use disorders since 1987. Our track record, verified by USC research, reflects nearly four decades of refining what works in real clinical practice.",
+    },
+    {
+      icon: "ri-family-line",
+      title: "Family Involvement",
+      body: "Cocaine addiction damages relationships. Northbound's family therapy program rebuilds the trust and communication skills essential for sustained recovery after treatment.",
     },
   ],
 
-  /* ── Closing Split ────────────────────────────────────────────────── */
-  closingImage: `${BASE}/nbt_cocaine_recovery01.jpg`,
-  closingImageAlt: "Man celebrating sobriety on a Southern California hiking trail — freedom from cocaine addiction at Northbound",
-  closingHeadline: "There Is Hope. There Is a Way Out.",
+  closingImage: `${BASE}/nbt_cocaine_hero01.jpg`,
+  closingImageAlt: "Individual in recovery from cocaine addiction beginning a new chapter at Northbound Treatment",
+  closingHeadline: "You Don't Have to Fight Cocaine Alone",
   closingBody: [
-    "Crack and cocaine addiction can feel inescapable — the cycle of craving, using, crashing, and starting over again consumes everything. But it doesn't have to end that way. Northbound has helped thousands of people break that cycle and build lives they're proud of.",
-    "If you or someone you love is suffering from cocaine or crack dependency, don't wait. Contact Northbound today and take the first step toward a healthy, sober life.",
+    "Cocaine addiction is relentless — the cravings, the crashes, the cycle. But the cycle can be broken with the right clinical support, the right environment, and the right team behind you.",
+    "Northbound's admissions team is available 24 hours a day, 7 days a week. The call is free, confidential, and comes with no obligation. If you or someone you love is struggling with cocaine, today is the right time to reach out.",
   ],
-  closingQuote:
-    "From experiential therapies to relearning life skills, Northbound helps those struggling with addiction find the hope and purpose they need for a new start.",
+  closingQuote: "The hardest part is making the call. Everything after that, we do together.",
 
-  /* ── FAQ ──────────────────────────────────────────────────────────── */
   faqs: [
     {
-      question: "Is cocaine addiction physically dangerous to detox from?",
+      question: "Is cocaine withdrawal medically dangerous?",
       answer:
-        "Cocaine withdrawal is primarily psychological rather than physically dangerous in the way alcohol or opioid withdrawal can be. However, the psychological symptoms — severe depression, anhedonia (inability to feel pleasure), intense cravings, and fatigue — are clinically significant and require professional support. Northbound's supervised detox program ensures a safe and monitored transition.",
+        "Cocaine withdrawal does not typically produce the life-threatening physical symptoms of alcohol or opioid withdrawal. However, the psychological symptoms — severe depression, suicidal ideation, intense cravings — can be very dangerous. Medical supervision during the crash period is strongly recommended to ensure safety and support.",
     },
     {
-      question: "What's the difference between cocaine and crack cocaine treatment?",
+      question: "What is the difference between cocaine and crack cocaine treatment?",
       answer:
-        "The core treatment approach is similar — addressing stimulant dependency, dopamine dysregulation, and co-occurring psychological conditions. Crack cocaine tends to produce a faster and more intense addiction cycle due to its rapid onset. Northbound individualizes every treatment plan based on the specific substance, severity of use, and each client's unique history and needs.",
+        "Crack cocaine and powder cocaine cause the same type of addiction, but crack's more rapid onset tends to produce more severe psychological dependency faster. The clinical treatment approach is similar for both, though crack cocaine addiction may require longer residential treatment and more intensive cravings management work.",
+    },
+    {
+      question: "Are there medications that help with cocaine addiction?",
+      answer:
+        "Currently, no FDA-approved medications specifically target cocaine addiction. However, some medications — including those for co-occurring depression or ADHD — can reduce cravings indirectly. Northbound's physicians evaluate each client individually to determine whether adjunctive medication is clinically appropriate.",
     },
     {
       question: "How long does cocaine treatment take?",
       answer:
-        "Northbound offers 30, 60, and 90-day programs. Research consistently shows that 90 days or more produces the strongest outcomes for stimulant addiction. The right duration is determined by the severity of dependency, co-occurring conditions, and individual progress — assessed collaboratively with your clinical team.",
+        "Most clinical guidelines recommend a minimum of 90 days of structured treatment for stimulant use disorders, with longer periods associated with significantly better outcomes. Northbound typically guides clients through a continuum of 3–6 months of care, followed by ongoing aftercare support.",
     },
     {
-      question: "Can cocaine addiction be treated alongside depression?",
+      question: "Does Northbound treat cocaine and alcohol co-use?",
       answer:
-        "Yes — and in most cases, it should be. Cocaine use disorder frequently co-occurs with depression (both as a cause and a consequence of chronic stimulant use). Northbound's dual-diagnosis program treats both conditions simultaneously with psychiatric care, evidence-based therapy, and medication management as appropriate.",
+        "Yes. Polysubstance use — particularly cocaine combined with alcohol — is extremely common and requires an integrated treatment approach. Northbound's dual-diagnosis clinical team assesses every substance in use and treats the full picture of each client's addiction.",
     },
     {
-      question: "Will insurance cover cocaine and crack rehab?",
+      question: "Will insurance cover cocaine addiction treatment?",
       answer:
-        "In most cases, yes. Northbound is in-network with 15+ major insurance plans including Aetna, Anthem, Cigna, and Tricare. Our admissions team verifies your specific benefits and walks you through coverage options — at no cost — before you commit to anything.",
+        "Most major insurance plans — including Aetna, Anthem, Cigna, and Tricare — cover substance use disorder treatment. Northbound's admissions team verifies your benefits at no charge before treatment begins. Call (866) 311-0003 for a free, confidential insurance check.",
     },
-    {
-      question: "How does Northbound help after I leave treatment?",
-      answer:
-        "Northbound's alumni program provides lifelong community, accountability, and resources. After completing residential treatment, clients can continue through PHP, IOP, sober living, and ongoing aftercare support. One-third of our staff are program alumni who understand the long-term work of recovery from personal experience.",
-    },
-  ],
-
-  /* ── Related ──────────────────────────────────────────────────────── */
-  relatedSubstances: [
-    { label: "Adderall Addiction", href: "/treatment/adderall/", icon: "ri-capsule-line" },
-    { label: "Meth Addiction", href: "/treatment/meth/", icon: "ri-fire-line" },
-    { label: "Heroin Addiction", href: "/treatment/heroin/", icon: "ri-heart-pulse-line" },
-    { label: "Alcohol Addiction", href: "/treatment/alcoholism/", icon: "ri-cup-line" },
-    { label: "Prescription Drugs", href: "/treatment/prescription/", icon: "ri-file-text-line" },
-    { label: "Marijuana", href: "/treatment/marijuana/", icon: "ri-leaf-line" },
   ],
 
   substanceNameShort: "Cocaine",
+  relatedSubstances: [
+    { label: "Crack Cocaine", href: "/treatment/crack-cocaine/", icon: "ri-fire-line" },
+    { label: "Meth", href: "/treatment/meth/", icon: "ri-alert-line" },
+    { label: "Adderall", href: "/treatment/adderall/", icon: "ri-capsule-line" },
+    { label: "Amphetamine", href: "/treatment/amphetamine/", icon: "ri-pulse-line" },
+    { label: "Alcohol", href: "/treatment/alcoholism/", icon: "ri-drop-line" },
+    { label: "Dual Diagnosis", href: "/treatment/dual-diagnosis/", icon: "ri-brain-line" },
+  ],
 };
 
 export default function CocainePage() {
