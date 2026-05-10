@@ -101,6 +101,8 @@ export function AutoLinkedTextClient({
     }
   }, [pathname]);
 
+  const text = typeof children === "string" ? children : "";
+
   const segments = useMemo(() => {
     if (!text || !mappings || mappings.length === 0) return null;
 
@@ -127,8 +129,6 @@ export function AutoLinkedTextClient({
     return result;
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [text, mappings, effectivePath, pathname, maxLinks]);
-
-  const text = typeof children === "string" ? children : "";
 
   if (!segments) {
     return <>{text || children}</>;
