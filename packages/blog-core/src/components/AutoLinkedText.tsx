@@ -6,30 +6,24 @@
  * Supabase project. All links are server-rendered HTML — Google sees them as
  * first-class internal links, not JavaScript-injected text.
  *
- * Usage (inside any Server Component view file):
- *
- *   <p className="text-base leading-7 text-[#64748b]">
- *     <AutoLinkedText>
- *       Northbound offers comprehensive alcohol detox and residential
- *       treatment for adults across Southern California.
- *     </AutoLinkedText>
- *   </p>
- *
- * Tenant isolation: reads from the current app's NEXT_PUBLIC_SUPABASE_URL
- * (Service role key preferred, anon key fallback). No cross-tenant queries.
- *
- * Per-block link cap defaults to 2 (lower than the blog default of 4) to
- * avoid over-linking on marketing copy. Pass `maxLinks` to override.
- *
- * Self-link guard: pass `currentPath` to suppress links pointing back to the
- * current page (e.g. on `/programs/detox`, the word "detox" won't auto-link
- * to itself).
+ * Platform linking rules enforced automatically:
+ *   1. No self-links — pass `currentPath` (e.g. "/programs/detox") to suppress
+ *      any link pointing back to the current page. All components on the same
+ *      page share a per-request registry so `currentPath` only needs to be set
+ *      once via `initPageAutoLinks(path)` rather than on every instance.
+ *   2. One link per destination per page — a shared per-request `usedHrefs`
+ *      Set (via React.cache) prevents the same destination from being linked
+ *      more than once across all <AutoLinkedText> blocks on the same page.
+ *   3. Per-block link cap defaults to 2.  Pass `maxLinks` to override.
  */
 
 import type { ReactNode } from "react";
 import Link from "next/link";
 import { autoLinkText } from "../lib/autoInternalLinks";
-import { getInternalLinkMappings } from "../lib/getInternalLinkMappings";
+import {
+  getInternalLinkMappings,
+  getPageAutoLinkRegistry,
+} from "../lib/getInternalLinkMappings";
 
 interface AutoLinkedTextProps {
   /**
@@ -38,7 +32,11 @@ interface AutoLinkedTextProps {
    * Non-string children are passed through unchanged.
    */
   children: ReactNode;
-  /** Current route path (e.g. "/programs/detox") to suppress self-links. Optional. */
+  /**
+   * Current route path (e.g. "/programs/detox") to suppress self-links.
+   * Optional — if omitted the registry's `currentPath` is used instead
+   * (set once via `initPageAutoLinks` in the page's root component).
+   */
   currentPath?: string;
   /** Max links per text block (default 2). */
   maxLinks?: number;
@@ -61,18 +59,32 @@ export async function AutoLinkedText({
     return <>{children}</>;
   }
 
-  const allMappings = await getInternalLinkMappings();
+  const [allMappings, registry] = await Promise.all([
+    getInternalLinkMappings(),
+    Promise.resolve(getPageAutoLinkRegistry()),
+  ]);
+
+  // Resolve the effective current path: explicit prop wins, then registry.
+  const effectivePath = currentPath ?? registry.currentPath;
 
   // Drop any mapping that points to the current page so we never self-link.
-  const mappings = currentPath
-    ? allMappings.filter((m) => m.href !== currentPath)
+  const mappings = effectivePath
+    ? allMappings.filter((m) => m.href !== effectivePath)
     : allMappings;
 
   if (mappings.length === 0) {
     return <>{text}</>;
   }
 
-  const segments = autoLinkText(text, mappings, undefined, undefined, maxLinks);
+  // Pass the shared registry usedHrefs so every <AutoLinkedText> on this page
+  // contributes to — and respects — the same "one link per destination" set.
+  const segments = autoLinkText(
+    text,
+    mappings,
+    undefined,
+    registry.usedHrefs,
+    maxLinks
+  );
 
   return (
     <>
@@ -88,6 +100,21 @@ export async function AutoLinkedText({
       })}
     </>
   );
+}
+
+/**
+ * Call this once at the top of any Server Component page that uses
+ * <AutoLinkedText>, passing the page's own route path.  Every
+ * <AutoLinkedText> rendered below it will automatically skip that path.
+ *
+ * Example (in a page.tsx Server Component):
+ *
+ *   import { initPageAutoLinks } from "@sweetmedia/blog-core";
+ *   initPageAutoLinks("/programs/detox");
+ */
+export function initPageAutoLinks(path: string): void {
+  const registry = getPageAutoLinkRegistry();
+  registry.currentPath = path;
 }
 
 export default AutoLinkedText;

@@ -60,3 +60,23 @@ export const getInternalLinkMappings = cache(
     }
   }
 );
+
+/**
+ * Per-request auto-link registry.
+ *
+ * React `cache()` returns the same object instance for every call within the
+ * same SSR request, so all <AutoLinkedText> components on a single page share
+ * one `usedHrefs` Set. This enforces two platform-wide rules:
+ *
+ *   1. Each destination URL is linked at most once per page.
+ *   2. The self-link guard can store the current page path here so every
+ *      component on the page automatically skips it.
+ *
+ * The registry is fresh for every new request — no cross-request leakage.
+ */
+export const getPageAutoLinkRegistry = cache(
+  (): { usedHrefs: Set<string>; currentPath: string | null } => ({
+    usedHrefs: new Set<string>(),
+    currentPath: null,
+  })
+);
