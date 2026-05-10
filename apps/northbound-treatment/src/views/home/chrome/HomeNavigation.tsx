@@ -236,10 +236,10 @@ function MegaMenuPanel({
         <div className="pointer-events-none absolute left-6 top-[3px] h-8 w-8 border-l border-t border-sand-dark/60" />
         <div className="pointer-events-none absolute right-6 top-[3px] h-8 w-8 border-r border-t border-sand-dark/60" />
 
-        <div className="mx-auto max-w-7xl px-6 py-8 lg:px-12">
-          <div className={`grid grid-cols-1 gap-8 ${gridColsClass}`}>
-            {item.sections.map((section) => (
-              <MegaMenuColumn key={section.heading} section={section} onClose={onClose} />
+        <div className="mx-auto max-w-7xl px-6 py-10 lg:px-12">
+          <div className={`grid grid-cols-1 gap-10 ${gridColsClass}`}>
+            {item.sections.map((section, idx) => (
+              <MegaMenuColumn key={section.heading} section={section} index={idx} onClose={onClose} />
             ))}
             {showCta && <MegaMenuCta onClose={onClose} />}
           </div>
@@ -275,37 +275,56 @@ function MegaMenuPanel({
   );
 }
 
-function MegaMenuColumn({ section, onClose }: { section: MegaSection; onClose: () => void }) {
+function MegaMenuColumn({
+  section,
+  index,
+  onClose,
+}: {
+  section: MegaSection;
+  index: number;
+  onClose: () => void;
+}) {
   // Insurance column: compact pill grid (4 cols)
   const isInsurance = section.heading === "Verify Insurance";
   // Long lists get 2-col grid
   const twoCol = !isInsurance && section.links.length > 8;
+  const sectionNumber = String(index + 1).padStart(2, "0");
 
   return (
-    <div className="flex flex-col">
-      {/* ── Section header ── */}
-      <div className="mb-4 border-b border-sand-dark pb-4">
-        <div className="flex items-center gap-2.5">
+    <div className="relative flex flex-col">
+      {/* ── Editorial section header ── */}
+      <div className="relative mb-5">
+        {/* Eyebrow row: roman section number + italic descriptor */}
+        <div className="mb-3 flex items-center gap-3">
+          <span className="font-heading text-base italic text-terracotta">
+            {sectionNumber} <span className="text-espresso/30">/</span>
+          </span>
+          <span className="h-[1px] flex-1 bg-gradient-to-r from-terracotta/60 via-sand-dark to-transparent" />
           {section.icon && (
-            <span className="flex h-7 w-7 shrink-0 items-center justify-center bg-navy">
-              <i className={`${section.icon} text-xs text-terracotta`} />
-            </span>
-          )}
-          {section.headingHref ? (
-            <Link
-              href={section.headingHref}
-              onClick={onClose}
-              className="group flex items-center gap-1 font-heading text-sm font-bold text-navy transition-colors hover:text-terracotta"
-            >
-              {section.heading}
-              <i className="ri-arrow-right-line text-xs opacity-0 transition-all duration-200 group-hover:translate-x-0.5 group-hover:opacity-100" />
-            </Link>
-          ) : (
-            <span className="font-heading text-sm font-bold text-navy">{section.heading}</span>
+            <i className={`${section.icon} text-base leading-none text-navy/40`} />
           )}
         </div>
+
+        {/* Heading */}
+        {section.headingHref ? (
+          <Link
+            href={section.headingHref}
+            onClick={onClose}
+            className="group/heading inline-flex items-baseline gap-2 transition-colors"
+          >
+            <h4 className="font-heading text-xl font-bold leading-tight text-navy transition-colors group-hover/heading:text-terracotta lg:text-2xl">
+              {section.heading}
+            </h4>
+            <i className="ri-arrow-right-up-line text-base text-navy/30 transition-all group-hover/heading:-translate-y-0.5 group-hover/heading:translate-x-0.5 group-hover/heading:text-terracotta" />
+          </Link>
+        ) : (
+          <h4 className="font-heading text-xl font-bold leading-tight text-navy lg:text-2xl">
+            {section.heading}
+          </h4>
+        )}
+
         {section.description && (
-          <p className="mt-1.5 pl-[2.375rem] text-[11px] leading-relaxed text-espresso/45">
+          <p className="mt-2 max-w-[28ch] text-[11px] leading-relaxed text-espresso/55">
             {section.description}
           </p>
         )}
@@ -328,22 +347,27 @@ function MegaMenuColumn({ section, onClose }: { section: MegaSection; onClose: (
           ))}
         </div>
       ) : (
-        <ul className={twoCol ? "grid grid-cols-2 gap-x-4 gap-y-0" : "space-y-0"}>
-          {section.links.map((link) => (
+        <ul className={twoCol ? "grid grid-cols-2 gap-x-3 gap-y-0" : "space-y-0"}>
+          {section.links.map((link, i) => (
             <li key={`${link.label}-${link.href}`}>
               <Link
                 href={link.href}
                 onClick={onClose}
-                className="group/link flex items-center gap-3 py-2 text-sm text-espresso/70 transition-all duration-200 hover:text-navy"
+                className="group/link relative flex items-center gap-3 border-l-2 border-transparent py-2 pl-3 pr-2 text-sm text-espresso/75 transition-all duration-200 hover:border-terracotta hover:bg-sand/60 hover:text-navy"
               >
-                {link.icon ? (
-                  <span className="flex h-7 w-7 shrink-0 items-center justify-center bg-sand transition-colors group-hover/link:bg-navy">
-                    <i className={`${link.icon} text-xs text-navy transition-colors group-hover/link:text-terracotta`} />
-                  </span>
-                ) : (
-                  <i className="ri-arrow-right-s-line text-xs text-sand-dark transition-all group-hover/link:translate-x-0.5 group-hover/link:text-terracotta" />
-                )}
-                <span className="leading-snug">{link.label}</span>
+                <span className="flex h-8 w-8 shrink-0 items-center justify-center border border-sand-dark/50 bg-sand-light transition-all duration-200 group-hover/link:border-terracotta/40 group-hover/link:bg-white">
+                  {link.icon ? (
+                    <i
+                      className={`${link.icon} text-sm leading-none text-navy/70 transition-colors group-hover/link:text-terracotta`}
+                    />
+                  ) : (
+                    <span className="font-heading text-[10px] font-bold text-navy/40 transition-colors group-hover/link:text-terracotta">
+                      {String(i + 1).padStart(2, "0")}
+                    </span>
+                  )}
+                </span>
+                <span className="flex-1 font-medium leading-snug">{link.label}</span>
+                <i className="ri-arrow-right-line shrink-0 text-xs text-sand-dark opacity-0 transition-all duration-200 group-hover/link:translate-x-0.5 group-hover/link:text-terracotta group-hover/link:opacity-100" />
               </Link>
             </li>
           ))}
