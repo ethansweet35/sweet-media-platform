@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 import { HERO_BG } from "../assets";
 import { AutoLinkedText } from "@sweetmedia/blog-core";
 
@@ -77,6 +78,43 @@ export default function Hero() {
               </span>{" "}
               in Southern California.
             </p>
+
+            <div className="mb-4 flex flex-wrap gap-3">
+              <Link
+                href="/programs/detox/"
+                className="inline-flex items-center gap-1.5 text-xs font-semibold text-white/60 underline-offset-4 hover:text-terracotta hover:underline"
+              >
+                Detox
+              </Link>
+              <span className="text-white/20">·</span>
+              <Link
+                href="/programs/residential-treatment-center/"
+                className="inline-flex items-center gap-1.5 text-xs font-semibold text-white/60 underline-offset-4 hover:text-terracotta hover:underline"
+              >
+                Residential
+              </Link>
+              <span className="text-white/20">·</span>
+              <Link
+                href="/programs/partial-hospitalization-program/"
+                className="inline-flex items-center gap-1.5 text-xs font-semibold text-white/60 underline-offset-4 hover:text-terracotta hover:underline"
+              >
+                PHP
+              </Link>
+              <span className="text-white/20">·</span>
+              <Link
+                href="/programs/intensive-outpatient-treatment/"
+                className="inline-flex items-center gap-1.5 text-xs font-semibold text-white/60 underline-offset-4 hover:text-terracotta hover:underline"
+              >
+                IOP
+              </Link>
+              <span className="text-white/20">·</span>
+              <Link
+                href="/treatment/transitional-living-programs/sober-living/"
+                className="inline-flex items-center gap-1.5 text-xs font-semibold text-white/60 underline-offset-4 hover:text-terracotta hover:underline"
+              >
+                Sober Living
+              </Link>
+            </div>
 
             <div className="flex flex-col gap-8 xl:flex-row xl:items-center">
               <a

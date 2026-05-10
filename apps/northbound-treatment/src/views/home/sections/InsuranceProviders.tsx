@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 import { AutoLinkedText } from "@sweetmedia/blog-core";
 
 /**
@@ -12,60 +13,70 @@ const PROVIDERS = [
     name: "Aetna",
     logo: `${SUPABASE}/insurance-aetna.png`,
     tagline: "In-Network Preferred",
+    href: "/insurance/aetna/",
     description: "Verify your Aetna benefits and begin compassionate, evidence-based care with full confidence in your coverage.",
   },
   {
     name: "Anthem",
     logo: `${SUPABASE}/insurance-anthem.png`,
     tagline: "In-Network Preferred",
+    href: "/insurance/anthem-blue-cross/",
     description: "Check your Anthem coverage and take the first step toward healing with a team that maximizes your plan.",
   },
   {
     name: "Beacon Health",
     logo: `${SUPABASE}/insurance-beacon.png`,
     tagline: "In-Network Preferred",
+    href: "/insurance/beacon/",
     description: "Confirm your Beacon benefits and start supportive, person-centered treatment at little to no cost.",
   },
   {
     name: "BlueCross BlueShield",
     logo: `${SUPABASE}/insurance-bcbs.png`,
     tagline: "In-Network Preferred",
+    href: "/insurance/blue-cross-blue-shield/",
     description: "BCBS members — check your coverage and start treatment with understanding, compassion, and financial clarity.",
   },
   {
     name: "Cigna",
     logo: `${SUPABASE}/insurance-cigna.png`,
     tagline: "In-Network Preferred",
+    href: "/insurance/cigna/",
     description: "Verify your Cigna benefits and begin your recovery journey with an experienced and dedicated clinical team.",
   },
   {
     name: "ComPsych",
     logo: `${SUPABASE}/insurance-compsych.png`,
     tagline: "In-Network Preferred",
+    href: "/insurance/compsych/",
     description: "Use your ComPsych benefits to access care that truly meets you where you are, on your timeline.",
   },
   {
     name: "First Health",
     logo: `${SUPABASE}/insurance-first-health.png`,
     tagline: "In-Network Preferred",
+    href: "/insurance/first-health/",
     description: "See what your First Health plan covers and move forward with gentle, guided support from day one.",
   },
   {
     name: "MHN Insurance",
     logo: `${SUPABASE}/insurance-mhn.png`,
     tagline: "In-Network Preferred",
+    href: "/insurance/mhn/",
     description: "Discover how your MHN plan supports treatment. Quick and confidential verification available 24/7.",
   },
   {
     name: "TriCare",
     logo: `${SUPABASE}/insurance-tricare.png`,
     tagline: "Veterans & Military",
+    href: "/insurance/tricare/",
     description: "Verify your Tricare benefits and access steady, veteran-informed support tailored to your service experience.",
   },
   {
     name: "MultiPlan",
     logo: `${SUPABASE}/insurance-multiplan.png`,
     tagline: "In-Network Preferred",
+    href: "/insurance/",
     description: "Explore your MultiPlan benefits and begin recovery with comfort, reassurance, and reduced out-of-pocket costs.",
   },
 ];
@@ -99,8 +110,9 @@ export default function InsuranceProviders() {
         {/* Provider grid */}
         <div className="mb-12 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-5">
           {PROVIDERS.map((provider) => (
-            <div
+            <Link
               key={provider.name}
+              href={provider.href}
               className="group flex flex-col gap-5 border border-white/10 bg-white p-6 transition-all duration-300 hover:border-terracotta/40 hover:shadow-lg hover:shadow-terracotta/10"
             >
               {/* Logo */}
@@ -118,17 +130,14 @@ export default function InsuranceProviders() {
                 <span className="text-[9px] font-bold uppercase tracking-[0.2em] text-terracotta">
                   {provider.tagline}
                 </span>
-                <p className="text-xs font-light leading-relaxed text-espresso/60"><AutoLinkedText>{provider.description}</AutoLinkedText></p>
+                <p className="text-xs font-light leading-relaxed text-espresso/60">{provider.description}</p>
               </div>
 
-              <a
-                href="/admissions"
-                className="inline-flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-[0.18em] text-espresso/30 transition-colors duration-300 group-hover:text-terracotta"
-              >
-                Verify Benefits
+              <span className="inline-flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-[0.18em] text-espresso/30 transition-colors duration-300 group-hover:text-terracotta">
+                Learn More
                 <i className="ri-arrow-right-s-line text-sm leading-none" />
-              </a>
-            </div>
+              </span>
+            </Link>
           ))}
         </div>
 

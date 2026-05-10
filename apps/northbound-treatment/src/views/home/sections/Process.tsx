@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 import { PROCESS_IMAGES } from "../assets";
 import { AutoLinkedText } from "@sweetmedia/blog-core";
 
@@ -29,6 +30,7 @@ const STEPS: Array<{
   number: number;
   label: string;
   title: string;
+  href: string;
   description: string;
   image: string;
   alt: string;
@@ -38,6 +40,7 @@ const STEPS: Array<{
     number: 1,
     label: "Step 01",
     title: "Feel Better",
+    href: "/programs/detox/",
     description:
       "Our detox services give clients a safe, medically supervised start to recovery. This phase focuses on stabilizing the body, reducing cravings, and preparing each individual to transition smoothly into residential care utilizing Medication-Assisted Treatment (MAT).",
     image: PROCESS_IMAGES.feelBetter,
@@ -56,6 +59,7 @@ const STEPS: Array<{
     number: 2,
     label: "Step 02",
     title: "Discover Yourself",
+    href: "/programs/residential-treatment-center/",
     description:
       "In our residential, PHP, and IOP programs, clients begin the deeper therapeutic work. We address underlying trauma, build coping tools, repair emotional health, and develop the foundation needed for personal insight and sustainable habits.",
     image: PROCESS_IMAGES.discoverYourself,
@@ -73,6 +77,7 @@ const STEPS: Array<{
     number: 3,
     label: "Step 03",
     title: "Live Free",
+    href: "/programs/aftercare/",
     description:
       "Through aftercare, including sober living and alumni support, clients receive ongoing structure and accountability. Our team provides relapse-prevention planning and lifelong recovery resources to maintain momentum long after treatment ends.",
     image: PROCESS_IMAGES.liveFree,
@@ -145,11 +150,13 @@ export default function Process() {
                     ></span>
                     {step.label}
                   </p>
-                  <h3
-                    className={`mb-4 font-serif text-3xl text-espresso transition-colors duration-300 ${step.tone.titleHover}`}
-                  >
-                    {step.title}
-                  </h3>
+                  <Link href={step.href}>
+                    <h3
+                      className={`mb-4 font-serif text-3xl text-espresso transition-colors duration-300 ${step.tone.titleHover}`}
+                    >
+                      {step.title}
+                    </h3>
+                  </Link>
                   <p className="text-sm font-light leading-relaxed text-espresso/70"><AutoLinkedText>{step.description}</AutoLinkedText></p>
                 </div>
 

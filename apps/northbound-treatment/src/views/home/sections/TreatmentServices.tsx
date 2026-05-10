@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { AutoLinkedText } from "@sweetmedia/blog-core";
 /**
  * Treatment Services — 6 program cards in a 3-col grid on desktop. Sand bg
@@ -9,6 +10,7 @@ const SERVICES = [
     number: "01",
     badge: "Initial Stabilization",
     title: "Drug & Alcohol Detox",
+    href: "/programs/detox/",
     description:
       "The vital first step toward recovery. We prioritize your physical comfort, safety, and dignity during the withdrawal process with round-the-clock medical supervision.",
     features: [
@@ -21,6 +23,7 @@ const SERVICES = [
     number: "02",
     badge: "Immersive Care",
     title: "Residential Treatment",
+    href: "/programs/residential-treatment-center/",
     description:
       "A structured, home-like sanctuary where clients live on-site and focus entirely on healing, free from the triggers and chaos of the outside world.",
     features: [
@@ -33,6 +36,7 @@ const SERVICES = [
     number: "03",
     badge: "Day Treatment",
     title: "Partial Hospitalization (PHP)",
+    href: "/programs/partial-hospitalization-program/",
     description:
       "Robust daytime clinical programming providing structure and deep therapeutic work while allowing you to return to sober living at night.",
     features: [
@@ -45,6 +49,7 @@ const SERVICES = [
     number: "04",
     badge: "Flexible Support",
     title: "Intensive Outpatient (IOP)",
+    href: "/programs/intensive-outpatient-treatment/",
     description:
       "Continued, structured support designed to integrate with your daily life as you transition back into work, school, and independence.",
     features: [
@@ -57,6 +62,7 @@ const SERVICES = [
     number: "05",
     badge: "Transitional Living",
     title: "Sober Living",
+    href: "/treatment/transitional-living-programs/sober-living/",
     description:
       "A supportive, substance-free living environment that allows clients to ease back into their daily responsibilities while remaining connected to a strong recovery community.",
     features: [
@@ -69,6 +75,7 @@ const SERVICES = [
     number: "06",
     badge: "Long-Term Success",
     title: "Aftercare Support",
+    href: "/programs/aftercare/",
     description:
       "Recovery is a lifelong journey. Our comprehensive aftercare and alumni programs provide a continuous support system to help you maintain long-term health and sobriety.",
     features: [
@@ -154,15 +161,15 @@ export default function TreatmentServices() {
               </ul>
 
               <div className="relative z-10 mt-auto border-t border-sand-dark pt-6 transition-colors duration-500 group-hover:border-terracotta/30">
-                <a
-                  href="#"
+                <Link
+                  href={service.href}
                   className="flex items-center gap-2 text-xs font-bold uppercase tracking-[0.22em] text-terracotta transition-all duration-300 group-hover:gap-4"
                 >
                   Explore {service.title.split(" ").slice(0, 2).join(" ")}
                   <span className="inline-block text-lg transition-transform group-hover:translate-x-1">
                     &rarr;
                   </span>
-                </a>
+                </Link>
               </div>
 
               <div className="absolute bottom-0 left-0 h-1.5 w-0 bg-gradient-to-r from-terracotta to-terracotta-light transition-all duration-700 ease-out group-hover:w-full"></div>

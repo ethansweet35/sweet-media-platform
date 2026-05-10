@@ -1,4 +1,6 @@
+import type { ReactNode } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { SIGNATURE_IMAGES } from "../assets";
 import { AutoLinkedText } from "@sweetmedia/blog-core";
 
@@ -19,6 +21,7 @@ type Tile = {
   description: string;
   image: string;
   alt: string;
+  href?: string;
   /** column-span class (applies on md+) */
   span: string;
   /** card height */
@@ -33,6 +36,7 @@ const TILES: Tile[] = [
     badge: "Experiential",
     badgeText: "text-terracotta",
     badgeBar: "bg-terracotta",
+    href: "/adventure-therapy-program/",
     description:
       "Rebuilding confidence, resilience, and trust through guided outdoor challenges, hiking, and deep nature connection in the California landscape.",
     image: SIGNATURE_IMAGES.adventureTherapy,
@@ -72,6 +76,7 @@ const TILES: Tile[] = [
     badge: "Experiential",
     badgeText: "text-navy",
     badgeBar: "bg-navy",
+    href: "/wolf-assisted-therapy/",
     description:
       "A profound experiential therapy utilizing the highly intuitive pack-nature of wolves to mirror emotions, build boundaries, and address deep-seated trauma safely.",
     image: SIGNATURE_IMAGES.wolfTherapy,
@@ -85,6 +90,7 @@ const TILES: Tile[] = [
     badge: "Expressive",
     badgeText: "text-terracotta",
     badgeBar: "bg-terracotta",
+    href: "/treatment/music-program/",
     description:
       "Processing complex emotional states and discovering new passions through the creation and analysis of music.",
     image: SIGNATURE_IMAGES.musicRecovery,
@@ -144,11 +150,20 @@ export default function SignatureServices() {
         </div>
 
         <div className="grid grid-cols-1 gap-6 md:grid-cols-12">
-          {TILES.map((tile) => (
-            <div
-              key={tile.title}
-              className={`group relative overflow-hidden border border-sand-dark/20 bg-espresso ${tile.span} ${tile.height}`}
-            >
+          {TILES.map((tile) => {
+            const Wrapper = tile.href
+              ? ({ children }: { children: ReactNode }) => (
+                  <Link href={tile.href!} className={`group relative overflow-hidden border border-sand-dark/20 bg-espresso ${tile.span} ${tile.height}`}>
+                    {children}
+                  </Link>
+                )
+              : ({ children }: { children: ReactNode }) => (
+                  <div className={`group relative overflow-hidden border border-sand-dark/20 bg-espresso ${tile.span} ${tile.height}`}>
+                    {children}
+                  </div>
+                );
+            return (
+            <Wrapper key={tile.title}>
               <Image
                 src={tile.image}
                 alt={tile.alt}
@@ -180,8 +195,9 @@ export default function SignatureServices() {
                   }`}
                 ><AutoLinkedText>{tile.description}</AutoLinkedText></p>
               </div>
-            </div>
-          ))}
+            </Wrapper>
+            );
+          })}
         </div>
 
         <div className="mt-16 border-t border-sand-dark/20 pt-8 text-center">

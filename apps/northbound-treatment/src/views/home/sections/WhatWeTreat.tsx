@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { AutoLinkedText } from "@sweetmedia/blog-core";
 /**
  * What We Treat — two stacked sections (Substance Abuse on light bg,
@@ -11,6 +12,7 @@ const SUBSTANCE_ITEMS = [
   {
     name: "Alcohol Addiction",
     icon: "ri-drop-line",
+    href: "/treatment/alcoholism/",
     shortDesc: "Most common dependency",
     description:
       "Alcohol use disorder often co-occurs with anxiety, depression, and trauma. Our medical detox safely manages potentially life-threatening withdrawal symptoms including seizures.",
@@ -20,6 +22,7 @@ const SUBSTANCE_ITEMS = [
   {
     name: "Heroin & Opioids",
     icon: "ri-heart-pulse-line",
+    href: "/treatment/heroin/",
     shortDesc: "Epidemic-level crisis",
     description:
       "Opioid addiction including heroin, fentanyl, and prescription painkillers has reached epidemic levels. Our program addresses severe withdrawal and high relapse rates comprehensively.",
@@ -29,6 +32,7 @@ const SUBSTANCE_ITEMS = [
   {
     name: "Prescription Drugs",
     icon: "ri-file-list-line",
+    href: "/treatment/prescription/",
     shortDesc: "Often medically started",
     description:
       "Prescription drug misuse includes painkillers, sedatives, and stimulants. Many develop dependency after legitimate medical prescriptions, requiring specialized judgment-free support.",
@@ -38,6 +42,7 @@ const SUBSTANCE_ITEMS = [
   {
     name: "Crack & Cocaine",
     icon: "ri-alert-line",
+    href: "/treatment/cocaine/",
     shortDesc: "Powerful stimulant use",
     description:
       "Cocaine and crack create intense psychological dependency with powerful cravings. While withdrawal is not medically dangerous, the psychological impact requires intensive therapeutic care.",
@@ -47,6 +52,7 @@ const SUBSTANCE_ITEMS = [
   {
     name: "Meth Addiction",
     icon: "ri-fire-line",
+    href: "/treatment/meth/",
     shortDesc: "Severe neurotoxicity",
     description:
       "Methamphetamine causes devastating neurotoxicity, cognitive impairment, and severe psychological effects including paranoia and hallucinations. Extended recovery time is needed for brain healing.",
@@ -56,6 +62,7 @@ const SUBSTANCE_ITEMS = [
   {
     name: "Adderall & Stimulants",
     icon: "ri-time-line",
+    href: "/treatment/adderall/",
     shortDesc: "Prescription misused",
     description:
       "Stimulant medications prescribed for ADHD are frequently misused by students and professionals seeking enhanced focus. Understanding the difference between therapeutic use and dependency is crucial.",
@@ -65,6 +72,7 @@ const SUBSTANCE_ITEMS = [
   {
     name: "Benzodiazepines",
     icon: "ri-shield-line",
+    href: "/treatment/benzodiazepine-addiction/",
     shortDesc: "Requires medical taper",
     description:
       "Benzodiazepines like Xanax, Klonopin, and Valium are among the most dangerous substances to withdraw from. Abrupt cessation can cause life-threatening seizures and complications.",
@@ -74,6 +82,7 @@ const SUBSTANCE_ITEMS = [
   {
     name: "Polysubstance Use",
     icon: "ri-layers-line",
+    href: "/addiction-treatment-resources/",
     shortDesc: "Multiple dependencies",
     description:
       "Many struggle with multiple substance dependencies simultaneously such as alcohol and cocaine, or opioids and benzodiazepines. This creates unique medical challenges requiring comprehensive treatment.",
@@ -86,6 +95,7 @@ const MENTAL_HEALTH_ITEMS = [
   {
     name: "Anxiety Disorders",
     icon: "ri-heart-pulse-line",
+    href: "/treatment/mental-health-disorders/anxiety/",
     shortDesc: "Panic and persistent fear",
     description:
       "Anxiety disorders including generalized anxiety, panic disorder, and social anxiety often drive substance use as a coping mechanism. Overwhelming fear and constant worry create dependency on substances for relief.",
@@ -95,6 +105,7 @@ const MENTAL_HEALTH_ITEMS = [
   {
     name: "Major Depression",
     icon: "ri-cloud-line",
+    href: "/treatment/mental-health-disorders/depression/",
     shortDesc: "Persistent low mood",
     description:
       "Clinical depression and substance use create a destructive cycle where substances temporarily numb emotional pain but ultimately worsen depressive symptoms. Persistent sadness and hopelessness drive continued use.",
@@ -104,6 +115,7 @@ const MENTAL_HEALTH_ITEMS = [
   {
     name: "Bipolar Disorder",
     icon: "ri-refresh-line",
+    href: "/treatment/mental-health-disorders/bipolar-disorder/",
     shortDesc: "Extreme mood cycling",
     description:
       "Bipolar disorder involves cycling between depressive episodes and manic or hypomanic states. Substance use frequently occurs during manic phases or as self-medication for depressive episodes.",
@@ -113,6 +125,7 @@ const MENTAL_HEALTH_ITEMS = [
   {
     name: "Borderline Personality",
     icon: "ri-user-line",
+    href: "/treatment/mental-health-disorders/borderline-personality-disorder/",
     shortDesc: "Emotional dysregulation",
     description:
       "Borderline Personality Disorder is characterized by intense unstable emotions, turbulent relationships, impulsivity, and profound fear of abandonment. Substance use often serves as maladaptive emotional regulation.",
@@ -122,6 +135,7 @@ const MENTAL_HEALTH_ITEMS = [
   {
     name: "Emotional Trauma / PTSD",
     icon: "ri-shield-line",
+    href: "/treatment/mental-health-disorders/ptsd/",
     shortDesc: "Unresolved traumatic stress",
     description:
       "Post-Traumatic Stress Disorder and complex trauma are among the most common underlying causes of addiction. Substances temporarily quiet intrusive thoughts, flashbacks, and constant hypervigilance.",
@@ -131,6 +145,7 @@ const MENTAL_HEALTH_ITEMS = [
   {
     name: "Co-Dependency",
     icon: "ri-team-line",
+    href: "/treatment/mental-health-disorders/codependency/",
     shortDesc: "Unhealthy relationship patterns",
     description:
       "Co-dependency involves losing one's sense of self in relationships, often enabling others' destructive behaviors while neglecting personal needs. This relational pattern frequently accompanies addiction cycles.",
@@ -140,6 +155,7 @@ const MENTAL_HEALTH_ITEMS = [
   {
     name: "OCD",
     icon: "ri-focus-line",
+    href: "/treatment/dual-diagnosis/ocd-treatment-and-counseling/",
     shortDesc: "Intrusive thoughts/rituals",
     description:
       "Obsessive-Compulsive Disorder involves unwanted intrusive thoughts causing significant anxiety and repetitive behaviors performed to reduce distress. Some use substances attempting to quiet obsessive thinking.",
@@ -149,6 +165,7 @@ const MENTAL_HEALTH_ITEMS = [
   {
     name: "ADHD",
     icon: "ri-brain-line",
+    href: "/treatment/adderall/",
     shortDesc: "Attention and impulsivity",
     description:
       "Attention-Deficit Hyperactivity Disorder is significantly more common in individuals with substance use disorders. Impulsivity, difficulty with delayed gratification, and self-medication all contribute to addiction risk.",
@@ -204,8 +221,9 @@ export default function WhatWeTreat() {
 
           <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
             {SUBSTANCE_ITEMS.map((item) => (
-              <div
+              <Link
                 key={item.name}
+                href={item.href}
                 className="architectural-border group flex items-center gap-4 bg-white p-5 transition-all duration-300 hover:-translate-y-0.5 hover:border-navy/30 hover:shadow-md"
               >
                 <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-navy/10 transition-colors duration-300 group-hover:bg-navy/20">
@@ -213,9 +231,9 @@ export default function WhatWeTreat() {
                 </div>
                 <div>
                   <h4 className="font-serif text-sm text-espresso">{item.name}</h4>
-                  <p className="text-[10px] font-semibold uppercase tracking-[0.14em] text-navy/60"><AutoLinkedText>{item.shortDesc}</AutoLinkedText></p>
+                  <p className="text-[10px] font-semibold uppercase tracking-[0.14em] text-navy/60">{item.shortDesc}</p>
                 </div>
-              </div>
+              </Link>
             ))}
           </div>
         </div>
@@ -236,8 +254,9 @@ export default function WhatWeTreat() {
 
           <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
             {MENTAL_HEALTH_ITEMS.map((item) => (
-              <div
+              <Link
                 key={item.name}
+                href={item.href}
                 className="group flex items-center gap-4 border border-white/10 bg-navy p-5 transition-all duration-300 hover:-translate-y-0.5 hover:border-terracotta/40 hover:shadow-md"
               >
                 <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-white/10">
@@ -245,9 +264,9 @@ export default function WhatWeTreat() {
                 </div>
                 <div>
                   <h4 className="font-serif text-sm text-white">{item.name}</h4>
-                  <p className="text-[10px] font-semibold uppercase tracking-[0.14em] text-terracotta/70"><AutoLinkedText>{item.shortDesc}</AutoLinkedText></p>
+                  <p className="text-[10px] font-semibold uppercase tracking-[0.14em] text-terracotta/70">{item.shortDesc}</p>
                 </div>
-              </div>
+              </Link>
             ))}
           </div>
         </div>

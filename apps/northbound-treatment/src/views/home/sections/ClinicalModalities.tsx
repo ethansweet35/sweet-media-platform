@@ -72,7 +72,7 @@ export default function ClinicalModalities() {
                 <AutoLinkedText>{"Healing is not a guessing game. We utilize highly effective,\n                rigorously researched therapeutic frameworks. By combining\n                these modalities, our clinical team creates a custom blueprint\n                for your psychological recovery."}</AutoLinkedText>
               </p>
               <a
-                href="#contact"
+                href="/admissions"
                 className="inline-flex items-center gap-3 text-xs font-bold uppercase tracking-[0.22em] text-white transition-colors duration-300 hover:text-terracotta"
               >
                 Discuss Your Plan
