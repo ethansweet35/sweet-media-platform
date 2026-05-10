@@ -1,12 +1,18 @@
 import { type Metadata } from "next";
+import { resolveTrackedPageMetadata } from "@sweetmedia/admin-core";
 import FirstHealthPage from "@/views/insurance/firsthealth/FirstHealthPage";
 
-export const metadata: Metadata = {
+const fallback: Metadata = {
   title: "First Health Network Coverage for Addiction Treatment | Northbound",
   description:
     "Northbound accepts First Health Network PPO plans for addiction treatment. Verify your First Health benefits for detox, residential, PHP, and IOP — no cost to you.",
   alternates: { canonical: '/insurance/first-health' },
 };
+
+
+export async function generateMetadata(): Promise<Metadata> {
+  return resolveTrackedPageMetadata("/insurance/first-health", fallback);
+}
 
 export default function Page() {
   return <FirstHealthPage />;

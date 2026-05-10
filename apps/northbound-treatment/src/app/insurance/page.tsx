@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
+import { resolveTrackedPageMetadata } from "@sweetmedia/admin-core";
 import Link from "next/link";
 
-export const metadata: Metadata = {
+const fallback: Metadata = {
   title: "Insurance Coverage for Addiction Treatment | Northbound Treatment",
   description:
     "Northbound Treatment is in-network with Aetna, Anthem, Cigna, BlueCross BlueShield, and 15+ other major insurance plans. Verify your addiction treatment benefits for free — no obligation.",
@@ -33,6 +34,11 @@ const STEPS = [
   { n: "03", title: "You Get Answers", desc: "We explain your coverage, co-pays, and out-of-pocket costs in plain language." },
   { n: "04", title: "Start Treatment", desc: "If you're ready, we have a bed available. Same-day admissions are possible." },
 ];
+
+
+export async function generateMetadata(): Promise<Metadata> {
+  return resolveTrackedPageMetadata("/insurance", fallback);
+}
 
 export default function Page() {
   return (
