@@ -128,7 +128,7 @@ export default function Hero() {
               <div className="flex flex-wrap items-center gap-4 opacity-75">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
-                  src="https://ahufsygjwpbymomfdazb.supabase.co/storage/v1/object/public/site-assets/logos/legitscript-certified.svg"
+                  src="https://ahufsygjwpbymomfdazb.supabase.co/storage/v1/object/public/site-assets/logos/legitscript-certified.png"
                   alt="LegitScript Certified"
                   className="h-7 w-auto object-contain brightness-0 invert transition-opacity hover:opacity-100"
                 />
