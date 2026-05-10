@@ -124,34 +124,31 @@ export default function Hero() {
                 Speak With Admissions
               </a>
 
-              {/* Accreditation badges */}
-              <div className="flex flex-wrap items-center gap-4 opacity-75">
+              {/* Accreditation badges — official logos, original brand colors */}
+              <div className="flex flex-wrap items-center gap-5">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src="https://ahufsygjwpbymomfdazb.supabase.co/storage/v1/object/public/site-assets/logos/legitscript-certified.png"
                   alt="LegitScript Certified"
-                  width={120}
-                  height={28}
-                  className="h-7 w-auto object-contain"
-                  style={{ filter: "brightness(0) invert(1)" }}
+                  width={48}
+                  height={52}
+                  className="h-12 w-auto object-contain"
                 />
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src="https://ahufsygjwpbymomfdazb.supabase.co/storage/v1/object/public/site-assets/logos/naatp-icon.png"
                   alt="NAATP Member"
-                  width={28}
-                  height={28}
-                  className="h-7 w-auto object-contain"
-                  style={{ filter: "brightness(0) invert(1)" }}
+                  width={48}
+                  height={48}
+                  className="h-12 w-auto object-contain"
                 />
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src="https://ahufsygjwpbymomfdazb.supabase.co/storage/v1/object/public/site-assets/logos/joint-commission.png"
                   alt="The Joint Commission Accredited"
-                  width={120}
-                  height={28}
-                  className="h-7 w-auto object-contain"
-                  style={{ filter: "brightness(0) invert(1)" }}
+                  width={48}
+                  height={48}
+                  className="h-12 w-auto object-contain"
                 />
               </div>
             </div>
