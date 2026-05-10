@@ -1,0 +1,40 @@
+---
+description: Ensures that any admin feature, fix, or infrastructure change made for one client app is applied to all other client apps and the client-template to maintain consistency.
+alwaysApply: true
+---
+
+# Admin Cross-Client Consistency
+
+## Rule: Admin changes must be applied to all clients
+
+When making any change to admin infrastructure, features, or fixes — whether in `packages/admin-core` or in an app-level admin route — that change must be reflected across **every** client app and `apps/client-template`.
+
+### Client apps that must stay in sync:
+- `apps/northbound-treatment`
+- `apps/inner-peak-colorado`
+- `apps/mental-health-for-teens`
+- `apps/cipher-billing`
+- `apps/sweet-media`
+- `apps/addiction-interventions`
+- `apps/client-template` (canonical scaffold — always update this first)
+
+### What counts as an admin change that requires cross-client rollout:
+
+| Change type | Example |
+|---|---|
+| New API route under `/api/admin/` | `/api/admin/revalidate`, `/api/admin/generate-seo-meta` |
+| New env var required by admin features | `OPENROUTER_API_KEY` |
+| Admin layout or auth changes | `AdminGuard` path matching fix |
+| New `tracked_pages` / `blog_posts` DB column | requires migration SQL for each brand |
+| New Supabase schema or RLS policy | update `client-template-schema.sql` + call out per-brand migration SQL |
+
+### Workflow
+
+1. Implement the change in `apps/client-template` and `packages/admin-core` first.
+2. Then port any app-level files (API routes, env vars) to each client app.
+3. For DB/schema changes: update `apps/client-template/supabase/client-template-schema.sql` and explicitly provide migration SQL for each existing brand.
+4. When deploying env vars (e.g. `OPENROUTER_API_KEY`), add to all Vercel projects — not just the one being worked on.
+
+### Never
+- Never implement an admin feature in only one client app without porting it to the others.
+- Never assume a Supabase schema change on one brand's project is live on another — each brand has its own isolated Supabase project.
