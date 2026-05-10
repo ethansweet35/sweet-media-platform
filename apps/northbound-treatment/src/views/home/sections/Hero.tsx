@@ -130,19 +130,28 @@ export default function Hero() {
                 <img
                   src="https://ahufsygjwpbymomfdazb.supabase.co/storage/v1/object/public/site-assets/logos/legitscript-certified.png"
                   alt="LegitScript Certified"
-                  className="h-7 w-auto object-contain brightness-0 invert transition-opacity hover:opacity-100"
+                  width={120}
+                  height={28}
+                  className="h-7 w-auto object-contain"
+                  style={{ filter: "brightness(0) invert(1)" }}
                 />
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src="https://ahufsygjwpbymomfdazb.supabase.co/storage/v1/object/public/site-assets/logos/naatp-icon.png"
                   alt="NAATP Member"
-                  className="h-7 w-auto object-contain brightness-0 invert transition-opacity hover:opacity-100"
+                  width={28}
+                  height={28}
+                  className="h-7 w-auto object-contain"
+                  style={{ filter: "brightness(0) invert(1)" }}
                 />
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src="https://ahufsygjwpbymomfdazb.supabase.co/storage/v1/object/public/site-assets/logos/joint-commission.png"
                   alt="The Joint Commission Accredited"
-                  className="h-7 w-auto object-contain brightness-0 invert transition-opacity hover:opacity-100"
+                  width={120}
+                  height={28}
+                  className="h-7 w-auto object-contain"
+                  style={{ filter: "brightness(0) invert(1)" }}
                 />
               </div>
             </div>
