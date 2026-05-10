@@ -3,6 +3,7 @@
 import { useState, useEffect, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import { useAuth } from "../contexts/AuthContext";
+import { supabaseConfigured } from "../lib/supabase";
 
 export default function AdminLoginPage() {
   const { signIn, user, isAdmin, isLoading } = useAuth();
@@ -39,6 +40,24 @@ export default function AdminLoginPage() {
       setSubmitting(false);
     }
   }, [email, password, signIn]);
+
+  if (!supabaseConfigured) {
+    return (
+      <div className="min-h-screen bg-stone-50 flex items-center justify-center px-4">
+        <div className="w-full max-w-sm text-center">
+          <div className="inline-flex items-center justify-center w-12 h-12 bg-red-100 rounded-xl mb-4">
+            <i className="ri-error-warning-line text-red-500 text-xl" />
+          </div>
+          <h1 className="text-lg font-semibold text-stone-900 mb-2">Missing Configuration</h1>
+          <p className="text-sm text-stone-500 leading-relaxed">
+            <code className="text-xs bg-stone-100 px-1.5 py-0.5 rounded">NEXT_PUBLIC_SUPABASE_URL</code> and{" "}
+            <code className="text-xs bg-stone-100 px-1.5 py-0.5 rounded">NEXT_PUBLIC_SUPABASE_ANON_KEY</code>{" "}
+            are not set in this environment. Add them in your Vercel project settings.
+          </p>
+        </div>
+      </div>
+    );
+  }
 
   if (isLoading) {
     return (
