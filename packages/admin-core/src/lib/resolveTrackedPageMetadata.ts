@@ -8,24 +8,32 @@ type TrackedPageMetadataRow = {
 };
 
 let trackedPagesClient: SupabaseClient | null = null;
+let trackedPagesClientKey: string | null = null;
 const DEFAULT_CACHE_TTL_SECONDS = 15;
 
 function getTrackedPagesClient(): SupabaseClient | null {
-  if (trackedPagesClient) return trackedPagesClient;
-
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
-  const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+  // Prefer service role key (bypasses RLS) since this runs server-side only.
+  // Falls back to anon key if service role is not available.
+  const supabaseKey =
+    process.env.SUPABASE_SERVICE_ROLE_KEY ??
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
 
-  if (!supabaseUrl || !supabaseAnonKey) {
+  if (!supabaseUrl || !supabaseKey) {
     return null;
   }
 
-  trackedPagesClient = createClient(supabaseUrl, supabaseAnonKey, {
+  if (trackedPagesClient && trackedPagesClientKey === supabaseKey) {
+    return trackedPagesClient;
+  }
+
+  trackedPagesClient = createClient(supabaseUrl, supabaseKey, {
     auth: {
       persistSession: false,
       autoRefreshToken: false,
     },
   });
+  trackedPagesClientKey = supabaseKey;
 
   return trackedPagesClient;
 }
