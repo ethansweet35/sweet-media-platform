@@ -2,6 +2,9 @@
   "name": "sweet-media-platform",
   "private": true,
   "packageManager": "pnpm@10.33.2",
+  "pnpm": {
+    "onlyBuiltDependencies": ["esbuild", "sharp", "unrs-resolver"]
+  },
   "scripts": {
     "dev": "turbo dev --filter=!@sweetmedia/client-template",
     "build": "turbo build --filter=!@sweetmedia/client-template",
