@@ -48,8 +48,8 @@ const TILES: Tile[] = [
   {
     title: "Sound Bath Healing",
     badge: "Holistic",
-    badgeText: "text-navy",
-    badgeBar: "bg-navy",
+    badgeText: "text-sand-light",
+    badgeBar: "bg-sand-dark",
     description:
       "Utilizing vibrational frequencies to guide the mind into deep meditative states, drastically reducing clinical anxiety.",
     image: SIGNATURE_IMAGES.soundBath,
@@ -74,8 +74,8 @@ const TILES: Tile[] = [
   {
     title: "Wolf Assisted Therapy",
     badge: "Experiential",
-    badgeText: "text-navy",
-    badgeBar: "bg-navy",
+    badgeText: "text-sand-light",
+    badgeBar: "bg-sand-dark",
     href: "/wolf-assisted-therapy/",
     description:
       "A profound experiential therapy utilizing the highly intuitive pack-nature of wolves to mirror emotions, build boundaries, and address deep-seated trauma safely.",
@@ -102,8 +102,8 @@ const TILES: Tile[] = [
   {
     title: "Mindfulness & Somatic Yoga",
     badge: "Holistic",
-    badgeText: "text-navy",
-    badgeBar: "bg-navy",
+    badgeText: "text-sand-light",
+    badgeBar: "bg-sand-dark",
     description:
       "Integrating breathwork and physical movement to reconnect the mind and body, establishing a foundation for emotional regulation.",
     image: SIGNATURE_IMAGES.yoga,
@@ -118,7 +118,7 @@ export default function SignatureServices() {
   return (
     <section
       id="services"
-      className="relative overflow-hidden bg-espresso py-24 text-sand-light"
+      className="relative overflow-hidden bg-navy py-24 text-sand-light"
     >
       <div
         className="absolute inset-0 z-0 opacity-[0.03]"
@@ -130,20 +130,20 @@ export default function SignatureServices() {
       ></div>
 
       <div className="relative z-10 mx-auto max-w-7xl px-6 lg:px-12">
-        <div className="mb-16 flex flex-col items-end justify-between gap-6 border-b border-sand-dark/20 pb-8 md:flex-row">
+        <div className="mb-16 flex flex-col items-end justify-between gap-6 border-b border-white/10 pb-8 md:flex-row">
           <div className="max-w-2xl">
-            <p className="mb-4 text-xs font-bold uppercase tracking-[0.22em] text-terracotta-light">
+            <p className="mb-4 text-xs font-bold uppercase tracking-[0.22em] text-terracotta">
               <AutoLinkedText>{"Holistic & Experiential"}</AutoLinkedText>
             </p>
             <h2 className="mb-6 font-serif text-4xl lg:text-5xl">
               Signature Services.
             </h2>
-            <p className="font-light leading-relaxed text-sand-dark">
+            <p className="font-light leading-relaxed text-white/60">
               <AutoLinkedText>{"Because no two paths to recovery are identical, we offer unique,\n              highly specialized therapeutic modalities. We integrate\n              progressive holistic and experiential methods to help you\n              reconnect your mind, body, and spirit."}</AutoLinkedText>
             </p>
           </div>
           <div className="flex-shrink-0 pb-2">
-            <p className="font-serif text-sm italic text-navy">
+            <p className="font-serif text-sm italic text-white/40">
               <AutoLinkedText>{"Curated healing experiences."}</AutoLinkedText>
             </p>
           </div>
@@ -153,12 +153,12 @@ export default function SignatureServices() {
           {TILES.map((tile) => {
             const Wrapper = tile.href
               ? ({ children }: { children: ReactNode }) => (
-                  <Link href={tile.href!} className={`group relative overflow-hidden border border-sand-dark/20 bg-espresso ${tile.span} ${tile.height}`}>
+                  <Link href={tile.href!} className={`group relative overflow-hidden border border-white/10 bg-navy ${tile.span} ${tile.height}`}>
                     {children}
                   </Link>
                 )
               : ({ children }: { children: ReactNode }) => (
-                  <div className={`group relative overflow-hidden border border-sand-dark/20 bg-espresso ${tile.span} ${tile.height}`}>
+                  <div className={`group relative overflow-hidden border border-white/10 bg-navy ${tile.span} ${tile.height}`}>
                     {children}
                   </div>
                 );
@@ -169,11 +169,11 @@ export default function SignatureServices() {
                 alt={tile.alt}
                 fill
                 sizes="(min-width: 1024px) 50vw, 100vw"
-                className="object-cover opacity-40 grayscale transition-all duration-700 group-hover:scale-105 group-hover:opacity-70 group-hover:grayscale-0"
+                className="object-cover opacity-65 grayscale-0 transition-all duration-700 md:opacity-40 md:grayscale group-hover:scale-105 md:group-hover:opacity-70 md:group-hover:grayscale-0"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-espresso via-espresso/20 to-transparent"></div>
+              <div className="absolute inset-0 bg-gradient-to-t from-navy via-navy/40 to-transparent"></div>
               <div className="absolute bottom-0 left-0 w-full p-8">
-                <div className="mb-3 flex translate-y-4 items-center gap-4 opacity-0 transition-all delay-75 duration-500 group-hover:translate-y-0 group-hover:opacity-100">
+                <div className="mb-3 flex translate-y-0 items-center gap-4 opacity-100 transition-all delay-75 duration-500 md:translate-y-4 md:opacity-0 md:group-hover:translate-y-0 md:group-hover:opacity-100">
                   <span className={`h-[1px] w-8 ${tile.badgeBar}`}></span>
                   <span
                     className={`text-xs font-bold uppercase tracking-[0.22em] ${tile.badgeText}`}
@@ -187,7 +187,7 @@ export default function SignatureServices() {
                   {tile.title}
                 </h3>
                 <p
-                  className={`text-sm font-light text-sand-dark opacity-0 translate-y-4 transition-all duration-500 group-hover:translate-y-0 group-hover:opacity-100 ${
+                  className={`text-sm font-light text-white/70 translate-y-0 opacity-100 transition-all duration-500 md:translate-y-4 md:opacity-0 md:group-hover:translate-y-0 md:group-hover:opacity-100 ${
                     tile.span === "md:col-span-8" ||
                     tile.span === "md:col-span-7"
                       ? "max-w-lg"
@@ -200,10 +200,10 @@ export default function SignatureServices() {
           })}
         </div>
 
-        <div className="mt-16 border-t border-sand-dark/20 pt-8 text-center">
-          <p className="text-sm font-light text-sand-dark">
+        <div className="mt-16 border-t border-white/10 pt-8 text-center">
+          <p className="text-sm font-light text-white/50">
             Also offering:{" "}
-            <span className="font-medium text-sand-light">
+            <span className="font-medium text-white">
               Faith-Based Recovery, EMDR, VA Mental Health Program,
               Careerbound&reg; & Collegebound&reg;.
             </span>
