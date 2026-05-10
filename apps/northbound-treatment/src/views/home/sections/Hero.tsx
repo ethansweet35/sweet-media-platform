@@ -125,33 +125,35 @@ export default function Hero() {
               </a>
 
               {/* Accreditation badges */}
-              <div className="flex items-center gap-3 opacity-90">
-                <div className="relative flex h-11 w-11 flex-shrink-0 items-center justify-center overflow-hidden rounded-md bg-espresso shadow-md transition-transform duration-300 hover:scale-110">
-                  <div className="absolute inset-x-0 bottom-0 flex h-3.5 items-center justify-center bg-[#4CAF50]">
-                    <i className="ri-check-line text-[10px] font-bold text-white" />
-                  </div>
-                  <span className="mb-2 text-[7px] font-bold tracking-tighter text-white">
-                    LegitScript
-                  </span>
+              <div className="flex flex-wrap items-center gap-2.5 opacity-90">
+                {/* LegitScript Certified */}
+                <div className="flex h-9 flex-shrink-0 items-center rounded bg-white px-2.5 shadow-sm transition-transform duration-300 hover:scale-105">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src="https://ahufsygjwpbymomfdazb.supabase.co/storage/v1/object/public/site-assets/logos/legitscript-certified.svg"
+                    alt="LegitScript Certified"
+                    className="h-5 w-auto object-contain"
+                  />
                 </div>
 
-                <div className="flex h-11 w-11 flex-shrink-0 rotate-45 items-center justify-center rounded-sm bg-navy shadow-md transition-transform duration-300 hover:scale-110">
-                  <div className="-rotate-45 flex flex-col items-center text-center">
-                    <div className="mb-0.5 h-3.5 w-3.5 rounded-sm border border-white bg-terracotta" />
-                    <span className="block text-[4px] font-bold uppercase leading-none text-white">
-                      NAATP
-                    </span>
-                  </div>
+                {/* NAATP Member */}
+                <div className="flex h-9 flex-shrink-0 items-center rounded bg-white px-2.5 shadow-sm transition-transform duration-300 hover:scale-105">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src="https://ahufsygjwpbymomfdazb.supabase.co/storage/v1/object/public/site-assets/logos/naatp-member.png"
+                    alt="NAATP Member"
+                    className="h-5 w-auto object-contain"
+                  />
                 </div>
 
-                <div className="relative flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-[#E5C058] to-[#C0962F] shadow-md transition-transform duration-300 hover:scale-110">
-                  <div className="flex h-9 w-9 items-center justify-center rounded-full border border-yellow-100/40 text-white/80">
-                    <i className="ri-shield-star-line text-base leading-none" />
-                  </div>
-                </div>
-
-                <div className="flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-full border-2 border-white/30 bg-white/10 shadow-sm backdrop-blur-sm transition-transform duration-300 hover:scale-110">
-                  <i className="ri-award-line text-lg leading-none text-white" />
+                {/* The Joint Commission Accredited */}
+                <div className="flex h-9 flex-shrink-0 items-center rounded bg-white px-2.5 shadow-sm transition-transform duration-300 hover:scale-105">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src="https://ahufsygjwpbymomfdazb.supabase.co/storage/v1/object/public/site-assets/logos/joint-commission.png"
+                    alt="The Joint Commission Accredited"
+                    className="h-5 w-auto object-contain"
+                  />
                 </div>
               </div>
             </div>
