@@ -209,15 +209,17 @@ function MegaMenuPanel({
   const cols = item.sections.length;
   const showCta = hasCta(item.label);
 
+  // With the new tile-grid columns, give each section a generous min/fr so
+  // 3-col tiles inside don't squeeze. The sidebar CTA stays a fixed 260px.
   const gridColsClass = showCta
     ? cols >= 3
-      ? "lg:grid-cols-[1fr_1fr_1fr_240px]"
+      ? "lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)_minmax(0,1fr)_260px]"
       : cols >= 2
-        ? "lg:grid-cols-[1fr_1fr_240px]"
-        : "lg:grid-cols-[1fr_240px]"
+        ? "lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)_260px]"
+        : "lg:grid-cols-[minmax(0,1fr)_260px]"
     : cols >= 2
       ? "lg:grid-cols-2"
-      : "lg:grid-cols-1 max-w-sm";
+      : "lg:grid-cols-1 max-w-md";
 
   return (
     <div
@@ -236,8 +238,8 @@ function MegaMenuPanel({
         <div className="pointer-events-none absolute left-6 top-[3px] h-8 w-8 border-l border-t border-sand-dark/60" />
         <div className="pointer-events-none absolute right-6 top-[3px] h-8 w-8 border-r border-t border-sand-dark/60" />
 
-        <div className="mx-auto max-w-7xl px-6 py-10 lg:px-12">
-          <div className={`grid grid-cols-1 gap-10 ${gridColsClass}`}>
+        <div className="mx-auto max-w-7xl px-6 py-8 lg:px-12">
+          <div className={`grid grid-cols-1 gap-6 ${gridColsClass}`}>
             {item.sections.map((section, idx) => (
               <MegaMenuColumn key={section.heading} section={section} index={idx} onClose={onClose} />
             ))}
@@ -284,55 +286,50 @@ function MegaMenuColumn({
   index: number;
   onClose: () => void;
 }) {
-  // Insurance column: compact pill grid (4 cols)
   const isInsurance = section.heading === "Verify Insurance";
-  // Long lists get 2-col grid
-  const twoCol = !isInsurance && section.links.length > 8;
   const sectionNumber = String(index + 1).padStart(2, "0");
+
+  // Tile grid columns scale with item density: dense menus pack tighter,
+  // sparse menus get bigger tiles so they don't leave whitespace.
+  const tileCols =
+    section.links.length >= 9
+      ? "grid-cols-3"
+      : section.links.length >= 5
+        ? "grid-cols-3"
+        : "grid-cols-2";
 
   return (
     <div className="relative flex flex-col">
-      {/* ── Editorial section header ── */}
-      <div className="relative mb-5">
-        {/* Eyebrow row: roman section number + italic descriptor */}
-        <div className="mb-3 flex items-center gap-3">
-          <span className="font-heading text-base italic text-terracotta">
-            {sectionNumber} <span className="text-espresso/30">/</span>
-          </span>
-          <span className="h-[1px] flex-1 bg-gradient-to-r from-terracotta/60 via-sand-dark to-transparent" />
-          {section.icon && (
-            <i className={`${section.icon} text-base leading-none text-navy/40`} />
-          )}
-        </div>
-
-        {/* Heading */}
+      {/* ── Compact editorial header ── */}
+      <div className="mb-4 flex items-baseline gap-3 border-b border-sand-dark/70 pb-3">
+        <span className="font-heading text-sm italic text-terracotta">
+          {sectionNumber}
+        </span>
         {section.headingHref ? (
           <Link
             href={section.headingHref}
             onClick={onClose}
-            className="group/heading inline-flex items-baseline gap-2 transition-colors"
+            className="group/heading inline-flex items-baseline gap-1.5 transition-colors"
           >
-            <h4 className="font-heading text-xl font-bold leading-tight text-navy transition-colors group-hover/heading:text-terracotta lg:text-2xl">
+            <h4 className="font-heading text-lg font-bold leading-tight text-navy transition-colors group-hover/heading:text-terracotta">
               {section.heading}
             </h4>
-            <i className="ri-arrow-right-up-line text-base text-navy/30 transition-all group-hover/heading:-translate-y-0.5 group-hover/heading:translate-x-0.5 group-hover/heading:text-terracotta" />
+            <i className="ri-arrow-right-up-line text-sm text-navy/30 transition-all group-hover/heading:-translate-y-0.5 group-hover/heading:translate-x-0.5 group-hover/heading:text-terracotta" />
           </Link>
         ) : (
-          <h4 className="font-heading text-xl font-bold leading-tight text-navy lg:text-2xl">
+          <h4 className="font-heading text-lg font-bold leading-tight text-navy">
             {section.heading}
           </h4>
         )}
-
-        {section.description && (
-          <p className="mt-2 max-w-[28ch] text-[11px] leading-relaxed text-espresso/55">
-            {section.description}
-          </p>
+        <span className="ml-auto h-px flex-1 bg-gradient-to-r from-sand-dark/0 via-sand-dark to-sand-dark/0" />
+        {section.icon && (
+          <i className={`${section.icon} text-sm leading-none text-navy/30`} />
         )}
       </div>
 
-      {/* ── Links ── */}
+      {/* ── Tile grid ── */}
       {isInsurance ? (
-        /* Insurance: 2-col pill grid */
+        /* Insurance: dense 2-col pill grid */
         <div className="grid grid-cols-2 gap-px overflow-hidden border border-sand-dark bg-sand-dark">
           {section.links.map((link) => (
             <Link
@@ -347,31 +344,40 @@ function MegaMenuColumn({
           ))}
         </div>
       ) : (
-        <ul className={twoCol ? "grid grid-cols-2 gap-x-3 gap-y-0" : "space-y-0"}>
+        <div className={`grid ${tileCols} gap-2`}>
           {section.links.map((link, i) => (
-            <li key={`${link.label}-${link.href}`}>
-              <Link
-                href={link.href}
-                onClick={onClose}
-                className="group/link relative flex items-center gap-3 border-l-2 border-transparent py-2 pl-3 pr-2 text-sm text-espresso/75 transition-all duration-200 hover:border-terracotta hover:bg-sand/60 hover:text-navy"
-              >
-                <span className="flex h-8 w-8 shrink-0 items-center justify-center border border-sand-dark/50 bg-sand-light transition-all duration-200 group-hover/link:border-terracotta/40 group-hover/link:bg-white">
+            <Link
+              key={`${link.label}-${link.href}`}
+              href={link.href}
+              onClick={onClose}
+              className="group/link relative flex flex-col gap-2 overflow-hidden border border-sand-dark/50 bg-white px-3 py-3 transition-all duration-300 hover:-translate-y-0.5 hover:border-terracotta hover:shadow-md"
+            >
+              {/* Terracotta accent strip slides in from bottom on hover */}
+              <span className="pointer-events-none absolute bottom-0 left-0 h-0.5 w-0 bg-terracotta transition-all duration-300 group-hover/link:w-full" />
+
+              {/* Icon + index row */}
+              <div className="flex items-start justify-between">
+                <span className="flex h-7 w-7 items-center justify-center bg-sand transition-colors duration-300 group-hover/link:bg-navy">
                   {link.icon ? (
                     <i
-                      className={`${link.icon} text-sm leading-none text-navy/70 transition-colors group-hover/link:text-terracotta`}
+                      className={`${link.icon} text-sm leading-none text-navy transition-colors duration-300 group-hover/link:text-terracotta`}
                     />
                   ) : (
-                    <span className="font-heading text-[10px] font-bold text-navy/40 transition-colors group-hover/link:text-terracotta">
+                    <span className="font-heading text-[10px] font-bold text-navy/60 transition-colors duration-300 group-hover/link:text-terracotta">
                       {String(i + 1).padStart(2, "0")}
                     </span>
                   )}
                 </span>
-                <span className="flex-1 font-medium leading-snug">{link.label}</span>
-                <i className="ri-arrow-right-line shrink-0 text-xs text-sand-dark opacity-0 transition-all duration-200 group-hover/link:translate-x-0.5 group-hover/link:text-terracotta group-hover/link:opacity-100" />
-              </Link>
-            </li>
+                <i className="ri-arrow-right-up-line text-xs text-sand-dark/70 transition-all duration-300 group-hover/link:-translate-y-0.5 group-hover/link:translate-x-0.5 group-hover/link:text-terracotta" />
+              </div>
+
+              {/* Label */}
+              <span className="text-[12px] font-semibold leading-tight text-espresso transition-colors duration-300 group-hover/link:text-navy">
+                {link.label}
+              </span>
+            </Link>
           ))}
-        </ul>
+        </div>
       )}
     </div>
   );
