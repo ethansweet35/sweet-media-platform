@@ -64,24 +64,12 @@ export async function AutoLinkedText({
     Promise.resolve(getPageAutoLinkRegistry()),
   ]);
 
-  // Dynamically import next/headers so Turbopack never statically traces it
-  // into client bundles (blog-core is also imported by client-side code paths
-  // via admin-core). At SSR runtime inside a Server Component this resolves
-  // normally; in any client-bundle analysis pass it is silently skipped.
-  let xPathname: string | null = null;
-  try {
-    const { headers } = await import("next/headers");
-    const h = await headers();
-    xPathname = h.get("x-pathname");
-  } catch {
-    // Not in a server context or running outside App Router — safe to ignore.
-  }
-
   // Resolve the effective current path — priority order:
-  //   1. Explicit `currentPath` prop
-  //   2. Path registered via initPageAutoLinks() in the page root
-  //   3. `x-pathname` header injected by proxy (automatic, no props needed)
-  const effectivePath = currentPath ?? registry.currentPath ?? xPathname;
+  //   1. Explicit `currentPath` prop passed to this instance
+  //   2. Path set in the per-request registry by resolveTrackedPageMetadata()
+  //      (called automatically by every page's generateMetadata function)
+  //   3. Path set via initPageAutoLinks() in the page root (manual opt-in)
+  const effectivePath = currentPath ?? registry.currentPath;
 
   // Drop any mapping that points to the current page so we never self-link.
   const mappings = effectivePath

@@ -1,6 +1,7 @@
 import { createClient, type SupabaseClient } from "@supabase/supabase-js";
 import type { Metadata } from "next";
 import { unstable_cache } from "next/cache";
+import { getPageAutoLinkRegistry } from "@sweetmedia/blog-core";
 
 type TrackedPageMetadataRow = {
   seo_title: string | null;
@@ -121,6 +122,12 @@ export async function resolveTrackedPageMetadata(
   routePath: string,
   fallbackMetadata: Metadata
 ): Promise<Metadata> {
+  // Register the current page path in the per-request auto-link registry so
+  // every <AutoLinkedText> on this page automatically skips self-links.
+  // React.cache() is request-scoped, so this is shared with all server
+  // components that render during the same request.
+  getPageAutoLinkRegistry().currentPath = routePath;
+
   const baseMetadata: Metadata = fallbackMetadata.alternates?.canonical
     ? fallbackMetadata
     : {
