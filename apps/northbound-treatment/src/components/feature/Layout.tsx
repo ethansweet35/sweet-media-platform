@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import HomeFooter from "@/views/home/chrome/HomeFooter";
 import HomeNavigation from "@/views/home/chrome/HomeNavigation";
 import HomeTopBar from "@/views/home/chrome/HomeTopBar";
+import RelatedPostsSection from "@/components/feature/RelatedPostsSection";
 
 /**
  * Global layout wrapper.
@@ -38,6 +39,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       <HomeNavigation />
       {/* pt accounts for fixed TopBar (h-10) + Nav (h-20) */}
       <main className="pt-[7.5rem]">{children}</main>
+      <RelatedPostsSection />
       <HomeFooter />
 
       {/* Mobile sticky CTA — fades in after scroll */}
