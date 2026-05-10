@@ -186,14 +186,14 @@ function DesktopMenuItem({
   );
 }
 
-/** Whether this item gets the CTA sidebar card. */
+/**
+ * Whether this item gets the CTA sidebar card.
+ * Only shown on tall menus where its full height fills naturally —
+ * short menus (Locations, About) skip it to avoid empty space next to
+ * the sections.
+ */
 function hasCta(label: string) {
-  return (
-    label === "Treatment Services" ||
-    label === "Admissions" ||
-    label === "Locations" ||
-    label === "About"
-  );
+  return label === "Treatment Services" || label === "Admissions";
 }
 
 function MegaMenuPanel({
