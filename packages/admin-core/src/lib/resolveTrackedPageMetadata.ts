@@ -56,7 +56,7 @@ function mergeTrackedMetadata(
 
   const metadata: Metadata = {
     ...fallbackMetadata,
-    ...(seoTitle ? { title: seoTitle } : {}),
+    ...(seoTitle ? { title: { absolute: seoTitle } } : {}),
     ...(metaDescription ? { description: metaDescription } : {}),
   };
 
@@ -106,7 +106,7 @@ async function fetchTrackedPageMetadata(routePath: string): Promise<TrackedPageM
 const fetchTrackedPageMetadataCached = unstable_cache(
   async (routePath: string) => fetchTrackedPageMetadata(routePath),
   ["tracked-page-metadata"],
-  { revalidate: getCacheTtlSeconds() }
+  { revalidate: getCacheTtlSeconds(), tags: ["tracked-page-metadata"] }
 );
 
 export async function resolveTrackedPageMetadata(
