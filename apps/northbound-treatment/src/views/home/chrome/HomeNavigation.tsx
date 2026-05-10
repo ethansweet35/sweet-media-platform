@@ -209,17 +209,12 @@ function MegaMenuPanel({
   const cols = item.sections.length;
   const showCta = hasCta(item.label);
 
-  // With the new tile-grid columns, give each section a generous min/fr so
-  // 3-col tiles inside don't squeeze. The sidebar CTA stays a fixed 260px.
-  const gridColsClass = showCta
-    ? cols >= 3
-      ? "lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)_minmax(0,1fr)_260px]"
-      : cols >= 2
-        ? "lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)_260px]"
-        : "lg:grid-cols-[minmax(0,1fr)_260px]"
-    : cols >= 2
-      ? "lg:grid-cols-2"
-      : "lg:grid-cols-1 max-w-md";
+  // New layout: sections stack vertically as horizontal rows. Optional CTA
+  // sidebar floats on the right at a fixed width. This kills the cramped
+  // multi-column tile/list problem entirely.
+  const layoutClass = showCta
+    ? "lg:grid-cols-[minmax(0,1fr)_280px]"
+    : "lg:grid-cols-1";
 
   return (
     <div
@@ -234,15 +229,20 @@ function MegaMenuPanel({
       <div className="h-[3px] w-full bg-gradient-to-r from-terracotta via-navy to-espresso" />
 
       <div className="border-b border-sand-dark bg-white">
-        {/* Corner brackets */}
-        <div className="pointer-events-none absolute left-6 top-[3px] h-8 w-8 border-l border-t border-sand-dark/60" />
-        <div className="pointer-events-none absolute right-6 top-[3px] h-8 w-8 border-r border-t border-sand-dark/60" />
-
         <div className="mx-auto max-w-7xl px-6 py-8 lg:px-12">
-          <div className={`grid grid-cols-1 gap-6 ${gridColsClass}`}>
-            {item.sections.map((section, idx) => (
-              <MegaMenuColumn key={section.heading} section={section} index={idx} onClose={onClose} />
-            ))}
+          <div className={`grid grid-cols-1 gap-8 ${layoutClass}`}>
+            {/* Main content area: sections as horizontal rows */}
+            <div className="flex flex-col divide-y divide-sand-dark/60">
+              {item.sections.map((section, idx) => (
+                <MegaMenuRow
+                  key={section.heading}
+                  section={section}
+                  index={idx}
+                  onClose={onClose}
+                />
+              ))}
+            </div>
+
             {showCta && <MegaMenuCta onClose={onClose} />}
           </div>
         </div>
@@ -277,7 +277,12 @@ function MegaMenuPanel({
   );
 }
 
-function MegaMenuColumn({
+/**
+ * MegaMenuRow — a full-width horizontal section.
+ * Layout: editorial header anchored on the left (~260px), pill cluster
+ * flowing horizontally on the right with comfortable wrap.
+ */
+function MegaMenuRow({
   section,
   index,
   onClose,
@@ -289,92 +294,82 @@ function MegaMenuColumn({
   const isInsurance = section.heading === "Verify Insurance";
   const sectionNumber = String(index + 1).padStart(2, "0");
 
-  // Tile grid columns scale with item density: dense menus pack tighter,
-  // sparse menus get bigger tiles so they don't leave whitespace.
-  const tileCols =
-    section.links.length >= 9
-      ? "grid-cols-3"
-      : section.links.length >= 5
-        ? "grid-cols-3"
-        : "grid-cols-2";
-
   return (
-    <div className="relative flex flex-col">
-      {/* ── Compact editorial header ── */}
-      <div className="mb-4 flex items-baseline gap-3 border-b border-sand-dark/70 pb-3">
-        <span className="font-heading text-sm italic text-terracotta">
-          {sectionNumber}
-        </span>
+    <div className="grid grid-cols-1 gap-6 py-7 first:pt-0 last:pb-0 lg:grid-cols-[260px_1fr] lg:gap-10">
+      {/* ── Editorial header (left) ── */}
+      <div className="relative flex flex-col">
+        <div className="mb-3 flex items-center gap-3">
+          <span className="font-heading text-2xl italic text-terracotta">
+            {sectionNumber}
+          </span>
+          <span className="h-px flex-1 bg-gradient-to-r from-terracotta/60 via-sand-dark to-transparent" />
+        </div>
+
         {section.headingHref ? (
           <Link
             href={section.headingHref}
             onClick={onClose}
-            className="group/heading inline-flex items-baseline gap-1.5 transition-colors"
+            className="group/heading inline-flex items-baseline gap-2 self-start"
           >
-            <h4 className="font-heading text-lg font-bold leading-tight text-navy transition-colors group-hover/heading:text-terracotta">
+            <h4 className="font-heading text-2xl font-bold leading-[1.1] text-navy transition-colors group-hover/heading:text-terracotta">
               {section.heading}
             </h4>
-            <i className="ri-arrow-right-up-line text-sm text-navy/30 transition-all group-hover/heading:-translate-y-0.5 group-hover/heading:translate-x-0.5 group-hover/heading:text-terracotta" />
+            <i className="ri-arrow-right-up-line text-base text-navy/30 transition-all group-hover/heading:-translate-y-0.5 group-hover/heading:translate-x-0.5 group-hover/heading:text-terracotta" />
           </Link>
         ) : (
-          <h4 className="font-heading text-lg font-bold leading-tight text-navy">
+          <h4 className="font-heading text-2xl font-bold leading-[1.1] text-navy">
             {section.heading}
           </h4>
         )}
-        <span className="ml-auto h-px flex-1 bg-gradient-to-r from-sand-dark/0 via-sand-dark to-sand-dark/0" />
-        {section.icon && (
-          <i className={`${section.icon} text-sm leading-none text-navy/30`} />
+
+        {section.description && (
+          <p className="mt-3 text-[12px] leading-relaxed text-espresso/55">
+            {section.description}
+          </p>
+        )}
+
+        {section.headingHref && (
+          <Link
+            href={section.headingHref}
+            onClick={onClose}
+            className="group/all mt-4 inline-flex items-center gap-2 self-start text-[10px] font-bold uppercase tracking-[0.18em] text-navy transition-colors hover:text-terracotta"
+          >
+            View all
+            <i className="ri-arrow-right-line text-sm transition-transform duration-200 group-hover/all:translate-x-0.5" />
+          </Link>
         )}
       </div>
 
-      {/* ── Tile grid ── */}
+      {/* ── Pill cluster (right) ── */}
       {isInsurance ? (
-        /* Insurance: dense 2-col pill grid */
-        <div className="grid grid-cols-2 gap-px overflow-hidden border border-sand-dark bg-sand-dark">
+        <div className="flex flex-wrap content-start gap-2">
           {section.links.map((link) => (
             <Link
               key={`${link.label}-${link.href}`}
               href={link.href}
               onClick={onClose}
-              className="group flex items-center gap-2 bg-white px-3 py-2.5 text-[11px] font-semibold text-espresso/70 transition-colors hover:bg-navy hover:text-white"
+              className="group inline-flex items-center gap-1.5 border border-sand-dark/60 bg-white px-3 py-1.5 text-[11px] font-semibold text-espresso/70 transition-all duration-200 hover:-translate-y-0.5 hover:border-terracotta hover:bg-navy hover:text-white hover:shadow-sm"
             >
-              <i className="ri-shield-check-line text-xs text-terracotta transition-colors group-hover:text-white" />
+              <i className="ri-shield-check-line text-[11px] text-terracotta transition-colors group-hover:text-terracotta-light" />
               {link.label}
             </Link>
           ))}
         </div>
       ) : (
-        <div className={`grid ${tileCols} gap-2`}>
-          {section.links.map((link, i) => (
+        <div className="flex flex-wrap content-start gap-2">
+          {section.links.map((link) => (
             <Link
               key={`${link.label}-${link.href}`}
               href={link.href}
               onClick={onClose}
-              className="group/link relative flex flex-col gap-2 overflow-hidden border border-sand-dark/50 bg-white px-3 py-3 transition-all duration-300 hover:-translate-y-0.5 hover:border-terracotta hover:shadow-md"
+              className="group/pill inline-flex items-center gap-2 border border-sand-dark/60 bg-white px-3.5 py-2 text-[12px] font-semibold leading-none text-espresso/80 transition-all duration-200 hover:-translate-y-0.5 hover:border-terracotta hover:text-navy hover:shadow-sm"
             >
-              {/* Terracotta accent strip slides in from bottom on hover */}
-              <span className="pointer-events-none absolute bottom-0 left-0 h-0.5 w-0 bg-terracotta transition-all duration-300 group-hover/link:w-full" />
-
-              {/* Icon + index row */}
-              <div className="flex items-start justify-between">
-                <span className="flex h-7 w-7 items-center justify-center bg-sand transition-colors duration-300 group-hover/link:bg-navy">
-                  {link.icon ? (
-                    <i
-                      className={`${link.icon} text-sm leading-none text-navy transition-colors duration-300 group-hover/link:text-terracotta`}
-                    />
-                  ) : (
-                    <span className="font-heading text-[10px] font-bold text-navy/60 transition-colors duration-300 group-hover/link:text-terracotta">
-                      {String(i + 1).padStart(2, "0")}
-                    </span>
-                  )}
-                </span>
-                <i className="ri-arrow-right-up-line text-xs text-sand-dark/70 transition-all duration-300 group-hover/link:-translate-y-0.5 group-hover/link:translate-x-0.5 group-hover/link:text-terracotta" />
-              </div>
-
-              {/* Label */}
-              <span className="text-[12px] font-semibold leading-tight text-espresso transition-colors duration-300 group-hover/link:text-navy">
-                {link.label}
-              </span>
+              {link.icon && (
+                <i
+                  className={`${link.icon} text-sm leading-none text-navy/50 transition-colors duration-200 group-hover/pill:text-terracotta`}
+                />
+              )}
+              <span className="whitespace-nowrap">{link.label}</span>
             </Link>
           ))}
         </div>
