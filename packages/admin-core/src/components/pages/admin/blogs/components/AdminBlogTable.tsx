@@ -40,8 +40,13 @@ interface AdminBlogTableProps {
   imageGenStatuses: Record<string, ImageGenStatus>;
 }
 
-type SortField = "title" | "category" | "author" | "date" | "status";
+type SortField = "title" | "category" | "author" | "date" | "created_at" | "status";
 type SortDir = "asc" | "desc";
+
+function fmtDate(iso: string | null | undefined): string {
+  if (!iso) return "—";
+  return new Date(iso).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" });
+}
 
 export default function AdminBlogTable({
   posts,
@@ -77,6 +82,7 @@ export default function AdminBlogTable({
       case "category": cmp = a.category.localeCompare(b.category); break;
       case "author": cmp = a.author.localeCompare(b.author); break;
       case "date": cmp = new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime(); break;
+      case "created_at": cmp = new Date(a.createdAt ?? "").getTime() - new Date(b.createdAt ?? "").getTime(); break;
       case "status": cmp = (a.status || "").localeCompare(b.status || ""); break;
     }
     return sortDir === "asc" ? cmp : -cmp;
@@ -96,7 +102,7 @@ export default function AdminBlogTable({
   return (
     <div className="bg-white rounded-2xl border border-neutral-100 overflow-hidden">
       <div className="overflow-x-auto">
-        <table className="w-full min-w-[1060px]">
+        <table className="w-full min-w-[1180px]">
           <thead>
             <tr className="border-b border-neutral-100">
               {/* Checkbox col */}
@@ -153,6 +159,14 @@ export default function AdminBlogTable({
                 <span className="text-[10px] tracking-[0.15em] uppercase font-semibold text-neutral-400">
                   Auto-publish
                 </span>
+              </th>
+              <th className="text-left px-4 py-3.5">
+                <button
+                  onClick={() => handleSort("created_at")}
+                  className="flex items-center text-[10px] tracking-[0.15em] uppercase font-semibold text-neutral-400 hover:text-neutral-600 transition-colors cursor-pointer whitespace-nowrap"
+                >
+                  Date Added <SortIcon field="created_at" />
+                </button>
               </th>
               <th className="text-right px-5 py-3.5">
                 <span className="text-[10px] tracking-[0.15em] uppercase font-semibold text-neutral-400">Actions</span>
@@ -349,6 +363,11 @@ export default function AdminBlogTable({
                         )}
                       </button>
                     ) : null}
+                  </td>
+
+                  {/* Date Added */}
+                  <td className="px-4 py-4">
+                    <span className="text-[12px] text-neutral-500 whitespace-nowrap">{fmtDate(post.createdAt)}</span>
                   </td>
 
                   {/* Actions */}
