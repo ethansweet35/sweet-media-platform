@@ -29,6 +29,8 @@ export default function AdminTrackedPagesPage() {
 
   const [toast, setToast] = useState<{ message: string; type: "success" | "error" } | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
+  const [pageSize, setPageSize] = useState<10 | 20 | 50>(10);
+  const [currentPage, setCurrentPage] = useState(1);
   const [modalOpen, setModalOpen] = useState(false);
   const [editingPage, setEditingPage] = useState<TrackedPage | null>(null);
   const [deletingPage, setDeletingPage] = useState<TrackedPage | null>(null);
@@ -113,6 +115,13 @@ export default function AdminTrackedPagesPage() {
       return title.includes(q) || route.includes(q) || seo.includes(q) || meta.includes(q) || kw.includes(q);
     });
   }, [pages, searchQuery]);
+
+  const totalPages = Math.max(1, Math.ceil(filteredPages.length / pageSize));
+  const safePage = Math.min(currentPage, totalPages);
+  const paginatedPages = useMemo(
+    () => filteredPages.slice((safePage - 1) * pageSize, safePage * pageSize),
+    [filteredPages, safePage, pageSize],
+  );
 
   const openNewPage = () => {
     setEditingPage(null);
@@ -263,26 +272,52 @@ export default function AdminTrackedPagesPage() {
             ))}
           </div>
 
-          <div className="bg-white rounded-2xl border border-neutral-100 p-4 mb-4 flex flex-col sm:flex-row gap-3">
+          <div className="bg-white rounded-2xl border border-neutral-100 p-4 mb-4 flex flex-col sm:flex-row gap-3 items-center">
             <div className="flex items-center gap-2 flex-1 min-w-0 bg-neutral-50 border border-neutral-200 rounded-xl px-3 py-2.5">
               <i className="ri-search-line text-neutral-400 text-sm flex-shrink-0" />
               <input
                 type="text"
                 value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
+                onChange={(e) => { setSearchQuery(e.target.value); setCurrentPage(1); }}
                 placeholder="Search title, route, SEO title, meta description, or keyword..."
                 className="flex-1 bg-transparent text-sm text-neutral-700 placeholder:text-neutral-400 focus:outline-none min-w-0"
               />
               {searchQuery && (
                 <button
                   type="button"
-                  onClick={() => setSearchQuery("")}
+                  onClick={() => { setSearchQuery(""); setCurrentPage(1); }}
                   className="w-5 h-5 flex items-center justify-center rounded-full bg-neutral-200 hover:bg-neutral-300 text-neutral-500 transition-colors cursor-pointer flex-shrink-0"
                 >
                   <i className="ri-close-line text-[10px]" />
                 </button>
               )}
             </div>
+            <div className="flex items-center gap-1.5 flex-shrink-0">
+              <span className="text-[11px] text-neutral-400">Show</span>
+              {([10, 20, 50] as const).map((n) => (
+                <button
+                  key={n}
+                  type="button"
+                  onClick={() => { setPageSize(n); setCurrentPage(1); }}
+                  className={`px-2.5 py-1 rounded-lg text-[11px] font-semibold transition-all cursor-pointer ${
+                    pageSize === n
+                      ? "bg-[#3d6f7f] text-white"
+                      : "bg-neutral-100 text-neutral-500 hover:bg-neutral-200"
+                  }`}
+                >
+                  {n}
+                </button>
+              ))}
+            </div>
+          </div>
+          <div className="flex items-center justify-between mb-3 flex-wrap gap-2">
+            <p className="text-sm text-neutral-500">
+              Showing{" "}
+              <span className="font-semibold text-neutral-800">
+                {filteredPages.length === 0 ? 0 : (safePage - 1) * pageSize + 1}–{Math.min(safePage * pageSize, filteredPages.length)}
+              </span>{" "}
+              of <span className="font-semibold text-neutral-800">{filteredPages.length}</span> pages
+            </p>
           </div>
 
           {pages.length === 0 ? (
@@ -319,6 +354,7 @@ export default function AdminTrackedPagesPage() {
               </p>
             </div>
           ) : (
+            <>
             <div className="bg-white rounded-2xl border border-neutral-100 overflow-hidden">
               <div className="overflow-x-auto">
                 <table
@@ -362,7 +398,7 @@ export default function AdminTrackedPagesPage() {
                     </tr>
                   </thead>
                   <tbody>
-                    {filteredPages.map((p) => (
+                    {paginatedPages.map((p) => (
                       <tr key={p.id} className="border-b border-neutral-100 last:border-0 hover:bg-neutral-50/50">
                         <td className="px-5 py-3.5 align-middle overflow-hidden">
                           <code className="text-[12px] text-neutral-800 font-mono bg-neutral-100 px-2 py-0.5 rounded-md block truncate" title={p.route_path}>
@@ -506,6 +542,73 @@ export default function AdminTrackedPagesPage() {
                 </table>
               </div>
             </div>
+            {totalPages > 1 && (
+              <div className="flex items-center justify-between mt-4 flex-wrap gap-3">
+                <p className="text-[11px] text-neutral-400">
+                  Page {safePage} of {totalPages}
+                </p>
+                <div className="flex items-center gap-1">
+                  <button
+                    type="button"
+                    onClick={() => setCurrentPage(1)}
+                    disabled={safePage === 1}
+                    className="w-8 h-8 flex items-center justify-center rounded-lg text-neutral-500 hover:bg-neutral-100 disabled:opacity-30 disabled:cursor-not-allowed cursor-pointer transition-colors"
+                  >
+                    <i className="ri-skip-left-line text-sm" />
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
+                    disabled={safePage === 1}
+                    className="w-8 h-8 flex items-center justify-center rounded-lg text-neutral-500 hover:bg-neutral-100 disabled:opacity-30 disabled:cursor-not-allowed cursor-pointer transition-colors"
+                  >
+                    <i className="ri-arrow-left-s-line text-sm" />
+                  </button>
+                  {Array.from({ length: totalPages }, (_, i) => i + 1)
+                    .filter((n) => n === 1 || n === totalPages || Math.abs(n - safePage) <= 2)
+                    .reduce<(number | "…")[]>((acc, n, idx, arr) => {
+                      if (idx > 0 && (arr[idx - 1] as number) < n - 1) acc.push("…");
+                      acc.push(n);
+                      return acc;
+                    }, [])
+                    .map((item, idx) =>
+                      item === "…" ? (
+                        <span key={`ellipsis-${idx}`} className="w-8 text-center text-xs text-neutral-400">…</span>
+                      ) : (
+                        <button
+                          key={item}
+                          type="button"
+                          onClick={() => setCurrentPage(item as number)}
+                          className={`w-8 h-8 flex items-center justify-center rounded-lg text-xs font-semibold transition-colors cursor-pointer ${
+                            safePage === item
+                              ? "bg-[#3d6f7f] text-white"
+                              : "text-neutral-600 hover:bg-neutral-100"
+                          }`}
+                        >
+                          {item}
+                        </button>
+                      )
+                    )}
+                  <button
+                    type="button"
+                    onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
+                    disabled={safePage === totalPages}
+                    className="w-8 h-8 flex items-center justify-center rounded-lg text-neutral-500 hover:bg-neutral-100 disabled:opacity-30 disabled:cursor-not-allowed cursor-pointer transition-colors"
+                  >
+                    <i className="ri-arrow-right-s-line text-sm" />
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setCurrentPage(totalPages)}
+                    disabled={safePage === totalPages}
+                    className="w-8 h-8 flex items-center justify-center rounded-lg text-neutral-500 hover:bg-neutral-100 disabled:opacity-30 disabled:cursor-not-allowed cursor-pointer transition-colors"
+                  >
+                    <i className="ri-skip-right-line text-sm" />
+                  </button>
+                </div>
+              </div>
+            )}
+            </>
           )}
         </>
       )}
