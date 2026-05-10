@@ -9,6 +9,7 @@ import type { BlogPost } from "@sweetmedia/blog-core";
 import AdminBlogTable from "../components/pages/admin/blogs/components/AdminBlogTable";
 import AdminBlogDeleteModal from "../components/pages/admin/blogs/components/AdminBlogDeleteModal";
 import { ADMIN_OCEAN } from "../lib/adminTheme";
+import { callGenerateSeoMetadata, type SeoGenResult } from "../lib/generateSeoMetadata";
 
 type FilterStatus = "all" | "published" | "draft";
 
@@ -103,6 +104,13 @@ export default function AdminBlogDashboard() {
   const [bulkGenRunning, setBulkGenRunning] = useState(false);
   const [bulkGenProgress, setBulkGenProgress] = useState({ done: 0, total: 0 });
   const abortRef = useRef(false);
+
+  // SEO generation state
+  type SeoStatus = { status: "generating" | "done" | "error"; result?: SeoGenResult; error?: string };
+  const [seoStatuses, setSeoStatuses] = useState<Record<string, SeoStatus>>({});
+  const [bulkSeoRunning, setBulkSeoRunning] = useState(false);
+  const [bulkSeoProgress, setBulkSeoProgress] = useState({ done: 0, total: 0 });
+  const seoAbortRef = useRef(false);
 
   const showToast = (message: string, type: "success" | "error" = "success") => {
     setToast({ message, type });
@@ -272,6 +280,87 @@ export default function AdminBlogDashboard() {
     },
     [refetch]
   );
+
+  // ── AI SEO handlers ─────────────────────────────────────────────────────────
+
+  const handleRunSeo = useCallback(async (post: BlogPost) => {
+    setSeoStatuses((prev) => ({ ...prev, [post.id]: { status: "generating" } }));
+    try {
+      const result = await callGenerateSeoMetadata({
+        type: "post",
+        title: post.title,
+        excerpt: post.excerpt,
+        category: post.category,
+      });
+      setSeoStatuses((prev) => ({ ...prev, [post.id]: { status: "done", result } }));
+    } catch (err) {
+      setSeoStatuses((prev) => ({
+        ...prev,
+        [post.id]: { status: "error", error: err instanceof Error ? err.message : "Failed" },
+      }));
+    }
+  }, []);
+
+  const handleApplySeo = useCallback(async (post: BlogPost, result: SeoGenResult) => {
+    const { error: updErr } = await supabase
+      .from("blog_posts")
+      .update({ meta_description: result.meta_description })
+      .eq("id", post.id);
+    if (!updErr) {
+      showToast(`SEO saved for "${post.title.slice(0, 40)}${post.title.length > 40 ? "…" : ""}"`);
+      setSeoStatuses((prev) => { const n = { ...prev }; delete n[post.id]; return n; });
+      await refetch();
+    } else {
+      showToast("Failed to save SEO metadata", "error");
+    }
+  }, [refetch]);
+
+  const handleDismissSeo = useCallback((postId: string) => {
+    setSeoStatuses((prev) => { const n = { ...prev }; delete n[postId]; return n; });
+  }, []);
+
+  const handleBulkSeo = useCallback(async () => {
+    const targets = posts.filter((p) => selectedIds.has(p.id));
+    if (targets.length === 0) return;
+    seoAbortRef.current = false;
+    setBulkSeoRunning(true);
+    setBulkSeoProgress({ done: 0, total: targets.length });
+    setSeoStatuses((prev) => {
+      const next = { ...prev };
+      targets.forEach((p) => { next[p.id] = { status: "generating" }; });
+      return next;
+    });
+    let done = 0;
+    for (const p of targets) {
+      if (seoAbortRef.current) break;
+      try {
+        const result = await callGenerateSeoMetadata({ type: "post", title: p.title, excerpt: p.excerpt, category: p.category });
+        setSeoStatuses((prev) => ({ ...prev, [p.id]: { status: "done", result } }));
+      } catch (err) {
+        setSeoStatuses((prev) => ({ ...prev, [p.id]: { status: "error", error: err instanceof Error ? err.message : "Failed" } }));
+      }
+      done++;
+      setBulkSeoProgress({ done, total: targets.length });
+    }
+    setBulkSeoRunning(false);
+    showToast(`AI SEO generated for ${done} post${done !== 1 ? "s" : ""}. Review and apply below.`);
+  }, [posts, selectedIds]);
+
+  const pendingSeoReviewCount = Object.values(seoStatuses).filter((s) => s.status === "done").length;
+
+  const handleApplyAllSeo = useCallback(async () => {
+    const toApply = posts.filter((p) => seoStatuses[p.id]?.status === "done" && seoStatuses[p.id]?.result);
+    let saved = 0;
+    for (const p of toApply) {
+      const result = seoStatuses[p.id]?.result!;
+      const { error: updErr } = await supabase.from("blog_posts").update({ meta_description: result.meta_description }).eq("id", p.id);
+      if (!updErr) saved++;
+    }
+    setSeoStatuses({});
+    clearSelection();
+    await refetch();
+    showToast(`Applied SEO to ${saved} post${saved !== 1 ? "s" : ""}`);
+  }, [posts, seoStatuses, refetch]);
 
   const handleToggleStatus = async (post: BlogPost) => {
     setTogglingId(post.id);
@@ -492,6 +581,39 @@ export default function AdminBlogDashboard() {
                 </button>
               )}
 
+              {/* AI SEO */}
+              {bulkSeoRunning ? (
+                <div className="flex items-center gap-3">
+                  <div className="flex items-center gap-2 bg-white/10 rounded-xl px-4 py-2">
+                    <i className="ri-loader-4-line animate-spin text-white text-sm"></i>
+                    <span className="text-white text-[11px] font-semibold whitespace-nowrap">
+                      SEO {bulkSeoProgress.done}/{bulkSeoProgress.total}…
+                    </span>
+                    <div className="w-16 h-1.5 bg-white/20 rounded-full overflow-hidden">
+                      <div className="h-full bg-violet-400 rounded-full transition-all duration-500"
+                        style={{ width: `${bulkSeoProgress.total > 0 ? (bulkSeoProgress.done / bulkSeoProgress.total) * 100 : 0}%` }} />
+                    </div>
+                  </div>
+                  <button onClick={() => { seoAbortRef.current = true; }}
+                    className="flex items-center gap-1.5 bg-red-500/80 hover:bg-red-500 text-white text-[11px] tracking-[0.1em] uppercase font-bold px-3 py-2 rounded-xl transition-colors cursor-pointer whitespace-nowrap">
+                    <i className="ri-stop-line text-xs"></i>Stop
+                  </button>
+                </div>
+              ) : (
+                <button onClick={() => void handleBulkSeo()}
+                  className="flex items-center gap-1.5 bg-violet-500 hover:bg-violet-400 text-white text-[11px] tracking-[0.12em] uppercase font-bold px-4 py-2 rounded-xl transition-colors cursor-pointer whitespace-nowrap">
+                  <i className="ri-sparkling-2-line text-xs"></i>
+                  AI Optimize SEO
+                </button>
+              )}
+
+              {pendingSeoReviewCount > 0 && !bulkSeoRunning && (
+                <button onClick={() => void handleApplyAllSeo()}
+                  className="flex items-center gap-1.5 bg-emerald-500 hover:bg-emerald-400 text-white text-[11px] tracking-[0.12em] uppercase font-bold px-4 py-2 rounded-xl transition-colors cursor-pointer whitespace-nowrap">
+                  <i className="ri-check-double-line text-xs"></i>Apply All ({pendingSeoReviewCount})
+                </button>
+              )}
+
               {/* Deselect */}
               <button
                 onClick={clearSelection}
@@ -585,21 +707,25 @@ export default function AdminBlogDashboard() {
         {/* Table */}
         {!loading && !error && (
           <>
-            <AdminBlogTable
-              posts={paginated}
-              onDelete={setDeletingPost}
-              onToggleStatus={handleToggleStatus}
-              onToggleApprovedForPublish={handleToggleApprovedForPublish}
-              onToggleFeatured={handleToggleFeatured}
-              onPreview={handlePreview}
-              onRegenerateImage={handleRegenerateImage}
-              togglingId={togglingId}
-              approvingForPublishId={approvingForPublishId}
-              selectedIds={selectedIds}
-              onSelectId={handleSelectId}
-              onSelectAll={handleSelectAll}
-              imageGenStatuses={imageGenStatuses}
-            />
+          <AdminBlogTable
+            posts={paginated}
+            onDelete={setDeletingPost}
+            onToggleStatus={handleToggleStatus}
+            onToggleApprovedForPublish={handleToggleApprovedForPublish}
+            onToggleFeatured={handleToggleFeatured}
+            onPreview={handlePreview}
+            onRegenerateImage={handleRegenerateImage}
+            togglingId={togglingId}
+            approvingForPublishId={approvingForPublishId}
+            selectedIds={selectedIds}
+            onSelectId={handleSelectId}
+            onSelectAll={handleSelectAll}
+            imageGenStatuses={imageGenStatuses}
+            seoStatuses={seoStatuses}
+            onRunSeo={handleRunSeo}
+            onApplySeo={handleApplySeo}
+            onDismissSeo={handleDismissSeo}
+          />
             {/* Pagination */}
             {totalPages > 1 && (
               <div className="flex items-center justify-between mt-4 flex-wrap gap-3">

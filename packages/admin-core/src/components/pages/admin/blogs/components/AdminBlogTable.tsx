@@ -4,6 +4,7 @@ import Image from "next/image";
 import { useState } from "react";
 import { ADMIN_OCEAN } from "../../../../../lib/adminTheme";
 import type { BlogPost } from "@sweetmedia/blog-core";
+import type { SeoGenResult } from "../../../../../lib/generateSeoMetadata";
 
 function formatScheduledLine(iso: string): string {
   try {
@@ -24,6 +25,8 @@ interface ImageGenStatus {
   model?: string;
 }
 
+type SeoStatus = { status: "generating" | "done" | "error"; result?: SeoGenResult; error?: string };
+
 interface AdminBlogTableProps {
   posts: BlogPost[];
   onDelete: (post: BlogPost) => void;
@@ -38,6 +41,10 @@ interface AdminBlogTableProps {
   onSelectId: (id: string, checked: boolean) => void;
   onSelectAll: (checked: boolean) => void;
   imageGenStatuses: Record<string, ImageGenStatus>;
+  seoStatuses: Record<string, SeoStatus>;
+  onRunSeo: (post: BlogPost) => void;
+  onApplySeo: (post: BlogPost, result: SeoGenResult) => void;
+  onDismissSeo: (postId: string) => void;
 }
 
 type SortField = "title" | "category" | "author" | "date" | "created_at" | "status";
@@ -62,6 +69,10 @@ export default function AdminBlogTable({
   onSelectId,
   onSelectAll,
   imageGenStatuses,
+  seoStatuses,
+  onRunSeo,
+  onApplySeo,
+  onDismissSeo,
 }: AdminBlogTableProps) {
   const [sortField, setSortField] = useState<SortField>("date");
   const [sortDir, setSortDir] = useState<SortDir>("desc");
@@ -176,13 +187,15 @@ export default function AdminBlogTable({
           <tbody>
             {sorted.map((post) => {
               const imgStatus = imageGenStatuses[post.id];
+              const seoStatus = seoStatuses[post.id];
               const isSelected = selectedIds.has(post.id);
 
               return (
+                <>
                 <tr
                   key={post.id}
                   className={`border-b border-neutral-50 transition-colors group ${
-                    isSelected ? "bg-[#3d6f7f]/3" : "hover:bg-neutral-50/60"
+                    seoStatus?.status === "done" ? "bg-violet-50/60" : isSelected ? "bg-[#3d6f7f]/3" : "hover:bg-neutral-50/60"
                   }`}
                 >
                   {/* Checkbox */}
@@ -417,6 +430,26 @@ export default function AdminBlogTable({
                           <><i className="ri-image-ai-line text-xs"></i> Gen Card</>
                         )}
                       </button>
+                      {/* AI SEO */}
+                      {seoStatus?.status === "generating" ? (
+                        <div className="w-8 h-8 flex items-center justify-center">
+                          <i className="ri-loader-4-line animate-spin text-violet-500 text-sm"></i>
+                        </div>
+                      ) : (
+                        <button
+                          onClick={() => onRunSeo(post)}
+                          title="AI Optimize SEO"
+                          className={`w-8 h-8 flex items-center justify-center rounded-lg transition-all cursor-pointer ${
+                            seoStatus?.status === "done"
+                              ? "text-violet-600 bg-violet-100 hover:bg-violet-200"
+                              : seoStatus?.status === "error"
+                              ? "text-red-500 bg-red-50 hover:bg-red-100"
+                              : "text-neutral-400 hover:text-violet-600 hover:bg-violet-50"
+                          }`}
+                        >
+                          <i className="ri-sparkling-2-line text-sm"></i>
+                        </button>
+                      )}
                       <button
                         onClick={() => onDelete(post)}
                         title="Delete"
@@ -427,6 +460,52 @@ export default function AdminBlogTable({
                     </div>
                   </td>
                 </tr>
+
+                {/* AI SEO preview row */}
+                {seoStatus?.status === "done" && seoStatus.result && (
+                  <tr key={`${post.id}-seo-preview`} className="bg-violet-50 border-b border-violet-100">
+                    <td colSpan={10} className="px-5 py-3">
+                      <div className="flex items-start gap-4 flex-wrap">
+                        <div className="flex items-center gap-1.5 flex-shrink-0 mt-0.5">
+                          <i className="ri-sparkling-2-line text-violet-500 text-sm"></i>
+                          <span className="text-[11px] font-bold uppercase tracking-[0.1em] text-violet-600">AI Suggestion</span>
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <p className="text-[9px] uppercase tracking-wider text-violet-400 font-bold mb-0.5">
+                            Meta Description ({seoStatus.result.meta_description.length} chars)
+                          </p>
+                          <p className="text-[13px] text-neutral-700 leading-snug">{seoStatus.result.meta_description}</p>
+                        </div>
+                        <div className="flex items-center gap-2 flex-shrink-0">
+                          <button type="button" onClick={() => onApplySeo(post, seoStatus.result!)}
+                            className="flex items-center gap-1.5 bg-violet-600 hover:bg-violet-500 text-white text-[11px] font-bold uppercase tracking-[0.1em] px-3 py-1.5 rounded-lg transition-colors cursor-pointer">
+                            <i className="ri-check-line text-xs"></i>Apply
+                          </button>
+                          <button type="button" onClick={() => onDismissSeo(post.id)}
+                            className="flex items-center gap-1 text-[11px] text-neutral-400 hover:text-neutral-600 cursor-pointer transition-colors">
+                            <i className="ri-close-line text-xs"></i>Dismiss
+                          </button>
+                        </div>
+                      </div>
+                    </td>
+                  </tr>
+                )}
+
+                {seoStatus?.status === "error" && (
+                  <tr key={`${post.id}-seo-error`} className="bg-red-50 border-b border-red-100">
+                    <td colSpan={10} className="px-5 py-2">
+                      <div className="flex items-center gap-3">
+                        <i className="ri-error-warning-line text-red-400 text-sm flex-shrink-0"></i>
+                        <p className="text-[12px] text-red-600 flex-1">{seoStatus.error}</p>
+                        <button type="button" onClick={() => onRunSeo(post)} className="text-[11px] text-red-500 hover:underline cursor-pointer flex-shrink-0">Retry</button>
+                        <button type="button" onClick={() => onDismissSeo(post.id)} className="text-neutral-400 hover:text-neutral-600 cursor-pointer flex-shrink-0">
+                          <i className="ri-close-line text-sm"></i>
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                )}
+                </>
               );
             })}
           </tbody>
