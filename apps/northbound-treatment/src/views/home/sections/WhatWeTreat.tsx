@@ -219,17 +219,17 @@ export default function WhatWeTreat() {
             </p>
           </div>
 
-          <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
+          <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 md:grid-cols-4">
             {SUBSTANCE_ITEMS.map((item) => (
               <Link
                 key={item.name}
                 href={item.href}
-                className="architectural-border group flex items-center gap-4 bg-white p-5 transition-all duration-300 hover:-translate-y-0.5 hover:border-navy/30 hover:shadow-md"
+                className="architectural-border group flex items-center gap-4 bg-white px-5 py-4 transition-all duration-300 hover:-translate-y-0.5 hover:border-navy/30 hover:shadow-md"
               >
                 <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-navy/10 transition-colors duration-300 group-hover:bg-navy/20">
                   <i className={`${item.icon} text-lg leading-none text-navy`}></i>
                 </div>
-                <div>
+                <div className="min-w-0">
                   <h4 className="font-serif text-sm text-espresso">{item.name}</h4>
                   <p className="text-[10px] font-semibold uppercase tracking-[0.14em] text-navy/60">{item.shortDesc}</p>
                 </div>
@@ -252,17 +252,17 @@ export default function WhatWeTreat() {
             </p>
           </div>
 
-          <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
+          <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 md:grid-cols-4">
             {MENTAL_HEALTH_ITEMS.map((item) => (
               <Link
                 key={item.name}
                 href={item.href}
-                className="group flex items-center gap-4 border border-white/10 bg-navy p-5 transition-all duration-300 hover:-translate-y-0.5 hover:border-terracotta/40 hover:shadow-md"
+                className="group flex items-center gap-4 border border-white/10 bg-navy px-5 py-4 transition-all duration-300 hover:-translate-y-0.5 hover:border-terracotta/40 hover:shadow-md"
               >
                 <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-white/10">
                   <i className={`${item.icon} text-lg leading-none text-terracotta`}></i>
                 </div>
-                <div>
+                <div className="min-w-0">
                   <h4 className="font-serif text-sm text-white">{item.name}</h4>
                   <p className="text-[10px] font-semibold uppercase tracking-[0.14em] text-terracotta/70">{item.shortDesc}</p>
                 </div>
