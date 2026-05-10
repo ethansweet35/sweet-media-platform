@@ -1,0 +1,55 @@
+---
+description: Protects the SEO infrastructure established across all client apps. Enforces dynamic metadata, canonical URLs, and instant cache revalidation patterns.
+alwaysApply: true
+---
+
+# Platform SEO Infrastructure — Do Not Break
+
+## 1. All page metadata must be dynamic (all client apps)
+
+Every `src/app/**/page.tsx` in any client app must use `generateMetadata` + `resolveTrackedPageMetadata`.
+Never use `export const metadata: Metadata = {...}` on a page file — static exports bake metadata at build time, making admin-panel SEO edits invisible without a redeploy.
+
+✅ Required pattern for all page files:
+```tsx
+import { resolveTrackedPageMetadata } from "@sweetmedia/admin-core";
+
+const fallback: Metadata = {
+  title: "Page Title | Brand Name",
+  description: "...",
+  alternates: { canonical: "/route-path" },
+};
+
+export async function generateMetadata(): Promise<Metadata> {
+  return resolveTrackedPageMetadata("/route-path", fallback);
+}
+```
+
+❌ Never on a page file (layout.tsx root is the only exception):
+```tsx
+export const metadata: Metadata = { title: "...", description: "..." };
+```
+
+## 2. Every fallback must include `alternates.canonical`
+
+`alternates: { canonical: "/exact-route-path" }` is required in every `fallback` metadata object on every page.
+
+## 3. `/api/admin/revalidate` route must exist in every client app
+
+This route calls `revalidatePath()` and is called by admin-core after applying SEO changes, making updates live instantly without a redeploy. Never delete it or remove the `revalidatePath()` call.
+
+## 4. Blog slug pages are exempt from `resolveTrackedPageMetadata`
+
+`/blog/[slug]/page.tsx` fetches metadata from the `blog_posts` table directly via `fetchPublishedBlogPostForMetadata`. This is correct — do not add `resolveTrackedPageMetadata` to these files.
+
+## 5. Blog ISR settings must not change without explicit instruction
+
+Blog index and blog slug routes use `export const revalidate = 3600` and `generateStaticParams`. Do not add `force-dynamic` or remove the `revalidate` export from these routes.
+
+## 6. `robots.ts` must remain a dynamic route file
+
+Each app's `src/app/robots.ts` generates the robots config dynamically. Do not replace it with a static `robots.txt`.
+
+## 7. Root `layout.tsx` is the only place static metadata is allowed
+
+`src/app/layout.tsx` uses `export const metadata` for the site-wide defaults (`metadataBase`, `title.template`). This is correct and must not be changed to `generateMetadata`.
