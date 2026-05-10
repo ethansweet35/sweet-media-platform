@@ -6,9 +6,11 @@ import { NextResponse, type NextRequest } from "next/server";
  * via headers() without needing it threaded down through props.
  */
 export function proxy(request: NextRequest) {
-  const response = NextResponse.next();
-  response.headers.set("x-pathname", request.nextUrl.pathname);
-  return response;
+  // Forward the pathname on the *request* headers — that's what headers()
+  // reads in Server Components. Setting it on the response would have no effect.
+  const requestHeaders = new Headers(request.headers);
+  requestHeaders.set("x-pathname", request.nextUrl.pathname);
+  return NextResponse.next({ request: { headers: requestHeaders } });
 }
 
 export const config = {
