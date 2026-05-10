@@ -15,6 +15,6 @@ export async function POST(request: NextRequest) {
   }
 
   revalidatePath(path);
-  revalidateTag("tracked-page-metadata");
+  revalidateTag("tracked-page-metadata", { expire: 0 });
   return NextResponse.json({ revalidated: true, path });
 }
