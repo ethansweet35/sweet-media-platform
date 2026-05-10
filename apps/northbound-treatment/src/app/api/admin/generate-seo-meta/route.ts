@@ -86,7 +86,7 @@ export async function POST(request: Request) {
       "X-Title": "Northbound Treatment Admin",
     },
     body: JSON.stringify({
-      model: "google/gemini-flash-1.5",
+      model: "google/gemini-2.0-flash-001",
       messages: [{ role: "user", content: prompt }],
       temperature: 0.5,
       max_tokens: 250,
