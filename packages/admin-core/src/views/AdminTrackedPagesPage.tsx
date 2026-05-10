@@ -135,6 +135,19 @@ export default function AdminTrackedPagesPage() {
     }
   }, []);
 
+  const revalidatePage = useCallback(async (routePath: string) => {
+    try {
+      const origin = getPublicSiteOrigin();
+      await fetch(`${origin}/api/admin/revalidate`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ path: routePath }),
+      });
+    } catch {
+      // non-critical — page will still update on next ISR cycle
+    }
+  }, []);
+
   const applySeoForPage = useCallback(async (p: TrackedPage, result: SeoGenResult) => {
     const ok = await updatePage(p.id, {
       seo_title: result.seo_title ?? undefined,
@@ -147,10 +160,11 @@ export default function AdminTrackedPagesPage() {
         delete next[p.id];
         return next;
       });
+      void revalidatePage(p.route_path);
     } else {
       showToast("Failed to save SEO metadata", "error");
     }
-  }, [updatePage]);
+  }, [updatePage, revalidatePage]);
 
   const handleBulkSeo = useCallback(async () => {
     const targets = pages.filter((p) => selectedIds.has(p.id));
@@ -196,12 +210,15 @@ export default function AdminTrackedPagesPage() {
         seo_title: result.seo_title ?? undefined,
         meta_description: result.meta_description,
       });
-      if (ok) saved++;
+      if (ok) {
+        saved++;
+        void revalidatePage(p.route_path);
+      }
     }
     setSeoStatuses({});
     setSelectedIds(new Set());
     showToast(`Applied SEO to ${saved} page${saved !== 1 ? "s" : ""}`);
-  }, [pages, seoStatuses, updatePage]);
+  }, [pages, seoStatuses, updatePage, revalidatePage]);
 
   // ── Stats / filter / sort ───────────────────────────────────────────────────
 

@@ -10,6 +10,7 @@ import AdminBlogTable from "../components/pages/admin/blogs/components/AdminBlog
 import AdminBlogDeleteModal from "../components/pages/admin/blogs/components/AdminBlogDeleteModal";
 import { ADMIN_OCEAN } from "../lib/adminTheme";
 import { callGenerateSeoMetadata, type SeoGenResult } from "../lib/generateSeoMetadata";
+import { getPublicSiteOrigin } from "../lib/publicSiteUrl";
 
 type FilterStatus = "all" | "published" | "draft";
 
@@ -301,6 +302,19 @@ export default function AdminBlogDashboard() {
     }
   }, []);
 
+  const revalidateBlogPost = useCallback(async (slug: string) => {
+    try {
+      const origin = getPublicSiteOrigin();
+      await fetch(`${origin}/api/admin/revalidate`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ path: `/blog/${slug}` }),
+      });
+    } catch {
+      // non-critical
+    }
+  }, []);
+
   const handleApplySeo = useCallback(async (post: BlogPost, result: SeoGenResult) => {
     const { error: updErr } = await supabase
       .from("blog_posts")
@@ -309,11 +323,12 @@ export default function AdminBlogDashboard() {
     if (!updErr) {
       showToast(`SEO saved for "${post.title.slice(0, 40)}${post.title.length > 40 ? "…" : ""}"`);
       setSeoStatuses((prev) => { const n = { ...prev }; delete n[post.id]; return n; });
+      void revalidateBlogPost(post.slug);
       await refetch();
     } else {
       showToast("Failed to save SEO metadata", "error");
     }
-  }, [refetch]);
+  }, [refetch, revalidateBlogPost]);
 
   const handleDismissSeo = useCallback((postId: string) => {
     setSeoStatuses((prev) => { const n = { ...prev }; delete n[postId]; return n; });
@@ -354,13 +369,16 @@ export default function AdminBlogDashboard() {
     for (const p of toApply) {
       const result = seoStatuses[p.id]?.result!;
       const { error: updErr } = await supabase.from("blog_posts").update({ meta_description: result.meta_description }).eq("id", p.id);
-      if (!updErr) saved++;
+      if (!updErr) {
+        saved++;
+        void revalidateBlogPost(p.slug);
+      }
     }
     setSeoStatuses({});
     clearSelection();
     await refetch();
     showToast(`Applied SEO to ${saved} post${saved !== 1 ? "s" : ""}`);
-  }, [posts, seoStatuses, refetch]);
+  }, [posts, seoStatuses, refetch, revalidateBlogPost]);
 
   const handleToggleStatus = async (post: BlogPost) => {
     setTogglingId(post.id);
