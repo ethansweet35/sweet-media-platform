@@ -17,7 +17,8 @@ export default function AdminChrome({
   brandInitial = "A",
 }: AdminChromeProps) {
   const pathname = usePathname();
-  const isLogin = pathname === "/admin/login";
+  const isLogin =
+    pathname === "/admin/login" || pathname === "/admin/login/";
 
   if (isLogin) {
     return <>{children}</>;
