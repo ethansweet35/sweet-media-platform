@@ -431,7 +431,7 @@ export function parseInlineMarkdown(text: string): InlineSegment[] {
 
   while (rem.length > 0) {
     // ***bold italic***
-    const biMatch = rem.match(/^\*\*\*(.+?)\*\*\*/s);
+    const biMatch = rem.match(/^\*\*\*([\s\S]+?)\*\*\*/);
     if (biMatch) {
       segments.push({ type: "bolditalic", content: biMatch[1] });
       rem = rem.slice(biMatch[0].length);
@@ -439,7 +439,7 @@ export function parseInlineMarkdown(text: string): InlineSegment[] {
     }
 
     // **bold**
-    const boldMatch = rem.match(/^\*\*(.+?)\*\*/s);
+    const boldMatch = rem.match(/^\*\*([\s\S]+?)\*\*/);
     if (boldMatch) {
       segments.push({ type: "bold", content: boldMatch[1] });
       rem = rem.slice(boldMatch[0].length);
@@ -447,7 +447,7 @@ export function parseInlineMarkdown(text: string): InlineSegment[] {
     }
 
     // __bold__
-    const bold2Match = rem.match(/^__(.+?)__/s);
+    const bold2Match = rem.match(/^__([\s\S]+?)__/);
     if (bold2Match) {
       segments.push({ type: "bold", content: bold2Match[1] });
       rem = rem.slice(bold2Match[0].length);
@@ -455,7 +455,7 @@ export function parseInlineMarkdown(text: string): InlineSegment[] {
     }
 
     // *italic* (not **)
-    const italicMatch = rem.match(/^\*(?!\*)(.+?)(?<!\*)\*/s);
+    const italicMatch = rem.match(/^\*(?!\*)([\s\S]+?)(?<!\*)\*/);
     if (italicMatch) {
       segments.push({ type: "italic", content: italicMatch[1] });
       rem = rem.slice(italicMatch[0].length);
@@ -463,7 +463,7 @@ export function parseInlineMarkdown(text: string): InlineSegment[] {
     }
 
     // _italic_ (not __)
-    const italic2Match = rem.match(/^_(?!_)(.+?)(?<!_)_/s);
+    const italic2Match = rem.match(/^_(?!_)([\s\S]+?)(?<!_)_/);
     if (italic2Match) {
       segments.push({ type: "italic", content: italic2Match[1] });
       rem = rem.slice(italic2Match[0].length);
