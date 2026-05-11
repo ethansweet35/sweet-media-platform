@@ -1,6 +1,6 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
-  "ignoreCommand": "git diff --quiet $VERCEL_GIT_PREVIOUS_SHA HEAD -- apps/sweet-media/ packages/",
+  "ignoreCommand": "npx turbo-ignore --workspace=@sweetmedia/sweet-media",
   "crons": [
     {
       "path": "/api/admin/surfer/refresh-stale",
