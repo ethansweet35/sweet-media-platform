@@ -2,7 +2,7 @@ import { StatePageConfig } from "@/components/templates/StatePageTemplate";
 
 const BASE = "https://bxtwcdgjzzjxjvqdiuvn.supabase.co/storage/v1/object/public/site-assets/images";
 
-export const STATE_PAGES: Record<string, StatePageConfig> = {
+export const builtInStatePages: Record<string, StatePageConfig> = {
   texas: {
     stateName: "Texas",
     heroImage: `${BASE}/tx_hero01.jpg`,

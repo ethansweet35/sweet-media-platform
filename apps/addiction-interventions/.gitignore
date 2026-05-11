@@ -40,6 +40,9 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
+# Generated state page assets before Supabase upload (see scripts/upload-images-to-supabase.mjs)
+/state-upload-staging/
+
 # Local upload secrets
 .upload.env
 .env.local
