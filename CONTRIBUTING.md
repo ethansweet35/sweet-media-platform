@@ -317,79 +317,40 @@ You need all four to run the provisioning script in Step 1.
 
 ---
 
-### Step 1 — Provision Supabase + scaffold the app (automated, ~10 min)
-
-Pull latest from `main` first:
+### Step 1 — Pull the latest and create a branch
 
 ```bash
-git pull
-```
-
-Create a new branch for the migration:
-
-```bash
+git pull origin main
 git checkout -b migration/acme-recovery
-```
-
-Run the provisioning script (replace values with what Ethan gave you):
-
-```bash
-node scripts/setup-new-client.mjs \
-  --slug  acme-recovery \
-  --name  "Acme Recovery Center" \
-  --url   https://acmerecovery.com \
-  --admin-email admin@acmerecovery.com
-```
-
-This creates the Supabase project, runs the schema, sets up storage, deploys edge functions, and scaffolds `apps/acme-recovery/` from the client template. **Save the output** — it contains the Supabase project ref and keys you'll need next.
-
-Then install dependencies:
-
-```bash
 pnpm install
 ```
 
 ---
 
-### Step 2 — Pull the WordPress content (automated, ~5 min)
+### Step 2 — Hand off to Cursor AI
 
-```bash
-node scripts/migrate-wordpress-content.mjs \
-  --wp-url       https://acmerecovery.com \
-  --site-id      acme-recovery \
-  --supabase-ref <ref from setup output> \
-  --supabase-key <service_role_key from Supabase dashboard>
-```
-
-This migrates all blog posts into Supabase and writes `migration-report-acme-recovery.json` to the repo root — that JSON is your page inventory and build checklist for the rest of the migration.
+Open Cursor and start a new conversation. Paste this prompt with the four values filled in:
 
 ---
 
-### Step 3 — Hand off to Cursor AI
-
-Open Cursor and start a new conversation. Paste this prompt with the client details filled in:
-
----
-
-**Copy this prompt — fill in the three bracketed values:**
+**Copy this prompt — fill in the four bracketed values:**
 
 ```
 I'm migrating [Brand Name] from WordPress to a new app on this platform.
+The WordPress site is at [https://site.com].
+The client slug will be [slug] and the admin email is [admin@email.com].
 
-- App directory: apps/[slug]
-- WordPress URL: [https://site.com]
-- The app has already been scaffolded and blog content has been migrated.
-- The migration report is at migration-report-[slug].json in the repo root.
-
-Please follow the wordpress-migration skill. Start with the design token extraction (Phase 1), then work through the full replicate mode workflow. I want ~95% visual parity with the live WordPress site before we do the DNS cutover.
+Nothing has been set up yet — please follow the wordpress-migration skill
+from the very beginning, starting with Supabase provisioning.
 ```
 
 ---
 
-Cursor will read the `wordpress-migration` skill automatically and guide you through:
+Cursor will read the `wordpress-migration` skill automatically and guide you through every step in order:
+- Supabase provisioning + app scaffold
+- Blog content migration
 - Design token extraction + DevTools color/font verification
 - Visual audit screenshots
-- Design token approval
 - Homepage build (first, always)
 - Inner page builds via the migration report checklist
 - Deployment to Vercel + DNS cutover
