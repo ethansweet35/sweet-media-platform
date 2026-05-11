@@ -3,6 +3,7 @@
 import { useCallback, useState } from "react";
 import { supabase } from "../lib/supabase";
 import type {
+  AuditDetails,
   SurferAuditResponse,
   SurferContentEditorResponse,
   SurferRefreshStaleResponse,
@@ -152,6 +153,20 @@ export function useSurferActions() {
     }
   }, []);
 
+  const fetchAuditDetails = useCallback(async (ref: SurferRowRef): Promise<AuditDetails | null> => {
+    try {
+      const res = await fetch(
+        `/api/admin/surfer/audit?kind=${ref.kind}&id=${encodeURIComponent(ref.id)}`,
+        { cache: "no-store" },
+      );
+      const json = await res.json() as Record<string, unknown>;
+      if (!res.ok) throw new Error(typeof json["error"] === "string" ? json["error"] : "Failed to load details");
+      return json as unknown as AuditDetails;
+    } catch {
+      return null;
+    }
+  }, []);
+
   /** Toggle the writer's "applied Surfer guidance" flag for a row. */
   const setGuidanceApplied = useCallback(
     async (ref: SurferRowRef, applied: boolean): Promise<boolean> => {
@@ -176,6 +191,7 @@ export function useSurferActions() {
     createContentEditor,
     refreshStale,
     setGuidanceApplied,
+    fetchAuditDetails,
     clearRow,
   };
 }

@@ -77,6 +77,23 @@ export function isSurferScoreFresh(
   return Date.now() - ts < maxAgeMs;
 }
 
+/** Full audit details returned by GET /api/admin/surfer/audit */
+export interface AuditCompetitor {
+  url: string;
+  content_score: number | null;
+}
+
+export interface AuditDetails {
+  audit_id: number;
+  state: string;
+  audited_url: string | null;
+  audited_score: number | null;
+  competitors: AuditCompetitor[];
+  competitor_avg: number | null;
+  /** Direct link to this audit in the Surfer app. */
+  surfer_url: string;
+}
+
 /** Public Surfer drafts URL for a Content Editor id. */
 export function surferEditorUrl(id: number | string): string {
   return `https://app.surferseo.com/drafts/${id}`;

@@ -20,6 +20,7 @@ export {
   pollAuditAndPersist,
   createEditorForRow,
   refreshStaleAudits,
+  getAuditDetails,
   type SurferRowKind,
   type KickAuditResult,
   type PollAuditResult,

@@ -18,6 +18,7 @@ import {
   SurferApiError,
   type SurferAuditDetail,
 } from "./surferClient";
+import type { AuditDetails } from "../../types/surfer";
 
 export type SurferRowKind = "blog" | "page";
 
@@ -293,6 +294,42 @@ export async function createEditorForRow(
     permalink_hash: created.permalink_hash,
     drafts_url: `https://app.surferseo.com/drafts/${created.id}`,
     share_url: `https://app.surferseo.com/drafts/s/${created.permalink_hash}`,
+  };
+}
+
+// =========================================================
+// Audit details (competitors + score breakdown)
+// =========================================================
+
+export async function getAuditDetails(
+  kind: SurferRowKind,
+  id: string,
+): Promise<AuditDetails> {
+  const supabase = getServiceRoleClient();
+  const row = await loadRow(supabase, kind, id);
+  if (!row.surfer_audit_id) {
+    throw new SurferApiError("No audit exists for this row yet.", 404, null);
+  }
+  const detail = await getAudit(row.surfer_audit_id);
+  const competitors = (detail.competitors_pages ?? []).map((c) => ({
+    url: c.url,
+    content_score: c.content_score ?? null,
+  }));
+  const scores = competitors
+    .map((c) => c.content_score)
+    .filter((s): s is number => s !== null);
+  const competitor_avg =
+    scores.length > 0
+      ? Math.round(scores.reduce((a, b) => a + b, 0) / scores.length)
+      : null;
+  return {
+    audit_id: row.surfer_audit_id,
+    state: detail.state ?? "unknown",
+    audited_url: detail.audited_page?.url ?? null,
+    audited_score: detail.audited_page?.content_score ?? null,
+    competitors,
+    competitor_avg,
+    surfer_url: `https://app.surferseo.com/audits/${row.surfer_audit_id}`,
   };
 }
 

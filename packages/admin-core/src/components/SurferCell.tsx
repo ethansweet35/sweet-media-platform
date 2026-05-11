@@ -4,33 +4,215 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { useSurferActions } from "../hooks/useSurferActions";
 import {
   surferEditorUrl,
+  type AuditDetails,
   type SurferAuditState,
   type SurferRowFields,
   type SurferRowRef,
 } from "../types/surfer";
 
 export interface SurferCellRow extends SurferRowFields {
-  /** UUID of the underlying row in blog_posts or tracked_pages. */
   id: string;
-  /** Used in error messages. */
   primary_keyword: string | null;
 }
 
 interface SurferCellProps {
   row: SurferCellRow;
   kind: SurferRowRef["kind"];
-  /** Called after a successful Surfer mutation so the parent can refetch. */
   onChange?: () => void | Promise<void>;
-  /** Compact mode hides labels, used inside dense table cells. */
   compact?: boolean;
 }
 
-function scoreBadgeClass(score: number | null | undefined): string {
-  if (score == null) return "bg-neutral-100 text-neutral-400 border-neutral-200";
-  if (score >= 70) return "bg-emerald-50 text-emerald-700 border-emerald-200";
-  if (score >= 50) return "bg-amber-50 text-amber-700 border-amber-200";
-  return "bg-red-50 text-red-700 border-red-200";
+// ── Circular score ring ────────────────────────────────────────────────────
+
+const R = 14;
+const CX = 18;
+const CY = 18;
+const CIRC = 2 * Math.PI * R; // ~87.96
+
+function scoreColor(score: number | null): string {
+  if (score == null) return "#d1d5db";
+  if (score >= 70) return "#10b981";
+  if (score >= 50) return "#f59e0b";
+  return "#ef4444";
 }
+
+function CircleRing({
+  score,
+  spinning,
+}: {
+  score: number | null;
+  spinning?: boolean;
+}) {
+  const pct = score != null ? Math.min(100, Math.max(0, score)) / 100 : 0;
+  const offset = CIRC * (1 - pct);
+  const color = scoreColor(score);
+
+  return (
+    <svg
+      width="36"
+      height="36"
+      viewBox="0 0 36 36"
+      className={spinning ? "animate-spin" : ""}
+      style={{ flexShrink: 0 }}
+    >
+      {/* Track */}
+      <circle cx={CX} cy={CY} r={R} fill="none" stroke="#e5e7eb" strokeWidth="3" />
+      {/* Progress arc */}
+      {score != null && (
+        <circle
+          cx={CX}
+          cy={CY}
+          r={R}
+          fill="none"
+          stroke={color}
+          strokeWidth="3"
+          strokeDasharray={CIRC}
+          strokeDashoffset={offset}
+          strokeLinecap="round"
+          transform={`rotate(-90 ${CX} ${CY})`}
+          style={{ transition: "stroke-dashoffset 0.6s ease, stroke 0.4s ease" }}
+        />
+      )}
+      {/* Center label */}
+      <text
+        x={CX}
+        y={CY + 0.5}
+        textAnchor="middle"
+        dominantBaseline="middle"
+        fontSize="9"
+        fontWeight="700"
+        fill={spinning ? "#9ca3af" : color}
+      >
+        {spinning ? "…" : score != null ? score : "—"}
+      </text>
+    </svg>
+  );
+}
+
+// ── "See Why" details popover ──────────────────────────────────────────────
+
+function DetailsPopover({
+  details,
+  loading,
+  onClose,
+}: {
+  details: AuditDetails | null;
+  loading: boolean;
+  onClose: () => void;
+}) {
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handler = (e: MouseEvent) => {
+      if (ref.current && !ref.current.contains(e.target as Node)) onClose();
+    };
+    document.addEventListener("mousedown", handler);
+    return () => document.removeEventListener("mousedown", handler);
+  }, [onClose]);
+
+  return (
+    <div
+      ref={ref}
+      className="absolute left-0 top-full z-50 mt-1 w-64 rounded-xl border border-neutral-200 bg-white p-4 shadow-lg"
+    >
+      {loading && (
+        <div className="flex items-center gap-2 text-xs text-neutral-400">
+          <i className="ri-loader-4-line animate-spin" />
+          Loading audit details…
+        </div>
+      )}
+      {!loading && !details && (
+        <p className="text-xs text-neutral-400">Could not load audit details.</p>
+      )}
+      {!loading && details && (
+        <>
+          {/* Score comparison */}
+          <div className="mb-3 grid grid-cols-2 gap-2">
+            <div className="rounded-lg bg-neutral-50 p-2 text-center">
+              <p className="text-[10px] font-semibold uppercase tracking-wide text-neutral-400">
+                Your Score
+              </p>
+              <p
+                className="text-xl font-bold"
+                style={{ color: scoreColor(details.audited_score) }}
+              >
+                {details.audited_score ?? "—"}
+              </p>
+            </div>
+            <div className="rounded-lg bg-neutral-50 p-2 text-center">
+              <p className="text-[10px] font-semibold uppercase tracking-wide text-neutral-400">
+                Comp. Avg
+              </p>
+              <p
+                className="text-xl font-bold"
+                style={{ color: scoreColor(details.competitor_avg) }}
+              >
+                {details.competitor_avg ?? "—"}
+              </p>
+            </div>
+          </div>
+
+          {/* Gap indicator */}
+          {details.audited_score != null && details.competitor_avg != null && (
+            <p className="mb-3 text-[11px] leading-snug text-neutral-500">
+              {details.audited_score >= details.competitor_avg ? (
+                <span className="font-semibold text-emerald-600">
+                  +{details.audited_score - details.competitor_avg} pts above avg
+                </span>
+              ) : (
+                <>
+                  <span className="font-semibold text-red-500">
+                    {details.competitor_avg - details.audited_score} pts below avg
+                  </span>
+                  {" — optimize with a Content Editor to close the gap."}
+                </>
+              )}
+            </p>
+          )}
+
+          {/* Competitor list */}
+          {details.competitors.length > 0 && (
+            <div className="mb-3">
+              <p className="mb-1.5 text-[10px] font-semibold uppercase tracking-wide text-neutral-400">
+                Top Competitors
+              </p>
+              <ul className="space-y-1">
+                {details.competitors.slice(0, 5).map((c, i) => (
+                  <li key={i} className="flex items-center justify-between gap-2">
+                    <span
+                      className="truncate text-[11px] text-neutral-500"
+                      title={c.url}
+                    >
+                      {new URL(c.url).hostname.replace(/^www\./, "")}
+                    </span>
+                    <span
+                      className="shrink-0 text-[11px] font-bold"
+                      style={{ color: scoreColor(c.content_score) }}
+                    >
+                      {c.content_score ?? "—"}
+                    </span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+
+          <a
+            href={details.surfer_url}
+            target="_blank"
+            rel="noreferrer noopener"
+            className="flex items-center justify-center gap-1.5 rounded-lg border border-[#3d6f7f]/30 bg-[#3d6f7f]/5 py-1.5 text-[11px] font-semibold text-[#3d6f7f] transition hover:bg-[#3d6f7f]/10"
+          >
+            <i className="ri-external-link-line text-xs" />
+            View full audit in Surfer
+          </a>
+        </>
+      )}
+    </div>
+  );
+}
+
+// ── Main cell ──────────────────────────────────────────────────────────────
 
 function relativeAge(iso: string | null): string {
   if (!iso) return "never";
@@ -46,13 +228,6 @@ function relativeAge(iso: string | null): string {
   return `${Math.round(days / 30)}mo ago`;
 }
 
-/**
- * Renders the Surfer SEO column for a blog or tracked-page row:
- *   - Live content score badge
- *   - "Linked"/"Create editor" indicator + button
- *   - "Applied" checkbox the writer ticks when they've optimized the content
- *   - Refresh + Open-in-Surfer actions
- */
 export default function SurferCell({ row, kind, onChange, compact = false }: SurferCellProps) {
   const ref: SurferRowRef = { kind, id: row.id };
   const {
@@ -61,6 +236,7 @@ export default function SurferCell({ row, kind, onChange, compact = false }: Sur
     pollAudit,
     createContentEditor,
     setGuidanceApplied,
+    fetchAuditDetails,
   } = useSurferActions();
   const rowKey = `${kind}:${row.id}`;
   const action = states[rowKey];
@@ -69,12 +245,16 @@ export default function SurferCell({ row, kind, onChange, compact = false }: Sur
   const isScheduled = auditState === "scheduled";
   const hasEditor = !!row.surfer_content_editor_id;
   const score = row.surfer_content_score;
+  const hasScore = score != null;
 
   const [optimisticApplied, setOptimisticApplied] = useState<boolean | null>(null);
-  const applied =
-    optimisticApplied !== null ? optimisticApplied : row.surfer_guidance_applied;
+  const applied = optimisticApplied !== null ? optimisticApplied : row.surfer_guidance_applied;
 
-  // ── Auto-poll while audit is scheduled ────────────────────────────────────
+  const [showDetails, setShowDetails] = useState(false);
+  const [details, setDetails] = useState<AuditDetails | null>(null);
+  const [detailsLoading, setDetailsLoading] = useState(false);
+
+  // ── Auto-poll while scheduled ────────────────────────────────────────────
   const pollTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   useEffect(() => {
     if (!isScheduled || !row.surfer_audit_id) return;
@@ -85,10 +265,7 @@ export default function SurferCell({ row, kind, onChange, compact = false }: Sur
       const r = await pollAudit(ref);
       if (cancelled) return;
       if (!r) return;
-      if (r.completed) {
-        await onChange?.();
-        return;
-      }
+      if (r.completed) { await onChange?.(); return; }
       if (attempts >= 24) return;
       pollTimerRef.current = setTimeout(tick, 30_000);
     };
@@ -97,38 +274,38 @@ export default function SurferCell({ row, kind, onChange, compact = false }: Sur
       cancelled = true;
       if (pollTimerRef.current) clearTimeout(pollTimerRef.current);
     };
-    // We intentionally only react to audit changes for this row.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isScheduled, row.surfer_audit_id]);
 
   const handleRefresh = useCallback(async () => {
     const result = await kickAudit(ref);
-    if (result?.ok) {
-      await onChange?.();
-    }
+    if (result?.ok) await onChange?.();
   }, [kickAudit, onChange, ref]);
 
   const handleCreateEditor = useCallback(async () => {
     if (!row.primary_keyword?.trim()) return;
     const r = await createContentEditor(ref);
-    if (r?.ok) {
-      await onChange?.();
-    }
+    if (r?.ok) await onChange?.();
   }, [createContentEditor, onChange, ref, row.primary_keyword]);
 
-  const handleToggleApplied = useCallback(
-    async (next: boolean) => {
-      setOptimisticApplied(next);
-      const ok = await setGuidanceApplied(ref, next);
-      if (!ok) {
-        setOptimisticApplied(!next);
-        return;
-      }
-      setOptimisticApplied(null);
-      await onChange?.();
-    },
-    [onChange, ref, setGuidanceApplied],
-  );
+  const handleToggleApplied = useCallback(async (next: boolean) => {
+    setOptimisticApplied(next);
+    const ok = await setGuidanceApplied(ref, next);
+    if (!ok) { setOptimisticApplied(!next); return; }
+    setOptimisticApplied(null);
+    await onChange?.();
+  }, [onChange, ref, setGuidanceApplied]);
+
+  const handleShowDetails = useCallback(async () => {
+    if (showDetails) { setShowDetails(false); return; }
+    setShowDetails(true);
+    if (!details) {
+      setDetailsLoading(true);
+      const d = await fetchAuditDetails(ref);
+      setDetails(d);
+      setDetailsLoading(false);
+    }
+  }, [details, fetchAuditDetails, ref, showDetails]);
 
   const noKeyword = !row.primary_keyword?.trim();
   const statusTitle =
@@ -137,20 +314,24 @@ export default function SurferCell({ row, kind, onChange, compact = false }: Sur
       : `Score: ${score ?? "—"} · Updated ${relativeAge(row.surfer_score_updated_at)}`;
 
   return (
-    <div className={`flex items-center gap-2 ${compact ? "" : "min-w-[260px]"}`}>
-      {/* Score badge */}
+    <div className={`relative flex items-center gap-2 ${compact ? "" : "min-w-[280px]"}`}>
+      {/* Circular score ring — click to open details if score exists */}
       <div
-        title={statusTitle}
-        className={`inline-flex items-center justify-center min-w-[42px] h-7 px-2 rounded-lg border text-[12px] font-bold tracking-tight ${scoreBadgeClass(score)}`}
+        className={hasScore ? "cursor-pointer" : ""}
+        title={hasScore ? "Click to see audit details" : statusTitle}
+        onClick={hasScore ? () => void handleShowDetails() : undefined}
       >
-        {isScheduled ? (
-          <i className="ri-loader-4-line animate-spin text-sm" />
-        ) : score != null ? (
-          score
-        ) : (
-          "—"
-        )}
+        <CircleRing score={score} spinning={isScheduled || action?.status === "loading"} />
       </div>
+
+      {/* Details popover */}
+      {showDetails && (
+        <DetailsPopover
+          details={details}
+          loading={detailsLoading}
+          onClose={() => setShowDetails(false)}
+        />
+      )}
 
       {/* Linked vs No editor */}
       {hasEditor ? (
@@ -187,14 +368,14 @@ export default function SurferCell({ row, kind, onChange, compact = false }: Sur
         </button>
       )}
 
-      {/* Applied checkbox — only meaningful once an editor exists */}
+      {/* Applied */}
       <label
         className={`inline-flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-[0.08em] ${
           hasEditor ? "text-neutral-600 cursor-pointer" : "text-neutral-300 cursor-not-allowed"
         }`}
         title={
           hasEditor
-            ? "Mark when this page has been rewritten using the Surfer Content Editor's recommendations"
+            ? "Mark when this page has been rewritten using Surfer Content Editor recommendations"
             : "Available once a Surfer Content Editor is linked"
         }
       >
@@ -231,7 +412,7 @@ export default function SurferCell({ row, kind, onChange, compact = false }: Sur
         />
       </button>
 
-      {/* Inline error tag */}
+      {/* Inline error */}
       {action?.status === "error" && action.error && (
         <span
           title={action.error}
