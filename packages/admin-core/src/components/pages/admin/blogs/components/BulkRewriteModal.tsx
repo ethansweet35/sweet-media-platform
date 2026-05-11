@@ -93,7 +93,16 @@ export default function BulkRewriteModal({ posts, onClose, onComplete }: BulkRew
           }),
         });
 
-        const json = await res.json() as Record<string, unknown>;
+        let json: Record<string, unknown>;
+        try {
+          json = await res.json() as Record<string, unknown>;
+        } catch {
+          throw new Error(
+            res.status === 504
+              ? "Request timed out — try a shorter word count."
+              : `Server returned an empty response (HTTP ${res.status}).`,
+          );
+        }
         if (!res.ok || !json.ok) {
           throw new Error(typeof json.error === "string" ? json.error : "Generation failed.");
         }

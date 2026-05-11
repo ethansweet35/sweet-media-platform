@@ -1,6 +1,9 @@
 import { NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
 
+// Allow up to 5 minutes — AI generation can take 60–120 s for long posts
+export const maxDuration = 300;
+
 const MAX_KB_CHARS = 40_000;
 const DEFAULT_MODEL = "anthropic/claude-sonnet-4.6";
 const ALLOWED_MODELS = new Set([
@@ -217,7 +220,8 @@ export async function POST(request: Request) {
       ],
       max_tokens: 12000,
       temperature: 0.4,
-      response_format: { type: "json_object" },
+      // Note: response_format json_object is OpenAI-specific; omit for cross-model compat.
+      // The system prompt already instructs the model to return only valid JSON.
     }),
   });
 

@@ -74,7 +74,16 @@ export default function AiRewritePanel({
           model,
         }),
       });
-      const json = await res.json() as Record<string, unknown>;
+      let json: Record<string, unknown>;
+      try {
+        json = await res.json() as Record<string, unknown>;
+      } catch {
+        throw new Error(
+          res.status === 504
+            ? "Request timed out — try a shorter word count or smaller Surfer guidelines file."
+            : `Server returned an empty response (HTTP ${res.status}). Check that OPENROUTER_API_KEY is set in Vercel.`,
+        );
+      }
       if (!res.ok || !json.ok) {
         throw new Error(typeof json.error === "string" ? json.error : "Generation failed.");
       }
