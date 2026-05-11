@@ -7,6 +7,7 @@ import type { BlogSection } from "@sweetmedia/blog-core";
 import BlogEditorHeader from "../components/pages/admin/blog-edit/components/BlogEditorHeader";
 import BlogEditorSidebar from "../components/pages/admin/blog-edit/components/BlogEditorSidebar";
 import ContentBlockEditor from "../components/pages/admin/blog-edit/components/ContentBlockEditor";
+import AiRewritePanel, { type RewriteResult } from "../components/pages/admin/blog-edit/components/AiRewritePanel";
 import { supabase } from "../lib/supabase";
 import { canonicalBlogPostUrl } from "../lib/publicSiteUrl";
 
@@ -58,6 +59,7 @@ export default function BlogEditPage() {
   const [hasChanges, setHasChanges] = useState(false);
   const [toast, setToast] = useState<{ message: string; type: "success" | "error" } | null>(null);
   const [slugError, setSlugError] = useState<string | null>(null);
+  const [aiPanelOpen, setAiPanelOpen] = useState(false);
   const initializedRef = useRef(false);
 
   // Populate form when post loads
@@ -195,6 +197,19 @@ export default function BlogEditPage() {
     window.open(`/blog/${form.slug}`, "_blank");
   };
 
+  const handleAiApply = (result: RewriteResult) => {
+    setForm((prev) => ({
+      ...prev,
+      title: result.title,
+      excerpt: result.excerpt,
+      metaDescription: result.metaDescription,
+    }));
+    setBlocks(result.content);
+    setHasChanges(true);
+    setSaved(false);
+    showToast("AI rewrite applied — review and save when ready");
+  };
+
   // Loading state
   if (loading) {
     return (
@@ -248,7 +263,18 @@ export default function BlogEditPage() {
         onBack={() => router.push("/admin/blogs")}
         onSave={handleSave}
         onPreview={handlePreview}
+        onAiRewrite={() => setAiPanelOpen(true)}
       />
+
+      {aiPanelOpen && (
+        <AiRewritePanel
+          initialTopic={form.title}
+          initialKeyword={form.focusKeyword}
+          initialCategory={form.category}
+          onApply={handleAiApply}
+          onClose={() => setAiPanelOpen(false)}
+        />
+      )}
 
       <div className="max-w-screen-xl mx-auto px-6 py-8">
         <div className="flex gap-6 items-start">

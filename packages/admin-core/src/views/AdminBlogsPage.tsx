@@ -9,6 +9,7 @@ import { supabase } from "../lib/supabase";
 import type { BlogPost } from "@sweetmedia/blog-core";
 import AdminBlogTable from "../components/pages/admin/blogs/components/AdminBlogTable";
 import AdminBlogDeleteModal from "../components/pages/admin/blogs/components/AdminBlogDeleteModal";
+import BulkRewriteModal from "../components/pages/admin/blogs/components/BulkRewriteModal";
 import { ADMIN_OCEAN } from "../lib/adminTheme";
 import { callGenerateSeoMetadata, type SeoGenResult } from "../lib/generateSeoMetadata";
 import { getPublicSiteOrigin } from "../lib/publicSiteUrl";
@@ -113,6 +114,7 @@ export default function AdminBlogDashboard() {
   type SeoStatus = { status: "generating" | "done" | "error"; result?: SeoGenResult; error?: string };
   const [seoStatuses, setSeoStatuses] = useState<Record<string, SeoStatus>>({});
   const [bulkSeoRunning, setBulkSeoRunning] = useState(false);
+  const [bulkRewriteOpen, setBulkRewriteOpen] = useState(false);
   const [bulkSeoProgress, setBulkSeoProgress] = useState({ done: 0, total: 0 });
   const seoAbortRef = useRef(false);
 
@@ -671,6 +673,15 @@ export default function AdminBlogDashboard() {
                 </button>
               )}
 
+              {/* Bulk AI Rewrite */}
+              <button
+                onClick={() => setBulkRewriteOpen(true)}
+                className="flex items-center gap-1.5 bg-violet-500 hover:bg-violet-400 text-white text-[11px] tracking-[0.12em] uppercase font-bold px-4 py-2 rounded-xl transition-colors cursor-pointer whitespace-nowrap"
+              >
+                <i className="ri-sparkling-2-line text-xs"></i>
+                AI Rewrite
+              </button>
+
               {/* Deselect */}
               <button
                 onClick={clearSelection}
@@ -849,6 +860,15 @@ export default function AdminBlogDashboard() {
           </>
         )}
       </div>
+
+      {/* Bulk Rewrite Modal */}
+      {bulkRewriteOpen && (
+        <BulkRewriteModal
+          posts={posts.filter((p) => selectedIds.has(p.id))}
+          onClose={() => setBulkRewriteOpen(false)}
+          onComplete={() => { setBulkRewriteOpen(false); void refetch(); }}
+        />
+      )}
 
       {/* Delete Modal */}
       {deletingPost && (

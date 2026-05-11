@@ -7,6 +7,7 @@ interface BlogEditorHeaderProps {
   onBack: () => void;
   onSave: () => void;
   onPreview: () => void;
+  onAiRewrite: () => void;
 }
 
 export default function BlogEditorHeader({
@@ -18,6 +19,7 @@ export default function BlogEditorHeader({
   onBack,
   onSave,
   onPreview,
+  onAiRewrite,
 }: BlogEditorHeaderProps) {
   return (
     <header className="bg-white border-b border-neutral-100 sticky top-0 z-30">
@@ -61,6 +63,13 @@ export default function BlogEditorHeader({
 
         {/* Actions */}
         <div className="flex items-center gap-2 flex-shrink-0">
+          <button
+            onClick={onAiRewrite}
+            className="flex items-center gap-1.5 border border-violet-200 text-violet-600 text-[11px] tracking-[0.12em] uppercase font-bold px-4 py-2 rounded-xl hover:bg-violet-50 hover:border-violet-300 transition-colors cursor-pointer whitespace-nowrap"
+          >
+            <i className="ri-sparkling-2-line text-xs"></i>
+            AI Rewrite
+          </button>
           <button
             onClick={onPreview}
             className="flex items-center gap-1.5 border border-neutral-200 text-neutral-600 text-[11px] tracking-[0.12em] uppercase font-bold px-4 py-2 rounded-xl hover:border-neutral-300 transition-colors cursor-pointer whitespace-nowrap"

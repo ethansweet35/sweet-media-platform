@@ -1,0 +1,259 @@
+import { NextResponse } from "next/server";
+import { createClient } from "@supabase/supabase-js";
+
+const MAX_KB_CHARS = 40_000;
+const DEFAULT_MODEL = "anthropic/claude-sonnet-4.6";
+const ALLOWED_MODELS = new Set([
+  "anthropic/claude-sonnet-4.6",
+  "anthropic/claude-opus-4.7",
+  "openai/gpt-5.5-pro",
+  "openai/gpt-5.4-mini",
+  "google/gemini-pro-latest",
+]);
+
+function resolveModel(raw: unknown): string {
+  if (typeof raw !== "string" || !raw.trim()) return DEFAULT_MODEL;
+  return ALLOWED_MODELS.has(raw.trim()) ? raw.trim() : DEFAULT_MODEL;
+}
+
+function stripCodeFences(raw: string): string {
+  let s = raw.trim();
+  s = s.replace(/^```(?:json)?\s*\n?/i, "").replace(/\n?```\s*$/i, "").trim();
+  return s;
+}
+
+function repairJson(s: string): string {
+  let t = s.trim();
+  const start = t.indexOf("{");
+  if (start === -1) return t;
+  t = t.slice(start);
+  let depth = 0, end = -1;
+  for (let i = 0; i < t.length; i++) {
+    const c = t[i];
+    if (c === '"') {
+      i++;
+      while (i < t.length) {
+        if (t[i] === "\\" && i + 1 < t.length) { i += 2; continue; }
+        if (t[i] === '"') break;
+        i++;
+      }
+      continue;
+    }
+    if (c === "{") depth++;
+    else if (c === "}") { depth--; if (depth === 0) { end = i; break; } }
+  }
+  if (end !== -1) return t.slice(0, end + 1);
+  const need = Math.max(0, (t.match(/\{/g) ?? []).length - (t.match(/\}/g) ?? []).length);
+  return need > 0 ? t + "}".repeat(need) : t;
+}
+
+function normalizeBlocks(content: unknown): unknown[] {
+  if (!Array.isArray(content)) return [];
+  return content.map((block) => {
+    if (!block || typeof block !== "object") return block;
+    const b = block as Record<string, unknown>;
+    if (b.type === "callout" && b.variant === "info") return { ...b, variant: "insight" };
+    return b;
+  });
+}
+
+function buildSystemPrompt(knowledgeBaseBlock: string): string {
+  return `You are an expert SEO content writer for behavioral health treatment centers, with deep knowledge of behavioral health, addiction treatment, mental health therapy, and recovery services.
+
+Use the following knowledge base as the authoritative reference for brand voice, services, and approved proof points.
+
+[KNOWLEDGE BASE]
+${knowledgeBaseBlock || "(none provided)"}
+[END KNOWLEDGE BASE]
+
+NON-NEGOTIABLE RULES:
+
+1. COMPLIANCE & LANGUAGE
+- Use person-first language: "people in recovery," "people with substance use disorder." Never "addicts" or "drug abusers."
+- Never provide medical advice, guarantee clinical outcomes, or fabricate statistics.
+- Never claim anything is "HIPAA compliant" — use "HIPAA-aware" or "privacy-conscious."
+
+2. FORMATTING
+- Do not use bold text in body content.
+- Use lists sparingly (3–7 items max). Most sections should be prose.
+- Reserve tables for comparing strategies, metrics, or options.
+- Use pullquotes only for genuinely insightful key takeaways.
+
+3. STRUCTURE
+- Open with a strong 2+ paragraph introduction naming the problem and previewing the solution.
+- Use H2 sections to build a logical argument. H3 only when nested detail is needed.
+- Include a FAQ section near the end with 4–6 realistic questions as H3 headings with paragraph answers.
+- End with a closing CTA paragraph.
+
+4. SEO
+- The primary keyword must appear in the title, meta description, first paragraph, and at least one H2.
+- Include 2–5 external links to credible sources (.gov, .edu, SAMHSA, NIDA, ASAM, JAMA, Forbes). Use descriptive anchor text via [anchor](https://url) markdown.
+- Do NOT include internal links — those are added by a separate tool.
+
+5. OUTPUT FORMAT
+Output ONLY a valid JSON object conforming to this shape:
+{
+  "title": "string — SEO-optimized, includes primary keyword, under 70 chars",
+  "excerpt": "string under 160 chars",
+  "metaDescription": "string under 155 chars, includes primary keyword",
+  "content": [
+    { "type": "paragraph", "text": "..." },
+    { "type": "h2", "text": "..." },
+    { "type": "h3", "text": "..." },
+    { "type": "list", "items": ["...", "..."] },
+    { "type": "numbered", "items": ["...", "..."] },
+    { "type": "pullquote", "text": "..." },
+    { "type": "callout", "text": "...", "variant": "warning|tip|insight" },
+    { "type": "stat-row", "stats": [{ "value": "...", "label": "..." }] },
+    { "type": "divider" },
+    { "type": "table", "tableHeaders": ["..."], "tableRows": [["..."]] }
+  ]
+}
+No markdown fences. No preamble. No trailing commentary.`;
+}
+
+function buildUserMessage(opts: {
+  topic: string;
+  primaryKeyword: string;
+  category?: string;
+  tone?: string;
+  targetWordCount?: number;
+  audience?: string;
+  customInstructions?: string;
+  surferGuidelines?: string;
+}): string {
+  const parts: string[] = [
+    `Topic: ${opts.topic}`,
+    `Primary keyword: ${opts.primaryKeyword}`,
+    opts.category ? `Category: ${opts.category}` : `Category: let AI decide based on topic`,
+    opts.tone ? `Tone: ${opts.tone}` : `Tone: authoritative but compassionate, evidence-based`,
+    `Target word count: ${opts.targetWordCount ?? 2000}`,
+    opts.audience ? `Audience: ${opts.audience}` : `Audience: individuals or families seeking treatment, or treatment center staff`,
+  ];
+
+  if (opts.surferGuidelines?.trim()) {
+    parts.push(
+      `\nSURFER SEO GUIDELINES (follow these NLP terms, word count targets, and structure requirements closely to maximize content score):\n${opts.surferGuidelines.trim().slice(0, 12000)}`,
+    );
+  }
+
+  if (opts.customInstructions?.trim()) {
+    parts.push(`\nAdditional instructions:\n${opts.customInstructions.trim()}`);
+  }
+
+  parts.push(`\nGenerate the blog post now. Output only the JSON object as specified.`);
+  return parts.join("\n");
+}
+
+export async function POST(request: Request) {
+  const apiKey = process.env.OPENROUTER_API_KEY;
+  if (!apiKey) {
+    return NextResponse.json({ error: "OPENROUTER_API_KEY is not configured." }, { status: 500 });
+  }
+
+  let body: Record<string, unknown>;
+  try {
+    body = await request.json();
+  } catch {
+    return NextResponse.json({ error: "Invalid JSON body." }, { status: 400 });
+  }
+
+  const topic = typeof body.topic === "string" ? body.topic.trim() : "";
+  const primaryKeyword = typeof body.primaryKeyword === "string" ? body.primaryKeyword.trim() : "";
+  if (!topic || !primaryKeyword) {
+    return NextResponse.json({ error: "topic and primaryKeyword are required." }, { status: 400 });
+  }
+
+  const category = typeof body.category === "string" ? body.category : undefined;
+  const tone = typeof body.tone === "string" ? body.tone : undefined;
+  const targetWordCount = typeof body.targetWordCount === "number" ? body.targetWordCount : undefined;
+  const audience = typeof body.audience === "string" ? body.audience : undefined;
+  const customInstructions = typeof body.customInstructions === "string" ? body.customInstructions : undefined;
+  const surferGuidelines = typeof body.surferGuidelines === "string" ? body.surferGuidelines : undefined;
+  const model = resolveModel(body.model);
+
+  // Fetch brand knowledge base
+  let knowledgeBaseBlock = "";
+  try {
+    const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL ?? "";
+    const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY ?? "";
+    if (supabaseUrl && serviceKey) {
+      const adminClient = createClient(supabaseUrl, serviceKey, {
+        auth: { autoRefreshToken: false, persistSession: false },
+      });
+      const { data: kbRows } = await adminClient
+        .from("blog_knowledge_base")
+        .select("title, content")
+        .eq("is_active", true);
+      if (kbRows && kbRows.length > 0) {
+        for (const row of kbRows as { title?: string; content?: string }[]) {
+          knowledgeBaseBlock += `## ${row.title ?? ""}\n${row.content ?? ""}\n\n`;
+        }
+        if (knowledgeBaseBlock.length > MAX_KB_CHARS) {
+          knowledgeBaseBlock = knowledgeBaseBlock.slice(0, MAX_KB_CHARS);
+        }
+      }
+    }
+  } catch (err) {
+    console.warn("[rewrite-blog-post] knowledge base fetch failed (continuing without):", err);
+  }
+
+  const systemPrompt = buildSystemPrompt(knowledgeBaseBlock);
+  const userMessage = buildUserMessage({ topic, primaryKeyword, category, tone, targetWordCount, audience, customInstructions, surferGuidelines });
+
+  const orRes = await fetch("https://openrouter.ai/api/v1/chat/completions", {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${apiKey}`,
+      "Content-Type": "application/json",
+      "HTTP-Referer": process.env.NEXT_PUBLIC_SITE_URL ?? "https://northboundtreatment.com",
+      "X-Title": "Northbound Treatment Admin — Blog Rewriter",
+    },
+    body: JSON.stringify({
+      model,
+      messages: [
+        { role: "system", content: systemPrompt },
+        { role: "user", content: userMessage },
+      ],
+      max_tokens: 12000,
+      temperature: 0.4,
+      response_format: { type: "json_object" },
+    }),
+  });
+
+  if (!orRes.ok) {
+    const errText = await orRes.text();
+    return NextResponse.json({ error: `AI model error: ${errText.slice(0, 400)}` }, { status: 502 });
+  }
+
+  const orJson = await orRes.json() as Record<string, unknown>;
+  const mc = (orJson?.choices as unknown[])?.[0];
+  const rawContent: string = ((mc as Record<string, unknown>)?.message as Record<string, unknown>)?.content as string ?? "";
+
+  if (!rawContent) {
+    return NextResponse.json({ error: "AI returned an empty response." }, { status: 502 });
+  }
+
+  let parsed: Record<string, unknown>;
+  try {
+    const stripped = stripCodeFences(rawContent);
+    parsed = JSON.parse(stripped) as Record<string, unknown>;
+  } catch {
+    try {
+      parsed = JSON.parse(repairJson(stripCodeFences(rawContent))) as Record<string, unknown>;
+    } catch {
+      return NextResponse.json({ error: "Failed to parse AI-generated JSON.", raw: rawContent.slice(0, 2000) }, { status: 502 });
+    }
+  }
+
+  const title = String(parsed.title ?? "").trim();
+  const excerpt = String(parsed.excerpt ?? "").trim();
+  const metaDescription = String(parsed.metaDescription ?? parsed.meta_description ?? "").trim();
+  const content = normalizeBlocks(parsed.content);
+
+  if (!title || content.length === 0) {
+    return NextResponse.json({ error: "AI response missing title or content blocks." }, { status: 502 });
+  }
+
+  return NextResponse.json({ ok: true, title, excerpt, metaDescription, content });
+}
