@@ -1,0 +1,80 @@
+@import "tailwindcss";
+
+@source "../**/*.{js,ts,jsx,tsx,mdx}";
+@source "../../src/**/*.{js,ts,jsx,tsx,mdx}";
+@source "../../../../packages/admin-core/src/**/*.{js,ts,jsx,tsx}";
+
+/* ─── Rize OC Design Tokens ──────────────────────────────────────────────── */
+
+/*
+ * @theme registers tokens as Tailwind v4 utilities AND CSS custom properties.
+ * Naming convention → Tailwind utility mapping:
+ *   --color-ink        → bg-ink, text-ink, border-ink  (+ opacity: text-ink/60, etc.)
+ *   --color-accent     → bg-accent, text-accent, border-accent
+ *   --color-warm       → bg-warm, text-warm, border-warm
+ *   --color-soft       → bg-soft, text-soft, border-soft
+ *   --color-muted      → bg-muted, text-muted, border-muted
+ *   --color-cream      → bg-cream, text-cream
+ *   --color-cream-nav  → bg-cream-nav
+ *   --color-cream-tile → bg-cream-tile
+ *   --color-cream-alt  → bg-cream-alt
+ */
+@theme {
+  /* ── Brand palette ─────────────────────────────── */
+  --color-ink:        #2C302E;   /* primary charcoal — text, fills, borders */
+  --color-accent:     #D98A53;   /* amber orange — eyebrows, icons, CTAs */
+  --color-warm:       #D4CFC9;   /* warm stone — dividers, card borders */
+  --color-soft:       #E8E4DF;   /* lighter warm — nav borders, tile borders */
+  --color-muted:      #7C898B;   /* blue-gray — secondary text, icon tints */
+
+  /* ── Background surfaces ───────────────────────── */
+  --color-cream:      #F4F2EF;   /* warm cream — primary section background */
+  --color-cream-nav:  #F8F6F3;   /* lightest cream — navbar + hero shell */
+  --color-cream-tile: #FAF9F7;   /* near-white — feature tile backgrounds */
+  --color-cream-alt:  #F0EDEA;   /* warm off-white — insurance verify block */
+  --color-alt:        #F4F4F6;   /* neutral gray-white — day section callout bg */
+
+  /* ── Typography ────────────────────────────────── */
+  --font-display: var(--font-cormorant, "Cormorant Garamond", Georgia, serif);
+  --font-body:    var(--font-montserrat, "Montserrat", system-ui, sans-serif);
+
+  /* ── Spacing ───────────────────────────────────── */
+  --spacing-section: 6.25rem;    /* 100px — standard section vertical padding */
+}
+
+/*
+ * :root keeps non-Tailwind CSS custom properties that are consumed
+ * directly in CSS rules below (body, h1-h6) or by the legacy token names.
+ */
+:root {
+  --color-bg:     #FEFEFE;
+  --color-text:   #2C302E;
+  --max-width:    1300px;
+  --radius-sm:    3px;
+  --radius-md:    3px;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  background: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-body);
+  font-weight: 300;
+  line-height: 1.625;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-display);
+  font-weight: 400;
+  line-height: 1.1;
+  letter-spacing: 0em;
+}
+
+button, a {
+  transition: all 180ms ease;
+}
