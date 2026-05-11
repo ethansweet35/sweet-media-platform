@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useState } from "react";
+import { useState, useRef, useCallback } from "react";
 import { ADMIN_OCEAN } from "../../../../../lib/adminTheme";
 import type { BlogPost } from "@sweetmedia/blog-core";
 import type { SeoGenResult } from "../../../../../lib/generateSeoMetadata";
@@ -81,6 +81,52 @@ export default function AdminBlogTable({
   const [sortField, setSortField] = useState<SortField>("date");
   const [sortDir, setSortDir] = useState<SortDir>("desc");
 
+  // ── Resizable columns ──────────────────────────────────────────────────────
+  const [colWidths, setColWidths] = useState({
+    check: 40, title: 280, category: 110, author: 130,
+    date: 110, status: 100, autopublish: 80, surfer: 320, added: 110, actions: 220,
+  });
+  const resizeRef = useRef<{ col: keyof typeof colWidths; startX: number; startW: number } | null>(null);
+
+  const startResize = useCallback((col: keyof typeof colWidths, e: React.MouseEvent) => {
+    e.preventDefault();
+    resizeRef.current = { col, startX: e.clientX, startW: colWidths[col] };
+    const onMove = (me: MouseEvent) => {
+      if (!resizeRef.current) return;
+      const w = Math.max(60, resizeRef.current.startW + (me.clientX - resizeRef.current.startX));
+      setColWidths((p) => ({ ...p, [resizeRef.current!.col]: w }));
+    };
+    const onUp = () => {
+      resizeRef.current = null;
+      document.removeEventListener("mousemove", onMove);
+      document.removeEventListener("mouseup", onUp);
+    };
+    document.addEventListener("mousemove", onMove);
+    document.addEventListener("mouseup", onUp);
+  }, [colWidths]);
+
+  const tableWidth = Object.values(colWidths).reduce((a, b) => a + b, 0);
+
+  const SortTh = ({ field, label, rk }: { field: SortField; label: string; rk: keyof typeof colWidths }) => (
+    <th className="py-3 font-semibold text-neutral-500 text-[10px] uppercase tracking-[0.1em] relative select-none" style={{ paddingLeft: "12px", paddingRight: "10px" }}>
+      <button type="button" onClick={() => handleSort(field)} className="inline-flex items-center cursor-pointer hover:text-neutral-700 transition-colors whitespace-nowrap">
+        {label}<SortIcon field={field} />
+      </button>
+      <div onMouseDown={(e) => startResize(rk, e)} className="absolute top-0 right-0 h-full w-2.5 cursor-col-resize z-10 group flex items-center justify-end">
+        <div className="h-full w-[2px] transition-opacity group-hover:opacity-100 opacity-20" style={{ backgroundColor: "#3d6f7f" }} />
+      </div>
+    </th>
+  );
+
+  const StaticTh = ({ label, rk, right }: { label: string; rk: keyof typeof colWidths; right?: boolean }) => (
+    <th className={`py-3 font-semibold text-neutral-500 text-[10px] uppercase tracking-[0.1em] relative select-none${right ? " text-right" : ""}`} style={{ paddingLeft: "12px", paddingRight: "10px" }}>
+      <span className="block">{label}</span>
+      <div onMouseDown={(e) => startResize(rk, e)} className="absolute top-0 right-0 h-full w-2.5 cursor-col-resize z-10 group flex items-center justify-end">
+        <div className="h-full w-[2px] transition-opacity group-hover:opacity-100 opacity-20" style={{ backgroundColor: "#3d6f7f" }} />
+      </div>
+    </th>
+  );
+
   const handleSort = (field: SortField) => {
     if (sortField === field) {
       setSortDir((d) => (d === "asc" ? "desc" : "asc"));
@@ -117,23 +163,16 @@ export default function AdminBlogTable({
   return (
     <div className="bg-white rounded-2xl border border-neutral-100 overflow-hidden">
       <div className="overflow-x-auto">
-        <table className="w-full min-w-[1600px]">
+        <table style={{ width: tableWidth, minWidth: tableWidth }} className="table-fixed">
           <colgroup>
-            <col style={{ width: "40px" }} />   {/* checkbox */}
-            <col style={{ width: "280px" }} />  {/* title */}
-            <col style={{ width: "110px" }} />  {/* category */}
-            <col style={{ width: "130px" }} />  {/* author */}
-            <col style={{ width: "110px" }} />  {/* published */}
-            <col style={{ width: "100px" }} />  {/* status */}
-            <col style={{ width: "80px" }} />   {/* auto-publish */}
-            <col style={{ width: "320px" }} />  {/* surfer SEO */}
-            <col style={{ width: "110px" }} />  {/* date added */}
-            <col style={{ width: "220px" }} />  {/* actions */}
+            {(["check","title","category","author","date","status","autopublish","surfer","added","actions"] as (keyof typeof colWidths)[]).map((c) => (
+              <col key={c} style={{ width: colWidths[c] + "px" }} />
+            ))}
           </colgroup>
           <thead>
             <tr className="border-b border-neutral-100">
-              {/* Checkbox col */}
-              <th className="px-4 py-3.5 w-10">
+              {/* Checkbox */}
+              <th className="py-3 pl-4 pr-2 relative select-none" style={{ width: colWidths.check }}>
                 <input
                   type="checkbox"
                   checked={allSelected}
@@ -141,68 +180,19 @@ export default function AdminBlogTable({
                   onChange={(e) => onSelectAll(e.target.checked)}
                   className="w-4 h-4 rounded border-neutral-300 text-[#3d6f7f] accent-[#3d6f7f] cursor-pointer"
                 />
+                <div onMouseDown={(e) => startResize("check", e)} className="absolute top-0 right-0 h-full w-2.5 cursor-col-resize z-10 group flex items-center justify-end">
+                  <div className="h-full w-[2px] transition-opacity group-hover:opacity-100 opacity-0" style={{ backgroundColor: "#3d6f7f" }} />
+                </div>
               </th>
-              <th className="text-left px-4 py-3.5">
-                <button
-                  onClick={() => handleSort("title")}
-                  className="flex items-center text-[10px] tracking-[0.15em] uppercase font-semibold text-neutral-400 hover:text-neutral-600 transition-colors cursor-pointer whitespace-nowrap"
-                >
-                  Title <SortIcon field="title" />
-                </button>
-              </th>
-              <th className="text-left px-4 py-3.5">
-                <button
-                  onClick={() => handleSort("category")}
-                  className="flex items-center text-[10px] tracking-[0.15em] uppercase font-semibold text-neutral-400 hover:text-neutral-600 transition-colors cursor-pointer whitespace-nowrap"
-                >
-                  Category <SortIcon field="category" />
-                </button>
-              </th>
-              <th className="text-left px-4 py-3.5">
-                <button
-                  onClick={() => handleSort("author")}
-                  className="flex items-center text-[10px] tracking-[0.15em] uppercase font-semibold text-neutral-400 hover:text-neutral-600 transition-colors cursor-pointer whitespace-nowrap"
-                >
-                  Author <SortIcon field="author" />
-                </button>
-              </th>
-              <th className="text-left px-4 py-3.5">
-                <button
-                  onClick={() => handleSort("date")}
-                  className="flex items-center text-[10px] tracking-[0.15em] uppercase font-semibold text-neutral-400 hover:text-neutral-600 transition-colors cursor-pointer whitespace-nowrap"
-                >
-                  Published <SortIcon field="date" />
-                </button>
-              </th>
-              <th className="text-left px-4 py-3.5">
-                <button
-                  onClick={() => handleSort("status")}
-                  className="flex items-center text-[10px] tracking-[0.15em] uppercase font-semibold text-neutral-400 hover:text-neutral-600 transition-colors cursor-pointer whitespace-nowrap"
-                >
-                  Status <SortIcon field="status" />
-                </button>
-              </th>
-              <th className="text-left px-4 py-3.5 whitespace-nowrap">
-                <span className="text-[10px] tracking-[0.15em] uppercase font-semibold text-neutral-400">
-                  Auto-publish
-                </span>
-              </th>
-              <th className="text-left px-4 py-3.5 whitespace-nowrap">
-                <span className="text-[10px] tracking-[0.15em] uppercase font-semibold text-neutral-400">
-                  Surfer SEO
-                </span>
-              </th>
-              <th className="text-left px-4 py-3.5">
-                <button
-                  onClick={() => handleSort("created_at")}
-                  className="flex items-center text-[10px] tracking-[0.15em] uppercase font-semibold text-neutral-400 hover:text-neutral-600 transition-colors cursor-pointer whitespace-nowrap"
-                >
-                  Date Added <SortIcon field="created_at" />
-                </button>
-              </th>
-              <th className="text-right px-5 py-3.5">
-                <span className="text-[10px] tracking-[0.15em] uppercase font-semibold text-neutral-400">Actions</span>
-              </th>
+              <SortTh field="title" label="Title" rk="title" />
+              <SortTh field="category" label="Category" rk="category" />
+              <SortTh field="author" label="Author" rk="author" />
+              <SortTh field="date" label="Published" rk="date" />
+              <SortTh field="status" label="Status" rk="status" />
+              <StaticTh label="Auto-publish" rk="autopublish" />
+              <StaticTh label="Surfer SEO" rk="surfer" />
+              <SortTh field="created_at" label="Date Added" rk="added" />
+              <StaticTh label="Actions" rk="actions" right />
             </tr>
           </thead>
           <tbody>
