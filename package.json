@@ -15,7 +15,8 @@
     "publish-client": "node scripts/publish-client-to-vercel.mjs",
     "invite-member": "node scripts/invite-team-member.mjs",
     "migrate-clients": "node scripts/migrate-all-clients.mjs",
-    "crawl-brand-data": "node scripts/crawl-brand-data.mjs"
+    "crawl-brand-data": "node scripts/crawl-brand-data.mjs",
+    "migrate-wp-images": "node scripts/migrate-wp-site-images.mjs"
   },
   "devDependencies": {
     "@types/turndown": "^5.0.6",
