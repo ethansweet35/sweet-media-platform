@@ -212,7 +212,7 @@ export async function POST(request: Request) {
         Authorization: `Bearer ${apiKey}`,
         "Content-Type": "application/json",
         "HTTP-Referer": process.env.NEXT_PUBLIC_SITE_URL ?? "https://northboundtreatment.com",
-        "X-Title": "Northbound Treatment Admin — Blog Rewriter",
+        "X-Title": "Northbound Treatment Admin - Blog Rewriter",
       },
       body: JSON.stringify({
         model,
