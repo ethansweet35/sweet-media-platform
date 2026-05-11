@@ -69,12 +69,17 @@ async function surferFetch<T>(
   }
 
   if (!res.ok) {
-    const summary =
-      typeof body === "object" && body !== null && "message" in body
-        ? String((body as { message: unknown }).message)
-        : typeof body === "string"
-          ? body.slice(0, 500)
-          : `Surfer API error (HTTP ${res.status})`;
+    let summary = `Surfer API error (HTTP ${res.status})`;
+    if (typeof body === "string") {
+      summary = body.slice(0, 500);
+    } else if (typeof body === "object" && body !== null) {
+      const b = body as Record<string, unknown>;
+      const msg =
+        b["message"] ?? b["error"] ?? b["detail"] ??
+        (Array.isArray(b["errors"]) ? (b["errors"] as unknown[])[0] : undefined);
+      if (msg !== undefined) summary = String(msg);
+      else summary = `Surfer API error (HTTP ${res.status}): ${JSON.stringify(body).slice(0, 400)}`;
+    }
     throw new SurferApiError(summary, res.status, body);
   }
 
@@ -103,16 +108,20 @@ export interface SurferAuditCreateResponse {
 export async function createAudit(
   input: SurferAuditCreateInput,
 ): Promise<SurferAuditCreateResponse> {
-  const { apiKey } = getSurferEnv();
+  const { apiKey, projectId } = getSurferEnv();
+  // Surfer audit endpoint accepts `keywords` (array) per their docs.
+  // Some account types also require `project_id`.
+  const body: Record<string, unknown> = {
+    url: input.url,
+    keywords: input.keywords,
+    location: input.location ?? "United States",
+    device: input.device ?? "mobile",
+  };
+  if (projectId) body.project_id = projectId;
   return surferFetch<SurferAuditCreateResponse>("/audits", {
     apiKey,
     method: "POST",
-    body: JSON.stringify({
-      url: input.url,
-      keywords: input.keywords,
-      location: input.location ?? "United States",
-      device: input.device ?? "mobile",
-    }),
+    body: JSON.stringify(body),
   });
 }
 

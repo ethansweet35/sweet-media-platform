@@ -42,7 +42,7 @@ export async function POST(request: Request) {
   } catch (err) {
     if (err instanceof SurferApiError) {
       return NextResponse.json(
-        { ok: false, error: err.message, status: err.status },
+        { ok: false, error: err.message, status: err.status, surfer_body: err.body },
         { status: err.status >= 400 && err.status < 600 ? err.status : 502 },
       );
     }
