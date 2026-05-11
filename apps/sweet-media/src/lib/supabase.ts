@@ -20,9 +20,12 @@ export function getSupabaseClient(): SupabaseClient {
   return _client;
 }
 
-// Backwards-compatible default export for existing call sites
+// Backwards-compatible default export for existing call sites.
+// Lazy proxy avoids module-eval crash when env vars are absent (e.g. in
+// monorepo-wide builds that don't have per-app env in scope).
 export const supabase = new Proxy({} as SupabaseClient, {
   get(_target, prop) {
-    return (getSupabaseClient() as Record<string | symbol, unknown>)[prop];
+    const client = getSupabaseClient() as unknown as Record<string | symbol, unknown>;
+    return client[prop];
   },
 });
