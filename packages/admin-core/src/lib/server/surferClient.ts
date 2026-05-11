@@ -126,7 +126,8 @@ export async function createAudit(
   // Some account types also require `project_id`.
   const body: Record<string, unknown> = {
     url: input.url,
-    keywords: input.keywords,
+    // Surfer Audit API uses singular `keyword`, not an array
+    keyword: input.keywords[0],
     location: input.location ?? "United States",
     device: input.device ?? "mobile",
   };
