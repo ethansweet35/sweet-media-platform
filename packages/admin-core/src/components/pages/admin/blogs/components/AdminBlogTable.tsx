@@ -117,7 +117,19 @@ export default function AdminBlogTable({
   return (
     <div className="bg-white rounded-2xl border border-neutral-100 overflow-hidden">
       <div className="overflow-x-auto">
-        <table className="w-full min-w-[1480px]">
+        <table className="w-full min-w-[1600px]">
+          <colgroup>
+            <col style={{ width: "40px" }} />   {/* checkbox */}
+            <col style={{ width: "280px" }} />  {/* title */}
+            <col style={{ width: "110px" }} />  {/* category */}
+            <col style={{ width: "130px" }} />  {/* author */}
+            <col style={{ width: "110px" }} />  {/* published */}
+            <col style={{ width: "100px" }} />  {/* status */}
+            <col style={{ width: "80px" }} />   {/* auto-publish */}
+            <col style={{ width: "320px" }} />  {/* surfer SEO */}
+            <col style={{ width: "110px" }} />  {/* date added */}
+            <col style={{ width: "220px" }} />  {/* actions */}
+          </colgroup>
           <thead>
             <tr className="border-b border-neutral-100">
               {/* Checkbox col */}
@@ -494,7 +506,7 @@ export default function AdminBlogTable({
                 {/* AI SEO preview row */}
                 {seoStatus?.status === "done" && seoStatus.result && (
                   <tr key={`${post.id}-seo-preview`} className="bg-violet-50 border-b border-violet-100">
-                    <td colSpan={11} className="px-5 py-3">
+                    <td colSpan={10} className="px-5 py-3">
                       <div className="flex items-start gap-4 flex-wrap">
                         <div className="flex items-center gap-1.5 flex-shrink-0 mt-0.5">
                           <i className="ri-sparkling-2-line text-violet-500 text-sm"></i>
@@ -523,7 +535,7 @@ export default function AdminBlogTable({
 
                 {seoStatus?.status === "error" && (
                   <tr key={`${post.id}-seo-error`} className="bg-red-50 border-b border-red-100">
-                    <td colSpan={11} className="px-5 py-2">
+                    <td colSpan={10} className="px-5 py-2">
                       <div className="flex items-center gap-3">
                         <i className="ri-error-warning-line text-red-400 text-sm flex-shrink-0"></i>
                         <p className="text-[12px] text-red-600 flex-1">{seoStatus.error}</p>

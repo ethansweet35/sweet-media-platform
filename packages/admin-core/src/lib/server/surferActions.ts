@@ -273,10 +273,16 @@ export async function createEditorForRow(
     );
   }
 
+  // Route into the correct Surfer folder based on content kind
+  const folderEnvKey = kind === "blog" ? "SURFER_FOLDER_ID_BLOGS" : "SURFER_FOLDER_ID_PAGES";
+  const rawFolderId = (process.env[folderEnvKey] ?? "").trim();
+  const folderId = rawFolderId && Number.isFinite(Number(rawFolderId)) ? Number(rawFolderId) : null;
+
   const created = await createContentEditor({
     keywords: [keyword],
     location: "United States",
     device: "mobile",
+    folder_id: folderId,
   });
 
   await supabase

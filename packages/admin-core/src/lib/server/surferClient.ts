@@ -173,6 +173,8 @@ export interface SurferContentEditorCreateInput {
   device?: "desktop" | "mobile";
   /** Optional language override. Defaults to language matching `location`. */
   language?: string;
+  /** Surfer folder ID to place this Content Editor into. */
+  folder_id?: number | null;
 }
 
 export interface SurferContentEditorCreateResponse {
@@ -191,12 +193,9 @@ export async function createContentEditor(
     device: input.device ?? "mobile",
   };
   if (input.language) body.language = input.language;
-  // Surfer historically used `folder_id` for organizing queries; some accounts
-  // accept `project_id` instead. We send both — Surfer ignores unknown fields.
-  if (projectId) {
-    body.project_id = projectId;
-    body.folder_id = projectId;
-  }
+  if (projectId) body.project_id = projectId;
+  // folder_id routes the editor into the right Surfer folder (e.g. "core pages" or "blogs")
+  if (input.folder_id) body.folder_id = input.folder_id;
 
   return surferFetch<SurferContentEditorCreateResponse>("/content_editors", {
     apiKey,
