@@ -81,7 +81,7 @@ export default function AiRewritePanel({
         throw new Error(
           res.status === 504
             ? "Request timed out — try a shorter word count or smaller Surfer guidelines file."
-            : `Server returned an empty response (HTTP ${res.status}). Check that OPENROUTER_API_KEY is set in Vercel.`,
+            : `Server error (HTTP ${res.status}) — check Vercel function logs for details.`,
         );
       }
       if (!res.ok || !json.ok) {

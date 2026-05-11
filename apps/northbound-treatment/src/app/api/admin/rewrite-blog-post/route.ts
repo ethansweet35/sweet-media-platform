@@ -204,38 +204,52 @@ export async function POST(request: Request) {
   const systemPrompt = buildSystemPrompt(knowledgeBaseBlock);
   const userMessage = buildUserMessage({ topic, primaryKeyword, category, tone, targetWordCount, audience, customInstructions, surferGuidelines });
 
-  const orRes = await fetch("https://openrouter.ai/api/v1/chat/completions", {
-    method: "POST",
-    headers: {
-      Authorization: `Bearer ${apiKey}`,
-      "Content-Type": "application/json",
-      "HTTP-Referer": process.env.NEXT_PUBLIC_SITE_URL ?? "https://northboundtreatment.com",
-      "X-Title": "Northbound Treatment Admin — Blog Rewriter",
-    },
-    body: JSON.stringify({
-      model,
-      messages: [
-        { role: "system", content: systemPrompt },
-        { role: "user", content: userMessage },
-      ],
-      max_tokens: 12000,
-      temperature: 0.4,
-      // Note: response_format json_object is OpenAI-specific; omit for cross-model compat.
-      // The system prompt already instructs the model to return only valid JSON.
-    }),
-  });
-
-  if (!orRes.ok) {
-    const errText = await orRes.text();
-    return NextResponse.json({ error: `AI model error: ${errText.slice(0, 400)}` }, { status: 502 });
+  let orRes: Response;
+  try {
+    orRes = await fetch("https://openrouter.ai/api/v1/chat/completions", {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${apiKey}`,
+        "Content-Type": "application/json",
+        "HTTP-Referer": process.env.NEXT_PUBLIC_SITE_URL ?? "https://northboundtreatment.com",
+        "X-Title": "Northbound Treatment Admin — Blog Rewriter",
+      },
+      body: JSON.stringify({
+        model,
+        messages: [
+          { role: "system", content: systemPrompt },
+          { role: "user", content: userMessage },
+        ],
+        max_tokens: 12000,
+        temperature: 0.4,
+      }),
+    });
+  } catch (fetchErr) {
+    console.error("[rewrite-blog-post] fetch to OpenRouter failed:", fetchErr);
+    return NextResponse.json({ error: `Could not reach OpenRouter: ${String(fetchErr)}` }, { status: 502 });
   }
 
-  const orJson = await orRes.json() as Record<string, unknown>;
+  const orText = await orRes.text();
+
+  if (!orRes.ok) {
+    console.error("[rewrite-blog-post] OpenRouter non-OK:", orRes.status, orText.slice(0, 500));
+    return NextResponse.json({ error: `OpenRouter error (${orRes.status}): ${orText.slice(0, 400)}` }, { status: 502 });
+  }
+
+  let orJson: Record<string, unknown>;
+  try {
+    orJson = JSON.parse(orText) as Record<string, unknown>;
+  } catch {
+    console.error("[rewrite-blog-post] OpenRouter response not JSON:", orText.slice(0, 500));
+    return NextResponse.json({ error: `OpenRouter returned non-JSON response: ${orText.slice(0, 300)}` }, { status: 502 });
+  }
+
   const mc = (orJson?.choices as unknown[])?.[0];
   const rawContent: string = ((mc as Record<string, unknown>)?.message as Record<string, unknown>)?.content as string ?? "";
 
   if (!rawContent) {
-    return NextResponse.json({ error: "AI returned an empty response." }, { status: 502 });
+    console.error("[rewrite-blog-post] Empty content from OpenRouter:", JSON.stringify(orJson).slice(0, 500));
+    return NextResponse.json({ error: "AI returned an empty response. The model may have hit a content filter or token limit." }, { status: 502 });
   }
 
   let parsed: Record<string, unknown>;
