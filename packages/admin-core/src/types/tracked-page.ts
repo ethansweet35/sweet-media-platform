@@ -1,4 +1,6 @@
-export interface TrackedPage {
+import type { SurferRowFields } from "./surfer";
+
+export interface TrackedPage extends SurferRowFields {
   id: string;
   route_path: string;
   page_title: string;
@@ -33,4 +35,6 @@ export type TrackedPageUpdates = Partial<{
   notes: string | null;
   is_active: boolean;
   display_order: number;
+  surfer_guidance_applied: boolean;
+  published_url: string | null;
 }>;

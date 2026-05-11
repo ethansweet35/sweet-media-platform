@@ -30,6 +30,21 @@ export interface DashboardSystemStatus {
   lastAutoPublishAt: string | null;
 }
 
+export interface DashboardSurferStats {
+  /** Posts + pages with a Surfer content score, total. */
+  scored: number;
+  /** Average score across all rows that have one (rounded). */
+  avgScore: number | null;
+  /** Total active rows that *should* have an editor (published posts + active pages). */
+  eligible: number;
+  /** Active rows with a Surfer Content Editor linked. */
+  linked: number;
+  /** Rows where the writer has marked guidance as applied. */
+  applied: number;
+  /** Most recent surfer_score_updated_at across all rows. */
+  lastRefreshedAt: string | null;
+}
+
 type BlogScanRow = {
   id: string;
   status: string;
@@ -130,6 +145,14 @@ export function useDashboardData() {
   const [systemStatus, setSystemStatus] = useState<DashboardSystemStatus>({
     lastAutoPublishAt: null,
   });
+  const [surferStats, setSurferStats] = useState<DashboardSurferStats>({
+    scored: 0,
+    avgScore: null,
+    eligible: 0,
+    linked: 0,
+    applied: 0,
+    lastRefreshedAt: null,
+  });
 
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -145,6 +168,8 @@ export function useDashboardData() {
         draftsRes,
         upcomingRes,
         publishedRes,
+        blogSurferRes,
+        pageSurferRes,
       ] = await Promise.all([
         supabase
           .from("blog_posts")
@@ -170,6 +195,18 @@ export function useDashboardData() {
           .not("published_at", "is", null)
           .order("published_at", { ascending: false })
           .limit(80),
+        supabase
+          .from("blog_posts")
+          .select(
+            "id, status, surfer_content_editor_id, surfer_content_score, surfer_score_updated_at, surfer_guidance_applied",
+          )
+          .eq("status", "published"),
+        supabase
+          .from("tracked_pages")
+          .select(
+            "id, is_active, surfer_content_editor_id, surfer_content_score, surfer_score_updated_at, surfer_guidance_applied",
+          )
+          .eq("is_active", true),
       ]);
 
       const firstErr =
@@ -184,6 +221,42 @@ export function useDashboardData() {
       setUpcomingPublishes(((upcomingRes.data ?? []) as UpcomingPublishRow[]) ?? []);
       setSystemStatus({
         lastAutoPublishAt: pickLastCronishPublish(publishedRes.data as PublishedProbe[]),
+      });
+
+      // Compose Surfer stats across both tables
+      type SurferBag = {
+        surfer_content_editor_id: number | null;
+        surfer_content_score: number | null;
+        surfer_score_updated_at: string | null;
+        surfer_guidance_applied: boolean | null;
+      };
+      const blogRows = (blogSurferRes.data ?? []) as SurferBag[];
+      const pageRows = (pageSurferRes.data ?? []) as SurferBag[];
+      const all = [...blogRows, ...pageRows];
+
+      const scoredVals = all
+        .map((r) => r.surfer_content_score)
+        .filter((v): v is number => typeof v === "number");
+      const avg =
+        scoredVals.length > 0
+          ? Math.round(scoredVals.reduce((s, v) => s + v, 0) / scoredVals.length)
+          : null;
+      const linked = all.filter((r) => !!r.surfer_content_editor_id).length;
+      const applied = all.filter((r) => r.surfer_guidance_applied === true).length;
+      const lastRefreshed = all.reduce<string | null>((acc, r) => {
+        const v = r.surfer_score_updated_at;
+        if (!v) return acc;
+        if (!acc) return v;
+        return Date.parse(v) > Date.parse(acc) ? v : acc;
+      }, null);
+
+      setSurferStats({
+        scored: scoredVals.length,
+        avgScore: avg,
+        eligible: all.length,
+        linked,
+        applied,
+        lastRefreshedAt: lastRefreshed,
       });
     } catch (e) {
       setError(e instanceof Error ? e.message : "Failed to load dashboard");
@@ -202,10 +275,20 @@ export function useDashboardData() {
       recentDrafts,
       upcomingPublishes,
       systemStatus,
+      surferStats,
       loading,
       error,
       refetch: fetchAll,
     }),
-    [stats, recentDrafts, upcomingPublishes, systemStatus, loading, error, fetchAll],
+    [
+      stats,
+      recentDrafts,
+      upcomingPublishes,
+      systemStatus,
+      surferStats,
+      loading,
+      error,
+      fetchAll,
+    ],
   );
 }

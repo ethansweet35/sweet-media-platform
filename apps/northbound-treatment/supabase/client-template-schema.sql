@@ -188,6 +188,16 @@ create table if not exists public.blog_posts (
   published_at timestamptz,
   scheduled_publish_at timestamptz,
   approved_for_publish boolean not null default false,
+  -- Surfer SEO integration (see migrations/2026-05-10_surfer_seo_integration.sql)
+  surfer_content_editor_id bigint,
+  surfer_permalink_hash text,
+  surfer_audit_id bigint,
+  surfer_audit_state text,
+  surfer_content_score integer,
+  surfer_score_updated_at timestamptz,
+  surfer_last_error text,
+  surfer_guidance_applied boolean not null default false,
+  published_url text,
   created_at timestamptz not null default now(),
   updated_at timestamptz not null default now()
 );
@@ -262,6 +272,16 @@ create table if not exists public.tracked_pages (
   is_active boolean not null default true,
   display_order integer not null default 0,
   notes text,
+  -- Surfer SEO integration (see migrations/2026-05-10_surfer_seo_integration.sql)
+  surfer_content_editor_id bigint,
+  surfer_permalink_hash text,
+  surfer_audit_id bigint,
+  surfer_audit_state text,
+  surfer_content_score integer,
+  surfer_score_updated_at timestamptz,
+  surfer_last_error text,
+  surfer_guidance_applied boolean not null default false,
+  published_url text,
   created_at timestamptz not null default now(),
   updated_at timestamptz not null default now()
 );

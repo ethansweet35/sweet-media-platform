@@ -132,6 +132,14 @@ export async function runScaffold(opts) {
     `NEXT_PUBLIC_SUPABASE_ANON_KEY=${anonKey}`,
     `NEXT_PUBLIC_SITE_ID=${slug}`,
     `NEXT_PUBLIC_SITE_URL=${siteUrl.replace(/\/$/, '')}`,
+    ``,
+    `# Surfer SEO (set in Vercel env vars; leave commented locally unless testing)`,
+    `# SURFER_API_KEY=`,
+    `# SURFER_PROJECT_ID=`,
+    `# NEXT_PUBLIC_BLOG_PATH_BASE=/blog`,
+    ``,
+    `# Vercel Cron auth — generate a random string per project (e.g. openssl rand -hex 32)`,
+    `# CRON_SECRET=`,
     '',
   ];
   writeFileSync(join(destDir, '.env.local'), envLines.join('\n'), 'utf8');

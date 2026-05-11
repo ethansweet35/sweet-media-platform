@@ -5,8 +5,10 @@ export * from "./types/blog-queue";
 export * from "./types/content-links";
 export * from "./types/knowledge-base";
 export * from "./types/tracked-page";
+export * from "./types/surfer";
 
 export { default as AdminPageHeader } from "./components/AdminPageHeader";
+export { default as SurferCell, type SurferCellRow } from "./components/SurferCell";
 export { supabase, supabaseConfigured } from "./lib/supabase";
 export { AuthProvider, useAuth } from "./contexts/AuthContext";
 export { default as AdminGuard } from "./components/AdminGuard";
@@ -19,6 +21,7 @@ export { useTrackedPages } from "./hooks/useTrackedPages";
 export { useInternalLinks, type InternalLink } from "./hooks/useInternalLinks";
 export { useDashboardData, formatDashboardDate, relativeTimeSince } from "./hooks/useDashboardData";
 export { useAdminBlogPosts } from "./hooks/useAdminBlogPosts";
+export { useSurferActions } from "./hooks/useSurferActions";
 export { useBlogPostBySlug } from "./hooks/useBlogPostBySlug";
 export { useLinkUtilization, type LinkUtilization, type UtilizationStatus } from "./hooks/useLinkUtilization";
 export { getPublicSiteOrigin, canonicalBlogPostUrl } from "./lib/publicSiteUrl";

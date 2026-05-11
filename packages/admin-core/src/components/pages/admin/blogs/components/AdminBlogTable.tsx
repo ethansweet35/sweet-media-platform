@@ -5,6 +5,7 @@ import { useState } from "react";
 import { ADMIN_OCEAN } from "../../../../../lib/adminTheme";
 import type { BlogPost } from "@sweetmedia/blog-core";
 import type { SeoGenResult } from "../../../../../lib/generateSeoMetadata";
+import SurferCell from "../../../../SurferCell";
 
 function formatScheduledLine(iso: string): string {
   try {
@@ -45,6 +46,8 @@ interface AdminBlogTableProps {
   onRunSeo: (post: BlogPost) => void;
   onApplySeo: (post: BlogPost, result: SeoGenResult) => void;
   onDismissSeo: (postId: string) => void;
+  /** Optional callback to refetch posts after a Surfer mutation. */
+  onSurferChange?: () => void | Promise<void>;
 }
 
 type SortField = "title" | "category" | "author" | "date" | "created_at" | "status";
@@ -73,6 +76,7 @@ export default function AdminBlogTable({
   onRunSeo,
   onApplySeo,
   onDismissSeo,
+  onSurferChange,
 }: AdminBlogTableProps) {
   const [sortField, setSortField] = useState<SortField>("date");
   const [sortDir, setSortDir] = useState<SortDir>("desc");
@@ -113,7 +117,7 @@ export default function AdminBlogTable({
   return (
     <div className="bg-white rounded-2xl border border-neutral-100 overflow-hidden">
       <div className="overflow-x-auto">
-        <table className="w-full min-w-[1180px]">
+        <table className="w-full min-w-[1480px]">
           <thead>
             <tr className="border-b border-neutral-100">
               {/* Checkbox col */}
@@ -169,6 +173,11 @@ export default function AdminBlogTable({
               <th className="text-left px-4 py-3.5 whitespace-nowrap">
                 <span className="text-[10px] tracking-[0.15em] uppercase font-semibold text-neutral-400">
                   Auto-publish
+                </span>
+              </th>
+              <th className="text-left px-4 py-3.5 whitespace-nowrap">
+                <span className="text-[10px] tracking-[0.15em] uppercase font-semibold text-neutral-400">
+                  Surfer SEO
                 </span>
               </th>
               <th className="text-left px-4 py-3.5">
@@ -378,6 +387,27 @@ export default function AdminBlogTable({
                     ) : null}
                   </td>
 
+                  {/* Surfer SEO */}
+                  <td className="px-4 py-4 align-middle" onClick={(e) => e.stopPropagation()}>
+                    <SurferCell
+                      kind="blog"
+                      row={{
+                        id: post.id,
+                        primary_keyword: post.focus_keyword ?? null,
+                        surfer_content_editor_id: post.surfer_content_editor_id ?? null,
+                        surfer_permalink_hash: post.surfer_permalink_hash ?? null,
+                        surfer_audit_id: post.surfer_audit_id ?? null,
+                        surfer_audit_state: post.surfer_audit_state ?? null,
+                        surfer_content_score: post.surfer_content_score ?? null,
+                        surfer_score_updated_at: post.surfer_score_updated_at ?? null,
+                        surfer_last_error: post.surfer_last_error ?? null,
+                        surfer_guidance_applied: post.surfer_guidance_applied === true,
+                        published_url: post.published_url ?? null,
+                      }}
+                      onChange={onSurferChange}
+                    />
+                  </td>
+
                   {/* Date Added */}
                   <td className="px-4 py-4">
                     <span className="text-[12px] text-neutral-500 whitespace-nowrap">{fmtDate(post.createdAt)}</span>
@@ -464,7 +494,7 @@ export default function AdminBlogTable({
                 {/* AI SEO preview row */}
                 {seoStatus?.status === "done" && seoStatus.result && (
                   <tr key={`${post.id}-seo-preview`} className="bg-violet-50 border-b border-violet-100">
-                    <td colSpan={10} className="px-5 py-3">
+                    <td colSpan={11} className="px-5 py-3">
                       <div className="flex items-start gap-4 flex-wrap">
                         <div className="flex items-center gap-1.5 flex-shrink-0 mt-0.5">
                           <i className="ri-sparkling-2-line text-violet-500 text-sm"></i>
@@ -493,7 +523,7 @@ export default function AdminBlogTable({
 
                 {seoStatus?.status === "error" && (
                   <tr key={`${post.id}-seo-error`} className="bg-red-50 border-b border-red-100">
-                    <td colSpan={10} className="px-5 py-2">
+                    <td colSpan={11} className="px-5 py-2">
                       <div className="flex items-center gap-3">
                         <i className="ri-error-warning-line text-red-400 text-sm flex-shrink-0"></i>
                         <p className="text-[12px] text-red-600 flex-1">{seoStatus.error}</p>

@@ -6,6 +6,8 @@ import AdminPageHeader from "../components/AdminPageHeader";
 import { ADMIN_OCEAN } from "../lib/adminTheme";
 import { getPublicSiteOrigin } from "../lib/publicSiteUrl";
 import { useTrackedPages } from "../hooks/useTrackedPages";
+import { useSurferActions } from "../hooks/useSurferActions";
+import SurferCell from "../components/SurferCell";
 import PageEditModal from "../components/pages/PageEditModal";
 import PageDeleteModal from "../components/pages/PageDeleteModal";
 import { callGenerateSeoMetadata, type SeoGenResult } from "../lib/generateSeoMetadata";
@@ -53,9 +55,11 @@ export default function AdminTrackedPagesPage() {
   const [bulkSeoProgress, setBulkSeoProgress] = useState({ done: 0, total: 0 });
   const abortRef = useRef(false);
 
+  const { refreshStale, bulkRefreshState } = useSurferActions();
+
   // Column widths (px)
   const [colWidths, setColWidths] = useState({
-    check: 40, route: 150, title: 125, seo: 180, meta: 190, keyword: 110, status: 100, date: 95, actions: 120,
+    check: 40, route: 150, title: 125, seo: 180, meta: 190, keyword: 110, surfer: 320, status: 100, date: 95, actions: 120,
   });
   const resizeRef = useRef<{ col: keyof typeof colWidths; startX: number; startW: number } | null>(null);
 
@@ -227,7 +231,15 @@ export default function AdminTrackedPagesPage() {
     const active = pages.filter((p) => p.is_active).length;
     const inactive = total - active;
     const withKeyword = pages.filter((p) => (p.primary_keyword?.trim() ?? "").length > 0).length;
-    return { total, active, inactive, withKeyword };
+    const scored = pages.filter((p) => typeof p.surfer_content_score === "number" && p.surfer_content_score !== null);
+    const avgScore =
+      scored.length > 0
+        ? Math.round(
+            scored.reduce((s, p) => s + (p.surfer_content_score ?? 0), 0) / scored.length,
+          )
+        : null;
+    const linked = pages.filter((p) => !!p.surfer_content_editor_id).length;
+    return { total, active, inactive, withKeyword, avgScore, linked };
   }, [pages]);
 
   const filteredSorted = useMemo(() => {
@@ -358,6 +370,24 @@ export default function AdminTrackedPagesPage() {
         subtitle="Track your core pages and SEO metadata"
         actions={
           <div className="flex items-center gap-2">
+            <button
+              type="button"
+              onClick={async () => {
+                const r = await refreshStale();
+                if (r) {
+                  showToast(`Surfer scores: ${r.scheduled} new audits queued, ${r.completed} completed.`);
+                  await refetch();
+                } else {
+                  showToast("Could not refresh Surfer scores", "error");
+                }
+              }}
+              disabled={bulkRefreshState.status === "loading"}
+              className="flex items-center gap-2 rounded-xl px-4 py-2.5 text-[11px] font-bold uppercase tracking-[0.12em] text-neutral-700 border border-neutral-200 bg-white hover:border-neutral-300 transition-all disabled:opacity-50"
+              title="Re-audit any page whose Surfer content score is older than 24 hours."
+            >
+              <i className={`text-xs ${bulkRefreshState.status === "loading" ? "ri-loader-4-line animate-spin" : "ri-bar-chart-line"}`} />
+              {bulkRefreshState.status === "loading" ? "Refreshing…" : "Refresh Surfer"}
+            </button>
             <button type="button" onClick={() => void syncFromCodebase()} disabled={syncing}
               className="flex items-center gap-2 rounded-xl px-4 py-2.5 text-[11px] font-bold uppercase tracking-[0.12em] text-neutral-700 border border-neutral-200 bg-white hover:border-neutral-300 transition-all disabled:opacity-50">
               <i className={`ri-refresh-line text-xs ${syncing ? "animate-spin" : ""}`} />
@@ -524,7 +554,7 @@ export default function AdminTrackedPagesPage() {
                 <div className="overflow-x-auto">
                   <table className="text-left text-sm" style={{ tableLayout: "fixed", width: tableWidth + "px", minWidth: "100%" }}>
                     <colgroup>
-                      {(["check","route","title","seo","meta","keyword","status","date","actions"] as (keyof typeof colWidths)[]).map((c) => (
+                      {(["check","route","title","seo","meta","keyword","surfer","status","date","actions"] as (keyof typeof colWidths)[]).map((c) => (
                         <col key={c} style={{ width: colWidths[c] + "px" }} />
                       ))}
                     </colgroup>
@@ -542,6 +572,7 @@ export default function AdminTrackedPagesPage() {
                         <StaticTh label="SEO Title" rk="seo" />
                         <StaticTh label="Meta Desc." rk="meta" />
                         <SortTh col="keyword" label="Keyword" rk="keyword" />
+                        <StaticTh label="Surfer SEO" rk="surfer" />
                         <SortTh col="status" label="Status" rk="status" />
                         <SortTh col="created_at" label="Added" rk="date" />
                         <StaticTh label="Actions" rk="actions" right />
@@ -644,6 +675,28 @@ export default function AdminTrackedPagesPage() {
                                 </span>
                               </td>
 
+                              {/* Surfer SEO */}
+                              <td className="px-3 py-3 align-middle" onClick={(e) => e.stopPropagation()}>
+                                <SurferCell
+                                  kind="page"
+                                  row={{
+                                    id: p.id,
+                                    primary_keyword: p.primary_keyword,
+                                    surfer_content_editor_id: p.surfer_content_editor_id,
+                                    surfer_permalink_hash: p.surfer_permalink_hash,
+                                    surfer_audit_id: p.surfer_audit_id,
+                                    surfer_audit_state: p.surfer_audit_state,
+                                    surfer_content_score: p.surfer_content_score,
+                                    surfer_score_updated_at: p.surfer_score_updated_at,
+                                    surfer_last_error: p.surfer_last_error,
+                                    surfer_guidance_applied: p.surfer_guidance_applied,
+                                    published_url: p.published_url,
+                                  }}
+                                  compact
+                                  onChange={refetch}
+                                />
+                              </td>
+
                               {/* Status */}
                               <td className="px-3 py-3 align-middle">
                                 <div className="flex items-center gap-2">
@@ -703,7 +756,7 @@ export default function AdminTrackedPagesPage() {
                             {/* AI SEO result preview row */}
                             {seoStatus?.status === "done" && seoStatus.result && (
                               <tr key={`${p.id}-seo-preview`} className="bg-violet-50 border-b border-violet-100">
-                                <td colSpan={9} className="px-5 py-3">
+                                <td colSpan={10} className="px-5 py-3">
                                   <div className="flex items-start gap-4 flex-wrap">
                                     <div className="flex items-center gap-1.5 flex-shrink-0 mt-0.5">
                                       <i className="ri-sparkling-2-line text-violet-500 text-sm" />
@@ -738,7 +791,7 @@ export default function AdminTrackedPagesPage() {
 
                             {seoStatus?.status === "error" && (
                               <tr key={`${p.id}-seo-error`} className="bg-red-50 border-b border-red-100">
-                                <td colSpan={9} className="px-5 py-2">
+                                <td colSpan={10} className="px-5 py-2">
                                   <div className="flex items-center gap-3">
                                     <i className="ri-error-warning-line text-red-400 text-sm flex-shrink-0" />
                                     <p className="text-[12px] text-red-600 flex-1">{seoStatus.error}</p>
