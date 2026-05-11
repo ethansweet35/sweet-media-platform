@@ -25,6 +25,7 @@ interface EditorForm {
   status: string;
   featured: boolean;
   metaDescription: string;
+  focusKeyword: string;
 }
 
 export default function BlogEditPage() {
@@ -49,6 +50,7 @@ export default function BlogEditPage() {
     status: "published",
     featured: false,
     metaDescription: "",
+    focusKeyword: "",
   });
   const [blocks, setBlocks] = useState<BlogSection[]>([]);
   const [saving, setSaving] = useState(false);
@@ -77,6 +79,7 @@ export default function BlogEditPage() {
         status: post.status || "published",
         featured: post.featured || false,
         metaDescription: post.metaDescription || "",
+        focusKeyword: post.focus_keyword || "",
       });
       setBlocks(post.content || []);
       validateSlug(post.slug);
@@ -158,6 +161,7 @@ export default function BlogEditPage() {
       status: form.status,
       featured: form.featured,
       meta_description: form.metaDescription,
+      focus_keyword: form.focusKeyword.trim() || null,
       content: JSON.stringify(blocks),
     };
     const ok = await savePost(post.id, updates);

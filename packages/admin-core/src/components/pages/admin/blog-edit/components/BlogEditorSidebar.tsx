@@ -15,6 +15,7 @@ interface SidebarForm {
   featured: boolean;
   metaDescription: string;
   excerpt: string;
+  focusKeyword: string;
 }
 
 interface BlogEditorSidebarProps {
@@ -246,6 +247,21 @@ export default function BlogEditorSidebar({ form, onChange, postDate, slugError 
       {/* SEO */}
       <div className="bg-white rounded-2xl border border-neutral-100 p-5 space-y-4">
         <p className="text-[10px] tracking-[0.2em] uppercase font-semibold text-neutral-500">SEO</p>
+
+        <div>
+          <label className={labelCls}>
+            Focus Keyword
+            <span className="ml-1.5 normal-case font-normal text-neutral-400">used by Surfer SEO</span>
+          </label>
+          <input
+            type="text"
+            value={form.focusKeyword}
+            onChange={(e) => onChange("focusKeyword", e.target.value)}
+            placeholder="e.g. drug rehab los angeles"
+            className={inputCls}
+          />
+          <p className="text-[10px] text-neutral-400 mt-1">The primary keyword this post targets.</p>
+        </div>
 
         <div>
           <label className={labelCls}>Meta Description</label>

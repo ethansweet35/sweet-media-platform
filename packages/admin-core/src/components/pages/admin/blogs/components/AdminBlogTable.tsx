@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { useState, useRef, useCallback } from "react";
 import { ADMIN_OCEAN } from "../../../../../lib/adminTheme";
 import type { BlogPost } from "@sweetmedia/blog-core";
@@ -84,7 +85,7 @@ export default function AdminBlogTable({
   // ── Resizable columns ──────────────────────────────────────────────────────
   const [colWidths, setColWidths] = useState({
     check: 40, title: 280, category: 110, author: 130,
-    date: 110, status: 100, autopublish: 80, surfer: 320, added: 110, actions: 220,
+    date: 110, status: 100, autopublish: 80, surfer: 320, added: 110, actions: 260,
   });
   const resizeRef = useRef<{ col: keyof typeof colWidths; startX: number; startW: number } | null>(null);
 
@@ -418,6 +419,13 @@ export default function AdminBlogTable({
                   {/* Actions */}
                   <td className="px-5 py-4">
                     <div className="flex items-center justify-end gap-1">
+                      <Link
+                        href={`/admin/blog-edit/${post.slug}`}
+                        title="Edit post"
+                        className="w-8 h-8 flex items-center justify-center rounded-lg text-neutral-400 hover:text-[#3d6f7f] hover:bg-[#3d6f7f]/8 transition-all"
+                      >
+                        <i className="ri-edit-line text-sm"></i>
+                      </Link>
                       <button
                         onClick={() => onPreview(post)}
                         title="Preview"
