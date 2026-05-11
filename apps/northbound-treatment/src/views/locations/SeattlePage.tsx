@@ -149,7 +149,7 @@ export default function SeattlePage() {
               <span className="italic text-[#E8622A]">in Seattle</span>
             </h1>
             <p className="mt-6 max-w-2xl text-lg leading-relaxed text-white/80">
-              <AutoLinkedTextClient>{"Northbound&apos;s Seattle hub serves Washington state residents with clinical assessments, IOP, family support, alumni programming, and alternative sentencing services — connecting Pacific Northwest clients to Northbound&apos;s full treatment continuum."}</AutoLinkedTextClient>
+              <AutoLinkedTextClient>{"Northbound's Seattle hub serves Washington state residents with clinical assessments, IOP, family support, alumni programming, and alternative sentencing services — connecting Pacific Northwest clients to Northbound's full treatment continuum."}</AutoLinkedTextClient>
             </p>
 
             <div className="mt-8 flex flex-wrap gap-x-8 gap-y-4 border-t border-white/15 pt-8">
@@ -189,7 +189,7 @@ export default function SeattlePage() {
                 <span className="italic text-[#E8622A]">Recovery</span>
               </h2>
               <p className="mt-5 text-base leading-relaxed text-[#4B5563]">
-                <AutoLinkedTextClient>{"Our Seattle services center is located in the vibrant Lower Queen Anne (Uptown) neighborhood — a walkable community of historic houses and boutique shops, right on Puget Sound and steps from the Space Needle. It&apos;s an inspiring, community-rooted setting for taking the first steps toward recovery."}</AutoLinkedTextClient>
+                <AutoLinkedTextClient>{"Our Seattle services center is located in the vibrant Lower Queen Anne (Uptown) neighborhood — a walkable community of historic houses and boutique shops, right on Puget Sound and steps from the Space Needle. It's an inspiring, community-rooted setting for taking the first steps toward recovery."}</AutoLinkedTextClient>
               </p>
               <p className="mt-4 text-base leading-relaxed text-[#4B5563]">
                 <AutoLinkedTextClient>{"Seattle clients begin with a comprehensive clinical assessment at our local office. For those requiring medically supervised detox or residential treatment, we facilitate a smooth transition to our fully licensed Orange County facilities — where the Southern California environment becomes part of the healing. Clients then step down back to Seattle-based IOP or telehealth to complete their continuum of care."}</AutoLinkedTextClient>
@@ -198,7 +198,7 @@ export default function SeattlePage() {
               <div className="mt-8 rounded-2xl border border-[#E5E7EB] bg-[#F5F7FF] p-6">
                 <p className="text-sm font-semibold text-[#0B1F3A]">The Seattle Crisis</p>
                 <p className="mt-2 text-sm leading-relaxed text-[#4B5563]">
-                  <AutoLinkedTextClient>{"King County saw 1,312 suspected and confirmed overdose deaths in 2023 — a 16% increase from 2022, and more than double the 2019 figure. Washington state&apos;s overdose rate of 32.6 per 100,000 is more than double what it was a decade ago. Northbound is here to help."}</AutoLinkedTextClient>
+                  <AutoLinkedTextClient>{"King County saw 1,312 suspected and confirmed overdose deaths in 2023 — a 16% increase from 2022, and more than double the 2019 figure. Washington state's overdose rate of 32.6 per 100,000 is more than double what it was a decade ago. Northbound is here to help."}</AutoLinkedTextClient>
                 </p>
               </div>
             </div>
@@ -223,7 +223,7 @@ export default function SeattlePage() {
             <p className="mb-3 text-sm font-semibold uppercase tracking-[0.16em] text-[#E8622A]">The Seattle Pathway</p>
             <h2 className="font-heading text-4xl font-bold text-[#0B1F3A] md:text-5xl">Full Continuum for Washington Clients</h2>
             <p className="mt-4 text-[#4B5563]">
-              <AutoLinkedTextClient>{"Seattle residents access Northbound&apos;s full treatment continuum — from local assessment to California residential care and back again."}</AutoLinkedTextClient>
+              <AutoLinkedTextClient>{"Seattle residents access Northbound's full treatment continuum — from local assessment to California residential care and back again."}</AutoLinkedTextClient>
             </p>
           </div>
 

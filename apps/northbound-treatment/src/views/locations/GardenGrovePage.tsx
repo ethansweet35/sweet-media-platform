@@ -156,7 +156,7 @@ export default function GardenGrovePage() {
               in Garden Grove
             </h1>
             <p className="mt-6 max-w-2xl text-lg leading-relaxed text-white/80">
-              Northbound&apos;s Garden Grove campus — known as <strong className="text-white">The Grove</strong> — is our flagship residential and detox facility. Located in the heart of Orange County, it&apos;s where thousands of lives have been rebuilt since 1988.
+              Northbound's Garden Grove campus — known as <strong className="text-white">The Grove</strong> — is our flagship residential and detox facility. Located in the heart of Orange County, it's where thousands of lives have been rebuilt since 1988.
             </p>
 
             {/* quick facts strip */}
@@ -209,7 +209,7 @@ export default function GardenGrovePage() {
                 When we founded our Garden Grove facility, we wanted to pay homage to the history of sprawling orange groves that once populated this city. The name <em>The Grove</em> was established as a symbol of hope — a place where we plant the seeds of recovery.
               </p>
               <p className="mt-4 text-base leading-relaxed text-[#4B5563]">
-                <AutoLinkedTextClient>{"Garden Grove sits in Orange County, just one mile from the famed Disneyland Resort and 20 minutes from some of California&apos;s most iconic beaches. The city&apos;s vibrant diversity and deep community spirit make it an ideal backdrop for healing — connected enough to feel alive, peaceful enough to focus on what matters."}</AutoLinkedTextClient>
+                <AutoLinkedTextClient>{"Garden Grove sits in Orange County, just one mile from the famed Disneyland Resort and 20 minutes from some of California's most iconic beaches. The city's vibrant diversity and deep community spirit make it an ideal backdrop for healing — connected enough to feel alive, peaceful enough to focus on what matters."}</AutoLinkedTextClient>
               </p>
               <p className="mt-4 text-base leading-relaxed text-[#4B5563]">
                 <AutoLinkedTextClient>{"As a two-phased residential treatment center, The Grove offers medically supervised detox followed by full residential care — all under one roof, staffed 24 hours a day."}</AutoLinkedTextClient>
@@ -309,19 +309,19 @@ export default function GardenGrovePage() {
               </div>
               {/* community tag */}
               <div className="absolute -top-5 -right-5 rounded-2xl bg-[#E8622A] px-5 py-4 shadow-xl">
-                <p className="text-xs font-bold uppercase tracking-wider text-white"><AutoLinkedTextClient>{"Community &amp; Wellness"}</AutoLinkedTextClient></p>
+                <p className="text-xs font-bold uppercase tracking-wider text-white"><AutoLinkedTextClient>{"Community & Wellness"}</AutoLinkedTextClient></p>
               </div>
             </div>
 
             <div className="order-1 lg:order-2">
               <p className="mb-3 text-sm font-semibold uppercase tracking-[0.16em] text-[#E8622A]">
-                <AutoLinkedTextClient>{"Services, Amenities &amp; Activities"}</AutoLinkedTextClient>
+                <AutoLinkedTextClient>{"Services, Amenities & Activities"}</AutoLinkedTextClient>
               </p>
               <h2 className="font-heading text-4xl font-bold text-[#0B1F3A] md:text-5xl">
                 Life at The Grove
               </h2>
               <p className="mt-4 text-base leading-relaxed text-[#4B5563]">
-                <AutoLinkedTextClient>{"Recovery isn&apos;t just about stopping substance use — it&apos;s about rebuilding a life worth living. At The Grove, every day is designed to restore your body, mind, and sense of self."}</AutoLinkedTextClient>
+                <AutoLinkedTextClient>{"Recovery isn't just about stopping substance use — it's about rebuilding a life worth living. At The Grove, every day is designed to restore your body, mind, and sense of self."}</AutoLinkedTextClient>
               </p>
 
               <div className="mt-8 grid grid-cols-1 gap-3 sm:grid-cols-2">
@@ -397,17 +397,17 @@ export default function GardenGrovePage() {
           <div className="grid gap-16 lg:grid-cols-2 lg:items-center">
             <div>
               <p className="mb-3 text-sm font-semibold uppercase tracking-[0.16em] text-[#E8622A]">
-                <AutoLinkedTextClient>{"Location &amp; Community"}</AutoLinkedTextClient>
+                <AutoLinkedTextClient>{"Location & Community"}</AutoLinkedTextClient>
               </p>
               <h2 className="font-heading text-4xl font-bold text-[#0B1F3A] md:text-5xl">
                 Rooted in{" "}
                 <span className="italic text-[#E8622A]">Orange County</span>
               </h2>
               <p className="mt-5 text-base leading-relaxed text-[#4B5563]">
-                <AutoLinkedTextClient>{"Garden Grove is one of Orange County&apos;s most vibrant and diverse cities. Home to the bustling Little Saigon and Koreatown commercial districts, it reflects a deep hometown spirit and progressive energy — an ideal environment for people from all walks of life to find common ground in recovery."}</AutoLinkedTextClient>
+                <AutoLinkedTextClient>{"Garden Grove is one of Orange County's most vibrant and diverse cities. Home to the bustling Little Saigon and Koreatown commercial districts, it reflects a deep hometown spirit and progressive energy — an ideal environment for people from all walks of life to find common ground in recovery."}</AutoLinkedTextClient>
               </p>
               <p className="mt-4 text-base leading-relaxed text-[#4B5563]">
-                <AutoLinkedTextClient>{"Our location puts you one mile from Disneyland Resort and 20 minutes from some of California&apos;s most beautiful beaches — available for structured beach bonfire outings and coastal therapy experiences that are unique to Southern California treatment."}</AutoLinkedTextClient>
+                <AutoLinkedTextClient>{"Our location puts you one mile from Disneyland Resort and 20 minutes from some of California's most beautiful beaches — available for structured beach bonfire outings and coastal therapy experiences that are unique to Southern California treatment."}</AutoLinkedTextClient>
               </p>
 
               <div className="mt-8 space-y-4">
