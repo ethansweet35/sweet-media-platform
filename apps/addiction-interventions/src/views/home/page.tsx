@@ -2,8 +2,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { createClient } from "@supabase/supabase-js";
 
-const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL!;
-const SUPABASE_ANON_KEY = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
+const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL;
+const SUPABASE_ANON_KEY = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
 
 const DAVID_PHOTO =
   "https://bxtwcdgjzzjxjvqdiuvn.supabase.co/storage/v1/object/public/site-assets/images/team_david-gates.png";
@@ -167,6 +167,7 @@ type BlogPost = {
 };
 
 async function getRecentPosts(): Promise<BlogPost[]> {
+  if (!SUPABASE_URL || !SUPABASE_ANON_KEY) return [];
   const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
   const { data } = await supabase
     .from("blog_posts")
