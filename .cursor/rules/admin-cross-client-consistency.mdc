@@ -12,7 +12,6 @@ When making any change to admin infrastructure, features, or fixes — whether i
 ### Client apps that must stay in sync:
 - `apps/northbound-treatment`
 - `apps/inner-peak-colorado`
-- `apps/mental-health-for-teens`
 - `apps/cipher-billing`
 - `apps/sweet-media`
 - `apps/addiction-interventions`

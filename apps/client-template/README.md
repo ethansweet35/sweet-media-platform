@@ -1,36 +1,52 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Client Template
 
-## Getting Started
+This is the canonical scaffold template for new Sweet Media client sites. **Do not run or deploy this app directly.** It exists to be copied by the provisioning script.
 
-First, run the development server:
+---
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## How this gets used
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+When `setup-new-client.mjs` runs, it copies this entire directory into `apps/<slug>/`, rewrites the package name, sets the Supabase hostname in `next.config.ts`, and writes `.env.local`. You should never need to edit this template for individual clients — only edit it when adding a platform-wide feature that every future client should get.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+---
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## What's included
 
-## Learn More
+- Full Next.js 16 + Tailwind v4 app shell
+- Admin system (`/admin/*`) wired to `@sweetmedia/admin-core`
+- Blog routes (`/blog`, `/blog/[slug]`)
+- Contact form API route (`/api/admin/contact`)
+- Full set of admin API routes (`/api/admin/revalidate`, `/api/admin/sync-pages`, `/api/admin/generate-seo-meta`, `/api/admin/surfer/*`, etc.)
+- SEO infrastructure (`resolveTrackedPageMetadata`, `sync-tracked-pages.ts`, `sitemap.ts`, `robots.ts`)
+- Supabase client configured from `NEXT_PUBLIC_SUPABASE_URL` + `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY`
+- Placeholder brand strings to replace: `Client Brand`, `hello@example.com`, `https://example.com`
 
-To learn more about Next.js, take a look at the following resources:
+---
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Making platform-wide changes
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+If you add a new admin feature, API route, or shared dependency:
 
-## Deploy on Vercel
+1. Add it here first (`apps/client-template`)
+2. Port it to every existing client app
+3. Update `apps/client-template/supabase/client-template-schema.sql` if there's a schema change
+4. Provide migration SQL for existing brands in your commit message
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+See `CONTRIBUTING.md` for the full cross-client consistency rules.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+---
+
+## Brand placeholder strings
+
+When scaffolding manually (without the setup script), find-and-replace these strings:
+
+| Placeholder | Replace with |
+|---|---|
+| `Client Brand` | Brand display name (e.g. `Acme Recovery`) |
+| `hello@example.com` | Contact / from email |
+| `https://example.com` | Production domain |
+| `papiwmobmdbtzeeebmpr.supabase.co` | Actual Supabase project hostname |
+
+---
+
+*Part of the Sweet Media Platform monorepo — `pnpm 10.33.2` · `Next.js 16` · `Tailwind v4` · `Supabase`*

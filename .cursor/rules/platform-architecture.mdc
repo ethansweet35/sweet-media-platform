@@ -39,16 +39,23 @@ All apps share: **Next.js 16.2.4**, **React 19.2.4**, **Tailwind v4** (`@tailwin
 - `replaceBrandStrings` targets: `Client Brand`, `hello@example.com`, `https://example.com`
 - Fonts: Inter (Google, `--font-inter`)
 
+### `@sweetmedia/northbound-treatment` (`apps/northbound-treatment`)
+- Residential addiction treatment center — fully native Next.js rebuild (complete)
+- Supabase ref: `ahufsygjwpbymomfdazb.supabase.co`
+- Routes: home, about, locations (Newport Beach, Garden Grove, San Diego, Seattle), treatment types, levels of care, therapy, `/blog/*`, `/admin/*`
+- Has real facility photo galleries (`FacilityGallery` component + Supabase storage `site-assets/images/facility/<location>/`)
+
 ### `@sweetmedia/inner-peak-colorado` (`apps/inner-peak-colorado`)
-- Full behavioral health / treatment center marketing site
+- Behavioral health / IOP treatment center
 - Has `@vercel/speed-insights`
 - Routes include therapy types, treatment conditions, levels of care, locations, `/admin/*`
-- Supabase host: `papiwmobmdbtzeeebmpr.supabase.co` (placeholder — update per real project)
+- Supabase ref: `papiwmobmdbtzeeebmpr.supabase.co`
 
-### `@sweetmedia/mental-health-for-teens` (`apps/mental-health-for-teens`)
-- Teen mental health marketing site
-- Supabase ref in `next.config.ts`: `awalaktpqqwpdvzbafkv.supabase.co`
-- ⚠️ Local `supabase/client-template-schema.sql` is **stale** — different `tracked_pages` schema (`url` not `route_path`), older `blog_knowledge_base`; do not use for migrations
+### `@sweetmedia/addiction-interventions` (`apps/addiction-interventions`)
+- Certified intervention services — fully native Next.js site (complete)
+- Supabase ref: `bxtwcdgjzzjxjvqdiuvn.supabase.co`
+- Routes: home, about, intervention types, substance/mental-health sub-pages, state/city pages, resources, quiz, `/admin/*`
+- Design system documented in `.cursor/rules/addiction-interventions-design-system.mdc`
 
 ### `@sweetmedia/cipher-billing` (`apps/cipher-billing`)
 - Behavioral health **billing** company site — active WordPress/Elementor → Next migration
@@ -254,8 +261,7 @@ These team members have access to all client projects and are auto-invited to ev
 ## Known Issues / Drift
 
 1. **`client-template-schema.sql` column drift**: `blog_queue` and `internal_links` in SQL differ from `admin-core` TS types and Edge Functions. Live DBs are ahead of the checked-in SQL.
-2. **`mental-health-for-teens` local schema**: stale `tracked_pages` and `blog_knowledge_base` columns — do not use for migrations.
-3. **Edge functions not in setup script**: `process-blog-queue`, `auto-publish-approved-drafts`, `blog-webhook`, etc. exist on disk but are not deployed by `setup-new-client.mjs`.
-4. **`autoInternalLinks` static mappings**: hardcoded for Sweet Media agency routes; other client brands should use DB-only `internal_links` rows.
-5. **Vercel env push not scripted**: `.env.local` is written by scaffold but Vercel project creation + env var push is still manual. Vercel API script not yet built.
-6. **`cipher-billing` migration in progress**: many pages still have WP/Elementor artifacts; treat as active worksite.
+2. **Edge functions not in setup script**: `process-blog-queue`, `auto-publish-approved-drafts`, `blog-webhook`, etc. exist on disk but are not deployed by `setup-new-client.mjs`.
+3. **`autoInternalLinks` static mappings**: hardcoded for Sweet Media agency routes; other client brands should use DB-only `internal_links` rows.
+4. **Vercel env push not scripted**: `.env.local` is written by scaffold but Vercel project creation + env var push is still manual. Vercel API script not yet built.
+5. **`cipher-billing` migration in progress**: many pages still have WP/Elementor artifacts; treat as active worksite.

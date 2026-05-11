@@ -229,9 +229,11 @@ Open your browser and go to `http://localhost:3000/admin`. Log in with your cred
 | Folder | What it is |
 |---|---|
 | `apps/sweet-media` | Sweet Media agency marketing site |
-| `apps/inner-peak-colorado` | Behavioral health / treatment center site |
-| `apps/mental-health-for-teens` | Teen mental health site |
-| `apps/cipher-billing` | Behavioral health billing company (WordPress migration in progress) |
+| `apps/northbound-treatment` | Residential addiction treatment center |
+| `apps/inner-peak-colorado` | Behavioral health / IOP treatment center |
+| `apps/cipher-billing` | Behavioral health billing company |
+| `apps/addiction-interventions` | Certified intervention services |
+| `apps/client-template` | Scaffold template — copy this to start a new brand |
 
 ---
 
@@ -275,19 +277,133 @@ Then run the specific app using its name in the `--filter` flag:
 # Sweet Media
 pnpm --filter @sweetmedia/sweet-media dev
 
+# Northbound Treatment
+pnpm --filter @sweetmedia/northbound-treatment dev
+
 # Inner Peak Colorado
 pnpm --filter @sweetmedia/inner-peak-colorado dev
 
-# Mental Health for Teens
-pnpm --filter @sweetmedia/mental-health-for-teens dev
-
 # Cipher Billing
 pnpm --filter @sweetmedia/cipher-billing dev
+
+# Addiction Interventions
+pnpm --filter @sweetmedia/addiction-interventions dev
 ```
 
 Open your browser to `http://localhost:3000`.
 
 > Do not `cd` into an app folder and run `next dev` — always use the `--filter` command from the repo root.
+
+---
+
+---
+
+## D. Starting a WordPress migration
+
+Use this section every time Ethan hands you a new client to migrate off WordPress.
+
+### What Ethan gives you
+
+Before you start, get these four values from Ethan:
+
+| Value | Example |
+|---|---|
+| **Client slug** | `acme-recovery` |
+| **Brand display name** | `"Acme Recovery Center"` |
+| **WordPress site URL** | `https://acmerecovery.com` |
+| **Admin email** | `admin@acmerecovery.com` |
+
+You need all four to run the provisioning script in Step 1.
+
+---
+
+### Step 1 — Provision Supabase + scaffold the app (automated, ~10 min)
+
+Pull latest from `main` first:
+
+```bash
+git pull
+```
+
+Create a new branch for the migration:
+
+```bash
+git checkout -b migration/acme-recovery
+```
+
+Run the provisioning script (replace values with what Ethan gave you):
+
+```bash
+node scripts/setup-new-client.mjs \
+  --slug  acme-recovery \
+  --name  "Acme Recovery Center" \
+  --url   https://acmerecovery.com \
+  --admin-email admin@acmerecovery.com
+```
+
+This creates the Supabase project, runs the schema, sets up storage, deploys edge functions, and scaffolds `apps/acme-recovery/` from the client template. **Save the output** — it contains the Supabase project ref and keys you'll need next.
+
+Then install dependencies:
+
+```bash
+pnpm install
+```
+
+---
+
+### Step 2 — Pull the WordPress content (automated, ~5 min)
+
+```bash
+node scripts/migrate-wordpress-content.mjs \
+  --wp-url       https://acmerecovery.com \
+  --site-id      acme-recovery \
+  --supabase-ref <ref from setup output> \
+  --supabase-key <service_role_key from Supabase dashboard>
+```
+
+This migrates all blog posts into Supabase and writes `migration-report-acme-recovery.json` to the repo root — that JSON is your page inventory and build checklist for the rest of the migration.
+
+---
+
+### Step 3 — Hand off to Cursor AI
+
+Open Cursor and start a new conversation. Paste this prompt with the client details filled in:
+
+---
+
+**Copy this prompt — fill in the three bracketed values:**
+
+```
+I'm migrating [Brand Name] from WordPress to a new app on this platform.
+
+- App directory: apps/[slug]
+- WordPress URL: [https://site.com]
+- The app has already been scaffolded and blog content has been migrated.
+- The migration report is at migration-report-[slug].json in the repo root.
+
+Please follow the wordpress-migration skill. Start with the design token extraction (Phase 1), then work through the full replicate mode workflow. I want ~95% visual parity with the live WordPress site before we do the DNS cutover.
+```
+
+---
+
+Cursor will read the `wordpress-migration` skill automatically and guide you through:
+- Design token extraction + DevTools color/font verification
+- Visual audit screenshots
+- Design token approval
+- Homepage build (first, always)
+- Inner page builds via the migration report checklist
+- Deployment to Vercel + DNS cutover
+
+The whole process is documented in detail in `docs/wp-migration-guide.md` if you need to reference anything outside of Cursor.
+
+---
+
+### What NOT to do
+
+- Don't skip the design token step — color mismatches are the most common QA fail
+- Don't commit `.env.local`, `design-tokens-*.json`, `migration-report-*.json`, or `wp-screenshots/` — they're gitignored for a reason
+- Don't run `pnpm dev` from inside the app folder — always run from the repo root with `--filter`
+- Don't take the WordPress site offline until Ethan confirms the cutover is verified (minimum 48 hours live)
 
 ---
 
