@@ -20,7 +20,7 @@ const dmSans = DM_Sans({
 /** Tab / PWA icons: RealFaviconGenerator assets in `src/app/` (`icon.svg`, `icon.png`, `favicon.ico`, `apple-icon.png`) + `public/web-app-manifest-*.png`. */
 
 export const metadata: Metadata = {
-  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL!),
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000"),
   applicationName: "Inner Peak Colorado",
   title: {
     default: "Inner Peak Colorado | Women's Virtual Mental Health & Addiction Treatment",
