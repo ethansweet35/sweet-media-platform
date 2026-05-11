@@ -121,10 +121,13 @@ export default function NewportBeachPage() {
           src={IMAGES.hero}
           alt="Newport Beach California coastline — aerial view of pristine Pacific beaches near Northbound Treatment"
           fill
-          className="object-cover object-center opacity-40"
+          className="object-cover object-center opacity-30"
           priority
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-[#0B1F3A] via-[#0B1F3A]/55 to-[#0B1F3A]/10" />
+        {/* solid base layer so bright photo doesn't bleed through at top */}
+        <div className="absolute inset-0 bg-[#0B1F3A]/40" />
+        {/* gradient to darken bottom where text lives */}
+        <div className="absolute inset-0 bg-gradient-to-t from-[#0B1F3A] via-[#0B1F3A]/60 to-transparent" />
 
         <div className="relative z-10 mx-auto w-full max-w-7xl px-6 pb-20 pt-32 lg:px-10">
           <nav className="mb-6 flex items-center gap-2 text-xs text-white/50">
