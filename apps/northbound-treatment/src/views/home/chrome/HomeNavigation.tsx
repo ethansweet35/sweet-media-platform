@@ -3,6 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import { usePathname } from "next/navigation";
 import { NB_LOGO } from "../assets";
 import { PRIMARY_NAV, type MegaSection, type TopLevelItem } from "./menuData";
 
@@ -14,11 +15,21 @@ import { PRIMARY_NAV, type MegaSection, type TopLevelItem } from "./menuData";
  * Menu structure mirrored from northboundtreatment.com (live WP site).
  */
 export default function HomeNavigation() {
+  const pathname = usePathname();
   const [activeMenu, setActiveMenu] = useState<string | null>(null);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [openMobileSection, setOpenMobileSection] = useState<string | null>(
     null,
   );
+
+  // Close all menus on route change so the mega-menu never stays open
+  // after a client-side navigation (which leaves activeMenu stale and
+  // overlays the nav, blocking pointer events on the new page).
+  useEffect(() => {
+    setActiveMenu(null);
+    setMobileOpen(false);
+    setOpenMobileSection(null);
+  }, [pathname]);
 
   useEffect(() => {
     if (!mobileOpen) setOpenMobileSection(null);
