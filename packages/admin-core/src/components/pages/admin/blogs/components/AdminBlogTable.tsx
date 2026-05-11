@@ -84,8 +84,17 @@ export default function AdminBlogTable({
 
   // ── Resizable columns ──────────────────────────────────────────────────────
   const [colWidths, setColWidths] = useState({
-    check: 40, title: 280, category: 110, author: 130,
-    date: 110, status: 100, autopublish: 80, surfer: 320, added: 110, actions: 260,
+    // Each value is sized to fit its longest realistic content without truncation
+    check: 48,
+    title: 320,       // thumbnail + title + slug line
+    category: 160,    // "Addiction Treatment" badge
+    author: 180,      // avatar + full author name
+    date: 140,        // "May 10, 2026"
+    status: 130,      // "Published" pill button
+    autopublish: 120, // header "Auto-publish" + toggle
+    surfer: 340,      // score ring + editor chip + error text
+    added: 140,       // "May 10, 2026"
+    actions: 290,     // edit + preview + star + gen-card button + ai-seo + delete
   });
   const resizeRef = useRef<{ col: keyof typeof colWidths; startX: number; startW: number } | null>(null);
 

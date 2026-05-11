@@ -59,7 +59,7 @@ export default function AdminTrackedPagesPage() {
 
   // Column widths (px)
   const [colWidths, setColWidths] = useState({
-    check: 40, route: 150, title: 125, seo: 180, meta: 190, keyword: 110, surfer: 320, status: 100, date: 95, actions: 120,
+    check: 48, route: 200, title: 160, seo: 210, meta: 220, keyword: 160, surfer: 340, status: 120, date: 140, actions: 140,
   });
   const resizeRef = useRef<{ col: keyof typeof colWidths; startX: number; startW: number } | null>(null);
 
