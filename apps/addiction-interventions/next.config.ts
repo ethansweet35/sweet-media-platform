@@ -72,7 +72,7 @@ const nextConfig: NextConfig = {
       { source: "/anxiety-interventions",    destination: "/mental-health-interventions/anxiety",    permanent: true },
       { source: "/bipolar-interventions",    destination: "/mental-health-interventions/bipolar",    permanent: true },
       { source: "/ptsd-interventions",       destination: "/mental-health-interventions/ptsd",       permanent: true },
-      { source: "/california-interventions", destination: "/california",                             permanent: true },
+      { source: "/california-interventions", destination: "/service-areas/california",              permanent: true },
       { source: "/author/aaron",             destination: "/about-us",                               permanent: true },
 
       // ── New unified substance URL structure (old flat paths → /substance-abuse-interventions/*) ──
@@ -83,6 +83,34 @@ const nextConfig: NextConfig = {
       { source: "/drug-abuse-interventions/meth",        destination: "/substance-abuse-interventions/meth",   permanent: true },
       { source: "/drug-abuse-interventions/opioid",      destination: "/substance-abuse-interventions/opioid", permanent: true },
       { source: "/drug-abuse-interventions/ketamine",    destination: "/substance-abuse-interventions/ketamine", permanent: true },
+
+      // ── Flat state/city pages → /service-areas/<slug> ─────────────────────
+      { source: "/alabama",        destination: "/service-areas/alabama",        permanent: true },
+      { source: "/arizona",        destination: "/service-areas/arizona",        permanent: true },
+      { source: "/arkansas",       destination: "/service-areas/arkansas",       permanent: true },
+      { source: "/california",     destination: "/service-areas/california",     permanent: true },
+      { source: "/colorado",       destination: "/service-areas/colorado",       permanent: true },
+      { source: "/connecticut",    destination: "/service-areas/connecticut",    permanent: true },
+      { source: "/delaware",       destination: "/service-areas/delaware",       permanent: true },
+      { source: "/florida",        destination: "/service-areas/florida",        permanent: true },
+      { source: "/idaho",          destination: "/service-areas/idaho",          permanent: true },
+      { source: "/louisiana",      destination: "/service-areas/louisiana",      permanent: true },
+      { source: "/maryland",       destination: "/service-areas/maryland",       permanent: true },
+      { source: "/minnesota",      destination: "/service-areas/minnesota",      permanent: true },
+      { source: "/montana",        destination: "/service-areas/montana",        permanent: true },
+      { source: "/nevada",         destination: "/service-areas/nevada",         permanent: true },
+      { source: "/new-mexico",     destination: "/service-areas/new-mexico",     permanent: true },
+      { source: "/new-york",       destination: "/service-areas/new-york",       permanent: true },
+      { source: "/north-carolina", destination: "/service-areas/north-carolina", permanent: true },
+      { source: "/north-dakota",   destination: "/service-areas/north-dakota",   permanent: true },
+      { source: "/oklahoma",       destination: "/service-areas/oklahoma",       permanent: true },
+      { source: "/oregon",         destination: "/service-areas/oregon",         permanent: true },
+      { source: "/south-dakota",   destination: "/service-areas/south-dakota",   permanent: true },
+      { source: "/texas",          destination: "/service-areas/texas",          permanent: true },
+      { source: "/utah",           destination: "/service-areas/utah",           permanent: true },
+      { source: "/washington",     destination: "/service-areas/washington",     permanent: true },
+      { source: "/los-angeles",    destination: "/service-areas/los-angeles",    permanent: true },
+      { source: "/san-diego",      destination: "/service-areas/san-diego",      permanent: true },
     ];
   },
 };

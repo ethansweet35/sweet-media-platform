@@ -85,7 +85,7 @@ export default function ServiceAreasPage() {
               {cities.map((c) => (
                 <Link
                   key={c.slug}
-                  href={`/${c.slug}`}
+                  href={c.routePath ?? `/service-areas/${c.slug}`}
                   className="group flex items-center justify-between rounded-2xl border border-[var(--color-divider)] bg-white p-6 transition hover:border-[var(--color-sage)] hover:shadow-md"
                 >
                   <div>
@@ -126,7 +126,7 @@ export default function ServiceAreasPage() {
             {states.map((s) => (
               <Link
                 key={s.slug}
-                href={`/${s.slug}`}
+                href={s.routePath ?? `/service-areas/${s.slug}`}
                 className="flex items-center justify-between rounded-xl border border-[var(--color-divider)] bg-white px-5 py-4 text-sm font-medium text-[var(--color-ink)] hover:border-[var(--color-sage)] hover:text-[var(--color-sage-deep)]"
               >
                 <span>{s.displayName}</span>

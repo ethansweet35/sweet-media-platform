@@ -44,11 +44,20 @@ const CITIES: Array<{ slug: string; name: string; state: string }> = [
   { slug: "san-diego", name: "San Diego", state: "California" },
 ];
 
+// Slugs that live outside /service-areas/ and should not be prefixed
+const NON_SERVICE_AREA_SLUGS = new Set([
+  "professional-interventionist-arizona",
+  "drug-intervention-wyoming",
+]);
+
 function buildState(s: { slug: string; name: string }): LocationConfig {
   return {
     slug: s.slug,
     displayName: s.name,
     type: "state",
+    routePath: NON_SERVICE_AREA_SLUGS.has(s.slug)
+      ? `/${s.slug}`
+      : `/service-areas/${s.slug}`,
     seoTitle: `${s.name} Addiction Interventions | Family Intervention Services in ${s.name}`,
     metaDescription: `Compassionate, certified addiction and mental health interventionists serving families across ${s.name}. 24/7 crisis support, on-site help in 24–48 hours, 1,500+ families helped nationwide.`,
     heroEyebrow: `Serving ${s.name} 24/7`,
@@ -63,6 +72,7 @@ function buildCity(c: { slug: string; name: string; state: string }): LocationCo
     displayName: c.name,
     type: "city",
     parentRegion: c.state,
+    routePath: `/service-areas/${c.slug}`,
     seoTitle: `${c.name} Addiction Interventions | Certified Interventionists in ${c.name}`,
     metaDescription: `On-site addiction and mental health interventions throughout ${c.name} and surrounding ${c.state}. 24/7 crisis support and same-day mobilisation when needed.`,
     heroEyebrow: `Serving ${c.name} & Greater ${c.state}`,
