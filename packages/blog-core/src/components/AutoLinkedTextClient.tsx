@@ -12,15 +12,19 @@
  * Platform linking rules enforced automatically:
  *   1. No self-links — automatically detected via usePathname() so no prop
  *      needed. The current page's href is always excluded from linking.
- *   2. One link per destination per page — a path-keyed module-level Map
- *      tracks used hrefs across all instances rendered on the same URL.
- *      The Map entry is cleared whenever the pathname changes (navigation).
+ *   2. Per-instance link cap via `maxLinks` (default 2). Each instance
+ *      links independently — no cross-instance shared state to mutate
+ *      during render, which would crash React 19 concurrent client
+ *      navigation between pages that render many instances (e.g. location
+ *      pages with 15-26 instances each). Cross-instance dedup is left
+ *      to the server-rendered <AutoLinkedText> variant which uses
+ *      React.cache() for a safe per-request registry.
  *
  * For pure server components prefer <AutoLinkedText> instead — links are
  * server-rendered, no JS execution required.
  */
 
-import { useEffect, useMemo, useRef, useState, type ReactNode } from "react";
+import { useEffect, useMemo, useState, type ReactNode } from "react";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 import { autoLinkText, type AutoLinkMapping } from "../lib/autoInternalLinks";
@@ -38,6 +42,7 @@ const DEFAULT_LINK_CLASS =
   "underline underline-offset-2 decoration-current/40 hover:decoration-current transition-colors";
 
 // Module-level mapping cache (one DB fetch shared by all instances).
+// Read-only after initial fetch — safe across navigations.
 let _cachedMappings: AutoLinkMapping[] | null = null;
 let _inFlight: Promise<AutoLinkMapping[]> | null = null;
 
@@ -50,19 +55,6 @@ async function getCachedMappings(): Promise<AutoLinkMapping[]> {
     return data;
   });
   return _inFlight;
-}
-
-/**
- * Per-page usedHrefs registry keyed by pathname.
- * Cleared on navigation so a fresh page always starts with an empty set.
- */
-const _pageUsedHrefs = new Map<string, Set<string>>();
-
-function getPageUsedHrefs(pathname: string): Set<string> {
-  if (!_pageUsedHrefs.has(pathname)) {
-    _pageUsedHrefs.set(pathname, new Set<string>());
-  }
-  return _pageUsedHrefs.get(pathname)!;
 }
 
 export function AutoLinkedTextClient({
@@ -78,10 +70,6 @@ export function AutoLinkedTextClient({
     _cachedMappings
   );
 
-  // Track the instance's own contribution to the page registry so we can
-  // remove it if the component unmounts mid-render (e.g. React strict mode).
-  const ownLinkedHrefs = useRef<string[]>([]);
-
   useEffect(() => {
     if (mappings !== null) return;
     let cancelled = false;
@@ -92,14 +80,6 @@ export function AutoLinkedTextClient({
       cancelled = true;
     };
   }, [mappings]);
-
-  // Clear stale page registry on pathname change (client navigation).
-  useEffect(() => {
-    // Keep only the current page's entry; discard all others.
-    for (const key of _pageUsedHrefs.keys()) {
-      if (key !== pathname) _pageUsedHrefs.delete(key);
-    }
-  }, [pathname]);
 
   const text = typeof children === "string" ? children : "";
 
@@ -114,23 +94,12 @@ export function AutoLinkedTextClient({
       : mappings;
     if (filtered.length === 0) return null;
 
-    // Share the page-level usedHrefs set across all instances on this path.
-    const pageUsedHrefs = getPageUsedHrefs(pathname);
-    const before = new Set(pageUsedHrefs);
-    const result = autoLinkText(
-      text,
-      filtered,
-      undefined,
-      pageUsedHrefs,
-      maxLinks
-    );
-
-    // Record which hrefs this instance added so we can clean up if needed.
-    ownLinkedHrefs.current = [...pageUsedHrefs].filter((h) => !before.has(h));
-
-    return result;
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [text, mappings, effectivePath, pathname, maxLinks]);
+    // Pure: each instance gets its own fresh Set. No cross-instance dedup
+    // on the client (the cost of safe concurrent rendering). The
+    // server-rendered <AutoLinkedText> handles cross-instance dedup safely
+    // via React.cache().
+    return autoLinkText(text, filtered, undefined, new Set<string>(), maxLinks);
+  }, [text, mappings, effectivePath, maxLinks]);
 
   if (!segments) {
     return <>{text || children}</>;
