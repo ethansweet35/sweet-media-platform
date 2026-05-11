@@ -74,11 +74,24 @@ async function surferFetch<T>(
       summary = body.slice(0, 500);
     } else if (typeof body === "object" && body !== null) {
       const b = body as Record<string, unknown>;
-      const msg =
-        b["message"] ?? b["error"] ?? b["detail"] ??
-        (Array.isArray(b["errors"]) ? (b["errors"] as unknown[])[0] : undefined);
-      if (msg !== undefined) summary = String(msg);
-      else summary = `Surfer API error (HTTP ${res.status}): ${JSON.stringify(body).slice(0, 400)}`;
+      // Try scalar fields first
+      const scalar = b["message"] ?? b["error"] ?? b["detail"];
+      if (typeof scalar === "string") {
+        summary = scalar;
+      } else if (Array.isArray(b["errors"]) && (b["errors"] as unknown[]).length > 0) {
+        // errors array — each item may be a string or an object with a message field
+        const first = (b["errors"] as unknown[])[0];
+        if (typeof first === "string") {
+          summary = first;
+        } else if (typeof first === "object" && first !== null) {
+          const fm = (first as Record<string, unknown>)["message"] ??
+            (first as Record<string, unknown>)["detail"] ??
+            (first as Record<string, unknown>)["error"];
+          summary = typeof fm === "string" ? fm : JSON.stringify(b["errors"]).slice(0, 300);
+        }
+      } else {
+        summary = `Surfer API error (HTTP ${res.status}): ${JSON.stringify(body).slice(0, 300)}`;
+      }
     }
     throw new SurferApiError(summary, res.status, body);
   }
