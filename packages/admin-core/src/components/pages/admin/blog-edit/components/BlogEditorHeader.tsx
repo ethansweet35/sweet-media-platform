@@ -1,9 +1,13 @@
+export type RewriteStatus = "idle" | "generating" | "ready" | "error";
+
 interface BlogEditorHeaderProps {
   title: string;
   status: string;
   saving: boolean;
   saved: boolean;
   hasChanges: boolean;
+  rewriteStatus: RewriteStatus;
+  rewriteError?: string | null;
   onBack: () => void;
   onSave: () => void;
   onPreview: () => void;
@@ -16,6 +20,7 @@ export default function BlogEditorHeader({
   saving,
   saved,
   hasChanges,
+  rewriteStatus,
   onBack,
   onSave,
   onPreview,
@@ -47,25 +52,43 @@ export default function BlogEditorHeader({
               {status === "published" ? "Published" : "Draft"}
             </span>
             {hasChanges && !saving && !saved && (
-              <span className="text-[10px] text-amber-500 font-medium flex-shrink-0">
-                Unsaved changes
-              </span>
+              <span className="text-[10px] text-amber-500 font-medium flex-shrink-0">Unsaved changes</span>
             )}
             {saved && !hasChanges && (
               <span className="text-[10px] text-emerald-500 font-medium flex items-center gap-1 flex-shrink-0">
-                <i className="ri-check-line text-xs"></i>
-                Saved
+                <i className="ri-check-line text-xs"></i>Saved
               </span>
             )}
           </div>
           <p className="text-[10px] text-neutral-400 mt-0.5">Blog Post Editor</p>
         </div>
 
+        {/* Rewrite status chip */}
+        {rewriteStatus === "generating" && (
+          <div className="flex items-center gap-2 bg-violet-50 border border-violet-200 text-violet-700 text-[11px] font-semibold px-3.5 py-1.5 rounded-xl flex-shrink-0">
+            <i className="ri-loader-4-line animate-spin text-xs"></i>
+            Writing with AI...
+          </div>
+        )}
+        {rewriteStatus === "ready" && (
+          <div className="flex items-center gap-1.5 bg-emerald-50 border border-emerald-200 text-emerald-700 text-[11px] font-semibold px-3.5 py-1.5 rounded-xl flex-shrink-0">
+            <i className="ri-check-line text-xs"></i>
+            Rewrite ready — scroll down to apply
+          </div>
+        )}
+        {rewriteStatus === "error" && (
+          <div className="flex items-center gap-1.5 bg-red-50 border border-red-200 text-red-600 text-[11px] font-semibold px-3.5 py-1.5 rounded-xl flex-shrink-0">
+            <i className="ri-error-warning-line text-xs"></i>
+            Rewrite failed
+          </div>
+        )}
+
         {/* Actions */}
         <div className="flex items-center gap-2 flex-shrink-0">
           <button
             onClick={onAiRewrite}
-            className="flex items-center gap-1.5 border border-violet-200 text-violet-600 text-[11px] tracking-[0.12em] uppercase font-bold px-4 py-2 rounded-xl hover:bg-violet-50 hover:border-violet-300 transition-colors cursor-pointer whitespace-nowrap"
+            disabled={rewriteStatus === "generating"}
+            className="flex items-center gap-1.5 border border-violet-200 text-violet-600 text-[11px] tracking-[0.12em] uppercase font-bold px-4 py-2 rounded-xl hover:bg-violet-50 hover:border-violet-300 transition-colors cursor-pointer whitespace-nowrap disabled:opacity-40 disabled:cursor-not-allowed"
           >
             <i className="ri-sparkling-2-line text-xs"></i>
             AI Rewrite
@@ -83,15 +106,9 @@ export default function BlogEditorHeader({
             className="flex items-center gap-1.5 bg-[#3d6f7f] text-white text-[11px] tracking-[0.12em] uppercase font-bold px-5 py-2 rounded-xl hover:bg-[#35636f] transition-colors disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer whitespace-nowrap"
           >
             {saving ? (
-              <>
-                <i className="ri-loader-4-line animate-spin text-xs"></i>
-                Saving...
-              </>
+              <><i className="ri-loader-4-line animate-spin text-xs"></i>Saving...</>
             ) : (
-              <>
-                <i className="ri-save-line text-xs"></i>
-                Save
-              </>
+              <><i className="ri-save-line text-xs"></i>Save</>
             )}
           </button>
         </div>
