@@ -1,6 +1,6 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
-  "ignoreCommand": "npx turbo-ignore --workspace=@sweetmedia/inner-peak-colorado",
+  "ignoreCommand": "npx turbo-ignore @sweetmedia/inner-peak-colorado",
   "crons": [
     {
       "path": "/api/admin/surfer/refresh-stale",

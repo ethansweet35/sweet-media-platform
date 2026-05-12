@@ -1,6 +1,6 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
-  "ignoreCommand": "npx turbo-ignore --workspace=@sweetmedia/addiction-interventions",
+  "ignoreCommand": "npx turbo-ignore @sweetmedia/addiction-interventions",
   "crons": [
     {
       "path": "/api/admin/surfer/refresh-stale",
