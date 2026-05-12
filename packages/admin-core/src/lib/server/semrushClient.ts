@@ -10,8 +10,9 @@
  * We URL-decode response values via `export_decode=1` and request only the columns we need.
  *
  * Cost discipline (lean integration):
- *   - phrase_this  : ~10 API units per call  (single-keyword overview)
- *   - phrase_related: ~40 API units per row returned (related-keyword suggestions)
+ *   - phrase_this       : ~10 API units per call  (single-keyword overview)
+ *   - phrase_fullsearch : ~40 API units per row returned (broad-match suggestions —
+ *                          mirrors Keyword Magic Tool's "Broad Match" tab)
  * Callers must request the smallest `displayLimit` they need.
  */
 
@@ -125,7 +126,7 @@ export interface SemrushKeywordOverview {
   difficulty: number;
 }
 
-/** A related-keyword suggestion row (from phrase_related). */
+/** A keyword suggestion row (from phrase_fullsearch — broad match). */
 export interface SemrushKeywordSuggestion {
   phrase: string;
   searchVolume: number;
@@ -133,8 +134,6 @@ export interface SemrushKeywordSuggestion {
   competition: number;
   results: number;
   difficulty: number;
-  /** Relevance to the seed keyword as a percentage 0–100 (Rr). */
-  relevance: number;
 }
 
 // =========================================================
@@ -179,8 +178,13 @@ export async function getKeywordOverview(
 }
 
 /**
- * Fetch related-keyword suggestions for a seed phrase.
- * Endpoint: type=phrase_related · cost ≈ 40 API units PER ROW returned.
+ * Fetch broad-match keyword suggestions for a seed phrase.
+ *
+ * Mirrors Semrush Keyword Magic Tool's "Broad Match" tab — returns every phrase
+ * that contains the seed words, not just strict semantic synonyms. This is what
+ * the user sees in the Semrush UI and matches the same ordering by volume.
+ *
+ * Endpoint: type=phrase_fullsearch · cost ≈ 40 API units PER ROW returned.
  *
  * `displayLimit` defaults to 10 — keep it small.
  */
@@ -196,26 +200,23 @@ export async function getKeywordSuggestions(
 
   const limit = Math.max(1, Math.min(50, opts?.displayLimit ?? 10));
 
-  // Column order MUST match positional parsing below: Ph, Nq, Cp, Co, Nr, Kd, Rr
+  // Column order MUST match positional parsing below: Ph, Nq, Cp, Co, Nr, Kd
   const body = await semrushFetch({
-    type: "phrase_related",
+    type: "phrase_fullsearch",
     key: apiKey,
     phrase: cleanPhrase,
     database: opts?.database ?? database,
     display_limit: limit,
-    // Sort by relevance descending so the most on-topic suggestions surface first.
-    display_sort: "rr_desc",
-    export_columns: "Ph,Nq,Cp,Co,Nr,Kd,Rr",
+    // Sort by search volume descending — same default as Keyword Magic Tool's volume column.
+    display_sort: "nq_desc",
+    export_columns: "Ph,Nq,Cp,Co,Nr,Kd",
     export_decode: 1,
   });
 
   const rows = parseSemrushRows(body);
   return rows
     .map((cells) => {
-      const [ph, nq, cp, co, nr, kd, rr] = cells;
-      // Semrush returns Rr as 0–1 (e.g. 0.55 = 55% related); normalize to 0–100
-      // so callers can render it directly as a percentage.
-      const relevanceFraction = toNumber(rr);
+      const [ph, nq, cp, co, nr, kd] = cells;
       return {
         phrase: ph ?? "",
         searchVolume: toNumber(nq),
@@ -223,7 +224,6 @@ export async function getKeywordSuggestions(
         competition: toNumber(co),
         results: toNumber(nr),
         difficulty: toNumber(kd),
-        relevance: Math.round(relevanceFraction * 100),
       };
     })
     .filter((row) => row.phrase.length > 0);

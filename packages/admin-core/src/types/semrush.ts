@@ -16,9 +16,11 @@ export interface SemrushKeywordOverviewDTO {
   difficulty: number;
 }
 
-export interface SemrushKeywordSuggestionDTO extends SemrushKeywordOverviewDTO {
-  relevance: number;
-}
+/**
+ * One broad-match suggestion row — same shape as the overview (Semrush returns
+ * the same column set for both phrase_this and phrase_fullsearch).
+ */
+export type SemrushKeywordSuggestionDTO = SemrushKeywordOverviewDTO;
 
 /** Response payload of `/api/admin/semrush/overview`. */
 export interface SemrushOverviewResponse {

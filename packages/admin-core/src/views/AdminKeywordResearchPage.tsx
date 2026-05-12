@@ -16,7 +16,7 @@ const inputCls =
 const SUGGEST_LIMIT_DEFAULT = 10;
 const SUGGEST_LIMIT_MAX = 25;
 
-type SortKey = "relevance" | "searchVolume" | "difficulty" | "cpc";
+type SortKey = "searchVolume" | "difficulty" | "cpc";
 
 function formatNumber(n: number): string {
   if (!Number.isFinite(n) || n === 0) return "—";
@@ -62,7 +62,7 @@ export default function AdminKeywordResearchPage() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [result, setResult] = useState<ResearchState | null>(null);
-  const [sortKey, setSortKey] = useState<SortKey>("relevance");
+  const [sortKey, setSortKey] = useState<SortKey>("searchVolume");
   const [copyState, setCopyState] = useState<string | null>(null);
 
   const runResearch = useCallback(
@@ -117,26 +117,18 @@ export default function AdminKeywordResearchPage() {
   const handleExportCsv = () => {
     if (!result) return;
     const rows: string[] = [];
-    rows.push("phrase,search_volume,keyword_difficulty,cpc_usd,competition,relevance_pct,results");
+    rows.push("phrase,search_volume,keyword_difficulty,cpc_usd,competition,results");
     if (result.seed) {
       const s = result.seed;
       rows.push(
-        [s.phrase, s.searchVolume, s.difficulty, s.cpc, s.competition, "", s.results]
+        [s.phrase, s.searchVolume, s.difficulty, s.cpc, s.competition, s.results]
           .map((c) => csvEscape(String(c)))
           .join(","),
       );
     }
     for (const sug of result.suggestions) {
       rows.push(
-        [
-          sug.phrase,
-          sug.searchVolume,
-          sug.difficulty,
-          sug.cpc,
-          sug.competition,
-          sug.relevance,
-          sug.results,
-        ]
+        [sug.phrase, sug.searchVolume, sug.difficulty, sug.cpc, sug.competition, sug.results]
           .map((c) => csvEscape(String(c)))
           .join(","),
       );
@@ -154,14 +146,13 @@ export default function AdminKeywordResearchPage() {
 
   const sorted = result
     ? [...result.suggestions].sort((a, b) => {
-        if (sortKey === "searchVolume") return b.searchVolume - a.searchVolume;
         if (sortKey === "cpc") return b.cpc - a.cpc;
         if (sortKey === "difficulty") {
           const ax = a.difficulty || 999;
           const bx = b.difficulty || 999;
           return ax - bx;
         }
-        return b.relevance - a.relevance;
+        return b.searchVolume - a.searchVolume;
       })
     : [];
 
@@ -169,7 +160,7 @@ export default function AdminKeywordResearchPage() {
     <div>
       <AdminPageHeader
         title="Keyword Research"
-        subtitle="Find the best primary focus keyword before you write. Powered by Semrush."
+        subtitle="Find the best primary focus keyword before you write. Broad-match results from Semrush — same data as Keyword Magic Tool."
       />
 
       <div className="mx-auto max-w-screen-xl py-6 space-y-6">
@@ -248,8 +239,9 @@ export default function AdminKeywordResearchPage() {
               Type a topic above and click Research.
             </p>
             <p className="mt-1.5 text-[12px] text-neutral-500 leading-relaxed max-w-md mx-auto">
-              You&apos;ll see the seed&apos;s search volume &amp; difficulty alongside the top related
-              keywords, sortable by volume, KD, or relevance.
+              You&apos;ll see the seed&apos;s search volume &amp; difficulty alongside the top
+              broad-match keywords (every phrase containing your seed words), sortable by volume,
+              KD, or CPC.
             </p>
           </div>
         )}
@@ -292,7 +284,7 @@ export default function AdminKeywordResearchPage() {
               <div className="flex items-center justify-between gap-3 px-5 py-4 border-b border-neutral-100">
                 <div>
                   <p className="text-[11px] font-bold uppercase tracking-[0.12em] text-neutral-700">
-                    Related keywords
+                    Broad-match keywords
                     <span className="ml-2 text-neutral-400 normal-case font-normal tracking-normal">
                       ({result.suggestions.length})
                     </span>
@@ -304,13 +296,13 @@ export default function AdminKeywordResearchPage() {
                         ? "volume"
                         : sortKey === "cpc"
                           ? "CPC"
-                          : sortKey}
+                          : "difficulty"}
                     </span>
                   </p>
                 </div>
                 <div className="flex items-center gap-2">
                   <div className="flex items-center gap-1 mr-2">
-                    {(["relevance", "searchVolume", "difficulty", "cpc"] as SortKey[]).map((k) => (
+                    {(["searchVolume", "difficulty", "cpc"] as SortKey[]).map((k) => (
                       <button
                         key={k}
                         type="button"
@@ -321,13 +313,7 @@ export default function AdminKeywordResearchPage() {
                             : "text-neutral-500 hover:bg-neutral-100"
                         }`}
                       >
-                        {k === "searchVolume"
-                          ? "Volume"
-                          : k === "difficulty"
-                            ? "KD"
-                            : k === "cpc"
-                              ? "CPC"
-                              : "Relevance"}
+                        {k === "searchVolume" ? "Volume" : k === "difficulty" ? "KD" : "CPC"}
                       </button>
                     ))}
                   </div>
@@ -344,7 +330,7 @@ export default function AdminKeywordResearchPage() {
 
               {sorted.length === 0 ? (
                 <p className="p-8 text-center text-sm text-neutral-500">
-                  No related keywords returned for that seed.
+                  No broad-match keywords returned. Try a shorter or more general seed.
                 </p>
               ) : (
                 <div className="overflow-x-auto">
@@ -356,7 +342,6 @@ export default function AdminKeywordResearchPage() {
                         <th className="px-3 py-2.5 text-right whitespace-nowrap">Difficulty</th>
                         <th className="px-3 py-2.5 text-right whitespace-nowrap">CPC</th>
                         <th className="px-3 py-2.5 text-right whitespace-nowrap">Competition</th>
-                        <th className="px-3 py-2.5 text-right whitespace-nowrap">Relevance</th>
                         <th className="px-3 py-2.5 text-right whitespace-nowrap">Actions</th>
                       </tr>
                     </thead>
@@ -382,9 +367,6 @@ export default function AdminKeywordResearchPage() {
                           </td>
                           <td className="px-3 py-3 text-right font-mono text-[12px] text-neutral-600">
                             {(s.competition * 100).toFixed(0)}%
-                          </td>
-                          <td className="px-3 py-3 text-right font-mono text-[12px] text-neutral-600">
-                            {s.relevance.toFixed(0)}%
                           </td>
                           <td className="px-3 py-3 text-right">
                             <div className="inline-flex items-center gap-1.5">

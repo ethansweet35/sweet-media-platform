@@ -19,7 +19,7 @@ interface KeywordSuggestPopoverProps {
   disabled?: boolean;
 }
 
-type SortKey = "relevance" | "searchVolume" | "difficulty";
+type SortKey = "searchVolume" | "difficulty" | "cpc";
 
 const SUGGEST_LIMIT = 10;
 
@@ -66,7 +66,7 @@ export default function KeywordSuggestPopover({
   const [seed, setSeed] = useState<SemrushKeywordOverviewDTO | null>(null);
   const [suggestions, setSuggestions] = useState<SemrushKeywordSuggestionDTO[]>([]);
   const [lastFetchedSeed, setLastFetchedSeed] = useState<string | null>(null);
-  const [sortKey, setSortKey] = useState<SortKey>("relevance");
+  const [sortKey, setSortKey] = useState<SortKey>("searchVolume");
   const popRef = useRef<HTMLDivElement | null>(null);
 
   // Click-outside / Escape closes the popover.
@@ -139,14 +139,14 @@ export default function KeywordSuggestPopover({
   };
 
   const sorted = [...suggestions].sort((a, b) => {
-    if (sortKey === "searchVolume") return b.searchVolume - a.searchVolume;
+    if (sortKey === "cpc") return b.cpc - a.cpc;
     if (sortKey === "difficulty") {
       // Lower KD wins; treat 0 (unknown) as worst so it sinks.
       const ax = a.difficulty || 999;
       const bx = b.difficulty || 999;
       return ax - bx;
     }
-    return b.relevance - a.relevance;
+    return b.searchVolume - a.searchVolume;
   });
 
   return (
@@ -210,8 +210,8 @@ export default function KeywordSuggestPopover({
               <div className="px-4 py-8 text-center">
                 <p className="text-xs text-neutral-500 leading-relaxed">
                   Click <span className="font-semibold">Fetch</span> to pull a Semrush overview for
-                  &quot;{currentKeyword.trim() || "(seed)"}&quot; plus the top {SUGGEST_LIMIT} related
-                  keywords with search volume &amp; difficulty.
+                  &quot;{currentKeyword.trim() || "(seed)"}&quot; plus the top {SUGGEST_LIMIT}{" "}
+                  broad-match keywords (matches Keyword Magic Tool).
                 </p>
                 <p className="mt-2 text-[10px] text-neutral-400">
                   Cost: ~10 + (40 × {SUGGEST_LIMIT}) Semrush API units per click.
@@ -272,7 +272,7 @@ export default function KeywordSuggestPopover({
                     <span className="text-[10px] uppercase tracking-[0.1em] text-neutral-400 font-bold">
                       Sort:
                     </span>
-                    {(["relevance", "searchVolume", "difficulty"] as SortKey[]).map((k) => (
+                    {(["searchVolume", "difficulty", "cpc"] as SortKey[]).map((k) => (
                       <button
                         key={k}
                         type="button"
@@ -283,7 +283,7 @@ export default function KeywordSuggestPopover({
                             : "text-neutral-500 hover:bg-neutral-100"
                         }`}
                       >
-                        {k === "searchVolume" ? "Volume" : k === "difficulty" ? "KD" : "Relevance"}
+                        {k === "searchVolume" ? "Volume" : k === "difficulty" ? "KD" : "CPC"}
                       </button>
                     ))}
                   </div>
@@ -298,7 +298,7 @@ export default function KeywordSuggestPopover({
 
                 {suggestions.length === 0 && seed !== null && (
                   <p className="px-4 py-4 text-center text-xs text-neutral-500">
-                    No related keywords found in Semrush.
+                    No broad-match keywords found in Semrush. Try a shorter or more general seed.
                   </p>
                 )}
 
@@ -315,8 +315,7 @@ export default function KeywordSuggestPopover({
                             {s.phrase}
                           </p>
                           <p className="mt-0.5 text-[10px] text-neutral-400">
-                            CPC ${s.cpc.toFixed(2)} · Comp {(s.competition * 100).toFixed(0)}% · Rel{" "}
-                            {s.relevance.toFixed(0)}%
+                            CPC ${s.cpc.toFixed(2)} · Comp {(s.competition * 100).toFixed(0)}%
                           </p>
                         </div>
                         <div className="text-right text-[11px] shrink-0">
