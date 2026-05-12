@@ -143,6 +143,18 @@ export async function runScaffold(opts) {
   ];
   writeFileSync(join(destDir, '.env.local'), envLines.join('\n'), 'utf8');
 
+  // Generate .upload.env with brand-specific values so new apps never inherit
+  // the template's placeholder credentials.
+  const uploadEnvLines = [
+    `SUPABASE_PROJECT_REF=${supabaseRef}`,
+    `SUPABASE_URL=https://${supabaseRef}.supabase.co`,
+    `SUPABASE_SERVICE_ROLE_KEY=`,
+    `SUPABASE_BUCKET=site-assets`,
+    `LOCAL_IMAGE_DIR=/Users/yourname/Downloads/${slug}-images`,
+    '',
+  ];
+  writeFileSync(join(destDir, '.upload.env'), uploadEnvLines.join('\n'), 'utf8');
+
   if (brandReplace) {
     replaceBrandStrings(destDir, {
       slug,
