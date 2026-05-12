@@ -21,6 +21,27 @@ node scripts/extract-wp-design-tokens.mjs --wp-url https://existing-site.com
 
 This writes `design-tokens-[slug].json` to the repo root with extracted Elementor global colors, font families detected from Google Fonts links, and a `platformTokenSheet` scaffold to fill in.
 
+### RM-1.5 — Migrate WordPress Site Images
+
+Run immediately after RM-1. This downloads all images from the WordPress media library and homepage, uploads them to the client's Supabase `site-assets/images/wp-migrated/` bucket, and writes a local mapping file for use during page builds.
+
+```bash
+node scripts/migrate-wp-site-images.mjs \
+  --wp-url https://existing-site.com \
+  --site-id brand-slug
+```
+
+The script auto-detects `NEXT_PUBLIC_SUPABASE_URL` and `SUPABASE_SERVICE_ROLE_KEY` from `apps/<brand-slug>/.env.local`.
+
+Output: `image-map-{site-id}.json` at repo root — a JSON map of `originalWpUrl → supabasePublicUrl`.
+
+**Important:**
+- Only original (full-resolution) images are uploaded — WP size variants are skipped since Next.js handles responsive resizing via `next/image`
+- WP REST `/media` endpoint requires auth if protected; the script falls back to homepage HTML crawl automatically
+- Use `map[originalUrl]` when referencing images in page components during Track B build
+- For pages with no suitable WP source image, use `GenerateImage` per `platform-unique-page-imagery` rule
+- Run with `--dry-run` first on large sites to preview what will be uploaded
+
 ### RM-2 — Verify in Browser DevTools
 
 Open the live WordPress site and complete the `platformTokenSheet` in the JSON file:
