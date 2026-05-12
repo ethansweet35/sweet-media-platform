@@ -17,7 +17,8 @@
     "migrate-clients": "node scripts/migrate-all-clients.mjs",
     "crawl-brand-data": "node scripts/crawl-brand-data.mjs",
     "migrate-wp-images": "node scripts/migrate-wp-site-images.mjs",
-    "dev-setup": "node scripts/dev-setup.mjs"
+    "dev-setup": "node scripts/dev-setup.mjs",
+    "sync-env": "node scripts/sync-env-to-1password.mjs"
   },
   "devDependencies": {
     "@types/turndown": "^5.0.6",

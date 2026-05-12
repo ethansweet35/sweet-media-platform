@@ -1,0 +1,11 @@
+{
+  "version": 1,
+  "hooks": {
+    "afterFileEdit": [
+      {
+        "command": ".cursor/hooks/sync-env-to-1password.sh",
+        "matcher": "Write"
+      }
+    ]
+  }
+}
