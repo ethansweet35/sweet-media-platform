@@ -209,6 +209,7 @@ Fetch WP CSS → Elementor/globals token JSON
 - `CONTACT_TO_EMAIL`, `CONTACT_FROM_EMAIL`, `CONTACT_BRAND_NAME` — contact route inbox + sender + label (Resend sender domain must be verified)
 - `OPENROUTER_API_KEY` — admin AI routes (`/api/admin/rewrite-blog-post`, `/api/admin/generate-seo-meta`); shared from repo-root `.env`
 - `SURFER_API_KEY` — Surfer SEO admin routes; shared from repo-root `.env`
+- `SEMRUSH_API_KEY` — Semrush keyword research routes (`/api/admin/semrush/overview`, `/api/admin/semrush/suggestions`) and `/admin/keyword-research` view; shared from repo-root `.env`
 - Optional: `SURFER_PROJECT_ID`, `SURFER_FOLDER_ID_BLOGS`, `SURFER_FOLDER_ID_PAGES` (per-brand Surfer scoping)
 - Optional: `CRON_SECRET` — required only when the weekly Surfer `refresh-stale` cron should be authorized
 - Optional: `TRACKED_PAGE_METADATA_CACHE_SECONDS`

@@ -23,7 +23,7 @@
  *       SUPABASE_ACCESS_TOKEN, OPENROUTER_API_KEY, OPENAI_API_KEY,
  *       BLOG_WEBHOOK_SECRET (auto-generated if missing),
  *       GOOGLE_INDEXING_CLIENT_EMAIL, GOOGLE_INDEXING_PRIVATE_KEY,
- *       VERCEL_TOKEN, GITHUB_REPO, SURFER_API_KEY
+ *       VERCEL_TOKEN, GITHUB_REPO, SURFER_API_KEY, SEMRUSH_API_KEY
  *
  * After this script:
  *   - Run `node scripts/publish-client-to-vercel.mjs --slug <slug> --name "<name>"
@@ -560,7 +560,7 @@ CONTACT_FROM_EMAIL=${name} <no-reply@<apex>>   # set per brand (Resend domain mu
 CONTACT_BRAND_NAME=${name}
 
 (Shared platform secrets — pulled from repo-root .env on Vercel publish:
-   OPENROUTER_API_KEY, SURFER_API_KEY)
+   OPENROUTER_API_KEY, SURFER_API_KEY, SEMRUSH_API_KEY)
 
 ─── Next steps ──────────────────────────────────────
 

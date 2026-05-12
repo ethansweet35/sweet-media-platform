@@ -35,7 +35,7 @@ It must always reflect the **exact** infrastructure every new client needs.
   - Public: `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`, `NEXT_PUBLIC_SITE_ID`, `NEXT_PUBLIC_SITE_URL`.
   - Per-brand secrets: `SUPABASE_SERVICE_ROLE_KEY`, `RESEND_API_KEY`, `CONTACT_TO_EMAIL`, `CONTACT_FROM_EMAIL`, `CONTACT_BRAND_NAME`.
   - Optional per-brand secrets: `SURFER_PROJECT_ID`, `SURFER_FOLDER_ID_BLOGS`, `SURFER_FOLDER_ID_PAGES`, `CRON_SECRET` (only required when the Surfer cron should be authorized).
-- Shared platform secrets live in repo-root `.env` and are pushed to every brand by `publish-client-to-vercel.mjs`: `OPENROUTER_API_KEY`, `SURFER_API_KEY`.
+- Shared platform secrets live in repo-root `.env` and are pushed to every brand by `publish-client-to-vercel.mjs`: `OPENROUTER_API_KEY`, `SURFER_API_KEY`, `SEMRUSH_API_KEY`.
 
 ### App scaffold (Next.js)
 - Companion script: **`scripts/scaffold-client-app.mjs`** (copy `apps/client-template` → `apps/<slug>`, package name, `next.config` Supabase host, `.env.local` with public + contact vars, optional brand string replacement).

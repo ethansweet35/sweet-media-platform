@@ -6,9 +6,11 @@ export * from "./types/content-links";
 export * from "./types/knowledge-base";
 export * from "./types/tracked-page";
 export * from "./types/surfer";
+export * from "./types/semrush";
 
 export { default as AdminPageHeader } from "./components/AdminPageHeader";
 export { default as SurferCell, type SurferCellRow } from "./components/SurferCell";
+export { default as KeywordSuggestPopover } from "./components/KeywordSuggestPopover";
 export { supabase, supabaseConfigured } from "./lib/supabase";
 export { AuthProvider, useAuth } from "./contexts/AuthContext";
 export { default as AdminGuard } from "./components/AdminGuard";
@@ -66,4 +68,5 @@ export { default as AdminKnowledgeBasePage } from "./views/AdminKnowledgeBasePag
 export { default as AdminLinkHealthPage } from "./views/AdminLinkHealthPage";
 export { default as AdminSetupPage } from "./views/AdminSetupPage";
 export { default as AdminBrandSettingsPage } from "./views/AdminBrandSettingsPage";
+export { default as AdminKeywordResearchPage } from "./views/AdminKeywordResearchPage";
 export { useBrandSettings, type BrandSettingsRow, type BusinessHoursRow } from "./hooks/useBrandSettings";

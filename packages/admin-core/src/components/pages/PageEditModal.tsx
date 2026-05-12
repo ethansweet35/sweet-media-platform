@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import type { TrackedPage, TrackedPageInput } from "../../types/tracked-page";
 import { ADMIN_OCEAN } from "../../lib/adminTheme";
+import KeywordSuggestPopover from "../KeywordSuggestPopover";
 
 interface PageEditModalProps {
   page: TrackedPage | null;
@@ -175,9 +176,16 @@ export default function PageEditModal({ page, isOpen, onClose, onSubmit }: PageE
 
           {/* Primary Keyword (moved up so AI can use it) */}
           <div>
-            <label className="block text-[11px] font-bold tracking-[0.12em] uppercase text-neutral-500 mb-1.5">
-              Primary Keyword
-            </label>
+            <div className="flex items-center justify-between mb-1.5">
+              <label className="block text-[11px] font-bold tracking-[0.12em] uppercase text-neutral-500">
+                Primary Keyword
+              </label>
+              <KeywordSuggestPopover
+                currentKeyword={primaryKeyword || pageTitle}
+                onSelect={(phrase) => setPrimaryKeyword(phrase)}
+                disabled={busy}
+              />
+            </div>
             <input
               type="text"
               value={primaryKeyword}

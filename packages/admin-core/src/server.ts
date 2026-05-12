@@ -34,3 +34,12 @@ export {
   loadPublicSitemapSources,
   type PublicSitemapSources,
 } from "./lib/server/publicSitemap";
+
+export {
+  SemrushApiError,
+  getSemrushEnv,
+  getKeywordOverview,
+  getKeywordSuggestions,
+  type SemrushKeywordOverview,
+  type SemrushKeywordSuggestion,
+} from "./lib/server/semrushClient";
