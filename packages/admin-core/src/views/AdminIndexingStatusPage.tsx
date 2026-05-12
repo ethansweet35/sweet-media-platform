@@ -4,6 +4,7 @@ import { useEffect, useMemo, useState } from "react";
 import { supabase } from "../lib/supabase";
 import { ADMIN_OCEAN, adminFontSerif } from "../lib/adminTheme";
 import { canonicalBlogPostUrl, getPublicSiteOrigin } from "../lib/publicSiteUrl";
+import { collectSitemapUrls } from "../lib/sitemap";
 
 type PingStatus = "idle" | "pinging" | "success" | "error";
 
@@ -41,11 +42,7 @@ interface IndexStatusResult {
 
 async function fetchSitemapUrls(origin: string): Promise<string[]> {
   try {
-    const res = await fetch(`${origin.replace(/\/+$/, "")}/sitemap.xml`, { cache: "no-store" });
-    if (!res.ok) return [];
-    const xml = await res.text();
-    const urls = [...xml.matchAll(/<loc>([^<]+)<\/loc>/g)].map((m) => m[1].trim());
-    return Array.from(new Set(urls));
+    return await collectSitemapUrls(origin);
   } catch {
     return [];
   }

@@ -30,9 +30,24 @@ export { resolveTrackedPageMetadata } from "./lib/resolveTrackedPageMetadata";
 // Import them from "@sweetmedia/admin-core/server" in Node.js scripts.
 export {
   buildSitemapEntries,
+  buildSitemapPartitionEntries,
+  buildSitemapPartitions,
+  collectSitemapUrls,
+  discoverSitemapGroups,
+  getChildSitemapPath,
+  getChildSitemapUrl,
+  isSitemapIndexXml,
+  parseSitemapLocations,
+  toSitemapIndexXml,
   toSitemapXml,
+  DEFAULT_SITEMAP_CONFIG,
+  SITEMAP_REVALIDATE_SECONDS,
+  type SitemapConfig,
   type SitemapEntry,
+  type SitemapGroupDefinition,
+  type SitemapGroupKind,
   type SitemapPageRow,
+  type SitemapPartition,
   type SitemapPostRow,
 } from "./lib/sitemap";
 export { default as AdminSitemapPage } from "./views/AdminSitemapPage";

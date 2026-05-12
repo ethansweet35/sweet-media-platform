@@ -27,3 +27,10 @@ export {
   type CreateEditorResult,
   type RefreshStaleSummary,
 } from "./lib/server/surferActions";
+
+export {
+  buildPublicSitemapGroupXml,
+  buildPublicSitemapIndexXml,
+  loadPublicSitemapSources,
+  type PublicSitemapSources,
+} from "./lib/server/publicSitemap";
