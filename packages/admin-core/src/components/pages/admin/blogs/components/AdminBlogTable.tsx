@@ -7,6 +7,7 @@ import { ADMIN_OCEAN } from "../../../../../lib/adminTheme";
 import type { BlogPost } from "@sweetmedia/blog-core";
 import type { SeoGenResult } from "../../../../../lib/generateSeoMetadata";
 import SurferCell from "../../../../SurferCell";
+import InlineKeywordCell from "./InlineKeywordCell";
 
 function formatScheduledLine(iso: string): string {
   try {
@@ -49,6 +50,8 @@ interface AdminBlogTableProps {
   onDismissSeo: (postId: string) => void;
   /** Optional callback to refetch posts after a Surfer mutation. */
   onSurferChange?: () => void | Promise<void>;
+  /** Persist a focus_keyword change for the given post. */
+  onUpdateFocusKeyword: (post: BlogPost, keyword: string | null) => Promise<boolean>;
 }
 
 type SortField = "title" | "category" | "author" | "date" | "created_at" | "status";
@@ -78,6 +81,7 @@ export default function AdminBlogTable({
   onApplySeo,
   onDismissSeo,
   onSurferChange,
+  onUpdateFocusKeyword,
 }: AdminBlogTableProps) {
   const [sortField, setSortField] = useState<SortField>("date");
   const [sortDir, setSortDir] = useState<SortDir>("desc");
@@ -92,6 +96,7 @@ export default function AdminBlogTable({
     date: 140,        // "May 10, 2026"
     status: 130,      // "Published" pill button
     autopublish: 120, // header "Auto-publish" + toggle
+    keyword: 280,     // inline-edit input + Suggest popover trigger
     surfer: 340,      // score ring + editor chip + error text
     added: 140,       // "May 10, 2026"
     actions: 290,     // edit + preview + star + gen-card button + ai-seo + delete
@@ -175,7 +180,7 @@ export default function AdminBlogTable({
       <div className="overflow-x-auto">
         <table style={{ width: tableWidth, minWidth: tableWidth }} className="table-fixed">
           <colgroup>
-            {(["check","title","category","author","date","status","autopublish","surfer","added","actions"] as (keyof typeof colWidths)[]).map((c) => (
+            {(["check","title","category","author","date","status","autopublish","keyword","surfer","added","actions"] as (keyof typeof colWidths)[]).map((c) => (
               <col key={c} style={{ width: colWidths[c] + "px" }} />
             ))}
           </colgroup>
@@ -200,6 +205,7 @@ export default function AdminBlogTable({
               <SortTh field="date" label="Published" rk="date" />
               <SortTh field="status" label="Status" rk="status" />
               <StaticTh label="Auto-publish" rk="autopublish" />
+              <StaticTh label="Primary Keyword" rk="keyword" />
               <StaticTh label="Surfer SEO" rk="surfer" />
               <SortTh field="created_at" label="Date Added" rk="added" />
               <StaticTh label="Actions" rk="actions" right />
@@ -399,6 +405,15 @@ export default function AdminBlogTable({
                     ) : null}
                   </td>
 
+                  {/* Primary Keyword */}
+                  <td className="px-4 py-4 align-middle" onClick={(e) => e.stopPropagation()}>
+                    <InlineKeywordCell
+                      value={post.focus_keyword ?? null}
+                      rowTitle={post.title}
+                      onSave={(next) => onUpdateFocusKeyword(post, next)}
+                    />
+                  </td>
+
                   {/* Surfer SEO */}
                   <td className="px-4 py-4 align-middle" onClick={(e) => e.stopPropagation()}>
                     <SurferCell
@@ -513,7 +528,7 @@ export default function AdminBlogTable({
                 {/* AI SEO preview row */}
                 {seoStatus?.status === "done" && seoStatus.result && (
                   <tr key={`${post.id}-seo-preview`} className="bg-violet-50 border-b border-violet-100">
-                    <td colSpan={10} className="px-5 py-3">
+                    <td colSpan={11} className="px-5 py-3">
                       <div className="flex items-start gap-4 flex-wrap">
                         <div className="flex items-center gap-1.5 flex-shrink-0 mt-0.5">
                           <i className="ri-sparkling-2-line text-violet-500 text-sm"></i>
@@ -542,7 +557,7 @@ export default function AdminBlogTable({
 
                 {seoStatus?.status === "error" && (
                   <tr key={`${post.id}-seo-error`} className="bg-red-50 border-b border-red-100">
-                    <td colSpan={10} className="px-5 py-2">
+                    <td colSpan={11} className="px-5 py-2">
                       <div className="flex items-center gap-3">
                         <i className="ri-error-warning-line text-red-400 text-sm flex-shrink-0"></i>
                         <p className="text-[12px] text-red-600 flex-1">{seoStatus.error}</p>

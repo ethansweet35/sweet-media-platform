@@ -10,6 +10,7 @@ import { useSurferActions } from "../hooks/useSurferActions";
 import SurferCell from "../components/SurferCell";
 import PageEditModal from "../components/pages/PageEditModal";
 import PageDeleteModal from "../components/pages/PageDeleteModal";
+import BulkPickKeywordModal from "../components/BulkPickKeywordModal";
 import { callGenerateSeoMetadata, type SeoGenResult } from "../lib/generateSeoMetadata";
 
 type SortCol = "route" | "title" | "keyword" | "created_at" | "status";
@@ -54,6 +55,7 @@ export default function AdminTrackedPagesPage() {
   const [bulkSeoRunning, setBulkSeoRunning] = useState(false);
   const [bulkSeoProgress, setBulkSeoProgress] = useState({ done: 0, total: 0 });
   const abortRef = useRef(false);
+  const [bulkPickKeywordOpen, setBulkPickKeywordOpen] = useState(false);
 
   const { refreshStale, bulkRefreshState } = useSurferActions();
 
@@ -505,6 +507,10 @@ export default function AdminTrackedPagesPage() {
                     <i className="ri-check-double-line text-xs" />Apply All ({pendingReviewCount})
                   </button>
                 )}
+                <button onClick={() => setBulkPickKeywordOpen(true)}
+                  className="flex items-center gap-1.5 bg-white text-[#3d6f7f] hover:bg-white/90 text-[11px] tracking-[0.12em] uppercase font-bold px-4 py-2 rounded-xl transition-colors cursor-pointer whitespace-nowrap">
+                  <i className="ri-search-eye-line text-xs" />Auto-pick Keywords
+                </button>
                 <button onClick={() => setSelectedIds(new Set())}
                   className="flex items-center gap-1.5 bg-white/10 hover:bg-white/20 text-white text-[11px] tracking-[0.1em] uppercase font-bold px-3 py-2 rounded-xl transition-colors cursor-pointer whitespace-nowrap">
                   <i className="ri-close-line text-xs" />Deselect
@@ -862,6 +868,26 @@ export default function AdminTrackedPagesPage() {
       <PageEditModal page={editingPage} isOpen={modalOpen} onClose={closeModal} onSubmit={handleSubmitPage} />
       {deletingPage && (
         <PageDeleteModal page={deletingPage} onConfirm={handleDeleteConfirm} onCancel={() => setDeletingPage(null)} />
+      )}
+
+      {/* Bulk Auto-pick Primary Keyword Modal */}
+      {bulkPickKeywordOpen && (
+        <BulkPickKeywordModal
+          mode="page"
+          rows={pages
+            .filter((p) => selectedIds.has(p.id))
+            .map((p) => ({
+              id: p.id,
+              title: p.page_title || p.route_path,
+              seed: p.page_title || p.route_path,
+              currentKeyword: p.primary_keyword ?? null,
+            }))}
+          onApplyRow={async (row, keyword) =>
+            updatePage(row.id, { primary_keyword: keyword })
+          }
+          onClose={() => setBulkPickKeywordOpen(false)}
+          onComplete={() => { setBulkPickKeywordOpen(false); void refetch(); }}
+        />
       )}
       {toast && (
         <div className={`fixed bottom-6 right-6 z-50 flex items-center gap-3 px-5 py-3.5 rounded-2xl transition-all duration-300 ${toast.type === "success" ? "bg-[#3d6f7f] text-white" : "bg-red-500 text-white"}`}>
