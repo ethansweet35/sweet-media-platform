@@ -11,6 +11,7 @@ export * from "./types/semrush";
 export { default as AdminPageHeader } from "./components/AdminPageHeader";
 export { default as SurferCell, type SurferCellRow } from "./components/SurferCell";
 export { default as KeywordSuggestPopover } from "./components/KeywordSuggestPopover";
+export { default as InlineKeywordCell } from "./components/InlineKeywordCell";
 export { default as BulkPickKeywordModal } from "./components/BulkPickKeywordModal";
 export { supabase, supabaseConfigured } from "./lib/supabase";
 export { AuthProvider, useAuth } from "./contexts/AuthContext";

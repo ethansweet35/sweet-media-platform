@@ -11,7 +11,33 @@ import SurferCell from "../components/SurferCell";
 import PageEditModal from "../components/pages/PageEditModal";
 import PageDeleteModal from "../components/pages/PageDeleteModal";
 import BulkPickKeywordModal from "../components/BulkPickKeywordModal";
+import InlineKeywordCell from "../components/InlineKeywordCell";
 import { callGenerateSeoMetadata, type SeoGenResult } from "../lib/generateSeoMetadata";
+
+/**
+ * Derive a Semrush-friendly seed from a tracked page when the user hasn't
+ * set a primary keyword yet. Tries page title first, then SEO title with
+ * the brand suffix stripped, then the last URL segment with dashes turned
+ * into spaces.
+ */
+function derivePageKeywordSeed(p: {
+  page_title: string;
+  seo_title: string | null;
+  default_seo_title: string | null;
+  route_path: string;
+}): string {
+  const pageTitle = p.page_title?.trim();
+  if (pageTitle) return pageTitle;
+
+  const rawSeo = (p.seo_title ?? p.default_seo_title ?? "").trim();
+  if (rawSeo) {
+    // Strip a trailing brand suffix like " | Brand Name" or " - Brand Name".
+    return rawSeo.replace(/\s*[|–—-]\s*[^|–—-]+$/, "").trim() || rawSeo;
+  }
+
+  const lastSegment = p.route_path.split("/").filter(Boolean).pop() ?? "";
+  return lastSegment.replace(/[-_]+/g, " ").trim();
+}
 
 type SortCol = "route" | "title" | "keyword" | "created_at" | "status";
 type SortDir = "asc" | "desc";
@@ -61,7 +87,7 @@ export default function AdminTrackedPagesPage() {
 
   // Column widths (px)
   const [colWidths, setColWidths] = useState({
-    check: 48, route: 200, title: 160, seo: 210, meta: 220, keyword: 160, surfer: 340, status: 120, date: 140, actions: 140,
+    check: 48, route: 200, title: 160, seo: 210, meta: 220, keyword: 260, surfer: 340, status: 120, date: 140, actions: 140,
   });
   const resizeRef = useRef<{ col: keyof typeof colWidths; startX: number; startW: number } | null>(null);
 
@@ -674,11 +700,15 @@ export default function AdminTrackedPagesPage() {
                                 })()}
                               </td>
 
-                              {/* Keyword */}
-                              <td className="px-3 py-3 align-middle overflow-hidden">
-                                <span className="block truncate text-[13px] text-neutral-600" title={p.primary_keyword ?? ""}>
-                                  {p.primary_keyword ?? <span className="text-neutral-300">—</span>}
-                                </span>
+                              {/* Keyword — inline editable + Suggest popover with auto-derived seed */}
+                              <td className="px-3 py-3 align-middle overflow-hidden" onClick={(e) => e.stopPropagation()}>
+                                <InlineKeywordCell
+                                  value={p.primary_keyword ?? null}
+                                  rowTitle={derivePageKeywordSeed(p)}
+                                  onSave={async (next) =>
+                                    updatePage(p.id, { primary_keyword: next })
+                                  }
+                                />
                               </td>
 
                               {/* Surfer SEO */}

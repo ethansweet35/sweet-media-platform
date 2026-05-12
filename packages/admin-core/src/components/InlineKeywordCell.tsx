@@ -1,13 +1,17 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import KeywordSuggestPopover from "../../../../KeywordSuggestPopover";
-import { ADMIN_OCEAN } from "../../../../../lib/adminTheme";
+import KeywordSuggestPopover from "./KeywordSuggestPopover";
+import { ADMIN_OCEAN } from "../lib/adminTheme";
 
 interface InlineKeywordCellProps {
   /** Current saved keyword for this row (null = not set yet). */
   value: string | null;
-  /** Title of the row — used as the seed when the user has no keyword yet. */
+  /**
+   * Auto-derived seed (e.g. page title, blog title, route slug).
+   * Used by the Suggest popover when no keyword is set yet, so the user
+   * can pull research without typing anything first.
+   */
   rowTitle: string;
   /** Persist a new value (or null to clear). Returns true on success. */
   onSave: (next: string | null) => Promise<boolean>;
@@ -16,13 +20,15 @@ interface InlineKeywordCellProps {
 }
 
 /**
- * Inline-editable primary-keyword cell for the blog admin table.
+ * Inline-editable primary-keyword cell used by both the blog and pages admin tables.
  *
  *   Display state  → shows the value (or muted "Set keyword") and a Suggest button.
  *   Editing state  → text input with Save / Cancel buttons. Enter saves, Escape cancels.
  *   Saving state   → spinner inside the input.
  *
- * Picking a keyword from the Suggest popover saves it immediately.
+ * Picking a keyword from the Suggest popover saves it immediately. The Suggest
+ * popover always has a seed: either the saved keyword OR the row's auto-derived
+ * title — so the user never has to type before pulling Semrush data.
  */
 export default function InlineKeywordCell({
   value,
@@ -142,7 +148,8 @@ export default function InlineKeywordCell({
         <span className="block truncate">{value || "Set keyword"}</span>
       </button>
       <KeywordSuggestPopover
-        currentKeyword={value || rowTitle}
+        currentKeyword={value ?? ""}
+        seedFallback={rowTitle}
         onSelect={handleSuggestionPick}
         disabled={disabled}
       />

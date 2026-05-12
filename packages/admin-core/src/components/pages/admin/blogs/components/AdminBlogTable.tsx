@@ -7,7 +7,7 @@ import { ADMIN_OCEAN } from "../../../../../lib/adminTheme";
 import type { BlogPost } from "@sweetmedia/blog-core";
 import type { SeoGenResult } from "../../../../../lib/generateSeoMetadata";
 import SurferCell from "../../../../SurferCell";
-import InlineKeywordCell from "./InlineKeywordCell";
+import InlineKeywordCell from "../../../../InlineKeywordCell";
 
 function formatScheduledLine(iso: string): string {
   try {

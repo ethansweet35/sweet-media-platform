@@ -9,8 +9,14 @@ import type {
 } from "../types/semrush";
 
 interface KeywordSuggestPopoverProps {
-  /** Current keyword in the parent input. Used as the default seed. */
+  /** Current keyword in the parent input. Used as the seed when non-empty. */
   currentKeyword: string;
+  /**
+   * Auto-derived seed (e.g. the page title, blog title, or URL slug).
+   * Used when `currentKeyword` is empty so the user can fetch keyword research
+   * without having to type a seed first.
+   */
+  seedFallback?: string;
   /** Called when the user clicks a suggestion (or the seed row itself). */
   onSelect: (phrase: string) => void;
   /** Optional className for the trigger button. */
@@ -56,6 +62,7 @@ function difficultyLabel(kd: number): string {
  */
 export default function KeywordSuggestPopover({
   currentKeyword,
+  seedFallback,
   onSelect,
   className,
   disabled,
@@ -68,6 +75,14 @@ export default function KeywordSuggestPopover({
   const [lastFetchedSeed, setLastFetchedSeed] = useState<string | null>(null);
   const [sortKey, setSortKey] = useState<SortKey>("searchVolume");
   const popRef = useRef<HTMLDivElement | null>(null);
+
+  // Effective seed: prefer the typed/saved keyword; fall back to the auto-derived
+  // row title (page title, blog title, etc.) so the user never has to type before
+  // pulling research.
+  const trimmedKeyword = currentKeyword.trim();
+  const trimmedFallback = seedFallback?.trim() ?? "";
+  const effectiveSeed = trimmedKeyword || trimmedFallback;
+  const seedIsAutoDerived = !trimmedKeyword && trimmedFallback.length > 0;
 
   // Click-outside / Escape closes the popover.
   useEffect(() => {
@@ -125,9 +140,9 @@ export default function KeywordSuggestPopover({
   const handleTrigger = () => {
     setOpen((prev) => {
       const next = !prev;
-      if (next && currentKeyword.trim() && currentKeyword.trim() !== lastFetchedSeed) {
+      if (next && effectiveSeed && effectiveSeed !== lastFetchedSeed) {
         // Auto-fetch on open if the seed changed.
-        void fetchSuggestions(currentKeyword);
+        void fetchSuggestions(effectiveSeed);
       }
       return next;
     });
@@ -176,13 +191,17 @@ export default function KeywordSuggestPopover({
                 Semrush Keyword Research
               </p>
               <p className="mt-0.5 text-[11px] text-neutral-400 truncate">
-                Seed: <span className="font-mono">{currentKeyword.trim() || "(none)"}</span>
+                Seed:{" "}
+                <span className="font-mono">{effectiveSeed || "(none)"}</span>
+                {seedIsAutoDerived && (
+                  <span className="ml-1 text-[10px] text-neutral-400">(auto-derived)</span>
+                )}
               </p>
             </div>
             <button
               type="button"
-              onClick={() => fetchSuggestions(currentKeyword)}
-              disabled={loading || !currentKeyword.trim()}
+              onClick={() => fetchSuggestions(effectiveSeed)}
+              disabled={loading || !effectiveSeed}
               className="px-2.5 py-1 rounded-lg text-[10px] font-bold uppercase tracking-[0.1em] border border-neutral-200 text-neutral-700 hover:border-neutral-400 disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer transition-colors"
             >
               {loading ? (
@@ -210,9 +229,15 @@ export default function KeywordSuggestPopover({
               <div className="px-4 py-8 text-center">
                 <p className="text-xs text-neutral-500 leading-relaxed">
                   Click <span className="font-semibold">Fetch</span> to pull a Semrush overview for
-                  &quot;{currentKeyword.trim() || "(seed)"}&quot; plus the top {SUGGEST_LIMIT}{" "}
+                  &quot;{effectiveSeed || "(seed)"}&quot; plus the top {SUGGEST_LIMIT}{" "}
                   broad-match keywords (matches Keyword Magic Tool).
                 </p>
+                {seedIsAutoDerived && (
+                  <p className="mt-2 text-[10px] text-neutral-500 italic">
+                    Seed auto-derived from this row — Semrush will broad-match on it
+                    even though you haven&apos;t set a primary keyword yet.
+                  </p>
+                )}
                 <p className="mt-2 text-[10px] text-neutral-400">
                   Cost: ~10 + (40 × {SUGGEST_LIMIT}) Semrush API units per click.
                 </p>
