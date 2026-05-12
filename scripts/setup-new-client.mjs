@@ -16,6 +16,8 @@
  *   --force-scaffold   Replace existing apps/<slug> when scaffolding (destructive)
  *   --no-brand-replace Pass through to scaffold (skip Client Brand → --name replacements)
  *   --skip-pnpm        Skip `pnpm install` at repo root after scaffold
+ *   --save-to-1password  Save .env.local and .upload.env to 1Password vault "Sweet Media Platform"
+ *                        Requires 1Password CLI (brew install 1password-cli) and `op signin`
  *
  * Prerequisites:
  *   - Run `supabase login` once before using this script
@@ -540,7 +542,68 @@ async function main() {
     log('Skipping scaffold (--no-scaffold)');
   }
 
-  // ── 15. Done — print summary ──────────────────────────────────────────────
+  // ── 15. Save to 1Password (optional --save-to-1password) ─────────────────
+  if (hasFlag('--save-to-1password')) {
+    const OP_VAULT = 'Sweet Media Platform';
+    const envLocalPath  = join(REPO_ROOT, 'apps', slug, '.env.local');
+    const uploadEnvPath = join(REPO_ROOT, 'apps', slug, '.upload.env');
+
+    // Check op CLI is available
+    let opAvailable = false;
+    try {
+      execSync('op --version', { stdio: 'pipe' });
+      opAvailable = true;
+    } catch {
+      warn(
+        '1Password CLI (op) not found — skipping vault save.\n' +
+        '  Install: brew install 1password-cli\n' +
+        '  Then: op signin\n' +
+        '  Re-run with --save-to-1password to save credentials.'
+      );
+    }
+
+    if (opAvailable) {
+      for (const [filePath, title] of [
+        [envLocalPath,  `${slug} — .env.local`],
+        [uploadEnvPath, `${slug} — .upload.env`],
+      ]) {
+        if (!existsSync(filePath)) {
+          warn(`Skipping 1Password save for ${title} — file not found at ${filePath}`);
+          continue;
+        }
+        step(`Saving "${title}" to 1Password vault "${OP_VAULT}"`);
+        try {
+          // Try to update existing item first; create if not found
+          const listOutput = execSync(
+            `op document list --vault "${OP_VAULT}" --format json`,
+            { stdio: 'pipe' }
+          ).toString();
+          const items = JSON.parse(listOutput);
+          const existing = items.find(i => i.title === title);
+          if (existing) {
+            execSync(
+              `op document edit "${existing.id}" "${filePath}" --vault "${OP_VAULT}"`,
+              { stdio: 'pipe' }
+            );
+            log(`Updated "${title}" in 1Password`);
+          } else {
+            execSync(
+              `op document create "${filePath}" --title "${title}" --vault "${OP_VAULT}"`,
+              { stdio: 'pipe' }
+            );
+            log(`Created "${title}" in 1Password`);
+          }
+        } catch (err) {
+          warn(
+            `1Password save failed for "${title}": ${err instanceof Error ? err.message : String(err)}\n` +
+            '  Make sure you are signed in: op signin'
+          );
+        }
+      }
+    }
+  }
+
+  // ── 16. Done — print summary ──────────────────────────────────────────────
   console.log(`
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ✅  ${name} is ready!
@@ -568,6 +631,9 @@ CONTACT_BRAND_NAME=${name}
 2. Build: pnpm --filter @sweetmedia/${slug} build
 3. Vercel: node scripts/publish-client-to-vercel.mjs --slug ${slug} --name "${name.replace(/"/g, '\\"')}" --domain <apex-domain>
    (Adds optional --project <vercel-project-name> if the brand's Vercel project name differs from its slug.)
+4. 1Password: add RESEND_API_KEY to apps/${slug}/.env.local, then run:
+   node scripts/setup-new-client.mjs --slug ${slug} ... --save-to-1password
+   (or save manually — open apps/${slug}/.env.local and apps/${slug}/.upload.env)`
 ${existsSync(appDir) ? '' : `4. Scaffold was skipped — run manually:\n   node scripts/scaffold-client-app.mjs --slug ${slug} --name "${name.replace(/"/g, '\\"')}" --url ${siteUrl} --ref ${ref} --anon-key "<anon_key>"\n`}
 ${adminEmail
   ? `• Admin login ready: ${adminEmail} / ChangeMe123! → change password after first login`

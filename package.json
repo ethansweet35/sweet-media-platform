@@ -16,7 +16,8 @@
     "invite-member": "node scripts/invite-team-member.mjs",
     "migrate-clients": "node scripts/migrate-all-clients.mjs",
     "crawl-brand-data": "node scripts/crawl-brand-data.mjs",
-    "migrate-wp-images": "node scripts/migrate-wp-site-images.mjs"
+    "migrate-wp-images": "node scripts/migrate-wp-site-images.mjs",
+    "dev-setup": "node scripts/dev-setup.mjs"
   },
   "devDependencies": {
     "@types/turndown": "^5.0.6",
