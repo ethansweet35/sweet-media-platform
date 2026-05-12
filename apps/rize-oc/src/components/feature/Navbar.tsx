@@ -3,29 +3,79 @@
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
-import { useState } from "react";
+import { useState, useRef } from "react";
 
 const IMG = "https://uivbbrwuaffqujzkqjvr.supabase.co/storage/v1/object/public/site-assets/images/wp-migrated";
 
 const levelsOfCare = [
-  { label: "Drug & Alcohol Detox",                path: "/drug-alcohol-detox" },
-  { label: "Partial Hospitalization Program (PHP)",path: "/partial-hospitalization-program-orange-county" },
-  { label: "Intensive Outpatient Program (IOP)",   path: "/iop-program-orange-county" },
-  { label: "Outpatient Program (OP)",              path: "/outpatient-program" },
-  { label: "Virtual Outpatient Program",           path: "/virtual-outpatient-program" },
+  { label: "Drug & Alcohol Detox",                 path: "/drug-alcohol-detox" },
+  { label: "Partial Hospitalization Program (PHP)", path: "/partial-hospitalization-program-orange-county" },
+  { label: "Intensive Outpatient Program (IOP)",    path: "/iop-program-orange-county" },
+  { label: "Outpatient Program (OP)",               path: "/outpatient-program" },
+  { label: "Virtual Outpatient Program",            path: "/virtual-outpatient-program" },
 ];
 
-const navLinks = [
-  { label: "Levels of Care", path: "/levels-of-care", dropdown: levelsOfCare },
-  { label: "What We Treat",  path: "/what-we-treat" },
-  { label: "About Rize",     path: "/about-rize" },
-  { label: "Resources",      path: "/resources" },
+const addictionSubs = [
+  { label: "Alcohol Addiction",       path: "/addiction/alcohol" },
+  { label: "Benzodiazepine Addiction",path: "/addiction/benzodiazepine" },
+  { label: "Cocaine Addiction",       path: "/addiction/cocaine" },
+  { label: "Hallucinogen Addiction",  path: "/addiction/hallucinogen" },
+  { label: "Inhalant Addiction",      path: "/addiction/inhalant" },
+  { label: "Meth Addiction",          path: "/addiction/meth" },
+  { label: "Opiate Addiction",        path: "/addiction/opiate" },
+  { label: "Xanax Addiction",         path: "/addiction/xanax" },
+];
+
+const mentalHealthSubs = [
+  { label: "ADHD",                          path: "/mental-health/adhd" },
+  { label: "Anxiety",                       path: "/mental-health/anxiety" },
+  { label: "Bipolar Disorder",              path: "/mental-health/bipolar-disorder" },
+  { label: "Borderline Personality Disorder", path: "/mental-health/borderline-personality-disorder" },
+  { label: "Depression",                    path: "/mental-health/depression" },
+  { label: "Insomnia",                      path: "/mental-health/insomnia" },
+  { label: "OCD",                           path: "/mental-health/ocd" },
+  { label: "Post Traumatic Stress Disorder",path: "/mental-health/ptsd" },
+  { label: "Schizophrenia",                 path: "/mental-health/schizophrenia" },
 ];
 
 export default function Navbar() {
   const pathname = usePathname();
   const [menuOpen, setMenuOpen] = useState(false);
   const [locOpen, setLocOpen] = useState(false);
+  const [treatOpen, setTreatOpen] = useState(false);
+  const [addOpen, setAddOpen] = useState(false);
+  const [mhOpen, setMhOpen] = useState(false);
+  const addTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const mhTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  // Mobile accordion states
+  const [mobileLocOpen, setMobileLocOpen] = useState(false);
+  const [mobileTreatOpen, setMobileTreatOpen] = useState(false);
+  const [mobileAddOpen, setMobileAddOpen] = useState(false);
+  const [mobileMhOpen, setMobileMhOpen] = useState(false);
+
+  const isLOCActive = [
+    "/drug-alcohol-detox", "/partial-hospitalization-program-orange-county",
+    "/iop-program-orange-county", "/outpatient-program",
+    "/virtual-outpatient-program", "/levels-of-care",
+  ].some((p) => pathname === p || pathname.startsWith(p + "/"));
+
+  const isTreatActive = pathname.startsWith("/addiction") || pathname.startsWith("/mental-health");
+
+  const handleAddEnter = () => {
+    if (addTimer.current) clearTimeout(addTimer.current);
+    setAddOpen(true);
+  };
+  const handleAddLeave = () => {
+    addTimer.current = setTimeout(() => setAddOpen(false), 120);
+  };
+  const handleMhEnter = () => {
+    if (mhTimer.current) clearTimeout(mhTimer.current);
+    setMhOpen(true);
+  };
+  const handleMhLeave = () => {
+    mhTimer.current = setTimeout(() => setMhOpen(false), 120);
+  };
 
   return (
     <header className="sticky top-0 z-50 bg-cream-nav">
@@ -42,46 +92,101 @@ export default function Navbar() {
           />
         </Link>
 
-        {/* Desktop nav */}
+        {/* ── Desktop nav ──────────────────────────────────────────────── */}
         <div className="hidden items-center gap-8 lg:flex">
-          {navLinks.map((link) => {
-            const active = pathname === link.path || pathname.startsWith(link.path + "/");
 
-            if (link.dropdown) {
-              return (
-                <div
-                  key={link.path}
-                  className="relative"
-                  onMouseEnter={() => setLocOpen(true)}
-                  onMouseLeave={() => setLocOpen(false)}
-                >
+          {/* Levels of Care */}
+          <div
+            className="relative"
+            onMouseEnter={() => setLocOpen(true)}
+            onMouseLeave={() => setLocOpen(false)}
+          >
+            <Link
+              href="/levels-of-care"
+              className={`flex items-center gap-1 text-[11px] font-medium uppercase tracking-[0.18em] transition-colors ${
+                isLOCActive ? "text-accent" : "text-ink hover:text-accent"
+              }`}
+            >
+              Levels of Care
+              <i className={`ri-arrow-down-s-line text-sm transition-transform duration-200 ${locOpen ? "rotate-180" : ""}`} />
+            </Link>
+            <div
+              className={`absolute top-full left-1/2 -translate-x-1/2 pt-3 transition-all duration-200 ${
+                locOpen ? "opacity-100 translate-y-0 pointer-events-auto" : "opacity-0 -translate-y-1 pointer-events-none"
+              }`}
+            >
+              <div className="bg-cream-nav border border-soft shadow-lg w-[340px] py-2">
+                <div className="h-[2px] bg-accent w-full mb-1" />
+                {levelsOfCare.map((item) => (
                   <Link
-                    href={link.path}
-                    className={`flex items-center gap-1 text-[11px] font-medium uppercase tracking-[0.18em] transition-colors ${
-                      active ? "text-accent" : "text-ink hover:text-accent"
+                    key={item.path}
+                    href={item.path}
+                    className={`block px-6 py-3.5 text-[11px] font-medium uppercase tracking-[0.15em] border-b border-soft/50 last:border-0 transition-colors ${
+                      pathname === item.path ? "text-accent bg-accent/5" : "text-ink hover:text-accent hover:bg-accent/5"
                     }`}
                   >
-                    {link.label}
-                    <i className={`ri-arrow-down-s-line text-sm transition-transform duration-200 ${locOpen ? "rotate-180" : ""}`} />
+                    {item.label}
                   </Link>
+                ))}
+              </div>
+            </div>
+          </div>
 
-                  {/* Dropdown panel */}
+          {/* What We Treat — two-level: Addiction has nested flyout */}
+          <div
+            className="relative"
+            onMouseEnter={() => setTreatOpen(true)}
+            onMouseLeave={() => { setTreatOpen(false); setAddOpen(false); }}
+          >
+            <button
+              className={`flex items-center gap-1 text-[11px] font-medium uppercase tracking-[0.18em] transition-colors ${
+                isTreatActive ? "text-accent" : "text-ink hover:text-accent"
+              }`}
+            >
+              What We Treat
+              <i className={`ri-arrow-down-s-line text-sm transition-transform duration-200 ${treatOpen ? "rotate-180" : ""}`} />
+            </button>
+
+            {/* First-level dropdown */}
+            <div
+              className={`absolute top-full left-1/2 -translate-x-1/2 pt-3 transition-all duration-200 ${
+                treatOpen ? "opacity-100 translate-y-0 pointer-events-auto" : "opacity-0 -translate-y-1 pointer-events-none"
+              }`}
+            >
+              <div className="bg-cream-nav border border-soft shadow-lg w-[200px] py-2">
+                <div className="h-[2px] bg-accent w-full mb-1" />
+
+                {/* Addiction — has nested flyout */}
+                <div
+                  className="relative"
+                  onMouseEnter={handleAddEnter}
+                  onMouseLeave={handleAddLeave}
+                >
                   <div
-                    className={`absolute top-full left-1/2 -translate-x-1/2 pt-3 transition-all duration-200 ${
-                      locOpen ? "opacity-100 translate-y-0 pointer-events-auto" : "opacity-0 -translate-y-1 pointer-events-none"
+                    className={`flex items-center justify-between px-6 py-3.5 text-[11px] font-medium uppercase tracking-[0.15em] border-b border-soft/50 transition-colors cursor-pointer ${
+                      pathname.startsWith("/addiction") ? "text-accent bg-accent/5" : "text-ink hover:text-accent hover:bg-accent/5"
                     }`}
                   >
-                    <div className="bg-cream-nav border border-soft shadow-lg w-[320px] py-2">
-                      {/* Accent top bar */}
+                    <Link href="/addiction" className="flex-1">Addiction</Link>
+                    <i className="ri-arrow-right-s-line text-xs opacity-50 ml-2" />
+                  </div>
+
+                  {/* Second-level flyout — appears to the right */}
+                  <div
+                    className={`absolute top-0 left-full pl-1 transition-all duration-150 ${
+                      addOpen ? "opacity-100 translate-x-0 pointer-events-auto" : "opacity-0 -translate-x-1 pointer-events-none"
+                    }`}
+                    onMouseEnter={handleAddEnter}
+                    onMouseLeave={handleAddLeave}
+                  >
+                    <div className="bg-cream-nav border border-soft shadow-lg w-[240px] py-2">
                       <div className="h-[2px] bg-accent w-full mb-1" />
-                      {link.dropdown.map((item) => (
+                      {addictionSubs.map((item) => (
                         <Link
                           key={item.path}
                           href={item.path}
-                          className={`block px-6 py-3.5 text-[11px] font-medium uppercase tracking-[0.15em] border-b border-soft/50 last:border-0 transition-colors ${
-                            pathname === item.path
-                              ? "text-accent bg-accent/5"
-                              : "text-ink hover:text-accent hover:bg-accent/5"
+                          className={`block px-6 py-3 text-[11px] font-medium uppercase tracking-[0.15em] border-b border-soft/50 last:border-0 transition-colors ${
+                            pathname === item.path ? "text-accent bg-accent/5" : "text-ink hover:text-accent hover:bg-accent/5"
                           }`}
                         >
                           {item.label}
@@ -90,21 +195,69 @@ export default function Navbar() {
                     </div>
                   </div>
                 </div>
-              );
-            }
 
-            return (
-              <Link
-                key={link.path}
-                href={link.path}
-                className={`text-[11px] font-medium uppercase tracking-[0.18em] transition-colors ${
-                  active ? "text-accent" : "text-ink hover:text-accent"
-                }`}
-              >
-                {link.label}
-              </Link>
-            );
-          })}
+                {/* Mental Health — has nested flyout */}
+                <div
+                  className="relative"
+                  onMouseEnter={handleMhEnter}
+                  onMouseLeave={handleMhLeave}
+                >
+                  <div
+                    className={`flex items-center justify-between px-6 py-3.5 text-[11px] font-medium uppercase tracking-[0.15em] transition-colors cursor-pointer ${
+                      pathname.startsWith("/mental-health") ? "text-accent bg-accent/5" : "text-ink hover:text-accent hover:bg-accent/5"
+                    }`}
+                  >
+                    <Link href="/mental-health" className="flex-1">Mental Health</Link>
+                    <i className="ri-arrow-right-s-line text-xs opacity-50 ml-2" />
+                  </div>
+
+                  {/* MH second-level flyout */}
+                  <div
+                    className={`absolute top-0 left-full pl-1 transition-all duration-150 ${
+                      mhOpen ? "opacity-100 translate-x-0 pointer-events-auto" : "opacity-0 -translate-x-1 pointer-events-none"
+                    }`}
+                    onMouseEnter={handleMhEnter}
+                    onMouseLeave={handleMhLeave}
+                  >
+                    <div className="bg-cream-nav border border-soft shadow-lg w-[280px] py-2">
+                      <div className="h-[2px] bg-accent w-full mb-1" />
+                      {mentalHealthSubs.map((item) => (
+                        <Link
+                          key={item.path}
+                          href={item.path}
+                          className={`block px-6 py-3 text-[11px] font-medium uppercase tracking-[0.15em] border-b border-soft/50 last:border-0 transition-colors ${
+                            pathname === item.path ? "text-accent bg-accent/5" : "text-ink hover:text-accent hover:bg-accent/5"
+                          }`}
+                        >
+                          {item.label}
+                        </Link>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* About Rize */}
+          <Link
+            href="/about"
+            className={`text-[11px] font-medium uppercase tracking-[0.18em] transition-colors ${
+              pathname === "/about" ? "text-accent" : "text-ink hover:text-accent"
+            }`}
+          >
+            About Rize
+          </Link>
+
+          {/* Resources */}
+          <Link
+            href="/resources"
+            className={`text-[11px] font-medium uppercase tracking-[0.18em] transition-colors ${
+              pathname === "/resources" ? "text-accent" : "text-ink hover:text-accent"
+            }`}
+          >
+            Resources
+          </Link>
 
           <a
             href="tel:9494612620"
@@ -124,20 +277,21 @@ export default function Navbar() {
         </button>
       </nav>
 
-      {/* Mobile menu */}
+      {/* ── Mobile menu ───────────────────────────────────────────────────── */}
       {menuOpen && (
         <div className="border-t border-soft bg-cream-nav px-6 py-6 lg:hidden">
           <div className="flex flex-col gap-1">
-            {/* Levels of Care — expandable in mobile */}
+
+            {/* Levels of Care */}
             <div>
               <button
-                onClick={() => setLocOpen(!locOpen)}
+                onClick={() => setMobileLocOpen(!mobileLocOpen)}
                 className="w-full flex items-center justify-between py-3 text-sm font-medium uppercase tracking-[0.18em] text-ink"
               >
                 Levels of Care
-                <i className={`ri-arrow-down-s-line text-lg transition-transform ${locOpen ? "rotate-180" : ""}`} />
+                <i className={`ri-arrow-down-s-line text-lg transition-transform ${mobileLocOpen ? "rotate-180" : ""}`} />
               </button>
-              {locOpen && (
+              {mobileLocOpen && (
                 <div className="mb-2 border-l-2 border-accent pl-4 flex flex-col gap-1">
                   {levelsOfCare.map((item) => (
                     <Link
@@ -153,16 +307,95 @@ export default function Navbar() {
               )}
             </div>
 
-            {navLinks.slice(1).map((link) => (
-              <Link
-                key={link.path}
-                href={link.path}
-                onClick={() => setMenuOpen(false)}
-                className="py-3 text-sm font-medium uppercase tracking-[0.18em] text-ink hover:text-accent"
+            {/* What We Treat */}
+            <div>
+              <button
+                onClick={() => setMobileTreatOpen(!mobileTreatOpen)}
+                className="w-full flex items-center justify-between py-3 text-sm font-medium uppercase tracking-[0.18em] text-ink"
               >
-                {link.label}
-              </Link>
-            ))}
+                What We Treat
+                <i className={`ri-arrow-down-s-line text-lg transition-transform ${mobileTreatOpen ? "rotate-180" : ""}`} />
+              </button>
+              {mobileTreatOpen && (
+                <div className="mb-2 border-l-2 border-accent pl-4 flex flex-col gap-1">
+                  {/* Addiction sub-section */}
+                  <button
+                    onClick={() => setMobileAddOpen(!mobileAddOpen)}
+                    className="w-full flex items-center justify-between py-2 text-[11px] font-medium uppercase tracking-[0.15em] text-ink/70"
+                  >
+                    Addiction
+                    <i className={`ri-arrow-down-s-line text-base transition-transform ${mobileAddOpen ? "rotate-180" : ""}`} />
+                  </button>
+                  {mobileAddOpen && (
+                    <div className="mb-1 border-l-2 border-accent/40 pl-3 flex flex-col gap-1">
+                      <Link
+                        href="/addiction"
+                        onClick={() => setMenuOpen(false)}
+                        className="py-1.5 text-[10px] font-medium uppercase tracking-[0.15em] text-ink/60 hover:text-accent"
+                      >
+                        All Addiction
+                      </Link>
+                      {addictionSubs.map((item) => (
+                        <Link
+                          key={item.path}
+                          href={item.path}
+                          onClick={() => setMenuOpen(false)}
+                          className="py-1.5 text-[10px] font-medium uppercase tracking-[0.15em] text-ink/60 hover:text-accent"
+                        >
+                          {item.label}
+                        </Link>
+                      ))}
+                    </div>
+                  )}
+
+                  {/* Mental Health sub-section */}
+                  <button
+                    onClick={() => setMobileMhOpen(!mobileMhOpen)}
+                    className="w-full flex items-center justify-between py-2 text-[11px] font-medium uppercase tracking-[0.15em] text-ink/70"
+                  >
+                    Mental Health
+                    <i className={`ri-arrow-down-s-line text-base transition-transform ${mobileMhOpen ? "rotate-180" : ""}`} />
+                  </button>
+                  {mobileMhOpen && (
+                    <div className="mb-1 border-l-2 border-accent/40 pl-3 flex flex-col gap-1">
+                      <Link
+                        href="/mental-health"
+                        onClick={() => setMenuOpen(false)}
+                        className="py-1.5 text-[10px] font-medium uppercase tracking-[0.15em] text-ink/60 hover:text-accent"
+                      >
+                        All Mental Health
+                      </Link>
+                      {mentalHealthSubs.map((item) => (
+                        <Link
+                          key={item.path}
+                          href={item.path}
+                          onClick={() => setMenuOpen(false)}
+                          className="py-1.5 text-[10px] font-medium uppercase tracking-[0.15em] text-ink/60 hover:text-accent"
+                        >
+                          {item.label}
+                        </Link>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              )}
+            </div>
+
+            <Link
+              href="/about"
+              onClick={() => setMenuOpen(false)}
+              className="py-3 text-sm font-medium uppercase tracking-[0.18em] text-ink hover:text-accent"
+            >
+              About Rize
+            </Link>
+
+            <Link
+              href="/resources"
+              onClick={() => setMenuOpen(false)}
+              className="py-3 text-sm font-medium uppercase tracking-[0.18em] text-ink hover:text-accent"
+            >
+              Resources
+            </Link>
 
             <a
               href="tel:9494612620"
