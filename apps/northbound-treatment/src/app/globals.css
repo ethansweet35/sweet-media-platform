@@ -26,8 +26,8 @@
   --color-terracotta: #e97a52;
   --color-terracotta-light: #f09068;
 
-  --color-navy: #1b2a47;
-  --color-navy-light: #2a3d66;
+  --color-navy: #3c5a78;
+  --color-navy-light: #4e7296;
 
   --color-agave: #7a8b76;
   --color-agave-dark: #5d6b5a;
@@ -40,9 +40,9 @@
   --color-muted: #64748b;
   --color-border: #cdd8e8;
   --color-primary: #e97a52;
-  --color-secondary: #1b2a47;
+  --color-secondary: #3c5a78;
   --color-accent: #7a8b76;
-  --color-ring: #1b2a47;
+  --color-ring: #3c5a78;
 
   /* Sharp corners everywhere — overrides Tailwind defaults */
   --radius-sm: 0;

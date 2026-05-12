@@ -16,8 +16,8 @@ All tokens are defined in `src/app/globals.css` via `@theme inline` and availabl
 
 | Token | Hex | Usage |
 |---|---|---|
-| `navy` | `#1b2a47` | Primary dark, headings on light, dark section backgrounds, buttons |
-| `navy-light` | `#2a3d66` | Button hover, secondary navy tint |
+| `navy` | `#3c5a78` | Primary dark, headings on light, dark section backgrounds, buttons |
+| `navy-light` | `#4e7296` | Button hover, secondary navy tint |
 | `terracotta` | `#e97a52` | Primary accent — CTAs, eyebrows, icons, star ratings, links |
 | `terracotta-light` | `#f09068` | Hover state for terracotta elements |
 | `espresso` | `#2c2a28` | Body text on light backgrounds |
@@ -26,7 +26,7 @@ All tokens are defined in `src/app/globals.css` via `@theme inline` and availabl
 | `sand-dark` | `#cdd8e8` | Borders and dividers |
 | `agave` | `#7a8b76` | Subtle accent (used sparingly) |
 
-**Never use warm beige (`#f4efe6`, `#e5dccb`), old charcoal (`#374151`), or old navy (`#4a6a92`) — these are retired.**
+**Never use warm beige (`#f4efe6`, `#e5dccb`), old charcoal (`#374151`), or old navy (`#1b2a47`, `#2a3d66`, `#4a6a92`) — these are retired.**
 
 ---
 

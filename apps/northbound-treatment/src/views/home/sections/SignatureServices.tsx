@@ -169,11 +169,11 @@ export default function SignatureServices() {
                 alt={tile.alt}
                 fill
                 sizes="(min-width: 1024px) 50vw, 100vw"
-                className="object-cover opacity-65 grayscale-0 transition-all duration-700 md:opacity-40 md:grayscale group-hover:scale-105 md:group-hover:opacity-70 md:group-hover:grayscale-0"
+                className="object-cover opacity-70 grayscale-0 transition-transform duration-700 group-hover:scale-105"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-navy via-navy/40 to-transparent"></div>
               <div className="absolute bottom-0 left-0 w-full p-8">
-                <div className="mb-3 flex translate-y-0 items-center gap-4 opacity-100 transition-all delay-75 duration-500 md:translate-y-4 md:opacity-0 md:group-hover:translate-y-0 md:group-hover:opacity-100">
+                <div className="mb-3 flex items-center gap-4">
                   <span className={`h-[1px] w-8 ${tile.badgeBar}`}></span>
                   <span
                     className={`text-xs font-bold uppercase tracking-[0.22em] ${tile.badgeText}`}
@@ -187,7 +187,7 @@ export default function SignatureServices() {
                   {tile.title}
                 </h3>
                 <p
-                  className={`text-sm font-light text-white/70 translate-y-0 opacity-100 transition-all duration-500 md:translate-y-4 md:opacity-0 md:group-hover:translate-y-0 md:group-hover:opacity-100 ${
+                  className={`text-sm font-light text-white/70 ${
                     tile.span === "md:col-span-8" ||
                     tile.span === "md:col-span-7"
                       ? "max-w-lg"
