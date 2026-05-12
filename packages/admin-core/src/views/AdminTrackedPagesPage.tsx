@@ -160,7 +160,7 @@ export default function AdminTrackedPagesPage() {
     }
   };
 
-  // ── AI SEO ─────────────────────────────────────────────────────────────────
+  // ── AI Generate Meta Data ───────────────────────────────────────────────────
 
   const runSeoForPage = useCallback(async (p: TrackedPage) => {
     setSeoStatuses((prev) => ({ ...prev, [p.id]: { status: "generating" } }));
@@ -194,12 +194,14 @@ export default function AdminTrackedPagesPage() {
   }, []);
 
   const applySeoForPage = useCallback(async (p: TrackedPage, result: SeoGenResult) => {
-    const ok = await updatePage(p.id, {
-      seo_title: result.seo_title ?? undefined,
+    const updates: { page_title?: string; seo_title?: string; meta_description: string } = {
       meta_description: result.meta_description,
-    });
+    };
+    if (result.page_title?.trim()) updates.page_title = result.page_title.trim();
+    if (result.seo_title?.trim()) updates.seo_title = result.seo_title.trim();
+    const ok = await updatePage(p.id, updates);
     if (ok) {
-      showToast("SEO metadata saved");
+      showToast("Meta data saved");
       setSeoStatuses((prev) => {
         const next = { ...prev };
         delete next[p.id];
@@ -243,7 +245,7 @@ export default function AdminTrackedPagesPage() {
       setBulkSeoProgress({ done, total: targets.length });
     }
     setBulkSeoRunning(false);
-    showToast(`AI SEO generated for ${done} page${done !== 1 ? "s" : ""}. Review and apply below.`);
+    showToast(`Meta data generated for ${done} page${done !== 1 ? "s" : ""}. Review and apply below.`);
   }, [pages, selectedIds]);
 
   const handleApplyAllGenerated = useCallback(async () => {
@@ -251,10 +253,12 @@ export default function AdminTrackedPagesPage() {
     let saved = 0;
     for (const p of toApply) {
       const result = seoStatuses[p.id]?.result!;
-      const ok = await updatePage(p.id, {
-        seo_title: result.seo_title ?? undefined,
+      const updates: { page_title?: string; seo_title?: string; meta_description: string } = {
         meta_description: result.meta_description,
-      });
+      };
+      if (result.page_title?.trim()) updates.page_title = result.page_title.trim();
+      if (result.seo_title?.trim()) updates.seo_title = result.seo_title.trim();
+      const ok = await updatePage(p.id, updates);
       if (ok) {
         saved++;
         void revalidatePage(p.route_path);
@@ -262,7 +266,7 @@ export default function AdminTrackedPagesPage() {
     }
     setSeoStatuses({});
     setSelectedIds(new Set());
-    showToast(`Applied SEO to ${saved} page${saved !== 1 ? "s" : ""}`);
+    showToast(`Applied meta data to ${saved} page${saved !== 1 ? "s" : ""}`);
   }, [pages, seoStatuses, updatePage, revalidatePage]);
 
   // ── Stats / filter / sort ───────────────────────────────────────────────────
@@ -537,7 +541,7 @@ export default function AdminTrackedPagesPage() {
                 ) : (
                   <button onClick={() => void handleBulkSeo()}
                     className="flex items-center gap-1.5 bg-violet-500 hover:bg-violet-400 text-white text-[11px] tracking-[0.12em] uppercase font-bold px-4 py-2 rounded-xl transition-colors cursor-pointer whitespace-nowrap">
-                    <i className="ri-sparkling-2-line text-xs" />AI Optimize SEO
+                    <i className="ri-sparkling-2-line text-xs" />AI Generate Meta Data
                   </button>
                 )}
                 {pendingReviewCount > 0 && !bulkSeoRunning && (
@@ -769,13 +773,13 @@ export default function AdminTrackedPagesPage() {
                               {/* Actions */}
                               <td className="px-3 py-3 align-middle text-right">
                                 <div className="flex items-center justify-end gap-1">
-                                  {/* Inline AI SEO */}
+                                  {/* Inline AI Generate Meta Data */}
                                   {seoStatus?.status === "generating" ? (
                                     <div className="w-8 h-8 flex items-center justify-center">
                                       <i className="ri-loader-4-line animate-spin text-violet-500 text-sm" />
                                     </div>
                                   ) : (
-                                    <button type="button" title="AI Optimize SEO" onClick={() => void runSeoForPage(p)}
+                                    <button type="button" title="AI Generate Meta Data" onClick={() => void runSeoForPage(p)}
                                       className={`w-8 h-8 inline-flex items-center justify-center rounded-lg transition-all cursor-pointer ${
                                         seoStatus?.status === "done"
                                           ? "text-violet-600 bg-violet-100 hover:bg-violet-200"
@@ -802,25 +806,45 @@ export default function AdminTrackedPagesPage() {
                               </td>
                             </tr>
 
-                            {/* AI SEO result preview row */}
+                            {/* AI Generate Meta Data preview row */}
                             {seoStatus?.status === "done" && seoStatus.result && (
                               <tr key={`${p.id}-seo-preview`} className="bg-violet-50 border-b border-violet-100">
                                 <td colSpan={10} className="px-5 py-3">
-                                  <div className="flex items-start gap-4 flex-wrap">
+                                  <div className="flex items-start gap-4">
                                     <div className="flex items-center gap-1.5 flex-shrink-0 mt-0.5">
                                       <i className="ri-sparkling-2-line text-violet-500 text-sm" />
-                                      <span className="text-[11px] font-bold uppercase tracking-[0.1em] text-violet-600">AI Suggestion</span>
+                                      <span className="text-[11px] font-bold uppercase tracking-[0.1em] text-violet-600 whitespace-nowrap">
+                                        Generated Meta Data
+                                      </span>
                                     </div>
-                                    <div className="flex-1 min-w-0 grid grid-cols-1 sm:grid-cols-2 gap-3">
-                                      {seoStatus.result.seo_title && (
-                                        <div>
-                                          <p className="text-[9px] uppercase tracking-wider text-violet-400 font-bold mb-0.5">SEO Title ({seoStatus.result.seo_title.length} chars)</p>
-                                          <p className="text-[13px] text-neutral-800 leading-snug">{seoStatus.result.seo_title}</p>
+                                    <div className="flex-1 min-w-0 grid grid-cols-1 md:grid-cols-3 gap-3">
+                                      {seoStatus.result.page_title && (
+                                        <div className="min-w-0">
+                                          <p className="text-[9px] uppercase tracking-wider text-violet-400 font-bold mb-0.5">
+                                            Page Title ({seoStatus.result.page_title.length} chars)
+                                          </p>
+                                          <p className="text-[12px] text-neutral-800 leading-snug">
+                                            {seoStatus.result.page_title}
+                                          </p>
                                         </div>
                                       )}
-                                      <div>
-                                        <p className="text-[9px] uppercase tracking-wider text-violet-400 font-bold mb-0.5">Meta Description ({seoStatus.result.meta_description.length} chars)</p>
-                                        <p className="text-[13px] text-neutral-700 leading-snug">{seoStatus.result.meta_description}</p>
+                                      {seoStatus.result.seo_title && (
+                                        <div className="min-w-0">
+                                          <p className="text-[9px] uppercase tracking-wider text-violet-400 font-bold mb-0.5">
+                                            SEO Title ({seoStatus.result.seo_title.length} chars)
+                                          </p>
+                                          <p className="text-[12px] text-neutral-800 leading-snug">
+                                            {seoStatus.result.seo_title}
+                                          </p>
+                                        </div>
+                                      )}
+                                      <div className="min-w-0">
+                                        <p className="text-[9px] uppercase tracking-wider text-violet-400 font-bold mb-0.5">
+                                          Meta Description ({seoStatus.result.meta_description.length} chars)
+                                        </p>
+                                        <p className="text-[12px] text-neutral-700 leading-snug">
+                                          {seoStatus.result.meta_description}
+                                        </p>
                                       </div>
                                     </div>
                                     <div className="flex items-center gap-2 flex-shrink-0">

@@ -8,6 +8,12 @@ export interface SeoGenInput {
 }
 
 export interface SeoGenResult {
+  /**
+   * AI-generated improved page title (the human-facing title — `<h1>` / row label).
+   * Distinct from the SEO `<title>` tag which is `seo_title` below.
+   */
+  page_title: string | null;
+  /** SEO `<title>` tag — typically includes brand suffix and is keyword-front-loaded. */
   seo_title: string | null;
   meta_description: string;
 }
@@ -49,6 +55,7 @@ export async function callGenerateSeoMetadata(input: SeoGenInput): Promise<SeoGe
   }
 
   return {
+    page_title: typeof body.page_title === "string" ? body.page_title : null,
     seo_title: typeof body.seo_title === "string" ? body.seo_title : null,
     meta_description: typeof body.meta_description === "string" ? body.meta_description : "",
   };

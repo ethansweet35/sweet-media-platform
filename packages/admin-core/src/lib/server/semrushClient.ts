@@ -106,6 +106,70 @@ function toNumber(raw: string | undefined, fallback = 0): number {
   return Number.isFinite(n) ? n : fallback;
 }
 
+/**
+ * Generate progressively shorter seed variants for retry-on-empty.
+ *
+ * Why this exists:
+ *   `phrase_fullsearch` (broad match) requires every word in the seed to
+ *   appear in candidate keywords. A 4-word seed like
+ *   "georgia addiction intervention services" returns ZERO results because
+ *   no keyword in Semrush's index contains all 4 words. Even
+ *   "addiction intervention georgia" can fail. The next call WILL find data.
+ *
+ * Order tried (each only attempted if the previous returned empty):
+ *   1. Original seed
+ *   2. Drop the FIRST word — often a location qualifier ("georgia X Y" → "X Y")
+ *   3. Last 2 words — usually topic + modifier ("intervention services")
+ *   4. Last word alone — last-resort topic word
+ *
+ * Duplicates are deduped so we never make the same call twice.
+ */
+function buildSeedVariants(seed: string): string[] {
+  const cleaned = seed.trim();
+  if (!cleaned) return [];
+  const words = cleaned.split(/\s+/);
+  const variants = new Set<string>();
+  variants.add(cleaned);
+
+  if (words.length >= 3) {
+    variants.add(words.slice(1).join(" ")); // drop first
+  }
+  if (words.length >= 2) {
+    variants.add(words.slice(-2).join(" ")); // last 2
+  }
+  if (words.length >= 1) {
+    variants.add(words[words.length - 1]); // last word
+  }
+
+  return Array.from(variants);
+}
+
+/**
+ * Run a Semrush query function across progressively shorter seed variants until
+ * one returns at least one row. Returns the first non-empty result with the seed
+ * that produced it, or the empty result of the last attempt.
+ *
+ * Cost: up to 4 API calls per lookup in the worst case. Most well-formed seeds
+ * succeed on attempt 1.
+ */
+async function fetchWithSeedFallback<T>(
+  seed: string,
+  queryFn: (seedVariant: string) => Promise<T[]>,
+): Promise<{ rows: T[]; effectiveSeed: string; triedSeeds: string[] }> {
+  const variants = buildSeedVariants(seed);
+  const triedSeeds: string[] = [];
+
+  for (const variant of variants) {
+    triedSeeds.push(variant);
+    const rows = await queryFn(variant);
+    if (rows.length > 0) {
+      return { rows, effectiveSeed: variant, triedSeeds };
+    }
+  }
+
+  return { rows: [], effectiveSeed: seed.trim(), triedSeeds };
+}
+
 // =========================================================
 // Public types
 // =========================================================
@@ -210,21 +274,31 @@ export async function getKeywordOverview(
   };
 }
 
+/** Result of `getKeywordSuggestions` — exposes which seed actually returned data. */
+export interface KeywordSuggestionResult {
+  rows: SemrushKeywordSuggestion[];
+  /** Seed that produced rows. May differ from input if a fallback variant was used. */
+  effectiveSeed: string;
+  /** All seeds tried, in order. Useful for surfacing fallback transparency in UI. */
+  triedSeeds: string[];
+}
+
 /**
  * Fetch broad-match keyword suggestions for a seed phrase.
  *
  * Mirrors Semrush Keyword Magic Tool's "Broad Match" tab — returns every phrase
- * that contains the seed words, not just strict semantic synonyms. This is what
- * the user sees in the Semrush UI and matches the same ordering by volume.
+ * that contains the seed words, not just strict semantic synonyms.
  *
  * Endpoint: type=phrase_fullsearch · cost ≈ 40 API units PER ROW returned.
  *
+ * Auto-fallback: if the requested seed returns zero rows, retries with shorter
+ * variants (drop first word → last 2 words → last word) until something hits.
  * `displayLimit` defaults to 10 — keep it small.
  */
 export async function getKeywordSuggestions(
   seedPhrase: string,
   opts?: { displayLimit?: number; database?: string },
-): Promise<SemrushKeywordSuggestion[]> {
+): Promise<KeywordSuggestionResult> {
   const { apiKey, database } = getSemrushEnv();
   const cleanPhrase = seedPhrase.trim();
   if (!cleanPhrase) {
@@ -233,33 +307,35 @@ export async function getKeywordSuggestions(
 
   const limit = Math.max(1, Math.min(50, opts?.displayLimit ?? 10));
 
-  // Column order MUST match positional parsing below: Ph, Nq, Cp, Co, Nr, Kd
-  const body = await semrushFetch({
-    type: "phrase_fullsearch",
-    key: apiKey,
-    phrase: cleanPhrase,
-    database: opts?.database ?? database,
-    display_limit: limit,
-    // Sort by search volume descending — same default as Keyword Magic Tool's volume column.
-    display_sort: "nq_desc",
-    export_columns: "Ph,Nq,Cp,Co,Nr,Kd",
-    export_decode: 1,
-  });
+  const queryOnce = async (variant: string): Promise<SemrushKeywordSuggestion[]> => {
+    // Column order MUST match positional parsing below: Ph, Nq, Cp, Co, Nr, Kd
+    const body = await semrushFetch({
+      type: "phrase_fullsearch",
+      key: apiKey,
+      phrase: variant,
+      database: opts?.database ?? database,
+      display_limit: limit,
+      display_sort: "nq_desc",
+      export_columns: "Ph,Nq,Cp,Co,Nr,Kd",
+      export_decode: 1,
+    });
+    const rows = parseSemrushRows(body);
+    return rows
+      .map((cells) => {
+        const [ph, nq, cp, co, nr, kd] = cells;
+        return {
+          phrase: ph ?? "",
+          searchVolume: toNumber(nq),
+          cpc: toNumber(cp),
+          competition: toNumber(co),
+          results: toNumber(nr),
+          difficulty: toNumber(kd),
+        };
+      })
+      .filter((row) => row.phrase.length > 0);
+  };
 
-  const rows = parseSemrushRows(body);
-  return rows
-    .map((cells) => {
-      const [ph, nq, cp, co, nr, kd] = cells;
-      return {
-        phrase: ph ?? "",
-        searchVolume: toNumber(nq),
-        cpc: toNumber(cp),
-        competition: toNumber(co),
-        results: toNumber(nr),
-        difficulty: toNumber(kd),
-      };
-    })
-    .filter((row) => row.phrase.length > 0);
+  return fetchWithSeedFallback(cleanPhrase, queryOnce);
 }
 
 // =========================================================
@@ -283,11 +359,13 @@ function parseIntentCell(raw: string | undefined): SemrushIntent[] {
  *
  * Algorithm:
  *   1. Pull the top 10 broad-match keywords for the seed (one phrase_fullsearch call).
+ *      If empty, retry with shorter seed variants (see fetchWithSeedFallback).
  *   2. Filter to volume >= MIN and (for "page" mode) high-intent (commercial/transactional).
  *   3. Score each remaining candidate: volume × intent_bonus / (difficulty_factor).
  *   4. Return the highest-scored candidate, or null with a reason.
  *
- * Cost: ~40 × 10 = 400 Semrush API units per call (one phrase_fullsearch only).
+ * Cost: ~400 Semrush API units in the common case; up to ~1600 if all 4 fallback
+ * variants need to be tried.
  */
 export async function pickKeyword(
   seed: string,
@@ -301,38 +379,51 @@ export async function pickKeyword(
   }
 
   const limit = Math.max(5, Math.min(25, opts?.displayLimit ?? 10));
-
-  // Column order MUST match positional parsing below: Ph, Nq, Cp, Co, In, Kd
-  const body = await semrushFetch({
-    type: "phrase_fullsearch",
-    key: apiKey,
-    phrase: cleanSeed,
-    database: opts?.database ?? database,
-    display_limit: limit,
-    display_sort: "nq_desc",
-    export_columns: "Ph,Nq,Cp,Co,In,Kd",
-    export_decode: 1,
-  });
-
-  const rows = parseSemrushRows(body);
   const minVolume = mode === "page" ? MIN_VOLUME_PAGE : MIN_VOLUME_BLOG;
 
-  const allCandidates = rows
-    .map((cells) => {
-      const [ph, nq, _cp, _co, intentCell, kd] = cells;
-      return {
-        phrase: ph ?? "",
-        searchVolume: toNumber(nq),
-        difficulty: toNumber(kd),
-        intent: parseIntentCell(intentCell),
-      };
-    })
-    .filter((c) => c.phrase.length > 0 && c.searchVolume >= minVolume);
+  type RawCandidate = {
+    phrase: string;
+    searchVolume: number;
+    difficulty: number;
+    intent: SemrushIntent[];
+  };
+
+  const queryOnce = async (variant: string): Promise<RawCandidate[]> => {
+    // Column order MUST match positional parsing below: Ph, Nq, Cp, Co, In, Kd
+    const body = await semrushFetch({
+      type: "phrase_fullsearch",
+      key: apiKey,
+      phrase: variant,
+      database: opts?.database ?? database,
+      display_limit: limit,
+      display_sort: "nq_desc",
+      export_columns: "Ph,Nq,Cp,Co,In,Kd",
+      export_decode: 1,
+    });
+    return parseSemrushRows(body)
+      .map((cells) => {
+        const [ph, nq, _cp, _co, intentCell, kd] = cells;
+        return {
+          phrase: ph ?? "",
+          searchVolume: toNumber(nq),
+          difficulty: toNumber(kd),
+          intent: parseIntentCell(intentCell),
+        };
+      })
+      .filter((c) => c.phrase.length > 0);
+  };
+
+  const fallback = await fetchWithSeedFallback(cleanSeed, queryOnce);
+  const allCandidates = fallback.rows.filter((c) => c.searchVolume >= minVolume);
 
   if (allCandidates.length === 0) {
+    const triedNote =
+      fallback.triedSeeds.length > 1
+        ? ` (tried fallbacks: ${fallback.triedSeeds.join(" → ")})`
+        : "";
     return {
       pick: null,
-      reason: `No broad-match keywords with volume ≥ ${minVolume} were returned for "${cleanSeed}".`,
+      reason: `No broad-match keywords with volume ≥ ${minVolume} were returned for "${cleanSeed}"${triedNote}.`,
       candidates: [],
     };
   }
@@ -381,6 +472,9 @@ export async function pickKeyword(
     );
   } else {
     reasonParts.push("Picked highest-volume broad-match keyword for blog topic.");
+  }
+  if (fallback.effectiveSeed !== cleanSeed) {
+    reasonParts.push(`Original seed returned 0 results — used fallback "${fallback.effectiveSeed}".`);
   }
 
   return {

@@ -304,7 +304,7 @@ export default function AdminBlogDashboard() {
     [refetch]
   );
 
-  // ── AI SEO handlers ─────────────────────────────────────────────────────────
+  // ── AI Generate Meta Data handlers ──────────────────────────────────────────
 
   const handleRunSeo = useCallback(async (post: BlogPost) => {
     setSeoStatuses((prev) => ({ ...prev, [post.id]: { status: "generating" } }));
@@ -338,17 +338,28 @@ export default function AdminBlogDashboard() {
   }, []);
 
   const handleApplySeo = useCallback(async (post: BlogPost, result: SeoGenResult) => {
+    // Write all 3 fields when present:
+    //   page_title  → blog_posts.title (the human-facing article title)
+    //   seo_title   → blog_posts.meta_title (the <title> tag)
+    //   meta_desc   → blog_posts.meta_description
+    const updates: Record<string, string> = {
+      meta_description: result.meta_description,
+    };
+    if (result.page_title?.trim()) updates.title = result.page_title.trim();
+    if (result.seo_title?.trim()) updates.meta_title = result.seo_title.trim();
+
     const { error: updErr } = await supabase
       .from("blog_posts")
-      .update({ meta_description: result.meta_description })
+      .update(updates)
       .eq("id", post.id);
     if (!updErr) {
-      showToast(`SEO saved for "${post.title.slice(0, 40)}${post.title.length > 40 ? "…" : ""}"`);
+      const displayTitle = (updates.title ?? post.title).slice(0, 40);
+      showToast(`Meta data saved for "${displayTitle}${displayTitle.length === 40 ? "…" : ""}"`);
       setSeoStatuses((prev) => { const n = { ...prev }; delete n[post.id]; return n; });
       void revalidateBlogPost(post.slug);
       await refetch();
     } else {
-      showToast("Failed to save SEO metadata", "error");
+      showToast("Failed to save meta data", "error");
     }
   }, [refetch, revalidateBlogPost]);
 
@@ -380,7 +391,7 @@ export default function AdminBlogDashboard() {
       setBulkSeoProgress({ done, total: targets.length });
     }
     setBulkSeoRunning(false);
-    showToast(`AI SEO generated for ${done} post${done !== 1 ? "s" : ""}. Review and apply below.`);
+    showToast(`Meta data generated for ${done} post${done !== 1 ? "s" : ""}. Review and apply below.`);
   }, [posts, selectedIds]);
 
   const pendingSeoReviewCount = Object.values(seoStatuses).filter((s) => s.status === "done").length;
@@ -390,7 +401,10 @@ export default function AdminBlogDashboard() {
     let saved = 0;
     for (const p of toApply) {
       const result = seoStatuses[p.id]?.result!;
-      const { error: updErr } = await supabase.from("blog_posts").update({ meta_description: result.meta_description }).eq("id", p.id);
+      const updates: Record<string, string> = { meta_description: result.meta_description };
+      if (result.page_title?.trim()) updates.title = result.page_title.trim();
+      if (result.seo_title?.trim()) updates.meta_title = result.seo_title.trim();
+      const { error: updErr } = await supabase.from("blog_posts").update(updates).eq("id", p.id);
       if (!updErr) {
         saved++;
         void revalidateBlogPost(p.slug);
@@ -399,7 +413,7 @@ export default function AdminBlogDashboard() {
     setSeoStatuses({});
     clearSelection();
     await refetch();
-    showToast(`Applied SEO to ${saved} post${saved !== 1 ? "s" : ""}`);
+    showToast(`Applied meta data to ${saved} post${saved !== 1 ? "s" : ""}`);
   }, [posts, seoStatuses, refetch, revalidateBlogPost]);
 
   const handleToggleStatus = async (post: BlogPost) => {
@@ -643,13 +657,13 @@ export default function AdminBlogDashboard() {
                 </button>
               )}
 
-              {/* AI SEO */}
+              {/* AI Generate Meta Data */}
               {bulkSeoRunning ? (
                 <div className="flex items-center gap-3">
                   <div className="flex items-center gap-2 bg-white/10 rounded-xl px-4 py-2">
                     <i className="ri-loader-4-line animate-spin text-white text-sm"></i>
                     <span className="text-white text-[11px] font-semibold whitespace-nowrap">
-                      SEO {bulkSeoProgress.done}/{bulkSeoProgress.total}…
+                      Meta {bulkSeoProgress.done}/{bulkSeoProgress.total}…
                     </span>
                     <div className="w-16 h-1.5 bg-white/20 rounded-full overflow-hidden">
                       <div className="h-full bg-violet-400 rounded-full transition-all duration-500"
@@ -665,7 +679,7 @@ export default function AdminBlogDashboard() {
                 <button onClick={() => void handleBulkSeo()}
                   className="flex items-center gap-1.5 bg-violet-500 hover:bg-violet-400 text-white text-[11px] tracking-[0.12em] uppercase font-bold px-4 py-2 rounded-xl transition-colors cursor-pointer whitespace-nowrap">
                   <i className="ri-sparkling-2-line text-xs"></i>
-                  AI Optimize SEO
+                  AI Generate Meta Data
                 </button>
               )}
 

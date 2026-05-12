@@ -32,9 +32,15 @@ export interface SemrushOverviewResponse {
 /** Response payload of `/api/admin/semrush/suggestions`. */
 export interface SemrushSuggestionsResponse {
   ok: boolean;
-  /** Overview row for the seed phrase itself (fetched in parallel). */
+  /** Overview row for the seed phrase that actually returned data. */
   seed: SemrushKeywordOverviewDTO | null;
   suggestions: SemrushKeywordSuggestionDTO[];
+  /** Original seed sent by the client. */
+  requestedSeed?: string;
+  /** Seed that produced rows — may differ from requestedSeed if a fallback was used. */
+  effectiveSeed?: string;
+  /** All seed variants tried, in order. */
+  triedSeeds?: string[];
   error?: string;
 }
 

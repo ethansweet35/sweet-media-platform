@@ -54,13 +54,8 @@ interface AdminBlogTableProps {
   onUpdateFocusKeyword: (post: BlogPost, keyword: string | null) => Promise<boolean>;
 }
 
-type SortField = "title" | "category" | "author" | "date" | "created_at" | "status";
+type SortField = "title" | "author" | "date" | "status";
 type SortDir = "asc" | "desc";
-
-function fmtDate(iso: string | null | undefined): string {
-  if (!iso) return "—";
-  return new Date(iso).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" });
-}
 
 export default function AdminBlogTable({
   posts,
@@ -91,15 +86,15 @@ export default function AdminBlogTable({
     // Each value is sized to fit its longest realistic content without truncation
     check: 48,
     title: 320,       // thumbnail + title + slug line
-    category: 160,    // "Addiction Treatment" badge
+    seoTitle: 220,    // "Optimized SEO Title For Page" with truncation
+    metaDesc: 280,    // longer column for description preview
     author: 180,      // avatar + full author name
     date: 140,        // "May 10, 2026"
     status: 130,      // "Published" pill button
     autopublish: 120, // header "Auto-publish" + toggle
     keyword: 280,     // inline-edit input + Suggest popover trigger
     surfer: 340,      // score ring + editor chip + error text
-    added: 140,       // "May 10, 2026"
-    actions: 290,     // edit + preview + star + gen-card button + ai-seo + delete
+    actions: 290,     // edit + preview + star + gen-card button + meta-data + delete
   });
   const resizeRef = useRef<{ col: keyof typeof colWidths; startX: number; startW: number } | null>(null);
 
@@ -155,10 +150,8 @@ export default function AdminBlogTable({
     let cmp = 0;
     switch (sortField) {
       case "title": cmp = a.title.localeCompare(b.title); break;
-      case "category": cmp = a.category.localeCompare(b.category); break;
       case "author": cmp = a.author.localeCompare(b.author); break;
       case "date": cmp = new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime(); break;
-      case "created_at": cmp = new Date(a.createdAt ?? "").getTime() - new Date(b.createdAt ?? "").getTime(); break;
       case "status": cmp = (a.status || "").localeCompare(b.status || ""); break;
     }
     return sortDir === "asc" ? cmp : -cmp;
@@ -180,7 +173,7 @@ export default function AdminBlogTable({
       <div className="overflow-x-auto">
         <table style={{ width: tableWidth, minWidth: tableWidth }} className="table-fixed">
           <colgroup>
-            {(["check","title","category","author","date","status","autopublish","keyword","surfer","added","actions"] as (keyof typeof colWidths)[]).map((c) => (
+            {(["check","title","seoTitle","metaDesc","author","date","status","autopublish","keyword","surfer","actions"] as (keyof typeof colWidths)[]).map((c) => (
               <col key={c} style={{ width: colWidths[c] + "px" }} />
             ))}
           </colgroup>
@@ -200,14 +193,14 @@ export default function AdminBlogTable({
                 </div>
               </th>
               <SortTh field="title" label="Title" rk="title" />
-              <SortTh field="category" label="Category" rk="category" />
+              <StaticTh label="SEO Title" rk="seoTitle" />
+              <StaticTh label="Meta Description" rk="metaDesc" />
               <SortTh field="author" label="Author" rk="author" />
               <SortTh field="date" label="Published" rk="date" />
               <SortTh field="status" label="Status" rk="status" />
               <StaticTh label="Auto-publish" rk="autopublish" />
               <StaticTh label="Primary Keyword" rk="keyword" />
               <StaticTh label="Surfer SEO" rk="surfer" />
-              <SortTh field="created_at" label="Date Added" rk="added" />
               <StaticTh label="Actions" rk="actions" right />
             </tr>
           </thead>
@@ -326,11 +319,42 @@ export default function AdminBlogTable({
                     </div>
                   </td>
 
-                  {/* Category */}
-                  <td className="px-4 py-4">
-                    <span className="text-[10px] tracking-[0.12em] uppercase font-semibold text-[#3d6f7f] bg-[#3d6f7f]/6 px-2.5 py-1 rounded-full whitespace-nowrap">
-                      {post.category}
-                    </span>
+                  {/* SEO Title */}
+                  <td className="px-4 py-4 align-top">
+                    {post.metaTitle ? (
+                      <div className="flex flex-col gap-1">
+                        <span
+                          className="text-[12px] leading-snug text-neutral-700 line-clamp-2"
+                          title={post.metaTitle}
+                        >
+                          {post.metaTitle}
+                        </span>
+                        <span className="inline-flex items-center self-start px-1 py-0.5 rounded text-[8px] font-bold uppercase tracking-wider bg-amber-50 text-amber-600">
+                          {post.metaTitle.length} chars
+                        </span>
+                      </div>
+                    ) : (
+                      <span className="text-neutral-300 text-[12px]">—</span>
+                    )}
+                  </td>
+
+                  {/* Meta Description */}
+                  <td className="px-4 py-4 align-top">
+                    {post.metaDescription ? (
+                      <div className="flex flex-col gap-1">
+                        <span
+                          className="text-[12px] leading-snug text-neutral-700 line-clamp-2"
+                          title={post.metaDescription}
+                        >
+                          {post.metaDescription}
+                        </span>
+                        <span className="inline-flex items-center self-start px-1 py-0.5 rounded text-[8px] font-bold uppercase tracking-wider bg-amber-50 text-amber-600">
+                          {post.metaDescription.length} chars
+                        </span>
+                      </div>
+                    ) : (
+                      <span className="text-neutral-300 text-[12px]">—</span>
+                    )}
                   </td>
 
                   {/* Author */}
@@ -435,11 +459,6 @@ export default function AdminBlogTable({
                     />
                   </td>
 
-                  {/* Date Added */}
-                  <td className="px-4 py-4">
-                    <span className="text-[12px] text-neutral-500 whitespace-nowrap">{fmtDate(post.createdAt)}</span>
-                  </td>
-
                   {/* Actions */}
                   <td className="px-5 py-4">
                     <div className="flex items-center justify-end gap-1">
@@ -494,7 +513,7 @@ export default function AdminBlogTable({
                           <><i className="ri-image-ai-line text-xs"></i> Gen Card</>
                         )}
                       </button>
-                      {/* AI SEO */}
+                      {/* AI Generate Meta Data */}
                       {seoStatus?.status === "generating" ? (
                         <div className="w-8 h-8 flex items-center justify-center">
                           <i className="ri-loader-4-line animate-spin text-violet-500 text-sm"></i>
@@ -502,7 +521,7 @@ export default function AdminBlogTable({
                       ) : (
                         <button
                           onClick={() => onRunSeo(post)}
-                          title="AI Optimize SEO"
+                          title="AI Generate Meta Data"
                           className={`w-8 h-8 flex items-center justify-center rounded-lg transition-all cursor-pointer ${
                             seoStatus?.status === "done"
                               ? "text-violet-600 bg-violet-100 hover:bg-violet-200"
@@ -525,20 +544,46 @@ export default function AdminBlogTable({
                   </td>
                 </tr>
 
-                {/* AI SEO preview row */}
+                {/* AI Generate Meta Data preview row */}
                 {seoStatus?.status === "done" && seoStatus.result && (
                   <tr key={`${post.id}-seo-preview`} className="bg-violet-50 border-b border-violet-100">
                     <td colSpan={11} className="px-5 py-3">
-                      <div className="flex items-start gap-4 flex-wrap">
+                      <div className="flex items-start gap-4">
                         <div className="flex items-center gap-1.5 flex-shrink-0 mt-0.5">
                           <i className="ri-sparkling-2-line text-violet-500 text-sm"></i>
-                          <span className="text-[11px] font-bold uppercase tracking-[0.1em] text-violet-600">AI Suggestion</span>
+                          <span className="text-[11px] font-bold uppercase tracking-[0.1em] text-violet-600 whitespace-nowrap">
+                            Generated Meta Data
+                          </span>
                         </div>
-                        <div className="flex-1 min-w-0">
-                          <p className="text-[9px] uppercase tracking-wider text-violet-400 font-bold mb-0.5">
-                            Meta Description ({seoStatus.result.meta_description.length} chars)
-                          </p>
-                          <p className="text-[13px] text-neutral-700 leading-snug">{seoStatus.result.meta_description}</p>
+                        <div className="flex-1 min-w-0 grid grid-cols-1 md:grid-cols-3 gap-3">
+                          {seoStatus.result.page_title && (
+                            <div className="min-w-0">
+                              <p className="text-[9px] uppercase tracking-wider text-violet-400 font-bold mb-0.5">
+                                Page Title ({seoStatus.result.page_title.length} chars)
+                              </p>
+                              <p className="text-[12px] text-neutral-700 leading-snug">
+                                {seoStatus.result.page_title}
+                              </p>
+                            </div>
+                          )}
+                          {seoStatus.result.seo_title && (
+                            <div className="min-w-0">
+                              <p className="text-[9px] uppercase tracking-wider text-violet-400 font-bold mb-0.5">
+                                SEO Title ({seoStatus.result.seo_title.length} chars)
+                              </p>
+                              <p className="text-[12px] text-neutral-700 leading-snug">
+                                {seoStatus.result.seo_title}
+                              </p>
+                            </div>
+                          )}
+                          <div className="min-w-0">
+                            <p className="text-[9px] uppercase tracking-wider text-violet-400 font-bold mb-0.5">
+                              Meta Description ({seoStatus.result.meta_description.length} chars)
+                            </p>
+                            <p className="text-[12px] text-neutral-700 leading-snug">
+                              {seoStatus.result.meta_description}
+                            </p>
+                          </div>
                         </div>
                         <div className="flex items-center gap-2 flex-shrink-0">
                           <button type="button" onClick={() => onApplySeo(post, seoStatus.result!)}

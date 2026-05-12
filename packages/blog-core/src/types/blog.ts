@@ -29,6 +29,8 @@ export interface BlogPost {
   tags: string[];
   content: BlogSection[];
   status?: string;
+  /** SEO `<title>` tag override (mirrors blog_posts.meta_title). */
+  metaTitle?: string | null;
   metaDescription?: string;
   /** Optional primary keyword (mirrors blog_posts.focus_keyword). */
   focus_keyword?: string | null;
@@ -61,6 +63,7 @@ export interface DbBlogPost {
   hero_image_url: string | null;
   published_at: string | null;
   status: string;
+  meta_title: string | null;
   meta_description: string | null;
   read_time: string | null;
   featured: boolean;
@@ -224,6 +227,7 @@ export function dbToBlogPost(db: DbBlogPost): BlogPost {
     tags: db.tags || [],
     content: parsedContent,
     status: db.status,
+    metaTitle: db.meta_title ?? null,
     metaDescription: db.meta_description || "",
     ...(typeof db.approved_for_publish === "boolean"
       ? { approved_for_publish: db.approved_for_publish }
@@ -261,6 +265,7 @@ export function blogPostToDb(post: Partial<BlogPost>): Partial<DbBlogPost> {
     read_time: post.readTime,
     featured: post.featured,
     status: post.status || "published",
+    meta_title: post.metaTitle ?? null,
     meta_description: post.metaDescription,
   };
 }

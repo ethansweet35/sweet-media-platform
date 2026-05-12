@@ -73,10 +73,16 @@ export default function PageEditModal({ page, isOpen, onClose, onSubmit }: PageE
           primary_keyword: primaryKeyword.trim() || undefined,
         }),
       });
-      const data = await res.json() as { seo_title?: string; meta_description?: string; error?: string };
+      const data = (await res.json()) as {
+        page_title?: string;
+        seo_title?: string;
+        meta_description?: string;
+        error?: string;
+      };
       if (!res.ok) throw new Error(data.error ?? "Generation failed");
-      if (data.seo_title) setSeoTitle(data.seo_title);
-      if (data.meta_description) setMetaDescription(data.meta_description);
+      if (data.page_title?.trim()) setPageTitle(data.page_title.trim());
+      if (data.seo_title?.trim()) setSeoTitle(data.seo_title.trim());
+      if (data.meta_description?.trim()) setMetaDescription(data.meta_description.trim());
       setGenerateSuccess(true);
       setTimeout(() => setGenerateSuccess(false), 3000);
     } catch (err) {
@@ -205,18 +211,18 @@ export default function PageEditModal({ page, isOpen, onClose, onSubmit }: PageE
             <div>
               <p className="text-[11px] font-bold uppercase tracking-[0.12em] text-neutral-700 flex items-center gap-1.5">
                 <i className="ri-sparkling-2-line text-xs" style={{ color: ADMIN_OCEAN }} />
-                AI SEO Generator
+                AI Generate Meta Data
               </p>
               {generateSuccess ? (
                 <p className="text-[11px] text-emerald-600 mt-0.5 flex items-center gap-1">
-                  <i className="ri-check-line" /> SEO title &amp; meta description filled in
+                  <i className="ri-check-line" /> Page title, SEO title &amp; meta description filled in
                 </p>
               ) : generateError ? (
                 <p className="text-[11px] text-red-600 mt-0.5">{generateError}</p>
               ) : (
                 <p className="text-[11px] text-neutral-400 mt-0.5">
                   {canGenerate
-                    ? "Generates SEO title + meta description from page title, route & keyword"
+                    ? "Generates page title + SEO title + meta description from current values & keyword"
                     : "Fill in Route Path and Page Title to enable"}
                 </p>
               )}

@@ -81,6 +81,7 @@ export default function KeywordSuggestPopover({
   const [seed, setSeed] = useState<SemrushKeywordOverviewDTO | null>(null);
   const [suggestions, setSuggestions] = useState<SemrushKeywordSuggestionDTO[]>([]);
   const [lastFetchedSeed, setLastFetchedSeed] = useState<string | null>(null);
+  const [serverEffectiveSeed, setServerEffectiveSeed] = useState<string | null>(null);
   const [sortKey, setSortKey] = useState<SortKey>("searchVolume");
   const triggerRef = useRef<HTMLDivElement | null>(null);
   const buttonRef = useRef<HTMLButtonElement | null>(null);
@@ -169,10 +170,12 @@ export default function KeywordSuggestPopover({
       setSeed(data.seed);
       setSuggestions(data.suggestions);
       setLastFetchedSeed(cleaned);
+      setServerEffectiveSeed(data.effectiveSeed ?? cleaned);
     } catch (err) {
       setError(err instanceof Error ? err.message : "Failed to fetch suggestions.");
       setSeed(null);
       setSuggestions([]);
+      setServerEffectiveSeed(null);
     } finally {
       setLoading(false);
     }
@@ -231,6 +234,15 @@ export default function KeywordSuggestPopover({
               <span className="ml-1 text-[10px] text-neutral-400">(auto-derived)</span>
             )}
           </p>
+          {serverEffectiveSeed &&
+            lastFetchedSeed &&
+            serverEffectiveSeed !== lastFetchedSeed && (
+              <p className="mt-0.5 text-[10px] text-amber-600 truncate">
+                <i className="ri-arrow-right-down-line mr-0.5" />
+                Original seed returned 0 — matched on{" "}
+                <span className="font-mono font-semibold">{serverEffectiveSeed}</span>
+              </p>
+            )}
         </div>
         <button
           type="button"

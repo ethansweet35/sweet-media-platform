@@ -43,6 +43,7 @@ export {
   pickKeyword,
   type SemrushKeywordOverview,
   type SemrushKeywordSuggestion,
+  type KeywordSuggestionResult,
   type SemrushIntent,
   type KeywordPickMode,
   type SemrushAutoPickResult,

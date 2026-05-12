@@ -36,16 +36,29 @@ export async function POST(request: Request) {
   );
 
   try {
-    // Run seed overview + related suggestions in parallel — two distinct Semrush calls.
-    const [seed, suggestions] = await Promise.all([
-      getKeywordOverview(phrase, { database: body.database }).catch((err) => {
-        if (err instanceof SemrushApiError) throw err;
+    // Run suggestions first — it returns the effective seed (post-fallback) which
+    // we then use for the overview lookup so the seed-row metrics match the
+    // suggestions actually shown.
+    const suggestionsResult = await getKeywordSuggestions(phrase, {
+      displayLimit: limit,
+      database: body.database,
+    });
+    const seedForOverview = suggestionsResult.effectiveSeed || phrase;
+    const seed = await getKeywordOverview(seedForOverview, { database: body.database }).catch(
+      (err) => {
+        if (err instanceof SemrushApiError) return null;
         throw err;
-      }),
-      getKeywordSuggestions(phrase, { displayLimit: limit, database: body.database }),
-    ]);
+      },
+    );
 
-    return NextResponse.json({ ok: true, seed, suggestions });
+    return NextResponse.json({
+      ok: true,
+      seed,
+      suggestions: suggestionsResult.rows,
+      effectiveSeed: suggestionsResult.effectiveSeed,
+      triedSeeds: suggestionsResult.triedSeeds,
+      requestedSeed: phrase,
+    });
   } catch (err) {
     if (err instanceof SemrushApiError) {
       return NextResponse.json(

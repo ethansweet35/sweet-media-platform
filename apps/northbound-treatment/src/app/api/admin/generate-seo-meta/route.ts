@@ -29,28 +29,35 @@ function buildPrompt(body: GenerateSeoMetaRequest): string {
       : "";
     const categoryLine = body.category?.trim() ? `Category: ${body.category.trim()}` : "";
 
-    return `You are an expert SEO copywriter for a behavioral health and addiction treatment center (Northbound Treatment). Generate an optimized meta description for a blog post.
+    return `You are an expert SEO copywriter for a behavioral health and addiction treatment center (Northbound Treatment). Generate optimized metadata for a blog post.
 
-Article title: ${title}
+Current article title: ${title}
 ${categoryLine}
 ${excerptLine}
 ${keywordLine}
 
-Rules:
-- Meta description: 140–160 characters, compelling, includes the keyword naturally, ends with a soft CTA ("Learn more", "Get help today", etc.)
-- Return ONLY valid JSON, no markdown fences: {"seo_title":null,"meta_description":"..."}`;
+Generate all THREE fields:
+- "page_title": The human-facing article title (50–80 chars). Improve the current title for clarity, search appeal, and keyword inclusion. Don't include brand name. Should read like a great blog headline.
+- "seo_title": The HTML <title> tag (50–60 chars). Front-load the keyword, include "Northbound Treatment" if space allows.
+- "meta_description": 140–160 chars, compelling, includes the keyword naturally, ends with a soft CTA ("Learn more", "Get help today", etc.)
+
+Return ONLY valid JSON, no markdown fences:
+{"page_title":"...","seo_title":"...","meta_description":"..."}`;
   }
 
-  return `You are an expert SEO copywriter for a behavioral health and addiction treatment center (Northbound Treatment). Generate an SEO title and meta description for the following page.
+  return `You are an expert SEO copywriter for a behavioral health and addiction treatment center (Northbound Treatment). Generate optimized metadata for the following page.
 
-Page title: ${title}
+Current page title: ${title}
 Route path: ${body.route_path ?? ""}
 ${keywordLine}
 
-Rules:
-- SEO title: 50–60 characters, compelling, includes the keyword naturally, includes "Northbound Treatment" if space allows.
-- Meta description: 140–160 characters, actionable, includes the keyword, ends with a subtle CTA ("Call now", "Get help today", "Learn more", etc.)
-- Return ONLY valid JSON, no markdown fences: {"seo_title":"...","meta_description":"..."}`;
+Generate all THREE fields:
+- "page_title": The human-facing page title shown as the <h1> / admin row label (3–7 words). Improve the current title for clarity and keyword inclusion. Don't include brand name. Should be specific to the page topic and location if applicable.
+- "seo_title": The HTML <title> tag (50–60 chars). Front-load the keyword, include "Northbound Treatment" if space allows.
+- "meta_description": 140–160 chars, actionable, includes the keyword, ends with a subtle CTA ("Call now", "Get help today", "Learn more", etc.)
+
+Return ONLY valid JSON, no markdown fences:
+{"page_title":"...","seo_title":"...","meta_description":"..."}`;
 }
 
 export async function POST(request: Request) {
@@ -83,13 +90,13 @@ export async function POST(request: Request) {
       Authorization: `Bearer ${apiKey}`,
       "Content-Type": "application/json",
       "HTTP-Referer": process.env.NEXT_PUBLIC_SITE_URL ?? "https://northboundtreatment.com",
-      "X-Title": "Northbound Treatment Admin",
+      "X-Title": " Admin",
     },
     body: JSON.stringify({
       model: "google/gemini-2.0-flash-001",
       messages: [{ role: "user", content: prompt }],
       temperature: 0.5,
-      max_tokens: 250,
+      max_tokens: 400,
     }),
   });
 
@@ -101,7 +108,7 @@ export async function POST(request: Request) {
   const data = await response.json();
   const raw: string = data?.choices?.[0]?.message?.content ?? "";
 
-  let parsed: { seo_title: string | null; meta_description: string };
+  let parsed: { page_title?: string | null; seo_title: string | null; meta_description: string };
   try {
     parsed = JSON.parse(raw.trim());
   } catch {
@@ -117,6 +124,7 @@ export async function POST(request: Request) {
   }
 
   return NextResponse.json({
+    page_title: parsed.page_title ?? null,
     seo_title: parsed.seo_title ?? null,
     meta_description: parsed.meta_description ?? "",
   });
