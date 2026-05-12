@@ -131,10 +131,11 @@ function normalizeStructure(value: unknown): SeoBriefStructure | null {
   const paragraphs = pick("paragraphs");
   const images = pick("images");
   if (!characters || !words || !headings || !paragraphs || !images) return null;
-  const wordsMin = asInt(words.min);
+  // Hard cap on words.min — models frequently anchor on long-form resource pages.
+  // A blog article's competitive minimum should rarely exceed 3,500 words.
+  const wordsMin = Math.min(asInt(words.min), 3500);
   let wordsMax = asInt(words.max);
-  // If the model returns a max more than 2.5× the min, it likely included an outlier page.
-  // Cap the max to 2.5× min to keep the target range realistic.
+  // Cap max to 2.5× the (already-clamped) min so the spread stays realistic.
   if (wordsMin > 0 && wordsMax > wordsMin * 2.5) {
     wordsMax = Math.round(wordsMin * 2.5);
   }
@@ -247,9 +248,9 @@ JSON schema:
 Method:
 1. Search Google US for the keyword. Examine the top 10 organic results (skip ads, video carousels, AI overviews).
 2. For each page, estimate or measure: word count, character count (incl. spaces), heading count (H1+H2+H3), image count, and paragraph count.
-   - Report a COMPETITIVE TARGET RANGE in "content_structure" — not the absolute min/max of the corpus.
+   - Report a COMPETITIVE TARGET RANGE in "content_structure" for a NEW BLOG ARTICLE — not the absolute min/max of the corpus.
    - Use the middle cluster of results: roughly the 25th–75th percentile across the pages you analyzed. Exclude outlier pages whose word count is more than 2× the median before computing the range.
-   - The goal is a realistic range a well-written article should hit to rank competitively — not the span from the shortest page to the longest page in existence for that query.
+   - IMPORTANT WORD COUNT CALIBRATION: Most well-ranked blog articles sit between 800 and 3,500 words. If multiple pages in your corpus exceed 5,000 words they are likely comprehensive resource hubs, medical references, or Wikipedia-style pages — not typical blog posts. Exclude those from the word count range. The words.min you report should be the lower end of what a focused blog article needs to rank; it should almost never exceed 3,000. If your honest median is above 3,000, report the median as both min and max with a tight spread.
 3. Build "important_terms" as the NLP keywords/phrases that appear across multiple top pages. Include the primary keyword first, then 25–50 supporting terms ordered by relevance. Mix 1-word, 2-word, and 3-word phrases. "min" = lowest observed count among pages that use it; "max" = highest observed count (or a sensible upper bound).
 4. "questions": 3–5 questions Google surfaces in People-Also-Ask or "Related questions" for this keyword.
 5. "facts": 4–7 topical groups. Each topic must have 2–4 specific, verifiable facts a writer should include — write them as complete sentences (not headlines).
