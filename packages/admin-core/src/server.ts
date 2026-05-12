@@ -40,6 +40,10 @@ export {
   getSemrushEnv,
   getKeywordOverview,
   getKeywordSuggestions,
+  pickKeyword,
   type SemrushKeywordOverview,
   type SemrushKeywordSuggestion,
+  type SemrushIntent,
+  type KeywordPickMode,
+  type SemrushAutoPickResult,
 } from "./lib/server/semrushClient";

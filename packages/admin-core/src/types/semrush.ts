@@ -37,3 +37,26 @@ export interface SemrushSuggestionsResponse {
   suggestions: SemrushKeywordSuggestionDTO[];
   error?: string;
 }
+
+/** Numeric intent labels matching Semrush's `In` column. */
+export type SemrushIntentDTO = 0 | 1 | 2 | 3;
+
+/** Mode determines how `pickKeyword` scores candidates. */
+export type KeywordPickModeDTO = "page" | "blog";
+
+/** Single chosen keyword from the auto-pick algorithm. */
+export interface SemrushAutoPickDTO {
+  phrase: string;
+  searchVolume: number;
+  difficulty: number;
+  intent: SemrushIntentDTO[];
+}
+
+/** Response payload of `/api/admin/semrush/auto-pick`. */
+export interface SemrushAutoPickResponse {
+  ok: boolean;
+  pick: SemrushAutoPickDTO | null;
+  reason: string;
+  candidates: Array<SemrushAutoPickDTO & { score: number }>;
+  error?: string;
+}

@@ -10,6 +10,7 @@ import type { BlogPost } from "@sweetmedia/blog-core";
 import AdminBlogTable from "../components/pages/admin/blogs/components/AdminBlogTable";
 import AdminBlogDeleteModal from "../components/pages/admin/blogs/components/AdminBlogDeleteModal";
 import BulkRewriteModal from "../components/pages/admin/blogs/components/BulkRewriteModal";
+import BulkPickKeywordModal from "../components/BulkPickKeywordModal";
 import { ADMIN_OCEAN } from "../lib/adminTheme";
 import { callGenerateSeoMetadata, type SeoGenResult } from "../lib/generateSeoMetadata";
 import { getPublicSiteOrigin } from "../lib/publicSiteUrl";
@@ -86,6 +87,7 @@ export default function AdminBlogDashboard() {
     toggleStatus,
     toggleApprovedForPublish,
     toggleFeatured,
+    updatePost,
     refetch,
   } = useAdminBlogPosts();
 
@@ -115,6 +117,7 @@ export default function AdminBlogDashboard() {
   const [seoStatuses, setSeoStatuses] = useState<Record<string, SeoStatus>>({});
   const [bulkSeoRunning, setBulkSeoRunning] = useState(false);
   const [bulkRewriteOpen, setBulkRewriteOpen] = useState(false);
+  const [bulkPickKeywordOpen, setBulkPickKeywordOpen] = useState(false);
   const [bulkSeoProgress, setBulkSeoProgress] = useState({ done: 0, total: 0 });
   const seoAbortRef = useRef(false);
 
@@ -682,6 +685,15 @@ export default function AdminBlogDashboard() {
                 AI Rewrite
               </button>
 
+              {/* Auto-pick Primary Keywords */}
+              <button
+                onClick={() => setBulkPickKeywordOpen(true)}
+                className="flex items-center gap-1.5 bg-white text-[#3d6f7f] hover:bg-white/90 text-[11px] tracking-[0.12em] uppercase font-bold px-4 py-2 rounded-xl transition-colors cursor-pointer whitespace-nowrap"
+              >
+                <i className="ri-search-eye-line text-xs"></i>
+                Auto-pick Keywords
+              </button>
+
               {/* Deselect */}
               <button
                 onClick={clearSelection}
@@ -794,6 +806,9 @@ export default function AdminBlogDashboard() {
             onApplySeo={handleApplySeo}
             onDismissSeo={handleDismissSeo}
             onSurferChange={refetch}
+            onUpdateFocusKeyword={async (post, keyword) =>
+              updatePost(post.id, { focus_keyword: keyword })
+            }
           />
             {/* Pagination */}
             {totalPages > 1 && (
@@ -867,6 +882,26 @@ export default function AdminBlogDashboard() {
           posts={posts.filter((p) => selectedIds.has(p.id))}
           onClose={() => setBulkRewriteOpen(false)}
           onComplete={() => { setBulkRewriteOpen(false); void refetch(); }}
+        />
+      )}
+
+      {/* Bulk Auto-pick Primary Keyword Modal */}
+      {bulkPickKeywordOpen && (
+        <BulkPickKeywordModal
+          mode="blog"
+          rows={posts
+            .filter((p) => selectedIds.has(p.id))
+            .map((p) => ({
+              id: p.id,
+              title: p.title,
+              seed: p.title,
+              currentKeyword: p.focus_keyword ?? null,
+            }))}
+          onApplyRow={async (row, keyword) =>
+            updatePost(row.id, { focus_keyword: keyword })
+          }
+          onClose={() => setBulkPickKeywordOpen(false)}
+          onComplete={() => { setBulkPickKeywordOpen(false); void refetch(); }}
         />
       )}
 
