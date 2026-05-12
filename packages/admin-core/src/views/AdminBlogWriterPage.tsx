@@ -7,6 +7,7 @@ import AdminPageHeader from "../components/AdminPageHeader";
 import KeywordSuggestPopover from "../components/KeywordSuggestPopover";
 import { supabase } from "../lib/supabase";
 import { AI_MODELS, DEFAULT_MODEL_ID } from "../lib/aiModels";
+import { useBriefForWriter } from "../hooks/useSeoBriefs";
 
 const SITE_ID = process.env.NEXT_PUBLIC_SITE_ID ?? "client-template";
 
@@ -72,10 +73,27 @@ function parseBackendError(payload: Record<string, unknown>, fallback: string): 
 export default function BlogWriterPage() {
   const searchParams = useSearchParams();
   const seededKeyword = searchParams?.get("primary_keyword") ?? "";
+  const briefId = searchParams?.get("brief_id") ?? "";
+  const brief = useBriefForWriter(briefId || null);
 
   const [form, setForm] = useState<FormState>(() =>
     seededKeyword ? { ...INITIAL_FORM, primaryKeyword: seededKeyword } : INITIAL_FORM,
   );
+
+  useEffect(() => {
+    if (!briefId || brief.loading) return;
+    if (!brief.primaryKeyword && !brief.customInstructions) return;
+    setForm((prev) => ({
+      ...prev,
+      primaryKeyword: prev.primaryKeyword || brief.primaryKeyword,
+      topic: prev.topic || (brief.primaryKeyword ? `In-depth guide on ${brief.primaryKeyword}` : prev.topic),
+      customInstructions: brief.customInstructions
+        ? prev.customInstructions
+          ? `${prev.customInstructions.trim()}\n\n${brief.customInstructions}`
+          : brief.customInstructions
+        : prev.customInstructions,
+    }));
+  }, [briefId, brief.loading, brief.primaryKeyword, brief.customInstructions]);
   const [generationStage, setGenerationStage] = useState<GenerationStage>(null);
   const [postError, setPostError] = useState<string | null>(null);
   const [result, setResult] = useState<DoneResult | null>(null);

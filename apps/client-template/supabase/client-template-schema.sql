@@ -313,12 +313,37 @@ create table if not exists public.system_settings (
   updated_at timestamptz not null default now()
 );
 
+-- Sweet SEO content briefs (see migrations/2026-05-12_sweet_seo_briefs.sql)
+create table if not exists public.seo_briefs (
+  id uuid primary key default gen_random_uuid(),
+  keyword text not null,
+  country text not null default 'US',
+  status text not null default 'pending',
+  model text,
+  content_structure jsonb,
+  important_terms jsonb,
+  questions jsonb,
+  facts jsonb,
+  citations jsonb,
+  notes text,
+  draft_content text not null default '',
+  error_message text,
+  created_by uuid,
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now()
+);
+
+create index if not exists seo_briefs_created_at_idx on public.seo_briefs(created_at desc);
+create index if not exists seo_briefs_status_idx on public.seo_briefs(status);
+create index if not exists seo_briefs_keyword_idx on public.seo_briefs(lower(keyword));
+
 -- Enable RLS on admin-managed tables
 alter table public.blog_queue enable row level security;
 alter table public.blog_knowledge_base enable row level security;
 alter table public.internal_links enable row level security;
 alter table public.tracked_pages enable row level security;
 alter table public.system_settings enable row level security;
+alter table public.seo_briefs enable row level security;
 
 -- Admin policies for operational tables
 drop policy if exists "Admins can manage blog queue" on public.blog_queue;
@@ -338,6 +363,9 @@ create policy "Authenticated users can manage tracked pages" on public.tracked_p
 
 drop policy if exists "Admins can manage system settings" on public.system_settings;
 create policy "Admins can manage system settings" on public.system_settings for all to authenticated using (exists (select 1 from public.admin_users au where lower(au.email) = lower(auth.jwt() ->> 'email'))) with check (exists (select 1 from public.admin_users au where lower(au.email) = lower(auth.jwt() ->> 'email')));
+
+drop policy if exists "Admins can manage seo briefs" on public.seo_briefs;
+create policy "Admins can manage seo briefs" on public.seo_briefs for all to authenticated using (exists (select 1 from public.admin_users au where lower(au.email) = lower(auth.jwt() ->> 'email'))) with check (exists (select 1 from public.admin_users au where lower(au.email) = lower(auth.jwt() ->> 'email')));
 
 -- Storage expectation: create a public bucket named site-assets.
 -- Recommended folders: images/, blog-featured/, logos/, og/.

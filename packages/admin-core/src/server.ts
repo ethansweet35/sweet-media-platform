@@ -48,3 +48,10 @@ export {
   type KeywordPickMode,
   type SemrushAutoPickResult,
 } from "./lib/server/semrushClient";
+
+export {
+  SweetSeoError,
+  analyzeKeyword,
+  getBrief,
+  deleteBrief,
+} from "./lib/server/sweetSeoBrief";

@@ -7,6 +7,7 @@ export * from "./types/knowledge-base";
 export * from "./types/tracked-page";
 export * from "./types/surfer";
 export * from "./types/semrush";
+export * from "./types/seo-brief";
 
 export { default as AdminPageHeader } from "./components/AdminPageHeader";
 export { default as SurferCell, type SurferCellRow } from "./components/SurferCell";
@@ -71,4 +72,7 @@ export { default as AdminLinkHealthPage } from "./views/AdminLinkHealthPage";
 export { default as AdminSetupPage } from "./views/AdminSetupPage";
 export { default as AdminBrandSettingsPage } from "./views/AdminBrandSettingsPage";
 export { default as AdminKeywordResearchPage } from "./views/AdminKeywordResearchPage";
+export { default as AdminSweetSeoPage } from "./views/AdminSweetSeoPage";
+export { default as AdminSweetSeoBriefPage } from "./views/AdminSweetSeoBriefPage";
+export { useSeoBriefs, useSeoBrief, useBriefForWriter, briefToMarkdown } from "./hooks/useSeoBriefs";
 export { useBrandSettings, type BrandSettingsRow, type BusinessHoursRow } from "./hooks/useBrandSettings";
