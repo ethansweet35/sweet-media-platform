@@ -6,6 +6,7 @@ const fallback: Metadata = {
   title: "Outpatient Program (OP) in Orange County | Rize OC",
   description:
     "Ongoing outpatient therapy and relapse prevention support in Orange County, CA. One to two sessions per week for individuals committed to sustained recovery at Rize OC.",
+  alternates: { canonical: "/outpatient-program" },
 };
 
 export async function generateMetadata(): Promise<Metadata> {

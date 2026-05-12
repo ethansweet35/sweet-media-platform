@@ -6,6 +6,7 @@ const fallback: Metadata = {
   title: "Levels of Care | Rize OC",
   description:
     "Explore every level of addiction and mental health treatment at Rize OC — from medical detox and residential to IOP, outpatient, and virtual programs.",
+  alternates: { canonical: "/levels-of-care" },
 };
 
 export async function generateMetadata(): Promise<Metadata> {

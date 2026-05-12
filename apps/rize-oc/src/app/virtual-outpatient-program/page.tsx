@@ -6,6 +6,7 @@ const fallback: Metadata = {
   title: "Virtual Outpatient Program | Rize OC — California Telehealth",
   description:
     "HIPAA-compliant virtual IOP and outpatient therapy available statewide in California. Rize OC brings evidence-based behavioral health care directly to your home.",
+  alternates: { canonical: "/virtual-outpatient-program" },
 };
 
 export async function generateMetadata(): Promise<Metadata> {

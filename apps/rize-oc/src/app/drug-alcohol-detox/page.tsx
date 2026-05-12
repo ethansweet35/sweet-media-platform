@@ -6,6 +6,7 @@ const fallback: Metadata = {
   title: "Drug & Alcohol Detox in Orange County | Rize OC",
   description:
     "Medically supervised drug and alcohol detox in Orange County, CA. 24/7 medical team, private suites, and comfort-focused withdrawal management. Same-day admissions. Call now.",
+  alternates: { canonical: "/drug-alcohol-detox" },
 };
 
 export async function generateMetadata(): Promise<Metadata> {

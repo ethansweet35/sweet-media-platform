@@ -3,6 +3,7 @@ import { resolveTrackedPageMetadata } from "@sweetmedia/admin-core";
 
 const fallbackMetadata: Metadata = {
   title: "Admissions | Rize OC",
+  alternates: { canonical: "/admissions" },
   description: "Explain the client’s onboarding, intake, or getting-started process.",
 };
 

@@ -4,6 +4,7 @@ import { resolveTrackedPageMetadata } from "@sweetmedia/admin-core";
 const fallbackMetadata: Metadata = {
   title: "About | Rize OC",
   description: "Introduce the client, their story, mission, team, and differentiators.",
+  alternates: { canonical: "/about" },
 };
 
 export async function generateMetadata(): Promise<Metadata> {

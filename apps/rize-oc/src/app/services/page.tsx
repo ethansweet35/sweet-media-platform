@@ -3,6 +3,7 @@ import { resolveTrackedPageMetadata } from "@sweetmedia/admin-core";
 
 const fallbackMetadata: Metadata = {
   title: "Services | Rize OC",
+  alternates: { canonical: "/services" },
   description: "Describe the client’s core services, programs, or offers.",
 };
 
