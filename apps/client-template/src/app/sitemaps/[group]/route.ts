@@ -1,8 +1,7 @@
-import { SITEMAP_REVALIDATE_SECONDS } from "@sweetmedia/admin-core";
 import { buildPublicSitemapGroupXml } from "@sweetmedia/admin-core/server";
 import { getPublicSiteOrigin } from "@/lib/publicSiteUrl";
 
-export const revalidate = SITEMAP_REVALIDATE_SECONDS;
+export const revalidate = 86400;
 
 export async function GET(
   _request: Request,
