@@ -142,8 +142,8 @@ export default function AdminBlogDashboard() {
       const matchesSearch =
         !searchQuery ||
         p.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        p.author.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        p.category.toLowerCase().includes(searchQuery.toLowerCase());
+        (p.author ?? "").toLowerCase().includes(searchQuery.toLowerCase()) ||
+        (p.category ?? "").toLowerCase().includes(searchQuery.toLowerCase());
       const matchesStatus = filterStatus === "all" || p.status === filterStatus;
       const matchesCategory = filterCategory === "All" || p.category === filterCategory;
       return matchesSearch && matchesStatus && matchesCategory;

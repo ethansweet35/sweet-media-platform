@@ -217,6 +217,15 @@ export default function BlogWriterPage() {
         return;
       }
 
+      // Persist the primary keyword on the post — the edge function doesn't write it.
+      const focusKeyword = form.primaryKeyword.trim();
+      if (focusKeyword) {
+        await supabase
+          .from("blog_posts")
+          .update({ focus_keyword: focusKeyword })
+          .eq("id", postId);
+      }
+
       setGenerationStage("image");
 
       const imgBody: Record<string, unknown> = {
