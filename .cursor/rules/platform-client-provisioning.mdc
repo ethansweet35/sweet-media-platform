@@ -30,12 +30,21 @@ It must always reflect the **exact** infrastructure every new client needs.
 - Current buckets: `site-assets` (public)
 
 ### Vercel / Next.js Env Vars
-- Add a new env var that every client app needs → add it to **`scripts/scaffold-client-app.mjs`** (`.env.local` lines) and the **`setup-new-client.mjs`** summary (step 15), so new apps get the same vars automatically.
-- Current generated keys include: `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`, `NEXT_PUBLIC_SITE_ID`, `NEXT_PUBLIC_SITE_URL`.
+- Add a new env var that every client app needs → add it to **`scripts/scaffold-client-app.mjs`** (`.env.local` lines), the **`setup-new-client.mjs`** summary (step 15), and `scripts/publish-client-to-vercel.mjs` (`PUBLIC_VARS` / `SECRET_VARS` lists), so new apps get the same vars automatically and existing apps pick them up on the next `--update-env` run.
+- Currently generated keys per brand:
+  - Public: `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`, `NEXT_PUBLIC_SITE_ID`, `NEXT_PUBLIC_SITE_URL`.
+  - Per-brand secrets: `SUPABASE_SERVICE_ROLE_KEY`, `RESEND_API_KEY`, `CONTACT_TO_EMAIL`, `CONTACT_FROM_EMAIL`, `CONTACT_BRAND_NAME`.
+  - Optional per-brand secrets: `SURFER_PROJECT_ID`, `SURFER_FOLDER_ID_BLOGS`, `SURFER_FOLDER_ID_PAGES`, `CRON_SECRET` (only required when the Surfer cron should be authorized).
+- Shared platform secrets live in repo-root `.env` and are pushed to every brand by `publish-client-to-vercel.mjs`: `OPENROUTER_API_KEY`, `SURFER_API_KEY`.
 
 ### App scaffold (Next.js)
-- Companion script: **`scripts/scaffold-client-app.mjs`** (copy `apps/client-template` → `apps/<slug>`, package name, `next.config` Supabase host, `.env.local`, optional brand string replacement).
+- Companion script: **`scripts/scaffold-client-app.mjs`** (copy `apps/client-template` → `apps/<slug>`, package name, `next.config` Supabase host, `.env.local` with public + contact vars, optional brand string replacement).
 - **`setup-new-client.mjs`** runs it after fetching the anon key unless **`--no-scaffold`** is passed.
+
+### Vercel project provisioning
+- After `setup-new-client.mjs` finishes, run `node scripts/publish-client-to-vercel.mjs --slug <slug> --name "<name>" [--project <vercel-project-name>] [--domain <apex-domain>]` to create the Vercel project, push env vars, and deploy.
+- Use `--project` when the brand's Vercel project name differs from its slug (e.g. `--project sweet-media-platform` for `apps/sweet-media`, `--project inner-peak-colorado-platform` for `apps/inner-peak-colorado`).
+- Re-push env vars on demand with `--update-env --skip-deploy`; the script upserts each value with the same target list (`production,preview` for secrets, `production,preview,development` for public vars).
 
 ## Never
 - Never assume a Supabase change made to one brand (e.g. sweet-media) is automatically live on another brand's project — each brand has its own Supabase project and must be provisioned independently
