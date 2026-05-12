@@ -131,9 +131,17 @@ function normalizeStructure(value: unknown): SeoBriefStructure | null {
   const paragraphs = pick("paragraphs");
   const images = pick("images");
   if (!characters || !words || !headings || !paragraphs || !images) return null;
+  const wordsMin = asInt(words.min);
+  let wordsMax = asInt(words.max);
+  // If the model returns a max more than 2.5× the min, it likely included an outlier page.
+  // Cap the max to 2.5× min to keep the target range realistic.
+  if (wordsMin > 0 && wordsMax > wordsMin * 2.5) {
+    wordsMax = Math.round(wordsMin * 2.5);
+  }
+
   return {
     characters: { min: asInt(characters.min), max: asInt(characters.max) },
-    words: { min: asInt(words.min), max: asInt(words.max) },
+    words: { min: wordsMin, max: wordsMax },
     headings: { min: asInt(headings.min), max: asInt(headings.max) },
     paragraphs: { min: asInt(paragraphs.min), max: asIntOrNull(paragraphs.max) },
     images: { min: asInt(images.min), max: asInt(images.max) },
@@ -238,7 +246,10 @@ JSON schema:
 
 Method:
 1. Search Google US for the keyword. Examine the top 10 organic results (skip ads, video carousels, AI overviews).
-2. For each page, estimate or measure: word count, character count (incl. spaces), heading count (H1+H2+H3), image count, and paragraph count. Report min/max ranges across the corpus in "content_structure".
+2. For each page, estimate or measure: word count, character count (incl. spaces), heading count (H1+H2+H3), image count, and paragraph count.
+   - Report a COMPETITIVE TARGET RANGE in "content_structure" — not the absolute min/max of the corpus.
+   - Use the middle cluster of results: roughly the 25th–75th percentile across the pages you analyzed. Exclude outlier pages whose word count is more than 2× the median before computing the range.
+   - The goal is a realistic range a well-written article should hit to rank competitively — not the span from the shortest page to the longest page in existence for that query.
 3. Build "important_terms" as the NLP keywords/phrases that appear across multiple top pages. Include the primary keyword first, then 25–50 supporting terms ordered by relevance. Mix 1-word, 2-word, and 3-word phrases. "min" = lowest observed count among pages that use it; "max" = highest observed count (or a sensible upper bound).
 4. "questions": 3–5 questions Google surfaces in People-Also-Ask or "Related questions" for this keyword.
 5. "facts": 4–7 topical groups. Each topic must have 2–4 specific, verifiable facts a writer should include — write them as complete sentences (not headlines).
