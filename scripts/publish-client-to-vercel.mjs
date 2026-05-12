@@ -132,17 +132,11 @@ async function main() {
     'CONTACT_FROM_EMAIL',
     'CONTACT_BRAND_NAME',
     'OPENROUTER_API_KEY',
-    'SURFER_API_KEY',
-    'SURFER_PROJECT_ID',
-    'SURFER_FOLDER_ID_BLOGS',
-    'SURFER_FOLDER_ID_PAGES',
     'SEMRUSH_API_KEY',
-    'CRON_SECRET',
   ];
 
   // Shared platform secrets live in repo-root .env; per-brand values stay in apps/<slug>/.env.local.
   const ROOT_SHARED_SECRETS = new Set([
-    'SURFER_API_KEY',
     'OPENROUTER_API_KEY',
     'SEMRUSH_API_KEY',
   ]);

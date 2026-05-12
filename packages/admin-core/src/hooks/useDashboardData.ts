@@ -2,6 +2,11 @@
 
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { supabase } from "../lib/supabase";
+import {
+  computeContentScore,
+  type SeoBriefRow,
+  type SeoBriefStatus,
+} from "../types/seo-brief";
 
 const dateFmt = new Intl.DateTimeFormat("en-US", { dateStyle: "medium" });
 
@@ -30,18 +35,18 @@ export interface DashboardSystemStatus {
   lastAutoPublishAt: string | null;
 }
 
-export interface DashboardSurferStats {
-  /** Posts + pages with a Surfer content score, total. */
+export interface DashboardSeoStats {
+  /** Posts + pages whose linked brief is ready and has a computable score. */
   scored: number;
-  /** Average score across all rows that have one (rounded). */
+  /** Average computed Sweet SEO content score across all scored rows (rounded). */
   avgScore: number | null;
-  /** Total active rows that *should* have an editor (published posts + active pages). */
+  /** Total active rows that *should* have a brief (published posts + active pages). */
   eligible: number;
-  /** Active rows with a Surfer Content Editor linked. */
+  /** Active rows with a Sweet SEO brief linked. */
   linked: number;
   /** Rows where the writer has marked guidance as applied. */
   applied: number;
-  /** Most recent surfer_score_updated_at across all rows. */
+  /** Most recent brief.updated_at across all linked rows. */
   lastRefreshedAt: string | null;
 }
 
@@ -145,7 +150,7 @@ export function useDashboardData() {
   const [systemStatus, setSystemStatus] = useState<DashboardSystemStatus>({
     lastAutoPublishAt: null,
   });
-  const [surferStats, setSurferStats] = useState<DashboardSurferStats>({
+  const [seoStats, setSeoStats] = useState<DashboardSeoStats>({
     scored: 0,
     avgScore: null,
     eligible: 0,
@@ -168,8 +173,8 @@ export function useDashboardData() {
         draftsRes,
         upcomingRes,
         publishedRes,
-        blogSurferRes,
-        pageSurferRes,
+        blogSeoRes,
+        pageSeoRes,
       ] = await Promise.all([
         supabase
           .from("blog_posts")
@@ -197,15 +202,11 @@ export function useDashboardData() {
           .limit(80),
         supabase
           .from("blog_posts")
-          .select(
-            "id, status, surfer_content_editor_id, surfer_content_score, surfer_score_updated_at, surfer_guidance_applied",
-          )
+          .select("id, status, seo_brief_id, seo_guidance_applied")
           .eq("status", "published"),
         supabase
           .from("tracked_pages")
-          .select(
-            "id, is_active, surfer_content_editor_id, surfer_content_score, surfer_score_updated_at, surfer_guidance_applied",
-          )
+          .select("id, is_active, seo_brief_id, seo_guidance_applied")
           .eq("is_active", true),
       ]);
 
@@ -223,34 +224,54 @@ export function useDashboardData() {
         lastAutoPublishAt: pickLastCronishPublish(publishedRes.data as PublishedProbe[]),
       });
 
-      // Compose Surfer stats across both tables
-      type SurferBag = {
-        surfer_content_editor_id: number | null;
-        surfer_content_score: number | null;
-        surfer_score_updated_at: string | null;
-        surfer_guidance_applied: boolean | null;
+      // Compose Sweet SEO stats across both tables.
+      type SeoBag = {
+        seo_brief_id: string | null;
+        seo_guidance_applied: boolean | null;
       };
-      const blogRows = (blogSurferRes.data ?? []) as SurferBag[];
-      const pageRows = (pageSurferRes.data ?? []) as SurferBag[];
+      const blogRows = (blogSeoRes.data ?? []) as SeoBag[];
+      const pageRows = (pageSeoRes.data ?? []) as SeoBag[];
       const all = [...blogRows, ...pageRows];
+      const briefIds = Array.from(
+        new Set(all.map((r) => r.seo_brief_id).filter((v): v is string => !!v)),
+      );
 
-      const scoredVals = all
-        .map((r) => r.surfer_content_score)
-        .filter((v): v is number => typeof v === "number");
+      let scoredVals: number[] = [];
+      let lastRefreshed: string | null = null;
+      if (briefIds.length > 0) {
+        const { data: briefsData } = await supabase
+          .from("seo_briefs")
+          .select("id, status, draft_content, content_structure, important_terms, updated_at")
+          .in("id", briefIds);
+        const briefs = (briefsData ?? []) as Pick<
+          SeoBriefRow,
+          "id" | "status" | "draft_content" | "content_structure" | "important_terms" | "updated_at"
+        >[];
+        for (const b of briefs) {
+          if ((b.status as SeoBriefStatus) === "ready") {
+            const score = computeContentScore(
+              b.draft_content ?? "",
+              b.content_structure ?? null,
+              b.important_terms ?? null,
+            ).score;
+            scoredVals.push(score);
+          }
+          if (b.updated_at) {
+            if (!lastRefreshed || Date.parse(b.updated_at) > Date.parse(lastRefreshed)) {
+              lastRefreshed = b.updated_at;
+            }
+          }
+        }
+      }
+
       const avg =
         scoredVals.length > 0
           ? Math.round(scoredVals.reduce((s, v) => s + v, 0) / scoredVals.length)
           : null;
-      const linked = all.filter((r) => !!r.surfer_content_editor_id).length;
-      const applied = all.filter((r) => r.surfer_guidance_applied === true).length;
-      const lastRefreshed = all.reduce<string | null>((acc, r) => {
-        const v = r.surfer_score_updated_at;
-        if (!v) return acc;
-        if (!acc) return v;
-        return Date.parse(v) > Date.parse(acc) ? v : acc;
-      }, null);
+      const linked = all.filter((r) => !!r.seo_brief_id).length;
+      const applied = all.filter((r) => r.seo_guidance_applied === true).length;
 
-      setSurferStats({
+      setSeoStats({
         scored: scoredVals.length,
         avgScore: avg,
         eligible: all.length,
@@ -275,7 +296,7 @@ export function useDashboardData() {
       recentDrafts,
       upcomingPublishes,
       systemStatus,
-      surferStats,
+      seoStats,
       loading,
       error,
       refetch: fetchAll,
@@ -285,7 +306,7 @@ export function useDashboardData() {
       recentDrafts,
       upcomingPublishes,
       systemStatus,
-      surferStats,
+      seoStats,
       loading,
       error,
       fetchAll,

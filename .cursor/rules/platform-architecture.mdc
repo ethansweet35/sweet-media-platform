@@ -207,14 +207,11 @@ Fetch WP CSS → Elementor/globals token JSON
 - `SUPABASE_SERVICE_ROLE_KEY` — for postbuild sync and admin API routes
 - `RESEND_API_KEY` — contact form email delivery
 - `CONTACT_TO_EMAIL`, `CONTACT_FROM_EMAIL`, `CONTACT_BRAND_NAME` — contact route inbox + sender + label (Resend sender domain must be verified)
-- `OPENROUTER_API_KEY` — admin AI routes (`/api/admin/rewrite-blog-post`, `/api/admin/generate-seo-meta`); shared from repo-root `.env`
-- `SURFER_API_KEY` — Surfer SEO admin routes; shared from repo-root `.env`
+- `OPENROUTER_API_KEY` — admin AI routes (`/api/admin/rewrite-blog-post`, `/api/admin/generate-seo-meta`, `/api/admin/sweet-seo/analyze`); shared from repo-root `.env`
 - `SEMRUSH_API_KEY` — Semrush keyword research routes (`/api/admin/semrush/overview`, `/api/admin/semrush/suggestions`) and `/admin/keyword-research` view; shared from repo-root `.env`
-- Optional: `SURFER_PROJECT_ID`, `SURFER_FOLDER_ID_BLOGS`, `SURFER_FOLDER_ID_PAGES` (per-brand Surfer scoping)
-- Optional: `CRON_SECRET` — required only when the weekly Surfer `refresh-stale` cron should be authorized
 - Optional: `TRACKED_PAGE_METADATA_CACHE_SECONDS`
 
-**Scaffold auto-writes** `.env.local` with the public Supabase vars and the contact form vars when `setup-new-client.mjs` runs successfully. `scripts/publish-client-to-vercel.mjs` then upserts those values plus shared root secrets (`OPENROUTER_API_KEY`, `SURFER_API_KEY`) onto the Vercel project. Use `--project <vercel-project-name>` for brands whose Vercel project name does not match their slug (`sweet-media` → `sweet-media-platform`, `inner-peak-colorado` → `inner-peak-colorado-platform`).
+**Scaffold auto-writes** `.env.local` with the public Supabase vars and the contact form vars when `setup-new-client.mjs` runs successfully. `scripts/publish-client-to-vercel.mjs` then upserts those values plus shared root secrets (`OPENROUTER_API_KEY`, `SEMRUSH_API_KEY`) onto the Vercel project. Use `--project <vercel-project-name>` for brands whose Vercel project name does not match their slug (`sweet-media` → `sweet-media-platform`, `inner-peak-colorado` → `inner-peak-colorado-platform`).
 
 ---
 

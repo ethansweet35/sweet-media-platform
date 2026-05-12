@@ -3,7 +3,6 @@
 import { useState, useEffect, useCallback } from "react";
 import { supabase } from "../lib/supabase";
 import type { TrackedPage, TrackedPageInput, TrackedPageUpdates } from "../types/tracked-page";
-import type { SurferAuditState } from "../types/surfer";
 
 type DbTrackedPageRow = {
   id: string;
@@ -19,14 +18,8 @@ type DbTrackedPageRow = {
   notes: string | null;
   created_at: string;
   updated_at: string;
-  surfer_content_editor_id?: number | null;
-  surfer_permalink_hash?: string | null;
-  surfer_audit_id?: number | null;
-  surfer_audit_state?: string | null;
-  surfer_content_score?: number | null;
-  surfer_score_updated_at?: string | null;
-  surfer_last_error?: string | null;
-  surfer_guidance_applied?: boolean | null;
+  seo_brief_id?: string | null;
+  seo_guidance_applied?: boolean | null;
   published_url?: string | null;
 };
 
@@ -45,14 +38,8 @@ function rowToPage(row: DbTrackedPageRow): TrackedPage {
     notes: row.notes,
     created_at: row.created_at,
     updated_at: row.updated_at,
-    surfer_content_editor_id: row.surfer_content_editor_id ?? null,
-    surfer_permalink_hash: row.surfer_permalink_hash ?? null,
-    surfer_audit_id: row.surfer_audit_id ?? null,
-    surfer_audit_state: (row.surfer_audit_state ?? null) as SurferAuditState | null,
-    surfer_content_score: row.surfer_content_score ?? null,
-    surfer_score_updated_at: row.surfer_score_updated_at ?? null,
-    surfer_last_error: row.surfer_last_error ?? null,
-    surfer_guidance_applied: row.surfer_guidance_applied === true,
+    seo_brief_id: row.seo_brief_id ?? null,
+    seo_guidance_applied: row.seo_guidance_applied === true,
     published_url: row.published_url ?? null,
   };
 }
@@ -149,8 +136,9 @@ export function useTrackedPages() {
             updates.notes !== null && String(updates.notes).trim() ? String(updates.notes).trim() : null;
         if (updates.is_active !== undefined) row.is_active = updates.is_active;
         if (updates.display_order !== undefined) row.display_order = updates.display_order;
-        if (updates.surfer_guidance_applied !== undefined)
-          row.surfer_guidance_applied = updates.surfer_guidance_applied;
+        if (updates.seo_brief_id !== undefined) row.seo_brief_id = updates.seo_brief_id;
+        if (updates.seo_guidance_applied !== undefined)
+          row.seo_guidance_applied = updates.seo_guidance_applied;
         if (updates.published_url !== undefined)
           row.published_url =
             updates.published_url !== null && String(updates.published_url).trim()

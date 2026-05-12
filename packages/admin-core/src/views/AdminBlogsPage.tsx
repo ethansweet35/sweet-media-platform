@@ -4,7 +4,6 @@ import Link from "next/link";
 import { useState, useMemo, useCallback, useRef } from "react";
 import AdminPageHeader from "../components/AdminPageHeader";
 import { useAdminBlogPosts } from "../hooks/useAdminBlogPosts";
-import { useSurferActions } from "../hooks/useSurferActions";
 import { supabase } from "../lib/supabase";
 import type { BlogPost } from "@sweetmedia/blog-core";
 import AdminBlogTable from "../components/pages/admin/blogs/components/AdminBlogTable";
@@ -91,8 +90,6 @@ export default function AdminBlogDashboard() {
     refetch,
   } = useAdminBlogPosts();
 
-  const { refreshStale, bulkRefreshState } = useSurferActions();
-
   const [searchQuery, setSearchQuery] = useState("");
   const [filterStatus, setFilterStatus] = useState<FilterStatus>("all");
   const [filterCategory, setFilterCategory] = useState("All");
@@ -136,20 +133,8 @@ export default function AdminBlogDashboard() {
     const published = posts.filter((p) => p.status === "published").length;
     const drafts = posts.filter((p) => p.status === "draft").length;
     const featured = posts.filter((p) => p.featured).length;
-    const scoredPosts = posts.filter(
-      (p) => typeof p.surfer_content_score === "number" && p.surfer_content_score !== null,
-    );
-    const avgScore =
-      scoredPosts.length > 0
-        ? Math.round(
-            scoredPosts.reduce(
-              (sum, p) => sum + (p.surfer_content_score ?? 0),
-              0,
-            ) / scoredPosts.length,
-          )
-        : null;
-    const linked = posts.filter((p) => !!p.surfer_content_editor_id).length;
-    return { total, published, drafts, featured, avgScore, linked };
+    const linked = posts.filter((p) => !!p.seo_brief_id).length;
+    return { total, published, drafts, featured, linked };
   }, [posts]);
 
   const filtered = useMemo(() => {
@@ -484,28 +469,14 @@ export default function AdminBlogDashboard() {
         subtitle="Manage drafts, scheduling, hero images, and featured posts."
         actions={
           <>
-            <button
-              type="button"
-              onClick={async () => {
-                const r = await refreshStale();
-                if (r) {
-                  showToast(
-                    `Surfer scores: ${r.scheduled} new audits queued, ${r.completed} completed.`,
-                  );
-                  await refetch();
-                } else {
-                  showToast("Could not refresh Surfer scores", "error");
-                }
-              }}
-              disabled={bulkRefreshState.status === "loading"}
-              className="flex items-center gap-2 rounded-xl border border-black/[0.1] bg-white px-4 py-2.5 text-[11px] font-bold uppercase tracking-[0.12em] text-neutral-700 shadow-[0_1px_12px_rgba(0,0,0,0.04)] transition-colors hover:bg-black/[0.02] disabled:opacity-50"
-              title="Re-audit any post whose Surfer content score is older than 24 hours."
+            <Link
+              href="/admin/sweet-seo"
+              className="flex items-center gap-2 rounded-xl border border-black/[0.1] bg-white px-4 py-2.5 text-[11px] font-bold uppercase tracking-[0.12em] text-neutral-700 shadow-[0_1px_12px_rgba(0,0,0,0.04)] transition-colors hover:bg-black/[0.02]"
+              title="Open Sweet SEO content briefs"
             >
-              <i
-                className={`text-xs ${bulkRefreshState.status === "loading" ? "ri-loader-4-line animate-spin" : "ri-bar-chart-line"}`}
-              />
-              {bulkRefreshState.status === "loading" ? "Refreshing…" : "Refresh Surfer"}
-            </button>
+              <i className="ri-sparkling-2-line text-xs" />
+              Sweet SEO
+            </Link>
             <Link
               href="/admin/blog-writer"
               className="flex items-center gap-2 rounded-xl px-5 py-2.5 text-[11px] font-bold uppercase tracking-[0.12em] text-white transition-opacity hover:opacity-95 shadow-[0_2px_12px_rgba(61,111,127,0.2)]"
@@ -819,7 +790,7 @@ export default function AdminBlogDashboard() {
             onRunSeo={handleRunSeo}
             onApplySeo={handleApplySeo}
             onDismissSeo={handleDismissSeo}
-            onSurferChange={refetch}
+            onSeoChange={refetch}
             onUpdateFocusKeyword={async (post, keyword) =>
               updatePost(post.id, { focus_keyword: keyword })
             }

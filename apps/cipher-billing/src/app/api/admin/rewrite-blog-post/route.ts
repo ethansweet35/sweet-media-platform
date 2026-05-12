@@ -121,7 +121,7 @@ function buildUserMessage(opts: {
   targetWordCount?: number;
   audience?: string;
   customInstructions?: string;
-  surferGuidelines?: string;
+  seoGuidelines?: string;
 }): string {
   const parts: string[] = [
     `Topic: ${opts.topic}`,
@@ -132,9 +132,9 @@ function buildUserMessage(opts: {
     opts.audience ? `Audience: ${opts.audience}` : `Audience: the target readers for this brand (derive from knowledge base, or default to general informed adult readers)`,
   ];
 
-  if (opts.surferGuidelines?.trim()) {
+  if (opts.seoGuidelines?.trim()) {
     parts.push(
-      `\nSURFER SEO GUIDELINES (follow these NLP terms, word count targets, and structure requirements closely to maximize content score):\n${opts.surferGuidelines.trim().slice(0, 12000)}`,
+      `\nSWEET SEO BRIEF (follow these NLP terms, word count targets, and structure requirements closely to maximize content score):\n${opts.seoGuidelines.trim().slice(0, 12000)}`,
     );
   }
 
@@ -170,7 +170,7 @@ export async function POST(request: Request) {
   const targetWordCount = typeof body.targetWordCount === "number" ? body.targetWordCount : undefined;
   const audience = typeof body.audience === "string" ? body.audience : undefined;
   const customInstructions = typeof body.customInstructions === "string" ? body.customInstructions : undefined;
-  const surferGuidelines = typeof body.surferGuidelines === "string" ? body.surferGuidelines : undefined;
+  const seoGuidelines = typeof body.seoGuidelines === "string" ? body.seoGuidelines : undefined;
   const model = resolveModel(body.model);
 
   // Fetch brand knowledge base
@@ -200,7 +200,7 @@ export async function POST(request: Request) {
   }
 
   const systemPrompt = buildSystemPrompt(knowledgeBaseBlock);
-  const userMessage = buildUserMessage({ topic, primaryKeyword, category, tone, targetWordCount, audience, customInstructions, surferGuidelines });
+  const userMessage = buildUserMessage({ topic, primaryKeyword, category, tone, targetWordCount, audience, customInstructions, seoGuidelines });
 
   let orRes: Response;
   try {

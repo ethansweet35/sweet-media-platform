@@ -8,8 +8,6 @@ export interface BlogSection {
   tableRows?: string[][];
 }
 
-export type SurferAuditState = "scheduled" | "completed" | "error";
-
 export interface BlogPost {
   id: string;
   slug: string;
@@ -36,15 +34,9 @@ export interface BlogPost {
   focus_keyword?: string | null;
   approved_for_publish?: boolean;
   scheduled_publish_at?: string | null;
-  // Surfer SEO fields (mirrors blog_posts columns added by 2026-05-10 migration)
-  surfer_content_editor_id?: number | null;
-  surfer_permalink_hash?: string | null;
-  surfer_audit_id?: number | null;
-  surfer_audit_state?: SurferAuditState | null;
-  surfer_content_score?: number | null;
-  surfer_score_updated_at?: string | null;
-  surfer_last_error?: string | null;
-  surfer_guidance_applied?: boolean;
+  // Sweet SEO fields (mirrors blog_posts columns added by 2026-05-12 migration)
+  seo_brief_id?: string | null;
+  seo_guidance_applied?: boolean;
   published_url?: string | null;
 }
 
@@ -73,14 +65,8 @@ export interface DbBlogPost {
   approved_for_publish?: boolean | null;
   scheduled_publish_at?: string | null;
   focus_keyword?: string | null;
-  surfer_content_editor_id?: number | null;
-  surfer_permalink_hash?: string | null;
-  surfer_audit_id?: number | null;
-  surfer_audit_state?: string | null;
-  surfer_content_score?: number | null;
-  surfer_score_updated_at?: string | null;
-  surfer_last_error?: string | null;
-  surfer_guidance_applied?: boolean | null;
+  seo_brief_id?: string | null;
+  seo_guidance_applied?: boolean | null;
   published_url?: string | null;
 }
 
@@ -234,14 +220,8 @@ export function dbToBlogPost(db: DbBlogPost): BlogPost {
       : {}),
     scheduled_publish_at: db.scheduled_publish_at ?? null,
     focus_keyword: db.focus_keyword ?? null,
-    surfer_content_editor_id: db.surfer_content_editor_id ?? null,
-    surfer_permalink_hash: db.surfer_permalink_hash ?? null,
-    surfer_audit_id: db.surfer_audit_id ?? null,
-    surfer_audit_state: (db.surfer_audit_state ?? null) as SurferAuditState | null,
-    surfer_content_score: db.surfer_content_score ?? null,
-    surfer_score_updated_at: db.surfer_score_updated_at ?? null,
-    surfer_last_error: db.surfer_last_error ?? null,
-    surfer_guidance_applied: db.surfer_guidance_applied === true,
+    seo_brief_id: db.seo_brief_id ?? null,
+    seo_guidance_applied: db.seo_guidance_applied === true,
     published_url: db.published_url ?? null,
   };
 }

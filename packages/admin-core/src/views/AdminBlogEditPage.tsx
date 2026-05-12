@@ -169,7 +169,7 @@ export default function BlogEditPage() {
           primaryKeyword: params.primaryKeyword,
           category: params.category || undefined,
           targetWordCount: params.targetWordCount,
-          surferGuidelines: params.surferGuidelines || undefined,
+          seoGuidelines: params.seoGuidelines || undefined,
           model: params.model,
         }),
       });
@@ -179,7 +179,7 @@ export default function BlogEditPage() {
         json = await res.json() as Record<string, unknown>;
       } catch {
         throw new Error(res.status === 504
-          ? "Request timed out — try a shorter word count or smaller Surfer file."
+          ? "Request timed out — try a shorter word count or smaller brief."
           : `Server error (HTTP ${res.status}).`);
       }
 

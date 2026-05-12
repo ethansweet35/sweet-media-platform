@@ -1,10 +1,4 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
-  "ignoreCommand": "npx turbo-ignore @sweetmedia/sweet-media",
-  "crons": [
-    {
-      "path": "/api/admin/surfer/refresh-stale",
-      "schedule": "0 4 * * 0"
-    }
-  ]
+  "ignoreCommand": "npx turbo-ignore @sweetmedia/sweet-media"
 }

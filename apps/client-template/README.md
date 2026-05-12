@@ -16,7 +16,7 @@ When `setup-new-client.mjs` runs, it copies this entire directory into `apps/<sl
 - Admin system (`/admin/*`) wired to `@sweetmedia/admin-core`
 - Blog routes (`/blog`, `/blog/[slug]`)
 - Contact form API route (`/api/admin/contact`)
-- Full set of admin API routes (`/api/admin/revalidate`, `/api/admin/sync-pages`, `/api/admin/generate-seo-meta`, `/api/admin/surfer/*`, etc.)
+- Full set of admin API routes (`/api/admin/revalidate`, `/api/admin/sync-pages`, `/api/admin/generate-seo-meta`, `/api/admin/sweet-seo/*`, etc.)
 - SEO infrastructure (`resolveTrackedPageMetadata`, `sync-tracked-pages.ts`, `sitemap.ts`, `robots.ts`)
 - Supabase client configured from `NEXT_PUBLIC_SUPABASE_URL` + `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY`
 - Placeholder brand strings to replace: `Client Brand`, `hello@example.com`, `https://example.com`

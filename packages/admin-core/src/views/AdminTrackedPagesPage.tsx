@@ -6,8 +6,7 @@ import AdminPageHeader from "../components/AdminPageHeader";
 import { ADMIN_OCEAN } from "../lib/adminTheme";
 import { getPublicSiteOrigin } from "../lib/publicSiteUrl";
 import { useTrackedPages } from "../hooks/useTrackedPages";
-import { useSurferActions } from "../hooks/useSurferActions";
-import SurferCell from "../components/SurferCell";
+import SweetSeoCell from "../components/SweetSeoCell";
 import PageEditModal from "../components/pages/PageEditModal";
 import PageDeleteModal from "../components/pages/PageDeleteModal";
 import BulkPickKeywordModal from "../components/BulkPickKeywordModal";
@@ -96,11 +95,9 @@ export default function AdminTrackedPagesPage() {
   const abortRef = useRef(false);
   const [bulkPickKeywordOpen, setBulkPickKeywordOpen] = useState(false);
 
-  const { refreshStale, bulkRefreshState } = useSurferActions();
-
   // Column widths (px)
   const [colWidths, setColWidths] = useState({
-    check: 48, route: 200, title: 160, seo: 210, meta: 220, keyword: 260, surfer: 340, status: 120, date: 140, actions: 140,
+    check: 48, route: 200, title: 160, seo: 210, meta: 220, keyword: 260, sweetSeo: 340, status: 120, date: 140, actions: 140,
   });
   const resizeRef = useRef<{ col: keyof typeof colWidths; startX: number; startW: number } | null>(null);
 
@@ -276,15 +273,8 @@ export default function AdminTrackedPagesPage() {
     const active = pages.filter((p) => p.is_active).length;
     const inactive = total - active;
     const withKeyword = pages.filter((p) => (p.primary_keyword?.trim() ?? "").length > 0).length;
-    const scored = pages.filter((p) => typeof p.surfer_content_score === "number" && p.surfer_content_score !== null);
-    const avgScore =
-      scored.length > 0
-        ? Math.round(
-            scored.reduce((s, p) => s + (p.surfer_content_score ?? 0), 0) / scored.length,
-          )
-        : null;
-    const linked = pages.filter((p) => !!p.surfer_content_editor_id).length;
-    return { total, active, inactive, withKeyword, avgScore, linked };
+    const linked = pages.filter((p) => !!p.seo_brief_id).length;
+    return { total, active, inactive, withKeyword, linked };
   }, [pages]);
 
   const filteredSorted = useMemo(() => {
@@ -415,24 +405,6 @@ export default function AdminTrackedPagesPage() {
         subtitle="Track your core pages and SEO metadata"
         actions={
           <div className="flex items-center gap-2">
-            <button
-              type="button"
-              onClick={async () => {
-                const r = await refreshStale();
-                if (r) {
-                  showToast(`Surfer scores: ${r.scheduled} new audits queued, ${r.completed} completed.`);
-                  await refetch();
-                } else {
-                  showToast("Could not refresh Surfer scores", "error");
-                }
-              }}
-              disabled={bulkRefreshState.status === "loading"}
-              className="flex items-center gap-2 rounded-xl px-4 py-2.5 text-[11px] font-bold uppercase tracking-[0.12em] text-neutral-700 border border-neutral-200 bg-white hover:border-neutral-300 transition-all disabled:opacity-50"
-              title="Re-audit any page whose Surfer content score is older than 24 hours."
-            >
-              <i className={`text-xs ${bulkRefreshState.status === "loading" ? "ri-loader-4-line animate-spin" : "ri-bar-chart-line"}`} />
-              {bulkRefreshState.status === "loading" ? "Refreshing…" : "Refresh Surfer"}
-            </button>
             <button type="button" onClick={() => void syncFromCodebase()} disabled={syncing}
               className="flex items-center gap-2 rounded-xl px-4 py-2.5 text-[11px] font-bold uppercase tracking-[0.12em] text-neutral-700 border border-neutral-200 bg-white hover:border-neutral-300 transition-all disabled:opacity-50">
               <i className={`ri-refresh-line text-xs ${syncing ? "animate-spin" : ""}`} />
@@ -603,7 +575,7 @@ export default function AdminTrackedPagesPage() {
                 <div className="overflow-x-auto">
                   <table className="text-left text-sm" style={{ tableLayout: "fixed", width: tableWidth + "px", minWidth: "100%" }}>
                     <colgroup>
-                      {(["check","route","title","seo","meta","keyword","surfer","status","date","actions"] as (keyof typeof colWidths)[]).map((c) => (
+                      {(["check","route","title","seo","meta","keyword","sweetSeo","status","date","actions"] as (keyof typeof colWidths)[]).map((c) => (
                         <col key={c} style={{ width: colWidths[c] + "px" }} />
                       ))}
                     </colgroup>
@@ -621,7 +593,7 @@ export default function AdminTrackedPagesPage() {
                         <StaticTh label="SEO Title" rk="seo" />
                         <StaticTh label="Meta Desc." rk="meta" />
                         <SortTh col="keyword" label="Keyword" rk="keyword" />
-                        <StaticTh label="Surfer SEO" rk="surfer" />
+                        <StaticTh label="Sweet SEO" rk="sweetSeo" />
                         <SortTh col="status" label="Status" rk="status" />
                         <SortTh col="created_at" label="Added" rk="date" />
                         <StaticTh label="Actions" rk="actions" right />
@@ -728,21 +700,15 @@ export default function AdminTrackedPagesPage() {
                                 />
                               </td>
 
-                              {/* Surfer SEO */}
+                              {/* Sweet SEO */}
                               <td className="px-3 py-3 align-middle" onClick={(e) => e.stopPropagation()}>
-                                <SurferCell
+                                <SweetSeoCell
                                   kind="page"
                                   row={{
                                     id: p.id,
                                     primary_keyword: p.primary_keyword,
-                                    surfer_content_editor_id: p.surfer_content_editor_id,
-                                    surfer_permalink_hash: p.surfer_permalink_hash,
-                                    surfer_audit_id: p.surfer_audit_id,
-                                    surfer_audit_state: p.surfer_audit_state,
-                                    surfer_content_score: p.surfer_content_score,
-                                    surfer_score_updated_at: p.surfer_score_updated_at,
-                                    surfer_last_error: p.surfer_last_error,
-                                    surfer_guidance_applied: p.surfer_guidance_applied,
+                                    seo_brief_id: p.seo_brief_id,
+                                    seo_guidance_applied: p.seo_guidance_applied,
                                     published_url: p.published_url,
                                   }}
                                   compact

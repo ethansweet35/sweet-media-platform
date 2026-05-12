@@ -138,15 +138,7 @@ export async function runScaffold(opts) {
     `CONTACT_FROM_EMAIL=${displayName} <no-reply@${apexHost}>`,
     `CONTACT_BRAND_NAME=${displayName}`,
     ``,
-    `# Surfer SEO`,
-    `# SURFER_API_KEY lives in repo-root .env (shared across all brands).`,
-    `# Set SURFER_PROJECT_ID per brand in Vercel when scoping to a non-default workspace.`,
-    `# SURFER_PROJECT_ID=`,
     `# NEXT_PUBLIC_BLOG_PATH_BASE=/blog`,
-    ``,
-    `# Vercel Cron auth for /api/admin/surfer/refresh-stale.`,
-    `# Required only when the Surfer cron should be authorized — generate with: openssl rand -hex 32`,
-    `# CRON_SECRET=`,
     '',
   ];
   writeFileSync(join(destDir, '.env.local'), envLines.join('\n'), 'utf8');

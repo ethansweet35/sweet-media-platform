@@ -207,7 +207,8 @@ create table if not exists public.blog_posts (
   published_at timestamptz,
   scheduled_publish_at timestamptz,
   approved_for_publish boolean not null default false,
-  -- Surfer SEO integration (see migrations/2026-05-10_surfer_seo_integration.sql)
+  -- Legacy Surfer columns — superseded by seo_brief_id (Sweet SEO). Kept for
+  -- backward compatibility; safe to drop in a future migration.
   surfer_content_editor_id bigint,
   surfer_permalink_hash text,
   surfer_audit_id bigint,
@@ -217,9 +218,15 @@ create table if not exists public.blog_posts (
   surfer_last_error text,
   surfer_guidance_applied boolean not null default false,
   published_url text,
+  -- Sweet SEO integration (see migrations/2026-05-12_swap_surfer_for_sweet_seo.sql).
+  -- FK to seo_briefs is added at the bottom of this file, after seo_briefs exists.
+  seo_brief_id uuid,
+  seo_guidance_applied boolean not null default false,
   created_at timestamptz not null default now(),
   updated_at timestamptz not null default now()
 );
+
+create index if not exists blog_posts_seo_brief_idx on public.blog_posts(seo_brief_id);
 
 alter table public.blog_posts enable row level security;
 
@@ -301,9 +308,14 @@ create table if not exists public.tracked_pages (
   surfer_last_error text,
   surfer_guidance_applied boolean not null default false,
   published_url text,
+  -- Sweet SEO integration. FK to seo_briefs is added at the bottom of this file.
+  seo_brief_id uuid,
+  seo_guidance_applied boolean not null default false,
   created_at timestamptz not null default now(),
   updated_at timestamptz not null default now()
 );
+
+create index if not exists tracked_pages_seo_brief_idx on public.tracked_pages(seo_brief_id);
 
 create table if not exists public.system_settings (
   id uuid primary key default gen_random_uuid(),
@@ -366,6 +378,26 @@ create policy "Admins can manage system settings" on public.system_settings for 
 
 drop policy if exists "Admins can manage seo briefs" on public.seo_briefs;
 create policy "Admins can manage seo briefs" on public.seo_briefs for all to authenticated using (exists (select 1 from public.admin_users au where lower(au.email) = lower(auth.jwt() ->> 'email'))) with check (exists (select 1 from public.admin_users au where lower(au.email) = lower(auth.jwt() ->> 'email')));
+
+-- Wire up the FKs from blog_posts/tracked_pages.seo_brief_id -> seo_briefs.id
+-- (declared as plain uuid above so the schema file can run top-to-bottom).
+do $$
+begin
+  if not exists (
+    select 1 from pg_constraint where conname = 'blog_posts_seo_brief_id_fkey'
+  ) then
+    alter table public.blog_posts
+      add constraint blog_posts_seo_brief_id_fkey
+      foreign key (seo_brief_id) references public.seo_briefs(id) on delete set null;
+  end if;
+  if not exists (
+    select 1 from pg_constraint where conname = 'tracked_pages_seo_brief_id_fkey'
+  ) then
+    alter table public.tracked_pages
+      add constraint tracked_pages_seo_brief_id_fkey
+      foreign key (seo_brief_id) references public.seo_briefs(id) on delete set null;
+  end if;
+end $$;
 
 -- Storage expectation: create a public bucket named site-assets.
 -- Recommended folders: images/, blog-featured/, logos/, og/.

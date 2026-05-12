@@ -92,7 +92,7 @@ export default function AdminSweetSeoPage() {
     <div>
       <AdminPageHeader
         title="Sweet SEO"
-        subtitle="Generate a competitor-aware content brief for any keyword. Live-scores your draft against the targets, just like Surfer."
+        subtitle="Generate a competitor-aware content brief for any keyword. Live-scores your draft against structure and NLP targets."
       />
 
       <div className="mx-auto max-w-screen-xl py-6 space-y-6">

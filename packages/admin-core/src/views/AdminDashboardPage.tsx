@@ -10,7 +10,6 @@ import {
   useDashboardData,
 } from "../hooks/useDashboardData";
 import { useAutoPublishEnabled } from "../hooks/useSystemSettings";
-import { useSurferActions } from "../hooks/useSurferActions";
 
 function firstNameFromUser(email: string | undefined, meta?: Record<string, unknown> | undefined) {
   if (typeof meta?.first_name === "string" && meta.first_name.trim()) {
@@ -57,10 +56,9 @@ function KPICard({ value, label }: KPICardProps) {
 
 export default function AdminDashboardPage() {
   const { user } = useAuth();
-  const { stats, recentDrafts, upcomingPublishes, systemStatus, surferStats, loading, error, refetch } =
+  const { stats, recentDrafts, upcomingPublishes, systemStatus, seoStats, loading, error, refetch } =
     useDashboardData();
   const autoPub = useAutoPublishEnabled();
-  const { refreshStale, bulkRefreshState } = useSurferActions();
 
   const [toggleBusy, setToggleBusy] = useState(false);
 
@@ -118,41 +116,34 @@ export default function AdminDashboardPage() {
             <KPICard value={stats.scheduled} label="Scheduled" />
           </div>
 
-          {/* Surfer SEO summary */}
+          {/* Sweet SEO summary */}
           <article className="mb-10 rounded-2xl border border-black/[0.06] bg-white px-6 py-6 shadow-[0_1px_20px_rgba(0,0,0,0.04)]">
             <div className="mb-5 flex items-start justify-between gap-4 flex-wrap">
               <div>
                 <h2 className={`text-xl font-semibold text-neutral-900 ${adminFontSerif}`}>
-                  Surfer SEO
+                  Sweet SEO
                 </h2>
                 <p className="mt-1 text-[12px] text-neutral-500">
-                  Live content scores from Surfer's Audit endpoint.
-                  {surferStats.lastRefreshedAt ? (
-                    <span> Last refresh {relativeTimeSince(surferStats.lastRefreshedAt)}.</span>
+                  Live content scores from your Sweet SEO briefs.
+                  {seoStats.lastRefreshedAt ? (
+                    <span> Last brief activity {relativeTimeSince(seoStats.lastRefreshedAt)}.</span>
                   ) : (
-                    <span> No scores yet — run a refresh to start auditing.</span>
+                    <span> No briefs yet — link one to a post or page to start scoring.</span>
                   )}
                 </p>
               </div>
-              <button
-                type="button"
-                onClick={async () => {
-                  const r = await refreshStale();
-                  if (r) await refetch();
-                }}
-                disabled={bulkRefreshState.status === "loading"}
-                className="flex items-center gap-2 rounded-xl border border-black/[0.1] bg-white px-4 py-2.5 text-[11px] font-bold uppercase tracking-[0.12em] text-neutral-700 shadow-[0_1px_12px_rgba(0,0,0,0.04)] transition-colors hover:bg-black/[0.02] disabled:opacity-50"
+              <Link
+                href="/admin/sweet-seo"
+                className="flex items-center gap-2 rounded-xl border border-black/[0.1] bg-white px-4 py-2.5 text-[11px] font-bold uppercase tracking-[0.12em] text-neutral-700 shadow-[0_1px_12px_rgba(0,0,0,0.04)] transition-colors hover:bg-black/[0.02]"
               >
-                <i
-                  className={`text-xs ${bulkRefreshState.status === "loading" ? "ri-loader-4-line animate-spin" : "ri-bar-chart-line"}`}
-                />
-                {bulkRefreshState.status === "loading" ? "Refreshing…" : "Refresh stale"}
-              </button>
+                <i className="ri-sparkling-2-line text-xs" />
+                Open Sweet SEO
+              </Link>
             </div>
             <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
               <div className="rounded-xl bg-black/[0.02] px-4 py-4">
                 <p className={`text-3xl font-semibold leading-none text-neutral-900 ${adminFontSerif}`}>
-                  {surferStats.avgScore != null ? surferStats.avgScore : "—"}
+                  {seoStats.avgScore != null ? seoStats.avgScore : "—"}
                 </p>
                 <p className="mt-2 text-[11px] font-medium uppercase tracking-[0.18em] text-neutral-500">
                   Avg score
@@ -160,8 +151,8 @@ export default function AdminDashboardPage() {
               </div>
               <div className="rounded-xl bg-black/[0.02] px-4 py-4">
                 <p className={`text-3xl font-semibold leading-none text-neutral-900 ${adminFontSerif}`}>
-                  {surferStats.scored}
-                  <span className="text-neutral-400 text-xl">/{surferStats.eligible}</span>
+                  {seoStats.scored}
+                  <span className="text-neutral-400 text-xl">/{seoStats.eligible}</span>
                 </p>
                 <p className="mt-2 text-[11px] font-medium uppercase tracking-[0.18em] text-neutral-500">
                   Scored
@@ -169,27 +160,27 @@ export default function AdminDashboardPage() {
               </div>
               <div className="rounded-xl bg-black/[0.02] px-4 py-4">
                 <p className={`text-3xl font-semibold leading-none text-neutral-900 ${adminFontSerif}`}>
-                  {surferStats.linked}
+                  {seoStats.linked}
                 </p>
                 <p className="mt-2 text-[11px] font-medium uppercase tracking-[0.18em] text-neutral-500">
-                  Linked editors
+                  Linked briefs
                 </p>
               </div>
               <div className="rounded-xl bg-black/[0.02] px-4 py-4">
                 <p className={`text-3xl font-semibold leading-none text-neutral-900 ${adminFontSerif}`}>
-                  {surferStats.applied}
+                  {seoStats.applied}
                 </p>
                 <p className="mt-2 text-[11px] font-medium uppercase tracking-[0.18em] text-neutral-500">
                   Applied
                 </p>
               </div>
             </div>
-            {surferStats.eligible - surferStats.linked > 0 && (
+            {seoStats.eligible - seoStats.linked > 0 && (
               <p className="mt-4 text-[12px] text-neutral-500">
                 <span className="font-semibold text-neutral-700">
-                  {surferStats.eligible - surferStats.linked}
+                  {seoStats.eligible - seoStats.linked}
                 </span>{" "}
-                active row{surferStats.eligible - surferStats.linked !== 1 ? "s" : ""} without a Surfer Content Editor —
+                active row{seoStats.eligible - seoStats.linked !== 1 ? "s" : ""} without a Sweet SEO brief —
                 open the{" "}
                 <Link href="/admin/blogs" className="underline font-semibold" style={{ color: ADMIN_OCEAN }}>
                   Blog Posts

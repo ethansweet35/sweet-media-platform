@@ -88,7 +88,7 @@ export default function BulkRewriteModal({ posts, onClose, onComplete }: BulkRew
             primaryKeyword: row.keyword.trim(),
             category: post.category || undefined,
             targetWordCount: wordCount,
-            surferGuidelines: row.guidelines.trim() || undefined,
+            seoGuidelines: row.guidelines.trim() || undefined,
             model,
           }),
         });
@@ -146,7 +146,7 @@ export default function BulkRewriteModal({ posts, onClose, onComplete }: BulkRew
           <div className="flex-1">
             <h2 className="text-base font-semibold text-neutral-900">Bulk AI Rewrite</h2>
             <p className="text-[12px] text-neutral-400">
-              Rewrite {posts.length} post{posts.length !== 1 ? "s" : ""} with AI — optionally import Surfer guidelines per post
+              Rewrite {posts.length} post{posts.length !== 1 ? "s" : ""} with AI — optionally import a Sweet SEO brief per post
             </p>
           </div>
           {!running && (
@@ -239,7 +239,7 @@ export default function BulkRewriteModal({ posts, onClose, onComplete }: BulkRew
                           disabled={running}
                         />
 
-                        {/* Surfer file */}
+                        {/* Sweet SEO brief file */}
                         <button
                           type="button"
                           onClick={() => fileRefs.current[post.id]?.click()}
@@ -247,7 +247,7 @@ export default function BulkRewriteModal({ posts, onClose, onComplete }: BulkRew
                           className="flex items-center gap-1.5 px-3 py-2 rounded-lg border border-dashed border-neutral-300 hover:border-[#3d6f7f]/50 hover:bg-[#3d6f7f]/4 text-[11px] font-medium text-neutral-500 hover:text-[#3d6f7f] transition-all cursor-pointer disabled:opacity-50 whitespace-nowrap"
                         >
                           <i className="ri-file-upload-line text-xs"></i>
-                          {row.guidelineFileName || "Import Surfer .txt"}
+                          {row.guidelineFileName || "Import Sweet SEO brief"}
                         </button>
                         <input
                           ref={(el) => { fileRefs.current[post.id] = el; }}

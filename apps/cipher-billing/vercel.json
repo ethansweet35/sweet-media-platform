@@ -1,10 +1,4 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
-  "ignoreCommand": "npx turbo-ignore @sweetmedia/cipher-billing",
-  "crons": [
-    {
-      "path": "/api/admin/surfer/refresh-stale",
-      "schedule": "0 4 * * 0"
-    }
-  ]
+  "ignoreCommand": "npx turbo-ignore @sweetmedia/cipher-billing"
 }

@@ -16,7 +16,8 @@ export interface RewriteParams {
   category: string;
   targetWordCount: number;
   model: string;
-  surferGuidelines: string;
+  /** Sweet SEO brief markdown / NLP guidelines to follow. */
+  seoGuidelines: string;
 }
 
 interface AiRewritePanelProps {
@@ -41,7 +42,7 @@ export default function AiRewritePanel({
 }: AiRewritePanelProps) {
   const [topic, setTopic] = useState(initialTopic);
   const [keyword, setKeyword] = useState(initialKeyword);
-  const [surferGuidelines, setSurferGuidelines] = useState("");
+  const [seoGuidelines, setSeoGuidelines] = useState("");
   const [model, setModel] = useState(DEFAULT_MODEL_ID);
   const [wordCount, setWordCount] = useState(2000);
   const fileRef = useRef<HTMLInputElement>(null);
@@ -50,7 +51,7 @@ export default function AiRewritePanel({
     const file = e.target.files?.[0];
     if (!file) return;
     const reader = new FileReader();
-    reader.onload = (ev) => setSurferGuidelines((ev.target?.result as string) ?? "");
+    reader.onload = (ev) => setSeoGuidelines((ev.target?.result as string) ?? "");
     reader.readAsText(file);
   };
 
@@ -62,7 +63,7 @@ export default function AiRewritePanel({
       category: initialCategory,
       targetWordCount: wordCount,
       model,
-      surferGuidelines: surferGuidelines.trim(),
+      seoGuidelines: seoGuidelines.trim(),
     });
     onClose();
   };
@@ -125,10 +126,10 @@ export default function AiRewritePanel({
             </p>
           </div>
 
-          {/* Surfer Guidelines */}
+          {/* Sweet SEO brief */}
           <div>
             <label className={labelCls}>
-              Surfer SEO Guidelines
+              Sweet SEO Brief
               <span className="ml-1.5 normal-case font-normal text-neutral-400">optional</span>
             </label>
             <div className="space-y-2">
@@ -136,22 +137,22 @@ export default function AiRewritePanel({
                 className="w-full flex items-center gap-3 px-4 py-3 rounded-xl border-2 border-dashed border-neutral-200 hover:border-[#3d6f7f]/40 hover:bg-[#3d6f7f]/4 text-neutral-500 hover:text-[#3d6f7f] transition-all cursor-pointer">
                 <i className="ri-file-upload-line text-base flex-shrink-0"></i>
                 <span className="text-[12px] font-medium">
-                  {surferGuidelines ? "Replace .txt file" : "Import Surfer guidelines (.txt)"}
+                  {seoGuidelines ? "Replace .txt file" : "Import brief (.txt / .md)"}
                 </span>
-                {surferGuidelines && (
+                {seoGuidelines && (
                   <span className="ml-auto flex items-center gap-1 text-[10px] text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full font-bold">
                     <i className="ri-check-line text-[9px]"></i>Loaded
                   </span>
                 )}
               </button>
-              <input ref={fileRef} type="file" accept=".txt,text/plain" className="hidden" onChange={handleFileUpload} />
-              <textarea value={surferGuidelines} onChange={(e) => setSurferGuidelines(e.target.value)}
-                rows={4} placeholder="Or paste Surfer SEO guidelines here..."
+              <input ref={fileRef} type="file" accept=".txt,.md,text/plain,text/markdown" className="hidden" onChange={handleFileUpload} />
+              <textarea value={seoGuidelines} onChange={(e) => setSeoGuidelines(e.target.value)}
+                rows={4} placeholder="Or paste a Sweet SEO brief (NLP terms, structure targets, questions, facts)..."
                 className={`${inputCls} resize-none`} />
-              {surferGuidelines && (
+              {seoGuidelines && (
                 <p className="text-[11px] text-neutral-400">
-                  {surferGuidelines.length.toLocaleString()} chars loaded
-                  {surferGuidelines.length > 12000 && <span className="text-amber-500"> (trimmed to 12,000)</span>}
+                  {seoGuidelines.length.toLocaleString()} chars loaded
+                  {seoGuidelines.length > 12000 && <span className="text-amber-500"> (trimmed to 12,000)</span>}
                 </p>
               )}
             </div>

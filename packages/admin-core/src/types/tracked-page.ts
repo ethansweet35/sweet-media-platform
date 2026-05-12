@@ -1,6 +1,6 @@
-import type { SurferRowFields } from "./surfer";
+import type { SeoBriefRowFields } from "./seo-brief";
 
-export interface TrackedPage extends SurferRowFields {
+export interface TrackedPage extends SeoBriefRowFields {
   id: string;
   route_path: string;
   page_title: string;
@@ -35,6 +35,7 @@ export type TrackedPageUpdates = Partial<{
   notes: string | null;
   is_active: boolean;
   display_order: number;
-  surfer_guidance_applied: boolean;
+  seo_brief_id: string | null;
+  seo_guidance_applied: boolean;
   published_url: string | null;
 }>;

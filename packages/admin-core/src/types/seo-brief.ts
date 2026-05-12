@@ -44,6 +44,27 @@ export interface SeoBriefCitation {
   title: string;
 }
 
+/* ------------------------------------------------------------------ */
+/* Row-linkage types (blog_posts / tracked_pages -> seo_briefs).        */
+/* ------------------------------------------------------------------ */
+
+/**
+ * Columns added to `blog_posts` and `tracked_pages` by the
+ * `2026-05-12_swap_surfer_for_sweet_seo` migration. UI components hydrate
+ * these directly from Supabase rows.
+ */
+export interface SeoBriefRowFields {
+  seo_brief_id: string | null;
+  seo_guidance_applied: boolean;
+  published_url: string | null;
+}
+
+/** What we send to /api/admin/sweet-seo/* row endpoints to identify the row. */
+export interface SeoBriefRowRef {
+  kind: "blog" | "page";
+  id: string;
+}
+
 /** Database row shape from `public.seo_briefs`. */
 export interface SeoBriefRow {
   id: string;

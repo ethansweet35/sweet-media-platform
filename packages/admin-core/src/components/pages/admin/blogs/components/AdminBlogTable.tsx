@@ -6,7 +6,7 @@ import { useState, useRef, useCallback } from "react";
 import { ADMIN_OCEAN } from "../../../../../lib/adminTheme";
 import type { BlogPost } from "@sweetmedia/blog-core";
 import type { SeoGenResult } from "../../../../../lib/generateSeoMetadata";
-import SurferCell from "../../../../SurferCell";
+import SweetSeoCell from "../../../../SweetSeoCell";
 import InlineKeywordCell from "../../../../InlineKeywordCell";
 
 function formatScheduledLine(iso: string): string {
@@ -48,8 +48,8 @@ interface AdminBlogTableProps {
   onRunSeo: (post: BlogPost) => void;
   onApplySeo: (post: BlogPost, result: SeoGenResult) => void;
   onDismissSeo: (postId: string) => void;
-  /** Optional callback to refetch posts after a Surfer mutation. */
-  onSurferChange?: () => void | Promise<void>;
+  /** Optional callback to refetch posts after a Sweet SEO mutation. */
+  onSeoChange?: () => void | Promise<void>;
   /** Persist a focus_keyword change for the given post. */
   onUpdateFocusKeyword: (post: BlogPost, keyword: string | null) => Promise<boolean>;
 }
@@ -75,7 +75,7 @@ export default function AdminBlogTable({
   onRunSeo,
   onApplySeo,
   onDismissSeo,
-  onSurferChange,
+  onSeoChange,
   onUpdateFocusKeyword,
 }: AdminBlogTableProps) {
   const [sortField, setSortField] = useState<SortField>("date");
@@ -93,7 +93,7 @@ export default function AdminBlogTable({
     status: 130,      // "Published" pill button
     autopublish: 120, // header "Auto-publish" + toggle
     keyword: 280,     // inline-edit input + Suggest popover trigger
-    surfer: 340,      // score ring + editor chip + error text
+    sweetSeo: 340,    // score ring + brief chip + applied checkbox + refresh
     actions: 290,     // edit + preview + star + gen-card button + meta-data + delete
   });
   const resizeRef = useRef<{ col: keyof typeof colWidths; startX: number; startW: number } | null>(null);
@@ -173,7 +173,7 @@ export default function AdminBlogTable({
       <div className="overflow-x-auto">
         <table style={{ width: tableWidth, minWidth: tableWidth }} className="table-fixed">
           <colgroup>
-            {(["check","title","seoTitle","metaDesc","author","date","status","autopublish","keyword","surfer","actions"] as (keyof typeof colWidths)[]).map((c) => (
+            {(["check","title","seoTitle","metaDesc","author","date","status","autopublish","keyword","sweetSeo","actions"] as (keyof typeof colWidths)[]).map((c) => (
               <col key={c} style={{ width: colWidths[c] + "px" }} />
             ))}
           </colgroup>
@@ -200,7 +200,7 @@ export default function AdminBlogTable({
               <SortTh field="status" label="Status" rk="status" />
               <StaticTh label="Auto-publish" rk="autopublish" />
               <StaticTh label="Primary Keyword" rk="keyword" />
-              <StaticTh label="Surfer SEO" rk="surfer" />
+              <StaticTh label="Sweet SEO" rk="sweetSeo" />
               <StaticTh label="Actions" rk="actions" right />
             </tr>
           </thead>
@@ -438,24 +438,18 @@ export default function AdminBlogTable({
                     />
                   </td>
 
-                  {/* Surfer SEO */}
+                  {/* Sweet SEO */}
                   <td className="px-4 py-4 align-middle" onClick={(e) => e.stopPropagation()}>
-                    <SurferCell
+                    <SweetSeoCell
                       kind="blog"
                       row={{
                         id: post.id,
                         primary_keyword: post.focus_keyword ?? null,
-                        surfer_content_editor_id: post.surfer_content_editor_id ?? null,
-                        surfer_permalink_hash: post.surfer_permalink_hash ?? null,
-                        surfer_audit_id: post.surfer_audit_id ?? null,
-                        surfer_audit_state: post.surfer_audit_state ?? null,
-                        surfer_content_score: post.surfer_content_score ?? null,
-                        surfer_score_updated_at: post.surfer_score_updated_at ?? null,
-                        surfer_last_error: post.surfer_last_error ?? null,
-                        surfer_guidance_applied: post.surfer_guidance_applied === true,
+                        seo_brief_id: post.seo_brief_id ?? null,
+                        seo_guidance_applied: post.seo_guidance_applied === true,
                         published_url: post.published_url ?? null,
                       }}
-                      onChange={onSurferChange}
+                      onChange={onSeoChange}
                     />
                   </td>
 

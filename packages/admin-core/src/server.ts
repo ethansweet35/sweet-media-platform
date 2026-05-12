@@ -6,29 +6,6 @@
 export { scanAppRoutes, derivePageTitle, syncTrackedPages } from "./lib/scanAppRoutes";
 
 export {
-  SurferApiError,
-  getSurferEnv,
-  createAudit,
-  getAudit,
-  createContentEditor,
-  getContentEditorContent,
-} from "./lib/server/surferClient";
-
-export {
-  resolvePublicUrl,
-  kickAudit,
-  pollAuditAndPersist,
-  createEditorForRow,
-  refreshStaleAudits,
-  getAuditDetails,
-  type SurferRowKind,
-  type KickAuditResult,
-  type PollAuditResult,
-  type CreateEditorResult,
-  type RefreshStaleSummary,
-} from "./lib/server/surferActions";
-
-export {
   buildPublicSitemapGroupXml,
   buildPublicSitemapIndexXml,
   loadPublicSitemapSources,
