@@ -1,8 +1,22 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { Resend } from 'resend';
 
-const TO = 'hello@rizeoc.com';
-const SUBJECT = 'New Contact Form Submission - Rize OC';
+const BRAND_NAME = process.env.CONTACT_BRAND_NAME ?? 'Rize OC';
+function siteOriginLabel(): string {
+  const raw = process.env.NEXT_PUBLIC_SITE_URL;
+  if (!raw) return 'rizeoc.com';
+  try {
+    return new URL(raw).hostname;
+  } catch {
+    return 'rizeoc.com';
+  }
+}
+
+const SITE_ORIGIN_LABEL = siteOriginLabel();
+
+const TO = process.env.CONTACT_TO_EMAIL ?? 'hello@rizeoc.com';
+const SUBJECT = `New Contact Form Submission — ${BRAND_NAME}`;
+const FROM = process.env.CONTACT_FROM_EMAIL ?? `${BRAND_NAME} <no-reply@rizeoc.com>`;
 
 function row(label: string, value: string | undefined) {
   if (!value) return '';
@@ -38,7 +52,7 @@ function buildHtml(fields: Record<string, string | undefined>) {
       </table>
     </div>
     <div style="padding:16px 32px;background:#E2E8F0;font-size:12px;color:#6B7D67;border-top:1px solid #e0dbd0;">
-      Submitted via example.com
+      Submitted via ${SITE_ORIGIN_LABEL}
     </div>
   </div>
 </body>
@@ -47,7 +61,7 @@ function buildHtml(fields: Record<string, string | undefined>) {
 
 function buildText(fields: Record<string, string | undefined>) {
   return [
-    `New Contact Form Submission — Rize OC`,
+    `New Contact Form Submission — ${BRAND_NAME}`,
     ``,
     fields.name       && `Name:     ${fields.name}`,
     fields.email      && `Email:    ${fields.email}`,
@@ -88,7 +102,7 @@ export async function POST(req: NextRequest) {
     : fields.email;
 
   const { error } = await resend.emails.send({
-    from: 'Rize OC <no-reply@example.com>',
+    from: FROM,
     to: [TO],
     replyTo,
     subject: SUBJECT,

@@ -128,12 +128,22 @@ async function main() {
     'CONTACT_TO_EMAIL',
     'CONTACT_FROM_EMAIL',
     'CONTACT_BRAND_NAME',
+    'SURFER_API_KEY',
+    'SURFER_PROJECT_ID',
+    'SURFER_FOLDER_ID_BLOGS',
+    'SURFER_FOLDER_ID_PAGES',
+    'CRON_SECRET',
   ];
 
-  // Resolution order: apps/<slug>/.env.local → root .env → process.env
-  // This means each client keeps ALL their vars (public + secret) in their own
-  // .env.local — root .env only needs shared/global keys (VERCEL_TOKEN, etc.)
-  const resolve = (key) => localEnv[key] || rootEnv[key] || process.env[key];
+  // Shared platform secrets live in repo-root .env; per-brand values stay in apps/<slug>/.env.local.
+  const ROOT_SHARED_SECRETS = new Set(['SURFER_API_KEY']);
+
+  const resolve = (key) => {
+    if (ROOT_SHARED_SECRETS.has(key)) {
+      return rootEnv[key] || process.env[key] || localEnv[key];
+    }
+    return localEnv[key] || rootEnv[key] || process.env[key];
+  };
 
   const envPayload = [];
 

@@ -7,7 +7,7 @@ import IconCircle from "@/components/ui/IconCircle";
 import Button from "@/components/ui/Button";
 import FaqAccordion, { type FaqItem } from "@/components/ui/FaqAccordion";
 
-const BASE = "https://nfjlvkxrbzytjefmcvhg.supabase.co/storage/v1/object/public/site-assets/images";
+const BASE = "https://uivbbrwuaffqujzkqjvr.supabase.co/storage/v1/object/public/site-assets/images";
 
 /* ─────────────────────────────────────────────────── Section data ─────── */
 
