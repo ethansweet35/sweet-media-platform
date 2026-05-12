@@ -2,6 +2,7 @@
 
 import { useMemo, useState } from "react";
 import { ADMIN_OCEAN } from "../lib/adminTheme";
+import { cleanSeedPhrase } from "../lib/seedCleaner";
 import type {
   KeywordPickModeDTO,
   SemrushAutoPickResponse,
@@ -111,10 +112,11 @@ export default function BulkPickKeywordModal({
 
       updateRow(row.id, { status: "fetching" });
       try {
+        const cleanedSeed = cleanSeedPhrase(row.seed) || row.seed;
         const res = await fetch("/api/admin/semrush/auto-pick", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ seed: row.seed, mode }),
+          body: JSON.stringify({ seed: cleanedSeed, mode }),
         });
         const data = (await res.json()) as SemrushAutoPickResponse;
         if (!res.ok || !data.ok) {

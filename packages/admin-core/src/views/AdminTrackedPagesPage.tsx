@@ -13,12 +13,25 @@ import PageDeleteModal from "../components/pages/PageDeleteModal";
 import BulkPickKeywordModal from "../components/BulkPickKeywordModal";
 import InlineKeywordCell from "../components/InlineKeywordCell";
 import { callGenerateSeoMetadata, type SeoGenResult } from "../lib/generateSeoMetadata";
+import { stripBrandSuffix } from "../lib/seedCleaner";
 
 /**
  * Derive a Semrush-friendly seed from a tracked page when the user hasn't
- * set a primary keyword yet. Tries page title first, then SEO title with
- * the brand suffix stripped, then the last URL segment with dashes turned
- * into spaces.
+ * set a primary keyword yet.
+ *
+ * Priority — SEO titles tend to be MUCH better keyword seeds than internal
+ * page titles. Compare for /service-areas/hawaii:
+ *   page_title:        "Service Areas Hawaii"   → no Semrush results
+ *   default_seo_title: "Hawaii Drug Intervention Services | Brand"
+ *                      → strip brand → "Hawaii Drug Intervention Services"
+ *                      → cleanSeedPhrase keeps top 4 → "hawaii drug intervention services"
+ *                      → returns gold (drug intervention hawaii, etc.)
+ *
+ * Order:
+ *   1. Active SEO title (with brand suffix stripped)
+ *   2. Default SEO title (with brand suffix stripped)
+ *   3. Page title
+ *   4. Last URL segment, dashes/underscores → spaces
  */
 function derivePageKeywordSeed(p: {
   page_title: string;
@@ -26,14 +39,14 @@ function derivePageKeywordSeed(p: {
   default_seo_title: string | null;
   route_path: string;
 }): string {
+  const activeSeo = stripBrandSuffix((p.seo_title ?? "").trim());
+  if (activeSeo) return activeSeo;
+
+  const defaultSeo = stripBrandSuffix((p.default_seo_title ?? "").trim());
+  if (defaultSeo) return defaultSeo;
+
   const pageTitle = p.page_title?.trim();
   if (pageTitle) return pageTitle;
-
-  const rawSeo = (p.seo_title ?? p.default_seo_title ?? "").trim();
-  if (rawSeo) {
-    // Strip a trailing brand suffix like " | Brand Name" or " - Brand Name".
-    return rawSeo.replace(/\s*[|–—-]\s*[^|–—-]+$/, "").trim() || rawSeo;
-  }
 
   const lastSegment = p.route_path.split("/").filter(Boolean).pop() ?? "";
   return lastSegment.replace(/[-_]+/g, " ").trim();
@@ -701,7 +714,7 @@ export default function AdminTrackedPagesPage() {
                               </td>
 
                               {/* Keyword — inline editable + Suggest popover with auto-derived seed */}
-                              <td className="px-3 py-3 align-middle overflow-hidden" onClick={(e) => e.stopPropagation()}>
+                              <td className="px-3 py-3 align-middle" onClick={(e) => e.stopPropagation()}>
                                 <InlineKeywordCell
                                   value={p.primary_keyword ?? null}
                                   rowTitle={derivePageKeywordSeed(p)}
