@@ -2,7 +2,9 @@
 
 import { useCallback, useEffect, useState } from "react";
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 import AdminPageHeader from "../components/AdminPageHeader";
+import KeywordSuggestPopover from "../components/KeywordSuggestPopover";
 import { supabase } from "../lib/supabase";
 import { AI_MODELS, DEFAULT_MODEL_ID } from "../lib/aiModels";
 
@@ -68,7 +70,12 @@ function parseBackendError(payload: Record<string, unknown>, fallback: string): 
 }
 
 export default function BlogWriterPage() {
-  const [form, setForm] = useState<FormState>(INITIAL_FORM);
+  const searchParams = useSearchParams();
+  const seededKeyword = searchParams?.get("primary_keyword") ?? "";
+
+  const [form, setForm] = useState<FormState>(() =>
+    seededKeyword ? { ...INITIAL_FORM, primaryKeyword: seededKeyword } : INITIAL_FORM,
+  );
   const [generationStage, setGenerationStage] = useState<GenerationStage>(null);
   const [postError, setPostError] = useState<string | null>(null);
   const [result, setResult] = useState<DoneResult | null>(null);
@@ -378,9 +385,18 @@ export default function BlogWriterPage() {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-stone-700 mb-1.5">
-                    Primary keyword <span className="text-red-600">*</span>
-                  </label>
+                  <div className="flex items-center justify-between mb-1.5">
+                    <label className="block text-sm font-medium text-stone-700">
+                      Primary keyword <span className="text-red-600">*</span>
+                    </label>
+                    <KeywordSuggestPopover
+                      currentKeyword={form.primaryKeyword || form.topic}
+                      onSelect={(phrase) =>
+                        setForm((p) => ({ ...p, primaryKeyword: phrase }))
+                      }
+                      disabled={disableForm}
+                    />
+                  </div>
                   <input
                     type="text"
                     required

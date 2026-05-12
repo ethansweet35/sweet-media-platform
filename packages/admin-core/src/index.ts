@@ -6,9 +6,11 @@ export * from "./types/content-links";
 export * from "./types/knowledge-base";
 export * from "./types/tracked-page";
 export * from "./types/surfer";
+export * from "./types/semrush";
 
 export { default as AdminPageHeader } from "./components/AdminPageHeader";
 export { default as SurferCell, type SurferCellRow } from "./components/SurferCell";
+export { default as KeywordSuggestPopover } from "./components/KeywordSuggestPopover";
 export { supabase, supabaseConfigured } from "./lib/supabase";
 export { AuthProvider, useAuth } from "./contexts/AuthContext";
 export { default as AdminGuard } from "./components/AdminGuard";
@@ -30,9 +32,24 @@ export { resolveTrackedPageMetadata } from "./lib/resolveTrackedPageMetadata";
 // Import them from "@sweetmedia/admin-core/server" in Node.js scripts.
 export {
   buildSitemapEntries,
+  buildSitemapPartitionEntries,
+  buildSitemapPartitions,
+  collectSitemapUrls,
+  discoverSitemapGroups,
+  getChildSitemapPath,
+  getChildSitemapUrl,
+  isSitemapIndexXml,
+  parseSitemapLocations,
+  toSitemapIndexXml,
   toSitemapXml,
+  DEFAULT_SITEMAP_CONFIG,
+  SITEMAP_REVALIDATE_SECONDS,
+  type SitemapConfig,
   type SitemapEntry,
+  type SitemapGroupDefinition,
+  type SitemapGroupKind,
   type SitemapPageRow,
+  type SitemapPartition,
   type SitemapPostRow,
 } from "./lib/sitemap";
 export { default as AdminSitemapPage } from "./views/AdminSitemapPage";
@@ -51,4 +68,5 @@ export { default as AdminKnowledgeBasePage } from "./views/AdminKnowledgeBasePag
 export { default as AdminLinkHealthPage } from "./views/AdminLinkHealthPage";
 export { default as AdminSetupPage } from "./views/AdminSetupPage";
 export { default as AdminBrandSettingsPage } from "./views/AdminBrandSettingsPage";
+export { default as AdminKeywordResearchPage } from "./views/AdminKeywordResearchPage";
 export { useBrandSettings, type BrandSettingsRow, type BusinessHoursRow } from "./hooks/useBrandSettings";

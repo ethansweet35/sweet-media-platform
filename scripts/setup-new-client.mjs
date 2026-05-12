@@ -19,7 +19,17 @@
  *
  * Prerequisites:
  *   - Run `supabase login` once before using this script
- *   - Add OPENROUTER_API_KEY and OPENAI_API_KEY to .env at repo root
+ *   - Add the shared platform keys to repo-root .env (used across all brands):
+ *       SUPABASE_ACCESS_TOKEN, OPENROUTER_API_KEY, OPENAI_API_KEY,
+ *       BLOG_WEBHOOK_SECRET (auto-generated if missing),
+ *       GOOGLE_INDEXING_CLIENT_EMAIL, GOOGLE_INDEXING_PRIVATE_KEY,
+ *       VERCEL_TOKEN, GITHUB_REPO, SURFER_API_KEY, SEMRUSH_API_KEY
+ *
+ * After this script:
+ *   - Run `node scripts/publish-client-to-vercel.mjs --slug <slug> --name "<name>"
+ *     [--project <vercel-project-name>] [--domain <example.com>]` to create the
+ *     Vercel project, push env vars (including contact + shared root secrets),
+ *     and trigger the first deploy.
  */
 
 import { readFileSync, existsSync, appendFileSync, writeFileSync, unlinkSync } from 'fs';
@@ -545,12 +555,20 @@ NEXT_PUBLIC_SUPABASE_URL=${supabaseUrl}
 NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=${anon_key}
 NEXT_PUBLIC_SITE_ID=${slug}
 NEXT_PUBLIC_SITE_URL=${siteUrl.replace(/\/$/, '')}
+CONTACT_TO_EMAIL=hello@<apex-domain>           # set per brand
+CONTACT_FROM_EMAIL=${name} <no-reply@<apex>>   # set per brand (Resend domain must be verified)
+CONTACT_BRAND_NAME=${name}
+
+(Shared platform secrets — pulled from repo-root .env on Vercel publish:
+   OPENROUTER_API_KEY, SURFER_API_KEY, SEMRUSH_API_KEY)
 
 ─── Next steps ──────────────────────────────────────
 
 1. Dev: pnpm --filter @sweetmedia/${slug} dev
 2. Build: pnpm --filter @sweetmedia/${slug} build
-${existsSync(appDir) ? '' : `3. Scaffold was skipped — run manually:\n   node scripts/scaffold-client-app.mjs --slug ${slug} --name "${name.replace(/"/g, '\\"')}" --url ${siteUrl} --ref ${ref} --anon-key "<anon_key>"\n`}
+3. Vercel: node scripts/publish-client-to-vercel.mjs --slug ${slug} --name "${name.replace(/"/g, '\\"')}" --domain <apex-domain>
+   (Adds optional --project <vercel-project-name> if the brand's Vercel project name differs from its slug.)
+${existsSync(appDir) ? '' : `4. Scaffold was skipped — run manually:\n   node scripts/scaffold-client-app.mjs --slug ${slug} --name "${name.replace(/"/g, '\\"')}" --url ${siteUrl} --ref ${ref} --anon-key "<anon_key>"\n`}
 ${adminEmail
   ? `• Admin login ready: ${adminEmail} / ChangeMe123! → change password after first login`
   : '• No admin email set — re-run with --admin-email to create admin access'

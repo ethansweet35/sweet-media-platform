@@ -5,7 +5,7 @@ import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
 
-const IMG = "https://nfjlvkxrbzytjefmcvhg.supabase.co/storage/v1/object/public/site-assets/images/wp-migrated";
+const IMG = "https://uivbbrwuaffqujzkqjvr.supabase.co/storage/v1/object/public/site-assets/images/wp-migrated";
 
 const levelsOfCare = [
   { label: "Drug & Alcohol Detox",                path: "/drug-alcohol-detox" },

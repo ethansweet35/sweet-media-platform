@@ -1,8 +1,22 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { Resend } from 'resend';
 
-const TO = 'hello@example.com';
-const SUBJECT = 'New Contact Form Submission - Client Brand';
+const BRAND_NAME = process.env.CONTACT_BRAND_NAME ?? 'Client Brand';
+function siteOriginLabel(): string {
+  const raw = process.env.NEXT_PUBLIC_SITE_URL;
+  if (!raw) return 'example.com';
+  try {
+    return new URL(raw).hostname;
+  } catch {
+    return 'example.com';
+  }
+}
+
+const SITE_ORIGIN_LABEL = siteOriginLabel();
+
+const TO = process.env.CONTACT_TO_EMAIL ?? 'hello@example.com';
+const SUBJECT = `New Contact Form Submission — ${BRAND_NAME}`;
+const FROM = process.env.CONTACT_FROM_EMAIL ?? `${BRAND_NAME} <no-reply@example.com>`;
 
 function row(label: string, value: string | undefined) {
   if (!value) return '';
@@ -29,7 +43,7 @@ function buildHtml(fields: Record<string, string | undefined>) {
 <body style="font-family:'DM Sans',system-ui,sans-serif;background:#F8FAFC;margin:0;padding:32px;">
   <div style="max-width:600px;margin:0 auto;background:#fff;border-radius:12px;overflow:hidden;box-shadow:0 2px 12px rgba(44,59,46,0.08);">
     <div style="background:#1F2937;padding:28px 32px;">
-      <h1 style="margin:0;color:#F8FAFC;font-size:20px;font-weight:600;">Client Brand</h1>
+      <h1 style="margin:0;color:#F8FAFC;font-size:20px;font-weight:600;">${BRAND_NAME}</h1>
       <p style="margin:6px 0 0;color:#DDA15E;font-size:13px;text-transform:uppercase;letter-spacing:0.1em;">New Contact Form Submission</p>
     </div>
     <div style="padding:24px 32px;">
@@ -38,7 +52,7 @@ function buildHtml(fields: Record<string, string | undefined>) {
       </table>
     </div>
     <div style="padding:16px 32px;background:#E2E8F0;font-size:12px;color:#6B7D67;border-top:1px solid #e0dbd0;">
-      Submitted via example.com
+      Submitted via ${SITE_ORIGIN_LABEL}
     </div>
   </div>
 </body>
@@ -47,7 +61,7 @@ function buildHtml(fields: Record<string, string | undefined>) {
 
 function buildText(fields: Record<string, string | undefined>) {
   return [
-    `New Contact Form Submission — Client Brand`,
+    `New Contact Form Submission — ${BRAND_NAME}`,
     ``,
     fields.name       && `Name:     ${fields.name}`,
     fields.email      && `Email:    ${fields.email}`,
@@ -88,7 +102,7 @@ export async function POST(req: NextRequest) {
     : fields.email;
 
   const { error } = await resend.emails.send({
-    from: 'Client Brand <no-reply@example.com>',
+    from: FROM,
     to: [TO],
     replyTo,
     subject: SUBJECT,

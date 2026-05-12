@@ -1,6 +1,6 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
-  "ignoreCommand": "npx turbo-ignore --workspace=@sweetmedia/northbound-treatment",
+  "ignoreCommand": "npx turbo-ignore @sweetmedia/northbound-treatment",
   "crons": [
     {
       "path": "/api/admin/surfer/refresh-stale",

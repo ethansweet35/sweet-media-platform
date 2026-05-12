@@ -30,6 +30,7 @@ const contentItems: NavItem[] = [
 ];
 
 const seoItems: NavItem[] = [
+  { href: "/admin/keyword-research", label: "Keyword Research", icon: "ri-search-eye-line" },
   { href: "/admin/internal-links", label: "Internal Links", icon: "ri-links-line" },
   { href: "/admin/link-health", label: "Link Health", icon: "ri-shield-check-line" },
   { href: "/admin/indexing-status", label: "Indexing Status", icon: "ri-radar-line" },

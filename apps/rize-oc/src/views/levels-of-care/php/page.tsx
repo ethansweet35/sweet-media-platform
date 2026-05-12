@@ -1,7 +1,7 @@
 import LevelOfCareTemplate from "../LevelOfCareTemplate";
 import type { LevelOfCareData } from "../types";
 
-const BASE = "https://nfjlvkxrbzytjefmcvhg.supabase.co/storage/v1/object/public/site-assets/images";
+const BASE = "https://uivbbrwuaffqujzkqjvr.supabase.co/storage/v1/object/public/site-assets/images";
 
 const data: LevelOfCareData = {
   eyebrow: "Levels of Care",

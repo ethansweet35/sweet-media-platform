@@ -104,6 +104,9 @@ async function main() {
   const slug   = getArg('--slug')   || die('--slug required');
   const name   = getArg('--name')   || die('--name required');
   const domain = getArg('--domain') || null;
+  // Vercel project name; defaults to slug. Use --project when the brand's
+  // Vercel project name differs from its slug (e.g. sweet-media-platform).
+  const projectName = getArg('--project') || slug;
 
   const appDir    = join(REPO_ROOT, 'apps', slug);
   const envLocal  = join(appDir, '.env.local');
@@ -128,12 +131,28 @@ async function main() {
     'CONTACT_TO_EMAIL',
     'CONTACT_FROM_EMAIL',
     'CONTACT_BRAND_NAME',
+    'OPENROUTER_API_KEY',
+    'SURFER_API_KEY',
+    'SURFER_PROJECT_ID',
+    'SURFER_FOLDER_ID_BLOGS',
+    'SURFER_FOLDER_ID_PAGES',
+    'SEMRUSH_API_KEY',
+    'CRON_SECRET',
   ];
 
-  // Resolution order: apps/<slug>/.env.local → root .env → process.env
-  // This means each client keeps ALL their vars (public + secret) in their own
-  // .env.local — root .env only needs shared/global keys (VERCEL_TOKEN, etc.)
-  const resolve = (key) => localEnv[key] || rootEnv[key] || process.env[key];
+  // Shared platform secrets live in repo-root .env; per-brand values stay in apps/<slug>/.env.local.
+  const ROOT_SHARED_SECRETS = new Set([
+    'SURFER_API_KEY',
+    'OPENROUTER_API_KEY',
+    'SEMRUSH_API_KEY',
+  ]);
+
+  const resolve = (key) => {
+    if (ROOT_SHARED_SECRETS.has(key)) {
+      return rootEnv[key] || process.env[key] || localEnv[key];
+    }
+    return localEnv[key] || rootEnv[key] || process.env[key];
+  };
 
   const envPayload = [];
 
@@ -152,8 +171,8 @@ async function main() {
   if (envPayload.length === 0) die('No env vars collected — aborting.');
 
   // ── Check if project already exists ───────────────────────────────────────
-  step(`Checking if Vercel project "${slug}" already exists`);
-  const existCheck = await vercelApi(token, teamId, 'GET', `/v9/projects/${slug}`);
+  step(`Checking if Vercel project "${projectName}" already exists`);
+  const existCheck = await vercelApi(token, teamId, 'GET', `/v9/projects/${projectName}`);
   const projectExists = existCheck.ok && existCheck.json?.id;
   let projectId = existCheck.json?.id || null;
 
@@ -166,7 +185,7 @@ async function main() {
       for (const envVar of envPayload) {
         const envRes = await vercelApi(
           token, teamId, 'POST',
-          `/v10/projects/${slug}/env?upsert=true`,
+          `/v10/projects/${projectName}/env?upsert=true`,
           envVar,
         );
         if (!envRes.ok) envFailed++;
@@ -181,10 +200,10 @@ async function main() {
     }
   } else {
     // ── Create new project ─────────────────────────────────────────────────
-    step(`Creating Vercel project "${name}" (${slug})`);
+    step(`Creating Vercel project "${name}" (${projectName})`);
 
     const createBody = {
-      name: slug,
+      name: projectName,
       framework: 'nextjs',
       rootDirectory: `apps/${slug}`,
       // Required for pnpm monorepo: Vercel must read package.json from repo root
@@ -219,7 +238,7 @@ async function main() {
     step(`Adding domain: ${domain}`);
     const domRes = await vercelApi(
       token, teamId, 'POST',
-      `/v10/projects/${slug}/domains`,
+      `/v10/projects/${projectName}/domains`,
       { name: domain },
     );
     if (!domRes.ok) {
@@ -236,12 +255,12 @@ async function main() {
     // Fetch the repoId from the newly created (or existing) project link
     let repoId = null;
     try {
-      const projRes = await vercelApi(token, teamId, 'GET', `/v9/projects/${slug}`);
+      const projRes = await vercelApi(token, teamId, 'GET', `/v9/projects/${projectName}`);
       repoId = projRes.json?.link?.repoId ?? null;
     } catch { /* ignore */ }
 
     const deployBody = {
-      name: slug,
+      name: projectName,
       gitSource: {
         type: 'github',
         repo: ghRepo.split('/')[1],
