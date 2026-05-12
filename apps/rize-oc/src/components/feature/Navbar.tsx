@@ -45,14 +45,17 @@ export default function Navbar() {
   const [treatOpen, setTreatOpen] = useState(false);
   const [addOpen, setAddOpen] = useState(false);
   const [mhOpen, setMhOpen] = useState(false);
+  const [aboutOpen, setAboutOpen] = useState(false);
   const addTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const mhTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const aboutTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   // Mobile accordion states
   const [mobileLocOpen, setMobileLocOpen] = useState(false);
   const [mobileTreatOpen, setMobileTreatOpen] = useState(false);
   const [mobileAddOpen, setMobileAddOpen] = useState(false);
   const [mobileMhOpen, setMobileMhOpen] = useState(false);
+  const [mobileAboutOpen, setMobileAboutOpen] = useState(false);
 
   const isLOCActive = [
     "/drug-alcohol-detox", "/partial-hospitalization-program-orange-county",
@@ -75,6 +78,13 @@ export default function Navbar() {
   };
   const handleMhLeave = () => {
     mhTimer.current = setTimeout(() => setMhOpen(false), 120);
+  };
+  const handleAboutEnter = () => {
+    if (aboutTimer.current) clearTimeout(aboutTimer.current);
+    setAboutOpen(true);
+  };
+  const handleAboutLeave = () => {
+    aboutTimer.current = setTimeout(() => setAboutOpen(false), 120);
   };
 
   return (
@@ -239,15 +249,48 @@ export default function Navbar() {
             </div>
           </div>
 
-          {/* About Rize */}
-          <Link
-            href="/about"
-            className={`text-[11px] font-medium uppercase tracking-[0.18em] transition-colors ${
-              pathname === "/about" ? "text-accent" : "text-ink hover:text-accent"
-            }`}
+          {/* About Rize — dropdown */}
+          <div
+            className="relative"
+            onMouseEnter={handleAboutEnter}
+            onMouseLeave={handleAboutLeave}
           >
-            About Rize
-          </Link>
+            <button
+              className={`flex items-center gap-1 text-[11px] font-medium uppercase tracking-[0.18em] transition-colors ${
+                pathname.startsWith("/about") || pathname === "/telehealth-schedule" || pathname === "/in-person-schedule"
+                  ? "text-accent"
+                  : "text-ink hover:text-accent"
+              }`}
+            >
+              About Rize
+              <i className="ri-arrow-down-s-line text-sm opacity-60" />
+            </button>
+
+            <div
+              className={`absolute top-full left-1/2 -translate-x-1/2 pt-3 transition-all duration-150 ${
+                aboutOpen ? "opacity-100 translate-y-0 pointer-events-auto" : "opacity-0 -translate-y-1 pointer-events-none"
+              }`}
+            >
+              <div className="bg-cream-nav border border-soft shadow-lg w-[240px] py-2">
+                <div className="h-[2px] bg-accent w-full mb-1" />
+                {[
+                  { label: "About Rize",          path: "/about" },
+                  { label: "Telehealth Schedule", path: "/telehealth-schedule" },
+                  { label: "In-Person Schedule",  path: "/in-person-schedule" },
+                ].map(({ label, path }) => (
+                  <Link
+                    key={path}
+                    href={path}
+                    className={`block px-6 py-3.5 text-[11px] font-medium uppercase tracking-[0.15em] border-b border-soft/50 last:border-0 transition-colors ${
+                      pathname === path ? "text-accent bg-accent/5" : "text-ink hover:text-accent hover:bg-accent/5"
+                    }`}
+                  >
+                    {label}
+                  </Link>
+                ))}
+              </div>
+            </div>
+          </div>
 
           {/* Resources */}
           <Link
@@ -381,13 +424,36 @@ export default function Navbar() {
               )}
             </div>
 
-            <Link
-              href="/about"
-              onClick={() => setMenuOpen(false)}
-              className="py-3 text-sm font-medium uppercase tracking-[0.18em] text-ink hover:text-accent"
-            >
-              About Rize
-            </Link>
+            {/* About Rize — mobile accordion */}
+            <div>
+              <button
+                onClick={() => setMobileAboutOpen(!mobileAboutOpen)}
+                className="w-full flex items-center justify-between py-3 text-sm font-medium uppercase tracking-[0.18em] text-ink"
+              >
+                About Rize
+                <i className={`ri-arrow-down-s-line text-lg transition-transform ${mobileAboutOpen ? "rotate-180" : ""}`} />
+              </button>
+              {mobileAboutOpen && (
+                <div className="mb-2 border-l-2 border-accent pl-4 flex flex-col gap-1">
+                  {[
+                  { label: "About Rize",          path: "/about" },
+                  { label: "Telehealth Schedule", path: "/telehealth-schedule" },
+                  { label: "In-Person Schedule",  path: "/in-person-schedule" },
+                ].map(({ label, path }) => (
+                    <Link
+                      key={path}
+                      href={path}
+                      onClick={() => setMenuOpen(false)}
+                      className={`py-2.5 text-sm font-medium uppercase tracking-[0.15em] transition-colors ${
+                        pathname === path ? "text-accent" : "text-ink/70 hover:text-accent"
+                      }`}
+                    >
+                      {label}
+                    </Link>
+                  ))}
+                </div>
+              )}
+            </div>
 
             <Link
               href="/resources"
