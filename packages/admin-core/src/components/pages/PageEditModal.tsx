@@ -188,7 +188,7 @@ export default function PageEditModal({ page, isOpen, onClose, onSubmit }: PageE
               </label>
               <KeywordSuggestPopover
                 currentKeyword={primaryKeyword}
-                seedFallback={pageTitle || routePath}
+                seedFallback={seoTitle || metaDescription || pageTitle || routePath}
                 onSelect={(phrase) => setPrimaryKeyword(phrase)}
                 disabled={busy}
               />

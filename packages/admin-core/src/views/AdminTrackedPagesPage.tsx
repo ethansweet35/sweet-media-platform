@@ -29,13 +29,15 @@ import { stripBrandSuffix } from "../lib/seedCleaner";
  * Order:
  *   1. Active SEO title (with brand suffix stripped)
  *   2. Default SEO title (with brand suffix stripped)
- *   3. Page title
- *   4. Last URL segment, dashes/underscores → spaces
+ *   3. Meta description
+ *   4. Page title
+ *   5. Last URL segment, dashes/underscores → spaces
  */
 function derivePageKeywordSeed(p: {
   page_title: string;
   seo_title: string | null;
   default_seo_title: string | null;
+  meta_description: string | null;
   route_path: string;
 }): string {
   const activeSeo = stripBrandSuffix((p.seo_title ?? "").trim());
@@ -43,6 +45,9 @@ function derivePageKeywordSeed(p: {
 
   const defaultSeo = stripBrandSuffix((p.default_seo_title ?? "").trim());
   if (defaultSeo) return defaultSeo;
+
+  const meta = (p.meta_description ?? "").trim();
+  if (meta) return meta;
 
   const pageTitle = p.page_title?.trim();
   if (pageTitle) return pageTitle;
