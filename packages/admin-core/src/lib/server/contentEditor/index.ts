@@ -98,3 +98,22 @@ export {
   type ExtractedFact,
   type FactsResponse,
 } from "./prompts";
+
+// ─── API handlers (called by Next.js route files) ──────────────────────
+export {
+  createContentEditor,
+  getContentEditorState,
+  deleteContentEditor,
+  saveDraft,
+  scoreDraft,
+  type CreateContentEditorInput,
+  type ContentEditorState,
+  type ContentEditorTermRow,
+  type ContentEditorQuestionRow,
+  type ContentEditorFactRow,
+  type ContentEditorOutlineRow,
+  type ContentEditorDraftRow,
+  type SaveDraftInput,
+  type ScoreDraftInput,
+  type ScoreDraftResult,
+} from "./api";
