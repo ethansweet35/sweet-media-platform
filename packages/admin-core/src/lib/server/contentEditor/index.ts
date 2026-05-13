@@ -45,6 +45,11 @@ export {
 } from "./pipeline";
 
 export {
+  runAutoOptimize,
+  type AutoOptimizeOptions,
+} from "./autoOptimize";
+
+export {
   getAdminClient,
   loadEditor,
   loadCompetitors,

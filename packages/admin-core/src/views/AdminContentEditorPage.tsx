@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import AdminPageHeader from "../components/AdminPageHeader";
 import { ADMIN_OCEAN } from "../lib/adminTheme";
@@ -60,6 +60,44 @@ export default function AdminContentEditorPage() {
   const [submitting, setSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
   const [retryingId, setRetryingId] = useState<string | null>(null);
+  const [optimizingIds, setOptimizingIds] = useState<Set<string>>(() => new Set());
+
+  // Poll sessionStorage for any active auto-optimize flags so the list page
+  // can show an "Optimizing" badge for editors whose brief page the user
+  // started Auto-Optimize on and then navigated away from.
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const scan = () => {
+      const next = new Set<string>();
+      const prefix = "content-editor-optimize-start:";
+      for (let i = 0; i < window.sessionStorage.length; i++) {
+        const key = window.sessionStorage.key(i);
+        if (!key || !key.startsWith(prefix)) continue;
+        const raw = window.sessionStorage.getItem(key);
+        if (!raw) continue;
+        const startedAt = Number(raw);
+        if (!Number.isFinite(startedAt) || Date.now() - startedAt > 10 * 60 * 1000) {
+          window.sessionStorage.removeItem(key);
+          window.sessionStorage.removeItem(
+            `content-editor-optimize-baseline:${key.slice(prefix.length)}`,
+          );
+          continue;
+        }
+        next.add(key.slice(prefix.length));
+      }
+      setOptimizingIds((prev) => {
+        if (prev.size === next.size) {
+          let same = true;
+          for (const id of prev) if (!next.has(id)) { same = false; break; }
+          if (same) return prev;
+        }
+        return next;
+      });
+    };
+    scan();
+    const t = setInterval(scan, 2000);
+    return () => clearInterval(t);
+  }, []);
 
   const handleRetry = async (id: string) => {
     setRetryingId(id);
@@ -230,6 +268,12 @@ export default function AdminContentEditorPage() {
                             {processing ? <i className="ri-loader-4-line animate-spin" /> : null}
                             {STATUS_LABELS[row.status]}
                           </span>
+                          {optimizingIds.has(row.id) ? (
+                            <span className="ml-1.5 inline-flex items-center gap-1 px-2 py-0.5 rounded text-[10px] font-semibold bg-[#3d6f7f]/10 text-[#1f4452]">
+                              <i className="ri-magic-line animate-pulse" />
+                              Optimizing
+                            </span>
+                          ) : null}
                         </td>
                         <td className="px-3 py-3 text-right font-mono text-[12px] text-neutral-600">
                           {wordRangeText(row)}

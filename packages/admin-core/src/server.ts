@@ -49,6 +49,8 @@ export {
   cosineSimilarity,
   // Pipeline
   runContentEditorPipeline,
+  runAutoOptimize,
+  type AutoOptimizeOptions,
   // DB helpers
   getAdminClient as getContentEditorAdminClient,
   loadEditor as loadContentEditor,
