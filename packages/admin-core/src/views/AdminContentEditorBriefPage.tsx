@@ -1010,7 +1010,14 @@ export default function AdminContentEditorBriefPage({ briefId: briefIdProp }: Pr
   const [optimizing, setOptimizing] = useState(false);
   const [optimizeError, setOptimizeError] = useState<string | null>(null);
   const [optimizeStartedAt, setOptimizeStartedAt] = useState<number | null>(null);
-  const [optimizeBaselineDraftId, setOptimizeBaselineDraftId] = useState<string | null>(null);
+  /**
+   * Baseline marker used to detect when Auto-Optimize completes. We use the
+   * draft's updated_at timestamp at click time because saveDraft does an
+   * in-place UPDATE (not INSERT) — the draft id is stable across runs so
+   * we can't compare ids. If currentDraft.updated_at advances past this
+   * baseline, the optimize has landed.
+   */
+  const [optimizeBaselineUpdatedAt, setOptimizeBaselineUpdatedAt] = useState<string | null>(null);
 
   // Page Mode state — when the editor is linked to a tracked page.
   const isPageMode = !!state?.linkedPage;
@@ -1169,7 +1176,7 @@ export default function AdminContentEditorBriefPage({ briefId: briefIdProp }: Pr
         if (Date.now() - startedAt < 6 * 60 * 1000) {
           setOptimizing(true);
           setOptimizeStartedAt(startedAt);
-          setOptimizeBaselineDraftId(baseline);
+          setOptimizeBaselineUpdatedAt(baseline);
         } else {
           window.sessionStorage.removeItem(startedKey);
           window.sessionStorage.removeItem(baselineKey);
@@ -1178,23 +1185,30 @@ export default function AdminContentEditorBriefPage({ briefId: briefIdProp }: Pr
     }
   }, [editorId]);
 
-  // Detect completion: when the current draft id changes vs the baseline
-  // captured at click time, the auto-optimize has landed. Refresh hydrates
-  // the editor area with the new content automatically.
+  // Detect completion by watching the current draft's updated_at advance
+  // past the baseline captured at click time. saveDraft does in-place
+  // UPDATE so the row id is stable — updated_at is the signal.
   useEffect(() => {
     if (!optimizing || !editorId) return;
-    const currentId = state?.currentDraft?.id ?? null;
-    if (currentId && optimizeBaselineDraftId !== currentId) {
-      // Optimize done — clear flag.
+    const currentUpdatedAt = state?.currentDraft?.updated_at ?? null;
+    if (!currentUpdatedAt) return;
+    const baseline = optimizeBaselineUpdatedAt;
+    // If we have no baseline (rare — e.g. user clicked Reset and the
+    // sessionStorage was cleared) treat any timestamp newer than the
+    // optimize start as completion.
+    const baselineDate = baseline ? Date.parse(baseline) : (optimizeStartedAt ?? 0);
+    if (!Number.isFinite(baselineDate)) return;
+    const curDate = Date.parse(currentUpdatedAt);
+    if (Number.isFinite(curDate) && curDate > baselineDate) {
       setOptimizing(false);
       setOptimizeStartedAt(null);
-      setOptimizeBaselineDraftId(null);
+      setOptimizeBaselineUpdatedAt(null);
       if (typeof window !== "undefined") {
         window.sessionStorage.removeItem(`content-editor-optimize-start:${editorId}`);
         window.sessionStorage.removeItem(`content-editor-optimize-baseline:${editorId}`);
       }
     }
-  }, [optimizing, state?.currentDraft?.id, optimizeBaselineDraftId, editorId]);
+  }, [optimizing, state?.currentDraft?.updated_at, optimizeBaselineUpdatedAt, optimizeStartedAt, editorId]);
 
   // While optimizing, poll the server every 4s so we pick up the new draft.
   useEffect(() => {
@@ -1220,7 +1234,7 @@ export default function AdminContentEditorBriefPage({ briefId: briefIdProp }: Pr
   function resetOptimizingState() {
     setOptimizing(false);
     setOptimizeStartedAt(null);
-    setOptimizeBaselineDraftId(null);
+    setOptimizeBaselineUpdatedAt(null);
     if (typeof window !== "undefined" && editorId) {
       window.sessionStorage.removeItem(`content-editor-optimize-start:${editorId}`);
       window.sessionStorage.removeItem(`content-editor-optimize-baseline:${editorId}`);
@@ -1235,7 +1249,7 @@ export default function AdminContentEditorBriefPage({ briefId: briefIdProp }: Pr
     if (!confirmed) return;
     setOptimizeError(null);
 
-    const baselineId = state.currentDraft?.id ?? null;
+    const baselineUpdatedAt = state.currentDraft?.updated_at ?? new Date().toISOString();
     const startedAt = Date.now();
 
     try {
@@ -1250,20 +1264,16 @@ export default function AdminContentEditorBriefPage({ briefId: briefIdProp }: Pr
       }
       setOptimizing(true);
       setOptimizeStartedAt(startedAt);
-      setOptimizeBaselineDraftId(baselineId);
+      setOptimizeBaselineUpdatedAt(baselineUpdatedAt);
       if (typeof window !== "undefined") {
         window.sessionStorage.setItem(
           `content-editor-optimize-start:${editorId}`,
           String(startedAt),
         );
-        if (baselineId) {
-          window.sessionStorage.setItem(
-            `content-editor-optimize-baseline:${editorId}`,
-            baselineId,
-          );
-        } else {
-          window.sessionStorage.removeItem(`content-editor-optimize-baseline:${editorId}`);
-        }
+        window.sessionStorage.setItem(
+          `content-editor-optimize-baseline:${editorId}`,
+          baselineUpdatedAt,
+        );
       }
     } catch (err) {
       setOptimizeError(err instanceof Error ? err.message : String(err));

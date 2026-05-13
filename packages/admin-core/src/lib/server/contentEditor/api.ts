@@ -108,6 +108,8 @@ export interface ContentEditorDraftRow {
   computed_placement_score: number | null;
   is_current: boolean;
   created_at: string;
+  /** Bumped explicitly on every saveDraft/scoreDraft update. */
+  updated_at: string;
 }
 
 /** Linked tracked-page info — present only in Page Mode editors. */
@@ -268,7 +270,7 @@ export async function getContentEditorState(
       client
         .from("content_editor_drafts")
         .select(
-          "id, title_tag, meta_description, h1_text, body_markdown, body_plaintext, word_count, computed_content_score, computed_coverage_score, computed_frequency_score, computed_placement_score, is_current, created_at",
+          "id, title_tag, meta_description, h1_text, body_markdown, body_plaintext, word_count, computed_content_score, computed_coverage_score, computed_frequency_score, computed_placement_score, is_current, created_at, updated_at",
         )
         .eq("editor_id", editorId)
         .eq("is_current", true)
@@ -402,6 +404,9 @@ export async function saveDraft(
     body_plaintext: input.bodyPlaintext ?? null,
     body_markdown: input.bodyMarkdown ?? null,
     word_count: wordCount,
+    // Bump the changed-marker so the brief workspace (and any other
+    // pollers) can detect an in-place update.
+    updated_at: new Date().toISOString(),
   };
 
   if (existing && typeof (existing as { id?: string }).id === "string") {
@@ -577,6 +582,7 @@ export async function scoreDraft(input: ScoreDraftInput): Promise<ScoreDraftResu
         computed_seo_score: result.seo_score ?? null,
         computed_ai_search_score: result.ai_search_score ?? null,
         computed_eeat_score: result.eeat_score,
+        updated_at: new Date().toISOString(),
       })
       .eq("editor_id", input.editorId)
       .eq("is_current", true);

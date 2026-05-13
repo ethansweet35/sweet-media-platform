@@ -587,11 +587,16 @@ create table if not exists public.content_editor_drafts (
   computed_eeat_score numeric(5,2),
   sentence_embeddings jsonb,
   is_current boolean not null default true,
-  created_at timestamptz not null default now()
+  created_at timestamptz not null default now(),
+  -- Bumped explicitly by saveDraft + scoreDraft so the brief workspace can
+  -- detect content vs score updates (the row id stays stable across
+  -- in-place updates so we use updated_at as the change signal instead).
+  updated_at timestamptz not null default now()
 );
 
 create index if not exists content_editor_drafts_editor_idx on public.content_editor_drafts(editor_id, is_current);
 create unique index if not exists content_editor_drafts_one_current_per_editor on public.content_editor_drafts(editor_id) where is_current = true;
+create index if not exists content_editor_drafts_updated_at_idx on public.content_editor_drafts(updated_at desc);
 
 create table if not exists public.content_editor_draft_term_usage (
   id uuid primary key default gen_random_uuid(),

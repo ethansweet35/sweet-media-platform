@@ -134,6 +134,8 @@ export interface ContentEditorDraftRow {
   computed_placement_score: number | null;
   is_current: boolean;
   created_at: string;
+  /** Bumped on every saveDraft/scoreDraft persistence. */
+  updated_at: string;
 }
 
 /** Live-page snapshot summary (client-safe). */
