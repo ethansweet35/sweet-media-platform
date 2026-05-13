@@ -214,7 +214,7 @@ Fetch WP CSS → Elementor/globals token JSON
 - `GOOGLE_NLP_API_KEY` — Content Editor entity extraction (Google Cloud Natural Language API, `analyzeEntities`); shared from repo-root `.env`
 - Optional: `TRACKED_PAGE_METADATA_CACHE_SECONDS`
 
-**Scaffold auto-writes** `.env.local` with the public Supabase vars and the contact form vars when `setup-new-client.mjs` runs successfully. `scripts/publish-client-to-vercel.mjs` then upserts those values plus shared root secrets (`OPENROUTER_API_KEY`, `SEMRUSH_API_KEY`) onto the Vercel project. Use `--project <vercel-project-name>` for brands whose Vercel project name does not match their slug (`sweet-media` → `sweet-media-platform`, `inner-peak-colorado` → `inner-peak-colorado-platform`).
+**Scaffold auto-writes** `.env.local` with the public Supabase vars and the contact form vars when `setup-new-client.mjs` runs successfully. `scripts/publish-client-to-vercel.mjs` then upserts those values plus shared root secrets (`OPENROUTER_API_KEY`, `OPENAI_API_KEY`, `SEMRUSH_API_KEY`, `DATAFORSEO_LOGIN`, `DATAFORSEO_PASSWORD`, `FIRECRAWL_API_KEY`, `GOOGLE_NLP_API_KEY`) onto the Vercel project. Use `--project <vercel-project-name>` for brands whose Vercel project name does not match their slug (`sweet-media` → `sweet-media-platform`, `inner-peak-colorado` → `inner-peak-colorado-platform`).
 
 ---
 
