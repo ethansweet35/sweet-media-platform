@@ -38,6 +38,8 @@ export interface BlogPost {
   seo_brief_id?: string | null;
   seo_guidance_applied?: boolean;
   published_url?: string | null;
+  /** Linked Content Editor (replaces seo_brief_id for new flows). */
+  content_editor_id?: string | null;
 }
 
 export interface DbBlogPost {
@@ -68,6 +70,7 @@ export interface DbBlogPost {
   seo_brief_id?: string | null;
   seo_guidance_applied?: boolean | null;
   published_url?: string | null;
+  content_editor_id?: string | null;
 }
 
 export const categories = [
@@ -223,6 +226,7 @@ export function dbToBlogPost(db: DbBlogPost): BlogPost {
     seo_brief_id: db.seo_brief_id ?? null,
     seo_guidance_applied: db.seo_guidance_applied === true,
     published_url: db.published_url ?? null,
+    content_editor_id: db.content_editor_id ?? null,
   };
 }
 

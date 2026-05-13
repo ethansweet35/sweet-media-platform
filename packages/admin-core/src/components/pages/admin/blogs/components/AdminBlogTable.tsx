@@ -6,7 +6,7 @@ import { useState, useRef, useCallback } from "react";
 import { ADMIN_OCEAN } from "../../../../../lib/adminTheme";
 import type { BlogPost } from "@sweetmedia/blog-core";
 import type { SeoGenResult } from "../../../../../lib/generateSeoMetadata";
-import SweetSeoCell from "../../../../SweetSeoCell";
+import ContentEditorCell from "../../../../ContentEditorCell";
 import InlineKeywordCell from "../../../../InlineKeywordCell";
 
 function formatScheduledLine(iso: string): string {
@@ -200,7 +200,7 @@ export default function AdminBlogTable({
               <SortTh field="status" label="Status" rk="status" />
               <StaticTh label="Auto-publish" rk="autopublish" />
               <StaticTh label="Primary Keyword" rk="keyword" />
-              <StaticTh label="Sweet SEO" rk="sweetSeo" />
+              <StaticTh label="Content Editor" rk="sweetSeo" />
               <StaticTh label="Actions" rk="actions" right />
             </tr>
           </thead>
@@ -438,16 +438,14 @@ export default function AdminBlogTable({
                     />
                   </td>
 
-                  {/* Sweet SEO */}
+                  {/* Content Editor */}
                   <td className="px-4 py-4 align-middle" onClick={(e) => e.stopPropagation()}>
-                    <SweetSeoCell
+                    <ContentEditorCell
                       kind="blog"
                       row={{
                         id: post.id,
                         primary_keyword: post.focus_keyword ?? null,
-                        seo_brief_id: post.seo_brief_id ?? null,
-                        seo_guidance_applied: post.seo_guidance_applied === true,
-                        published_url: post.published_url ?? null,
+                        content_editor_id: post.content_editor_id ?? null,
                       }}
                       onChange={onSeoChange}
                     />

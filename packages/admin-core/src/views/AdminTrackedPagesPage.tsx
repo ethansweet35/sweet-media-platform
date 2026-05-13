@@ -6,7 +6,7 @@ import AdminPageHeader from "../components/AdminPageHeader";
 import { ADMIN_OCEAN } from "../lib/adminTheme";
 import { getPublicSiteOrigin } from "../lib/publicSiteUrl";
 import { useTrackedPages } from "../hooks/useTrackedPages";
-import SweetSeoCell from "../components/SweetSeoCell";
+import ContentEditorCell from "../components/ContentEditorCell";
 import PageEditModal from "../components/pages/PageEditModal";
 import PageDeleteModal from "../components/pages/PageDeleteModal";
 import BulkPickKeywordModal from "../components/BulkPickKeywordModal";
@@ -598,7 +598,7 @@ export default function AdminTrackedPagesPage() {
                         <StaticTh label="SEO Title" rk="seo" />
                         <StaticTh label="Meta Desc." rk="meta" />
                         <SortTh col="keyword" label="Keyword" rk="keyword" />
-                        <StaticTh label="Sweet SEO" rk="sweetSeo" />
+                        <StaticTh label="Content Editor" rk="sweetSeo" />
                         <SortTh col="status" label="Status" rk="status" />
                         <SortTh col="created_at" label="Added" rk="date" />
                         <StaticTh label="Actions" rk="actions" right />
@@ -705,16 +705,14 @@ export default function AdminTrackedPagesPage() {
                                 />
                               </td>
 
-                              {/* Sweet SEO */}
+                              {/* Content Editor */}
                               <td className="px-3 py-3 align-middle" onClick={(e) => e.stopPropagation()}>
-                                <SweetSeoCell
+                                <ContentEditorCell
                                   kind="page"
                                   row={{
                                     id: p.id,
                                     primary_keyword: p.primary_keyword,
-                                    seo_brief_id: p.seo_brief_id,
-                                    seo_guidance_applied: p.seo_guidance_applied,
-                                    published_url: p.published_url,
+                                    content_editor_id: p.content_editor_id ?? null,
                                   }}
                                   compact
                                   onChange={refetch}

@@ -10,6 +10,8 @@ export * from "./types/seo-brief";
 
 export { default as AdminPageHeader } from "./components/AdminPageHeader";
 export { default as SweetSeoCell, type SweetSeoCellRow } from "./components/SweetSeoCell";
+export { default as ContentEditorCell, type ContentEditorCellRow } from "./components/ContentEditorCell";
+export { useContentEditorRowActions, type ContentEditorRowRef } from "./hooks/useContentEditorRowActions";
 export { default as KeywordSuggestPopover } from "./components/KeywordSuggestPopover";
 export { default as InlineKeywordCell } from "./components/InlineKeywordCell";
 export { default as BulkPickKeywordModal } from "./components/BulkPickKeywordModal";

@@ -12,6 +12,8 @@ export interface TrackedPage extends SeoBriefRowFields {
   is_active: boolean;
   display_order: number;
   notes: string | null;
+  /** Linked content editor (replaces seo_brief_id for new flows). */
+  content_editor_id?: string | null;
   created_at: string;
   updated_at: string;
 }
@@ -38,4 +40,5 @@ export type TrackedPageUpdates = Partial<{
   seo_brief_id: string | null;
   seo_guidance_applied: boolean;
   published_url: string | null;
+  content_editor_id: string | null;
 }>;

@@ -222,11 +222,15 @@ create table if not exists public.blog_posts (
   -- FK to seo_briefs is added at the bottom of this file, after seo_briefs exists.
   seo_brief_id uuid,
   seo_guidance_applied boolean not null default false,
+  -- Content Editor integration (see migrations/2026-05-12_link_blog_pages_to_content_editor.sql).
+  -- FK to content_editors is added at the bottom of this file.
+  content_editor_id uuid,
   created_at timestamptz not null default now(),
   updated_at timestamptz not null default now()
 );
 
 create index if not exists blog_posts_seo_brief_idx on public.blog_posts(seo_brief_id);
+create index if not exists blog_posts_content_editor_idx on public.blog_posts(content_editor_id);
 
 alter table public.blog_posts enable row level security;
 
@@ -311,11 +315,14 @@ create table if not exists public.tracked_pages (
   -- Sweet SEO integration. FK to seo_briefs is added at the bottom of this file.
   seo_brief_id uuid,
   seo_guidance_applied boolean not null default false,
+  -- Content Editor integration. FK to content_editors is added at the bottom of this file.
+  content_editor_id uuid,
   created_at timestamptz not null default now(),
   updated_at timestamptz not null default now()
 );
 
 create index if not exists tracked_pages_seo_brief_idx on public.tracked_pages(seo_brief_id);
+create index if not exists tracked_pages_content_editor_idx on public.tracked_pages(content_editor_id);
 
 create table if not exists public.system_settings (
   id uuid primary key default gen_random_uuid(),
@@ -396,6 +403,20 @@ begin
     alter table public.tracked_pages
       add constraint tracked_pages_seo_brief_id_fkey
       foreign key (seo_brief_id) references public.seo_briefs(id) on delete set null;
+  end if;
+  if not exists (
+    select 1 from pg_constraint where conname = 'blog_posts_content_editor_id_fkey'
+  ) then
+    alter table public.blog_posts
+      add constraint blog_posts_content_editor_id_fkey
+      foreign key (content_editor_id) references public.content_editors(id) on delete set null;
+  end if;
+  if not exists (
+    select 1 from pg_constraint where conname = 'tracked_pages_content_editor_id_fkey'
+  ) then
+    alter table public.tracked_pages
+      add constraint tracked_pages_content_editor_id_fkey
+      foreign key (content_editor_id) references public.content_editors(id) on delete set null;
   end if;
 end $$;
 
