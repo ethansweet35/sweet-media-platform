@@ -407,6 +407,17 @@ async function phase3_nlpAndNgrams(
   // Merge entities + n-grams. Use lowercase key for dedup.
   const merged = mergeEntitiesAndNgrams(allEntities, ngrams, competitors.length);
 
+  // AI curation pass: drop low-quality terms, surface important missing ones.
+  await setStatus(client, editor.id, "analyzing_nlp", "Curating terms for topical authority…");
+  const allHeadingsForCuration = competitors.flatMap((c) => c.headings ?? []);
+  const { curated: curatedMerged, added: aiAddedTerms, cost_usd: curationCost } =
+    await curateTermsWithAI(
+      editor.primary_keyword,
+      merged,
+      allHeadingsForCuration,
+    );
+  await addCost(client, editor.id, curationCost);
+
   // Compute recommended use range per term based on competitor pool size.
   const avgWordCount = mean(competitors.map((c) => c.word_count ?? 0).filter((w) => w > 0)) || 2000;
   const targetWordCount = Math.round(avgWordCount);
@@ -414,7 +425,7 @@ async function phase3_nlpAndNgrams(
   const allHeadings = competitors.flatMap((c) => c.headings ?? []);
   const primaryKeyword = editor.primary_keyword.toLowerCase();
 
-  const termsToInsert = merged.slice(0, TERMS_LIMIT).map((m): {
+  const termsToInsert = curatedMerged.slice(0, TERMS_LIMIT).map((m): {
     editor_id: string;
     term: string;
     term_type: "entity" | "ngram" | "nlp_keyword";
@@ -486,6 +497,32 @@ async function phase3_nlpAndNgrams(
     );
   }
 
+  // Append AI-suggested terms that weren't in the competitor corpus but
+  // are important for topical authority. Give them a mid-tier relevance
+  // (below measured terms but above generic fallbacks) and a conservative
+  // usage range since we have no frequency data.
+  const existingTermKeys = new Set(termsToInsert.map((t) => t.term.toLowerCase()));
+  const midRelevance = topRelevance * 0.4;
+  for (const addedTerm of aiAddedTerms) {
+    const key = addedTerm.toLowerCase();
+    if (existingTermKeys.has(key)) continue;
+    existingTermKeys.add(key);
+    termsToInsert.push({
+      editor_id: editor.id,
+      term: key,
+      term_type: "nlp_keyword",
+      entity_type: null,
+      relevance_score: Number(midRelevance.toFixed(4)),
+      avg_frequency: 0,
+      min_recommended_uses: 1,
+      max_recommended_uses: 3,
+      target_uses: 2,
+      competitor_coverage_pct: 0,
+      is_heading_recommended: termAppearsInHeadings(key, allHeadings),
+      is_primary_keyword: false,
+    });
+  }
+
   await client.from("content_editor_terms").insert(termsToInsert);
 
   return termsToInsert.map((t) => ({
@@ -507,6 +544,98 @@ interface MergedTerm {
   avgFreq: number;
   maxFreq: number;
   coverage: number;
+}
+
+/**
+ * AI-powered term curation pass.
+ *
+ * After TF-IDF + NLP extraction we have a large pool of candidates ranked
+ * by statistical signal. This step adds semantic judgment: does this term
+ * actually help build topical authority around the primary keyword?
+ *
+ * We send the top candidates to Claude Haiku (cheap, ~1–2s) and ask it to:
+ *   - KEEP terms that represent specific clinical/technical concepts, named
+ *     methods/treatments, or distinct subtopics a comprehensive page must cover.
+ *   - DROP generic filler that passed tf-idf thresholds but isn't useful.
+ *   - ADD up to 10 important terms from the topic domain that are missing.
+ *
+ * On any failure the function returns the unfiltered candidates so the
+ * pipeline never hard-fails because of this step.
+ */
+async function curateTermsWithAI(
+  primaryKeyword: string,
+  candidates: MergedTerm[],
+  competitorHeadings: Array<{ text: string }>,
+): Promise<{ curated: MergedTerm[]; added: string[]; cost_usd: number }> {
+  const topN = candidates.slice(0, 120);
+  const headingSample = competitorHeadings
+    .slice(0, 30)
+    .map((h) => h.text)
+    .filter(Boolean)
+    .join(", ");
+
+  const termList = topN.map((c, i) => `${i + 1}. ${c.term}`).join("\n");
+
+  const systemPrompt =
+    "You are an expert SEO content strategist specializing in topical authority. " +
+    "Your job is to curate term lists that will help a page comprehensively cover a topic. " +
+    "Always respond with only a valid JSON object — no markdown, no commentary.";
+
+  const userPrompt =
+    `Target keyword: "${primaryKeyword}"\n` +
+    (headingSample
+      ? `Competitor headings sample: ${headingSample}\n\n`
+      : "") +
+    `Below are ${topN.length} candidate terms extracted from the top-ranking competitor pages ` +
+    `using TF-IDF and Google NLP. Curate this list.\n\n` +
+    `KEEP a term if it:\n` +
+    `- Represents a specific named concept, treatment, method, therapeutic approach, or clinical term\n` +
+    `- Is something a comprehensive, authoritative article on "${primaryKeyword}" must explicitly discuss\n` +
+    `- Is a meaningful multi-word phrase or high-value domain-specific unigram\n\n` +
+    `DROP a term if it:\n` +
+    `- Is a generic or filler word that would appear on any page (regardless of topic)\n` +
+    `- Is a common verb, adjective, or connector that adds no topical specificity\n` +
+    `- Doesn't uniquely identify a subtopic or concept\n\n` +
+    `ADD up to 10 terms: important topical concepts for "${primaryKeyword}" that are ` +
+    `clearly missing from the candidate list. Prefer specific named methods, clinical terms, ` +
+    `resources, or subtopics — not generic words.\n\n` +
+    `Candidate terms:\n${termList}\n\n` +
+    `Respond ONLY with this JSON:\n` +
+    `{"keep":["term1","term2",...],"add":["new_term1","new_term2",...]}`;
+
+  try {
+    const result = await callClaude<{ keep: string[]; add: string[] }>({
+      model: "haiku",
+      systemPrompt,
+      userPrompt,
+      maxTokens: 1500,
+      temperature: 0.1,
+      expectJson: true,
+    });
+
+    const { keep, add } = result.data.data;
+    const keepSet = new Set((keep ?? []).map((t: string) => t.toLowerCase().trim()));
+
+    // Filter candidates: keep those the AI approved + always keep primary kw.
+    const pkLower = primaryKeyword.toLowerCase();
+    const curated = topN.filter(
+      (c) => keepSet.has(c.term.toLowerCase()) || c.term.toLowerCase() === pkLower,
+    );
+
+    // Also carry through any candidates ranked below topN that weren't
+    // reviewed — they stay, AI only pruned the reviewed set.
+    const rest = candidates.slice(topN.length);
+
+    const added = (add ?? [])
+      .map((t: string) => t.toLowerCase().trim())
+      .filter((t: string) => t.length >= 3);
+
+    return { curated: [...curated, ...rest], added, cost_usd: result.cost_usd };
+  } catch (err) {
+    // Non-fatal: log and fall back to unfiltered candidates.
+    console.warn("[content-editor] term curation AI call failed, using unfiltered candidates:", err);
+    return { curated: candidates, added: [], cost_usd: 0 };
+  }
 }
 
 /**
