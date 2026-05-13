@@ -6,6 +6,7 @@ import SectionHeader from "@/components/ui/SectionHeader";
 import IconCircle from "@/components/ui/IconCircle";
 import Button from "@/components/ui/Button";
 import FaqAccordion, { type FaqItem } from "@/components/ui/FaqAccordion";
+import { AutoLinkedText } from "@sweetmedia/blog-core";
 
 const BASE = "https://nfjlvkxrbzytjefmcvhg.supabase.co/storage/v1/object/public/site-assets/images";
 
@@ -201,7 +202,7 @@ export default function MentalHealthPage() {
                 <em className="italic text-white/60">Treatment</em>
               </h1>
               <p className="mt-6 text-[16px] font-light leading-relaxed text-white/80 max-w-[520px]">
-                Integrated psychiatric care and evidence-based therapy for depression, anxiety, trauma, bipolar disorder, and co-occurring conditions — treating the whole person.
+                <AutoLinkedText>{"Integrated psychiatric care and evidence-based therapy for depression, anxiety, trauma, bipolar disorder, and co-occurring conditions — treating the whole person."}</AutoLinkedText>
               </p>
             </div>
 
@@ -235,8 +236,8 @@ export default function MentalHealthPage() {
               { value: "CA",      label: "Licensed Telehealth" },
             ].map(({ value, label }) => (
               <div key={label} className="px-8 py-5 border-r border-white/10 last:border-r-0 bg-ink/50 backdrop-blur-sm">
-                <p className="font-[family-name:var(--font-display)] text-[28px] font-normal text-white leading-none">{value}</p>
-                <p className="text-[10px] font-medium uppercase tracking-[0.22em] text-white/50 mt-1.5">{label}</p>
+                <p className="font-[family-name:var(--font-display)] text-[28px] font-normal text-white leading-none"><AutoLinkedText>{value}</AutoLinkedText></p>
+                <p className="text-[10px] font-medium uppercase tracking-[0.22em] text-white/50 mt-1.5"><AutoLinkedText>{label}</AutoLinkedText></p>
               </div>
             ))}
           </div>
@@ -256,29 +257,29 @@ export default function MentalHealthPage() {
             </h2>
             <div className="flex flex-col gap-5">
               <p className="text-[15px] font-light leading-relaxed text-ink/65">
-                Mental health conditions are not simply brain chemistry problems that medication fixes, nor are they purely psychological patterns that therapy resolves. They are complex interactions of neurobiology, personal history, relational patterns, and environmental circumstances — and effective treatment addresses all of these dimensions.
+                <AutoLinkedText>{"Mental health conditions are not simply brain chemistry problems that medication fixes, nor are they purely psychological patterns that therapy resolves. They are complex interactions of neurobiology, personal history, relational patterns, and environmental circumstances — and effective treatment addresses all of these dimensions."}</AutoLinkedText>
               </p>
               <p className="text-[15px] font-light leading-relaxed text-ink/65">
-                At Rize OC, mental health treatment is built around genuine integration — not a psychiatrist and a therapist who exchange notes, but a unified clinical team that plans, delivers, and adjusts treatment collaboratively. Medication decisions are made in the context of the full therapeutic picture. Therapeutic work is informed by psychiatric understanding.
+                <AutoLinkedText>{"At Rize OC, mental health treatment is built around genuine integration — not a psychiatrist and a therapist who exchange notes, but a unified clinical team that plans, delivers, and adjusts treatment collaboratively. Medication decisions are made in the context of the full therapeutic picture. Therapeutic work is informed by psychiatric understanding."}</AutoLinkedText>
               </p>
               <p className="text-[15px] font-light leading-relaxed text-ink/65">
-                For clients with co-occurring substance use disorders — the majority of our clients — this integration extends to the addiction treatment dimension as well. The same clinical team addresses both conditions, in the same programming, at the same time. This is what genuine dual-diagnosis treatment looks like.
+                <AutoLinkedText>{"For clients with co-occurring substance use disorders — the majority of our clients — this integration extends to the addiction treatment dimension as well. The same clinical team addresses both conditions, in the same programming, at the same time. This is what genuine dual-diagnosis treatment looks like."}</AutoLinkedText>
               </p>
               <p className="text-[15px] font-light leading-relaxed text-ink/65">
-                We also recognize that mental health treatment is deeply personal. The therapeutic relationship is the foundation of effective work — which is why client-therapist fit, consistent therapeutic assignment, and genuine clinical investment are non-negotiable aspects of how we operate.
+                <AutoLinkedText>{"We also recognize that mental health treatment is deeply personal. The therapeutic relationship is the foundation of effective work — which is why client-therapist fit, consistent therapeutic assignment, and genuine clinical investment are non-negotiable aspects of how we operate."}</AutoLinkedText>
               </p>
             </div>
             <blockquote className="mt-auto pt-8 border-l-2 border-accent pl-6">
               <p className="text-[17px] font-[family-name:var(--font-display)] font-normal text-ink/70 leading-snug italic">
-                &ldquo;The most common reason people don&apos;t recover from mental health conditions is under-treatment — not enough intensity, not enough integration, not enough time. Our job is to provide what actually works.&rdquo;
+                <AutoLinkedText>{"&ldquo;The most common reason people don&apos;t recover from mental health conditions is under-treatment — not enough intensity, not enough integration, not enough time. Our job is to provide what actually works.&rdquo;"}</AutoLinkedText>
               </p>
-              <p className="mt-3 text-[11px] font-medium uppercase tracking-[0.2em] text-ink/40">Rize OC Clinical Director</p>
+              <p className="mt-3 text-[11px] font-medium uppercase tracking-[0.2em] text-ink/40"><AutoLinkedText>{"Rize OC Clinical Director"}</AutoLinkedText></p>
             </blockquote>
           </div>
 
           <div className="flex flex-col gap-5 h-full">
             <div className="bg-ink p-7">
-              <p className="text-[10px] font-semibold uppercase tracking-[0.35em] text-accent mb-4">The Rize OC Difference</p>
+              <p className="text-[10px] font-semibold uppercase tracking-[0.35em] text-accent mb-4"><AutoLinkedText>{"The Rize OC Difference"}</AutoLinkedText></p>
               <div className="flex flex-col gap-5">
                 {[
                   { icon: "ri-stethoscope-line",  point: "Board-certified psychiatrists embedded in all levels of care — not just weekly consult appointments" },
@@ -288,7 +289,7 @@ export default function MentalHealthPage() {
                 ].map(({ icon, point }) => (
                   <div key={point} className="flex items-start gap-3">
                     <i className={`${icon} text-accent text-base shrink-0 mt-0.5`} />
-                    <p className="text-sm font-light text-white/65 leading-snug">{point}</p>
+                    <p className="text-sm font-light text-white/65 leading-snug"><AutoLinkedText>{point}</AutoLinkedText></p>
                   </div>
                 ))}
               </div>
@@ -325,7 +326,7 @@ export default function MentalHealthPage() {
               Conditions We <em className="italic text-white/60">Treat</em>
             </h2>
             <p className="text-[15px] font-light text-white/65 max-w-2xl mx-auto">
-              Our psychiatric and clinical team is experienced across the full range of mood, anxiety, trauma, and personality-related conditions — including complex dual-diagnosis presentations.
+              <AutoLinkedText>{"Our psychiatric and clinical team is experienced across the full range of mood, anxiety, trauma, and personality-related conditions — including complex dual-diagnosis presentations."}</AutoLinkedText>
             </p>
           </div>
 
@@ -339,7 +340,7 @@ export default function MentalHealthPage() {
                   </span>
                 </div>
                 <h3 className="font-[family-name:var(--font-display)] text-[22px] font-normal text-white mb-3">{title}</h3>
-                <p className="text-[14px] font-light leading-relaxed text-white/75 flex-1">{desc}</p>
+                <p className="text-[14px] font-light leading-relaxed text-white/75 flex-1"><AutoLinkedText>{desc}</AutoLinkedText></p>
               </div>
             ))}
           </div>
@@ -376,7 +377,7 @@ export default function MentalHealthPage() {
                   )}
                 </div>
                 <h3 className="font-[family-name:var(--font-display)] text-[22px] font-normal text-ink mb-3 leading-snug">{title}</h3>
-                <p className="text-[14px] font-light leading-relaxed text-ink/65 flex-1">{desc}</p>
+                <p className="text-[14px] font-light leading-relaxed text-ink/65 flex-1"><AutoLinkedText>{desc}</AutoLinkedText></p>
               </div>
             ))}
           </div>
@@ -396,13 +397,13 @@ export default function MentalHealthPage() {
             </h2>
             <div className="flex flex-col gap-5">
               <p className="text-[15px] font-light leading-relaxed text-ink/65">
-                The research on integrated dual-diagnosis treatment is unambiguous: treating co-occurring mental health and substance use disorders simultaneously produces dramatically better outcomes than treating them sequentially or in separate programs. The conditions are neurologically intertwined — addressing one while ignoring the other leaves the untreated condition as an ongoing driver of the other&apos;s recurrence.
+                <AutoLinkedText>{"The research on integrated dual-diagnosis treatment is unambiguous: treating co-occurring mental health and substance use disorders simultaneously produces dramatically better outcomes than treating them sequentially or in separate programs. The conditions are neurologically intertwined — addressing one while ignoring the other leaves the untreated condition as an ongoing driver of the other&apos;s recurrence."}</AutoLinkedText>
               </p>
               <p className="text-[15px] font-light leading-relaxed text-ink/65">
-                Psychiatric intensity matters. Clients with significant mental health conditions — particularly those with mood disorders, trauma histories, or psychotic features — require daily psychiatric contact, not a weekly check-in. Our PHP level provides this intensity, with psychiatrists embedded in the clinical team and available throughout the programming day.
+                <AutoLinkedText>{"Psychiatric intensity matters. Clients with significant mental health conditions — particularly those with mood disorders, trauma histories, or psychotic features — require daily psychiatric contact, not a weekly check-in. Our PHP level provides this intensity, with psychiatrists embedded in the clinical team and available throughout the programming day."}</AutoLinkedText>
               </p>
               <p className="text-[15px] font-light leading-relaxed text-ink/65">
-                Trauma is the hidden driver of a substantial proportion of both mental health and substance use presentations. Our EMDR-certified therapists bring evidence-based trauma processing into the clinical toolkit at all relevant levels — not as an optional add-on, but as a core clinical priority.
+                <AutoLinkedText>{"Trauma is the hidden driver of a substantial proportion of both mental health and substance use presentations. Our EMDR-certified therapists bring evidence-based trauma processing into the clinical toolkit at all relevant levels — not as an optional add-on, but as a core clinical priority."}</AutoLinkedText>
               </p>
             </div>
             <div className="mt-8 flex flex-col gap-3">
@@ -415,7 +416,7 @@ export default function MentalHealthPage() {
               ].map((item) => (
                 <div key={item} className="flex items-center gap-3">
                   <div className="w-2 h-2 rounded-full bg-accent shrink-0" />
-                  <p className="text-[15px] font-light text-ink/70">{item}</p>
+                  <p className="text-[15px] font-light text-ink/70"><AutoLinkedText>{item}</AutoLinkedText></p>
                 </div>
               ))}
             </div>
@@ -427,10 +428,8 @@ export default function MentalHealthPage() {
                 <p
                   className="font-[family-name:var(--font-display)] font-normal text-accent shrink-0"
                   style={{ fontSize: "clamp(40px, 4vw, 56px)", lineHeight: 1 }}
-                >
-                  {stat}
-                </p>
-                <p className="text-[15px] font-light leading-relaxed text-ink/65 pt-2">{detail}</p>
+                ><AutoLinkedText>{stat}</AutoLinkedText></p>
+                <p className="text-[15px] font-light leading-relaxed text-ink/65 pt-2"><AutoLinkedText>{detail}</AutoLinkedText></p>
               </div>
             ))}
           </div>
@@ -460,7 +459,7 @@ export default function MentalHealthPage() {
                   </span>
                 </div>
                 <h3 className="font-[family-name:var(--font-display)] text-[22px] font-normal text-ink mb-3 leading-snug">{title}</h3>
-                <p className="text-[14px] font-light leading-relaxed text-ink/70 flex-1">{desc}</p>
+                <p className="text-[14px] font-light leading-relaxed text-ink/70 flex-1"><AutoLinkedText>{desc}</AutoLinkedText></p>
                 <div className="mt-6">
                   <Link href={href} className="text-[11px] font-medium uppercase tracking-[0.2em] text-accent flex items-center gap-1.5 hover:gap-3 transition-all">
                     {cta} <i className="ri-arrow-right-line" />
@@ -494,7 +493,7 @@ export default function MentalHealthPage() {
               Frequently Asked Questions
             </h2>
             <p className="text-[15px] font-light leading-relaxed text-ink/60 mb-8">
-              Our admissions team is available 24/7 to answer anything you don&apos;t find here.
+              <AutoLinkedText>{"Our admissions team is available 24/7 to answer anything you don&apos;t find here."}</AutoLinkedText>
             </p>
             <a href="tel:9494612620" className="flex items-center gap-2 text-accent text-[14px] font-medium hover:text-ink transition-colors">
               <i className="ri-phone-line" /> (949)-461-2620
@@ -520,7 +519,7 @@ export default function MentalHealthPage() {
             You Deserve Care That Actually Works
           </h2>
           <p className="mt-6 text-[15px] font-light leading-relaxed text-white/55 max-w-xl mx-auto">
-            Our admissions team is available 24/7 to answer questions, verify your insurance, and help you understand your options. All conversations are completely confidential.
+            <AutoLinkedText>{"Our admissions team is available 24/7 to answer questions, verify your insurance, and help you understand your options. All conversations are completely confidential."}</AutoLinkedText>
           </p>
           <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
             <Button href="tel:9494612620" variant="accent" size="lg">

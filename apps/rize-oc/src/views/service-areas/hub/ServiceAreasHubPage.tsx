@@ -7,6 +7,7 @@ import Eyebrow from "@/components/ui/Eyebrow";
 import IconCircle from "@/components/ui/IconCircle";
 import Button from "@/components/ui/Button";
 import AccreditationsBar from "@/views/home/components/AccreditationsBar";
+import { AutoLinkedTextClient } from "@sweetmedia/blog-core";
 
 const BASE = "https://nfjlvkxrbzytjefmcvhg.supabase.co/storage/v1/object/public/site-assets/images";
 
@@ -133,7 +134,7 @@ export default function ServiceAreasHubPage() {
               <em className="italic text-white/55">Orange County</em>
             </h1>
             <p className="text-[16px] font-light leading-relaxed text-white/80 max-w-[520px] mb-10">
-              Rize OC provides premium addiction and mental health treatment to communities across Orange County — one facility, one exceptional standard of care, within 25 minutes of everywhere listed below.
+              <AutoLinkedTextClient>{"Rize OC provides premium addiction and mental health treatment to communities across Orange County — one facility, one exceptional standard of care, within 25 minutes of everywhere listed below."}</AutoLinkedTextClient>
             </p>
             <div className="flex flex-wrap gap-3">
               <Button href="tel:9494612620" variant="accent" size="md">
@@ -174,7 +175,7 @@ export default function ServiceAreasHubPage() {
               Find Treatment Near You
             </h2>
             <p className="mt-4 text-[15px] font-light text-ink/60 leading-relaxed">
-              Select your city below to see programs, insurance information, and answers to questions specific to your community.
+              <AutoLinkedTextClient>{"Select your city below to see programs, insurance information, and answers to questions specific to your community."}</AutoLinkedTextClient>
             </p>
           </div>
 
@@ -210,7 +211,7 @@ export default function ServiceAreasHubPage() {
 
                 {/* Card body */}
                 <div className="flex flex-col flex-1 p-6">
-                  <p className="text-[14px] font-light text-ink/65 leading-relaxed mb-5">{description}</p>
+                  <p className="text-[14px] font-light text-ink/65 leading-relaxed mb-5"><AutoLinkedTextClient>{description}</AutoLinkedTextClient></p>
                   <ul className="flex flex-col gap-2 mb-5">
                     {highlights.map((h) => (
                       <li key={h} className="flex items-center gap-2.5">
@@ -235,9 +236,9 @@ export default function ServiceAreasHubPage() {
             <div className="flex items-start gap-4 flex-1">
               <IconCircle icon="ri-map-pin-add-line" colorClass="bg-accent/10 text-accent" size="w-10 h-10 text-lg shrink-0" />
               <div>
-                <p className="font-semibold text-ink text-[15px]">Don&apos;t see your city?</p>
+                <p className="font-semibold text-ink text-[15px]"><AutoLinkedTextClient>{"Don&apos;t see your city?"}</AutoLinkedTextClient></p>
                 <p className="text-[14px] font-light text-ink/60 mt-1 leading-relaxed">
-                  Rize OC serves patients from across all of Orange County and beyond. If your city isn&apos;t listed, we still welcome your call — our admissions team serves the entire region.
+                  <AutoLinkedTextClient>{"Rize OC serves patients from across all of Orange County and beyond. If your city isn&apos;t listed, we still welcome your call — our admissions team serves the entire region."}</AutoLinkedTextClient>
                 </p>
               </div>
             </div>
@@ -268,13 +269,13 @@ export default function ServiceAreasHubPage() {
               </h2>
               <div className="mt-6 flex flex-col gap-5">
                 <p className="text-[15px] leading-[1.85] text-ink/70">
-                  Rize OC is a single, centrally located Orange County facility — which means every client, regardless of which city they come from, receives the same Joint Commission–accredited, physician-led level of care.
+                  <AutoLinkedTextClient>{"Rize OC is a single, centrally located Orange County facility — which means every client, regardless of which city they come from, receives the same Joint Commission–accredited, physician-led level of care."}</AutoLinkedTextClient>
                 </p>
                 <p className="text-[15px] leading-[1.85] text-ink/70">
-                  We do not operate satellite locations with reduced staffing. We do not offer different program quality based on geography. Every client who walks through our doors receives the full clinical team, the full continuum of care, and the full Rize experience.
+                  <AutoLinkedTextClient>{"We do not operate satellite locations with reduced staffing. We do not offer different program quality based on geography. Every client who walks through our doors receives the full clinical team, the full continuum of care, and the full Rize experience."}</AutoLinkedTextClient>
                 </p>
                 <p className="text-[15px] leading-[1.85] text-ink/70">
-                  From Irvine to Laguna Beach, Santa Ana to Mission Viejo — the standard does not change.
+                  <AutoLinkedTextClient>{"From Irvine to Laguna Beach, Santa Ana to Mission Viejo — the standard does not change."}</AutoLinkedTextClient>
                 </p>
               </div>
               <div className="mt-8">
@@ -290,8 +291,8 @@ export default function ServiceAreasHubPage() {
                 <div key={title} className="flex flex-col gap-3 p-5 border border-soft bg-cream-tile">
                   <IconCircle icon={icon} colorClass="bg-accent/10 text-accent" size="w-9 h-9 text-base" />
                   <div>
-                    <p className="text-[13px] font-semibold text-ink leading-snug">{title}</p>
-                    <p className="text-[12px] font-light text-ink/55 mt-1 leading-relaxed">{desc}</p>
+                    <p className="text-[13px] font-semibold text-ink leading-snug"><AutoLinkedTextClient>{title}</AutoLinkedTextClient></p>
+                    <p className="text-[12px] font-light text-ink/55 mt-1 leading-relaxed"><AutoLinkedTextClient>{desc}</AutoLinkedTextClient></p>
                   </div>
                 </div>
               ))}
@@ -321,7 +322,7 @@ export default function ServiceAreasHubPage() {
             <em className="italic text-white/60">A Single Conversation</em>
           </h2>
           <p className="mt-6 text-[15px] font-light text-white/65 max-w-lg mx-auto leading-relaxed">
-            Wherever you are in Orange County — our admissions team is available 24 hours a day for a free, confidential conversation. No pressure. No obligation.
+            <AutoLinkedTextClient>{"Wherever you are in Orange County — our admissions team is available 24 hours a day for a free, confidential conversation. No pressure. No obligation."}</AutoLinkedTextClient>
           </p>
           <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
             <Button href="tel:9494612620" variant="accent" size="lg">

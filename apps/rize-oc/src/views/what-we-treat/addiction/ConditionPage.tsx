@@ -20,6 +20,7 @@ import SectionWrapper from "@/components/ui/SectionWrapper";
 import IconCircle from "@/components/ui/IconCircle";
 import Button from "@/components/ui/Button";
 import FaqAccordion, { type FaqItem } from "@/components/ui/FaqAccordion";
+import { AutoLinkedText } from "@sweetmedia/blog-core";
 
 const BASE = "https://nfjlvkxrbzytjefmcvhg.supabase.co/storage/v1/object/public/site-assets/images";
 
@@ -130,9 +131,7 @@ export default function ConditionPage({ data }: { data: ConditionData }) {
               <em className="italic text-white/50">{headlineEmphasis}</em>
             </h1>
 
-            <p className="text-[16px] font-light leading-relaxed text-white/65 max-w-[480px] mb-10">
-              {subhead}
-            </p>
+            <p className="text-[16px] font-light leading-relaxed text-white/65 max-w-[480px] mb-10"><AutoLinkedText>{subhead}</AutoLinkedText></p>
 
             <div className="flex flex-wrap gap-3">
               <Button href="#treatment" variant="accent" size="md">
@@ -176,12 +175,12 @@ export default function ConditionPage({ data }: { data: ConditionData }) {
             />
 
             <div>
-              <p className="text-[10px] font-semibold uppercase tracking-[0.35em] text-white/45 mb-2">Free &amp; Confidential</p>
+              <p className="text-[10px] font-semibold uppercase tracking-[0.35em] text-white/45 mb-2"><AutoLinkedText>{"Free &amp; Confidential"}</AutoLinkedText></p>
               <h2 className="font-[family-name:var(--font-display)] text-[26px] font-normal text-white leading-snug">
                 Request a Free Consultation
               </h2>
               <p className="mt-1.5 text-[13px] font-light text-white/55">
-                No commitment required. We respond within hours.
+                <AutoLinkedText>{"No commitment required. We respond within hours."}</AutoLinkedText>
               </p>
             </div>
 
@@ -259,7 +258,7 @@ export default function ConditionPage({ data }: { data: ConditionData }) {
             </a>
 
             <p className="text-[10px] font-light text-white/35 text-center leading-relaxed">
-              HIPAA-compliant · Strictly confidential · No obligation
+              <AutoLinkedText>{"HIPAA-compliant · Strictly confidential · No obligation"}</AutoLinkedText>
             </p>
           </div>
         </div>
@@ -273,10 +272,8 @@ export default function ConditionPage({ data }: { data: ConditionData }) {
               <p
                 className="font-[family-name:var(--font-display)] font-normal text-ink"
                 style={{ fontSize: "clamp(26px, 2.5vw, 38px)", lineHeight: 1 }}
-              >
-                {value}
-              </p>
-              <p className="text-[11px] font-medium uppercase tracking-[0.22em] text-ink/50 mt-1.5">{label}</p>
+              ><AutoLinkedText>{value}</AutoLinkedText></p>
+              <p className="text-[11px] font-medium uppercase tracking-[0.22em] text-ink/50 mt-1.5"><AutoLinkedText>{label}</AutoLinkedText></p>
             </div>
           ))}
         </div>
@@ -298,18 +295,17 @@ export default function ConditionPage({ data }: { data: ConditionData }) {
           <div className="grid lg:grid-cols-2 gap-x-16 gap-y-6">
             <div className="flex flex-col gap-5">
               {overviewCol1.map((para, i) => (
-                <p key={i} className="text-[15px] font-light leading-relaxed text-ink/65">{para}</p>
+                <p key={i} className="text-[15px] font-light leading-relaxed text-ink/65"><AutoLinkedText>{para}</AutoLinkedText></p>
               ))}
             </div>
             <div className="flex flex-col gap-5">
               {overviewCol2.map((para, i) => (
-                <p key={i} className="text-[15px] font-light leading-relaxed text-ink/65">{para}</p>
+                <p key={i} className="text-[15px] font-light leading-relaxed text-ink/65"><AutoLinkedText>{para}</AutoLinkedText></p>
               ))}
               <div className="mt-2 border-l-2 border-accent pl-5">
                 <p className="text-[13px] font-medium uppercase tracking-[0.2em] text-ink/50 mb-2">Next Step</p>
                 <p className="text-[15px] font-light text-ink/70">
-                  Unsure whether you or a loved one is struggling with addiction? Call our clinical team for a
-                  free, confidential assessment at any time.
+                  <AutoLinkedText>{"Unsure whether you or a loved one is struggling with addiction? Call our clinical team for a\n                  free, confidential assessment at any time."}</AutoLinkedText>
                 </p>
                 <a
                   href="tel:9494612620"
@@ -350,7 +346,7 @@ export default function ConditionPage({ data }: { data: ConditionData }) {
                     <span className="text-[10px] font-semibold uppercase tracking-[0.25em] text-accent/70 mt-0.5 shrink-0 w-5">
                       {String(i + 1).padStart(2, "0")}
                     </span>
-                    <p className="text-[14px] font-light text-ink/75 leading-snug">{text}</p>
+                    <p className="text-[14px] font-light text-ink/75 leading-snug"><AutoLinkedText>{text}</AutoLinkedText></p>
                   </div>
                 ))}
               </div>
@@ -371,7 +367,7 @@ export default function ConditionPage({ data }: { data: ConditionData }) {
                     <span className="text-[10px] font-semibold uppercase tracking-[0.25em] text-ink/30 mt-0.5 shrink-0 w-5">
                       {String(i + 1).padStart(2, "0")}
                     </span>
-                    <p className="text-[14px] font-light text-ink/75 leading-snug">{text}</p>
+                    <p className="text-[14px] font-light text-ink/75 leading-snug"><AutoLinkedText>{text}</AutoLinkedText></p>
                   </div>
                 ))}
               </div>
@@ -379,7 +375,7 @@ export default function ConditionPage({ data }: { data: ConditionData }) {
           </div>
 
           <p className="mt-6 text-[13px] font-light text-ink/50 italic text-center">
-            Recognizing these signs is the first step. Not every symptom needs to be present — if several are familiar, a clinical assessment is warranted.
+            <AutoLinkedText>{"Recognizing these signs is the first step. Not every symptom needs to be present — if several are familiar, a clinical assessment is warranted."}</AutoLinkedText>
           </p>
         </SectionWrapper>
       </section>
@@ -409,7 +405,7 @@ export default function ConditionPage({ data }: { data: ConditionData }) {
                 <IconCircle icon={icon} variant="accent" size="sm" />
                 <div>
                   <h3 className="font-[family-name:var(--font-display)] text-[22px] font-normal text-white mb-3 leading-snug">{title}</h3>
-                  <p className="text-[14px] font-light text-white/65 leading-relaxed">{desc}</p>
+                  <p className="text-[14px] font-light text-white/65 leading-relaxed"><AutoLinkedText>{desc}</AutoLinkedText></p>
                 </div>
               </div>
             ))}
@@ -450,13 +446,13 @@ export default function ConditionPage({ data }: { data: ConditionData }) {
                 {/* Title + main desc */}
                 <div>
                   <h3 className="font-[family-name:var(--font-display)] text-[22px] font-normal text-ink mb-2 leading-snug">{title}</h3>
-                  <p className="text-[15px] font-light leading-relaxed text-ink/65">{desc}</p>
+                  <p className="text-[15px] font-light leading-relaxed text-ink/65"><AutoLinkedText>{desc}</AutoLinkedText></p>
                 </div>
 
                 {/* Detail (right column, desktop only) */}
                 {detail && (
                   <div className="hidden lg:block">
-                    <p className="text-[14px] font-light leading-relaxed text-ink/50 italic">{detail}</p>
+                    <p className="text-[14px] font-light leading-relaxed text-ink/50 italic"><AutoLinkedText>{detail}</AutoLinkedText></p>
                   </div>
                 )}
               </div>
@@ -491,7 +487,7 @@ export default function ConditionPage({ data }: { data: ConditionData }) {
                 Common Questions
               </h2>
               <p className="text-[15px] font-light text-ink/55 leading-relaxed mb-6">
-                Questions not answered here? Our admissions counselors are available 24 hours a day, 7 days a week.
+                <AutoLinkedText>{"Questions not answered here? Our admissions counselors are available 24 hours a day, 7 days a week."}</AutoLinkedText>
               </p>
               <div className="flex flex-col gap-3">
                 <a href="tel:9494612620" className="flex items-center gap-2 text-accent text-[14px] font-medium hover:text-ink transition-colors">
@@ -529,7 +525,7 @@ export default function ConditionPage({ data }: { data: ConditionData }) {
                   <span className="text-[10px] font-semibold uppercase tracking-[0.2em] text-ink/40">{label}</span>
                 </div>
                 <h3 className="font-[family-name:var(--font-display)] text-[20px] font-normal text-ink mb-2 group-hover:text-accent transition-colors leading-snug">{title}</h3>
-                <p className="text-[13px] font-light text-ink/60 leading-snug flex-1">{desc}</p>
+                <p className="text-[13px] font-light text-ink/60 leading-snug flex-1"><AutoLinkedText>{desc}</AutoLinkedText></p>
                 <p className="mt-5 text-[11px] font-medium uppercase tracking-[0.2em] text-accent flex items-center gap-1.5 group-hover:gap-3 transition-all">
                   Learn More <i className="ri-arrow-right-line" />
                 </p>
@@ -555,7 +551,7 @@ export default function ConditionPage({ data }: { data: ConditionData }) {
             Recovery Is Possible — With the Right Support
           </h2>
           <p className="mt-6 text-[15px] font-light text-white/55 max-w-lg mx-auto leading-relaxed">
-            Our admissions team is available around the clock for a free, confidential consultation. Same-day admissions available.
+            <AutoLinkedText>{"Our admissions team is available around the clock for a free, confidential consultation. Same-day admissions available."}</AutoLinkedText>
           </p>
           <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
             <Button href="tel:9494612620" variant="accent" size="lg">

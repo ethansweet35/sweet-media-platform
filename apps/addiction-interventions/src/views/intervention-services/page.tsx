@@ -7,6 +7,7 @@ import HeroContactForm from "@/components/feature/HeroContactForm";
 import { SERVICES, type ServiceConfig } from "@/data/services";
 import { DEFAULT_FAQS } from "@/data/faqs";
 import { PHONE_DISPLAY, PHONE_HREF } from "@/data/site";
+import { AutoLinkedText } from "@sweetmedia/blog-core";
 
 const HERO_BG =
   "https://bxtwcdgjzzjxjvqdiuvn.supabase.co/storage/v1/object/public/site-assets/images/ai_home_hero01.jpg";
@@ -125,13 +126,13 @@ export default function InterventionServicesPage() {
           <div className="grid items-center gap-14 lg:grid-cols-[1fr_460px]">
             {/* Left */}
             <div>
-              <p className="brand-eyebrow mb-4 text-[#8FAC87]">Addiction Interventions</p>
+              <p className="brand-eyebrow mb-4 text-[#8FAC87]"><AutoLinkedText>{"Addiction Interventions"}</AutoLinkedText></p>
               <h1 className="font-heading mb-6 text-4xl font-bold leading-tight text-white md:text-5xl lg:text-6xl">
                 Professional intervention services —{" "}
                 <span className="italic text-[#8FAC87]">nationwide</span>
               </h1>
               <p className="mb-8 max-w-lg text-base leading-relaxed text-white/80 md:text-lg">
-                For more than two decades we have helped families confront addiction and mental health crises with skill, compassion, and a clear plan. We are available 24 / 7 — because crises don't keep business hours.
+                <AutoLinkedText>{"For more than two decades we have helped families confront addiction and mental health crises with skill, compassion, and a clear plan. We are available 24 / 7 — because crises don't keep business hours."}</AutoLinkedText>
               </p>
 
               {/* Stats row */}
@@ -142,8 +143,8 @@ export default function InterventionServicesPage() {
                   { number: "50", label: "States served" },
                 ].map((s) => (
                   <div key={s.label} className="rounded-xl border border-white/10 bg-white/5 px-4 py-4 text-center">
-                    <p className="font-heading text-2xl font-bold text-[#8FAC87]">{s.number}</p>
-                    <p className="mt-1 text-xs font-medium text-white/60">{s.label}</p>
+                    <p className="font-heading text-2xl font-bold text-[#8FAC87]"><AutoLinkedText>{s.number}</AutoLinkedText></p>
+                    <p className="mt-1 text-xs font-medium text-white/60"><AutoLinkedText>{s.label}</AutoLinkedText></p>
                   </div>
                 ))}
               </div>
@@ -185,7 +186,7 @@ export default function InterventionServicesPage() {
               </h2>
             </div>
             <p className="text-base leading-relaxed text-[#4B4B4B] md:text-lg">
-              Most families come to us after years of trying to help in ways that quietly enabled the problem. We help you see those patterns clearly, set boundaries that hold, and move your loved one into the right level of care — quickly and without breaking the relationship.
+              <AutoLinkedText>{"Most families come to us after years of trying to help in ways that quietly enabled the problem. We help you see those patterns clearly, set boundaries that hold, and move your loved one into the right level of care — quickly and without breaking the relationship."}</AutoLinkedText>
             </p>
           </div>
 
@@ -205,7 +206,7 @@ export default function InterventionServicesPage() {
                     </span>
                   </div>
                   <h3 className="font-heading mt-5 text-lg font-bold text-[#1A1A17]">{step.title}</h3>
-                  <p className="mt-2 text-sm leading-relaxed text-[#4B4B4B]">{step.body}</p>
+                  <p className="mt-2 text-sm leading-relaxed text-[#4B4B4B]"><AutoLinkedText>{step.body}</AutoLinkedText></p>
                 </div>
               </div>
             ))}
@@ -232,9 +233,7 @@ export default function InterventionServicesPage() {
                     <h2 className="font-heading text-3xl font-bold text-[#1A1A17] md:text-4xl">
                       {group.label}
                     </h2>
-                    <p className="mt-3 max-w-3xl text-base leading-relaxed text-[#4B4B4B] md:text-lg">
-                      {group.description}
-                    </p>
+                    <p className="mt-3 max-w-3xl text-base leading-relaxed text-[#4B4B4B] md:text-lg"><AutoLinkedText>{group.description}</AutoLinkedText></p>
                   </div>
                 </div>
 

@@ -4,6 +4,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useState } from 'react';
 import Breadcrumb from '@/components/base/Breadcrumb';
+import { AutoLinkedTextClient } from "@sweetmedia/blog-core";
 
 const ACCENT = '#8FA489';
 
@@ -187,7 +188,7 @@ export default function PtsdAndTraumaPage() {
               </div>
               <div className="flex flex-col gap-6">
                 <p className="text-[#F0ECE1]/75 font-light text-base leading-[1.95]">
-                  PTSD and trauma responses are not signs of weakness. They are intelligent survival adaptations. At Inner Peak Colorado, we help women move from constant survival mode toward safety, stability, and lasting recovery.
+                  <AutoLinkedTextClient>{"PTSD and trauma responses are not signs of weakness. They are intelligent survival adaptations. At Inner Peak Colorado, we help women move from constant survival mode toward safety, stability, and lasting recovery."}</AutoLinkedTextClient>
                 </p>
                 <div className="flex flex-wrap gap-4">
                   <Link
@@ -224,10 +225,10 @@ export default function PtsdAndTraumaPage() {
               <em className="text-[#C8795A]">trying to protect you.</em>
             </h2>
             <p className="text-[#3A4A3C]/65 font-light text-base leading-[1.95]">
-              Trauma can change how your brain and body interpret safety. That can look like panic, shutdown, dissociation, insomnia, emotional numbness, or feeling stuck in high alert. These patterns are treatable, and healing is possible.
+              <AutoLinkedTextClient>{"Trauma can change how your brain and body interpret safety. That can look like panic, shutdown, dissociation, insomnia, emotional numbness, or feeling stuck in high alert. These patterns are treatable, and healing is possible."}</AutoLinkedTextClient>
             </p>
             <p className="text-[#3A4A3C]/65 font-light text-base leading-[1.95]">
-              Our trauma-informed model helps you rebuild a felt sense of safety while addressing the memories and beliefs that keep you trapped in old survival responses.
+              <AutoLinkedTextClient>{"Our trauma-informed model helps you rebuild a felt sense of safety while addressing the memories and beliefs that keep you trapped in old survival responses."}</AutoLinkedTextClient>
             </p>
             <div className="flex items-center gap-3 pt-1">
               <div className="w-8 h-px" style={{ backgroundColor: ACCENT }}></div>
@@ -249,7 +250,7 @@ export default function PtsdAndTraumaPage() {
             <div className="bg-[#2C3B2E] rounded-[0.75rem_2rem_0.75rem_2rem] p-7 flex flex-col gap-3">
               <i className="ri-double-quotes-l text-2xl" style={{ color: ACCENT }}></i>
               <p className="font-serif text-[#FAF8F5] text-base leading-[1.7] italic">
-                &quot;For years I thought I was just too anxious to function. Trauma treatment helped me understand my body was protecting me, and taught me how to feel safe again.&quot;
+                <AutoLinkedTextClient>{"&quot;For years I thought I was just too anxious to function. Trauma treatment helped me understand my body was protecting me, and taught me how to feel safe again.&quot;"}</AutoLinkedTextClient>
               </p>
               <p className="text-[10px] uppercase tracking-widest font-medium" style={{ color: '#DDA15E' }}>
                 — Program Graduate
@@ -271,7 +272,7 @@ export default function PtsdAndTraumaPage() {
               <em className="text-[#C8795A]">one path toward healing.</em>
             </h2>
             <p className="text-[#3A4A3C]/60 font-light text-base max-w-xl mx-auto leading-relaxed">
-              We treat PTSD and trauma in all forms, with care plans shaped around your lived experience, symptom profile, and goals.
+              <AutoLinkedTextClient>{"We treat PTSD and trauma in all forms, with care plans shaped around your lived experience, symptom profile, and goals."}</AutoLinkedTextClient>
             </p>
           </div>
 
@@ -290,7 +291,7 @@ export default function PtsdAndTraumaPage() {
                   </span>
                 </div>
                 <h3 className="font-serif text-[#2C3B2E] text-xl">{type.name}</h3>
-                <p className="text-sm text-[#3A4A3C]/60 font-light leading-[1.85]">{type.desc}</p>
+                <p className="text-sm text-[#3A4A3C]/60 font-light leading-[1.85]"><AutoLinkedTextClient>{type.desc}</AutoLinkedTextClient></p>
               </div>
             ))}
           </div>
@@ -309,7 +310,7 @@ export default function PtsdAndTraumaPage() {
               <em className="text-[#C8795A]">mind and body.</em>
             </h2>
             <p className="text-[#3A4A3C]/60 font-light text-base max-w-2xl mx-auto leading-relaxed">
-              Symptoms can look different for every woman. If these patterns feel familiar, support can help.
+              <AutoLinkedTextClient>{"Symptoms can look different for every woman. If these patterns feel familiar, support can help."}</AutoLinkedTextClient>
             </p>
           </div>
 
@@ -355,7 +356,7 @@ export default function PtsdAndTraumaPage() {
 
           <div className="mt-8 bg-[#2C3B2E] rounded-2xl p-7 flex flex-col sm:flex-row items-center justify-between gap-6">
             <p className="text-[#F0ECE1]/80 font-light text-base leading-relaxed max-w-2xl">
-              You do not need to wait for symptoms to get worse. Early trauma support can reduce long-term suffering and help you feel like yourself again.
+              <AutoLinkedTextClient>{"You do not need to wait for symptoms to get worse. Early trauma support can reduce long-term suffering and help you feel like yourself again."}</AutoLinkedTextClient>
             </p>
             <Link
               href="/contact"
@@ -397,7 +398,7 @@ export default function PtsdAndTraumaPage() {
                     <i className={`${pillar.icon} text-sm`} style={{ color: ACCENT }}></i>
                   </div>
                   <h3 className="font-serif text-[#FAF8F5] text-sm">{pillar.title}</h3>
-                  <p className="text-[#F0ECE1]/55 font-light text-xs leading-[1.8]">{pillar.desc}</p>
+                  <p className="text-[#F0ECE1]/55 font-light text-xs leading-[1.8]"><AutoLinkedTextClient>{pillar.desc}</AutoLinkedTextClient></p>
                 </div>
               ))}
             </div>
@@ -418,17 +419,17 @@ export default function PtsdAndTraumaPage() {
                 <em className="text-[#C8795A]">can look like.</em>
               </h2>
               <p className="text-[#3A4A3C]/65 font-light text-base leading-[1.95]">
-                Healing does not happen all at once. We use a phased model that builds safety, processes trauma carefully, and supports long-term recovery.
+                <AutoLinkedTextClient>{"Healing does not happen all at once. We use a phased model that builds safety, processes trauma carefully, and supports long-term recovery."}</AutoLinkedTextClient>
               </p>
               <div className="bg-[#F0ECE1] rounded-[2rem_0.75rem_2rem_0.75rem] p-7 flex flex-col gap-3">
                 <p className="text-xs uppercase tracking-widest font-medium" style={{ color: ACCENT }}>
-                  Most women begin within
+                  <AutoLinkedTextClient>{"Most women begin within"}</AutoLinkedTextClient>
                 </p>
                 <p className="font-serif text-[#2C3B2E]" style={{ fontSize: 'clamp(28px, 3vw, 40px)' }}>
                   24-72 hours
                 </p>
                 <p className="text-[#3A4A3C]/60 font-light text-sm leading-relaxed">
-                  From first call to first session, depending on clinical fit and scheduling.
+                  <AutoLinkedTextClient>{"From first call to first session, depending on clinical fit and scheduling."}</AutoLinkedTextClient>
                 </p>
               </div>
             </div>
@@ -451,7 +452,7 @@ export default function PtsdAndTraumaPage() {
                     <h3 className="font-serif text-[#2C3B2E] text-base group-hover:text-[#C8795A] transition-colors duration-300">
                       {item.label}
                     </h3>
-                    <p className="text-sm text-[#3A4A3C]/60 font-light leading-[1.85]">{item.desc}</p>
+                    <p className="text-sm text-[#3A4A3C]/60 font-light leading-[1.85]"><AutoLinkedTextClient>{item.desc}</AutoLinkedTextClient></p>
                   </div>
                 </div>
               ))}
@@ -473,7 +474,7 @@ export default function PtsdAndTraumaPage() {
                 <em className="text-[#C8795A]">trauma treatment.</em>
               </h2>
               <p className="text-[#3A4A3C]/60 font-light text-sm leading-[1.85]">
-                We combine evidence-based trauma modalities with individualized clinical planning for each woman.
+                <AutoLinkedTextClient>{"We combine evidence-based trauma modalities with individualized clinical planning for each woman."}</AutoLinkedTextClient>
               </p>
               <Link
                 href="/therapy"
@@ -523,7 +524,7 @@ export default function PtsdAndTraumaPage() {
                 </button>
                 {openFaq === i && (
                   <div className="px-6 pb-6">
-                    <p className="text-[#F0ECE1]/70 font-light text-sm leading-[1.9]">{faq.a}</p>
+                    <p className="text-[#F0ECE1]/70 font-light text-sm leading-[1.9]"><AutoLinkedTextClient>{faq.a}</AutoLinkedTextClient></p>
                   </div>
                 )}
               </div>
@@ -554,7 +555,7 @@ export default function PtsdAndTraumaPage() {
               <em style={{ color: ACCENT }}>and in your life.</em>
             </h2>
             <p className="text-[#F0ECE1]/70 font-light text-base leading-relaxed">
-              A free, confidential consultation is the first step. Our clinical team will help you understand what kind of trauma support is right for you and how to begin safely.
+              <AutoLinkedTextClient>{"A free, confidential consultation is the first step. Our clinical team will help you understand what kind of trauma support is right for you and how to begin safely."}</AutoLinkedTextClient>
             </p>
             <div className="flex flex-col sm:flex-row gap-4">
               <Link

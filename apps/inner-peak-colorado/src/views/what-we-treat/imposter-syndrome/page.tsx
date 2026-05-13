@@ -4,6 +4,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useState } from 'react';
 import Breadcrumb from '@/components/base/Breadcrumb';
+import { AutoLinkedTextClient } from "@sweetmedia/blog-core";
 
 const ACCENT = '#8FA489';
 
@@ -187,7 +188,7 @@ export default function ImposterSyndromePage() {
               </div>
               <div className="flex flex-col gap-6">
                 <p className="text-[#F0ECE1]/75 font-light text-base leading-[1.95]">
-                  Imposter syndrome makes high-achieving women feel like they are living on borrowed time — always one mistake away from being exposed. At Inner Peak Colorado, we help you build an identity grounded in reality, not self-distortion.
+                  <AutoLinkedTextClient>{"Imposter syndrome makes high-achieving women feel like they are living on borrowed time — always one mistake away from being exposed. At Inner Peak Colorado, we help you build an identity grounded in reality, not self-distortion."}</AutoLinkedTextClient>
                 </p>
                 <div className="flex flex-wrap gap-4">
                   <Link
@@ -224,10 +225,10 @@ export default function ImposterSyndromePage() {
               <em className="text-[#C8795A]">is what needs treating.</em>
             </h2>
             <p className="text-[#3A4A3C]/65 font-light text-base leading-[1.95]">
-              Imposter syndrome is the persistent, internalized belief that you are not as competent as others perceive you — and that you will eventually be exposed as a fraud. It is not a sign of low intelligence or poor self-awareness. In fact, it is most common among high-achieving, self-aware women who have spent years trying to prove something that doesn&apos;t need proving.
+              <AutoLinkedTextClient>{"Imposter syndrome is the persistent, internalized belief that you are not as competent as others perceive you — and that you will eventually be exposed as a fraud. It is not a sign of low intelligence or poor self-awareness. In fact, it is most common among high-achieving, self-aware women who have spent years trying to prove something that doesn&apos;t need proving."}</AutoLinkedTextClient>
             </p>
             <p className="text-[#3A4A3C]/65 font-light text-base leading-[1.95]">
-              Studies show that up to 70% of people experience imposter phenomenon at some point — and women in high-pressure professional, academic, and caregiving roles in Colorado and beyond are disproportionately affected. The chronic anxiety, overwork, and self-diminishment it produces take a serious toll on mental health, relationships, and quality of life.
+              <AutoLinkedTextClient>{"Studies show that up to 70% of people experience imposter phenomenon at some point — and women in high-pressure professional, academic, and caregiving roles in Colorado and beyond are disproportionately affected. The chronic anxiety, overwork, and self-diminishment it produces take a serious toll on mental health, relationships, and quality of life."}</AutoLinkedTextClient>
             </p>
             <div className="flex items-center gap-3 pt-1">
               <div className="w-8 h-px" style={{ backgroundColor: ACCENT }}></div>
@@ -249,7 +250,7 @@ export default function ImposterSyndromePage() {
             <div className="bg-[#2C3B2E] rounded-[0.75rem_2rem_0.75rem_2rem] p-7 flex flex-col gap-3">
               <i className="ri-double-quotes-l text-2xl" style={{ color: ACCENT }}></i>
               <p className="font-serif text-[#FAF8F5] text-base leading-[1.7] italic">
-                &quot;I had a career most people would envy — and I spent every day terrified they&apos;d realize I didn&apos;t belong. Therapy helped me see that the fraud wasn&apos;t me. It was the story I&apos;d been telling myself for decades.&quot;
+                <AutoLinkedTextClient>{"&quot;I had a career most people would envy — and I spent every day terrified they&apos;d realize I didn&apos;t belong. Therapy helped me see that the fraud wasn&apos;t me. It was the story I&apos;d been telling myself for decades.&quot;"}</AutoLinkedTextClient>
               </p>
               <p className="text-[10px] uppercase tracking-widest font-medium" style={{ color: '#DDA15E' }}>
                 — Program Graduate
@@ -271,7 +272,7 @@ export default function ImposterSyndromePage() {
               <em className="text-[#C8795A]">syndrome are you living?</em>
             </h2>
             <p className="text-[#3A4A3C]/60 font-light text-base max-w-xl mx-auto leading-relaxed">
-              Imposter syndrome shows up differently in different women. All of them are real. All of them are treatable.
+              <AutoLinkedTextClient>{"Imposter syndrome shows up differently in different women. All of them are real. All of them are treatable."}</AutoLinkedTextClient>
             </p>
           </div>
 
@@ -290,7 +291,7 @@ export default function ImposterSyndromePage() {
                   </span>
                 </div>
                 <h3 className="font-serif text-[#2C3B2E] text-xl">{type.name}</h3>
-                <p className="text-sm text-[#3A4A3C]/60 font-light leading-[1.85]">{type.desc}</p>
+                <p className="text-sm text-[#3A4A3C]/60 font-light leading-[1.85]"><AutoLinkedTextClient>{type.desc}</AutoLinkedTextClient></p>
               </div>
             ))}
           </div>
@@ -309,7 +310,7 @@ export default function ImposterSyndromePage() {
               <em className="text-[#C8795A]">is running your life.</em>
             </h2>
             <p className="text-[#3A4A3C]/60 font-light text-base max-w-2xl mx-auto leading-relaxed">
-              You don&apos;t need to relate to every item. If these patterns are showing up consistently, support can help you change them.
+              <AutoLinkedTextClient>{"You don&apos;t need to relate to every item. If these patterns are showing up consistently, support can help you change them."}</AutoLinkedTextClient>
             </p>
           </div>
 
@@ -355,7 +356,7 @@ export default function ImposterSyndromePage() {
 
           <div className="mt-8 bg-[#2C3B2E] rounded-2xl p-7 flex flex-col sm:flex-row items-center justify-between gap-6">
             <p className="text-[#F0ECE1]/80 font-light text-base leading-relaxed max-w-2xl">
-              Imposter syndrome is not a phase or a quirk. Left unaddressed, it drives burnout, chronic anxiety, and a career lived below your potential. You deserve support — and treatment works.
+              <AutoLinkedTextClient>{"Imposter syndrome is not a phase or a quirk. Left unaddressed, it drives burnout, chronic anxiety, and a career lived below your potential. You deserve support — and treatment works."}</AutoLinkedTextClient>
             </p>
             <Link
               href="/contact"
@@ -397,7 +398,7 @@ export default function ImposterSyndromePage() {
                     <i className={`${pillar.icon} text-sm`} style={{ color: ACCENT }}></i>
                   </div>
                   <h3 className="font-serif text-[#FAF8F5] text-sm">{pillar.title}</h3>
-                  <p className="text-[#F0ECE1]/55 font-light text-xs leading-[1.8]">{pillar.desc}</p>
+                  <p className="text-[#F0ECE1]/55 font-light text-xs leading-[1.8]"><AutoLinkedTextClient>{pillar.desc}</AutoLinkedTextClient></p>
                 </div>
               ))}
             </div>
@@ -418,17 +419,17 @@ export default function ImposterSyndromePage() {
                 <em className="text-[#C8795A]">syndrome looks like.</em>
               </h2>
               <p className="text-[#3A4A3C]/65 font-light text-base leading-[1.95]">
-                Recovery from imposter syndrome is not about becoming arrogant or inflating your self-image. It&apos;s about seeing yourself clearly — and discovering that you were always enough.
+                <AutoLinkedTextClient>{"Recovery from imposter syndrome is not about becoming arrogant or inflating your self-image. It&apos;s about seeing yourself clearly — and discovering that you were always enough."}</AutoLinkedTextClient>
               </p>
               <div className="bg-[#F0ECE1] rounded-[2rem_0.75rem_2rem_0.75rem] p-7 flex flex-col gap-3">
                 <p className="text-xs uppercase tracking-widest font-medium" style={{ color: ACCENT }}>
-                  Most women begin within
+                  <AutoLinkedTextClient>{"Most women begin within"}</AutoLinkedTextClient>
                 </p>
                 <p className="font-serif text-[#2C3B2E]" style={{ fontSize: 'clamp(28px, 3vw, 40px)' }}>
                   24–72 hours
                 </p>
                 <p className="text-[#3A4A3C]/60 font-light text-sm leading-relaxed">
-                  From first call to first session. Flexible virtual scheduling designed for women with demanding lives.
+                  <AutoLinkedTextClient>{"From first call to first session. Flexible virtual scheduling designed for women with demanding lives."}</AutoLinkedTextClient>
                 </p>
               </div>
             </div>
@@ -451,7 +452,7 @@ export default function ImposterSyndromePage() {
                     <h3 className="font-serif text-[#2C3B2E] text-base group-hover:text-[#C8795A] transition-colors duration-300">
                       {item.label}
                     </h3>
-                    <p className="text-sm text-[#3A4A3C]/60 font-light leading-[1.85]">{item.desc}</p>
+                    <p className="text-sm text-[#3A4A3C]/60 font-light leading-[1.85]"><AutoLinkedTextClient>{item.desc}</AutoLinkedTextClient></p>
                   </div>
                 </div>
               ))}
@@ -473,7 +474,7 @@ export default function ImposterSyndromePage() {
                 <em className="text-[#C8795A]">imposter syndrome care.</em>
               </h2>
               <p className="text-[#3A4A3C]/60 font-light text-sm leading-[1.85]">
-                Each modality is selected based on what the research shows most effectively addresses the cognitive, emotional, and identity roots of imposter syndrome.
+                <AutoLinkedTextClient>{"Each modality is selected based on what the research shows most effectively addresses the cognitive, emotional, and identity roots of imposter syndrome."}</AutoLinkedTextClient>
               </p>
               <Link
                 href="/therapy"
@@ -523,7 +524,7 @@ export default function ImposterSyndromePage() {
                 </button>
                 {openFaq === i && (
                   <div className="px-6 pb-6">
-                    <p className="text-[#F0ECE1]/70 font-light text-sm leading-[1.9]">{faq.a}</p>
+                    <p className="text-[#F0ECE1]/70 font-light text-sm leading-[1.9]"><AutoLinkedTextClient>{faq.a}</AutoLinkedTextClient></p>
                   </div>
                 )}
               </div>
@@ -554,7 +555,7 @@ export default function ImposterSyndromePage() {
               <em style={{ color: ACCENT }}>stop apologizing for it.</em>
             </h2>
             <p className="text-[#F0ECE1]/70 font-light text-base leading-relaxed">
-              A free, confidential consultation is the first step. Our clinical team will listen without judgment and help you understand what kind of support can help you build a more grounded, confident, and sustainable sense of self.
+              <AutoLinkedTextClient>{"A free, confidential consultation is the first step. Our clinical team will listen without judgment and help you understand what kind of support can help you build a more grounded, confident, and sustainable sense of self."}</AutoLinkedTextClient>
             </p>
             <div className="flex flex-col sm:flex-row gap-4">
               <Link

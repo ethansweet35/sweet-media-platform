@@ -1,5 +1,6 @@
 import Image from 'next/image';
 import Link from 'next/link';
+import { AutoLinkedText } from "@sweetmedia/blog-core";
 
 const beliefs = [
   { icon: 'ri-women-line', text: 'Women-owned and operated — this work is personal to us.' },
@@ -57,7 +58,7 @@ export default function PhilosophySection() {
           </h2>
 
           <p className="text-[#F0ECE1]/65 font-light text-base leading-[1.95] max-w-md">
-            Our mission at Inner Peak is to create a safe, supportive space where women can heal, rediscover their strengths, and step into the lives they deserve. As a women-owned and operated program, we are committed to compassion, respect, and clinical excellence.
+            <AutoLinkedText>{"Our mission at Inner Peak is to create a safe, supportive space where women can heal, rediscover their strengths, and step into the lives they deserve. As a women-owned and operated program, we are committed to compassion, respect, and clinical excellence."}</AutoLinkedText>
           </p>
 
           {/* Core beliefs — clean list, no floating cards */}
@@ -67,7 +68,7 @@ export default function PhilosophySection() {
                 <div className="w-8 h-8 flex items-center justify-center rounded-full bg-[#FAF8F5]/8 flex-shrink-0 mt-0.5">
                   <i className={`${b.icon} text-[#8FA489] text-sm`} />
                 </div>
-                <p className="text-sm text-[#F0ECE1]/70 font-light leading-relaxed">{b.text}</p>
+                <p className="text-sm text-[#F0ECE1]/70 font-light leading-relaxed"><AutoLinkedText>{b.text}</AutoLinkedText></p>
               </li>
             ))}
           </ul>

@@ -1,6 +1,7 @@
 import PageHero from "@/components/sections/PageHero";
 import TrustStrip from "@/components/sections/TrustStrip";
 import BottomCta from "@/components/sections/BottomCta";
+import { AutoLinkedText } from "@sweetmedia/blog-core";
 
 const COMPARE = [
   {
@@ -90,16 +91,16 @@ export default function WhyChooseUsPage() {
           </h2>
           <div className="grid gap-5 text-base leading-relaxed text-[#4B4B4B] md:grid-cols-2">
             <p>
-              Most intervention services operate on a transactional model: a family calls in distress, a professional shows up for a few hours, the loved one is placed in a program, and the service disappears. That model produces short-term placements that often don&apos;t hold. Addiction and mental health disorders are not single-day problems, and the family dynamics that fuel them don&apos;t resolve the moment someone accepts treatment.
+              <AutoLinkedText>{"Most intervention services operate on a transactional model: a family calls in distress, a professional shows up for a few hours, the loved one is placed in a program, and the service disappears. That model produces short-term placements that often don&apos;t hold. Addiction and mental health disorders are not single-day problems, and the family dynamics that fuel them don&apos;t resolve the moment someone accepts treatment."}</AutoLinkedText>
             </p>
             <p>
-              We built Addiction Interventions around a different belief: that lasting recovery requires the entire family system to change, not just the person in treatment. That means we invest in preparing every family member before the intervention day, we stay engaged through every transition in the treatment process, and we are available to families in the months that follow — because the hardest moments often come after placement, not before it.
+              <AutoLinkedText>{"We built Addiction Interventions around a different belief: that lasting recovery requires the entire family system to change, not just the person in treatment. That means we invest in preparing every family member before the intervention day, we stay engaged through every transition in the treatment process, and we are available to families in the months that follow — because the hardest moments often come after placement, not before it."}</AutoLinkedText>
             </p>
             <p>
-              We also believe in radical transparency about treatment quality. We have no financial relationships with treatment centres that would bias our referrals. When we recommend a programme, it is because we believe it is clinically appropriate for that specific person — not because a referral fee is attached to the placement. Families deserve honest counsel, especially when the stakes are this high.
+              <AutoLinkedText>{"We also believe in radical transparency about treatment quality. We have no financial relationships with treatment centres that would bias our referrals. When we recommend a programme, it is because we believe it is clinically appropriate for that specific person — not because a referral fee is attached to the placement. Families deserve honest counsel, especially when the stakes are this high."}</AutoLinkedText>
             </p>
             <p>
-              Our interventionists are certified, credentialed, and experienced across every substance class and major mental health condition. We have worked in all 50 states, with families from every background and income level, in situations ranging from early-stage concern to active medical crisis. Whatever you are facing, we have almost certainly faced something similar — and we know what works.
+              <AutoLinkedText>{"Our interventionists are certified, credentialed, and experienced across every substance class and major mental health condition. We have worked in all 50 states, with families from every background and income level, in situations ranging from early-stage concern to active medical crisis. Whatever you are facing, we have almost certainly faced something similar — and we know what works."}</AutoLinkedText>
             </p>
           </div>
         </div>
@@ -129,9 +130,7 @@ export default function WhyChooseUsPage() {
                 <h3 className="mt-5 text-lg font-semibold tracking-tight text-[var(--color-ink)]">
                   {d.title}
                 </h3>
-                <p className="mt-3 text-sm leading-6 text-[var(--color-ink-muted)]">
-                  {d.body}
-                </p>
+                <p className="mt-3 text-sm leading-6 text-[var(--color-ink-muted)]"><AutoLinkedText>{d.body}</AutoLinkedText></p>
               </div>
             ))}
           </div>
@@ -162,7 +161,7 @@ export default function WhyChooseUsPage() {
               </div>
               <div className="bg-[var(--color-cream)] p-6">
                 <p className="brand-eyebrow text-[var(--color-sage-deep)]">
-                  Addiction Interventions
+                  <AutoLinkedText>{"Addiction Interventions"}</AutoLinkedText>
                 </p>
                 <h3 className="mt-2 text-lg font-semibold tracking-tight text-[var(--color-ink)]">
                   How we actually work

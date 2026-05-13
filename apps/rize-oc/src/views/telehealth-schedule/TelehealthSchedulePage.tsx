@@ -3,6 +3,7 @@ import SectionWrapper from "@/components/ui/SectionWrapper";
 import Eyebrow from "@/components/ui/Eyebrow";
 import SectionHeader from "@/components/ui/SectionHeader";
 import Button from "@/components/ui/Button";
+import { AutoLinkedText } from "@sweetmedia/blog-core";
 
 /* ─────────────────────────────────────────────────── Schedule data ─────── */
 
@@ -108,7 +109,7 @@ export default function TelehealthSchedulePage() {
               <em className="italic text-white/60">Schedule</em>
             </h1>
             <p className="text-[16px] font-light leading-relaxed text-white/80 max-w-[500px] mb-10">
-              Live, clinician-led group sessions every weekday — morning and evening slots available. Join from anywhere, on a schedule that fits your life.
+              <AutoLinkedText>{"Live, clinician-led group sessions every weekday — morning and evening slots available. Join from anywhere, on a schedule that fits your life."}</AutoLinkedText>
             </p>
             <div className="flex flex-wrap gap-3">
               <Button href="/admissions" variant="accent" size="md">
@@ -145,7 +146,7 @@ export default function TelehealthSchedulePage() {
             Weekly Program Schedule
           </SectionHeader>
           <p className="mt-5 text-[15px] text-ink/65 leading-relaxed">
-            Each session runs 60 minutes and is open to current Rize OC clients and qualifying new enrollees. Topics rotate weekly within a structured evidence-based curriculum.
+            <AutoLinkedText>{"Each session runs 60 minutes and is open to current Rize OC clients and qualifying new enrollees. Topics rotate weekly within a structured evidence-based curriculum."}</AutoLinkedText>
           </p>
         </div>
 
@@ -154,7 +155,7 @@ export default function TelehealthSchedulePage() {
           {/* Day headers */}
           {schedule.map(({ day }) => (
             <div key={day} className="bg-ink px-6 py-4 text-center">
-              <p className="text-[11px] font-semibold uppercase tracking-[0.25em] text-white">{day}</p>
+              <p className="text-[11px] font-semibold uppercase tracking-[0.25em] text-white"><AutoLinkedText>{day}</AutoLinkedText></p>
             </div>
           ))}
 
@@ -190,7 +191,7 @@ export default function TelehealthSchedulePage() {
               >
                 {topic}
               </h3>
-              <p className="text-[13px] text-ink/65 leading-relaxed">{description}</p>
+              <p className="text-[13px] text-ink/65 leading-relaxed"><AutoLinkedText>{description}</AutoLinkedText></p>
             </div>
           ))}
         </div>
@@ -201,7 +202,7 @@ export default function TelehealthSchedulePage() {
             <div key={day} className="bg-white border border-warm/30 overflow-hidden">
               {/* Day header */}
               <div className="bg-ink px-6 py-3 flex items-center justify-between">
-                <p className="text-[11px] font-semibold uppercase tracking-[0.25em] text-white">{day}</p>
+                <p className="text-[11px] font-semibold uppercase tracking-[0.25em] text-white"><AutoLinkedText>{day}</AutoLinkedText></p>
                 <div className="flex items-center gap-1.5">
                   {times.map((t, i) => (
                     <span key={t} className="flex items-center gap-1.5">
@@ -225,7 +226,7 @@ export default function TelehealthSchedulePage() {
                     {topic}
                   </h3>
                 </div>
-                <p className="text-[14px] text-ink/65 leading-relaxed">{description}</p>
+                <p className="text-[14px] text-ink/65 leading-relaxed"><AutoLinkedText>{description}</AutoLinkedText></p>
               </div>
             </div>
           ))}
@@ -245,10 +246,10 @@ export default function TelehealthSchedulePage() {
               <span className="font-normal italic text-muted">Anywhere You Are</span>
             </SectionHeader>
             <p className="mt-6 text-[15px] text-ink/70 leading-[1.85]">
-              Our telehealth program brings the same evidence-based group therapy model used in our Orange County facility to clients who need flexible access — whether due to location, schedule, or personal preference.
+              <AutoLinkedText>{"Our telehealth program brings the same evidence-based group therapy model used in our Orange County facility to clients who need flexible access — whether due to location, schedule, or personal preference."}</AutoLinkedText>
             </p>
             <p className="mt-4 text-[15px] text-ink/70 leading-[1.85]">
-              Sessions are conducted live — not pre-recorded — so every participant benefits from real-time clinical facilitation, peer interaction, and the therapeutic group dynamic that is central to effective treatment.
+              <AutoLinkedText>{"Sessions are conducted live — not pre-recorded — so every participant benefits from real-time clinical facilitation, peer interaction, and the therapeutic group dynamic that is central to effective treatment."}</AutoLinkedText>
             </p>
             <div className="mt-8">
               <Button href="/admissions" variant="accent" size="sm">
@@ -266,7 +267,7 @@ export default function TelehealthSchedulePage() {
                 </div>
                 <div>
                   <h3 className="text-[13px] font-semibold text-ink uppercase tracking-[0.08em]">{title}</h3>
-                  <p className="mt-2 text-[13px] text-ink/65 leading-relaxed">{body}</p>
+                  <p className="mt-2 text-[13px] text-ink/65 leading-relaxed"><AutoLinkedText>{body}</AutoLinkedText></p>
                 </div>
               </div>
             ))}
@@ -293,7 +294,7 @@ export default function TelehealthSchedulePage() {
             <em className="italic text-white/60">As Early as Today</em>
           </h2>
           <p className="mt-6 text-[16px] font-light text-white/80 leading-relaxed max-w-[480px] mx-auto">
-            Our admissions team will verify your benefits and confirm your first session time — same-day enrollment available.
+            <AutoLinkedText>{"Our admissions team will verify your benefits and confirm your first session time — same-day enrollment available."}</AutoLinkedText>
           </p>
           <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
             <Button href="/admissions" variant="accent" size="lg">

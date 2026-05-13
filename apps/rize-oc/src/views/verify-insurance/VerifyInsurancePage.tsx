@@ -8,6 +8,7 @@ import IconCircle from "@/components/ui/IconCircle";
 import Button from "@/components/ui/Button";
 import InsuranceForm from "@/views/home/components/InsuranceForm";
 import AccreditationsBar from "@/views/home/components/AccreditationsBar";
+import { AutoLinkedTextClient } from "@sweetmedia/blog-core";
 
 const BASE = "https://nfjlvkxrbzytjefmcvhg.supabase.co/storage/v1/object/public/site-assets/images";
 
@@ -87,7 +88,7 @@ export default function VerifyInsurancePage() {
               <em className="italic text-white/60">Coverage Today</em>
             </h1>
             <p className="text-[16px] font-light leading-relaxed text-white/80 max-w-[500px] mb-10">
-              Our dedicated team contacts your insurance provider directly — for free, with no obligation — so you can focus entirely on taking the first step.
+              <AutoLinkedTextClient>{"Our dedicated team contacts your insurance provider directly — for free, with no obligation — so you can focus entirely on taking the first step."}</AutoLinkedTextClient>
             </p>
             <div className="flex flex-wrap gap-3">
               <a
@@ -127,7 +128,7 @@ export default function VerifyInsurancePage() {
               <div key={title} className="border border-soft bg-cream-tile p-8 flex flex-col items-center text-center">
                 <i className={`${icon} text-accent text-4xl mb-5`} />
                 <h3 className="font-[family-name:var(--font-display)] text-[22px] font-normal text-ink">{title}</h3>
-                <p className="mt-2 text-[14px] font-light text-ink/55">{desc}</p>
+                <p className="mt-2 text-[14px] font-light text-ink/55"><AutoLinkedTextClient>{desc}</AutoLinkedTextClient></p>
               </div>
             ))}
           </div>
@@ -155,8 +156,8 @@ export default function VerifyInsurancePage() {
                   <div key={title} className="flex items-start gap-4">
                     <IconCircle icon={icon} colorClass="bg-accent/15 text-accent" size="w-9 h-9 text-base shrink-0 mt-0.5" />
                     <div>
-                      <p className="text-[15px] font-medium text-ink leading-snug">{title}</p>
-                      <p className="text-[13px] font-light text-ink/60 mt-0.5">{desc}</p>
+                      <p className="text-[15px] font-medium text-ink leading-snug"><AutoLinkedTextClient>{title}</AutoLinkedTextClient></p>
+                      <p className="text-[13px] font-light text-ink/60 mt-0.5"><AutoLinkedTextClient>{desc}</AutoLinkedTextClient></p>
                     </div>
                   </div>
                 ))}
@@ -173,7 +174,7 @@ export default function VerifyInsurancePage() {
                   ))}
                 </div>
                 <p className="text-[12px] font-light text-ink/45">
-                  We do not accept Medi-Cal, Medicaid, or Medical.
+                  <AutoLinkedTextClient>{"We do not accept Medi-Cal, Medicaid, or Medical."}</AutoLinkedTextClient>
                 </p>
               </div>
             </div>
@@ -184,7 +185,7 @@ export default function VerifyInsurancePage() {
                 <IconCircle icon="ri-shield-fill" variant="ink" size="sm" />
                 <div>
                   <p className="text-[10px] font-semibold uppercase tracking-[0.22em] text-ink">Free Verification</p>
-                  <p className="text-xs text-ink/45 mt-0.5">Results in hours — no cost, no obligation</p>
+                  <p className="text-xs text-ink/45 mt-0.5"><AutoLinkedTextClient>{"Results in hours — no cost, no obligation"}</AutoLinkedTextClient></p>
                 </div>
               </div>
               <InsuranceForm showNotesField />
@@ -230,7 +231,7 @@ export default function VerifyInsurancePage() {
                 <div className="relative z-10">
                   <p className="text-[10px] font-semibold uppercase tracking-[0.25em] text-accent mb-2">Step {step}</p>
                   <h3 className="font-[family-name:var(--font-display)] text-[20px] font-normal text-white mb-3">{title}</h3>
-                  <p className="text-[14px] font-light text-white/70 leading-relaxed">{desc}</p>
+                  <p className="text-[14px] font-light text-white/70 leading-relaxed"><AutoLinkedTextClient>{desc}</AutoLinkedTextClient></p>
                 </div>
               </div>
             ))}
@@ -254,7 +255,7 @@ export default function VerifyInsurancePage() {
                 <em className="italic text-muted">Answered Clearly.</em>
               </h2>
               <p className="mt-5 text-[15px] font-light text-ink/65 leading-relaxed">
-                Understanding your benefits should not require a law degree. We have simplified the most common questions so you can make a confident decision.
+                <AutoLinkedTextClient>{"Understanding your benefits should not require a law degree. We have simplified the most common questions so you can make a confident decision."}</AutoLinkedTextClient>
               </p>
               <div className="mt-8 flex flex-col gap-3">
                 <Button href="#verify-form" variant="accent" size="sm">
@@ -274,7 +275,7 @@ export default function VerifyInsurancePage() {
                     <i className="ri-question-line text-accent text-lg mt-0.5 shrink-0" />
                     {q}
                   </p>
-                  <p className="text-[14px] font-light text-ink/65 leading-relaxed pl-7">{a}</p>
+                  <p className="text-[14px] font-light text-ink/65 leading-relaxed pl-7"><AutoLinkedTextClient>{a}</AutoLinkedTextClient></p>
                 </div>
               ))}
             </div>
@@ -304,7 +305,7 @@ export default function VerifyInsurancePage() {
             <em className="italic text-white/65">Coverage Than They Think</em>
           </h2>
           <p className="mt-6 text-[16px] font-light text-white/80 leading-relaxed max-w-[500px] mx-auto">
-            Let us find out what your plan actually covers. The call is free, confidential, and takes less than five minutes.
+            <AutoLinkedTextClient>{"Let us find out what your plan actually covers. The call is free, confidential, and takes less than five minutes."}</AutoLinkedTextClient>
           </p>
           <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
             <a

@@ -1,6 +1,7 @@
 import SectionWrapper from "@/components/ui/SectionWrapper";
 import SectionHeader from "@/components/ui/SectionHeader";
 import IconCircle from "@/components/ui/IconCircle";
+import { AutoLinkedText } from "@sweetmedia/blog-core";
 
 const substanceConditions = [
   { icon: "ri-goblet-line",        title: "Alcohol Use Disorder",       desc: "Medically-supervised detox and evidence-based treatment for alcohol dependency." },
@@ -31,7 +32,7 @@ function ConditionCard({ icon, title, desc, accent = false }: {
       />
       <div>
         <h4 className="font-[family-name:var(--font-display)] text-2xl font-normal text-ink leading-snug">{title}</h4>
-        <p className="mt-1.5 text-sm font-light leading-relaxed text-ink/60">{desc}</p>
+        <p className="mt-1.5 text-sm font-light leading-relaxed text-ink/60"><AutoLinkedText>{desc}</AutoLinkedText></p>
       </div>
     </div>
   );
@@ -58,7 +59,7 @@ export default function ConditionsSection() {
                 Substance Use Disorders
               </h3>
               <p className="text-sm font-light text-ink/60 mb-4">
-                Medical detox, evidence-based therapies, and long-term support
+                <AutoLinkedText>{"Medical detox, evidence-based therapies, and long-term support"}</AutoLinkedText>
               </p>
               <div className="h-[2px] bg-accent mb-5" />
               <div className="flex flex-col gap-4">
@@ -72,7 +73,7 @@ export default function ConditionsSection() {
                 Mental Health Conditions
               </h3>
               <p className="text-sm font-light text-ink/60 mb-4">
-                Integrated dual diagnosis treatment for co-occurring disorders
+                <AutoLinkedText>{"Integrated dual diagnosis treatment for co-occurring disorders"}</AutoLinkedText>
               </p>
               <div className="h-[2px] bg-warm mb-5" />
               <div className="flex flex-col gap-4">
@@ -91,12 +92,10 @@ export default function ConditionsSection() {
             Dual Diagnosis Expertise
           </h2>
           <p className="font-[family-name:var(--font-display)] text-2xl font-normal text-white leading-snug">
-            More than 50% of individuals with substance use disorders also experience co-occurring mental health conditions.
-            Our integrated treatment approach addresses both simultaneously for lasting recovery.
+            <AutoLinkedText>{"More than 50% of individuals with substance use disorders also experience co-occurring mental health conditions.\n            Our integrated treatment approach addresses both simultaneously for lasting recovery."}</AutoLinkedText>
           </p>
           <p className="mt-6 text-sm font-light text-white/50 italic">
-            If you don&apos;t see your specific condition listed, please reach out. We provide individualized
-            assessments and treatment plans for a wide range of challenges.
+            <AutoLinkedText>{"If you don&apos;t see your specific condition listed, please reach out. We provide individualized\n            assessments and treatment plans for a wide range of challenges."}</AutoLinkedText>
           </p>
         </div>
       </div>

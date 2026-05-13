@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import { AutoLinkedText } from "@sweetmedia/blog-core";
 
 import ContactUsForm from "./components/ContactUsForm";
 
@@ -64,8 +65,7 @@ export default function ContactUsPage() {
               Contact Us
             </h1>
             <p className="max-w-2xl text-sm leading-relaxed text-white/90 md:text-base">
-              Ready to eliminate billing complexity and maximize your clinic&apos;s revenue? Our team of behavioral health
-              billing specialists is standing by. Reach out and receive a free practice audit within 24 hours.
+              <AutoLinkedText>{"Ready to eliminate billing complexity and maximize your clinic&apos;s revenue? Our team of behavioral health\n              billing specialists is standing by. Reach out and receive a free practice audit within 24 hours."}</AutoLinkedText>
             </p>
           </div>
         </div>
@@ -95,7 +95,7 @@ export default function ContactUsPage() {
                   >
                     {contactPhoneDisplay}
                   </a>
-                  <p className="mt-1 text-xs leading-relaxed text-[#6b7580]">Mon–Fri, 8AM–5:30PM PST</p>
+                  <p className="mt-1 text-xs leading-relaxed text-[#6b7580]"><AutoLinkedText>{"Mon–Fri, 8AM–5:30PM PST"}</AutoLinkedText></p>
                 </div>
               </div>
 
@@ -127,8 +127,8 @@ export default function ContactUsPage() {
                 </div>
                 <div className="min-w-0 pt-0.5">
                   <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-[#5a6570]">Office</p>
-                  <p className="mt-1 text-sm font-semibold text-[#0D1833]">1665 Scenic Ave suite 250</p>
-                  <p className="mt-1 text-xs leading-relaxed text-[#6b7580]">Costa Mesa, CA 92626</p>
+                  <p className="mt-1 text-sm font-semibold text-[#0D1833]"><AutoLinkedText>{"1665 Scenic Ave suite 250"}</AutoLinkedText></p>
+                  <p className="mt-1 text-xs leading-relaxed text-[#6b7580]"><AutoLinkedText>{"Costa Mesa, CA 92626"}</AutoLinkedText></p>
                 </div>
               </div>
             </div>
@@ -144,8 +144,7 @@ export default function ContactUsPage() {
                 Not Sure Where Your Revenue Is Leaking?
               </h4>
               <p className="mt-3 text-sm leading-relaxed text-white/90">
-                We&apos;ll audit your current billing workflow at no cost and show you exactly where you&apos;re losing revenue —
-                no strings attached.
+                <AutoLinkedText>{"We&apos;ll audit your current billing workflow at no cost and show you exactly where you&apos;re losing revenue —\n                no strings attached."}</AutoLinkedText>
               </p>
               <Link
                 href="#contact-form"
@@ -175,9 +174,9 @@ export default function ContactUsPage() {
                 >
                   <i className={`${s.icon} text-xl`} />
                 </div>
-                <p className="mt-5 text-[11px] font-semibold uppercase tracking-[0.18em] text-[#246D92]">{s.step}</p>
+                <p className="mt-5 text-[11px] font-semibold uppercase tracking-[0.18em] text-[#246D92]"><AutoLinkedText>{s.step}</AutoLinkedText></p>
                 <h3 className="mt-2 font-[var(--font-body)] text-lg font-semibold text-[#0D1833]">{s.title}</h3>
-                <p className="mt-3 text-sm leading-relaxed text-[#4a5565]">{s.body}</p>
+                <p className="mt-3 text-sm leading-relaxed text-[#4a5565]"><AutoLinkedText>{s.body}</AutoLinkedText></p>
               </div>
             ))}
           </div>

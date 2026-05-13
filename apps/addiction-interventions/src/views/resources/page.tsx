@@ -3,6 +3,7 @@ import Link from "next/link";
 import TrustStrip from "@/components/sections/TrustStrip";
 import BottomCta from "@/components/sections/BottomCta";
 import { PHONE_DISPLAY, PHONE_HREF } from "@/data/site";
+import { AutoLinkedText } from "@sweetmedia/blog-core";
 
 const SUPABASE_IMAGES = "https://bxtwcdgjzzjxjvqdiuvn.supabase.co/storage/v1/object/public/site-assets/images";
 const HERO_BG = `${SUPABASE_IMAGES}/resources_hub_hero01.jpg`;
@@ -80,13 +81,12 @@ export default function ResourcesPage() {
         <div className="absolute inset-0 bg-gradient-to-r from-[#1A1A17]/88 via-[#1A1A17]/70 to-[#1A1A17]/40" />
         <div className={`relative ${CONTAINER} py-24 lg:py-32`}>
           <div className="max-w-2xl">
-            <p className="brand-eyebrow mb-4 text-[#8FAC87]">Family Resource Center</p>
+            <p className="brand-eyebrow mb-4 text-[#8FAC87]"><AutoLinkedText>{"Family Resource Center"}</AutoLinkedText></p>
             <h1 className="font-heading mb-6 text-5xl font-bold leading-tight text-white md:text-6xl lg:text-7xl">
               Tools and guides for <span className="italic text-[#8FAC87]">families in crisis</span>
             </h1>
             <p className="mb-8 text-lg leading-relaxed text-white/80">
-              When you don&apos;t know what to do next, start here. Our assessments, planning guides, and crisis resources
-              are built from more than two decades of front-line intervention work — and they&apos;re all free.
+              <AutoLinkedText>{"When you don&apos;t know what to do next, start here. Our assessments, planning guides, and crisis resources\n              are built from more than two decades of front-line intervention work — and they&apos;re all free."}</AutoLinkedText>
             </p>
             <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap">
               <a
@@ -113,15 +113,15 @@ export default function ResourcesPage() {
         <div className={CONTAINER}>
           <div className="grid gap-6 text-base leading-relaxed text-[#4B4B4B] md:grid-cols-[1.4fr_1fr]">
             <div>
-              <p className="brand-eyebrow mb-3 text-[#8FAC87]">How to Use This Page</p>
+              <p className="brand-eyebrow mb-3 text-[#8FAC87]"><AutoLinkedText>{"How to Use This Page"}</AutoLinkedText></p>
               <h2 className="font-heading mb-4 text-2xl font-bold leading-tight text-[#1A1A17] md:text-3xl">
                 Start wherever you are in the process
               </h2>
               <p className="mb-3">
-                Not every family arrives at this page with the same level of certainty. Some are in the middle of an acute crisis and need to act today. Others have been quietly watching a situation deteriorate for months and aren&apos;t sure whether what they are seeing is serious enough to warrant professional help. Most are somewhere in between — they know something is wrong but haven&apos;t been able to get their loved one to acknowledge it.
+                <AutoLinkedText>{"Not every family arrives at this page with the same level of certainty. Some are in the middle of an acute crisis and need to act today. Others have been quietly watching a situation deteriorate for months and aren&apos;t sure whether what they are seeing is serious enough to warrant professional help. Most are somewhere in between — they know something is wrong but haven&apos;t been able to get their loved one to acknowledge it."}</AutoLinkedText>
               </p>
               <p>
-                These resources are designed to meet you wherever you are. The self-assessments are a good starting point if you are still evaluating the situation. The planning guides are designed for families who are ready to move forward and want to understand what a structured intervention actually involves. The blog and FAQ cover the full range of questions that come up across the entire arc — from first concern through long-term recovery. And if you want to skip all of it and simply talk to someone, we are available 24 hours a day.
+                <AutoLinkedText>{"These resources are designed to meet you wherever you are. The self-assessments are a good starting point if you are still evaluating the situation. The planning guides are designed for families who are ready to move forward and want to understand what a structured intervention actually involves. The blog and FAQ cover the full range of questions that come up across the entire arc — from first concern through long-term recovery. And if you want to skip all of it and simply talk to someone, we are available 24 hours a day."}</AutoLinkedText>
               </p>
             </div>
             <div className="grid content-start gap-4">
@@ -136,7 +136,7 @@ export default function ResourcesPage() {
                   </span>
                   <div>
                     <h3 className="font-heading text-sm font-bold text-[#1A1A17]">{tip.title}</h3>
-                    <p className="mt-1 text-xs leading-relaxed text-[#4B4B4B]">{tip.body}</p>
+                    <p className="mt-1 text-xs leading-relaxed text-[#4B4B4B]"><AutoLinkedText>{tip.body}</AutoLinkedText></p>
                   </div>
                 </div>
               ))}
@@ -154,8 +154,7 @@ export default function ResourcesPage() {
               Free self-assessments — <span className="italic text-[#507969]">anonymous, 2 minutes</span>
             </h2>
             <p className="mt-4 max-w-2xl text-base leading-relaxed text-[#4B4B4B]">
-              Not sure if the situation warrants professional help? These tools give you an honest, evidence-based read
-              on what you are seeing — with no email, no signup, and no judgment.
+              <AutoLinkedText>{"Not sure if the situation warrants professional help? These tools give you an honest, evidence-based read\n              on what you are seeing — with no email, no signup, and no judgment."}</AutoLinkedText>
             </p>
           </div>
           <div className="grid gap-6 md:grid-cols-3">
@@ -172,7 +171,7 @@ export default function ResourcesPage() {
                   {a.tag}
                 </span>
                 <h3 className="font-heading mt-4 text-xl font-bold text-[#1A1A17] group-hover:text-[#507969]">{a.title}</h3>
-                <p className="mt-3 flex-1 text-sm leading-relaxed text-[#4B4B4B]">{a.desc}</p>
+                <p className="mt-3 flex-1 text-sm leading-relaxed text-[#4B4B4B]"><AutoLinkedText>{a.desc}</AutoLinkedText></p>
                 <span className="mt-6 inline-flex items-center gap-1.5 text-sm font-semibold text-[#507969] transition-all group-hover:gap-2.5">
                   Start <i className="ri-arrow-right-line"></i>
                 </span>
@@ -191,7 +190,7 @@ export default function ResourcesPage() {
               Step-by-step guides for <span className="italic text-[#507969]">families taking action</span>
             </h2>
             <p className="mt-4 max-w-2xl text-base leading-relaxed text-[#4B4B4B]">
-              Every guide is written by certified interventionists with real-world experience. No filler, no generic advice — just what actually works.
+              <AutoLinkedText>{"Every guide is written by certified interventionists with real-world experience. No filler, no generic advice — just what actually works."}</AutoLinkedText>
             </p>
           </div>
           <div className="grid gap-6 md:grid-cols-2">
@@ -208,7 +207,7 @@ export default function ResourcesPage() {
                   <span className="rounded-full bg-[#F5F3E7] px-3 py-1 text-xs font-semibold text-[#507969]">{g.tag}</span>
                 </div>
                 <h3 className="font-heading mt-6 text-2xl font-bold text-[#1A1A17] group-hover:text-[#507969]">{g.title}</h3>
-                <p className="mt-3 flex-1 text-base leading-relaxed text-[#4B4B4B]">{g.desc}</p>
+                <p className="mt-3 flex-1 text-base leading-relaxed text-[#4B4B4B]"><AutoLinkedText>{g.desc}</AutoLinkedText></p>
                 <span className="mt-6 inline-flex items-center gap-1.5 text-sm font-semibold text-[#507969] transition-all group-hover:gap-2.5">
                   Read the guide <i className="ri-arrow-right-line"></i>
                 </span>
@@ -239,7 +238,7 @@ export default function ResourcesPage() {
                 </span>
                 <span className="mt-4 inline-flex items-center self-start rounded-full bg-[#F5F3E7] px-3 py-1 text-xs font-semibold text-[#507969]">{s.tag}</span>
                 <h3 className="font-heading mt-4 text-xl font-bold text-[#1A1A17] group-hover:text-[#507969]">{s.title}</h3>
-                <p className="mt-3 flex-1 text-sm leading-relaxed text-[#4B4B4B]">{s.desc}</p>
+                <p className="mt-3 flex-1 text-sm leading-relaxed text-[#4B4B4B]"><AutoLinkedText>{s.desc}</AutoLinkedText></p>
                 <span className="mt-6 inline-flex items-center gap-1.5 text-sm font-semibold text-[#507969] transition-all group-hover:gap-2.5">
                   Explore <i className="ri-arrow-right-line"></i>
                 </span>
@@ -256,7 +255,7 @@ export default function ResourcesPage() {
                 </span>
                 <h3 className="font-heading mt-6 text-xl font-bold text-white">Speak with an interventionist now</h3>
                 <p className="mt-3 text-sm leading-relaxed text-white/75">
-                  No voicemail, no wait. A certified interventionist will answer, listen to your situation, and tell you honestly what comes next.
+                  <AutoLinkedText>{"No voicemail, no wait. A certified interventionist will answer, listen to your situation, and tell you honestly what comes next."}</AutoLinkedText>
                 </p>
                 <a
                   href={PHONE_HREF}

@@ -6,6 +6,7 @@ import BottomCta from "@/components/sections/BottomCta";
 import HeroContactForm from "@/components/feature/HeroContactForm";
 import { PHONE_DISPLAY, PHONE_HREF } from "@/data/site";
 import type { Faq } from "@/data/faqs";
+import { AutoLinkedText } from "@sweetmedia/blog-core";
 
 const SUPABASE_IMAGES =
   "https://bxtwcdgjzzjxjvqdiuvn.supabase.co/storage/v1/object/public/site-assets/images";
@@ -40,13 +41,13 @@ export default function MentalHealthInterventionsPage() {
         <div className="relative mx-auto w-full max-w-7xl px-6 py-24 lg:px-10 lg:py-32">
           <div className="grid items-center gap-14 lg:grid-cols-[1fr_460px]">
             <div>
-              <p className="brand-eyebrow mb-4 text-[#8FAC87]">Mental Health Interventions</p>
+              <p className="brand-eyebrow mb-4 text-[#8FAC87]"><AutoLinkedText>{"Mental Health Interventions"}</AutoLinkedText></p>
               <h1 className="font-heading mb-6 text-4xl font-bold leading-tight text-white md:text-5xl lg:text-6xl">
                 Mental health interventions —{" "}
                 <span className="italic text-[#8FAC87]">compassion when shame keeps them silent</span>
               </h1>
               <p className="mb-8 max-w-lg text-base leading-relaxed text-white/80 md:text-lg">
-                Depression, anxiety, PTSD, and bipolar disorder can be just as life-threatening as addiction — and far harder to confront because shame keeps everyone silent. We help families take that first hard step.
+                <AutoLinkedText>{"Depression, anxiety, PTSD, and bipolar disorder can be just as life-threatening as addiction — and far harder to confront because shame keeps everyone silent. We help families take that first hard step."}</AutoLinkedText>
               </p>
               <div className="mb-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
                 <a href={PHONE_HREF} className="inline-flex items-center gap-2 rounded-full bg-[#8FAC87] px-7 py-3.5 text-sm font-semibold text-white shadow-sm transition hover:bg-[#6F8E68]">
@@ -89,10 +90,10 @@ export default function MentalHealthInterventionsPage() {
                 <span className="italic text-[#507969]">actually looks like</span>
               </h2>
               <p className="mb-5 text-base leading-relaxed text-[#4B4B4B]">
-                A mental health intervention focuses less on consequences and more on connection. We help your loved one feel less alone in what they are facing and walk them toward the right level of care — whether that is outpatient therapy, partial hospitalisation, or a residential program.
+                <AutoLinkedText>{"A mental health intervention focuses less on consequences and more on connection. We help your loved one feel less alone in what they are facing and walk them toward the right level of care — whether that is outpatient therapy, partial hospitalisation, or a residential program."}</AutoLinkedText>
               </p>
               <p className="text-base leading-relaxed text-[#4B4B4B]">
-                The tone is often gentler than a traditional substance intervention, but the preparation, structure, and follow-through are just as rigorous. We specialise in cases where depression, anxiety, bipolar, PTSD, or OCD have created a crisis that the family can no longer manage alone.
+                <AutoLinkedText>{"The tone is often gentler than a traditional substance intervention, but the preparation, structure, and follow-through are just as rigorous. We specialise in cases where depression, anxiety, bipolar, PTSD, or OCD have created a crisis that the family can no longer manage alone."}</AutoLinkedText>
               </p>
             </div>
             <div className="grid grid-cols-2 gap-4">
@@ -106,8 +107,8 @@ export default function MentalHealthInterventionsPage() {
                   <span className="flex h-12 w-12 items-center justify-center rounded-full bg-[#3E5B50] text-white">
                     <i className={`text-xl ${s.icon}`}></i>
                   </span>
-                  <p className="font-heading mt-4 text-3xl font-bold text-[#3E5B50]">{s.number}</p>
-                  <p className="mt-1 text-xs font-medium text-[#4B4B4B]">{s.label}</p>
+                  <p className="font-heading mt-4 text-3xl font-bold text-[#3E5B50]"><AutoLinkedText>{s.number}</AutoLinkedText></p>
+                  <p className="mt-1 text-xs font-medium text-[#4B4B4B]"><AutoLinkedText>{s.label}</AutoLinkedText></p>
                 </div>
               ))}
             </div>
@@ -120,9 +121,9 @@ export default function MentalHealthInterventionsPage() {
         <div className="absolute inset-0 bg-gradient-to-r from-[#1A1A17]/70 via-[#1A1A17]/50 to-transparent" />
         <div className="absolute bottom-0 left-0 p-10 text-white">
           <p className="font-heading max-w-md text-2xl italic">
-            "We thought we were protecting his dignity by staying silent. The intervention gave us our son back."
+            <AutoLinkedText>{"\"We thought we were protecting his dignity by staying silent. The intervention gave us our son back.\""}</AutoLinkedText>
           </p>
-          <p className="mt-2 text-sm text-white/70">— Parents of a son with severe depression</p>
+          <p className="mt-2 text-sm text-white/70"><AutoLinkedText>{"— Parents of a son with severe depression"}</AutoLinkedText></p>
         </div>
       </section>
 
@@ -135,7 +136,7 @@ export default function MentalHealthInterventionsPage() {
             </h2>
           </div>
           <p className="mb-12 max-w-3xl text-base leading-relaxed text-[#4B4B4B]">
-            Mental health conditions become intervention-ready when symptoms have progressed to the point where the person can no longer recognise their need for help, when safety is at risk, or when the family has exhausted every other avenue. Each condition below has its own intervention framework — the language we use, the treatment programmes we recommend, and the boundaries we help families hold are calibrated specifically to that diagnosis.
+            <AutoLinkedText>{"Mental health conditions become intervention-ready when symptoms have progressed to the point where the person can no longer recognise their need for help, when safety is at risk, or when the family has exhausted every other avenue. Each condition below has its own intervention framework — the language we use, the treatment programmes we recommend, and the boundaries we help families hold are calibrated specifically to that diagnosis."}</AutoLinkedText>
           </p>
           <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
             {[
@@ -151,7 +152,7 @@ export default function MentalHealthInterventionsPage() {
                   <i className={`${svc.icon} text-xl`}></i>
                 </span>
                 <h3 className="font-heading mt-5 text-xl font-bold text-[#1A1A17]">{svc.name}</h3>
-                <p className="mt-3 flex-1 text-sm leading-relaxed text-[#4B4B4B]">{svc.desc}</p>
+                <p className="mt-3 flex-1 text-sm leading-relaxed text-[#4B4B4B]"><AutoLinkedText>{svc.desc}</AutoLinkedText></p>
                 <span className="mt-5 inline-flex items-center gap-1.5 text-sm font-semibold text-[#507969] transition group-hover:gap-2.5">
                   Learn more <i className="ri-arrow-right-line"></i>
                 </span>

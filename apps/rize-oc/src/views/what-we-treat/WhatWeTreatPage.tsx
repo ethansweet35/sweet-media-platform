@@ -5,6 +5,7 @@ import Eyebrow from "@/components/ui/Eyebrow";
 import IconCircle from "@/components/ui/IconCircle";
 import Button from "@/components/ui/Button";
 import AccreditationsBar from "@/views/home/components/AccreditationsBar";
+import { AutoLinkedText } from "@sweetmedia/blog-core";
 
 const BASE = "https://nfjlvkxrbzytjefmcvhg.supabase.co/storage/v1/object/public/site-assets/images";
 
@@ -216,7 +217,7 @@ export default function WhatWeTreatPage() {
                 <em className="italic text-white/60">Treat</em>
               </h1>
               <p className="mt-6 text-[16px] font-light leading-relaxed text-white/80 max-w-[520px]">
-                Comprehensive addiction and mental health treatment — every substance, every condition, fully integrated dual-diagnosis care for the complete clinical picture.
+                <AutoLinkedText>{"Comprehensive addiction and mental health treatment — every substance, every condition, fully integrated dual-diagnosis care for the complete clinical picture."}</AutoLinkedText>
               </p>
             </div>
 
@@ -250,8 +251,8 @@ export default function WhatWeTreatPage() {
               { value: "1:3",   label: "Staff-Client Ratio" },
             ].map(({ value, label }) => (
               <div key={label} className="px-8 py-5 border-r border-white/10 last:border-r-0 bg-ink/50 backdrop-blur-sm">
-                <p className="font-[family-name:var(--font-display)] text-[28px] font-normal text-white leading-none">{value}</p>
-                <p className="text-[10px] font-medium uppercase tracking-[0.22em] text-white/50 mt-1.5">{label}</p>
+                <p className="font-[family-name:var(--font-display)] text-[28px] font-normal text-white leading-none"><AutoLinkedText>{value}</AutoLinkedText></p>
+                <p className="text-[10px] font-medium uppercase tracking-[0.22em] text-white/50 mt-1.5"><AutoLinkedText>{label}</AutoLinkedText></p>
               </div>
             ))}
           </div>
@@ -271,13 +272,13 @@ export default function WhatWeTreatPage() {
             </h2>
             <div className="flex flex-col gap-5">
               <p className="text-[15px] font-light leading-relaxed text-ink/65">
-                More than 70% of individuals with a substance use disorder also have a diagnosable mental health condition. Depression, anxiety, trauma, bipolar disorder, ADHD — these conditions don&apos;t exist alongside addiction. They drive it, sustain it, and are worsened by it.
+                <AutoLinkedText>{"More than 70% of individuals with a substance use disorder also have a diagnosable mental health condition. Depression, anxiety, trauma, bipolar disorder, ADHD — these conditions don&apos;t exist alongside addiction. They drive it, sustain it, and are worsened by it."}</AutoLinkedText>
               </p>
               <p className="text-[15px] font-light leading-relaxed text-ink/65">
-                Treating addiction without addressing mental health, or treating mental health without addressing substance use, is a clinically outdated approach that produces predictably poor outcomes. Rize OC&apos;s integrated dual-diagnosis model treats both conditions simultaneously — as the intertwined clinical picture they are.
+                <AutoLinkedText>{"Treating addiction without addressing mental health, or treating mental health without addressing substance use, is a clinically outdated approach that produces predictably poor outcomes. Rize OC&apos;s integrated dual-diagnosis model treats both conditions simultaneously — as the intertwined clinical picture they are."}</AutoLinkedText>
               </p>
               <p className="text-[15px] font-light leading-relaxed text-ink/65">
-                Our board-certified psychiatrists, EMDR-certified therapists, and addiction medicine specialists work as a unified clinical team — not as separate consultants exchanging notes. The result is treatment that addresses the complete picture, not just its most visible surface.
+                <AutoLinkedText>{"Our board-certified psychiatrists, EMDR-certified therapists, and addiction medicine specialists work as a unified clinical team — not as separate consultants exchanging notes. The result is treatment that addresses the complete picture, not just its most visible surface."}</AutoLinkedText>
               </p>
             </div>
             <div className="mt-8 flex flex-wrap gap-3">
@@ -301,10 +302,8 @@ export default function WhatWeTreatPage() {
                 <p
                   className="font-[family-name:var(--font-display)] font-normal text-accent shrink-0"
                   style={{ fontSize: "clamp(32px, 3.5vw, 46px)", lineHeight: 1 }}
-                >
-                  {stat}
-                </p>
-                <p className="text-[14px] font-light leading-relaxed text-ink/65">{detail}</p>
+                ><AutoLinkedText>{stat}</AutoLinkedText></p>
+                <p className="text-[14px] font-light leading-relaxed text-ink/65"><AutoLinkedText>{detail}</AutoLinkedText></p>
               </div>
             ))}
           </div>
@@ -346,7 +345,7 @@ export default function WhatWeTreatPage() {
                   </span>
                 </div>
                 <h3 className="font-[family-name:var(--font-display)] text-[18px] font-normal text-white mb-2 group-hover:text-accent transition-colors leading-snug">{title}</h3>
-                <p className="text-[13px] font-light leading-relaxed text-white/60 flex-1">{desc}</p>
+                <p className="text-[13px] font-light leading-relaxed text-white/60 flex-1"><AutoLinkedText>{desc}</AutoLinkedText></p>
                 <p className="mt-4 text-[10px] font-medium uppercase tracking-[0.18em] text-accent flex items-center gap-1 group-hover:gap-2.5 transition-all">
                   Learn More <i className="ri-arrow-right-line" />
                 </p>
@@ -391,7 +390,7 @@ export default function WhatWeTreatPage() {
                   </span>
                 </div>
                 <h3 className="font-[family-name:var(--font-display)] text-[20px] font-normal text-ink mb-2 group-hover:text-accent transition-colors leading-snug">{title}</h3>
-                <p className="text-[13px] font-light leading-relaxed text-ink/60 flex-1">{desc}</p>
+                <p className="text-[13px] font-light leading-relaxed text-ink/60 flex-1"><AutoLinkedText>{desc}</AutoLinkedText></p>
                 <p className="mt-5 text-[10px] font-medium uppercase tracking-[0.18em] text-accent flex items-center gap-1 group-hover:gap-2.5 transition-all">
                   Learn More <i className="ri-arrow-right-line" />
                 </p>
@@ -413,7 +412,7 @@ export default function WhatWeTreatPage() {
               How We Treat at <em className="italic text-muted font-normal">Rize OC</em>
             </h2>
             <p className="mt-5 text-[15px] font-light text-ink/60 leading-relaxed">
-              Every modality, every clinical tool — delivered as a unified, individualized treatment plan rather than a menu of disconnected services.
+              <AutoLinkedText>{"Every modality, every clinical tool — delivered as a unified, individualized treatment plan rather than a menu of disconnected services."}</AutoLinkedText>
             </p>
           </div>
 
@@ -422,7 +421,7 @@ export default function WhatWeTreatPage() {
               <div key={title} className="bg-cream border border-warm p-7 flex flex-col">
                 <IconCircle icon={icon} colorClass="bg-accent/10 text-accent" size="w-10 h-10 text-base" className="mb-5" />
                 <h3 className="font-[family-name:var(--font-display)] text-[20px] font-normal text-ink mb-3 leading-snug">{title}</h3>
-                <p className="text-[14px] font-light leading-relaxed text-ink/65 flex-1">{desc}</p>
+                <p className="text-[14px] font-light leading-relaxed text-ink/65 flex-1"><AutoLinkedText>{desc}</AutoLinkedText></p>
               </div>
             ))}
           </div>
@@ -441,7 +440,7 @@ export default function WhatWeTreatPage() {
               Finding the Right <em className="italic text-white/60">Level of Care</em>
             </h2>
             <p className="mt-4 text-[15px] font-light text-white/60 max-w-xl mx-auto">
-              The right level of care depends on the severity of your condition, your co-occurring diagnoses, and your life circumstances. Our admissions team assesses all of this — free, confidential, same day.
+              <AutoLinkedText>{"The right level of care depends on the severity of your condition, your co-occurring diagnoses, and your life circumstances. Our admissions team assesses all of this — free, confidential, same day."}</AutoLinkedText>
             </p>
           </div>
 
@@ -460,8 +459,8 @@ export default function WhatWeTreatPage() {
               >
                 <IconCircle icon={icon} variant="accent" size="sm" />
                 <div>
-                  <p className="text-[10px] font-semibold uppercase tracking-[0.25em] text-white/40 mb-1">{label}</p>
-                  <p className="text-[14px] font-medium text-white group-hover:text-accent transition-colors leading-snug">{title}</p>
+                  <p className="text-[10px] font-semibold uppercase tracking-[0.25em] text-white/40 mb-1"><AutoLinkedText>{label}</AutoLinkedText></p>
+                  <p className="text-[14px] font-medium text-white group-hover:text-accent transition-colors leading-snug"><AutoLinkedText>{title}</AutoLinkedText></p>
                 </div>
                 <i className="ri-arrow-right-line text-accent text-sm opacity-0 group-hover:opacity-100 transition-opacity" />
               </Link>
@@ -500,7 +499,7 @@ export default function WhatWeTreatPage() {
             <em className="italic text-white/60">It Starts With One Call</em>
           </h2>
           <p className="mt-6 text-[15px] font-light text-white/65 max-w-lg mx-auto leading-relaxed">
-            Our admissions team is available 24/7 to answer questions, verify your insurance, and help you understand every option — completely confidential, no obligation.
+            <AutoLinkedText>{"Our admissions team is available 24/7 to answer questions, verify your insurance, and help you understand every option — completely confidential, no obligation."}</AutoLinkedText>
           </p>
           <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
             <Button href="tel:9494612620" variant="accent" size="lg">

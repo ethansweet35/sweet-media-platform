@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { useState } from 'react';
 import Breadcrumb from '@/components/base/Breadcrumb';
 import HeroContactForm from '@/views/home/components/HeroContactForm';
+import { AutoLinkedTextClient } from "@sweetmedia/blog-core";
 
 const ACCENT = '#C8795A';
 
@@ -106,7 +107,7 @@ function FaqItem({ q, a }: { q: string; a: string }) {
         <i className={`ri-${open ? 'subtract' : 'add'}-line text-lg flex-shrink-0 mt-0.5`} style={{ color: ACCENT }} />
       </button>
       {open && (
-        <p className="text-sm text-[#3A4A3C]/65 font-light leading-[1.85] pb-5 pr-8">{a}</p>
+        <p className="text-sm text-[#3A4A3C]/65 font-light leading-[1.85] pb-5 pr-8"><AutoLinkedTextClient>{a}</AutoLinkedTextClient></p>
       )}
     </div>
   );
@@ -153,8 +154,7 @@ export default function IndividualTherapyPage() {
                   Therapy
                 </h1>
                 <p className="text-[#FAF8F5]/65 font-light leading-[1.85] text-base max-w-md">
-                  A private, protected space between you and your licensed therapist. Completely virtual,
-                  exclusively yours — designed for the complexity of a woman's inner life.
+                  <AutoLinkedTextClient>{"A private, protected space between you and your licensed therapist. Completely virtual,\n                  exclusively yours — designed for the complexity of a woman's inner life."}</AutoLinkedTextClient>
                 </p>
                 <div className="flex flex-wrap gap-4">
                   <Link
@@ -204,9 +204,7 @@ export default function IndividualTherapyPage() {
               What It Is
             </span>
             <p className="font-serif text-[#2C3B2E] mt-6 leading-[1.7]" style={{ fontSize: 'clamp(20px, 2.5vw, 30px)' }}>
-              Individual therapy is structured, intentional, and clinical — but it doesn't feel that way.
-              It feels like finally being heard. Like having a guide who knows your full story and
-              helps you make meaning of it, one session at a time.
+              <AutoLinkedTextClient>{"Individual therapy is structured, intentional, and clinical — but it doesn't feel that way.\n              It feels like finally being heard. Like having a guide who knows your full story and\n              helps you make meaning of it, one session at a time."}</AutoLinkedTextClient>
             </p>
           </div>
 
@@ -227,7 +225,7 @@ export default function IndividualTherapyPage() {
                   {s.num}
                   <span className="text-sm font-light ml-1 opacity-50">{s.unit}</span>
                 </div>
-                <p className="text-xs text-[#3A4A3C]/45 font-light mt-2 leading-relaxed">{s.label}</p>
+                <p className="text-xs text-[#3A4A3C]/45 font-light mt-2 leading-relaxed"><AutoLinkedTextClient>{s.label}</AutoLinkedTextClient></p>
               </div>
             ))}
           </div>
@@ -238,11 +236,10 @@ export default function IndividualTherapyPage() {
             style={{ backgroundColor: `${ACCENT}0D`, borderLeft: `3px solid ${ACCENT}` }}
           >
             <p className="font-serif italic text-[#2C3B2E] text-lg leading-relaxed">
-              "The most healing thing is not the technique. It's the relationship — the experience of
-              being fully known and not abandoned."
+              <AutoLinkedTextClient>{"\"The most healing thing is not the technique. It's the relationship — the experience of\n              being fully known and not abandoned.\""}</AutoLinkedTextClient>
             </p>
             <p className="text-xs text-[#3A4A3C]/45 mt-4 uppercase tracking-widest font-light">
-              — The foundation of our individual therapy approach
+              <AutoLinkedTextClient>{"— The foundation of our individual therapy approach"}</AutoLinkedTextClient>
             </p>
           </div>
         </div>
@@ -278,7 +275,7 @@ export default function IndividualTherapyPage() {
                   <i className={`${p.icon} text-lg`} style={{ color: ACCENT }} />
                 </div>
                 <h3 className="font-serif text-[#2C3B2E] text-lg mb-3 relative z-10">{p.title}</h3>
-                <p className="text-sm text-[#3A4A3C]/60 font-light leading-[1.85] relative z-10">{p.desc}</p>
+                <p className="text-sm text-[#3A4A3C]/60 font-light leading-[1.85] relative z-10"><AutoLinkedTextClient>{p.desc}</AutoLinkedTextClient></p>
               </div>
             ))}
           </div>
@@ -321,7 +318,7 @@ export default function IndividualTherapyPage() {
                   {step.duration}
                 </span>
                 <h4 className="font-serif text-[#2C3B2E] text-base mb-2">{step.label}</h4>
-                <p className="text-xs text-[#3A4A3C]/55 font-light leading-relaxed">{step.desc}</p>
+                <p className="text-xs text-[#3A4A3C]/55 font-light leading-relaxed"><AutoLinkedTextClient>{step.desc}</AutoLinkedTextClient></p>
               </div>
             ))}
           </div>
@@ -346,7 +343,7 @@ export default function IndividualTherapyPage() {
                     {step.duration}
                   </span>
                   <h4 className="font-serif text-[#2C3B2E] text-base mt-0.5 mb-1">{step.label}</h4>
-                  <p className="text-xs text-[#3A4A3C]/55 font-light leading-relaxed">{step.desc}</p>
+                  <p className="text-xs text-[#3A4A3C]/55 font-light leading-relaxed"><AutoLinkedTextClient>{step.desc}</AutoLinkedTextClient></p>
                 </div>
               </div>
             ))}
@@ -418,9 +415,7 @@ export default function IndividualTherapyPage() {
               Relational, trauma-informed, and always collaborative
             </h3>
             <p className="text-[#FAF8F5]/60 font-light leading-[1.85] text-base mb-8">
-              We believe healing happens in relationship. Your therapist brings clinical expertise and
-              genuine presence — and you always remain the expert on your own experience. Sessions are
-              never one-size-fits-all; they adapt to what you need that week.
+              <AutoLinkedTextClient>{"We believe healing happens in relationship. Your therapist brings clinical expertise and\n              genuine presence — and you always remain the expert on your own experience. Sessions are\n              never one-size-fits-all; they adapt to what you need that week."}</AutoLinkedTextClient>
             </p>
             <div className="flex flex-wrap gap-3 mb-10">
               {['CBT', 'DBT', 'EMDR', 'ACT', 'Somatic Experiencing'].map((m) => (
@@ -498,8 +493,7 @@ export default function IndividualTherapyPage() {
             Your first session is closer than you think
           </h2>
           <p className="text-[#FAF8F5]/60 font-light leading-[1.85] mb-10 text-base">
-            Call us, complete our online form, or request an insurance verification. We respond same day
-            and can typically schedule your first session within 72 hours.
+            <AutoLinkedTextClient>{"Call us, complete our online form, or request an insurance verification. We respond same day\n            and can typically schedule your first session within 72 hours."}</AutoLinkedTextClient>
           </p>
           <div className="flex flex-wrap justify-center gap-4">
             <Link

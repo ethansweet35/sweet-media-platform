@@ -3,6 +3,7 @@ import Image from 'next/image';
 import { useEffect } from 'react';
 import Link from 'next/link';
 import Breadcrumb from '@/components/base/Breadcrumb';
+import { AutoLinkedTextClient } from "@sweetmedia/blog-core";
 
 const locations = [
   {
@@ -118,7 +119,7 @@ export default function LocationsPage() {
               Available <em className="text-[#DDA15E]">everywhere.</em>
             </h1>
             <p className="text-[#F0ECE1]/80 font-light text-lg leading-relaxed max-w-xl">
-              Our virtual platform means you can access world-class care from anywhere in the country. And for those in Colorado, we have physical locations ready to welcome you.
+              <AutoLinkedTextClient>{"Our virtual platform means you can access world-class care from anywhere in the country. And for those in Colorado, we have physical locations ready to welcome you."}</AutoLinkedTextClient>
             </p>
           </div>
         </div>
@@ -133,7 +134,7 @@ export default function LocationsPage() {
             </div>
             <div>
               <h3 className="font-serif text-[#FAF8F5] text-xl mb-1">Virtual Care — Colorado</h3>
-              <p className="text-sm text-[#F0ECE1]/60 font-light">Our virtual programs are available to women across the entire United States. No travel required.</p>
+              <p className="text-sm text-[#F0ECE1]/60 font-light"><AutoLinkedTextClient>{"Our virtual programs are available to women across the entire United States. No travel required."}</AutoLinkedTextClient></p>
             </div>
           </div>
           <Link
@@ -184,13 +185,13 @@ export default function LocationsPage() {
                       <div className="w-5 h-5 flex items-center justify-center mt-0.5 flex-shrink-0">
                         <i className="ri-map-pin-line text-sm" style={{ color: loc.color }}></i>
                       </div>
-                      <p className="text-sm text-[#3A4A3C]/70 font-light whitespace-pre-line">{loc.address}</p>
+                      <p className="text-sm text-[#3A4A3C]/70 font-light whitespace-pre-line"><AutoLinkedTextClient>{loc.address}</AutoLinkedTextClient></p>
                     </div>
                     <div className="flex items-center gap-3">
                       <div className="w-5 h-5 flex items-center justify-center flex-shrink-0">
                         <i className="ri-phone-line text-sm" style={{ color: loc.color }}></i>
                       </div>
-                      <p className="text-sm text-[#3A4A3C]/70 font-light">{loc.phone}</p>
+                      <p className="text-sm text-[#3A4A3C]/70 font-light"><AutoLinkedTextClient>{loc.phone}</AutoLinkedTextClient></p>
                     </div>
                   </div>
                   <div className="grid grid-cols-2 gap-2.5">

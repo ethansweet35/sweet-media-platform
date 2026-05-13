@@ -1,5 +1,6 @@
 import Image from 'next/image';
 import Link from 'next/link';
+import { AutoLinkedText } from "@sweetmedia/blog-core";
 
 const tracks = [
   {
@@ -39,7 +40,7 @@ export default function ProgramsSection() {
               Virtual Outpatient Care
             </h2>
             <p className="text-[#3A4A3C]/60 font-light text-sm leading-relaxed">
-              Two tracks, one goal — your lasting recovery. Choose the level of structure that fits your life.
+              <AutoLinkedText>{"Two tracks, one goal — your lasting recovery. Choose the level of structure that fits your life."}</AutoLinkedText>
             </p>
             <div className="flex flex-col gap-2.5 pt-2">
               {[
@@ -92,10 +93,10 @@ export default function ProgramsSection() {
                 </div>
                 <div className="p-5 flex flex-col gap-2.5 flex-1">
                   <div>
-                    <p className="text-[10px] uppercase tracking-widest font-medium mb-0.5" style={{ color: track.tagColor }}>{track.subtitle}</p>
+                    <p className="text-[10px] uppercase tracking-widest font-medium mb-0.5" style={{ color: track.tagColor }}><AutoLinkedText>{track.subtitle}</AutoLinkedText></p>
                     <h3 className="font-serif text-[#2C3B2E] text-base leading-snug">{track.title}</h3>
                   </div>
-                  <p className="text-xs text-[#3A4A3C]/60 font-light leading-relaxed flex-1">{track.desc}</p>
+                  <p className="text-xs text-[#3A4A3C]/60 font-light leading-relaxed flex-1"><AutoLinkedText>{track.desc}</AutoLinkedText></p>
                   <div className="flex items-center justify-between pt-2.5 border-t border-[#F0ECE1]">
                     <span className="text-[10px] font-medium uppercase tracking-wide" style={{ color: track.tagColor }}>{track.duration}</span>
                     <div className="w-5 h-5 flex items-center justify-center">

@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { AutoLinkedTextClient } from "@sweetmedia/blog-core";
 
 function formLabel(id: string, text: string) {
   return (
@@ -74,7 +75,7 @@ export default function ContactUsForm() {
     <div id="contact-form" className="rounded-xl border border-[#166C96]/20 bg-white p-8 shadow-sm md:p-10">
       <h3 className="font-marcellus text-xl font-medium text-[#0D1833] md:text-2xl">Send Us a Message</h3>
       <p className="mt-2 text-sm leading-relaxed text-[#4a5565]">
-        Complete the form and our behavioral health billing specialists will follow up shortly.
+        <AutoLinkedTextClient>{"Complete the form and our behavioral health billing specialists will follow up shortly."}</AutoLinkedTextClient>
       </p>
 
       {status === "success" ? (
@@ -82,7 +83,7 @@ export default function ContactUsForm() {
           className="mt-8 rounded-lg border border-[#166C96]/40 bg-[#166C96]/10 px-4 py-3 text-sm font-medium text-[#0D1833]"
           role="status"
         >
-          Thank you — your message was sent. We&apos;ll be in touch within 24 hours.
+          <AutoLinkedTextClient>{"Thank you — your message was sent. We&apos;ll be in touch within 24 hours."}</AutoLinkedTextClient>
         </p>
       ) : (
         <form className="mt-8 grid gap-5" onSubmit={onSubmit} noValidate>
@@ -186,9 +187,7 @@ export default function ContactUsForm() {
           </div>
 
           {status === "error" && errorMessage ? (
-            <p className="text-sm font-medium text-red-700" role="alert">
-              {errorMessage}
-            </p>
+            <p className="text-sm font-medium text-red-700" role="alert"><AutoLinkedTextClient>{errorMessage}</AutoLinkedTextClient></p>
           ) : null}
 
           <button
@@ -200,7 +199,7 @@ export default function ContactUsForm() {
           </button>
 
           <p className="text-center text-[11px] leading-relaxed text-[#7a8791]">
-            By submitting this form, you agree to our privacy policy and consent to be contacted by Cipher Billing.
+            <AutoLinkedTextClient>{"By submitting this form, you agree to our privacy policy and consent to be contacted by Cipher Billing."}</AutoLinkedTextClient>
           </p>
         </form>
       )}

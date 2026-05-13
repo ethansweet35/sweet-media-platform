@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import { AutoLinkedText } from "@sweetmedia/blog-core";
 
 import { cipherOnboardingPhases } from "@/lib/cipherOnboardingPhases";
 import OurCompanyLeadSection from "@/views/our-company/components/OurCompanyLeadSection";
@@ -48,15 +49,14 @@ export default function OurProcessPage() {
           <div className="max-w-[63%] min-w-0 max-md:max-w-full">
             <div className="flex items-center gap-4">
               <span className="h-px w-[8%] min-w-[48px] bg-white/90" aria-hidden />
-              <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-white">{EYEBROW_HERO}</p>
+              <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-white"><AutoLinkedText>{EYEBROW_HERO}</AutoLinkedText></p>
             </div>
             <h1 className="mt-4 font-[var(--font-heading)] text-4xl font-medium leading-[1.1] md:text-5xl">
               <span className="text-white">Onboarding Process With </span>
               <span className="text-[#166C96]">Cipher Billing</span>
             </h1>
             <p className="mt-0 max-w-2xl border-l-[3px] border-white/90 pt-[15px] pl-8 text-sm leading-[1.42] text-white md:text-base">
-              Protecting your revenue, ensuring airtight compliance, and delivering measurable financial results—so you can
-              focus entirely on patient care.
+              <AutoLinkedText>{"Protecting your revenue, ensuring airtight compliance, and delivering measurable financial results—so you can\n              focus entirely on patient care."}</AutoLinkedText>
             </p>
           </div>
         </div>
@@ -83,13 +83,10 @@ export default function OurProcessPage() {
           </div>
           <div>
             <p className="text-xl leading-relaxed text-slate-700">
-              At Cipher Billing, we believe revenue cycle management shouldn&apos;t be a black box. Because we focus
-              exclusively on behavioral health and addiction treatment, our step-by-step process is tailored specifically
-              to your industry.
+              <AutoLinkedText>{"At Cipher Billing, we believe revenue cycle management shouldn&apos;t be a black box. Because we focus\n              exclusively on behavioral health and addiction treatment, our step-by-step process is tailored specifically\n              to your industry."}</AutoLinkedText>
             </p>
             <p className="mt-5 text-lg leading-relaxed text-slate-600">
-              From rigorous compliance checks to relentless claims resolution, our approach is designed to be simple,
-              transparent, and highly effective.
+              <AutoLinkedText>{"From rigorous compliance checks to relentless claims resolution, our approach is designed to be simple,\n              transparent, and highly effective."}</AutoLinkedText>
             </p>
             <div className="mt-10 grid grid-cols-1 gap-8 sm:grid-cols-3 sm:gap-6">
               {philosophyPillars.map((p) => (
@@ -101,7 +98,7 @@ export default function OurProcessPage() {
                     <h3 className="font-[var(--font-body)] text-[11px] font-semibold uppercase tracking-[0.24em] text-[#101E3F]">
                       {p.title}
                     </h3>
-                    <p className="mt-2 text-sm text-slate-600">{p.subtitle}</p>
+                    <p className="mt-2 text-sm text-slate-600"><AutoLinkedText>{p.subtitle}</AutoLinkedText></p>
                   </div>
                 </div>
               ))}
@@ -138,19 +135,19 @@ export default function OurProcessPage() {
                   />
                 </div>
                 <div className="min-w-0 flex-1 md:w-[60%]">
-                  <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-[#101E3F]">{phase.phase}</p>
+                  <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-[#101E3F]"><AutoLinkedText>{phase.phase}</AutoLinkedText></p>
                   <h3 className="mt-2 font-[var(--font-heading)] text-2xl font-medium text-[#166C96] md:text-3xl">
                     {phase.title}
                   </h3>
-                  <p className="mt-2 font-[var(--font-body)] text-sm font-medium text-slate-600">{phase.tag}</p>
-                  <p className="mt-6 text-lg leading-relaxed text-slate-700">{phase.intro}</p>
+                  <p className="mt-2 font-[var(--font-body)] text-sm font-medium text-slate-600"><AutoLinkedText>{phase.tag}</AutoLinkedText></p>
+                  <p className="mt-6 text-lg leading-relaxed text-slate-700"><AutoLinkedText>{phase.intro}</AutoLinkedText></p>
                   <div className="mt-10 space-y-10">
                     {phase.blocks.map((b) => (
                       <div key={b.title} className="border-l-[3px] border-[#166C96] pl-8">
                         <h4 className="font-[var(--font-body)] text-[11px] font-semibold uppercase tracking-[0.2em] text-[#101E3F]">
                           {b.title}
                         </h4>
-                        <p className="mt-2 text-sm leading-relaxed text-slate-600">{b.body}</p>
+                        <p className="mt-2 text-sm leading-relaxed text-slate-600"><AutoLinkedText>{b.body}</AutoLinkedText></p>
                       </div>
                     ))}
                   </div>

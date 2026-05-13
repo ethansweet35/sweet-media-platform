@@ -5,6 +5,7 @@ import Link from 'next/link';
 import Breadcrumb from '@/components/base/Breadcrumb';
 import { useInView } from '@/hooks/useInView';
 import { useParallax } from '@/hooks/useParallax';
+import { AutoLinkedTextClient } from "@sweetmedia/blog-core";
 
 const therapyCategories = [
   {
@@ -306,7 +307,7 @@ export default function TherapyPage() {
               </div>
               <div className="flex flex-col gap-6">
                 <p className="text-[#F0ECE1]/80 font-light text-lg leading-relaxed">
-                  Every therapy we offer has been carefully selected for its proven effectiveness with women — and woven into a holistic, integrated treatment experience that addresses mind, body, and spirit.
+                  <AutoLinkedTextClient>{"Every therapy we offer has been carefully selected for its proven effectiveness with women — and woven into a holistic, integrated treatment experience that addresses mind, body, and spirit."}</AutoLinkedTextClient>
                 </p>
                 <div className="flex flex-wrap gap-4">
                   <Link
@@ -353,7 +354,7 @@ export default function TherapyPage() {
             <span className="text-xs uppercase tracking-[0.3em] text-[#6B7D67] font-medium">Therapeutic Modalities</span>
             <h2 className="font-serif text-[#2C3B2E]" style={{ fontSize: 'clamp(28px, 4vw, 48px)' }}>Our Approaches to Healing</h2>
             <p className="text-[#3A4A3C]/60 font-light text-base max-w-xl mx-auto leading-relaxed">
-              We integrate four pillars of therapeutic care — each essential, each complementing the others.
+              <AutoLinkedTextClient>{"We integrate four pillars of therapeutic care — each essential, each complementing the others."}</AutoLinkedTextClient>
             </p>
           </div>
 
@@ -389,7 +390,7 @@ export default function TherapyPage() {
 />
               <div className="absolute inset-0 bg-gradient-to-t from-[#2C3B2E]/80 via-transparent to-transparent"></div>
               <div className="absolute bottom-0 left-0 right-0 p-6">
-                <p className="text-[#F0ECE1]/90 font-serif italic text-sm leading-relaxed">{cat.quote}</p>
+                <p className="text-[#F0ECE1]/90 font-serif italic text-sm leading-relaxed"><AutoLinkedTextClient>{cat.quote}</AutoLinkedTextClient></p>
               </div>
               <div
                 className="absolute top-5 left-5 flex items-center gap-2 px-4 py-2 rounded-full text-white text-xs font-medium uppercase tracking-widest"
@@ -402,7 +403,7 @@ export default function TherapyPage() {
 
             {/* Right: intro + modality cards */}
             <div ref={detailRightRef} className={`flex flex-col gap-6 anim-hidden anim-fade-left ${detailRightVisible ? 'anim-visible' : ''}`}>
-              <p className="text-[#3A4A3C]/70 font-light text-base leading-[1.9]">{cat.intro}</p>
+              <p className="text-[#3A4A3C]/70 font-light text-base leading-[1.9]"><AutoLinkedTextClient>{cat.intro}</AutoLinkedTextClient></p>
               <div className="flex flex-col gap-3">
                 {cat.modalities.map((mod, i) => (
                   <div
@@ -436,7 +437,7 @@ export default function TherapyPage() {
                     </button>
                     {expandedModality === i && (
                       <div className="px-5 pb-5 flex flex-col gap-4">
-                        <p className="text-[#F0ECE1]/70 font-light text-sm leading-[1.8]">{mod.desc}</p>
+                        <p className="text-[#F0ECE1]/70 font-light text-sm leading-[1.8]"><AutoLinkedTextClient>{mod.desc}</AutoLinkedTextClient></p>
                         <div className="grid grid-cols-2 gap-2">
                           {mod.benefits.map((b, j) => (
                             <div key={j} className="flex items-center gap-2">
@@ -467,7 +468,7 @@ export default function TherapyPage() {
               <em className="text-[#DDA15E]">changes everything.</em>
             </h2>
             <p className="text-[#F0ECE1]/70 font-light text-base leading-[1.9]">
-              Research consistently shows that women heal more effectively in gender-responsive environments. When women don't have to manage the social dynamics of mixed-gender settings, they open up more fully, go deeper, and heal faster.
+              <AutoLinkedTextClient>{"Research consistently shows that women heal more effectively in gender-responsive environments. When women don't have to manage the social dynamics of mixed-gender settings, they open up more fully, go deeper, and heal faster."}</AutoLinkedTextClient>
             </p>
             <div className="flex flex-col gap-4">
               {[
@@ -481,8 +482,8 @@ export default function TherapyPage() {
                     <i className={`${item.icon} text-sm text-[#DDA15E]`}></i>
                   </div>
                   <div>
-                    <p className="text-[#FAF8F5] font-medium text-sm mb-1">{item.title}</p>
-                    <p className="text-[#F0ECE1]/55 font-light text-sm leading-relaxed">{item.desc}</p>
+                    <p className="text-[#FAF8F5] font-medium text-sm mb-1"><AutoLinkedTextClient>{item.title}</AutoLinkedTextClient></p>
+                    <p className="text-[#F0ECE1]/55 font-light text-sm leading-relaxed"><AutoLinkedTextClient>{item.desc}</AutoLinkedTextClient></p>
                   </div>
                 </div>
               ))}
@@ -501,9 +502,9 @@ export default function TherapyPage() {
             <div className="absolute inset-0 bg-gradient-to-t from-[#2C3B2E]/60 via-transparent to-transparent"></div>
             <div className="absolute bottom-6 left-6 right-6 bg-[#FAF8F5]/10 backdrop-blur-sm rounded-xl p-5 border border-[#FAF8F5]/10">
               <p className="text-[#FAF8F5] font-serif italic text-sm leading-relaxed">
-                "We don't just treat symptoms. We help women understand themselves — and build lives they actually want to live."
+                <AutoLinkedTextClient>{"\"We don't just treat symptoms. We help women understand themselves — and build lives they actually want to live.\""}</AutoLinkedTextClient>
               </p>
-              <p className="text-[#DDA15E] text-xs mt-2 font-medium">— Dr. Amara Osei, Clinical Director</p>
+              <p className="text-[#DDA15E] text-xs mt-2 font-medium"><AutoLinkedTextClient>{"— Dr. Amara Osei, Clinical Director"}</AutoLinkedTextClient></p>
             </div>
           </div>
         </div>
@@ -530,7 +531,7 @@ export default function TherapyPage() {
               <em className="text-[#C8795A]">of healing.</em>
             </h2>
             <p className="text-[#3A4A3C]/70 font-light text-base leading-[1.9]">
-              No two days are identical — but every day is intentionally structured to balance clinical depth with rest, community, and joy. Here's a glimpse of what a typical day in our Residential program looks like.
+              <AutoLinkedTextClient>{"No two days are identical — but every day is intentionally structured to balance clinical depth with rest, community, and joy. Here's a glimpse of what a typical day in our Residential program looks like."}</AutoLinkedTextClient>
             </p>
             <div className="flex flex-col gap-0">
               {[
@@ -593,7 +594,7 @@ export default function TherapyPage() {
                 </button>
                 {openFaq === i && (
                   <div className="px-6 pb-6">
-                    <p className="text-[#F0ECE1]/70 font-light text-sm leading-[1.9]">{faq.a}</p>
+                    <p className="text-[#F0ECE1]/70 font-light text-sm leading-[1.9]"><AutoLinkedTextClient>{faq.a}</AutoLinkedTextClient></p>
                   </div>
                 )}
               </div>
@@ -625,7 +626,7 @@ export default function TherapyPage() {
               <em className="text-[#DDA15E]">chosen just for you.</em>
             </h2>
             <p className="text-[#F0ECE1]/70 font-light text-base leading-relaxed">
-              Our clinical team will match you with the therapies and therapists best suited to your unique history, diagnosis, and goals. The first step is a free, confidential consultation.
+              <AutoLinkedTextClient>{"Our clinical team will match you with the therapies and therapists best suited to your unique history, diagnosis, and goals. The first step is a free, confidential consultation."}</AutoLinkedTextClient>
             </p>
             <div className="flex flex-col sm:flex-row gap-4">
               <Link

@@ -6,6 +6,7 @@ import SectionHeader from "@/components/ui/SectionHeader";
 import IconCircle from "@/components/ui/IconCircle";
 import Button from "@/components/ui/Button";
 import FaqAccordion, { type FaqItem } from "@/components/ui/FaqAccordion";
+import { AutoLinkedText } from "@sweetmedia/blog-core";
 
 const BASE = "https://nfjlvkxrbzytjefmcvhg.supabase.co/storage/v1/object/public/site-assets/images";
 
@@ -195,7 +196,7 @@ export default function AddictionPage() {
                 <em className="italic text-white/60">Treatment</em>
               </h1>
               <p className="mt-6 text-[16px] font-light leading-relaxed text-white/80 max-w-[520px]">
-                Evidence-based, medically-supervised treatment for all substance use disorders — addressing the full clinical picture, not just the substance.
+                <AutoLinkedText>{"Evidence-based, medically-supervised treatment for all substance use disorders — addressing the full clinical picture, not just the substance."}</AutoLinkedText>
               </p>
             </div>
 
@@ -229,8 +230,8 @@ export default function AddictionPage() {
               { value: "1:3",   label: "Staff-Client Ratio" },
             ].map(({ value, label }) => (
               <div key={label} className="px-8 py-5 border-r border-white/10 last:border-r-0 bg-ink/50 backdrop-blur-sm">
-                <p className="font-[family-name:var(--font-display)] text-[28px] font-normal text-white leading-none">{value}</p>
-                <p className="text-[10px] font-medium uppercase tracking-[0.22em] text-white/50 mt-1.5">{label}</p>
+                <p className="font-[family-name:var(--font-display)] text-[28px] font-normal text-white leading-none"><AutoLinkedText>{value}</AutoLinkedText></p>
+                <p className="text-[10px] font-medium uppercase tracking-[0.22em] text-white/50 mt-1.5"><AutoLinkedText>{label}</AutoLinkedText></p>
               </div>
             ))}
           </div>
@@ -250,29 +251,29 @@ export default function AddictionPage() {
             </h2>
             <div className="flex flex-col gap-5">
               <p className="text-[15px] font-light leading-relaxed text-ink/65">
-                Addiction is a chronic brain disorder characterized by compulsive substance use despite harmful consequences. It is not a moral failing, a lack of willpower, or a character deficiency — it is a neurological condition that produces lasting changes in the brain&apos;s reward, motivation, and executive function circuits.
+                <AutoLinkedText>{"Addiction is a chronic brain disorder characterized by compulsive substance use despite harmful consequences. It is not a moral failing, a lack of willpower, or a character deficiency — it is a neurological condition that produces lasting changes in the brain&apos;s reward, motivation, and executive function circuits."}</AutoLinkedText>
               </p>
               <p className="text-[15px] font-light leading-relaxed text-ink/65">
-                Repeated substance use progressively hijacks the brain&apos;s dopamine system — the same system responsible for motivation, pleasure, and decision-making. Over time, the brain reorganizes itself around the substance: natural rewards become less compelling, withdrawal becomes intensely aversive, and the neural circuits responsible for impulse control are progressively compromised.
+                <AutoLinkedText>{"Repeated substance use progressively hijacks the brain&apos;s dopamine system — the same system responsible for motivation, pleasure, and decision-making. Over time, the brain reorganizes itself around the substance: natural rewards become less compelling, withdrawal becomes intensely aversive, and the neural circuits responsible for impulse control are progressively compromised."}</AutoLinkedText>
               </p>
               <p className="text-[15px] font-light leading-relaxed text-ink/65">
-                This is why willpower alone fails most people with addiction — the very brain systems responsible for self-regulation are the ones that have been most affected. Effective treatment works by providing clinical support during the neurological recovery process, building new behavioral patterns, and addressing the underlying drivers that predisposed someone to addiction in the first place.
+                <AutoLinkedText>{"This is why willpower alone fails most people with addiction — the very brain systems responsible for self-regulation are the ones that have been most affected. Effective treatment works by providing clinical support during the neurological recovery process, building new behavioral patterns, and addressing the underlying drivers that predisposed someone to addiction in the first place."}</AutoLinkedText>
               </p>
               <p className="text-[15px] font-light leading-relaxed text-ink/65">
-                At Rize OC, we treat addiction as the complex, multidimensional condition it is — combining medical stabilization, evidence-based therapy, psychiatric support, and community connection into a fully integrated treatment experience.
+                <AutoLinkedText>{"At Rize OC, we treat addiction as the complex, multidimensional condition it is — combining medical stabilization, evidence-based therapy, psychiatric support, and community connection into a fully integrated treatment experience."}</AutoLinkedText>
               </p>
             </div>
             <blockquote className="mt-auto pt-8 border-l-2 border-accent pl-6">
               <p className="text-[17px] font-[family-name:var(--font-display)] font-normal text-ink/70 leading-snug italic">
-                &ldquo;Addiction is not a failure of character. It is a failure of neural circuitry — one that responds remarkably well to the right clinical intervention.&rdquo;
+                <AutoLinkedText>{"&ldquo;Addiction is not a failure of character. It is a failure of neural circuitry — one that responds remarkably well to the right clinical intervention.&rdquo;"}</AutoLinkedText>
               </p>
-              <p className="mt-3 text-[11px] font-medium uppercase tracking-[0.2em] text-ink/40">Rize OC Medical Director</p>
+              <p className="mt-3 text-[11px] font-medium uppercase tracking-[0.2em] text-ink/40"><AutoLinkedText>{"Rize OC Medical Director"}</AutoLinkedText></p>
             </blockquote>
           </div>
 
           <div className="flex flex-col gap-5 h-full">
             <div className="bg-ink p-7">
-              <p className="text-[10px] font-semibold uppercase tracking-[0.35em] text-accent mb-4">Why Clinical Treatment Works</p>
+              <p className="text-[10px] font-semibold uppercase tracking-[0.35em] text-accent mb-4"><AutoLinkedText>{"Why Clinical Treatment Works"}</AutoLinkedText></p>
               <div className="flex flex-col gap-5">
                 {[
                   { icon: "ri-brain-line",         point: "Medication-assisted treatment reduces relapse risk by up to 50% for opioid and alcohol disorders" },
@@ -282,7 +283,7 @@ export default function AddictionPage() {
                 ].map(({ icon, point }) => (
                   <div key={point} className="flex items-start gap-3">
                     <i className={`${icon} text-accent text-base shrink-0 mt-0.5`} />
-                    <p className="text-sm font-light text-white/65 leading-snug">{point}</p>
+                    <p className="text-sm font-light text-white/65 leading-snug"><AutoLinkedText>{point}</AutoLinkedText></p>
                   </div>
                 ))}
               </div>
@@ -319,7 +320,7 @@ export default function AddictionPage() {
               Substances We <em className="italic text-white/60">Treat</em>
             </h2>
             <p className="text-[15px] font-light text-white/65 max-w-2xl mx-auto">
-              Our clinical team is experienced in treating all major substance use disorders — including complex polysubstance presentations. If you don&apos;t see your substance listed, contact us.
+              <AutoLinkedText>{"Our clinical team is experienced in treating all major substance use disorders — including complex polysubstance presentations. If you don&apos;t see your substance listed, contact us."}</AutoLinkedText>
             </p>
           </div>
 
@@ -333,7 +334,7 @@ export default function AddictionPage() {
                   </span>
                 </div>
                 <h3 className="font-[family-name:var(--font-display)] text-[22px] font-normal text-white mb-3">{title}</h3>
-                <p className="text-[14px] font-light leading-relaxed text-white/75 flex-1">{desc}</p>
+                <p className="text-[14px] font-light leading-relaxed text-white/75 flex-1"><AutoLinkedText>{desc}</AutoLinkedText></p>
               </div>
             ))}
           </div>
@@ -366,7 +367,7 @@ export default function AddictionPage() {
               <div key={title} className="bg-white border border-warm p-7 flex flex-col">
                 <IconCircle icon={icon} variant="accent-subtle" size="sm" className="mb-5" />
                 <h3 className="font-[family-name:var(--font-display)] text-[22px] font-normal text-ink mb-3 leading-snug">{title}</h3>
-                <p className="text-[14px] font-light leading-relaxed text-ink/65 flex-1">{desc}</p>
+                <p className="text-[14px] font-light leading-relaxed text-ink/65 flex-1"><AutoLinkedText>{desc}</AutoLinkedText></p>
               </div>
             ))}
           </div>
@@ -386,13 +387,13 @@ export default function AddictionPage() {
             </h2>
             <div className="flex flex-col gap-5">
               <p className="text-[15px] font-light leading-relaxed text-ink/65">
-                The majority of treatment programs still separate addiction and mental health treatment — handling them sequentially or in different facilities. Rize OC&apos;s integrated model recognizes that substance use disorders and mental health conditions are almost always intertwined, and that treating them separately produces significantly worse outcomes.
+                <AutoLinkedText>{"The majority of treatment programs still separate addiction and mental health treatment — handling them sequentially or in different facilities. Rize OC&apos;s integrated model recognizes that substance use disorders and mental health conditions are almost always intertwined, and that treating them separately produces significantly worse outcomes."}</AutoLinkedText>
               </p>
               <p className="text-[15px] font-light leading-relaxed text-ink/65">
-                Our embedded psychiatric team works alongside addiction specialists from day one — assessing, diagnosing, and treating co-occurring conditions in real time. Medication management, trauma therapy, and evidence-based addiction treatment are delivered as a unified clinical experience, not a series of uncoordinated appointments.
+                <AutoLinkedText>{"Our embedded psychiatric team works alongside addiction specialists from day one — assessing, diagnosing, and treating co-occurring conditions in real time. Medication management, trauma therapy, and evidence-based addiction treatment are delivered as a unified clinical experience, not a series of uncoordinated appointments."}</AutoLinkedText>
               </p>
               <p className="text-[15px] font-light leading-relaxed text-ink/65">
-                The result is treatment that addresses the full picture — not just the substance, but the neurological, psychological, relational, and circumstantial dimensions that maintain the cycle of addiction.
+                <AutoLinkedText>{"The result is treatment that addresses the full picture — not just the substance, but the neurological, psychological, relational, and circumstantial dimensions that maintain the cycle of addiction."}</AutoLinkedText>
               </p>
             </div>
             <div className="mt-8 flex flex-col gap-3">
@@ -405,7 +406,7 @@ export default function AddictionPage() {
               ].map((item) => (
                 <div key={item} className="flex items-center gap-3">
                   <div className="w-2 h-2 rounded-full bg-accent shrink-0" />
-                  <p className="text-[15px] font-light text-ink/70">{item}</p>
+                  <p className="text-[15px] font-light text-ink/70"><AutoLinkedText>{item}</AutoLinkedText></p>
                 </div>
               ))}
             </div>
@@ -417,10 +418,8 @@ export default function AddictionPage() {
                 <p
                   className="font-[family-name:var(--font-display)] font-normal text-accent shrink-0"
                   style={{ fontSize: "clamp(40px, 4vw, 56px)", lineHeight: 1 }}
-                >
-                  {stat}
-                </p>
-                <p className="text-[15px] font-light leading-relaxed text-ink/65 pt-2">{detail}</p>
+                ><AutoLinkedText>{stat}</AutoLinkedText></p>
+                <p className="text-[15px] font-light leading-relaxed text-ink/65 pt-2"><AutoLinkedText>{detail}</AutoLinkedText></p>
               </div>
             ))}
           </div>
@@ -450,7 +449,7 @@ export default function AddictionPage() {
                   </span>
                 </div>
                 <h3 className="font-[family-name:var(--font-display)] text-[22px] font-normal text-ink mb-3 leading-snug">{title}</h3>
-                <p className="text-[14px] font-light leading-relaxed text-ink/70 flex-1">{desc}</p>
+                <p className="text-[14px] font-light leading-relaxed text-ink/70 flex-1"><AutoLinkedText>{desc}</AutoLinkedText></p>
                 <div className="mt-6">
                   <Link href={href} className="text-[11px] font-medium uppercase tracking-[0.2em] text-accent flex items-center gap-1.5 hover:gap-3 transition-all">
                     {cta} <i className="ri-arrow-right-line" />
@@ -484,7 +483,7 @@ export default function AddictionPage() {
               Frequently Asked Questions
             </h2>
             <p className="text-[15px] font-light leading-relaxed text-ink/60 mb-8">
-              Our admissions team is available 24/7 to answer anything you don&apos;t find here.
+              <AutoLinkedText>{"Our admissions team is available 24/7 to answer anything you don&apos;t find here."}</AutoLinkedText>
             </p>
             <a href="tel:9494612620" className="flex items-center gap-2 text-accent text-[14px] font-medium hover:text-ink transition-colors">
               <i className="ri-phone-line" /> (949)-461-2620
@@ -510,7 +509,7 @@ export default function AddictionPage() {
             You Don&apos;t Have to Figure This Out Alone
           </h2>
           <p className="mt-6 text-[15px] font-light leading-relaxed text-white/55 max-w-xl mx-auto">
-            Our admissions team is available 24/7 to answer questions, verify your insurance, and help you understand every option. All conversations are completely confidential.
+            <AutoLinkedText>{"Our admissions team is available 24/7 to answer questions, verify your insurance, and help you understand every option. All conversations are completely confidential."}</AutoLinkedText>
           </p>
           <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
             <Button href="tel:9494612620" variant="accent" size="lg">

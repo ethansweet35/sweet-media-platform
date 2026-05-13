@@ -5,6 +5,7 @@ import BottomCta from "@/components/sections/BottomCta";
 import HeroContactForm from "@/components/feature/HeroContactForm";
 import { PHONE_DISPLAY, PHONE_HREF } from "@/data/site";
 import type { Faq } from "@/data/faqs";
+import { AutoLinkedText } from "@sweetmedia/blog-core";
 
 const SUPABASE_IMAGES = "https://bxtwcdgjzzjxjvqdiuvn.supabase.co/storage/v1/object/public/site-assets/images";
 const HERO_BG = `${SUPABASE_IMAGES}/executives_hero01.jpg`;
@@ -116,12 +117,12 @@ export default function InterventionsForExecutivesPage() {
         <div className={`relative ${CONTAINER} py-24 lg:py-32`}>
           <div className="grid items-center gap-14 lg:grid-cols-[1fr_460px]">
             <div>
-              <p className="brand-eyebrow mb-4 text-[#8FAC87]">Executive Interventions</p>
+              <p className="brand-eyebrow mb-4 text-[#8FAC87]"><AutoLinkedText>{"Executive Interventions"}</AutoLinkedText></p>
               <h1 className="font-heading mb-6 text-4xl font-bold leading-tight text-white md:text-5xl lg:text-6xl">
                 Executive interventions — <span className="italic text-[#8FAC87]">discreet care for those who carry the most</span>
               </h1>
               <p className="mb-8 max-w-lg text-base leading-relaxed text-white/80 md:text-lg">
-                High-functioning professionals require a different level of discretion, planning, and placement. We have helped CEOs, surgeons, attorneys, and leaders get well — without their careers collapsing in the process.
+                <AutoLinkedText>{"High-functioning professionals require a different level of discretion, planning, and placement. We have helped CEOs, surgeons, attorneys, and leaders get well — without their careers collapsing in the process."}</AutoLinkedText>
               </p>
               <div className="mb-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
                 <a href={PHONE_HREF} className="inline-flex items-center gap-2 rounded-full bg-[#8FAC87] px-7 py-3.5 text-sm font-semibold text-white shadow-sm transition hover:bg-[#6F8E68]">
@@ -148,12 +149,12 @@ export default function InterventionsForExecutivesPage() {
         <div className={CONTAINER}>
           <div className="grid gap-16 lg:grid-cols-2 lg:items-start">
             <div>
-              <p className="brand-eyebrow mb-4 text-[#8FAC87]">Recognising the Problem</p>
+              <p className="brand-eyebrow mb-4 text-[#8FAC87]"><AutoLinkedText>{"Recognising the Problem"}</AutoLinkedText></p>
               <h2 className="font-heading mb-6 text-4xl font-bold leading-tight text-[#1A1A17] md:text-5xl">
                 Signs a high-achiever needs <span className="italic text-[#507969]">professional intervention</span>
               </h2>
               <p className="mb-8 text-base leading-relaxed text-[#4B4B4B]">
-                High-functioning addiction is one of the most dangerous forms because the external performance masks internal collapse. If several of these are true, the problem is further along than it appears.
+                <AutoLinkedText>{"High-functioning addiction is one of the most dangerous forms because the external performance masks internal collapse. If several of these are true, the problem is further along than it appears."}</AutoLinkedText>
               </p>
               <ul className="grid gap-3">
                 {SIGNS.map((item) => (
@@ -177,8 +178,8 @@ export default function InterventionsForExecutivesPage() {
                   <span className="flex h-12 w-12 items-center justify-center rounded-full bg-[#3E5B50] text-white">
                     <i className={`text-xl ${s.icon}`}></i>
                   </span>
-                  <p className="font-heading mt-4 text-3xl font-bold text-[#3E5B50]">{s.number}</p>
-                  <p className="mt-1 text-xs font-medium text-[#4B4B4B]">{s.label}</p>
+                  <p className="font-heading mt-4 text-3xl font-bold text-[#3E5B50]"><AutoLinkedText>{s.number}</AutoLinkedText></p>
+                  <p className="mt-1 text-xs font-medium text-[#4B4B4B]"><AutoLinkedText>{s.label}</AutoLinkedText></p>
                 </div>
               ))}
             </div>
@@ -192,7 +193,7 @@ export default function InterventionsForExecutivesPage() {
         <div className="pointer-events-none absolute -left-20 bottom-0 h-64 w-64 rounded-full bg-[#8FAC87]/15" />
         <div className={`relative ${CONTAINER}`}>
           <div className="mx-auto mb-14 max-w-2xl text-center">
-            <p className="brand-eyebrow mb-4 text-[#8FAC87]">Why Families Hesitate</p>
+            <p className="brand-eyebrow mb-4 text-[#8FAC87]"><AutoLinkedText>{"Why Families Hesitate"}</AutoLinkedText></p>
             <h2 className="font-heading text-4xl font-bold text-white md:text-5xl">
               What keeps executives from getting <span className="italic text-[#8FAC87]">the help they need</span>
             </h2>
@@ -203,8 +204,8 @@ export default function InterventionsForExecutivesPage() {
                 <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-xl bg-[#8FAC87]/20 text-[#8FAC87]">
                   <i className={`${m.icon} text-lg`}></i>
                 </div>
-                <p className="mb-3 text-sm font-semibold italic text-white/60">{m.myth}</p>
-                <p className="text-sm leading-relaxed text-white/85">{m.truth}</p>
+                <p className="mb-3 text-sm font-semibold italic text-white/60"><AutoLinkedText>{m.myth}</AutoLinkedText></p>
+                <p className="text-sm leading-relaxed text-white/85"><AutoLinkedText>{m.truth}</AutoLinkedText></p>
               </div>
             ))}
           </div>
@@ -217,9 +218,9 @@ export default function InterventionsForExecutivesPage() {
         <div className="absolute inset-0 bg-gradient-to-r from-[#1A1A17]/70 via-[#1A1A17]/50 to-transparent" />
         <div className="absolute bottom-0 left-0 p-10 text-white">
           <p className="font-heading max-w-md text-2xl italic">
-            "I was terrified my board would find out. The intervention protected my career and saved my life."
+            <AutoLinkedText>{"\"I was terrified my board would find out. The intervention protected my career and saved my life.\""}</AutoLinkedText>
           </p>
-          <p className="mt-2 text-sm text-white/70">— CEO, now 18 months sober</p>
+          <p className="mt-2 text-sm text-white/70"><AutoLinkedText>{"— CEO, now 18 months sober"}</AutoLinkedText></p>
         </div>
       </section>
 
@@ -243,7 +244,7 @@ export default function InterventionsForExecutivesPage() {
                   </span>
                 </span>
                 <h3 className="font-heading mb-2 text-base font-bold text-[#1A1A17]">{step.title}</h3>
-                <p className="text-sm leading-relaxed text-[#4B4B4B]">{step.body}</p>
+                <p className="text-sm leading-relaxed text-[#4B4B4B]"><AutoLinkedText>{step.body}</AutoLinkedText></p>
               </div>
             ))}
           </div>

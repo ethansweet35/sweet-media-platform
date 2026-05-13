@@ -6,6 +6,7 @@ import BottomCta from "@/components/sections/BottomCta";
 import HeroContactForm from "@/components/feature/HeroContactForm";
 import { PHONE_DISPLAY, PHONE_HREF } from "@/data/site";
 import type { Faq } from "@/data/faqs";
+import { AutoLinkedText } from "@sweetmedia/blog-core";
 
 const SUPABASE_IMAGES = "https://bxtwcdgjzzjxjvqdiuvn.supabase.co/storage/v1/object/public/site-assets/images";
 const HERO_BG = `${SUPABASE_IMAGES}/anxiety_hero01.jpg`;
@@ -27,12 +28,12 @@ export default function AnxietyInterventionsPage() {
         <div className="relative mx-auto w-full max-w-7xl px-6 py-24 lg:px-10 lg:py-32">
           <div className="grid items-center gap-14 lg:grid-cols-[1fr_460px]">
             <div>
-              <p className="brand-eyebrow mb-4 text-[#8FAC87]">Anxiety Interventions</p>
+              <p className="brand-eyebrow mb-4 text-[#8FAC87]"><AutoLinkedText>{"Anxiety Interventions"}</AutoLinkedText></p>
               <h1 className="font-heading mb-6 text-4xl font-bold leading-tight text-white md:text-5xl lg:text-6xl">
                 Anxiety interventions — <span className="italic text-[#8FAC87]">when fear has taken over life</span>
               </h1>
               <p className="mb-8 max-w-lg text-base leading-relaxed text-white/80 md:text-lg">
-                Severe anxiety disorders can make normal life impossible — yet those suffering rarely seek help on their own. We help families break through the avoidance and denial to get their loved one into effective treatment.
+                <AutoLinkedText>{"Severe anxiety disorders can make normal life impossible — yet those suffering rarely seek help on their own. We help families break through the avoidance and denial to get their loved one into effective treatment."}</AutoLinkedText>
               </p>
               <div className="mb-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
                 <a href={PHONE_HREF} className="inline-flex items-center gap-2 rounded-full bg-[#8FAC87] px-7 py-3.5 text-sm font-semibold text-white shadow-sm transition hover:bg-[#6F8E68]">
@@ -56,7 +57,7 @@ export default function AnxietyInterventionsPage() {
                 What a professional anxiety intervention <span className="italic text-[#507969]">actually looks like</span>
               </h2>
               <p className="mb-5 text-base leading-relaxed text-[#4B4B4B]">
-                Our interventions are designed to meet a highly anxious individual where they are — with calm, structure, and a compassionate path forward. We place with programmes that specialise in anxiety disorders and offer evidence-based treatments (CBT, exposure therapy, medication management when appropriate).
+                <AutoLinkedText>{"Our interventions are designed to meet a highly anxious individual where they are — with calm, structure, and a compassionate path forward. We place with programmes that specialise in anxiety disorders and offer evidence-based treatments (CBT, exposure therapy, medication management when appropriate)."}</AutoLinkedText>
               </p>
             </div>
             <div className="grid grid-cols-2 gap-4">
@@ -70,8 +71,8 @@ export default function AnxietyInterventionsPage() {
                   <span className="flex h-12 w-12 items-center justify-center rounded-full bg-[#3E5B50] text-white">
                     <i className={`text-xl ${s.icon}`}></i>
                   </span>
-                  <p className="font-heading mt-4 text-3xl font-bold text-[#3E5B50]">{s.number}</p>
-                  <p className="mt-1 text-xs font-medium text-[#4B4B4B]">{s.label}</p>
+                  <p className="font-heading mt-4 text-3xl font-bold text-[#3E5B50]"><AutoLinkedText>{s.number}</AutoLinkedText></p>
+                  <p className="mt-1 text-xs font-medium text-[#4B4B4B]"><AutoLinkedText>{s.label}</AutoLinkedText></p>
                 </div>
               ))}
             </div>
@@ -84,9 +85,9 @@ export default function AnxietyInterventionsPage() {
         <div className="absolute inset-0 bg-gradient-to-r from-[#1A1A17]/70 via-[#1A1A17]/50 to-transparent" />
         <div className="absolute bottom-0 left-0 p-10 text-white">
           <p className="font-heading max-w-md text-2xl italic">
-            "We thought we were helping by reassuring her. The intervention taught us how to support real recovery."
+            <AutoLinkedText>{"\"We thought we were helping by reassuring her. The intervention taught us how to support real recovery.\""}</AutoLinkedText>
           </p>
-          <p className="mt-2 text-sm text-white/70">— Parents of a daughter with severe agoraphobia</p>
+          <p className="mt-2 text-sm text-white/70"><AutoLinkedText>{"— Parents of a daughter with severe agoraphobia"}</AutoLinkedText></p>
         </div>
       </section>
 

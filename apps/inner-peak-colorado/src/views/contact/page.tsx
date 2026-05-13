@@ -1,6 +1,7 @@
 'use client';
 import { useState, useEffect } from 'react';
 import Breadcrumb from '@/components/base/Breadcrumb';
+import { AutoLinkedTextClient } from "@sweetmedia/blog-core";
 
 
 const faqs = [
@@ -138,7 +139,7 @@ export default function ContactPage() {
               <em className="text-[#DDA15E]">conversation.</em>
             </h1>
             <p className="text-[#F0ECE1]/70 font-light text-lg leading-relaxed max-w-xl">
-              Reach out today. Our compassionate intake team is available 24/7 — no judgment, no pressure, just genuine care.
+              <AutoLinkedTextClient>{"Reach out today. Our compassionate intake team is available 24/7 — no judgment, no pressure, just genuine care."}</AutoLinkedTextClient>
             </p>
           </div>
         </div>
@@ -157,7 +158,7 @@ export default function ContactPage() {
                 </div>
                 <h3 className="font-serif text-[#2C3B2E] text-2xl">Thank you for reaching out.</h3>
                 <p className="text-[#3A4A3C]/70 font-light text-base leading-relaxed">
-                  A member of our intake team will contact you within 24 hours. If you need immediate support, please call us at 719-733-8556.
+                  <AutoLinkedTextClient>{"A member of our intake team will contact you within 24 hours. If you need immediate support, please call us at 719-733-8556."}</AutoLinkedTextClient>
                 </p>
               </div>
             ) : (
@@ -241,7 +242,7 @@ export default function ContactPage() {
                   <i className="ri-send-plane-line"></i>
                 </button>
                 <p className="text-xs text-[#3A4A3C]/40 font-light">
-                  All communications are strictly confidential and HIPAA-compliant.
+                  <AutoLinkedTextClient>{"All communications are strictly confidential and HIPAA-compliant."}</AutoLinkedTextClient>
                 </p>
               </form>
             )}
@@ -264,8 +265,8 @@ export default function ContactPage() {
                       <i className={`${item.icon} text-base`} style={{ color: item.color }}></i>
                     </div>
                     <div>
-                      <p className="text-[10px] uppercase tracking-widest text-[#FAF8F5]/40 font-medium">{item.label}</p>
-                      <p className="text-sm text-[#FAF8F5] font-light">{item.value}</p>
+                      <p className="text-[10px] uppercase tracking-widest text-[#FAF8F5]/40 font-medium"><AutoLinkedTextClient>{item.label}</AutoLinkedTextClient></p>
+                      <p className="text-sm text-[#FAF8F5] font-light"><AutoLinkedTextClient>{item.value}</AutoLinkedTextClient></p>
                     </div>
                   </div>
                 ))}
@@ -288,7 +289,7 @@ export default function ContactPage() {
                   </button>
                   {openFaq === i && (
                     <div className="px-5 pb-4">
-                      <p className="text-sm text-[#3A4A3C]/70 font-light leading-relaxed">{faq.a}</p>
+                      <p className="text-sm text-[#3A4A3C]/70 font-light leading-relaxed"><AutoLinkedTextClient>{faq.a}</AutoLinkedTextClient></p>
                     </div>
                   )}
                 </div>

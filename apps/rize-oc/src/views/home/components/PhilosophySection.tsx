@@ -1,6 +1,7 @@
 import SectionWrapper from "@/components/ui/SectionWrapper";
 import Eyebrow from "@/components/ui/Eyebrow";
 import IconCircle from "@/components/ui/IconCircle";
+import { AutoLinkedText } from "@sweetmedia/blog-core";
 
 const cards = [
   { icon: "ri-group-line",      title: "Dual-\nDiagnosis",   desc: "Expert treatment for co-occurring disorders" },
@@ -24,12 +25,12 @@ export default function PhilosophySection() {
           </h2>
 
           <p className="mt-6 text-[15px] font-light leading-relaxed text-ink/65">
-            At Rize, we understand that seeking mental health &amp; addiction treatment can be a significant step. That&apos;s why we&apos;ve created a welcoming and supportive environment where you can feel comfortable on your journey to healing and self-discovery. We are proud to be an established part of the Orange County community, offering both outpatient and virtual services designed to fit your lifestyle and preferences.
+            <AutoLinkedText>{"At Rize, we understand that seeking mental health &amp; addiction treatment can be a significant step. That&apos;s why we&apos;ve created a welcoming and supportive environment where you can feel comfortable on your journey to healing and self-discovery. We are proud to be an established part of the Orange County community, offering both outpatient and virtual services designed to fit your lifestyle and preferences."}</AutoLinkedText>
           </p>
 
           <blockquote className="mt-7 border-l-2 border-accent pl-5">
             <p className="text-sm font-light leading-relaxed text-ink/55 italic">
-              We&apos;ve created a sanctuary where evidence-based treatment meets the timeless healing power of the coast—a place where transformation isn&apos;t rushed, but gently nurtured.
+              <AutoLinkedText>{"We&apos;ve created a sanctuary where evidence-based treatment meets the timeless healing power of the coast—a place where transformation isn&apos;t rushed, but gently nurtured."}</AutoLinkedText>
             </p>
           </blockquote>
         </div>
@@ -43,7 +44,7 @@ export default function PhilosophySection() {
                 <h3 className="font-[family-name:var(--font-display)] text-xl font-normal text-ink whitespace-pre-line leading-snug">
                   {title}
                 </h3>
-                <p className="mt-2 text-sm font-light leading-relaxed text-ink/60">{desc}</p>
+                <p className="mt-2 text-sm font-light leading-relaxed text-ink/60"><AutoLinkedText>{desc}</AutoLinkedText></p>
               </div>
             </div>
           ))}

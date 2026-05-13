@@ -3,6 +3,7 @@ import Link from "next/link";
 import TrustStrip from "@/components/sections/TrustStrip";
 import BottomCta from "@/components/sections/BottomCta";
 import { PHONE_DISPLAY, PHONE_HREF } from "@/data/site";
+import { AutoLinkedText } from "@sweetmedia/blog-core";
 
 const SUPABASE_BASE =
   "https://bxtwcdgjzzjxjvqdiuvn.supabase.co/storage/v1/object/public/site-assets/images";
@@ -99,14 +100,14 @@ export default function AboutUsPage() {
           <div className="grid items-center gap-12 lg:grid-cols-[1fr_420px]">
             {/* Left: headline + trust bullets */}
             <div>
-              <p className="brand-eyebrow mb-4 text-[#8FAC87]">About Addiction Interventions</p>
+              <p className="brand-eyebrow mb-4 text-[#8FAC87]"><AutoLinkedText>{"About Addiction Interventions"}</AutoLinkedText></p>
               <h1 className="font-heading mb-6 text-4xl font-bold leading-tight text-white md:text-5xl lg:text-6xl">
                 Walking beside families through the{" "}
                 <span className="italic text-[#8FAC87]">hardest moment</span>{" "}
                 of their lives.
               </h1>
               <p className="mb-8 max-w-xl text-base leading-relaxed text-white/80 md:text-lg">
-                Built by people who have lived this. Trusted by more than 1,500 families nationwide.
+                <AutoLinkedText>{"Built by people who have lived this. Trusted by more than 1,500 families nationwide."}</AutoLinkedText>
               </p>
               <div className="flex flex-wrap gap-4">
                 <a
@@ -158,7 +159,7 @@ export default function AboutUsPage() {
                 </div>
               </div>
               <p className="text-xs leading-relaxed text-white/60">
-                David shares his personal story of recovery and what drives his commitment to helping families in crisis.
+                <AutoLinkedText>{"David shares his personal story of recovery and what drives his commitment to helping families in crisis."}</AutoLinkedText>
               </p>
             </div>
           </div>
@@ -179,7 +180,7 @@ export default function AboutUsPage() {
               </blockquote>
               <div className="mt-6 h-px w-12 bg-[#8FAC87]" />
               <p className="mt-4 text-sm font-semibold uppercase tracking-[0.15em] text-[#8FAC87]">
-                David & Jennifer Gates — Co-Founders
+                <AutoLinkedText>{"David & Jennifer Gates — Co-Founders"}</AutoLinkedText>
               </p>
             </div>
             {/* Text */}
@@ -190,13 +191,10 @@ export default function AboutUsPage() {
                 <span className="italic text-[#507969]">25+ years</span>
               </h2>
               <p className="mb-4 leading-relaxed text-[#4B4B4B]">
-                You&rsquo;ve read the books. You&rsquo;ve tried tough love. You&rsquo;ve tried unconditional
-                support. You&rsquo;ve waited for rock bottom — and watched it move further out of reach.
-                We are here for the moment you decide you are done waiting.
+                <AutoLinkedText>{"You&rsquo;ve read the books. You&rsquo;ve tried tough love. You&rsquo;ve tried unconditional\n                support. You&rsquo;ve waited for rock bottom — and watched it move further out of reach.\n                We are here for the moment you decide you are done waiting."}</AutoLinkedText>
               </p>
               <p className="leading-relaxed text-[#4B4B4B]">
-                Our job is not to fix your loved one. Our job is to give your family a clear path
-                forward — and to walk it with you, every step of the way.
+                <AutoLinkedText>{"Our job is not to fix your loved one. Our job is to give your family a clear path\n                forward — and to walk it with you, every step of the way."}</AutoLinkedText>
               </p>
             </div>
           </div>
@@ -207,13 +205,13 @@ export default function AboutUsPage() {
       <section className="bg-[#F5F3E7] py-24">
         <div className="mx-auto w-full max-w-7xl px-6 lg:px-10">
           <div className="mb-14 text-center">
-            <p className="brand-eyebrow mb-3 text-[#8FAC87]">Intervention Leaders</p>
+            <p className="brand-eyebrow mb-3 text-[#8FAC87]"><AutoLinkedText>{"Intervention Leaders"}</AutoLinkedText></p>
             <h2 className="font-heading text-4xl font-bold text-[#1A1A17] md:text-5xl">
               Meet the{" "}
               <span className="italic text-[#507969]">Co-Founders</span>
             </h2>
             <p className="mx-auto mt-5 max-w-2xl leading-relaxed text-[#4B4B4B]">
-              When you call Addiction Interventions, you speak directly with David or Jennifer — never a call center or intake coordinator.
+              <AutoLinkedText>{"When you call Addiction Interventions, you speak directly with David or Jennifer — never a call center or intake coordinator."}</AutoLinkedText>
             </p>
           </div>
 
@@ -235,9 +233,7 @@ export default function AboutUsPage() {
                     />
                     {/* Credential badge */}
                     <div className="absolute bottom-4 left-4 right-4 rounded-xl bg-[#3E5B50]/90 px-4 py-3 backdrop-blur-sm">
-                      <p className="text-xs font-bold uppercase tracking-[0.1em] text-[#8FAC87]">
-                        {person.credentials}
-                      </p>
+                      <p className="text-xs font-bold uppercase tracking-[0.1em] text-[#8FAC87]"><AutoLinkedText>{person.credentials}</AutoLinkedText></p>
                     </div>
                   </div>
 
@@ -253,13 +249,11 @@ export default function AboutUsPage() {
                         </span>
                       ))}
                     </div>
-                    <p className="mb-6 text-sm font-semibold uppercase tracking-[0.12em] text-[#8FAC87]">
-                      {person.role}
-                    </p>
+                    <p className="mb-6 text-sm font-semibold uppercase tracking-[0.12em] text-[#8FAC87]"><AutoLinkedText>{person.role}</AutoLinkedText></p>
 
                     <div className="mb-7 grid gap-3">
                       {person.bio.map((para, pi) => (
-                        <p key={pi} className="text-sm leading-relaxed text-[#4B4B4B]">{para}</p>
+                        <p key={pi} className="text-sm leading-relaxed text-[#4B4B4B]"><AutoLinkedText>{para}</AutoLinkedText></p>
                       ))}
                     </div>
 
@@ -311,7 +305,7 @@ export default function AboutUsPage() {
                 </span>
                 <div>
                   <h3 className="font-heading text-xl font-bold text-[#1A1A17]">{p.title}</h3>
-                  <p className="mt-2 text-sm leading-relaxed text-[#4B4B4B]">{p.body}</p>
+                  <p className="mt-2 text-sm leading-relaxed text-[#4B4B4B]"><AutoLinkedText>{p.body}</AutoLinkedText></p>
                 </div>
               </div>
             ))}
@@ -324,15 +318,13 @@ export default function AboutUsPage() {
         <div className="mx-auto w-full max-w-7xl px-6 lg:px-10">
           <div className="grid gap-10 lg:grid-cols-[1fr_auto] lg:items-center">
             <div>
-              <p className="brand-eyebrow mb-4 text-[#8FAC87]">Accredited & Trusted</p>
+              <p className="brand-eyebrow mb-4 text-[#8FAC87]"><AutoLinkedText>{"Accredited & Trusted"}</AutoLinkedText></p>
               <h2 className="font-heading mb-5 text-3xl font-bold md:text-4xl">
                 Held to the highest standards of{" "}
                 <span className="italic text-[#8FAC87]">clinical care</span>
               </h2>
               <p className="max-w-2xl leading-relaxed text-white/75">
-                Addiction Interventions is accredited by The Joint Commission — the nation&rsquo;s oldest and most
-                prestigious healthcare accreditor. The Joint Commission Gold Seal is awarded only to organizations
-                that meet rigorous standards of safety, quality, and continuous improvement.
+                <AutoLinkedText>{"Addiction Interventions is accredited by The Joint Commission — the nation&rsquo;s oldest and most\n                prestigious healthcare accreditor. The Joint Commission Gold Seal is awarded only to organizations\n                that meet rigorous standards of safety, quality, and continuous improvement."}</AutoLinkedText>
               </p>
             </div>
             <div className="flex flex-col items-center gap-4 rounded-2xl border border-white/10 bg-white/5 p-8">
@@ -344,7 +336,7 @@ export default function AboutUsPage() {
                 className="h-12 w-auto object-contain brightness-0 invert"
               />
               <p className="text-center text-xs font-semibold uppercase tracking-[0.12em] text-white/60">
-                Joint Commission Accredited
+                <AutoLinkedText>{"Joint Commission Accredited"}</AutoLinkedText>
               </p>
             </div>
           </div>

@@ -1,4 +1,5 @@
 import OurCompanyLeadSection from "@/views/our-company/components/OurCompanyLeadSection";
+import { AutoLinkedText } from "@sweetmedia/blog-core";
 
 /** Elementor `post-199.css` + migration HTML: 3-col grid from 768px, 27px gap, 454px portrait cards. */
 const team = [
@@ -109,7 +110,7 @@ export default function OurTeamPage() {
             Our Team
           </h1>
           <p className="mx-auto mt-4 max-w-3xl text-center text-base leading-[1.42] text-white/90 md:text-lg">
-            Deep expertise in the complexities of Behavioral Health RCM.
+            <AutoLinkedText>{"Deep expertise in the complexities of Behavioral Health RCM."}</AutoLinkedText>
           </p>
 
           <div className="mt-14 grid grid-cols-1 gap-5 min-[768px]:grid-cols-3 min-[768px]:gap-[27px]">
@@ -130,10 +131,8 @@ export default function OurTeamPage() {
                   }}
                 />
                 <div className="relative">
-                  <p className="font-marcellus text-xl font-medium text-white md:text-2xl">{person.name}</p>
-                  <p className="mt-2 text-[11px] font-semibold uppercase tracking-[0.14em] text-white/95">
-                    {person.role}
-                  </p>
+                  <p className="font-marcellus text-xl font-medium text-white md:text-2xl"><AutoLinkedText>{person.name}</AutoLinkedText></p>
+                  <p className="mt-2 text-[11px] font-semibold uppercase tracking-[0.14em] text-white/95"><AutoLinkedText>{person.role}</AutoLinkedText></p>
                 </div>
               </div>
             ))}

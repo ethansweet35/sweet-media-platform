@@ -4,6 +4,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useState } from 'react';
 import Breadcrumb from '@/components/base/Breadcrumb';
+import { AutoLinkedTextClient } from "@sweetmedia/blog-core";
 
 const ACCENT = '#8FA489';
 
@@ -187,7 +188,7 @@ export default function BipolarDisorderPage() {
               </div>
               <div className="flex flex-col gap-6">
                 <p className="text-[#F0ECE1]/75 font-light text-base leading-[1.95]">
-                  Bipolar disorder is not a personality flaw or a lack of willpower. It is a complex, treatable mood condition. At Inner Peak Colorado, we provide evidence-based bipolar disorder treatment for women — combining therapy, psychoeducation, and integrated care to support long-term stability and quality of life.
+                  <AutoLinkedTextClient>{"Bipolar disorder is not a personality flaw or a lack of willpower. It is a complex, treatable mood condition. At Inner Peak Colorado, we provide evidence-based bipolar disorder treatment for women — combining therapy, psychoeducation, and integrated care to support long-term stability and quality of life."}</AutoLinkedTextClient>
                 </p>
                 <div className="flex flex-wrap gap-4">
                   <Link
@@ -224,10 +225,10 @@ export default function BipolarDisorderPage() {
               <em className="text-[#C8795A]">a path forward.</em>
             </h2>
             <p className="text-[#3A4A3C]/65 font-light text-base leading-[1.95]">
-              Bipolar disorder affects approximately 2.8% of adults in the U.S. — and women experience the condition differently than men. Women with bipolar disorder are more likely to have rapid cycling, mixed episodes, and co-occurring anxiety or eating disorders. They are also more likely to be initially misdiagnosed, often with depression alone, delaying access to appropriate treatment for years.
+              <AutoLinkedTextClient>{"Bipolar disorder affects approximately 2.8% of adults in the U.S. — and women experience the condition differently than men. Women with bipolar disorder are more likely to have rapid cycling, mixed episodes, and co-occurring anxiety or eating disorders. They are also more likely to be initially misdiagnosed, often with depression alone, delaying access to appropriate treatment for years."}</AutoLinkedTextClient>
             </p>
             <p className="text-[#3A4A3C]/65 font-light text-base leading-[1.95]">
-              With the right combination of therapy, psychoeducation, and integrated care, women with bipolar disorder can build stable, meaningful lives. Our virtual IOP and outpatient programs provide that level of support — designed specifically for women in Colorado — without requiring hospitalization or putting your daily life on hold.
+              <AutoLinkedTextClient>{"With the right combination of therapy, psychoeducation, and integrated care, women with bipolar disorder can build stable, meaningful lives. Our virtual IOP and outpatient programs provide that level of support — designed specifically for women in Colorado — without requiring hospitalization or putting your daily life on hold."}</AutoLinkedTextClient>
             </p>
             <div className="flex items-center gap-3 pt-1">
               <div className="w-8 h-px" style={{ backgroundColor: ACCENT }}></div>
@@ -249,7 +250,7 @@ export default function BipolarDisorderPage() {
             <div className="bg-[#2C3B2E] rounded-[0.75rem_2rem_0.75rem_2rem] p-7 flex flex-col gap-3">
               <i className="ri-double-quotes-l text-2xl" style={{ color: ACCENT }}></i>
               <p className="font-serif text-[#FAF8F5] text-base leading-[1.7] italic">
-                &quot;I spent years being told I was just moody or dramatic. When I finally got the right diagnosis and the right treatment, my whole life changed. Stability isn&apos;t boring — it&apos;s freedom.&quot;
+                <AutoLinkedTextClient>{"&quot;I spent years being told I was just moody or dramatic. When I finally got the right diagnosis and the right treatment, my whole life changed. Stability isn&apos;t boring — it&apos;s freedom.&quot;"}</AutoLinkedTextClient>
               </p>
               <p className="text-[10px] uppercase tracking-widest font-medium" style={{ color: '#DDA15E' }}>
                 — Program Graduate
@@ -271,7 +272,7 @@ export default function BipolarDisorderPage() {
               <em className="text-[#C8795A]">looks the same.</em>
             </h2>
             <p className="text-[#3A4A3C]/60 font-light text-base max-w-xl mx-auto leading-relaxed">
-              We treat the full spectrum of bipolar presentations with individualized care plans shaped around your history, current symptoms, and goals.
+              <AutoLinkedTextClient>{"We treat the full spectrum of bipolar presentations with individualized care plans shaped around your history, current symptoms, and goals."}</AutoLinkedTextClient>
             </p>
           </div>
 
@@ -290,7 +291,7 @@ export default function BipolarDisorderPage() {
                   </span>
                 </div>
                 <h3 className="font-serif text-[#2C3B2E] text-xl">{type.name}</h3>
-                <p className="text-sm text-[#3A4A3C]/60 font-light leading-[1.85]">{type.desc}</p>
+                <p className="text-sm text-[#3A4A3C]/60 font-light leading-[1.85]"><AutoLinkedTextClient>{type.desc}</AutoLinkedTextClient></p>
               </div>
             ))}
           </div>
@@ -309,7 +310,7 @@ export default function BipolarDisorderPage() {
               <em className="text-[#C8795A]">may need clinical attention.</em>
             </h2>
             <p className="text-[#3A4A3C]/60 font-light text-base max-w-2xl mx-auto leading-relaxed">
-              These signs don&apos;t automatically mean bipolar disorder — but if several feel familiar and are affecting your life, a clinical assessment can bring clarity.
+              <AutoLinkedTextClient>{"These signs don&apos;t automatically mean bipolar disorder — but if several feel familiar and are affecting your life, a clinical assessment can bring clarity."}</AutoLinkedTextClient>
             </p>
           </div>
 
@@ -355,7 +356,7 @@ export default function BipolarDisorderPage() {
 
           <div className="mt-8 bg-[#2C3B2E] rounded-2xl p-7 flex flex-col sm:flex-row items-center justify-between gap-6">
             <p className="text-[#F0ECE1]/80 font-light text-base leading-relaxed max-w-2xl">
-              Bipolar disorder responds significantly better to early, consistent treatment. A free, confidential assessment is the first step toward understanding what you&apos;re experiencing.
+              <AutoLinkedTextClient>{"Bipolar disorder responds significantly better to early, consistent treatment. A free, confidential assessment is the first step toward understanding what you&apos;re experiencing."}</AutoLinkedTextClient>
             </p>
             <Link
               href="/contact"
@@ -397,7 +398,7 @@ export default function BipolarDisorderPage() {
                     <i className={`${pillar.icon} text-sm`} style={{ color: ACCENT }}></i>
                   </div>
                   <h3 className="font-serif text-[#FAF8F5] text-sm">{pillar.title}</h3>
-                  <p className="text-[#F0ECE1]/55 font-light text-xs leading-[1.8]">{pillar.desc}</p>
+                  <p className="text-[#F0ECE1]/55 font-light text-xs leading-[1.8]"><AutoLinkedTextClient>{pillar.desc}</AutoLinkedTextClient></p>
                 </div>
               ))}
             </div>
@@ -418,17 +419,17 @@ export default function BipolarDisorderPage() {
                 <em className="text-[#C8795A]">treatment can look like.</em>
               </h2>
               <p className="text-[#3A4A3C]/65 font-light text-base leading-[1.95]">
-                Recovery from bipolar disorder is not about eliminating all emotion. It&apos;s about building the insight, tools, and support structures that let you live fully — even with a condition that will require ongoing attention.
+                <AutoLinkedTextClient>{"Recovery from bipolar disorder is not about eliminating all emotion. It&apos;s about building the insight, tools, and support structures that let you live fully — even with a condition that will require ongoing attention."}</AutoLinkedTextClient>
               </p>
               <div className="bg-[#F0ECE1] rounded-[2rem_0.75rem_2rem_0.75rem] p-7 flex flex-col gap-3">
                 <p className="text-xs uppercase tracking-widest font-medium" style={{ color: ACCENT }}>
-                  Most women begin within
+                  <AutoLinkedTextClient>{"Most women begin within"}</AutoLinkedTextClient>
                 </p>
                 <p className="font-serif text-[#2C3B2E]" style={{ fontSize: 'clamp(28px, 3vw, 40px)' }}>
                   24–72 hours
                 </p>
                 <p className="text-[#3A4A3C]/60 font-light text-sm leading-relaxed">
-                  From first call to first session. Our team moves quickly to support you when you&apos;re ready.
+                  <AutoLinkedTextClient>{"From first call to first session. Our team moves quickly to support you when you&apos;re ready."}</AutoLinkedTextClient>
                 </p>
               </div>
             </div>
@@ -451,7 +452,7 @@ export default function BipolarDisorderPage() {
                     <h3 className="font-serif text-[#2C3B2E] text-base group-hover:text-[#C8795A] transition-colors duration-300">
                       {item.label}
                     </h3>
-                    <p className="text-sm text-[#3A4A3C]/60 font-light leading-[1.85]">{item.desc}</p>
+                    <p className="text-sm text-[#3A4A3C]/60 font-light leading-[1.85]"><AutoLinkedTextClient>{item.desc}</AutoLinkedTextClient></p>
                   </div>
                 </div>
               ))}
@@ -473,7 +474,7 @@ export default function BipolarDisorderPage() {
                 <em className="text-[#C8795A]">bipolar disorder care.</em>
               </h2>
               <p className="text-[#3A4A3C]/60 font-light text-sm leading-[1.85]">
-                We integrate modalities with the strongest evidence base for bipolar disorder — including specialized approaches for mood regulation, daily structure, and trauma.
+                <AutoLinkedTextClient>{"We integrate modalities with the strongest evidence base for bipolar disorder — including specialized approaches for mood regulation, daily structure, and trauma."}</AutoLinkedTextClient>
               </p>
               <Link
                 href="/therapy"
@@ -523,7 +524,7 @@ export default function BipolarDisorderPage() {
                 </button>
                 {openFaq === i && (
                   <div className="px-6 pb-6">
-                    <p className="text-[#F0ECE1]/70 font-light text-sm leading-[1.9]">{faq.a}</p>
+                    <p className="text-[#F0ECE1]/70 font-light text-sm leading-[1.9]"><AutoLinkedTextClient>{faq.a}</AutoLinkedTextClient></p>
                   </div>
                 )}
               </div>
@@ -554,7 +555,7 @@ export default function BipolarDisorderPage() {
               <em style={{ color: ACCENT }}>it&apos;s learning to live fully.</em>
             </h2>
             <p className="text-[#F0ECE1]/70 font-light text-base leading-relaxed">
-              A free, confidential assessment is the first step. Our clinical team will listen to your full story and help you understand what kind of care can give you the most stable, meaningful, and sustainable life possible.
+              <AutoLinkedTextClient>{"A free, confidential assessment is the first step. Our clinical team will listen to your full story and help you understand what kind of care can give you the most stable, meaningful, and sustainable life possible."}</AutoLinkedTextClient>
             </p>
             <div className="flex flex-col sm:flex-row gap-4">
               <Link

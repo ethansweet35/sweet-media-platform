@@ -1,6 +1,7 @@
 import SectionWrapper from "@/components/ui/SectionWrapper";
 import SectionHeader from "@/components/ui/SectionHeader";
 import IconCircle from "@/components/ui/IconCircle";
+import { AutoLinkedText } from "@sweetmedia/blog-core";
 
 const steps = [
   {
@@ -72,9 +73,7 @@ export default function AdmissionsSection() {
                   <span className="uppercase tracking-[0.15em]">Duration</span>
                   <span className="font-semibold text-ink/70 uppercase tracking-[0.1em]">{duration}</span>
                 </div>
-                <p className={`text-[13px] font-medium ${availabilityColor === "amber" ? "text-accent" : "text-muted"}`}>
-                  {availability}
-                </p>
+                <p className={`text-[13px] font-medium ${availabilityColor === "amber" ? "text-accent" : "text-muted"}`}><AutoLinkedText>{availability}</AutoLinkedText></p>
               </div>
             </div>
           ))}

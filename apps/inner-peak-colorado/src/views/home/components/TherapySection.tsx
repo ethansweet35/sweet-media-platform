@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { AutoLinkedText } from "@sweetmedia/blog-core";
 
 const modalities = [
   {
@@ -57,7 +58,7 @@ export default function TherapySection() {
           </div>
           <div className="flex flex-col gap-5">
             <p className="text-[#F0ECE1]/60 font-light text-base leading-[1.9]">
-              Every therapy we offer has been carefully selected for its proven effectiveness with women — and woven into a holistic, integrated treatment experience that honors the whole person.
+              <AutoLinkedText>{"Every therapy we offer has been carefully selected for its proven effectiveness with women — and woven into a holistic, integrated treatment experience that honors the whole person."}</AutoLinkedText>
             </p>
             <Link
               href="/therapy"
@@ -88,7 +89,7 @@ export default function TherapySection() {
                 </span>
               </div>
               <h3 className="font-serif text-[#FAF8F5] text-lg leading-snug">{m.name}</h3>
-              <p className="text-sm text-[#F0ECE1]/55 font-light leading-[1.8]">{m.desc}</p>
+              <p className="text-sm text-[#F0ECE1]/55 font-light leading-[1.8]"><AutoLinkedText>{m.desc}</AutoLinkedText></p>
             </div>
           ))}
         </div>

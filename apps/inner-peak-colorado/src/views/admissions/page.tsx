@@ -5,6 +5,7 @@ import Link from 'next/link';
 import Breadcrumb from '@/components/base/Breadcrumb';
 import { useInView } from '@/hooks/useInView';
 import { useParallax } from '@/hooks/useParallax';
+import { AutoLinkedTextClient } from "@sweetmedia/blog-core";
 
 
 const steps = [
@@ -235,7 +236,7 @@ export default function AdmissionsPage() {
               </div>
               <div className="flex flex-col gap-6">
                 <p className="text-[#F0ECE1]/80 font-light text-base leading-[1.95]">
-                  We've designed our admissions process to be as gentle and straightforward as possible. One call is all it takes to get started — and our team handles everything else from there.
+                  <AutoLinkedTextClient>{"We've designed our admissions process to be as gentle and straightforward as possible. One call is all it takes to get started — and our team handles everything else from there."}</AutoLinkedTextClient>
                 </p>
                 <div className="flex flex-wrap gap-4">
                   <a
@@ -269,8 +270,8 @@ export default function AdmissionsPage() {
             { value: 'CO', label: 'Colorado Residents', color: '#6B7D67' },
           ].map((s, i) => (
             <div key={i} className={`flex flex-col items-center text-center gap-1 anim-hidden anim-fade-up anim-delay-${i + 1} ${statsVisible ? 'anim-visible' : ''}`}>
-              <p className="font-serif font-bold leading-none" style={{ fontSize: 'clamp(26px, 3vw, 40px)', color: s.color }}>{s.value}</p>
-              <p className="text-[10px] uppercase tracking-widest text-[#F0ECE1]/45 font-light">{s.label}</p>
+              <p className="font-serif font-bold leading-none" style={{ fontSize: 'clamp(26px, 3vw, 40px)', color: s.color }}><AutoLinkedTextClient>{s.value}</AutoLinkedTextClient></p>
+              <p className="text-[10px] uppercase tracking-widest text-[#F0ECE1]/45 font-light"><AutoLinkedTextClient>{s.label}</AutoLinkedTextClient></p>
             </div>
           ))}
         </div>
@@ -286,7 +287,7 @@ export default function AdmissionsPage() {
               <em className="text-[#C8795A]">first session.</em>
             </h2>
             <p className="text-[#3A4A3C]/60 font-light text-base max-w-lg mx-auto leading-relaxed">
-              We've made starting treatment as simple and stress-free as possible. Our team handles the heavy lifting so you can focus on one thing: showing up.
+              <AutoLinkedTextClient>{"We've made starting treatment as simple and stress-free as possible. Our team handles the heavy lifting so you can focus on one thing: showing up."}</AutoLinkedTextClient>
             </p>
           </div>
 
@@ -395,8 +396,8 @@ export default function AdmissionsPage() {
                     <i className={`${s.icon} text-sm`} style={{ color: s.color }}></i>
                   </div>
                   <div className="flex-1 min-w-0">
-                    <p className={`text-xs font-medium ${activeStep === i ? 'text-[#FAF8F5]' : 'text-[#2C3B2E]'}`}>{s.title}</p>
-                    <p className={`text-[10px] font-light mt-0.5 ${activeStep === i ? 'text-[#F0ECE1]/50' : 'text-[#3A4A3C]/40'}`}>{s.duration}</p>
+                    <p className={`text-xs font-medium ${activeStep === i ? 'text-[#FAF8F5]' : 'text-[#2C3B2E]'}`}><AutoLinkedTextClient>{s.title}</AutoLinkedTextClient></p>
+                    <p className={`text-[10px] font-light mt-0.5 ${activeStep === i ? 'text-[#F0ECE1]/50' : 'text-[#3A4A3C]/40'}`}><AutoLinkedTextClient>{s.duration}</AutoLinkedTextClient></p>
                   </div>
                   {activeStep === i && (
                     <div className="w-5 h-5 flex items-center justify-center flex-shrink-0">
@@ -428,7 +429,7 @@ export default function AdmissionsPage() {
                 <em className="text-[#C8795A]">little to nothing.</em>
               </h2>
               <p className="text-[#3A4A3C]/65 font-light text-base leading-[1.9]">
-                We work with most major insurance plans and verify your benefits before you begin — completely free, with no obligation. Our admissions team handles every detail so you can focus on what matters: getting the help you deserve.
+                <AutoLinkedTextClient>{"We work with most major insurance plans and verify your benefits before you begin — completely free, with no obligation. Our admissions team handles every detail so you can focus on what matters: getting the help you deserve."}</AutoLinkedTextClient>
               </p>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
@@ -441,8 +442,8 @@ export default function AdmissionsPage() {
                   <div className="w-9 h-9 flex items-center justify-center rounded-full flex-shrink-0" style={{ backgroundColor: `${item.color}18` }}>
                     <i className={`${item.icon} text-sm`} style={{ color: item.color }}></i>
                   </div>
-                  <p className="font-serif text-[#2C3B2E] text-sm">{item.title}</p>
-                  <p className="text-xs text-[#3A4A3C]/55 font-light leading-relaxed">{item.desc}</p>
+                  <p className="font-serif text-[#2C3B2E] text-sm"><AutoLinkedTextClient>{item.title}</AutoLinkedTextClient></p>
+                  <p className="text-xs text-[#3A4A3C]/55 font-light leading-relaxed"><AutoLinkedTextClient>{item.desc}</AutoLinkedTextClient></p>
                 </div>
               ))}
             </div>
@@ -452,8 +453,8 @@ export default function AdmissionsPage() {
           <div ref={insuranceGridRef} className={`bg-[#F0ECE1] rounded-3xl p-10 anim-hidden anim-scale ${insuranceGridVisible ? 'anim-visible' : ''}`}>
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
               <div>
-                <p className="text-xs uppercase tracking-[0.3em] text-[#6B7D67] font-medium mb-1">Accepted Insurance Providers</p>
-                <p className="text-[#3A4A3C]/55 font-light text-sm">We accept most major plans. Don't see yours? Call us — we likely accept it.</p>
+                <p className="text-xs uppercase tracking-[0.3em] text-[#6B7D67] font-medium mb-1"><AutoLinkedTextClient>{"Accepted Insurance Providers"}</AutoLinkedTextClient></p>
+                <p className="text-[#3A4A3C]/55 font-light text-sm"><AutoLinkedTextClient>{"We accept most major plans. Don't see yours? Call us — we likely accept it."}</AutoLinkedTextClient></p>
               </div>
               <a
                 href="tel:+17197338556"
@@ -493,7 +494,7 @@ export default function AdmissionsPage() {
 
             <div className="mt-6 pt-6 border-t border-[#2C3B2E]/8 flex flex-col sm:flex-row items-center justify-between gap-4">
               <p className="text-xs text-[#3A4A3C]/45 font-light">
-                + Many more plans accepted. Coverage varies by plan. Our team will confirm your specific benefits.
+                <AutoLinkedTextClient>{"+ Many more plans accepted. Coverage varies by plan. Our team will confirm your specific benefits."}</AutoLinkedTextClient>
               </p>
               <a
                 href="#inquiry-form"
@@ -520,7 +521,7 @@ export default function AdmissionsPage() {
                 consultation.
               </h2>
               <p className="text-[#3A4A3C]/60 font-light text-sm leading-relaxed">
-                Fill out the form and a member of our intake team will reach out within a few hours. All information is strictly confidential.
+                <AutoLinkedTextClient>{"Fill out the form and a member of our intake team will reach out within a few hours. All information is strictly confidential."}</AutoLinkedTextClient>
               </p>
             </div>
 
@@ -531,7 +532,7 @@ export default function AdmissionsPage() {
                 </div>
                 <h3 className="font-serif text-[#2C3B2E] text-2xl">We'll be in touch soon.</h3>
                 <p className="text-[#3A4A3C]/65 font-light text-sm leading-relaxed">
-                  A member of our intake team will contact you within a few hours. If you need immediate support, please call us at 719-733-8556.
+                  <AutoLinkedTextClient>{"A member of our intake team will contact you within a few hours. If you need immediate support, please call us at 719-733-8556."}</AutoLinkedTextClient>
                 </p>
                 <Link
                   href="/levels-of-care"
@@ -633,7 +634,7 @@ export default function AdmissionsPage() {
                   <i className="ri-arrow-right-line"></i>
                 </button>
                 <p className="text-xs text-[#3A4A3C]/40 font-light">
-                  All communications are strictly confidential and HIPAA-compliant. No commitment required.
+                  <AutoLinkedTextClient>{"All communications are strictly confidential and HIPAA-compliant. No commitment required."}</AutoLinkedTextClient>
                 </p>
               </form>
             )}
@@ -651,7 +652,7 @@ export default function AdmissionsPage() {
               <div className="absolute inset-0 bg-gradient-to-t from-[#2C3B2E]/70 via-transparent to-transparent" />
               <div className="absolute bottom-6 left-6 right-6">
                 <p className="font-serif text-[#FAF8F5] italic text-sm leading-relaxed">
-                  "Making that first call was the hardest part. Everything after that, the team made easy."
+                  <AutoLinkedTextClient>{"\"Making that first call was the hardest part. Everything after that, the team made easy.\""}</AutoLinkedTextClient>
                 </p>
                 <p className="text-[#DDA15E] text-xs mt-2 font-medium uppercase tracking-widest">— Inner Peak Client</p>
               </div>
@@ -671,8 +672,8 @@ export default function AdmissionsPage() {
                       <i className={`${item.icon} text-sm`} style={{ color: item.color }}></i>
                     </div>
                     <div>
-                      <p className="text-[10px] uppercase tracking-widest text-[#FAF8F5]/35 font-medium">{item.label}</p>
-                      <p className="text-sm text-[#FAF8F5] font-light">{item.value}</p>
+                      <p className="text-[10px] uppercase tracking-widest text-[#FAF8F5]/35 font-medium"><AutoLinkedTextClient>{item.label}</AutoLinkedTextClient></p>
+                      <p className="text-sm text-[#FAF8F5] font-light"><AutoLinkedTextClient>{item.value}</AutoLinkedTextClient></p>
                     </div>
                   </div>
                 ))}
@@ -708,7 +709,7 @@ export default function AdmissionsPage() {
                 </button>
                 {openFaq === i && (
                   <div className="px-6 pb-6">
-                    <p className="text-[#F0ECE1]/70 font-light text-sm leading-[1.9]">{faq.a}</p>
+                    <p className="text-[#F0ECE1]/70 font-light text-sm leading-[1.9]"><AutoLinkedTextClient>{faq.a}</AutoLinkedTextClient></p>
                   </div>
                 )}
               </div>
@@ -737,7 +738,7 @@ export default function AdmissionsPage() {
               <em className="text-[#DDA15E]">to begin.</em>
             </h2>
             <p className="text-[#F0ECE1]/70 font-light text-base leading-relaxed">
-              Our intake team is available around the clock. No judgment, no pressure — just a compassionate conversation about where you are and how we can help.
+              <AutoLinkedTextClient>{"Our intake team is available around the clock. No judgment, no pressure — just a compassionate conversation about where you are and how we can help."}</AutoLinkedTextClient>
             </p>
             <div className="flex flex-col sm:flex-row gap-4">
               <a

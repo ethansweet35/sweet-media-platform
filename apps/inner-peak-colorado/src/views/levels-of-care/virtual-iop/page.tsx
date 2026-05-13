@@ -4,6 +4,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useState } from 'react';
 import Breadcrumb from '@/components/base/Breadcrumb';
+import { AutoLinkedTextClient } from "@sweetmedia/blog-core";
 
 const ACCENT = '#C8795A';
 
@@ -171,7 +172,7 @@ export default function VirtualIopPage() {
               </div>
               <div className="flex flex-col gap-6">
                 <p className="text-[#F0ECE1]/75 font-light text-base leading-[1.95]">
-                  Our virtual IOP delivers structured, evidence-based mental health and addiction treatment three days a week — without asking you to leave your home, your job, or your family. The same clinical depth. None of the barriers.
+                  <AutoLinkedTextClient>{"Our virtual IOP delivers structured, evidence-based mental health and addiction treatment three days a week — without asking you to leave your home, your job, or your family. The same clinical depth. None of the barriers."}</AutoLinkedTextClient>
                 </p>
                 <div className="flex flex-wrap gap-4">
                   <Link
@@ -205,8 +206,8 @@ export default function VirtualIopPage() {
             { value: '100%', label: 'Virtual & Secure', color: '#6B7D67' },
           ].map((s, i) => (
             <div key={i} className="flex flex-col items-center text-center gap-1">
-              <p className="font-serif font-bold leading-none" style={{ fontSize: 'clamp(28px, 3.5vw, 44px)', color: s.color }}>{s.value}</p>
-              <p className="text-[10px] uppercase tracking-widest text-[#F0ECE1]/45 font-light">{s.label}</p>
+              <p className="font-serif font-bold leading-none" style={{ fontSize: 'clamp(28px, 3.5vw, 44px)', color: s.color }}><AutoLinkedTextClient>{s.value}</AutoLinkedTextClient></p>
+              <p className="text-[10px] uppercase tracking-widest text-[#F0ECE1]/45 font-light"><AutoLinkedTextClient>{s.label}</AutoLinkedTextClient></p>
             </div>
           ))}
         </div>
@@ -225,10 +226,10 @@ export default function VirtualIopPage() {
               <em className="text-[#C8795A]">not the other way around.</em>
             </h2>
             <p className="text-[#3A4A3C]/65 font-light text-base leading-[1.95]">
-              Intensive Outpatient Programs (IOP) provide a higher level of clinical structure than traditional weekly therapy, while still allowing you to live at home. Our virtual IOP meets three days per week for three hours per session — delivering individual therapy, women-only group therapy, psychiatric support, and skills-based programming through a secure, HIPAA-compliant platform.
+              <AutoLinkedTextClient>{"Intensive Outpatient Programs (IOP) provide a higher level of clinical structure than traditional weekly therapy, while still allowing you to live at home. Our virtual IOP meets three days per week for three hours per session — delivering individual therapy, women-only group therapy, psychiatric support, and skills-based programming through a secure, HIPAA-compliant platform."}</AutoLinkedTextClient>
             </p>
             <p className="text-[#3A4A3C]/65 font-light text-base leading-[1.95]">
-              IOP is designed for women who need more than once-a-week therapy but don&apos;t require 24-hour residential support. It is the right level of care for acute symptoms, recent discharge from a higher level of care, or any time your life demands a more intensive period of healing.
+              <AutoLinkedTextClient>{"IOP is designed for women who need more than once-a-week therapy but don&apos;t require 24-hour residential support. It is the right level of care for acute symptoms, recent discharge from a higher level of care, or any time your life demands a more intensive period of healing."}</AutoLinkedTextClient>
             </p>
             <div className="flex items-center gap-3 pt-1">
               <div className="w-8 h-px" style={{ backgroundColor: '#8FA489' }}></div>
@@ -250,7 +251,7 @@ export default function VirtualIopPage() {
             <div className="bg-[#2C3B2E] rounded-[0.75rem_2rem_0.75rem_2rem] p-7 flex flex-col gap-3">
               <i className="ri-double-quotes-l text-2xl" style={{ color: '#8FA489' }}></i>
               <p className="font-serif text-[#FAF8F5] text-base leading-[1.7] italic">
-                &quot;As a single mom, I couldn&apos;t disappear into treatment. Virtual IOP let me show up for my healing and my daughter at the same time.&quot;
+                <AutoLinkedTextClient>{"&quot;As a single mom, I couldn&apos;t disappear into treatment. Virtual IOP let me show up for my healing and my daughter at the same time.&quot;"}</AutoLinkedTextClient>
               </p>
               <p className="text-[10px] uppercase tracking-widest font-medium" style={{ color: '#DDA15E' }}>
                 — IOP Graduate
@@ -272,7 +273,7 @@ export default function VirtualIopPage() {
               <em className="text-[#C8795A]">Life-changing work.</em>
             </h2>
             <p className="text-[#3A4A3C]/60 font-light text-base max-w-lg mx-auto leading-relaxed">
-              Exact scheduling is personalized during intake. Morning, afternoon, and evening slots are available to fit your existing commitments.
+              <AutoLinkedTextClient>{"Exact scheduling is personalized during intake. Morning, afternoon, and evening slots are available to fit your existing commitments."}</AutoLinkedTextClient>
             </p>
           </div>
 
@@ -319,7 +320,7 @@ export default function VirtualIopPage() {
                 </div>
                 <div className="flex flex-col gap-1">
                   <h3 className="font-serif text-[#2C3B2E] text-sm font-semibold">{item.label}</h3>
-                  <p className="text-xs text-[#3A4A3C]/60 font-light leading-snug">{item.desc}</p>
+                  <p className="text-xs text-[#3A4A3C]/60 font-light leading-snug"><AutoLinkedTextClient>{item.desc}</AutoLinkedTextClient></p>
                 </div>
               </div>
             ))}
@@ -355,7 +356,7 @@ export default function VirtualIopPage() {
                     <i className={`${pillar.icon} text-sm`} style={{ color: ACCENT }}></i>
                   </div>
                   <h3 className="font-serif text-[#FAF8F5] text-sm">{pillar.title}</h3>
-                  <p className="text-[#F0ECE1]/55 font-light text-xs leading-[1.8]">{pillar.desc}</p>
+                  <p className="text-[#F0ECE1]/55 font-light text-xs leading-[1.8]"><AutoLinkedTextClient>{pillar.desc}</AutoLinkedTextClient></p>
                 </div>
               ))}
             </div>
@@ -376,17 +377,17 @@ export default function VirtualIopPage() {
                 <em className="text-[#C8795A]">call to graduation.</em>
               </h2>
               <p className="text-[#3A4A3C]/65 font-light text-base leading-[1.95]">
-                We&apos;ve made starting treatment as simple and low-barrier as possible. Most women are in their first session within 24–72 hours of their initial call.
+                <AutoLinkedTextClient>{"We&apos;ve made starting treatment as simple and low-barrier as possible. Most women are in their first session within 24–72 hours of their initial call."}</AutoLinkedTextClient>
               </p>
               <div className="bg-[#F0ECE1] rounded-[2rem_0.75rem_2rem_0.75rem] p-7 flex flex-col gap-3">
                 <p className="text-xs uppercase tracking-widest font-medium" style={{ color: '#8FA489' }}>
-                  Most women begin within
+                  <AutoLinkedTextClient>{"Most women begin within"}</AutoLinkedTextClient>
                 </p>
                 <p className="font-serif text-[#2C3B2E]" style={{ fontSize: 'clamp(28px, 3vw, 40px)' }}>
                   24–72 hours
                 </p>
                 <p className="text-[#3A4A3C]/60 font-light text-sm leading-relaxed">
-                  From first call to first session. Insurance verified before you begin.
+                  <AutoLinkedTextClient>{"From first call to first session. Insurance verified before you begin."}</AutoLinkedTextClient>
                 </p>
               </div>
             </div>
@@ -406,7 +407,7 @@ export default function VirtualIopPage() {
                   </div>
                   <div className="flex flex-col gap-2 pt-2 pb-4">
                     <h3 className="font-serif text-[#2C3B2E] text-base group-hover:text-[#C8795A] transition-colors duration-300">{item.label}</h3>
-                    <p className="text-sm text-[#3A4A3C]/60 font-light leading-[1.85]">{item.desc}</p>
+                    <p className="text-sm text-[#3A4A3C]/60 font-light leading-[1.85]"><AutoLinkedTextClient>{item.desc}</AutoLinkedTextClient></p>
                   </div>
                 </div>
               ))}
@@ -428,7 +429,7 @@ export default function VirtualIopPage() {
                 <em className="text-[#C8795A]">our IOP.</em>
               </h2>
               <p className="text-[#3A4A3C]/60 font-light text-sm leading-[1.85]">
-                We combine the most rigorously tested therapeutic modalities with individualized care planning for each woman in our program.
+                <AutoLinkedTextClient>{"We combine the most rigorously tested therapeutic modalities with individualized care planning for each woman in our program."}</AutoLinkedTextClient>
               </p>
               <Link
                 href="/therapy"
@@ -477,7 +478,7 @@ export default function VirtualIopPage() {
                 </button>
                 {openFaq === i && (
                   <div className="px-6 pb-6">
-                    <p className="text-[#F0ECE1]/70 font-light text-sm leading-[1.9]">{faq.a}</p>
+                    <p className="text-[#F0ECE1]/70 font-light text-sm leading-[1.9]"><AutoLinkedTextClient>{faq.a}</AutoLinkedTextClient></p>
                   </div>
                 )}
               </div>
@@ -508,7 +509,7 @@ export default function VirtualIopPage() {
               <em style={{ color: '#8FA489' }}>not against it.</em>
             </h2>
             <p className="text-[#F0ECE1]/70 font-light text-base leading-relaxed">
-              A free clinical assessment is the first step. Our team will verify your benefits, match you with the right clinician, and have you in your first session within 72 hours.
+              <AutoLinkedTextClient>{"A free clinical assessment is the first step. Our team will verify your benefits, match you with the right clinician, and have you in your first session within 72 hours."}</AutoLinkedTextClient>
             </p>
             <div className="flex flex-col sm:flex-row gap-4">
               <Link

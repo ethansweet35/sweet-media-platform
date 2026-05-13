@@ -3,6 +3,7 @@ import Image from 'next/image';
 import { useEffect } from 'react';
 import Link from 'next/link';
 import Breadcrumb from '@/components/base/Breadcrumb';
+import { AutoLinkedTextClient } from "@sweetmedia/blog-core";
 
 const crisisResources = [
   { name: 'National Crisis Hotline', number: '988', desc: 'Call or text 988 for immediate mental health support, 24/7.' },
@@ -73,7 +74,7 @@ export default function ResourcesPage() {
               <em className="text-[#DDA15E]">healing.</em>
             </h1>
             <p className="text-[#F0ECE1]/80 font-light text-lg leading-relaxed max-w-xl">
-              Thoughtfully curated articles, guides, and tools to support women at every stage of their healing journey.
+              <AutoLinkedTextClient>{"Thoughtfully curated articles, guides, and tools to support women at every stage of their healing journey."}</AutoLinkedTextClient>
             </p>
           </div>
         </div>
@@ -91,9 +92,9 @@ export default function ResourcesPage() {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
             {crisisResources.map((r, i) => (
               <div key={i} className="bg-[#FAF8F5]/10 rounded-xl p-5 flex flex-col gap-2">
-                <p className="text-xs uppercase tracking-widest text-[#FAF8F5]/70 font-medium">{r.name}</p>
-                <p className="font-serif text-[#FAF8F5] text-xl">{r.number}</p>
-                <p className="text-xs text-[#FAF8F5]/70 font-light leading-relaxed">{r.desc}</p>
+                <p className="text-xs uppercase tracking-widest text-[#FAF8F5]/70 font-medium"><AutoLinkedTextClient>{r.name}</AutoLinkedTextClient></p>
+                <p className="font-serif text-[#FAF8F5] text-xl"><AutoLinkedTextClient>{r.number}</AutoLinkedTextClient></p>
+                <p className="text-xs text-[#FAF8F5]/70 font-light leading-relaxed"><AutoLinkedTextClient>{r.desc}</AutoLinkedTextClient></p>
               </div>
             ))}
           </div>
@@ -110,7 +111,7 @@ export default function ResourcesPage() {
 
           <div className="bg-[#F0ECE1] rounded-[2rem_0.75rem_2rem_0.75rem] p-10 md:p-14 text-center">
             <p className="text-[#3A4A3C]/70 font-light text-base md:text-lg leading-relaxed">
-              New articles are coming soon. Check back shortly for fresh resources from our team.
+              <AutoLinkedTextClient>{"New articles are coming soon. Check back shortly for fresh resources from our team."}</AutoLinkedTextClient>
             </p>
           </div>
         </div>
@@ -123,7 +124,7 @@ export default function ResourcesPage() {
             Ready to go beyond reading?
           </h2>
           <p className="text-[#F0ECE1]/70 font-light text-base leading-relaxed">
-            Knowledge is powerful — but healing happens in relationship. Take the next step and connect with our clinical team today.
+            <AutoLinkedTextClient>{"Knowledge is powerful — but healing happens in relationship. Take the next step and connect with our clinical team today."}</AutoLinkedTextClient>
           </p>
           <Link
             href="/contact"

@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import { AutoLinkedText } from "@sweetmedia/blog-core";
 
 const HERO_VIDEO =
   "https://nstzjqmtsqgeihkyvkqq.supabase.co/storage/v1/object/public/site-assets/images/video2-compressed.mp4";
@@ -109,10 +110,10 @@ export default function HomePage() {
             A Higher-Level Partnership
           </h1>
           <p className="mt-4 text-xs font-semibold uppercase leading-normal tracking-[0.28em] text-white/95 md:text-sm">
-            Your Partner In Behavioral Health Billing
+            <AutoLinkedText>{"Your Partner In Behavioral Health Billing"}</AutoLinkedText>
           </p>
           <p className="mt-4 max-w-2xl font-[var(--font-heading)] text-base italic leading-[1.42] text-white/90 md:text-lg">
-            Delivering Airtight Compliance &amp; Real Financial Results
+            <AutoLinkedText>{"Delivering Airtight Compliance &amp; Real Financial Results"}</AutoLinkedText>
           </p>
         </div>
       </section>
@@ -129,14 +130,13 @@ export default function HomePage() {
           <div className="mx-auto max-w-[1140px] px-6 py-20 md:py-28">
             <div className="mx-auto max-w-3xl text-center">
               <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-[#166C96]">
-                WELCOME TO CIPHER BILLING
+                <AutoLinkedText>{"WELCOME TO CIPHER BILLING"}</AutoLinkedText>
               </p>
               <h2 className="mt-4 font-[var(--font-heading)] text-3xl font-medium leading-tight text-white md:text-5xl">
                 The Trusted Experts In Behavioral Health Billing Services
               </h2>
               <p className="mx-auto mt-6 max-w-2xl text-sm leading-[1.42] text-white/85 md:text-base">
-                Cipher Billing is your trusted partner in behavioral health billing services — delivering airtight
-                compliance, transparent service, and maximized revenue so you can focus on patient care.
+                <AutoLinkedText>{"Cipher Billing is your trusted partner in behavioral health billing services — delivering airtight\n                compliance, transparent service, and maximized revenue so you can focus on patient care."}</AutoLinkedText>
               </p>
             </div>
 
@@ -149,12 +149,10 @@ export default function HomePage() {
                   Why Cipher Billing
                 </h3>
                 <p className="mt-5 text-sm leading-[1.42] text-white/85 md:text-base">
-                  We believe in delivering unmatched service, airtight compliance, and real financial results for our
-                  partners.
+                  <AutoLinkedText>{"We believe in delivering unmatched service, airtight compliance, and real financial results for our\n                  partners."}</AutoLinkedText>
                 </p>
                 <p className="mt-5 text-sm leading-[1.42] text-white/85 md:text-base">
-                  Our numbers reflect our dedication, with an eligibility turnaround averaging just 9 minutes compared to
-                  the industry standard 30 minutes. To maximize your revenue, request a consultation today.
+                  <AutoLinkedText>{"Our numbers reflect our dedication, with an eligibility turnaround averaging just 9 minutes compared to\n                  the industry standard 30 minutes. To maximize your revenue, request a consultation today."}</AutoLinkedText>
                 </p>
                 <Link
                   href="/contact-us"
@@ -173,12 +171,8 @@ export default function HomePage() {
                     key={metric.label}
                     className="flex flex-col items-center justify-center border border-white/15 bg-white/5 backdrop-blur-sm px-4 py-8 text-center"
                   >
-                    <p className="font-marcellus text-3xl font-medium tracking-[-0.02em] text-white md:text-4xl md:leading-[1.1]">
-                      {metric.value}
-                    </p>
-                    <p className="mt-3 max-w-[11rem] text-center font-[var(--font-body)] text-[11px] font-normal uppercase leading-snug tracking-[0.12em] text-white/95">
-                      {metric.label}
-                    </p>
+                    <p className="font-marcellus text-3xl font-medium tracking-[-0.02em] text-white md:text-4xl md:leading-[1.1]"><AutoLinkedText>{metric.value}</AutoLinkedText></p>
+                    <p className="mt-3 max-w-[11rem] text-center font-[var(--font-body)] text-[11px] font-normal uppercase leading-snug tracking-[0.12em] text-white/95"><AutoLinkedText>{metric.label}</AutoLinkedText></p>
                   </div>
                 ))}
               </div>
@@ -204,7 +198,7 @@ export default function HomePage() {
                     <i className={`${item.icon} text-[1.65rem] leading-none`} />
                   </div>
                   <h3 className="font-[var(--font-body)] text-lg font-semibold text-white md:text-xl">{item.title}</h3>
-                  <p className="mt-4 text-sm leading-[1.42] text-white/85">{item.body}</p>
+                  <p className="mt-4 text-sm leading-[1.42] text-white/85"><AutoLinkedText>{item.body}</AutoLinkedText></p>
                 </article>
               ))}
               <div className="relative mx-auto aspect-square w-full max-w-[280px] overflow-hidden rounded-full border border-white/15 lg:mx-0 lg:justify-self-end">
@@ -227,10 +221,7 @@ export default function HomePage() {
               <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-[#166C96]">ABOUT US</p>
               <h2 className="mt-3 font-[var(--font-heading)] text-3xl font-medium md:text-5xl">Who We Are</h2>
               <p className="mt-6 text-sm leading-[1.42] text-white/85 md:text-base">
-                We are trusted experts in behavioral health billing. We take pride in having a seamless partnership with
-                our clients, working closely with you and your team to understand your business&apos;s unique needs and
-                goals. We operate with the end in mind, optimizing your billing process to increase revenue so you can
-                focus on your patients.
+                <AutoLinkedText>{"We are trusted experts in behavioral health billing. We take pride in having a seamless partnership with\n                our clients, working closely with you and your team to understand your business&apos;s unique needs and\n                goals. We operate with the end in mind, optimizing your billing process to increase revenue so you can\n                focus on your patients."}</AutoLinkedText>
               </p>
               <Link
                 href="/our-company"
@@ -270,10 +261,7 @@ export default function HomePage() {
               <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-[#166C96]">OUR PARTNERSHIP</p>
               <h2 className="mt-3 font-[var(--font-heading)] text-3xl font-medium md:text-5xl">What You Can Expect</h2>
               <p className="mt-6 text-sm leading-[1.42] text-white/85 md:text-base">
-                Our job is to deliver an unparalleled experience to our clients. A Higher-Level Partnership means we go
-                above and beyond to ensure maximum reimbursement for our clients and leave no stone unturned in pursuing
-                successful claims. You can expect a simple, transparent service when you choose Cipher as your billing
-                partner.
+                <AutoLinkedText>{"Our job is to deliver an unparalleled experience to our clients. A Higher-Level Partnership means we go\n                above and beyond to ensure maximum reimbursement for our clients and leave no stone unturned in pursuing\n                successful claims. You can expect a simple, transparent service when you choose Cipher as your billing\n                partner."}</AutoLinkedText>
               </p>
               <Link
                 href="/our-solution"
@@ -293,13 +281,13 @@ export default function HomePage() {
           <div className="mx-auto max-w-[1140px] px-6 py-20 md:py-28">
             <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.1fr)] lg:items-end lg:gap-12">
               <div>
-                <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-[#166C96]">SIMPLE &amp; EFFECTIVE</p>
+                <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-[#166C96]"><AutoLinkedText>{"SIMPLE &amp; EFFECTIVE"}</AutoLinkedText></p>
                 <h2 className="mt-4 font-[var(--font-heading)] text-3xl font-medium md:text-5xl">
                   Our{" "}
                   <span className="text-[#166C96]">Process.</span>
                 </h2>
               </div>
-              <p className="text-sm leading-[1.42] text-white/85 md:text-base lg:pb-2">{processIntro}</p>
+              <p className="text-sm leading-[1.42] text-white/85 md:text-base lg:pb-2"><AutoLinkedText>{processIntro}</AutoLinkedText></p>
             </div>
 
             <div className="mt-12 grid gap-5 md:grid-cols-2 lg:grid-cols-4">
@@ -318,7 +306,7 @@ export default function HomePage() {
                     <span className="font-[var(--font-heading)] text-4xl font-medium text-white/90">{step.step}</span>
                   </div>
                   <h3 className="mt-6 font-[var(--font-heading)] text-lg font-medium text-white">{step.title}</h3>
-                  <p className="mt-3 flex-1 text-sm leading-[1.42] text-white/75">{step.body}</p>
+                  <p className="mt-3 flex-1 text-sm leading-[1.42] text-white/75"><AutoLinkedText>{step.body}</AutoLinkedText></p>
                 </article>
               ))}
             </div>
@@ -330,13 +318,13 @@ export default function HomePage() {
           <div className="mx-auto grid max-w-[1140px] gap-14 px-6 py-20 md:grid-cols-[1.08fr_0.92fr] md:items-start md:py-28">
             <div className="max-w-xl">
               <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-[#166C96]">
-                READY TO TRANSFORM YOUR REVENUE CYCLE?
+                <AutoLinkedText>{"READY TO TRANSFORM YOUR REVENUE CYCLE?"}</AutoLinkedText>
               </p>
               <h2 className="mt-4 font-[var(--font-heading)] text-3xl font-medium leading-[1.15] md:text-[2.65rem]">
                 Let&apos;s Discuss How We Can{" "}
                 <span className="text-[#166C96]">Maximize Your Revenue.</span>
               </h2>
-              <p className="mt-6 text-sm leading-[1.42] text-white/90">{leadIntro}</p>
+              <p className="mt-6 text-sm leading-[1.42] text-white/90"><AutoLinkedText>{leadIntro}</AutoLinkedText></p>
 
               <blockquote className="mt-10 border-none p-0">
                 <p className="font-[var(--font-body)] text-sm italic leading-[1.35] text-white/95 md:text-[15px]">
@@ -362,7 +350,7 @@ export default function HomePage() {
                     <a href={contactPhoneHref} className="mt-1 block text-sm font-medium text-white hover:text-[#166C96]">
                       {contactPhoneDisplay}
                     </a>
-                    <p className="mt-1 text-xs leading-[1.35] text-white/75">Mon–Fri, 8AM–5:30PM PST</p>
+                    <p className="mt-1 text-xs leading-[1.35] text-white/75"><AutoLinkedText>{"Mon–Fri, 8AM–5:30PM PST"}</AutoLinkedText></p>
                   </div>
                 </div>
 
@@ -390,7 +378,7 @@ export default function HomePage() {
             <div className="rounded-lg border border-white/10 bg-[#0a1428]/80 backdrop-blur-md p-8 shadow-lg md:p-10">
               <h3 className="font-marcellus text-2xl font-medium text-white md:text-[1.75rem]">Get Started Today</h3>
               <p className="mt-3 max-w-md font-[var(--font-body)] text-sm leading-[1.42] text-white/85">
-                Fill out the form below and we&apos;ll contact you within 24 hours.
+                <AutoLinkedText>{"Fill out the form below and we&apos;ll contact you within 24 hours."}</AutoLinkedText>
               </p>
 
               <form className="mt-8 grid gap-5" action="/api/contact" method="post">
@@ -474,7 +462,7 @@ export default function HomePage() {
                 </button>
 
                 <p className="text-center text-[11px] leading-[1.35] text-[#AAB3B9]">
-                  By submitting this form, you agree to our privacy policy and consent to be contacted by Cipher Billing.
+                  <AutoLinkedText>{"By submitting this form, you agree to our privacy policy and consent to be contacted by Cipher Billing."}</AutoLinkedText>
                 </p>
               </form>
             </div>

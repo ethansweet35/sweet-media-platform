@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { createClient } from "@supabase/supabase-js";
+import { AutoLinkedText } from "@sweetmedia/blog-core";
 
 const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL;
 const SUPABASE_ANON_KEY = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
@@ -201,7 +202,7 @@ export default async function HomePage() {
           className={`relative z-10 flex min-h-[72vh] flex-col justify-start pb-14 pt-10 md:min-h-screen md:justify-center md:pb-24 md:pt-16 lg:pb-32 lg:pt-24 ${CONTAINER}`}
         >
           <p className="brand-eyebrow mb-5 text-[#8FAC87]">
-            Certified Intervention Specialists — Nationwide
+            <AutoLinkedText>{"Certified Intervention Specialists — Nationwide"}</AutoLinkedText>
           </p>
 
           <h1 className="font-heading mb-2 max-w-3xl text-5xl font-bold leading-[1.08] text-white md:text-6xl lg:text-7xl">
@@ -215,8 +216,7 @@ export default async function HomePage() {
           </h1>
 
           <p className="mb-10 max-w-lg text-lg leading-relaxed text-white/85">
-            You&rsquo;ve tried everything to help your loved one, and nothing has worked.
-            We&rsquo;re here to help you break the cycle — with compassion, structure, and proven results.
+            <AutoLinkedText>{"You&rsquo;ve tried everything to help your loved one, and nothing has worked.\n            We&rsquo;re here to help you break the cycle — with compassion, structure, and proven results."}</AutoLinkedText>
           </p>
 
           <div className="flex flex-wrap gap-4">
@@ -261,7 +261,7 @@ export default async function HomePage() {
               </blockquote>
               <div className="mt-8 h-px w-16 bg-[#8FAC87]"></div>
               <p className="mt-4 text-sm font-semibold uppercase tracking-[0.15em] text-[#8FAC87]">
-                David Gates — Lead Interventionist
+                <AutoLinkedText>{"David Gates — Lead Interventionist"}</AutoLinkedText>
               </p>
             </div>
             <div>
@@ -270,9 +270,7 @@ export default async function HomePage() {
                 Interventions For <span className="italic text-[#507969]">Any Situation</span>
               </h2>
               <p className="mb-8 leading-relaxed text-[#4B4B4B]">
-                No two situations are the same. Our trained specialists guide families through a structured
-                process designed to break through denial, encourage acceptance, and open the door to
-                treatment — whether it&rsquo;s alcohol, drugs, mental health, or dual diagnosis.
+                <AutoLinkedText>{"No two situations are the same. Our trained specialists guide families through a structured\n                process designed to break through denial, encourage acceptance, and open the door to\n                treatment — whether it&rsquo;s alcohol, drugs, mental health, or dual diagnosis."}</AutoLinkedText>
               </p>
               <div className="flex flex-wrap items-center gap-6">
                 <a
@@ -306,7 +304,7 @@ export default async function HomePage() {
                   <i className={`${w.icon} text-2xl`}></i>
                 </span>
                 <h3 className="font-heading mb-3 text-xl font-bold text-[#1A1A17]">{w.title}</h3>
-                <p className="text-sm leading-relaxed text-[#4B4B4B]">{w.desc}</p>
+                <p className="text-sm leading-relaxed text-[#4B4B4B]"><AutoLinkedText>{w.desc}</AutoLinkedText></p>
               </div>
             ))}
           </div>
@@ -339,7 +337,7 @@ export default async function HomePage() {
                   </span>
                 </div>
                 <h3 className="font-heading mb-3 text-lg font-bold">{s.title}</h3>
-                <p className="text-sm leading-relaxed text-white/70">{s.desc}</p>
+                <p className="text-sm leading-relaxed text-white/70"><AutoLinkedText>{s.desc}</AutoLinkedText></p>
               </div>
             ))}
           </div>
@@ -367,7 +365,7 @@ export default async function HomePage() {
               </h2>
             </div>
             <p className="max-w-xs text-sm leading-relaxed text-[#4B4B4B] lg:text-right">
-              We specialize in customized, compassionate interventions — whatever your loved one is facing.
+              <AutoLinkedText>{"We specialize in customized, compassionate interventions — whatever your loved one is facing."}</AutoLinkedText>
             </p>
           </div>
 
@@ -384,7 +382,7 @@ export default async function HomePage() {
                   <i className={`${s.icon} text-lg`}></i>
                 </span>
                 <h3 className="font-heading text-lg font-bold text-[#1A1A17]">{s.label}</h3>
-                <p className="text-sm leading-relaxed text-[#4B4B4B]">{s.desc}</p>
+                <p className="text-sm leading-relaxed text-[#4B4B4B]"><AutoLinkedText>{s.desc}</AutoLinkedText></p>
                 <span className="mt-auto flex items-center gap-1.5 text-xs font-semibold uppercase tracking-[0.1em] text-[#8FAC87]">
                   Learn more <i className="ri-arrow-right-line transition group-hover:translate-x-0.5"></i>
                 </span>
@@ -423,8 +421,7 @@ export default async function HomePage() {
               <span className="italic text-[#507969]">On This Healing Journey</span>
             </h2>
             <p className="mb-8 leading-relaxed text-[#4B4B4B]">
-              At the core of our mission is a deep commitment to helping individuals and families navigate
-              the path to recovery. Our approach is rooted in empathy, professionalism, and proven success.
+              <AutoLinkedText>{"At the core of our mission is a deep commitment to helping individuals and families navigate\n              the path to recovery. Our approach is rooted in empathy, professionalism, and proven success."}</AutoLinkedText>
             </p>
 
             {/* Icon checklist */}
@@ -462,14 +459,13 @@ export default async function HomePage() {
       <section className="bg-white py-24">
         <div className={CONTAINER}>
           <div className="mb-16 text-center">
-            <p className="brand-eyebrow mb-3 text-[#8FAC87]">Who You&rsquo;ll Work With</p>
+            <p className="brand-eyebrow mb-3 text-[#8FAC87]"><AutoLinkedText>{"Who You&rsquo;ll Work With"}</AutoLinkedText></p>
             <h2 className="font-heading text-4xl font-bold text-[#1A1A17] md:text-5xl">
               Meet the{" "}
               <span className="italic text-[#507969]">Co-Founders</span>
             </h2>
             <p className="mx-auto mt-5 max-w-2xl text-base leading-relaxed text-[#4B4B4B]">
-              David and Jennifer Gates founded Addiction Interventions with a single purpose: to give families the
-              professional structure and compassionate guidance they need to break through denial and begin real healing.
+              <AutoLinkedText>{"David and Jennifer Gates founded Addiction Interventions with a single purpose: to give families the\n              professional structure and compassionate guidance they need to break through denial and begin real healing."}</AutoLinkedText>
             </p>
           </div>
 
@@ -490,12 +486,10 @@ export default async function HomePage() {
                     </span>
                   </div>
                   <p className="mb-4 text-sm font-semibold uppercase tracking-[0.12em] text-[#8FAC87]">
-                    Lead Interventionist · CIP · ICAADC
+                    <AutoLinkedText>{"Lead Interventionist · CIP · ICAADC"}</AutoLinkedText>
                   </p>
                   <p className="text-sm leading-relaxed text-[#4B4B4B]">
-                    David has more than 20 years of experience directing nationally recognized addiction treatment programs.
-                    He has personally led over 1,500 interventions for families in crisis — and as someone in long-term
-                    recovery himself, he brings a rare perspective to every family he serves.
+                    <AutoLinkedText>{"David has more than 20 years of experience directing nationally recognized addiction treatment programs.\n                    He has personally led over 1,500 interventions for families in crisis — and as someone in long-term\n                    recovery himself, he brings a rare perspective to every family he serves."}</AutoLinkedText>
                   </p>
                   <ul className="mt-5 grid gap-2">
                     {[
@@ -537,13 +531,10 @@ export default async function HomePage() {
                     </span>
                   </div>
                   <p className="mb-4 text-sm font-semibold uppercase tracking-[0.12em] text-[#8FAC87]">
-                    Clinical Director · Lead Interventionist · CADC II · BRI · CTP · CFMI · ICADC
+                    <AutoLinkedText>{"Clinical Director · Lead Interventionist · CADC II · BRI · CTP · CFMI · ICADC"}</AutoLinkedText>
                   </p>
                   <p className="text-sm leading-relaxed text-[#4B4B4B]">
-                    Jennifer has over 20 years of experience beginning in 1993 as a drug and alcohol counselor. A trauma
-                    specialist trained in five different intervention models, she uses each intervention as an opportunity
-                    to interrupt destructive life patterns — healing the entire family system, not just the individual.
-                    She specializes in drug, alcohol, gambling, eating disorders, adolescence, and geriatric interventions.
+                    <AutoLinkedText>{"Jennifer has over 20 years of experience beginning in 1993 as a drug and alcohol counselor. A trauma\n                    specialist trained in five different intervention models, she uses each intervention as an opportunity\n                    to interrupt destructive life patterns — healing the entire family system, not just the individual.\n                    She specializes in drug, alcohol, gambling, eating disorders, adolescence, and geriatric interventions."}</AutoLinkedText>
                   </p>
                   <ul className="mt-5 grid gap-2">
                     {[
@@ -614,8 +605,8 @@ export default async function HomePage() {
                     <i className="ri-user-line text-sm"></i>
                   </span>
                   <div>
-                    <p className="text-sm font-bold text-[#1A1A17]">{t.author}</p>
-                    <p className="text-xs text-[#4B4B4B]">{t.detail}</p>
+                    <p className="text-sm font-bold text-[#1A1A17]"><AutoLinkedText>{t.author}</AutoLinkedText></p>
+                    <p className="text-xs text-[#4B4B4B]"><AutoLinkedText>{t.detail}</AutoLinkedText></p>
                   </div>
                 </figcaption>
               </figure>
@@ -652,8 +643,7 @@ export default async function HomePage() {
                 Available in <span className="italic text-[#507969]">Every State</span>
               </h2>
               <p className="mb-8 leading-relaxed text-[#4B4B4B]">
-                Our nationwide network of certified interventionists is ready to help guide your
-                family through the process of recovery — no matter where you are located.
+                <AutoLinkedText>{"Our nationwide network of certified interventionists is ready to help guide your\n                family through the process of recovery — no matter where you are located."}</AutoLinkedText>
               </p>
               {/* Icon list */}
               <ul className="mb-8 grid gap-3">
@@ -735,9 +725,7 @@ export default async function HomePage() {
                       {post.title}
                     </h3>
                     {post.excerpt && (
-                      <p className="mt-3 line-clamp-3 text-sm leading-relaxed text-[#4B4B4B]">
-                        {post.excerpt}
-                      </p>
+                      <p className="mt-3 line-clamp-3 text-sm leading-relaxed text-[#4B4B4B]"><AutoLinkedText>{post.excerpt}</AutoLinkedText></p>
                     )}
                     <span className="mt-auto flex items-center gap-1.5 pt-5 text-sm font-semibold text-[#6F8E68]">
                       Read More <i className="ri-arrow-right-line transition group-hover:translate-x-0.5"></i>
@@ -760,7 +748,7 @@ export default async function HomePage() {
           <div className="grid gap-16 lg:grid-cols-[1fr_auto] lg:items-center">
             {/* Left: text */}
             <div>
-              <p className="brand-eyebrow mb-5 text-[#8FAC87]">You Don&rsquo;t Have to Do This Alone</p>
+              <p className="brand-eyebrow mb-5 text-[#8FAC87]"><AutoLinkedText>{"You Don&rsquo;t Have to Do This Alone"}</AutoLinkedText></p>
               <h2 className="font-heading mb-2 text-4xl font-bold text-white md:text-5xl lg:text-6xl">
                 Speak to a Certified
               </h2>
@@ -768,8 +756,7 @@ export default async function HomePage() {
                 Interventionist
               </h2>
               <p className="mb-10 max-w-lg text-lg leading-relaxed text-white/75">
-                Call us 24/7 — we&rsquo;re here to ensure you are fully informed and empowered to make
-                the best decisions for your family.
+                <AutoLinkedText>{"Call us 24/7 — we&rsquo;re here to ensure you are fully informed and empowered to make\n                the best decisions for your family."}</AutoLinkedText>
               </p>
               <div className="flex flex-wrap gap-4">
                 <a
@@ -811,7 +798,7 @@ export default async function HomePage() {
           </div>
 
           <p className="mt-12 text-center text-xs uppercase tracking-[0.18em] text-white/30">
-            Confidential · Available 24/7 · All 50 States
+            <AutoLinkedText>{"Confidential · Available 24/7 · All 50 States"}</AutoLinkedText>
           </p>
         </div>
       </section>

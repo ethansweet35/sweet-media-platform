@@ -1,6 +1,7 @@
 import SectionWrapper from "@/components/ui/SectionWrapper";
 import Eyebrow from "@/components/ui/Eyebrow";
 import IconCircle from "@/components/ui/IconCircle";
+import { AutoLinkedText } from "@sweetmedia/blog-core";
 
 const levels = [
   {
@@ -61,7 +62,7 @@ export default function ContinuumSection() {
               The Continuum Of Care
             </h2>
             <p className="mt-4 text-[15px] font-light text-ink/65 max-w-sm">
-              Moving at the speed of your healing, from profound rest to revitalized independence.
+              <AutoLinkedText>{"Moving at the speed of your healing, from profound rest to revitalized independence."}</AutoLinkedText>
             </p>
           </div>
 
@@ -109,7 +110,7 @@ export default function ContinuumSection() {
                 </span>
               </div>
 
-              <p className="text-sm font-light leading-relaxed text-ink/60 flex-1">{lvl.desc}</p>
+              <p className="text-sm font-light leading-relaxed text-ink/60 flex-1"><AutoLinkedText>{lvl.desc}</AutoLinkedText></p>
 
               <div className="mt-8 pt-5 border-t border-warm">
                 <p className="text-xs font-light text-ink/50 mb-4">

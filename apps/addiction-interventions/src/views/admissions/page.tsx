@@ -5,6 +5,7 @@ import FaqAccordion from "@/components/sections/FaqAccordion";
 import BottomCta from "@/components/sections/BottomCta";
 import { PHONE_DISPLAY, PHONE_HREF } from "@/data/site";
 import type { Faq } from "@/data/faqs";
+import { AutoLinkedText } from "@sweetmedia/blog-core";
 
 const SUPABASE_IMAGES = "https://bxtwcdgjzzjxjvqdiuvn.supabase.co/storage/v1/object/public/site-assets/images";
 const HERO_BG = `${SUPABASE_IMAGES}/admissions_hero01.jpg`;
@@ -105,7 +106,7 @@ export default function AdmissionsPage() {
               One call is all it <span className="italic text-[#8FAC87]">takes</span>
             </h1>
             <p className="mb-10 text-lg leading-relaxed text-white/80">
-              You do not need to have everything figured out. You do not need to know exactly what kind of help you need. Call us, tell us what is happening, and we will take it from there.
+              <AutoLinkedText>{"You do not need to have everything figured out. You do not need to know exactly what kind of help you need. Call us, tell us what is happening, and we will take it from there."}</AutoLinkedText>
             </p>
             <div className="flex flex-col gap-3 sm:flex-row">
               <a href={PHONE_HREF} className="inline-flex items-center gap-2 rounded-full bg-[#8FAC87] px-7 py-3.5 text-sm font-semibold text-white shadow-sm transition hover:bg-[#6F8E68]">
@@ -130,7 +131,7 @@ export default function AdmissionsPage() {
               What happens when you <span className="italic text-[#507969]">reach out</span>
             </h2>
             <p className="mt-5 text-base leading-relaxed text-[#4B4B4B]">
-              Most families describe the first call as the moment the weight started to lift. Here is exactly what you can expect.
+              <AutoLinkedText>{"Most families describe the first call as the moment the weight started to lift. Here is exactly what you can expect."}</AutoLinkedText>
             </p>
           </div>
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
@@ -140,7 +141,7 @@ export default function AdmissionsPage() {
                   <i className={`${item.icon} text-xl`}></i>
                 </span>
                 <h3 className="font-heading mb-3 text-lg font-bold text-[#1A1A17]">{item.title}</h3>
-                <p className="text-sm leading-relaxed text-[#4B4B4B]">{item.body}</p>
+                <p className="text-sm leading-relaxed text-[#4B4B4B]"><AutoLinkedText>{item.body}</AutoLinkedText></p>
               </div>
             ))}
           </div>
@@ -167,7 +168,7 @@ export default function AdmissionsPage() {
                   </span>
                 </span>
                 <h3 className="font-heading mb-2 text-base font-bold text-[#1A1A17]">{step.title}</h3>
-                <p className="text-sm leading-relaxed text-[#4B4B4B]">{step.body}</p>
+                <p className="text-sm leading-relaxed text-[#4B4B4B]"><AutoLinkedText>{step.body}</AutoLinkedText></p>
               </div>
             ))}
           </div>
@@ -180,9 +181,9 @@ export default function AdmissionsPage() {
         <div className="absolute inset-0 bg-gradient-to-r from-[#1A1A17]/70 via-[#1A1A17]/50 to-transparent" />
         <div className="absolute bottom-0 left-0 p-10 text-white">
           <p className="font-heading max-w-md text-2xl italic">
-            "I didn't know what to say when I called. Within five minutes I felt like I finally had someone in my corner."
+            <AutoLinkedText>{"\"I didn't know what to say when I called. Within five minutes I felt like I finally had someone in my corner.\""}</AutoLinkedText>
           </p>
-          <p className="mt-2 text-sm text-white/70">— Mother who called us after 3 years of trying alone</p>
+          <p className="mt-2 text-sm text-white/70"><AutoLinkedText>{"— Mother who called us after 3 years of trying alone"}</AutoLinkedText></p>
         </div>
       </section>
 

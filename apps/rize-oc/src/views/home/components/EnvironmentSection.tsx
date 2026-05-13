@@ -1,6 +1,7 @@
 import SectionWrapper from "@/components/ui/SectionWrapper";
 import Eyebrow from "@/components/ui/Eyebrow";
 import IconCircle from "@/components/ui/IconCircle";
+import { AutoLinkedText } from "@sweetmedia/blog-core";
 
 const leftFeatures = [
   { icon: "ri-home-2-line",    title: "Intimate Setting",    desc: "Maximum 12 clients for personalized attention" },
@@ -29,15 +30,15 @@ export default function EnvironmentSection() {
             <br />
             <em className="italic text-white/60">Of Peace</em>
           </h2>
-          <p className="mt-2 text-sm font-light text-white/50">Orange County, California</p>
+          <p className="mt-2 text-sm font-light text-white/50"><AutoLinkedText>{"Orange County, California"}</AutoLinkedText></p>
 
           <div className="mt-10 flex flex-col gap-6">
             {leftFeatures.map(({ icon, title, desc }) => (
               <div key={title} className="flex items-start gap-4">
                 <IconCircle icon={icon} variant="ink" size="xs" />
                 <div>
-                  <p className="text-lg font-normal text-white">{title}</p>
-                  <p className="text-sm font-light text-white/45">{desc}</p>
+                  <p className="text-lg font-normal text-white"><AutoLinkedText>{title}</AutoLinkedText></p>
+                  <p className="text-sm font-light text-white/45"><AutoLinkedText>{desc}</AutoLinkedText></p>
                 </div>
               </div>
             ))}
@@ -47,7 +48,7 @@ export default function EnvironmentSection() {
         {/* Right — description + amenity list */}
         <div>
           <p className="text-[15px] font-light leading-relaxed text-white/65 mb-10">
-            We do not believe that clinical excellence must come at the expense of comfort. Rize was designed from the ground up to remove friction, stimulate the senses, and provide an uncompromisingly premium backdrop for your recovery.
+            <AutoLinkedText>{"We do not believe that clinical excellence must come at the expense of comfort. Rize was designed from the ground up to remove friction, stimulate the senses, and provide an uncompromisingly premium backdrop for your recovery."}</AutoLinkedText>
           </p>
 
           <div className="flex flex-col divide-y divide-white/10">
@@ -55,7 +56,7 @@ export default function EnvironmentSection() {
               <div key={title} className="flex items-start justify-between gap-6 py-7">
                 <div>
                   <h3 className="font-[family-name:var(--font-display)] text-[28px] font-normal text-white">{title}</h3>
-                  <p className="mt-1 text-sm font-light text-white/50">{desc}</p>
+                  <p className="mt-1 text-sm font-light text-white/50"><AutoLinkedText>{desc}</AutoLinkedText></p>
                 </div>
                 <span className="text-[9px] font-semibold uppercase tracking-[0.3em] text-white/35 shrink-0 mt-1">
                   {category}

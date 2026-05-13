@@ -4,6 +4,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useState } from 'react';
 import Breadcrumb from '@/components/base/Breadcrumb';
+import { AutoLinkedTextClient } from "@sweetmedia/blog-core";
 
 const ACCENT = '#6B7D67';
 
@@ -167,7 +168,7 @@ export default function VirtualOpPage() {
               </div>
               <div className="flex flex-col gap-6">
                 <p className="text-[#F0ECE1]/75 font-light text-base leading-[1.95]">
-                  Standard outpatient provides the ongoing clinical support that maintains and deepens recovery — whether you&apos;re stepping down from IOP, beginning your healing journey, or investing in your long-term mental health. Flexible, virtual, and designed around your real life.
+                  <AutoLinkedTextClient>{"Standard outpatient provides the ongoing clinical support that maintains and deepens recovery — whether you&apos;re stepping down from IOP, beginning your healing journey, or investing in your long-term mental health. Flexible, virtual, and designed around your real life."}</AutoLinkedTextClient>
                 </p>
                 <div className="flex flex-wrap gap-4">
                   <Link
@@ -201,8 +202,8 @@ export default function VirtualOpPage() {
             { value: '100%', label: 'Virtual & Private', color: '#8FA489' },
           ].map((s, i) => (
             <div key={i} className="flex flex-col items-center text-center gap-1">
-              <p className="font-serif font-bold leading-none" style={{ fontSize: 'clamp(28px, 3.5vw, 44px)', color: s.color }}>{s.value}</p>
-              <p className="text-[10px] uppercase tracking-widest text-[#F0ECE1]/45 font-light">{s.label}</p>
+              <p className="font-serif font-bold leading-none" style={{ fontSize: 'clamp(28px, 3.5vw, 44px)', color: s.color }}><AutoLinkedTextClient>{s.value}</AutoLinkedTextClient></p>
+              <p className="text-[10px] uppercase tracking-widest text-[#F0ECE1]/45 font-light"><AutoLinkedTextClient>{s.label}</AutoLinkedTextClient></p>
             </div>
           ))}
         </div>
@@ -221,10 +222,10 @@ export default function VirtualOpPage() {
               <em className="text-[#C8795A]">stay grounded in it.</em>
             </h2>
             <p className="text-[#3A4A3C]/65 font-light text-base leading-[1.95]">
-              Standard outpatient therapy is 1–2 sessions per week — flexible, virtual, and designed to support women at any point in their recovery journey. It is the appropriate level of care for women beginning therapy with lower-acuity needs, women stepping down from IOP, or women investing in long-term mental health maintenance.
+              <AutoLinkedTextClient>{"Standard outpatient therapy is 1–2 sessions per week — flexible, virtual, and designed to support women at any point in their recovery journey. It is the appropriate level of care for women beginning therapy with lower-acuity needs, women stepping down from IOP, or women investing in long-term mental health maintenance."}</AutoLinkedTextClient>
             </p>
             <p className="text-[#3A4A3C]/65 font-light text-base leading-[1.95]">
-              Unlike generic outpatient therapy, our program is fully integrated. Your individual therapist, psychiatrist (when needed), and group facilitator communicate and collaborate on your care — so nothing falls between the cracks.
+              <AutoLinkedTextClient>{"Unlike generic outpatient therapy, our program is fully integrated. Your individual therapist, psychiatrist (when needed), and group facilitator communicate and collaborate on your care — so nothing falls between the cracks."}</AutoLinkedTextClient>
             </p>
             <div className="flex items-center gap-3 pt-1">
               <div className="w-8 h-px" style={{ backgroundColor: ACCENT }}></div>
@@ -246,7 +247,7 @@ export default function VirtualOpPage() {
             <div className="bg-[#2C3B2E] rounded-[0.75rem_2rem_0.75rem_2rem] p-7 flex flex-col gap-3">
               <i className="ri-double-quotes-l text-2xl" style={{ color: ACCENT }}></i>
               <p className="font-serif text-[#FAF8F5] text-base leading-[1.7] italic">
-                &quot;Virtual outpatient has been my anchor. Even two years into recovery, having that weekly session keeps me grounded and growing.&quot;
+                <AutoLinkedTextClient>{"&quot;Virtual outpatient has been my anchor. Even two years into recovery, having that weekly session keeps me grounded and growing.&quot;"}</AutoLinkedTextClient>
               </p>
               <p className="text-[10px] uppercase tracking-widest font-medium" style={{ color: '#DDA15E' }}>
                 — Outpatient Client
@@ -268,7 +269,7 @@ export default function VirtualOpPage() {
               <em className="text-[#C8795A]">wherever you are.</em>
             </h2>
             <p className="text-[#3A4A3C]/60 font-light text-base max-w-xl mx-auto leading-relaxed">
-              Standard outpatient is the right level of care for a wide range of women and a wide range of circumstances.
+              <AutoLinkedTextClient>{"Standard outpatient is the right level of care for a wide range of women and a wide range of circumstances."}</AutoLinkedTextClient>
             </p>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
@@ -278,7 +279,7 @@ export default function VirtualOpPage() {
                   <i className={`${item.icon} text-lg`} style={{ color: ACCENT }}></i>
                 </div>
                 <h3 className="font-serif text-[#2C3B2E] text-xl">{item.title}</h3>
-                <p className="text-sm text-[#3A4A3C]/60 font-light leading-[1.85]">{item.desc}</p>
+                <p className="text-sm text-[#3A4A3C]/60 font-light leading-[1.85]"><AutoLinkedTextClient>{item.desc}</AutoLinkedTextClient></p>
               </div>
             ))}
           </div>
@@ -305,7 +306,7 @@ export default function VirtualOpPage() {
                 </div>
                 <div className="flex flex-col gap-1">
                   <h3 className="font-serif text-[#2C3B2E] text-sm font-semibold">{item.label}</h3>
-                  <p className="text-xs text-[#3A4A3C]/60 font-light leading-snug">{item.desc}</p>
+                  <p className="text-xs text-[#3A4A3C]/60 font-light leading-snug"><AutoLinkedTextClient>{item.desc}</AutoLinkedTextClient></p>
                 </div>
               </div>
             ))}
@@ -313,7 +314,7 @@ export default function VirtualOpPage() {
 
           <div className="mt-8 bg-[#2C3B2E] rounded-2xl p-7 flex flex-col sm:flex-row items-center justify-between gap-6">
             <p className="text-[#F0ECE1]/80 font-light text-base leading-relaxed max-w-2xl">
-              Need more structure right now? Our IOP runs three days per week and provides a higher level of clinical support. We&apos;ll help you choose the right level at your assessment.
+              <AutoLinkedTextClient>{"Need more structure right now? Our IOP runs three days per week and provides a higher level of clinical support. We&apos;ll help you choose the right level at your assessment."}</AutoLinkedTextClient>
             </p>
             <Link
               href="/levels-of-care/virtual-iop"
@@ -354,7 +355,7 @@ export default function VirtualOpPage() {
                     <i className={`${pillar.icon} text-sm`} style={{ color: ACCENT }}></i>
                   </div>
                   <h3 className="font-serif text-[#FAF8F5] text-sm">{pillar.title}</h3>
-                  <p className="text-[#F0ECE1]/55 font-light text-xs leading-[1.8]">{pillar.desc}</p>
+                  <p className="text-[#F0ECE1]/55 font-light text-xs leading-[1.8]"><AutoLinkedTextClient>{pillar.desc}</AutoLinkedTextClient></p>
                 </div>
               ))}
             </div>
@@ -375,17 +376,17 @@ export default function VirtualOpPage() {
                 <em className="text-[#C8795A]">first session.</em>
               </h2>
               <p className="text-[#3A4A3C]/65 font-light text-base leading-[1.95]">
-                Beginning outpatient therapy is a straightforward process. We handle the logistics — insurance, scheduling, therapist matching — so you can focus on showing up.
+                <AutoLinkedTextClient>{"Beginning outpatient therapy is a straightforward process. We handle the logistics — insurance, scheduling, therapist matching — so you can focus on showing up."}</AutoLinkedTextClient>
               </p>
               <div className="bg-[#F0ECE1] rounded-[2rem_0.75rem_2rem_0.75rem] p-7 flex flex-col gap-3">
                 <p className="text-xs uppercase tracking-widest font-medium" style={{ color: ACCENT }}>
-                  Most women begin within
+                  <AutoLinkedTextClient>{"Most women begin within"}</AutoLinkedTextClient>
                 </p>
                 <p className="font-serif text-[#2C3B2E]" style={{ fontSize: 'clamp(28px, 3vw, 40px)' }}>
                   24–72 hours
                 </p>
                 <p className="text-[#3A4A3C]/60 font-light text-sm leading-relaxed">
-                  From first call to first session. No wait lists. No barriers. Just care.
+                  <AutoLinkedTextClient>{"From first call to first session. No wait lists. No barriers. Just care."}</AutoLinkedTextClient>
                 </p>
               </div>
             </div>
@@ -405,7 +406,7 @@ export default function VirtualOpPage() {
                   </div>
                   <div className="flex flex-col gap-2 pt-2 pb-4">
                     <h3 className="font-serif text-[#2C3B2E] text-base group-hover:text-[#C8795A] transition-colors duration-300">{item.label}</h3>
-                    <p className="text-sm text-[#3A4A3C]/60 font-light leading-[1.85]">{item.desc}</p>
+                    <p className="text-sm text-[#3A4A3C]/60 font-light leading-[1.85]"><AutoLinkedTextClient>{item.desc}</AutoLinkedTextClient></p>
                   </div>
                 </div>
               ))}
@@ -427,7 +428,7 @@ export default function VirtualOpPage() {
                 <em className="text-[#C8795A]">standard outpatient.</em>
               </h2>
               <p className="text-[#3A4A3C]/60 font-light text-sm leading-[1.85]">
-                Every modality is selected based on your specific clinical needs and goals — not a one-size-fits-all protocol.
+                <AutoLinkedTextClient>{"Every modality is selected based on your specific clinical needs and goals — not a one-size-fits-all protocol."}</AutoLinkedTextClient>
               </p>
               <Link
                 href="/therapy"
@@ -476,7 +477,7 @@ export default function VirtualOpPage() {
                 </button>
                 {openFaq === i && (
                   <div className="px-6 pb-6">
-                    <p className="text-[#F0ECE1]/70 font-light text-sm leading-[1.9]">{faq.a}</p>
+                    <p className="text-[#F0ECE1]/70 font-light text-sm leading-[1.9]"><AutoLinkedTextClient>{faq.a}</AutoLinkedTextClient></p>
                   </div>
                 )}
               </div>
@@ -507,7 +508,7 @@ export default function VirtualOpPage() {
               <em style={{ color: ACCENT }}>we&apos;ll be there for it.</em>
             </h2>
             <p className="text-[#F0ECE1]/70 font-light text-base leading-relaxed">
-              A free, confidential assessment is the first step. Our clinical team will listen, assess, and help you understand whether outpatient is the right fit — and if so, get you started within 72 hours.
+              <AutoLinkedTextClient>{"A free, confidential assessment is the first step. Our clinical team will listen, assess, and help you understand whether outpatient is the right fit — and if so, get you started within 72 hours."}</AutoLinkedTextClient>
             </p>
             <div className="flex flex-col sm:flex-row gap-4">
               <Link

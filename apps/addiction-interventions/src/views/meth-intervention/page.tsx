@@ -6,6 +6,7 @@ import BottomCta from "@/components/sections/BottomCta";
 import HeroContactForm from "@/components/feature/HeroContactForm";
 import { PHONE_DISPLAY, PHONE_HREF } from "@/data/site";
 import type { Faq } from "@/data/faqs";
+import { AutoLinkedText } from "@sweetmedia/blog-core";
 
 const SUPABASE_IMAGES =
   "https://bxtwcdgjzzjxjvqdiuvn.supabase.co/storage/v1/object/public/site-assets/images";
@@ -63,7 +64,7 @@ export default function MethInterventionPage() {
                 <span className="italic text-[#8FAC87]">safety and speed when every hour matters</span>
               </h1>
               <p className="mb-8 max-w-lg text-base leading-relaxed text-white/80 md:text-lg">
-                Methamphetamine creates volatile mood swings, paranoia, and rapid physical decline. Interventions for meth users require specific safety protocols and rapid placement into stabilisation care. We move fast and we move safely.
+                <AutoLinkedText>{"Methamphetamine creates volatile mood swings, paranoia, and rapid physical decline. Interventions for meth users require specific safety protocols and rapid placement into stabilisation care. We move fast and we move safely."}</AutoLinkedText>
               </p>
               <div className="mb-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
                 <a href={PHONE_HREF} className="inline-flex items-center gap-2 rounded-full bg-[#8FAC87] px-7 py-3.5 text-sm font-semibold text-white shadow-sm transition hover:bg-[#6F8E68]">
@@ -107,7 +108,7 @@ export default function MethInterventionPage() {
                 <span className="italic text-[#507969]">meth intervention?</span>
               </h2>
               <p className="mb-8 text-base leading-relaxed text-[#4B4B4B] md:text-lg">
-                Methamphetamine destroys the body and mind faster than almost any other substance. The physical and psychiatric deterioration can be shocking. These signs indicate the situation requires immediate professional intervention.
+                <AutoLinkedText>{"Methamphetamine destroys the body and mind faster than almost any other substance. The physical and psychiatric deterioration can be shocking. These signs indicate the situation requires immediate professional intervention."}</AutoLinkedText>
               </p>
               <a href={PHONE_HREF} className="inline-flex items-center gap-2 rounded-full bg-[#3E5B50] px-7 py-3.5 text-sm font-semibold text-white shadow-sm transition hover:bg-[#507969]">
                 <i className="ri-phone-fill"></i> Speak with an interventionist now
@@ -154,8 +155,8 @@ export default function MethInterventionPage() {
                 <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-[#8FAC87]/20 text-[#8FAC87]">
                   <i className={`text-2xl ${item.icon}`}></i>
                 </div>
-                <p className="mb-3 font-heading text-lg font-bold italic text-white/60">{item.myth}</p>
-                <p className="text-sm leading-relaxed text-white/80">{item.truth}</p>
+                <p className="mb-3 font-heading text-lg font-bold italic text-white/60"><AutoLinkedText>{item.myth}</AutoLinkedText></p>
+                <p className="text-sm leading-relaxed text-white/80"><AutoLinkedText>{item.truth}</AutoLinkedText></p>
               </div>
             ))}
           </div>
@@ -168,9 +169,9 @@ export default function MethInterventionPage() {
         <div className="absolute inset-0 bg-gradient-to-r from-[#1A1A17]/70 via-[#1A1A17]/50 to-transparent" />
         <div className="absolute bottom-0 left-0 p-10 text-white">
           <p className="font-heading max-w-md text-2xl italic">
-            "We didn't recognise our own son anymore. The intervention brought him back."
+            <AutoLinkedText>{"\"We didn't recognise our own son anymore. The intervention brought him back.\""}</AutoLinkedText>
           </p>
-          <p className="mt-2 text-sm text-white/70">— Mother of a son in long-term recovery</p>
+          <p className="mt-2 text-sm text-white/70"><AutoLinkedText>{"— Mother of a son in long-term recovery"}</AutoLinkedText></p>
         </div>
       </section>
 
@@ -185,10 +186,10 @@ export default function MethInterventionPage() {
                 <span className="italic text-[#507969]">actually looks like</span>
               </h2>
               <p className="mb-5 text-base leading-relaxed text-[#4B4B4B]">
-                Meth addiction is rarely something families can address alone — the unpredictability and physical risk are too great. Our interventionists are experienced in de-escalation and have direct relationships with treatment programs equipped for meth recovery.
+                <AutoLinkedText>{"Meth addiction is rarely something families can address alone — the unpredictability and physical risk are too great. Our interventionists are experienced in de-escalation and have direct relationships with treatment programs equipped for meth recovery."}</AutoLinkedText>
               </p>
               <p className="text-base leading-relaxed text-[#4B4B4B]">
-                We move fast. Meth use can escalate from recreational to life-threatening in a matter of weeks. We pre-screen programmes that understand stimulant psychosis, severe dental and skin issues, and the intense cravings that make relapse so common. Your loved one leaves the intervention with a bed waiting — not a vague plan to 'look into treatment'.
+                <AutoLinkedText>{"We move fast. Meth use can escalate from recreational to life-threatening in a matter of weeks. We pre-screen programmes that understand stimulant psychosis, severe dental and skin issues, and the intense cravings that make relapse so common. Your loved one leaves the intervention with a bed waiting — not a vague plan to 'look into treatment'."}</AutoLinkedText>
               </p>
             </div>
             <div className="grid grid-cols-2 gap-4">
@@ -202,8 +203,8 @@ export default function MethInterventionPage() {
                   <span className="flex h-12 w-12 items-center justify-center rounded-full bg-[#3E5B50] text-white">
                     <i className={`text-xl ${s.icon}`}></i>
                   </span>
-                  <p className="font-heading mt-4 text-3xl font-bold text-[#3E5B50]">{s.number}</p>
-                  <p className="mt-1 text-xs font-medium text-[#4B4B4B]">{s.label}</p>
+                  <p className="font-heading mt-4 text-3xl font-bold text-[#3E5B50]"><AutoLinkedText>{s.number}</AutoLinkedText></p>
+                  <p className="mt-1 text-xs font-medium text-[#4B4B4B]"><AutoLinkedText>{s.label}</AutoLinkedText></p>
                 </div>
               ))}
             </div>
@@ -232,7 +233,7 @@ export default function MethInterventionPage() {
                   <i className={`${rel.icon} text-xl`}></i>
                 </span>
                 <h3 className="font-heading mt-5 text-xl font-bold text-[#1A1A17]">{rel.name}</h3>
-                <p className="mt-3 flex-1 text-sm leading-relaxed text-[#4B4B4B]">{rel.desc}</p>
+                <p className="mt-3 flex-1 text-sm leading-relaxed text-[#4B4B4B]"><AutoLinkedText>{rel.desc}</AutoLinkedText></p>
                 <span className="mt-5 inline-flex items-center gap-1.5 text-sm font-semibold text-[#507969] transition group-hover:gap-2.5">
                   Learn more <i className="ri-arrow-right-line"></i>
                 </span>

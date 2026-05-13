@@ -3,6 +3,7 @@
 import { useState } from "react";
 import PageHero from "@/components/sections/PageHero";
 import { PHONE_DISPLAY, PHONE_HREF, TRUST_SIGNALS } from "@/data/site";
+import { AutoLinkedTextClient } from "@sweetmedia/blog-core";
 
 type FormStatus = "idle" | "submitting" | "success" | "error";
 
@@ -68,21 +69,21 @@ export default function ContactPage() {
                 <i className="ri-time-line text-lg"></i>
               </span>
               <h3 className="font-heading mb-2 text-base font-bold text-[#1A1A17]">&ldquo;Is it the right time?&rdquo;</h3>
-              <p>Most families wait too long. There is no perfect window — but there is a right one. Our first call helps you honestly assess where your loved one is, whether the situation warrants intervention now, and what the risk of waiting actually looks like.</p>
+              <p><AutoLinkedTextClient>{"Most families wait too long. There is no perfect window — but there is a right one. Our first call helps you honestly assess where your loved one is, whether the situation warrants intervention now, and what the risk of waiting actually looks like."}</AutoLinkedTextClient></p>
             </div>
             <div>
               <span className="mb-2 flex h-9 w-9 items-center justify-center rounded-xl bg-[#8FAC87]/15 text-[#507969]">
                 <i className="ri-lock-line text-lg"></i>
               </span>
               <h3 className="font-heading mb-2 text-base font-bold text-[#1A1A17]">&ldquo;Is this confidential?&rdquo;</h3>
-              <p>Completely. We never share family information with employers, insurance companies, or anyone outside your immediate care team without your written consent. Everything discussed on the first call stays between you and our interventionist.</p>
+              <p><AutoLinkedTextClient>{"Completely. We never share family information with employers, insurance companies, or anyone outside your immediate care team without your written consent. Everything discussed on the first call stays between you and our interventionist."}</AutoLinkedTextClient></p>
             </div>
             <div>
               <span className="mb-2 flex h-9 w-9 items-center justify-center rounded-xl bg-[#8FAC87]/15 text-[#507969]">
                 <i className="ri-money-dollar-circle-line text-lg"></i>
               </span>
               <h3 className="font-heading mb-2 text-base font-bold text-[#1A1A17]">&ldquo;What does this cost?&rdquo;</h3>
-              <p>The first consultation is always free. We quote honest, transparent pricing on that call — and we believe our fee is always less than the cost of one more month of continued addiction or untreated mental illness. We also work with families across a range of budgets.</p>
+              <p><AutoLinkedTextClient>{"The first consultation is always free. We quote honest, transparent pricing on that call — and we believe our fee is always less than the cost of one more month of continued addiction or untreated mental illness. We also work with families across a range of budgets."}</AutoLinkedTextClient></p>
             </div>
           </div>
         </div>
@@ -99,9 +100,7 @@ export default function ContactPage() {
               Request a private consultation.
             </h2>
             <p className="mt-4 text-base leading-7 text-[var(--color-ink-muted)]">
-              Tell us a bit about your situation. We respond fast — usually
-              within minutes — and never share your information with anyone
-              outside our team.
+              <AutoLinkedTextClient>{"Tell us a bit about your situation. We respond fast — usually\n              within minutes — and never share your information with anyone\n              outside our team."}</AutoLinkedTextClient>
             </p>
 
             {status === "success" ? (
@@ -192,8 +191,7 @@ export default function ContactPage() {
                 </button>
 
                 <p className="text-xs text-[var(--color-ink-muted)]">
-                  By submitting, you agree to be contacted by a member of our
-                  team. We never share your information.
+                  <AutoLinkedTextClient>{"By submitting, you agree to be contacted by a member of our\n                  team. We never share your information."}</AutoLinkedTextClient>
                 </p>
               </form>
             )}
@@ -202,9 +200,7 @@ export default function ContactPage() {
           {/* Info sidebar */}
           <aside className="space-y-6">
             <div className="rounded-2xl bg-[var(--color-cream)] p-7">
-              <p className="brand-eyebrow text-[var(--color-sage-deep)]">
-                {TRUST_SIGNALS.availability}
-              </p>
+              <p className="brand-eyebrow text-[var(--color-sage-deep)]"><AutoLinkedTextClient>{TRUST_SIGNALS.availability}</AutoLinkedTextClient></p>
               <h3 className="mt-3 text-2xl font-semibold tracking-tight text-[var(--color-ink)]">
                 Speak with us right now.
               </h3>
@@ -216,8 +212,7 @@ export default function ContactPage() {
                 {PHONE_DISPLAY}
               </a>
               <p className="mt-3 text-sm leading-6 text-[var(--color-ink-muted)]">
-                A certified interventionist answers every call. No bots, no
-                voicemails, no hold music — just real help when you need it.
+                <AutoLinkedTextClient>{"A certified interventionist answers every call. No bots, no\n                voicemails, no hold music — just real help when you need it."}</AutoLinkedTextClient>
               </p>
             </div>
 

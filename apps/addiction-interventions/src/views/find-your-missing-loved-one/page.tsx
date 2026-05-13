@@ -5,6 +5,7 @@ import FaqAccordion from "@/components/sections/FaqAccordion";
 import BottomCta from "@/components/sections/BottomCta";
 import { PHONE_DISPLAY, PHONE_HREF } from "@/data/site";
 import type { Faq } from "@/data/faqs";
+import { AutoLinkedText } from "@sweetmedia/blog-core";
 
 const SUPABASE_IMAGES = "https://bxtwcdgjzzjxjvqdiuvn.supabase.co/storage/v1/object/public/site-assets/images";
 const HERO_BG = `${SUPABASE_IMAGES}/find_missing_hero01.jpg`;
@@ -114,8 +115,7 @@ export default function FindYourMissingLovedOnePage() {
               How to find a missing loved one <span className="italic text-[#8FAC87]">struggling with addiction</span>
             </h1>
             <p className="mb-8 text-lg leading-relaxed text-white/80">
-              When a family member disappears in the middle of an addiction or mental health crisis, every minute matters.
-              Here is exactly what to do — in order — to bring them home safely.
+              <AutoLinkedText>{"When a family member disappears in the middle of an addiction or mental health crisis, every minute matters.\n              Here is exactly what to do — in order — to bring them home safely."}</AutoLinkedText>
             </p>
             <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap">
               <a
@@ -146,7 +146,7 @@ export default function FindYourMissingLovedOnePage() {
                 <i className="ri-alarm-warning-line text-2xl"></i>
               </span>
               <p className="text-base font-semibold text-white">
-                If you believe your loved one is in immediate danger — call 911 first, then call us.
+                <AutoLinkedText>{"If you believe your loved one is in immediate danger — call 911 first, then call us."}</AutoLinkedText>
               </p>
             </div>
             <a
@@ -168,7 +168,7 @@ export default function FindYourMissingLovedOnePage() {
               What to do — <span className="italic text-[#507969]">in this exact order</span>
             </h2>
             <p className="mt-4 max-w-2xl text-base leading-relaxed text-[#4B4B4B]">
-              These steps are drawn from hundreds of cases where families located — and then successfully intervened with — a missing loved one in active addiction or mental health crisis.
+              <AutoLinkedText>{"These steps are drawn from hundreds of cases where families located — and then successfully intervened with — a missing loved one in active addiction or mental health crisis."}</AutoLinkedText>
             </p>
           </div>
 
@@ -192,7 +192,7 @@ export default function FindYourMissingLovedOnePage() {
                 </div>
                 <div>
                   <h3 className={`font-heading text-lg font-bold ${step.urgent ? "text-white" : "text-[#1A1A17]"}`}>{step.title}</h3>
-                  <p className={`mt-2 text-sm leading-relaxed ${step.urgent ? "text-white/80" : "text-[#4B4B4B]"}`}>{step.body}</p>
+                  <p className={`mt-2 text-sm leading-relaxed ${step.urgent ? "text-white/80" : "text-[#4B4B4B]"}`}><AutoLinkedText>{step.body}</AutoLinkedText></p>
                 </div>
               </div>
             ))}
@@ -205,12 +205,12 @@ export default function FindYourMissingLovedOnePage() {
         <div className={CONTAINER}>
           <div className="grid gap-12 lg:grid-cols-2 lg:items-center">
             <div>
-              <p className="brand-eyebrow mb-4 text-[#8FAC87]">Technology Checklist</p>
+              <p className="brand-eyebrow mb-4 text-[#8FAC87]"><AutoLinkedText>{"Technology Checklist"}</AutoLinkedText></p>
               <h2 className="font-heading mb-6 text-4xl font-bold text-[#1A1A17] md:text-5xl">
                 Digital tools that can <span className="italic text-[#507969]">locate your loved one</span>
               </h2>
               <p className="mb-8 text-base leading-relaxed text-[#4B4B4B]">
-                Technology often finds people faster than traditional searches. Check every tool available before concluding your loved one cannot be found.
+                <AutoLinkedText>{"Technology often finds people faster than traditional searches. Check every tool available before concluding your loved one cannot be found."}</AutoLinkedText>
               </p>
               <ul className="grid gap-3">
                 {TECH_TOOLS.map((tool) => (
@@ -228,10 +228,10 @@ export default function FindYourMissingLovedOnePage() {
               <i className="ri-search-eye-line text-4xl text-[#8FAC87]"></i>
               <h3 className="font-heading mt-5 text-2xl font-bold">When they are found</h3>
               <p className="mt-4 text-sm leading-relaxed text-white/75">
-                The 24 hours after a missing person is located are the highest-risk window in the entire recovery journey. The emotional intensity creates an unprecedented opening for treatment acceptance — but it also carries enormous risk of relapse or flight.
+                <AutoLinkedText>{"The 24 hours after a missing person is located are the highest-risk window in the entire recovery journey. The emotional intensity creates an unprecedented opening for treatment acceptance — but it also carries enormous risk of relapse or flight."}</AutoLinkedText>
               </p>
               <p className="mt-4 text-sm leading-relaxed text-white/75">
-                Have a certified interventionist on call before you make contact. We can be ready to deploy within hours of your call.
+                <AutoLinkedText>{"Have a certified interventionist on call before you make contact. We can be ready to deploy within hours of your call."}</AutoLinkedText>
               </p>
               <a
                 href={PHONE_HREF}

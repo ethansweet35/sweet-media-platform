@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { useState } from 'react';
 import Breadcrumb from '@/components/base/Breadcrumb';
 import HeroContactForm from '@/views/home/components/HeroContactForm';
+import { AutoLinkedTextClient } from "@sweetmedia/blog-core";
 
 const ACCENT = '#DDA15E';
 
@@ -128,7 +129,7 @@ function FaqItem({ q, a }: { q: string; a: string }) {
         <i className={`ri-${open ? 'subtract' : 'add'}-line text-lg flex-shrink-0 mt-0.5`} style={{ color: ACCENT }} />
       </button>
       {open && (
-        <p className="text-sm text-[#3A4A3C]/65 font-light leading-[1.85] pb-5 pr-8">{a}</p>
+        <p className="text-sm text-[#3A4A3C]/65 font-light leading-[1.85] pb-5 pr-8"><AutoLinkedTextClient>{a}</AutoLinkedTextClient></p>
       )}
     </div>
   );
@@ -175,9 +176,7 @@ export default function FamilyTherapyPage() {
                   Therapy
                 </h1>
                 <p className="text-[#FAF8F5]/65 font-light leading-[1.85] text-base max-w-md">
-                  Healing rarely happens in isolation. Family therapy creates a guided space to repair
-                  relationships, improve communication, and help the people who love you become allies
-                  in your recovery — not obstacles.
+                  <AutoLinkedTextClient>{"Healing rarely happens in isolation. Family therapy creates a guided space to repair\n                  relationships, improve communication, and help the people who love you become allies\n                  in your recovery — not obstacles."}</AutoLinkedTextClient>
                 </p>
                 <div className="flex flex-wrap gap-4">
                   <Link
@@ -227,9 +226,7 @@ export default function FamilyTherapyPage() {
               Why Family
             </span>
             <p className="font-serif text-[#2C3B2E] mt-6 leading-[1.7]" style={{ fontSize: 'clamp(20px, 2.5vw, 30px)' }}>
-              Mental health doesn't happen in a vacuum. Your recovery is shaped by the relationships
-              around you — and those relationships are also shaped by your recovery. Family therapy
-              addresses both at once.
+              <AutoLinkedTextClient>{"Mental health doesn't happen in a vacuum. Your recovery is shaped by the relationships\n              around you — and those relationships are also shaped by your recovery. Family therapy\n              addresses both at once."}</AutoLinkedTextClient>
             </p>
           </div>
 
@@ -250,7 +247,7 @@ export default function FamilyTherapyPage() {
                   {s.num}
                   <span className="text-sm font-light ml-1 opacity-50">{s.unit}</span>
                 </div>
-                <p className="text-xs text-[#3A4A3C]/45 font-light mt-2 leading-relaxed">{s.label}</p>
+                <p className="text-xs text-[#3A4A3C]/45 font-light mt-2 leading-relaxed"><AutoLinkedTextClient>{s.label}</AutoLinkedTextClient></p>
               </div>
             ))}
           </div>
@@ -261,11 +258,10 @@ export default function FamilyTherapyPage() {
             style={{ backgroundColor: `${ACCENT}10`, borderLeft: `3px solid ${ACCENT}` }}
           >
             <p className="font-serif italic text-[#2C3B2E] text-lg leading-relaxed">
-              "The goal isn't a perfect family. It's a family that knows how to be imperfect together —
-              with honesty, care, and repair."
+              <AutoLinkedTextClient>{"\"The goal isn't a perfect family. It's a family that knows how to be imperfect together —\n              with honesty, care, and repair.\""}</AutoLinkedTextClient>
             </p>
             <p className="text-xs text-[#3A4A3C]/45 mt-4 uppercase tracking-widest font-light">
-              — The guiding principle behind our family therapy approach
+              <AutoLinkedTextClient>{"— The guiding principle behind our family therapy approach"}</AutoLinkedTextClient>
             </p>
           </div>
         </div>
@@ -301,7 +297,7 @@ export default function FamilyTherapyPage() {
                   <i className={`${p.icon} text-lg`} style={{ color: ACCENT }} />
                 </div>
                 <h3 className="font-serif text-[#2C3B2E] text-lg mb-3 relative z-10">{p.title}</h3>
-                <p className="text-sm text-[#3A4A3C]/60 font-light leading-[1.85] relative z-10">{p.desc}</p>
+                <p className="text-sm text-[#3A4A3C]/60 font-light leading-[1.85] relative z-10"><AutoLinkedTextClient>{p.desc}</AutoLinkedTextClient></p>
               </div>
             ))}
           </div>
@@ -344,7 +340,7 @@ export default function FamilyTherapyPage() {
                   {step.duration}
                 </span>
                 <h4 className="font-serif text-[#2C3B2E] text-base mb-2">{step.label}</h4>
-                <p className="text-xs text-[#3A4A3C]/55 font-light leading-relaxed">{step.desc}</p>
+                <p className="text-xs text-[#3A4A3C]/55 font-light leading-relaxed"><AutoLinkedTextClient>{step.desc}</AutoLinkedTextClient></p>
               </div>
             ))}
           </div>
@@ -369,7 +365,7 @@ export default function FamilyTherapyPage() {
                     {step.duration}
                   </span>
                   <h4 className="font-serif text-[#2C3B2E] text-base mt-0.5 mb-1">{step.label}</h4>
-                  <p className="text-xs text-[#3A4A3C]/55 font-light leading-relaxed">{step.desc}</p>
+                  <p className="text-xs text-[#3A4A3C]/55 font-light leading-relaxed"><AutoLinkedTextClient>{step.desc}</AutoLinkedTextClient></p>
                 </div>
               </div>
             ))}
@@ -402,7 +398,7 @@ export default function FamilyTherapyPage() {
                 </div>
                 <div>
                   <h3 className="font-serif text-[#2C3B2E] text-base mb-2">{w.role}</h3>
-                  <p className="text-sm text-[#3A4A3C]/60 font-light leading-[1.85]">{w.desc}</p>
+                  <p className="text-sm text-[#3A4A3C]/60 font-light leading-[1.85]"><AutoLinkedTextClient>{w.desc}</AutoLinkedTextClient></p>
                 </div>
               </div>
             ))}
@@ -472,9 +468,7 @@ export default function FamilyTherapyPage() {
               Your recovery changes your relationships — we help those relationships catch up
             </h3>
             <p className="text-[#FAF8F5]/60 font-light leading-[1.85] text-base mb-8">
-              As you grow in treatment, the people around you may struggle to understand or keep pace.
-              Family therapy creates the space for that growth to happen together — with a skilled
-              clinician holding the room so every voice is heard.
+              <AutoLinkedTextClient>{"As you grow in treatment, the people around you may struggle to understand or keep pace.\n              Family therapy creates the space for that growth to happen together — with a skilled\n              clinician holding the room so every voice is heard."}</AutoLinkedTextClient>
             </p>
             <div className="flex flex-wrap gap-3 mb-10">
               {['Family Systems', 'EFT', 'Communication Skills', 'Psychoeducation'].map((m) => (
@@ -552,8 +546,7 @@ export default function FamilyTherapyPage() {
             Healing your relationships<br />starts with one session
           </h2>
           <p className="text-[#FAF8F5]/60 font-light leading-[1.85] mb-10 text-base">
-            Family therapy can begin as soon as you're enrolled in care. Your therapist will recommend
-            the right timing and frequency based on where you are in treatment.
+            <AutoLinkedTextClient>{"Family therapy can begin as soon as you're enrolled in care. Your therapist will recommend\n            the right timing and frequency based on where you are in treatment."}</AutoLinkedTextClient>
           </p>
           <div className="flex flex-wrap justify-center gap-4">
             <Link

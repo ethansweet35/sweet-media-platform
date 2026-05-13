@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import { AutoLinkedText } from "@sweetmedia/blog-core";
 
 /** Hero + openings imagery from Elementor post-229 */
 const IMG_HERO =
@@ -94,8 +95,7 @@ export default function CareersPage() {
                 Build Your Career at <span className="text-[#5eb5e0]">Cipher Billing</span>
               </h1>
               <p className="mt-6 text-sm leading-relaxed text-white/90 md:text-base">
-                Join a team that&apos;s transforming behavioral health revenue cycle management. We&apos;re looking for
-                talented individuals who are passionate about making a difference.
+                <AutoLinkedText>{"Join a team that&apos;s transforming behavioral health revenue cycle management. We&apos;re looking for\n                talented individuals who are passionate about making a difference."}</AutoLinkedText>
               </p>
               <a
                 href={contactPhoneHref}
@@ -118,7 +118,7 @@ export default function CareersPage() {
                     <i className={`${p.icon} text-xl`} />
                   </div>
                   <h3 className="mt-4 font-[var(--font-body)] text-base font-semibold text-white">{p.title}</h3>
-                  <p className="mt-2 text-sm leading-relaxed text-white/78">{p.body}</p>
+                  <p className="mt-2 text-sm leading-relaxed text-white/78"><AutoLinkedText>{p.body}</AutoLinkedText></p>
                 </div>
               ))}
             </div>
@@ -131,9 +131,7 @@ export default function CareersPage() {
         <div className="mx-auto grid max-w-[1140px] gap-12 px-5 md:grid-cols-2 md:items-center md:gap-14">
           <div className="max-w-xl md:justify-self-start">
             <p className="text-sm leading-relaxed text-[#3d4753] md:text-base">
-              Cipher Billing is dedicated to creating an environment that is positive, encouraging, and inclusive. We
-              believe that building a team that is diverse in background, ideas, and experiences will spark growth
-              personally and professionally.
+              <AutoLinkedText>{"Cipher Billing is dedicated to creating an environment that is positive, encouraging, and inclusive. We\n              believe that building a team that is diverse in background, ideas, and experiences will spark growth\n              personally and professionally."}</AutoLinkedText>
             </p>
             <p className="mt-6 text-sm leading-relaxed text-[#3d4753] md:text-base">
               If you are interested in joining our team, please fill out the interest form below and follow us on{" "}
@@ -172,7 +170,7 @@ export default function CareersPage() {
             <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-[#166C96]">Join Our Team</p>
             <h2 className="font-[var(--font-heading)] text-3xl font-medium text-white md:text-[2.5rem]">Current Openings</h2>
             <p className="text-sm text-white/80 md:text-base">
-              Join us in our mission to revolutionize behavioral health billing.
+              <AutoLinkedText>{"Join us in our mission to revolutionize behavioral health billing."}</AutoLinkedText>
             </p>
           </div>
 
@@ -181,8 +179,7 @@ export default function CareersPage() {
               <div className="rounded-xl border border-white/15 bg-[#0a1428] p-8 shadow-lg">
                 <h3 className="font-marcellus text-xl font-medium text-white md:text-2xl">Claims Resolution Specialist</h3>
                 <p className="mt-4 text-sm leading-relaxed text-white/78">
-                  Ensure timely and accurate claim follow-up, denial resolution, and appeal submission while monitoring BPO
-                  agent performance through daily guidance, quality reviews, and training.
+                  <AutoLinkedText>{"Ensure timely and accurate claim follow-up, denial resolution, and appeal submission while monitoring BPO\n                  agent performance through daily guidance, quality reviews, and training."}</AutoLinkedText>
                 </p>
                 <dl className="mt-8 space-y-5 border-t border-white/10 pt-8 text-sm">
                   <div>
@@ -210,9 +207,7 @@ export default function CareersPage() {
             <div className="rounded-xl border border-white/10 bg-[#F8FAFC] p-8 text-[#0D1833] shadow-inner md:p-10">
               <h4 className="font-[var(--font-body)] text-lg font-semibold text-[#0D1833]">Job Purpose</h4>
               <p className="mt-3 text-sm leading-relaxed text-[#3d4753]">
-                Ensuring timely and accurate claim follow-up, denial resolution, and appeal submission while monitoring BPO
-                agents performance through daily guidance, quality reviews, and training. Ensure claim activity meets payer
-                requirements and contributes to overall department efficiency.
+                <AutoLinkedText>{"Ensuring timely and accurate claim follow-up, denial resolution, and appeal submission while monitoring BPO\n                agents performance through daily guidance, quality reviews, and training. Ensure claim activity meets payer\n                requirements and contributes to overall department efficiency."}</AutoLinkedText>
               </p>
 
               <h4 className="mt-10 font-[var(--font-body)] text-lg font-semibold text-[#0D1833]">
@@ -236,7 +231,7 @@ export default function CareersPage() {
             Interested in working at Cipher Billing?
           </h2>
           <p className="mx-auto mt-4 max-w-2xl text-sm leading-relaxed text-[#4a5565]">
-            Complete the secure form below. Our hiring team reviews every submission.
+            <AutoLinkedText>{"Complete the secure form below. Our hiring team reviews every submission."}</AutoLinkedText>
           </p>
         </div>
         <div className="mx-auto mt-12 max-w-[840px] px-5">

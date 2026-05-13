@@ -6,6 +6,7 @@ import SectionHeader from "@/components/ui/SectionHeader";
 import IconCircle from "@/components/ui/IconCircle";
 import Button from "@/components/ui/Button";
 import FaqAccordion, { type FaqItem } from "@/components/ui/FaqAccordion";
+import { AutoLinkedText } from "@sweetmedia/blog-core";
 
 const BASE = "https://nfjlvkxrbzytjefmcvhg.supabase.co/storage/v1/object/public/site-assets/images";
 
@@ -198,7 +199,7 @@ export default function IopPage() {
                 <em className="italic text-white/60">Program (IOP)</em>
               </h1>
               <p className="mt-6 text-[16px] font-light leading-relaxed text-white/80 max-w-[520px]">
-                Structured clinical programming woven into your daily life — 3 to 9 hours weekly, with morning and evening tracks, for individuals ready to integrate recovery with living.
+                <AutoLinkedText>{"Structured clinical programming woven into your daily life — 3 to 9 hours weekly, with morning and evening tracks, for individuals ready to integrate recovery with living."}</AutoLinkedText>
               </p>
             </div>
 
@@ -232,8 +233,8 @@ export default function IopPage() {
               { value: "≤8",    label: "Clients Per Group" },
             ].map(({ value, label }) => (
               <div key={label} className="px-8 py-5 border-r border-white/10 last:border-r-0 bg-ink/50 backdrop-blur-sm">
-                <p className="font-[family-name:var(--font-display)] text-[28px] font-normal text-white leading-none">{value}</p>
-                <p className="text-[10px] font-medium uppercase tracking-[0.22em] text-white/50 mt-1.5">{label}</p>
+                <p className="font-[family-name:var(--font-display)] text-[28px] font-normal text-white leading-none"><AutoLinkedText>{value}</AutoLinkedText></p>
+                <p className="text-[10px] font-medium uppercase tracking-[0.22em] text-white/50 mt-1.5"><AutoLinkedText>{label}</AutoLinkedText></p>
               </div>
             ))}
           </div>
@@ -253,25 +254,25 @@ export default function IopPage() {
             </h2>
             <div className="flex flex-col gap-5">
               <p className="text-[15px] font-light leading-relaxed text-ink/65">
-                IOP represents the point in the recovery continuum where clinical work and real life begin to merge. Unlike residential or PHP, you are no longer in a protected clinical environment for the majority of your waking hours — you are navigating real relationships, professional demands, and the full complexity of daily life, with clinical support available multiple times per week.
+                <AutoLinkedText>{"IOP represents the point in the recovery continuum where clinical work and real life begin to merge. Unlike residential or PHP, you are no longer in a protected clinical environment for the majority of your waking hours — you are navigating real relationships, professional demands, and the full complexity of daily life, with clinical support available multiple times per week."}</AutoLinkedText>
               </p>
               <p className="text-[15px] font-light leading-relaxed text-ink/65">
-                This is not a compromise — it is a developmental stage. The capacity to maintain recovery while engaging with real-world stressors is exactly the skill that determines whether gains from higher levels of care become lasting change or fade without reinforcement.
+                <AutoLinkedText>{"This is not a compromise — it is a developmental stage. The capacity to maintain recovery while engaging with real-world stressors is exactly the skill that determines whether gains from higher levels of care become lasting change or fade without reinforcement."}</AutoLinkedText>
               </p>
               <p className="text-[15px] font-light leading-relaxed text-ink/65">
-                At Rize OC, IOP is not a diluted version of PHP — it is a purpose-designed program for this specific phase of recovery. Group sizes are kept small (8 clients maximum), individual therapy is weekly and substantive, and the peer community that forms in IOP becomes a genuine long-term recovery asset.
+                <AutoLinkedText>{"At Rize OC, IOP is not a diluted version of PHP — it is a purpose-designed program for this specific phase of recovery. Group sizes are kept small (8 clients maximum), individual therapy is weekly and substantive, and the peer community that forms in IOP becomes a genuine long-term recovery asset."}</AutoLinkedText>
               </p>
               <p className="text-[15px] font-light leading-relaxed text-ink/65">
-                Both morning and evening tracks accommodate professional and family schedules without compromising clinical depth. IOP at Rize is available to clients stepping down from PHP, clients entering directly from detox with a strong support system, and clients who need more than weekly therapy but are not appropriate for full-day programming.
+                <AutoLinkedText>{"Both morning and evening tracks accommodate professional and family schedules without compromising clinical depth. IOP at Rize is available to clients stepping down from PHP, clients entering directly from detox with a strong support system, and clients who need more than weekly therapy but are not appropriate for full-day programming."}</AutoLinkedText>
               </p>
             </div>
 
             <blockquote className="mt-auto pt-8 border-l-2 border-accent pl-6">
               <p className="text-[17px] font-[family-name:var(--font-display)] font-normal text-ink/70 leading-snug italic">
-                &ldquo;IOP is where recovery stops being something that happens to you and starts being something you do. The peer community that forms in these groups often becomes the most important recovery resource our clients have.&rdquo;
+                <AutoLinkedText>{"&ldquo;IOP is where recovery stops being something that happens to you and starts being something you do. The peer community that forms in these groups often becomes the most important recovery resource our clients have.&rdquo;"}</AutoLinkedText>
               </p>
               <p className="mt-3 text-[11px] font-medium uppercase tracking-[0.2em] text-ink/40">
-                Rize OC Clinical Director
+                <AutoLinkedText>{"Rize OC Clinical Director"}</AutoLinkedText>
               </p>
             </blockquote>
           </div>
@@ -290,7 +291,7 @@ export default function IopPage() {
                 ].map(({ icon, point }) => (
                   <div key={point} className="flex items-start gap-3">
                     <i className={`${icon} text-accent text-base shrink-0 mt-0.5`} />
-                    <p className="text-sm font-light text-white/65 leading-snug">{point}</p>
+                    <p className="text-sm font-light text-white/65 leading-snug"><AutoLinkedText>{point}</AutoLinkedText></p>
                   </div>
                 ))}
               </div>
@@ -343,7 +344,7 @@ export default function IopPage() {
                   <span className="text-[13px] font-semibold uppercase tracking-[0.25em] text-accent">{day}</span>
                 </div>
                 <h3 className="font-[family-name:var(--font-display)] text-[26px] font-normal text-ink leading-snug mb-3">{title}</h3>
-                <p className="text-[15px] font-light leading-relaxed text-ink/65 mb-5 flex-1">{body}</p>
+                <p className="text-[15px] font-light leading-relaxed text-ink/65 mb-5 flex-1"><AutoLinkedText>{body}</AutoLinkedText></p>
                 <div className="flex flex-wrap gap-2">
                   {tags.map((tag) => (
                     <span key={tag} className="text-[11px] font-medium uppercase tracking-[0.15em] border border-warm px-3 py-1.5 text-ink/65">{tag}</span>
@@ -367,7 +368,7 @@ export default function IopPage() {
               What IOP <em className="italic text-white/60">Addresses</em>
             </h2>
             <p className="text-[15px] font-light text-white/65 max-w-2xl mx-auto">
-              IOP at Rize covers the full clinical range — relapse prevention, trauma, relationships, skills, and reintegration — with a curriculum adapted to each client&apos;s specific needs.
+              <AutoLinkedText>{"IOP at Rize covers the full clinical range — relapse prevention, trauma, relationships, skills, and reintegration — with a curriculum adapted to each client&apos;s specific needs."}</AutoLinkedText>
             </p>
           </div>
 
@@ -383,7 +384,7 @@ export default function IopPage() {
                   )}
                 </div>
                 <h3 className="font-[family-name:var(--font-display)] text-[22px] font-normal text-white mb-3">{title}</h3>
-                <p className="text-[14px] font-light leading-relaxed text-white/75 flex-1">{desc}</p>
+                <p className="text-[14px] font-light leading-relaxed text-white/75 flex-1"><AutoLinkedText>{desc}</AutoLinkedText></p>
               </div>
             ))}
           </div>
@@ -403,13 +404,13 @@ export default function IopPage() {
             </h2>
             <div className="flex flex-col gap-5">
               <p className="text-[15px] font-light leading-relaxed text-ink/65">
-                The gap between weekly individual therapy and structured IOP is not just a matter of hours — it is a fundamentally different therapeutic mechanism. Weekly therapy asks you to apply skills in isolation between 50-minute appointments a week apart. IOP creates a continuous therapeutic environment where skills are taught, practiced, processed, and reinforced across multiple contact points every week.
+                <AutoLinkedText>{"The gap between weekly individual therapy and structured IOP is not just a matter of hours — it is a fundamentally different therapeutic mechanism. Weekly therapy asks you to apply skills in isolation between 50-minute appointments a week apart. IOP creates a continuous therapeutic environment where skills are taught, practiced, processed, and reinforced across multiple contact points every week."}</AutoLinkedText>
               </p>
               <p className="text-[15px] font-light leading-relaxed text-ink/65">
-                The peer group dimension of IOP is particularly powerful. Research consistently shows that peer community is one of the strongest predictors of long-term recovery — the sense of shared experience, mutual accountability, and belonging that forms in structured groups cannot be replicated in individual therapy alone.
+                <AutoLinkedText>{"The peer group dimension of IOP is particularly powerful. Research consistently shows that peer community is one of the strongest predictors of long-term recovery — the sense of shared experience, mutual accountability, and belonging that forms in structured groups cannot be replicated in individual therapy alone."}</AutoLinkedText>
               </p>
               <p className="text-[15px] font-light leading-relaxed text-ink/65">
-                For clients stepping down from PHP, IOP provides the essential bridge — enough structure to maintain momentum while progressively building the independence that sustained recovery requires.
+                <AutoLinkedText>{"For clients stepping down from PHP, IOP provides the essential bridge — enough structure to maintain momentum while progressively building the independence that sustained recovery requires."}</AutoLinkedText>
               </p>
             </div>
 
@@ -423,7 +424,7 @@ export default function IopPage() {
               ].map((item) => (
                 <div key={item} className="flex items-center gap-3">
                   <div className="w-2 h-2 rounded-full bg-accent shrink-0" />
-                  <p className="text-[15px] font-light text-ink/70">{item}</p>
+                  <p className="text-[15px] font-light text-ink/70"><AutoLinkedText>{item}</AutoLinkedText></p>
                 </div>
               ))}
             </div>
@@ -435,10 +436,8 @@ export default function IopPage() {
                 <p
                   className="font-[family-name:var(--font-display)] font-normal text-accent shrink-0"
                   style={{ fontSize: "clamp(40px, 4vw, 56px)", lineHeight: 1 }}
-                >
-                  {stat}
-                </p>
-                <p className="text-[15px] font-light leading-relaxed text-ink/65 pt-2">{detail}</p>
+                ><AutoLinkedText>{stat}</AutoLinkedText></p>
+                <p className="text-[15px] font-light leading-relaxed text-ink/65 pt-2"><AutoLinkedText>{detail}</AutoLinkedText></p>
               </div>
             ))}
           </div>
@@ -457,13 +456,13 @@ export default function IopPage() {
               Who Is IOP For?
             </h2>
             <p className="text-[15px] font-light leading-relaxed text-ink/65 mb-8">
-              IOP is designed for individuals who have achieved a foundation of stability and are ready to integrate recovery into their real lives — with the support of structured clinical programming alongside.
+              <AutoLinkedText>{"IOP is designed for individuals who have achieved a foundation of stability and are ready to integrate recovery into their real lives — with the support of structured clinical programming alongside."}</AutoLinkedText>
             </p>
             <Button href="tel:9494612620" variant="ink" size="sm">
               Speak With Admissions
             </Button>
             <p className="mt-4 text-[12px] font-light text-ink/50 leading-relaxed">
-              Free &middot; Confidential &middot; No obligation &middot; Same-day response
+              <AutoLinkedText>{"Free &middot; Confidential &middot; No obligation &middot; Same-day response"}</AutoLinkedText>
             </p>
           </div>
 
@@ -471,7 +470,7 @@ export default function IopPage() {
             {candidacyItems.map(({ icon, label }) => (
               <div key={label} className="flex items-center gap-4 border border-warm px-5 py-4">
                 <IconCircle icon={icon} variant="accent-subtle" size="xs" className="shrink-0" />
-                <p className="text-[14px] font-light text-ink/75 leading-snug">{label}</p>
+                <p className="text-[14px] font-light text-ink/75 leading-snug"><AutoLinkedText>{label}</AutoLinkedText></p>
               </div>
             ))}
           </div>
@@ -501,7 +500,7 @@ export default function IopPage() {
                   </span>
                 </div>
                 <h3 className="font-[family-name:var(--font-display)] text-[22px] font-normal text-ink mb-3 leading-snug">{title}</h3>
-                <p className="text-[14px] font-light leading-relaxed text-ink/70 flex-1">{desc}</p>
+                <p className="text-[14px] font-light leading-relaxed text-ink/70 flex-1"><AutoLinkedText>{desc}</AutoLinkedText></p>
                 <div className="mt-6">
                   <Link href={href} className="text-[11px] font-medium uppercase tracking-[0.2em] text-accent flex items-center gap-1.5 hover:gap-3 transition-all">
                     {cta} <i className="ri-arrow-right-line" />
@@ -535,7 +534,7 @@ export default function IopPage() {
               Frequently Asked Questions
             </h2>
             <p className="text-[15px] font-light leading-relaxed text-ink/60 mb-8">
-              Our admissions team is available to answer anything you don&apos;t find here.
+              <AutoLinkedText>{"Our admissions team is available to answer anything you don&apos;t find here."}</AutoLinkedText>
             </p>
             <a href="tel:9494612620" className="flex items-center gap-2 text-accent text-[14px] font-medium hover:text-ink transition-colors">
               <i className="ri-phone-line" /> (949)-461-2620
@@ -563,7 +562,7 @@ export default function IopPage() {
             Recovery and Life — Not One or the Other
           </h2>
           <p className="mt-6 text-[15px] font-light leading-relaxed text-white/55 max-w-xl mx-auto">
-            Our admissions team is available 24/7 to answer questions, verify your insurance, and help you find the right level of care. All conversations are completely confidential.
+            <AutoLinkedText>{"Our admissions team is available 24/7 to answer questions, verify your insurance, and help you find the right level of care. All conversations are completely confidential."}</AutoLinkedText>
           </p>
           <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
             <Button href="tel:9494612620" variant="accent" size="lg">

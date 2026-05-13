@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { AutoLinkedTextClient } from "@sweetmedia/blog-core";
 
 export default function HeroContactForm() {
   const [formData, setFormData] = useState({ name: "", email: "", phone: "", message: "" });
@@ -38,8 +39,7 @@ export default function HeroContactForm() {
             </div>
             <h3 className="font-serif text-[#FAF8F5] text-xl">We'll be in touch soon.</h3>
             <p className="text-[#F0ECE1]/65 font-light text-sm leading-relaxed">
-              A member of our intake team will contact you within a few hours. If you need immediate
-              support, call us at 719-733-8556.
+              <AutoLinkedTextClient>{"A member of our intake team will contact you within a few hours. If you need immediate\n              support, call us at 719-733-8556."}</AutoLinkedTextClient>
             </p>
           </div>
         ) : (
@@ -47,7 +47,7 @@ export default function HeroContactForm() {
             <div className="flex flex-col gap-1">
               <h2 className="font-serif text-[#FAF8F5] text-xl">Request a Free Consultation</h2>
               <p className="text-[#F0ECE1]/50 font-light text-xs leading-relaxed">
-                Confidential · No commitment required · We respond within hours
+                <AutoLinkedTextClient>{"Confidential · No commitment required · We respond within hours"}</AutoLinkedTextClient>
               </p>
             </div>
 
@@ -122,7 +122,7 @@ export default function HeroContactForm() {
               </button>
 
               <p className="text-[10px] text-[#F0ECE1]/35 text-center font-light">
-                HIPAA-compliant · Strictly confidential · No obligation
+                <AutoLinkedTextClient>{"HIPAA-compliant · Strictly confidential · No obligation"}</AutoLinkedTextClient>
               </p>
             </form>
           </>

@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useState } from "react";
+import { AutoLinkedTextClient } from "@sweetmedia/blog-core";
 
 const SCHEDULE_CTA = "https://secure.gethealthie.com/appointments/embed_appt?dietitian_id=13219022";
 const cx = "mx-auto w-full max-w-7xl px-5 md:px-8 lg:px-12";
@@ -186,7 +187,7 @@ function FaqItem({ q, a }: { q: string; a: string }) {
         <span className="font-serif text-[1.05rem] text-[#2A2A2A]">{q}</span>
         <i className={`ri-arrow-down-s-line shrink-0 text-xl text-[#C67B5C] transition-transform duration-200 ${open ? "rotate-180" : ""}`} aria-hidden />
       </button>
-      {open && <p className="pb-5 text-sm leading-7 text-[#555]">{a}</p>}
+      {open && <p className="pb-5 text-sm leading-7 text-[#555]"><AutoLinkedTextClient>{a}</AutoLinkedTextClient></p>}
     </div>
   );
 }
@@ -201,8 +202,8 @@ function TreatmentCard({ t }: { t: Treatment }) {
             <i className="ri-sparkling-2-line text-base" aria-hidden />
           </span>
           <div>
-            <p className="font-serif text-xl text-[#2A2A2A]">{t.name}</p>
-            <p className="text-[0.7rem] text-[#888]">{t.form}</p>
+            <p className="font-serif text-xl text-[#2A2A2A]"><AutoLinkedTextClient>{t.name}</AutoLinkedTextClient></p>
+            <p className="text-[0.7rem] text-[#888]"><AutoLinkedTextClient>{t.form}</AutoLinkedTextClient></p>
           </div>
         </div>
         <span className={`shrink-0 rounded-full px-3 py-1 text-[0.62rem] font-semibold ${t.badgeBg}`}>
@@ -212,12 +213,12 @@ function TreatmentCard({ t }: { t: Treatment }) {
 
       {/* Price */}
       <div className="mt-5 border-b border-[#E8E2D9] pb-4">
-        <p className="font-serif text-xl font-semibold text-[#2A2A2A]">{t.price}</p>
+        <p className="font-serif text-xl font-semibold text-[#2A2A2A]"><AutoLinkedTextClient>{t.price}</AutoLinkedTextClient></p>
         <p className="text-[0.65rem] italic text-[#aaa]">*Based On Dosing*</p>
       </div>
 
       {/* Description */}
-      <p className="mt-4 text-sm leading-6 text-[#555]">{t.description}</p>
+      <p className="mt-4 text-sm leading-6 text-[#555]"><AutoLinkedTextClient>{t.description}</AutoLinkedTextClient></p>
 
       {/* Features */}
       <ul className="mt-5 flex-1 space-y-2">
@@ -259,8 +260,7 @@ export function SkinHairPage() {
                 <span className="text-[#C67B5C]">Treatments</span>
               </h1>
               <p className="mt-5 max-w-xl text-base leading-7 text-[#555]">
-                Physician-prescribed treatments for acne, anti-aging, hair loss, and medical-grade
-                skincare. Click any treatment for detailed information.
+                <AutoLinkedTextClient>{"Physician-prescribed treatments for acne, anti-aging, hair loss, and medical-grade\n                skincare. Click any treatment for detailed information."}</AutoLinkedTextClient>
               </p>
 
               {/* Stats */}
@@ -271,7 +271,7 @@ export function SkinHairPage() {
                       <i className={`${s.icon} text-base text-[#C67B5C]`} aria-hidden />
                       <span className="text-sm text-[#555]">{s.label}</span>
                     </div>
-                    <p className="font-serif text-2xl font-semibold text-[#2A2A2A]">{s.value}</p>
+                    <p className="font-serif text-2xl font-semibold text-[#2A2A2A]"><AutoLinkedTextClient>{s.value}</AutoLinkedTextClient></p>
                   </div>
                 ))}
               </div>
@@ -289,8 +289,8 @@ export function SkinHairPage() {
             {/* Right — Specialized Consultation card */}
             <div className="overflow-hidden rounded-2xl bg-white shadow-md ring-1 ring-[#E8E2D9]">
               <div className="px-8 pt-7 pb-5 text-center">
-                <p className="font-serif text-xl text-[#2A2A2A]">Specialized Consultation</p>
-                <p className="mt-1 text-sm text-[#888]">Skin, Hair, Wellness, Labs, Galleri</p>
+                <p className="font-serif text-xl text-[#2A2A2A]"><AutoLinkedTextClient>{"Specialized Consultation"}</AutoLinkedTextClient></p>
+                <p className="mt-1 text-sm text-[#888]"><AutoLinkedTextClient>{"Skin, Hair, Wellness, Labs, Galleri"}</AutoLinkedTextClient></p>
               </div>
               <div className="mx-6 grid grid-cols-2 divide-x divide-[#E8E2D9] rounded-xl bg-[#FAF7F4] py-5 ring-1 ring-[#E8E2D9]">
                 <div className="px-6 text-center">
@@ -304,7 +304,7 @@ export function SkinHairPage() {
               </div>
               <div className="px-8 pt-5 pb-7">
                 <p className="mb-4 text-[0.65rem] font-semibold uppercase tracking-[0.14em] text-[#888]">
-                  What&apos;s Included:
+                  <AutoLinkedTextClient>{"What&apos;s Included:"}</AutoLinkedTextClient>
                 </p>
                 <ul className="space-y-2.5">
                   {consultationIncludes.map((item) => (
@@ -329,7 +329,7 @@ export function SkinHairPage() {
               <div key={group.id}>
                 <div className="mb-8 text-center">
                   <h2 className="font-serif text-3xl text-[#2A2A2A] md:text-[2rem]">{group.label}</h2>
-                  <p className="mt-1 text-sm text-[#888]">{group.subtitle}</p>
+                  <p className="mt-1 text-sm text-[#888]"><AutoLinkedTextClient>{group.subtitle}</AutoLinkedTextClient></p>
                 </div>
                 <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
                   {treatments.filter((t) => t.group === group.id).map((t) => (
@@ -353,7 +353,7 @@ export function SkinHairPage() {
               From click to care in days, not weeks.
             </h2>
             <p className="mt-4 text-sm leading-7 text-[#555]">
-              No waiting rooms. No insurance hassles. 94% of patients start treatment within 48 hours.
+              <AutoLinkedTextClient>{"No waiting rooms. No insurance hassles. 94% of patients start treatment within 48 hours."}</AutoLinkedTextClient>
             </p>
           </div>
           <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
@@ -371,7 +371,7 @@ export function SkinHairPage() {
                   <span className="mr-1.5 text-sm font-bold text-[#DDD]">0{i + 1}</span>
                   {step.title}
                 </h3>
-                <p className="mt-2 text-sm leading-6 text-[#666]">{step.description}</p>
+                <p className="mt-2 text-sm leading-6 text-[#666]"><AutoLinkedTextClient>{step.description}</AutoLinkedTextClient></p>
               </div>
             ))}
           </div>
@@ -386,9 +386,7 @@ export function SkinHairPage() {
               Not cosmetic. <span className="text-[#C67B5C]">Clinical.</span>
             </h2>
             <p className="mt-4 text-sm leading-7 text-[#555]">
-              Prescription skincare and hair treatments work at concentrations and mechanisms that
-              over-the-counter products simply cannot match. Our physicians prescribe what the
-              evidence actually supports — nothing more, nothing less.
+              <AutoLinkedTextClient>{"Prescription skincare and hair treatments work at concentrations and mechanisms that\n              over-the-counter products simply cannot match. Our physicians prescribe what the\n              evidence actually supports — nothing more, nothing less."}</AutoLinkedTextClient>
             </p>
           </div>
           <div className="mt-10 grid gap-6 md:grid-cols-3">
@@ -398,7 +396,7 @@ export function SkinHairPage() {
                   <i className={`${b.icon} text-xl`} aria-hidden />
                 </span>
                 <h3 className="mt-4 font-serif text-lg text-[#2A2A2A]">{b.title}</h3>
-                <p className="mt-2 text-sm leading-6 text-[#555]">{b.description}</p>
+                <p className="mt-2 text-sm leading-6 text-[#555]"><AutoLinkedTextClient>{b.description}</AutoLinkedTextClient></p>
               </div>
             ))}
           </div>

@@ -3,6 +3,7 @@ import Image from 'next/image';
 import { useState } from 'react';
 import Link from 'next/link';
 import Breadcrumb from '@/components/base/Breadcrumb';
+import { AutoLinkedTextClient } from "@sweetmedia/blog-core";
 
 const ACCENT = '#8FA489';
 
@@ -188,7 +189,7 @@ export default function EatingDisordersPage() {
               </div>
               <div className="flex flex-col gap-6">
                 <p className="text-[#F0ECE1]/75 font-light text-base leading-[1.95]">
-                  Eating disorders are complex, serious, and deeply personal — shaped by trauma, culture, and the unique pressures women face. At Inner Peak Colorado, we offer compassionate, weight-neutral care that treats the whole person, not just the behaviors.
+                  <AutoLinkedTextClient>{"Eating disorders are complex, serious, and deeply personal — shaped by trauma, culture, and the unique pressures women face. At Inner Peak Colorado, we offer compassionate, weight-neutral care that treats the whole person, not just the behaviors."}</AutoLinkedTextClient>
                 </p>
                 <div className="flex flex-wrap gap-4">
                   <Link
@@ -223,10 +224,10 @@ export default function EatingDisordersPage() {
               <em className="text-[#C8795A]">a struggle with self.</em>
             </h2>
             <p className="text-[#3A4A3C]/65 font-light text-base leading-[1.95]">
-              Eating disorders are not about vanity or willpower. They are serious mental health conditions — often rooted in trauma, attachment wounds, perfectionism, and the crushing weight of living in a world that constantly tells women their bodies are wrong. For many women, controlling food becomes a way of managing overwhelming emotions, coping with pain, or feeling safe in an unsafe world.
+              <AutoLinkedTextClient>{"Eating disorders are not about vanity or willpower. They are serious mental health conditions — often rooted in trauma, attachment wounds, perfectionism, and the crushing weight of living in a world that constantly tells women their bodies are wrong. For many women, controlling food becomes a way of managing overwhelming emotions, coping with pain, or feeling safe in an unsafe world."}</AutoLinkedTextClient>
             </p>
             <p className="text-[#3A4A3C]/65 font-light text-base leading-[1.95]">
-              Recovery is not about eating "normally." It's about healing your relationship with yourself — your body, your emotions, and your sense of worth. That kind of healing is possible, and it happens every day in our program.
+              <AutoLinkedTextClient>{"Recovery is not about eating \"normally.\" It's about healing your relationship with yourself — your body, your emotions, and your sense of worth. That kind of healing is possible, and it happens every day in our program."}</AutoLinkedTextClient>
             </p>
             <div className="flex items-center gap-3 pt-1">
               <div className="w-8 h-px" style={{ backgroundColor: ACCENT }}></div>
@@ -248,7 +249,7 @@ export default function EatingDisordersPage() {
             <div className="bg-[#2C3B2E] rounded-[0.75rem_2rem_0.75rem_2rem] p-7 flex flex-col gap-3">
               <i className="ri-double-quotes-l text-2xl" style={{ color: ACCENT }}></i>
               <p className="font-serif text-[#FAF8F5] text-base leading-[1.7] italic">
-                "I had been struggling for fifteen years before I found a program that didn't make me feel broken. For the first time, I felt like my body wasn't the enemy."
+                <AutoLinkedTextClient>{"\"I had been struggling for fifteen years before I found a program that didn't make me feel broken. For the first time, I felt like my body wasn't the enemy.\""}</AutoLinkedTextClient>
               </p>
               <p className="text-[10px] uppercase tracking-widest font-medium" style={{ color: '#DDA15E' }}>— Program Graduate</p>
             </div>
@@ -266,7 +267,7 @@ export default function EatingDisordersPage() {
               <em className="text-[#C8795A]">every woman.</em>
             </h2>
             <p className="text-[#3A4A3C]/60 font-light text-base max-w-xl mx-auto leading-relaxed">
-              Eating disorders look different for every woman. We treat the full spectrum — with the same depth of compassion and clinical rigor regardless of how your experience presents.
+              <AutoLinkedTextClient>{"Eating disorders look different for every woman. We treat the full spectrum — with the same depth of compassion and clinical rigor regardless of how your experience presents."}</AutoLinkedTextClient>
             </p>
           </div>
 
@@ -285,7 +286,7 @@ export default function EatingDisordersPage() {
                   </span>
                 </div>
                 <h3 className="font-serif text-[#2C3B2E] text-xl">{type.name}</h3>
-                <p className="text-sm text-[#3A4A3C]/60 font-light leading-[1.85]">{type.desc}</p>
+                <p className="text-sm text-[#3A4A3C]/60 font-light leading-[1.85]"><AutoLinkedTextClient>{type.desc}</AutoLinkedTextClient></p>
               </div>
             ))}
           </div>
@@ -302,7 +303,7 @@ export default function EatingDisordersPage() {
               <em className="text-[#C8795A]">if you recognize this.</em>
             </h2>
             <p className="text-[#3A4A3C]/60 font-light text-base max-w-2xl mx-auto leading-relaxed">
-              These signs don't mean something is wrong with you — they mean part of you has been trying to survive. If any of these feel familiar, you deserve support.
+              <AutoLinkedTextClient>{"These signs don't mean something is wrong with you — they mean part of you has been trying to survive. If any of these feel familiar, you deserve support."}</AutoLinkedTextClient>
             </p>
           </div>
 
@@ -350,7 +351,7 @@ export default function EatingDisordersPage() {
 
           <div className="mt-8 bg-[#2C3B2E] rounded-2xl p-7 flex flex-col sm:flex-row items-center justify-between gap-6">
             <p className="text-[#F0ECE1]/80 font-light text-base leading-relaxed max-w-2xl">
-              You don't need to check every box. If any part of this resonates, that's enough reason to reach out. A free, confidential conversation costs nothing.
+              <AutoLinkedTextClient>{"You don't need to check every box. If any part of this resonates, that's enough reason to reach out. A free, confidential conversation costs nothing."}</AutoLinkedTextClient>
             </p>
             <Link
               href="/contact"
@@ -390,7 +391,7 @@ export default function EatingDisordersPage() {
                     <i className={`${pillar.icon} text-sm`} style={{ color: ACCENT }}></i>
                   </div>
                   <h3 className="font-serif text-[#FAF8F5] text-sm">{pillar.title}</h3>
-                  <p className="text-[#F0ECE1]/55 font-light text-xs leading-[1.8]">{pillar.desc}</p>
+                  <p className="text-[#F0ECE1]/55 font-light text-xs leading-[1.8]"><AutoLinkedTextClient>{pillar.desc}</AutoLinkedTextClient></p>
                 </div>
               ))}
             </div>
@@ -409,12 +410,12 @@ export default function EatingDisordersPage() {
                 <em className="text-[#C8795A]">actually looks like.</em>
               </h2>
               <p className="text-[#3A4A3C]/65 font-light text-base leading-[1.95]">
-                We know that starting treatment can feel daunting — especially when you've been struggling alone for a long time. Here's what you can expect, step by step, from your first call to lasting recovery.
+                <AutoLinkedTextClient>{"We know that starting treatment can feel daunting — especially when you've been struggling alone for a long time. Here's what you can expect, step by step, from your first call to lasting recovery."}</AutoLinkedTextClient>
               </p>
               <div className="bg-[#F0ECE1] rounded-[2rem_0.75rem_2rem_0.75rem] p-7 flex flex-col gap-3">
-                <p className="text-xs uppercase tracking-widest font-medium" style={{ color: ACCENT }}>Most women begin within</p>
+                <p className="text-xs uppercase tracking-widest font-medium" style={{ color: ACCENT }}><AutoLinkedTextClient>{"Most women begin within"}</AutoLinkedTextClient></p>
                 <p className="font-serif text-[#2C3B2E]" style={{ fontSize: 'clamp(28px, 3vw, 40px)' }}>24–72 hours</p>
-                <p className="text-[#3A4A3C]/60 font-light text-sm leading-relaxed">From your first call to your first session. We make starting as simple and low-barrier as possible.</p>
+                <p className="text-[#3A4A3C]/60 font-light text-sm leading-relaxed"><AutoLinkedTextClient>{"From your first call to your first session. We make starting as simple and low-barrier as possible."}</AutoLinkedTextClient></p>
               </div>
             </div>
 
@@ -434,7 +435,7 @@ export default function EatingDisordersPage() {
                   </div>
                   <div className="flex flex-col gap-2 pt-2 pb-4">
                     <h3 className="font-serif text-[#2C3B2E] text-base group-hover:text-[#C8795A] transition-colors duration-300">{item.label}</h3>
-                    <p className="text-sm text-[#3A4A3C]/60 font-light leading-[1.85]">{item.desc}</p>
+                    <p className="text-sm text-[#3A4A3C]/60 font-light leading-[1.85]"><AutoLinkedTextClient>{item.desc}</AutoLinkedTextClient></p>
                   </div>
                 </div>
               ))}
@@ -454,7 +455,7 @@ export default function EatingDisordersPage() {
                 <em className="text-[#C8795A]">eating disorder care.</em>
               </h2>
               <p className="text-[#3A4A3C]/60 font-light text-sm leading-[1.85]">
-                Every modality we use has been selected for its proven effectiveness with eating disorders and the trauma that underlies them.
+                <AutoLinkedTextClient>{"Every modality we use has been selected for its proven effectiveness with eating disorders and the trauma that underlies them."}</AutoLinkedTextClient>
               </p>
               <Link
                 href="/therapy"
@@ -506,7 +507,7 @@ export default function EatingDisordersPage() {
                 </button>
                 {openFaq === i && (
                   <div className="px-6 pb-6">
-                    <p className="text-[#F0ECE1]/70 font-light text-sm leading-[1.9]">{faq.a}</p>
+                    <p className="text-[#F0ECE1]/70 font-light text-sm leading-[1.9]"><AutoLinkedTextClient>{faq.a}</AutoLinkedTextClient></p>
                   </div>
                 )}
               </div>
@@ -535,7 +536,7 @@ export default function EatingDisordersPage() {
               <em style={{ color: ACCENT }}>Let us carry it with you.</em>
             </h2>
             <p className="text-[#F0ECE1]/70 font-light text-base leading-relaxed">
-              A free, confidential consultation is the only first step. No judgment, no pressure, no commitment required. Our clinical team will listen to your story and help you understand what recovery could look like for you.
+              <AutoLinkedTextClient>{"A free, confidential consultation is the only first step. No judgment, no pressure, no commitment required. Our clinical team will listen to your story and help you understand what recovery could look like for you."}</AutoLinkedTextClient>
             </p>
             <div className="flex flex-col sm:flex-row gap-4">
               <Link

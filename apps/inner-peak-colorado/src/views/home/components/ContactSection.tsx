@@ -1,5 +1,6 @@
 import Image from 'next/image';
 import Link from 'next/link';
+import { AutoLinkedText } from "@sweetmedia/blog-core";
 
 const reasons = [
   { icon: 'ri-shield-check-line', label: 'Confidential & HIPAA-Compliant', color: '#8FA489' },
@@ -31,7 +32,7 @@ export default function ContactSection() {
             <em className="text-[#DDA15E] not-italic">conversation.</em>
           </h2>
           <p className="text-[#F0ECE1]/65 font-light text-base leading-[1.9] max-w-md">
-            Reach out today. Our compassionate intake team is available around the clock — no judgment, no pressure, just genuine care for where you are right now.
+            <AutoLinkedText>{"Reach out today. Our compassionate intake team is available around the clock — no judgment, no pressure, just genuine care for where you are right now."}</AutoLinkedText>
           </p>
 
           {/* Reasons */}
@@ -88,8 +89,8 @@ export default function ContactSection() {
                 <div className="w-8 h-8 flex items-center justify-center rounded-full" style={{ backgroundColor: `${item.color}20` }}>
                   <i className={`${item.icon} text-sm`} style={{ color: item.color }}></i>
                 </div>
-                <p className="text-[10px] uppercase tracking-widest text-[#FAF8F5]/40 font-medium">{item.label}</p>
-                <p className="text-sm text-[#FAF8F5] font-light">{item.value}</p>
+                <p className="text-[10px] uppercase tracking-widest text-[#FAF8F5]/40 font-medium"><AutoLinkedText>{item.label}</AutoLinkedText></p>
+                <p className="text-sm text-[#FAF8F5] font-light"><AutoLinkedText>{item.value}</AutoLinkedText></p>
               </div>
             ))}
           </div>

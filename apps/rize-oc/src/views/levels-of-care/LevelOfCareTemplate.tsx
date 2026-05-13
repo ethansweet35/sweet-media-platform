@@ -6,6 +6,7 @@ import SectionHeader from "@/components/ui/SectionHeader";
 import IconCircle from "@/components/ui/IconCircle";
 import Button from "@/components/ui/Button";
 import type { LevelOfCareData } from "./types";
+import { AutoLinkedText } from "@sweetmedia/blog-core";
 
 const levelsOfCare = [
   { label: "Detox",   href: "/drug-alcohol-detox" },
@@ -31,9 +32,7 @@ export default function LevelOfCareTemplate({ data }: { data: LevelOfCareData })
               {data.heading}
             </h1>
             <div className="mt-5 mb-6 w-12 h-[2px] bg-accent" />
-            <p className="text-[15px] font-light leading-relaxed text-white/65 max-w-lg">
-              {data.tagline}
-            </p>
+            <p className="text-[15px] font-light leading-relaxed text-white/65 max-w-lg"><AutoLinkedText>{data.tagline}</AutoLinkedText></p>
 
             <div className="mt-8 flex flex-wrap gap-4">
               <Button href="#verify" variant="accent" size="sm">
@@ -48,8 +47,8 @@ export default function LevelOfCareTemplate({ data }: { data: LevelOfCareData })
             <div className="mt-10 flex flex-wrap gap-x-10 gap-y-4 border-t border-white/10 pt-8">
               {data.stats.map(({ value, label }) => (
                 <div key={label}>
-                  <p className="font-[family-name:var(--font-display)] text-3xl font-normal text-white">{value}</p>
-                  <p className="text-[10px] font-medium uppercase tracking-[0.2em] text-white/45 mt-1">{label}</p>
+                  <p className="font-[family-name:var(--font-display)] text-3xl font-normal text-white"><AutoLinkedText>{value}</AutoLinkedText></p>
+                  <p className="text-[10px] font-medium uppercase tracking-[0.2em] text-white/45 mt-1"><AutoLinkedText>{label}</AutoLinkedText></p>
                 </div>
               ))}
             </div>
@@ -109,7 +108,7 @@ export default function LevelOfCareTemplate({ data }: { data: LevelOfCareData })
             </h2>
             <div className="flex flex-col gap-4">
               {data.overviewBody.map((para, i) => (
-                <p key={i} className="text-[15px] font-light leading-relaxed text-ink/65">{para}</p>
+                <p key={i} className="text-[15px] font-light leading-relaxed text-ink/65"><AutoLinkedText>{para}</AutoLinkedText></p>
               ))}
             </div>
           </div>
@@ -120,8 +119,8 @@ export default function LevelOfCareTemplate({ data }: { data: LevelOfCareData })
               <div key={title} className="flex items-start gap-4 border border-warm p-5">
                 <IconCircle icon={icon} variant="accent-subtle" size="sm" className="shrink-0 mt-0.5" />
                 <div>
-                  <p className="font-[family-name:var(--font-display)] text-[18px] font-normal text-ink leading-snug">{title}</p>
-                  <p className="mt-1 text-sm font-light text-ink/60">{desc}</p>
+                  <p className="font-[family-name:var(--font-display)] text-[18px] font-normal text-ink leading-snug"><AutoLinkedText>{title}</AutoLinkedText></p>
+                  <p className="mt-1 text-sm font-light text-ink/60"><AutoLinkedText>{desc}</AutoLinkedText></p>
                 </div>
               </div>
             ))}
@@ -149,7 +148,7 @@ export default function LevelOfCareTemplate({ data }: { data: LevelOfCareData })
                 <h3 className="font-[family-name:var(--font-display)] text-[22px] font-normal text-ink leading-snug mb-3">
                   {title}
                 </h3>
-                <p className="text-[14px] font-light leading-relaxed text-ink/60 flex-1">{desc}</p>
+                <p className="text-[14px] font-light leading-relaxed text-ink/60 flex-1"><AutoLinkedText>{desc}</AutoLinkedText></p>
               </div>
             ))}
           </div>
@@ -167,9 +166,7 @@ export default function LevelOfCareTemplate({ data }: { data: LevelOfCareData })
             >
               {data.candidacyTitle}
             </h2>
-            <p className="text-[15px] font-light leading-relaxed text-white/60 mb-8">
-              {data.candidacyBody}
-            </p>
+            <p className="text-[15px] font-light leading-relaxed text-white/60 mb-8"><AutoLinkedText>{data.candidacyBody}</AutoLinkedText></p>
             <Button href="tel:9494612620" variant="accent" size="sm">
               Speak With Admissions
             </Button>
@@ -179,7 +176,7 @@ export default function LevelOfCareTemplate({ data }: { data: LevelOfCareData })
             {data.candidacyItems.map(({ label }, i) => (
               <div key={i} className="flex items-center gap-4 border border-white/10 px-6 py-4">
                 <div className="w-2 h-2 rounded-full bg-accent shrink-0" />
-                <p className="text-[15px] font-light text-white/75">{label}</p>
+                <p className="text-[15px] font-light text-white/75"><AutoLinkedText>{label}</AutoLinkedText></p>
               </div>
             ))}
           </div>
@@ -198,7 +195,7 @@ export default function LevelOfCareTemplate({ data }: { data: LevelOfCareData })
               Most Insurance Plans Accepted
             </h2>
             <p className="text-[15px] font-light leading-relaxed text-ink/65 mb-8">
-              We work directly with your insurance provider to verify coverage and minimize out-of-pocket expenses. Our admissions team handles the entire process—free, confidential, and with no obligation.
+              <AutoLinkedText>{"We work directly with your insurance provider to verify coverage and minimize out-of-pocket expenses. Our admissions team handles the entire process—free, confidential, and with no obligation."}</AutoLinkedText>
             </p>
             <div className="flex flex-wrap gap-3">
               {["Aetna", "Cigna", "Anthem", "United", "Blue Cross", "+ More"].map((c) => (
@@ -215,7 +212,7 @@ export default function LevelOfCareTemplate({ data }: { data: LevelOfCareData })
               <IconCircle icon="ri-shield-check-line" variant="ink" size="sm" />
               <div>
                 <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-ink">Free Verification</p>
-                <p className="text-xs text-ink/45 mt-0.5">Results within 24 hours</p>
+                <p className="text-xs text-ink/45 mt-0.5"><AutoLinkedText>{"Results within 24 hours"}</AutoLinkedText></p>
               </div>
             </div>
             <div className="flex flex-col gap-4">
@@ -235,7 +232,7 @@ export default function LevelOfCareTemplate({ data }: { data: LevelOfCareData })
               </button>
             </div>
             <p className="mt-4 text-xs text-ink/40 leading-relaxed">
-              HIPAA compliant. Your information is strictly confidential.
+              <AutoLinkedText>{"HIPAA compliant. Your information is strictly confidential."}</AutoLinkedText>
             </p>
           </div>
         </SectionWrapper>

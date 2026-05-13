@@ -6,6 +6,7 @@ import SectionHeader from "@/components/ui/SectionHeader";
 import IconCircle from "@/components/ui/IconCircle";
 import Button from "@/components/ui/Button";
 import FaqAccordion, { type FaqItem } from "@/components/ui/FaqAccordion";
+import { AutoLinkedText } from "@sweetmedia/blog-core";
 
 const BASE = "https://nfjlvkxrbzytjefmcvhg.supabase.co/storage/v1/object/public/site-assets/images";
 
@@ -162,7 +163,7 @@ export default function VirtualPage() {
                 <em className="italic text-white/60">Program</em>
               </h1>
               <p className="mt-6 text-[16px] font-light leading-relaxed text-white/80 max-w-[520px]">
-                All the clinical depth of in-person IOP and OP — delivered through a HIPAA-compliant telehealth platform from wherever you are in California.
+                <AutoLinkedText>{"All the clinical depth of in-person IOP and OP — delivered through a HIPAA-compliant telehealth platform from wherever you are in California."}</AutoLinkedText>
               </p>
             </div>
 
@@ -196,8 +197,8 @@ export default function VirtualPage() {
               { value: "Any",    label: "Device Supported" },
             ].map(({ value, label }) => (
               <div key={label} className="px-8 py-5 border-r border-white/10 last:border-r-0 bg-ink/50 backdrop-blur-sm">
-                <p className="font-[family-name:var(--font-display)] text-[28px] font-normal text-white leading-none">{value}</p>
-                <p className="text-[10px] font-medium uppercase tracking-[0.22em] text-white/50 mt-1.5">{label}</p>
+                <p className="font-[family-name:var(--font-display)] text-[28px] font-normal text-white leading-none"><AutoLinkedText>{value}</AutoLinkedText></p>
+                <p className="text-[10px] font-medium uppercase tracking-[0.22em] text-white/50 mt-1.5"><AutoLinkedText>{label}</AutoLinkedText></p>
               </div>
             ))}
           </div>
@@ -217,25 +218,25 @@ export default function VirtualPage() {
             </h2>
             <div className="flex flex-col gap-5">
               <p className="text-[15px] font-light leading-relaxed text-ink/65">
-                Virtual care is not a compromise — it is an expansion of access. Rize OC&apos;s Virtual Outpatient Program brings our full clinical team, evidence-based curriculum, and community-oriented approach directly to your home, office, or wherever life takes you in California.
+                <AutoLinkedText>{"Virtual care is not a compromise — it is an expansion of access. Rize OC&apos;s Virtual Outpatient Program brings our full clinical team, evidence-based curriculum, and community-oriented approach directly to your home, office, or wherever life takes you in California."}</AutoLinkedText>
               </p>
               <p className="text-[15px] font-light leading-relaxed text-ink/65">
-                Via our secure, HIPAA-compliant telehealth platform, clients participate in live individual therapy, structured group sessions, and psychiatric check-ins with the same licensed clinicians who serve our in-person clients — with no reduction in clinical quality, engagement, or depth.
+                <AutoLinkedText>{"Via our secure, HIPAA-compliant telehealth platform, clients participate in live individual therapy, structured group sessions, and psychiatric check-ins with the same licensed clinicians who serve our in-person clients — with no reduction in clinical quality, engagement, or depth."}</AutoLinkedText>
               </p>
               <p className="text-[15px] font-light leading-relaxed text-ink/65">
-                Virtual IOP and OP at Rize OC are California state licensed and accepted by most major PPO insurance providers. The federal parity requirements enacted since 2021 mean your insurer must cover virtual behavioral health at the same rate as in-person care — and our insurance team verifies this before your first session.
+                <AutoLinkedText>{"Virtual IOP and OP at Rize OC are California state licensed and accepted by most major PPO insurance providers. The federal parity requirements enacted since 2021 mean your insurer must cover virtual behavioral health at the same rate as in-person care — and our insurance team verifies this before your first session."}</AutoLinkedText>
               </p>
               <p className="text-[15px] font-light leading-relaxed text-ink/65">
-                Whether you live outside of Orange County, travel frequently, have childcare or transportation constraints, or simply prefer the privacy and comfort of participating from home — virtual care makes clinical excellence accessible.
+                <AutoLinkedText>{"Whether you live outside of Orange County, travel frequently, have childcare or transportation constraints, or simply prefer the privacy and comfort of participating from home — virtual care makes clinical excellence accessible."}</AutoLinkedText>
               </p>
             </div>
 
             <blockquote className="mt-auto pt-8 border-l-2 border-accent pl-6">
               <p className="text-[17px] font-[family-name:var(--font-display)] font-normal text-ink/70 leading-snug italic">
-                &ldquo;The research on virtual behavioral health outcomes has been decisive. Distance is no longer a barrier to exceptional care — and for many clients, the comfort and privacy of home actually facilitates deeper therapeutic engagement.&rdquo;
+                <AutoLinkedText>{"&ldquo;The research on virtual behavioral health outcomes has been decisive. Distance is no longer a barrier to exceptional care — and for many clients, the comfort and privacy of home actually facilitates deeper therapeutic engagement.&rdquo;"}</AutoLinkedText>
               </p>
               <p className="mt-3 text-[11px] font-medium uppercase tracking-[0.2em] text-ink/40">
-                Rize OC Clinical Director
+                <AutoLinkedText>{"Rize OC Clinical Director"}</AutoLinkedText>
               </p>
             </blockquote>
           </div>
@@ -243,7 +244,7 @@ export default function VirtualPage() {
           <div className="flex flex-col gap-5 h-full">
             <div className="bg-ink p-7">
               <p className="text-[10px] font-semibold uppercase tracking-[0.35em] text-accent mb-4">
-                What Virtual Includes
+                <AutoLinkedText>{"What Virtual Includes"}</AutoLinkedText>
               </p>
               <div className="flex flex-col gap-5">
                 {[
@@ -254,7 +255,7 @@ export default function VirtualPage() {
                 ].map(({ icon, point }) => (
                   <div key={point} className="flex items-start gap-3">
                     <i className={`${icon} text-accent text-base shrink-0 mt-0.5`} />
-                    <p className="text-sm font-light text-white/65 leading-snug">{point}</p>
+                    <p className="text-sm font-light text-white/65 leading-snug"><AutoLinkedText>{point}</AutoLinkedText></p>
                   </div>
                 ))}
               </div>
@@ -307,7 +308,7 @@ export default function VirtualPage() {
                   <span className="text-[13px] font-semibold uppercase tracking-[0.25em] text-accent">{step}</span>
                 </div>
                 <h3 className="font-[family-name:var(--font-display)] text-[26px] font-normal text-ink leading-snug mb-3">{title}</h3>
-                <p className="text-[15px] font-light leading-relaxed text-ink/65 mb-5 flex-1">{body}</p>
+                <p className="text-[15px] font-light leading-relaxed text-ink/65 mb-5 flex-1"><AutoLinkedText>{body}</AutoLinkedText></p>
                 <div className="flex flex-wrap gap-2">
                   {tags.map((tag) => (
                     <span key={tag} className="text-[11px] font-medium uppercase tracking-[0.15em] border border-warm px-3 py-1.5 text-ink/65">{tag}</span>
@@ -331,7 +332,7 @@ export default function VirtualPage() {
               Common Myths About <em className="italic text-white/60">Virtual Care</em>
             </h2>
             <p className="text-[15px] font-light text-white/65 max-w-2xl mx-auto">
-              Skepticism about virtual treatment is understandable — but the evidence tells a different story. Here is what the research actually shows.
+              <AutoLinkedText>{"Skepticism about virtual treatment is understandable — but the evidence tells a different story. Here is what the research actually shows."}</AutoLinkedText>
             </p>
           </div>
 
@@ -371,13 +372,13 @@ export default function VirtualPage() {
             </h2>
             <div className="flex flex-col gap-5">
               <p className="text-[15px] font-light leading-relaxed text-ink/65">
-                The evidence base for virtual behavioral health treatment at outpatient intensity levels has grown dramatically since 2020, and the findings are consistent: clinical outcomes for virtual IOP and OP are equivalent to in-person care across virtually all measured dimensions — engagement, retention, therapeutic alliance, symptom reduction, and long-term sobriety rates.
+                <AutoLinkedText>{"The evidence base for virtual behavioral health treatment at outpatient intensity levels has grown dramatically since 2020, and the findings are consistent: clinical outcomes for virtual IOP and OP are equivalent to in-person care across virtually all measured dimensions — engagement, retention, therapeutic alliance, symptom reduction, and long-term sobriety rates."}</AutoLinkedText>
               </p>
               <p className="text-[15px] font-light leading-relaxed text-ink/65">
-                For many clients, virtual care produces superior engagement — the elimination of transportation burden, the privacy of a home environment, and the scheduling flexibility that prevents the treatment dropout that frequently occurs with in-person-only programs all contribute to measurably better completion rates.
+                <AutoLinkedText>{"For many clients, virtual care produces superior engagement — the elimination of transportation burden, the privacy of a home environment, and the scheduling flexibility that prevents the treatment dropout that frequently occurs with in-person-only programs all contribute to measurably better completion rates."}</AutoLinkedText>
               </p>
               <p className="text-[15px] font-light leading-relaxed text-ink/65">
-                Rize OC&apos;s virtual programming was not retrofitted from in-person programming after 2020 — it was purpose-designed for the virtual environment, with attention to the specific facilitation techniques, platform features, and clinical adaptations that maximize engagement and therapeutic depth via video.
+                <AutoLinkedText>{"Rize OC&apos;s virtual programming was not retrofitted from in-person programming after 2020 — it was purpose-designed for the virtual environment, with attention to the specific facilitation techniques, platform features, and clinical adaptations that maximize engagement and therapeutic depth via video."}</AutoLinkedText>
               </p>
             </div>
 
@@ -391,7 +392,7 @@ export default function VirtualPage() {
               ].map((item) => (
                 <div key={item} className="flex items-center gap-3">
                   <div className="w-2 h-2 rounded-full bg-accent shrink-0" />
-                  <p className="text-[15px] font-light text-ink/70">{item}</p>
+                  <p className="text-[15px] font-light text-ink/70"><AutoLinkedText>{item}</AutoLinkedText></p>
                 </div>
               ))}
             </div>
@@ -403,10 +404,8 @@ export default function VirtualPage() {
                 <p
                   className="font-[family-name:var(--font-display)] font-normal text-accent shrink-0"
                   style={{ fontSize: "clamp(40px, 4vw, 56px)", lineHeight: 1 }}
-                >
-                  {stat}
-                </p>
-                <p className="text-[15px] font-light leading-relaxed text-ink/65 pt-2">{detail}</p>
+                ><AutoLinkedText>{stat}</AutoLinkedText></p>
+                <p className="text-[15px] font-light leading-relaxed text-ink/65 pt-2"><AutoLinkedText>{detail}</AutoLinkedText></p>
               </div>
             ))}
           </div>
@@ -425,13 +424,13 @@ export default function VirtualPage() {
               Virtual Care Is Ideal When…
             </h2>
             <p className="text-[15px] font-light leading-relaxed text-ink/65 mb-8">
-              Distance, schedule, and privacy are no longer barriers to receiving exceptional behavioral health care. Virtual IOP and OP are appropriate for a broad range of clients and situations.
+              <AutoLinkedText>{"Distance, schedule, and privacy are no longer barriers to receiving exceptional behavioral health care. Virtual IOP and OP are appropriate for a broad range of clients and situations."}</AutoLinkedText>
             </p>
             <Button href="tel:9494612620" variant="ink" size="sm">
               Speak With Admissions
             </Button>
             <p className="mt-4 text-[12px] font-light text-ink/50 leading-relaxed">
-              Free &middot; Confidential &middot; No obligation &middot; Same-day response
+              <AutoLinkedText>{"Free &middot; Confidential &middot; No obligation &middot; Same-day response"}</AutoLinkedText>
             </p>
           </div>
 
@@ -439,7 +438,7 @@ export default function VirtualPage() {
             {candidacyItems.map(({ icon, label }) => (
               <div key={label} className="flex items-center gap-4 border border-warm px-5 py-4">
                 <IconCircle icon={icon} variant="accent-subtle" size="xs" className="shrink-0" />
-                <p className="text-[14px] font-light text-ink/75 leading-snug">{label}</p>
+                <p className="text-[14px] font-light text-ink/75 leading-snug"><AutoLinkedText>{label}</AutoLinkedText></p>
               </div>
             ))}
           </div>
@@ -497,7 +496,7 @@ export default function VirtualPage() {
                   </span>
                 </div>
                 <h3 className="font-[family-name:var(--font-display)] text-[22px] font-normal text-ink mb-3 leading-snug">{title}</h3>
-                <p className="text-[14px] font-light leading-relaxed text-ink/70 flex-1">{desc}</p>
+                <p className="text-[14px] font-light leading-relaxed text-ink/70 flex-1"><AutoLinkedText>{desc}</AutoLinkedText></p>
                 <div className="mt-6">
                   <Link href={href} className="text-[11px] font-medium uppercase tracking-[0.2em] text-accent flex items-center gap-1.5 hover:gap-3 transition-all">
                     {cta} <i className="ri-arrow-right-line" />
@@ -531,7 +530,7 @@ export default function VirtualPage() {
               Frequently Asked Questions
             </h2>
             <p className="text-[15px] font-light leading-relaxed text-ink/60 mb-8">
-              Our admissions team is available to answer anything you don&apos;t find here.
+              <AutoLinkedText>{"Our admissions team is available to answer anything you don&apos;t find here."}</AutoLinkedText>
             </p>
             <a href="tel:9494612620" className="flex items-center gap-2 text-accent text-[14px] font-medium hover:text-ink transition-colors">
               <i className="ri-phone-line" /> (949)-461-2620
@@ -559,7 +558,7 @@ export default function VirtualPage() {
             World-Class Care, Wherever You Are
           </h2>
           <p className="mt-6 text-[15px] font-light leading-relaxed text-white/55 max-w-xl mx-auto">
-            Our admissions team is available 24/7 to verify your insurance, answer questions, and help you get started — from anywhere in California. All conversations are completely confidential.
+            <AutoLinkedText>{"Our admissions team is available 24/7 to verify your insurance, answer questions, and help you get started — from anywhere in California. All conversations are completely confidential."}</AutoLinkedText>
           </p>
           <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
             <Button href="tel:9494612620" variant="accent" size="lg">

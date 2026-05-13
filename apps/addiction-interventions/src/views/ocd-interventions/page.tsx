@@ -5,6 +5,7 @@ import BottomCta from "@/components/sections/BottomCta";
 import HeroContactForm from "@/components/feature/HeroContactForm";
 import { PHONE_DISPLAY, PHONE_HREF } from "@/data/site";
 import type { Faq } from "@/data/faqs";
+import { AutoLinkedText } from "@sweetmedia/blog-core";
 
 const SUPABASE_IMAGES =
   "https://bxtwcdgjzzjxjvqdiuvn.supabase.co/storage/v1/object/public/site-assets/images";
@@ -130,9 +131,7 @@ export default function OCDInterventionsPage() {
                 <span className="italic text-[#8FAC87]">when rituals have taken over the family</span>
               </h1>
               <p className="mb-8 max-w-lg text-base leading-relaxed text-white/80 md:text-lg">
-                Severe obsessive-compulsive disorder can take over a family&apos;s daily life. We help families gently confront
-                avoidance, accommodation, and refusal of treatment — and connect loved ones with evidence-based OCD
-                specialists.
+                <AutoLinkedText>{"Severe obsessive-compulsive disorder can take over a family&apos;s daily life. We help families gently confront\n                avoidance, accommodation, and refusal of treatment — and connect loved ones with evidence-based OCD\n                specialists."}</AutoLinkedText>
               </p>
               <div className="mb-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
                 <a
@@ -181,9 +180,7 @@ export default function OCDInterventionsPage() {
                 Warning signs a professional OCD intervention <span className="italic text-[#507969]">may be needed</span>
               </h2>
               <p className="mb-8 text-base leading-relaxed text-[#4B4B4B]">
-                OCD is one of the most treatable serious mental health conditions when matched with the right
-                exposure-and-response-prevention (ERP) program. These signs suggest your loved one — and your family —
-                are ready for professional intervention.
+                <AutoLinkedText>{"OCD is one of the most treatable serious mental health conditions when matched with the right\n                exposure-and-response-prevention (ERP) program. These signs suggest your loved one — and your family —\n                are ready for professional intervention."}</AutoLinkedText>
               </p>
               <ul className="grid gap-3">
                 {SIGNS.map((item) => (
@@ -207,8 +204,8 @@ export default function OCDInterventionsPage() {
                   <span className="flex h-12 w-12 items-center justify-center rounded-full bg-[#3E5B50] text-white">
                     <i className={`text-xl ${s.icon}`}></i>
                   </span>
-                  <p className="font-heading mt-4 text-3xl font-bold text-[#3E5B50]">{s.number}</p>
-                  <p className="mt-1 text-xs font-medium text-[#4B4B4B]">{s.label}</p>
+                  <p className="font-heading mt-4 text-3xl font-bold text-[#3E5B50]"><AutoLinkedText>{s.number}</AutoLinkedText></p>
+                  <p className="mt-1 text-xs font-medium text-[#4B4B4B]"><AutoLinkedText>{s.label}</AutoLinkedText></p>
                 </div>
               ))}
             </div>
@@ -222,7 +219,7 @@ export default function OCDInterventionsPage() {
         <div className="pointer-events-none absolute -left-20 bottom-0 h-64 w-64 rounded-full bg-[#8FAC87]/15" />
         <div className={`relative ${CONTAINER}`}>
           <div className="mx-auto mb-14 max-w-2xl text-center">
-            <p className="brand-eyebrow mb-4 text-[#8FAC87]">Common Misconceptions</p>
+            <p className="brand-eyebrow mb-4 text-[#8FAC87]"><AutoLinkedText>{"Common Misconceptions"}</AutoLinkedText></p>
             <h2 className="font-heading text-4xl font-bold text-white md:text-5xl">
               What families <span className="italic text-[#8FAC87]">misunderstand</span> about OCD
             </h2>
@@ -233,8 +230,8 @@ export default function OCDInterventionsPage() {
                 <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-xl bg-[#8FAC87]/20 text-[#8FAC87]">
                   <i className={`${m.icon} text-lg`}></i>
                 </div>
-                <p className="mb-3 text-sm font-semibold italic text-white/60">{m.myth}</p>
-                <p className="text-sm leading-relaxed text-white/85">{m.truth}</p>
+                <p className="mb-3 text-sm font-semibold italic text-white/60"><AutoLinkedText>{m.myth}</AutoLinkedText></p>
+                <p className="text-sm leading-relaxed text-white/85"><AutoLinkedText>{m.truth}</AutoLinkedText></p>
               </div>
             ))}
           </div>
@@ -247,9 +244,9 @@ export default function OCDInterventionsPage() {
         <div className="absolute inset-0 bg-gradient-to-r from-[#1A1A17]/70 via-[#1A1A17]/50 to-transparent" />
         <div className="absolute bottom-0 left-0 p-10 text-white">
           <p className="font-heading max-w-md text-2xl italic">
-            &ldquo;We were all prisoners of the rituals. The intervention set us free.&rdquo;
+            <AutoLinkedText>{"&ldquo;We were all prisoners of the rituals. The intervention set us free.&rdquo;"}</AutoLinkedText>
           </p>
-          <p className="mt-2 text-sm text-white/70">— Family of a young adult with severe OCD</p>
+          <p className="mt-2 text-sm text-white/70"><AutoLinkedText>{"— Family of a young adult with severe OCD"}</AutoLinkedText></p>
         </div>
       </section>
 
@@ -273,7 +270,7 @@ export default function OCDInterventionsPage() {
                   </span>
                 </span>
                 <h3 className="font-heading mb-2 text-base font-bold text-[#1A1A17]">{step.title}</h3>
-                <p className="text-sm leading-relaxed text-[#4B4B4B]">{step.body}</p>
+                <p className="text-sm leading-relaxed text-[#4B4B4B]"><AutoLinkedText>{step.body}</AutoLinkedText></p>
               </div>
             ))}
           </div>

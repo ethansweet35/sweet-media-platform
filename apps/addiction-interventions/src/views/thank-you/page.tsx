@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { PHONE_DISPLAY, PHONE_HREF } from "@/data/site";
+import { AutoLinkedText } from "@sweetmedia/blog-core";
 
 const NEXT_STEPS = [
   {
@@ -54,7 +55,7 @@ export default function ThankYouPage() {
             Thank you for reaching out.
           </h1>
           <p className="mx-auto mt-6 max-w-xl text-base leading-7 text-[var(--color-ink-muted)] md:text-lg">
-            We have received your message, and a certified interventionist will be in touch shortly. The hardest step is the one you just took — you reached out.
+            <AutoLinkedText>{"We have received your message, and a certified interventionist will be in touch shortly. The hardest step is the one you just took — you reached out."}</AutoLinkedText>
           </p>
           <div className="mt-8 flex flex-wrap justify-center gap-3">
             <a
@@ -98,9 +99,7 @@ export default function ThankYouPage() {
                 <h3 className="mt-5 text-lg font-semibold tracking-tight text-[var(--color-ink)]">
                   {s.title}
                 </h3>
-                <p className="mt-3 text-sm leading-6 text-[var(--color-ink-muted)]">
-                  {s.body}
-                </p>
+                <p className="mt-3 text-sm leading-6 text-[var(--color-ink-muted)]"><AutoLinkedText>{s.body}</AutoLinkedText></p>
               </div>
             ))}
           </div>
@@ -111,13 +110,13 @@ export default function ThankYouPage() {
       <section className="border-t border-[var(--color-divider)] bg-[var(--color-cream)]">
         <div className="mx-auto max-w-4xl px-6 py-20 text-center">
           <p className="brand-eyebrow text-[var(--color-sage-deep)]">
-            While You Wait For Our Call
+            <AutoLinkedText>{"While You Wait For Our Call"}</AutoLinkedText>
           </p>
           <h2 className="mt-3 text-3xl font-semibold tracking-tight text-[var(--color-ink)] md:text-4xl">
             Resources to help you prepare.
           </h2>
           <p className="mx-auto mt-6 max-w-2xl text-base leading-7 text-[var(--color-ink-muted)] md:text-lg">
-            These short reads will help you feel more prepared for our conversation.
+            <AutoLinkedText>{"These short reads will help you feel more prepared for our conversation."}</AutoLinkedText>
           </p>
 
           <div className="mx-auto mt-10 grid max-w-2xl gap-3">

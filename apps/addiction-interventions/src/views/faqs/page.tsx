@@ -4,6 +4,7 @@ import { useState } from "react";
 import PageHero from "@/components/sections/PageHero";
 import BottomCta from "@/components/sections/BottomCta";
 import { FAQ_GROUPS } from "@/data/faqs-full";
+import { AutoLinkedTextClient } from "@sweetmedia/blog-core";
 
 export default function FaqsPage() {
   const [openKey, setOpenKey] = useState<string | null>(`0-0`);
@@ -26,10 +27,10 @@ export default function FaqsPage() {
           </h2>
           <div className="grid gap-4 text-base leading-relaxed text-[#4B4B4B] md:grid-cols-2">
             <p>
-              Every question in this section came from a real family conversation — before an intervention, during the planning process, or in the uncertain days that follow. We have compiled the ones we hear most often into honest, straightforward answers that don&apos;t minimise the difficulty of what your family is facing. If your question isn&apos;t here, call us: we answer the phone.
+              <AutoLinkedTextClient>{"Every question in this section came from a real family conversation — before an intervention, during the planning process, or in the uncertain days that follow. We have compiled the ones we hear most often into honest, straightforward answers that don&apos;t minimise the difficulty of what your family is facing. If your question isn&apos;t here, call us: we answer the phone."}</AutoLinkedTextClient>
             </p>
             <p>
-              One thing we want families to know before reading: there are no wrong questions. The situations that feel too complicated, too shameful, or too far gone to bring up are exactly the situations we were trained for. What looks impossible from the inside has often been resolved by a structured, well-prepared intervention. We have seen families come back from circumstances that felt irretrievable — and we want that for yours.
+              <AutoLinkedTextClient>{"One thing we want families to know before reading: there are no wrong questions. The situations that feel too complicated, too shameful, or too far gone to bring up are exactly the situations we were trained for. What looks impossible from the inside has often been resolved by a structured, well-prepared intervention. We have seen families come back from circumstances that felt irretrievable — and we want that for yours."}</AutoLinkedTextClient>
             </p>
           </div>
         </div>
@@ -46,9 +47,7 @@ export default function FaqsPage() {
                 {group.title}
               </h2>
               {group.description && (
-                <p className="mt-3 max-w-2xl text-base leading-7 text-[var(--color-ink-muted)]">
-                  {group.description}
-                </p>
+                <p className="mt-3 max-w-2xl text-base leading-7 text-[var(--color-ink-muted)]"><AutoLinkedTextClient>{group.description}</AutoLinkedTextClient></p>
               )}
 
               <div className="mt-8 divide-y divide-[var(--color-divider)] border-y border-[var(--color-divider)]">
@@ -76,9 +75,7 @@ export default function FaqsPage() {
                       </button>
                       {open && (
                         <div className="pb-6 pr-12">
-                          <p className="text-base leading-7 text-[var(--color-ink-muted)]">
-                            {q.answer}
-                          </p>
+                          <p className="text-base leading-7 text-[var(--color-ink-muted)]"><AutoLinkedTextClient>{q.answer}</AutoLinkedTextClient></p>
                         </div>
                       )}
                     </div>

@@ -5,6 +5,7 @@ import SectionWrapper from "@/components/ui/SectionWrapper";
 import Eyebrow from "@/components/ui/Eyebrow";
 import Button from "@/components/ui/Button";
 import Link from "next/link";
+import { AutoLinkedTextClient } from "@sweetmedia/blog-core";
 
 /* ─────────────────────────────────────────── Types & constants ─────── */
 
@@ -248,9 +249,9 @@ function SessionCell({ slot, groupFilter }: { slot: DaySlot; groupFilter: GroupN
             <span className={`inline-block rounded-sm px-1.5 py-0.5 text-[9px] font-bold uppercase tracking-[0.15em] mb-1.5 ${c.badge}`}>
               Grp-{g}
             </span>
-            <p className={`text-[12px] font-medium leading-snug ${c.text}`}>{session.topic}</p>
+            <p className={`text-[12px] font-medium leading-snug ${c.text}`}><AutoLinkedTextClient>{session.topic}</AutoLinkedTextClient></p>
             {session.note && (
-              <p className={`mt-1 text-[10px] leading-snug opacity-70 ${c.text}`}>{session.note}</p>
+              <p className={`mt-1 text-[10px] leading-snug opacity-70 ${c.text}`}><AutoLinkedTextClient>{session.note}</AutoLinkedTextClient></p>
             )}
           </div>
         );
@@ -297,7 +298,7 @@ export default function InPersonSchedulePage() {
               <em className="italic text-white/60">Schedule</em>
             </h1>
             <p className="text-[16px] font-light leading-relaxed text-white/80 max-w-[500px] mb-10">
-              Daily clinician-led group therapy sessions across four concurrent tracks — each designed to build evidence-based recovery skills in a structured, supportive environment.
+              <AutoLinkedTextClient>{"Daily clinician-led group therapy sessions across four concurrent tracks — each designed to build evidence-based recovery skills in a structured, supportive environment."}</AutoLinkedTextClient>
             </p>
             <div className="flex flex-wrap gap-3">
               <Button href="/admissions" variant="accent" size="md">
@@ -407,7 +408,7 @@ export default function InPersonSchedulePage() {
             return (
               <div key={bi} className="bg-white border border-warm/30 overflow-hidden">
                 <div className="bg-ink px-5 py-3">
-                  <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-white">{block.time}</p>
+                  <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-white"><AutoLinkedTextClient>{block.time}</AutoLinkedTextClient></p>
                 </div>
                 <div className="divide-y divide-warm/20">
                   {DAYS.map((d) => {
@@ -453,7 +454,7 @@ export default function InPersonSchedulePage() {
             <em className="italic text-white/60">For Where You Are</em>
           </h2>
           <p className="mt-6 text-[16px] font-light text-white/80 leading-relaxed max-w-[460px] mx-auto">
-            Our admissions team will assess your needs and place you in the group track that best supports your recovery goals.
+            <AutoLinkedTextClient>{"Our admissions team will assess your needs and place you in the group track that best supports your recovery goals."}</AutoLinkedTextClient>
           </p>
           <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
             <Button href="/admissions" variant="accent" size="lg">

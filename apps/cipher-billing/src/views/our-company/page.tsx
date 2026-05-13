@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { AutoLinkedText } from "@sweetmedia/blog-core";
 
 import CompanyFaqAccordion from "./components/CompanyFaqAccordion";
 import OurCompanyLeadSection from "./components/OurCompanyLeadSection";
@@ -154,7 +155,7 @@ export default function OurCompanyPage() {
                     Relentless Determination
                   </h3>
                   <p className="mt-2 text-sm leading-[1.42] text-white/80">
-                    Escalating to insurance commissioners when necessary to ensure you are fairly reimbursed.
+                    <AutoLinkedText>{"Escalating to insurance commissioners when necessary to ensure you are fairly reimbursed."}</AutoLinkedText>
                   </p>
                 </div>
               </div>
@@ -170,7 +171,7 @@ export default function OurCompanyPage() {
                     Compliance-First Culture
                   </h3>
                   <p className="mt-2 text-sm leading-[1.42] text-white/80">
-                    Utilization review teams that ensure your documentation is audit-ready and protected.
+                    <AutoLinkedText>{"Utilization review teams that ensure your documentation is audit-ready and protected."}</AutoLinkedText>
                   </p>
                 </div>
               </div>
@@ -196,7 +197,7 @@ export default function OurCompanyPage() {
             Leadership Excellence
           </h2>
           <p className="mx-auto mt-4 max-w-2xl text-center text-[11px] font-semibold uppercase tracking-[0.2em] text-white/90 md:text-xs">
-            Deep expertise in the complexities of Behavioral Health RCM.
+            <AutoLinkedText>{"Deep expertise in the complexities of Behavioral Health RCM."}</AutoLinkedText>
           </p>
 
           <div className="mt-12 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
@@ -217,10 +218,8 @@ export default function OurCompanyPage() {
                   }}
                 />
                 <div className="relative">
-                  <p className="font-marcellus text-xl font-medium text-white md:text-2xl">{person.name}</p>
-                  <p className="mt-2 text-[11px] font-semibold uppercase tracking-[0.14em] text-white/95">
-                    {person.role}
-                  </p>
+                  <p className="font-marcellus text-xl font-medium text-white md:text-2xl"><AutoLinkedText>{person.name}</AutoLinkedText></p>
+                  <p className="mt-2 text-[11px] font-semibold uppercase tracking-[0.14em] text-white/95"><AutoLinkedText>{person.role}</AutoLinkedText></p>
                 </div>
               </div>
             ))}
@@ -235,7 +234,7 @@ export default function OurCompanyPage() {
             Frequently Asked <span className="text-[#246D92]">Questions</span>
           </h2>
           <p className="mx-auto mt-4 max-w-2xl text-center text-sm leading-[1.42] text-white/85 md:text-base">
-            Everything you need to know about partnering with Cipher Billing for your revenue cycle management.
+            <AutoLinkedText>{"Everything you need to know about partnering with Cipher Billing for your revenue cycle management."}</AutoLinkedText>
           </p>
           <CompanyFaqAccordion items={companyFaqs} />
         </div>

@@ -5,6 +5,7 @@ import FaqAccordion from "@/components/sections/FaqAccordion";
 import BottomCta from "@/components/sections/BottomCta";
 import { PHONE_DISPLAY, PHONE_HREF } from "@/data/site";
 import type { Faq } from "@/data/faqs";
+import { AutoLinkedText } from "@sweetmedia/blog-core";
 
 const SUPABASE_IMAGES = "https://bxtwcdgjzzjxjvqdiuvn.supabase.co/storage/v1/object/public/site-assets/images";
 const HERO_BG = `${SUPABASE_IMAGES}/how_to_plan_hero01.jpg`;
@@ -106,13 +107,12 @@ export default function HowToPlanAnInterventionPage() {
         <div className="absolute inset-0 bg-gradient-to-r from-[#1A1A17]/90 via-[#1A1A17]/75 to-[#1A1A17]/50" />
         <div className={`relative ${CONTAINER} py-24 lg:py-32`}>
           <div className="max-w-2xl">
-            <p className="brand-eyebrow mb-4 text-[#8FAC87]">Family Planning Guide</p>
+            <p className="brand-eyebrow mb-4 text-[#8FAC87]"><AutoLinkedText>{"Family Planning Guide"}</AutoLinkedText></p>
             <h1 className="font-heading mb-6 text-5xl font-bold leading-tight text-white md:text-6xl lg:text-7xl">
               How to plan an intervention <span className="italic text-[#8FAC87]">that actually works</span>
             </h1>
             <p className="mb-8 text-lg leading-relaxed text-white/80">
-              A practical 8-step guide for families preparing to confront a loved one&apos;s addiction or mental health crisis.
-              Built on more than two decades of front-line intervention experience.
+              <AutoLinkedText>{"A practical 8-step guide for families preparing to confront a loved one&apos;s addiction or mental health crisis.\n              Built on more than two decades of front-line intervention experience."}</AutoLinkedText>
             </p>
             <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap">
               <a
@@ -160,12 +160,12 @@ export default function HowToPlanAnInterventionPage() {
       <section id="steps" className="bg-[#F5F3E7] py-24">
         <div className={CONTAINER}>
           <div className="mb-14 text-center">
-            <p className="brand-eyebrow mb-3 text-[#8FAC87]">The Complete Process</p>
+            <p className="brand-eyebrow mb-3 text-[#8FAC87]"><AutoLinkedText>{"The Complete Process"}</AutoLinkedText></p>
             <h2 className="font-heading text-4xl font-bold text-[#1A1A17] md:text-5xl">
               8 steps to a <span className="italic text-[#507969]">successful intervention</span>
             </h2>
             <p className="mx-auto mt-4 max-w-2xl text-base leading-relaxed text-[#4B4B4B]">
-              These steps are the same process our certified interventionists use with every family. Skip steps at your peril — each one exists because skipping it has led to failed interventions.
+              <AutoLinkedText>{"These steps are the same process our certified interventionists use with every family. Skip steps at your peril — each one exists because skipping it has led to failed interventions."}</AutoLinkedText>
             </p>
           </div>
 
@@ -182,7 +182,7 @@ export default function HowToPlanAnInterventionPage() {
                 </div>
                 <div>
                   <h3 className="font-heading text-lg font-bold text-[#1A1A17]">{step.title}</h3>
-                  <p className="mt-2 text-sm leading-relaxed text-[#4B4B4B]">{step.body}</p>
+                  <p className="mt-2 text-sm leading-relaxed text-[#4B4B4B]"><AutoLinkedText>{step.body}</AutoLinkedText></p>
                 </div>
               </div>
             ))}
@@ -197,13 +197,12 @@ export default function HowToPlanAnInterventionPage() {
         <div className={`relative ${CONTAINER}`}>
           <div className="grid gap-10 md:grid-cols-2 md:items-center">
             <div>
-              <p className="brand-eyebrow mb-3 text-[#8FAC87]">Don&apos;t Do This Alone</p>
+              <p className="brand-eyebrow mb-3 text-[#8FAC87]"><AutoLinkedText>{"Don&apos;t Do This Alone"}</AutoLinkedText></p>
               <h2 className="font-heading text-4xl font-bold text-white md:text-5xl">
                 A professional makes the difference <span className="italic text-[#8FAC87]">between yes and no</span>
               </h2>
               <p className="mt-5 text-base leading-relaxed text-white/75">
-                Families that use a certified interventionist achieve significantly higher rates of treatment acceptance.
-                We bring clinical expertise, pre-arranged treatment, and a proven process — you bring love.
+                <AutoLinkedText>{"Families that use a certified interventionist achieve significantly higher rates of treatment acceptance.\n                We bring clinical expertise, pre-arranged treatment, and a proven process — you bring love."}</AutoLinkedText>
               </p>
             </div>
             <div className="flex flex-col gap-4 sm:flex-row md:justify-end">

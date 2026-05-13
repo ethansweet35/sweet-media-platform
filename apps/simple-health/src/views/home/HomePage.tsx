@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import { AutoLinkedText } from "@sweetmedia/blog-core";
 
 const SUPABASE_IMG =
   "https://zxpkxysqzxozgocfuvug.supabase.co/storage/v1/object/public/site-assets/images/wp-migrated";
@@ -271,9 +272,7 @@ export default function HomePage() {
               <span className="block lg:whitespace-nowrap">Telehealth Services</span>
             </h1>
             <p className="mt-6 max-w-xl text-[0.95rem] leading-7 font-normal text-[#555555]">
-              Access the new standard of care — from GLP-1 weight loss and longevity peptides to
-              dermatology and mental wellness. Skip the waiting room with our concierge membership and
-              get 24/7 access to doctors who actually return your messages.
+              <AutoLinkedText>{"Access the new standard of care — from GLP-1 weight loss and longevity peptides to\n              dermatology and mental wellness. Skip the waiting room with our concierge membership and\n              get 24/7 access to doctors who actually return your messages."}</AutoLinkedText>
             </p>
 
             <ul className="mt-7 flex flex-wrap gap-2">
@@ -336,7 +335,7 @@ export default function HomePage() {
                 </span>
                 <div className="flex flex-col gap-0">
                   <p className="text-[0.78rem] font-semibold leading-none text-[#3A3A3A]">HIPAA Compliant</p>
-                  <p className="mt-px text-[0.68rem] leading-none text-[#888]">Secure &amp; confidential</p>
+                  <p className="mt-px text-[0.68rem] leading-none text-[#888]"><AutoLinkedText>{"Secure &amp; confidential"}</AutoLinkedText></p>
                 </div>
               </div>
             </div>
@@ -378,15 +377,13 @@ export default function HomePage() {
               {/* Stats body */}
               <div className="px-6 py-6 md:px-10 md:py-8">
                 <p className="mb-5 text-[0.68rem] font-semibold uppercase tracking-[0.16em] text-[#888]">
-                  Average patient outcomes
+                  <AutoLinkedText>{"Average patient outcomes"}</AutoLinkedText>
                 </p>
                 <div className="grid grid-cols-2 gap-x-4 gap-y-5 md:gap-x-6 md:gap-y-6">
                   {heroStats.map((stat) => (
                     <div key={stat.label} className="relative">
                       <div className="flex items-baseline gap-2">
-                        <p className="font-serif text-[1.5rem] leading-none text-[#3A3A3A] sm:text-[1.85rem]">
-                          {stat.value}
-                        </p>
+                        <p className="font-serif text-[1.5rem] leading-none text-[#3A3A3A] sm:text-[1.85rem]"><AutoLinkedText>{stat.value}</AutoLinkedText></p>
                         <span
                           className="text-[0.7rem] font-semibold"
                           style={{ color: stat.bar }}
@@ -394,9 +391,7 @@ export default function HomePage() {
                           <i className="ri-arrow-up-line align-middle" />
                         </span>
                       </div>
-                      <p className="mt-1.5 text-[0.62rem] font-semibold uppercase tracking-[0.1em] text-[#6B7456] sm:text-[0.66rem] sm:tracking-[0.12em]">
-                        {stat.label}
-                      </p>
+                      <p className="mt-1.5 text-[0.62rem] font-semibold uppercase tracking-[0.1em] text-[#6B7456] sm:text-[0.66rem] sm:tracking-[0.12em]"><AutoLinkedText>{stat.label}</AutoLinkedText></p>
                       <div className="mt-2.5 h-1.5 w-full overflow-hidden rounded-full bg-[#F2EDE5]">
                         <span
                           className="block h-full rounded-full"
@@ -411,7 +406,7 @@ export default function HomePage() {
               {/* Card footer attribution */}
               <div className="flex flex-wrap items-center justify-between gap-x-3 gap-y-1.5 border-t border-[#F2EDE5] bg-[#FAF7F4]/60 px-6 py-3 md:px-10">
                 <p className="text-[0.66rem] text-[#888]">
-                  Aggregated from clinical follow-ups · Updated quarterly
+                  <AutoLinkedText>{"Aggregated from clinical follow-ups · Updated quarterly"}</AutoLinkedText>
                 </p>
                 <div className="flex items-center gap-1.5 text-[0.66rem] font-semibold text-[#6B7456]">
                   <i className="ri-shield-check-fill text-sm" />
@@ -434,7 +429,7 @@ export default function HomePage() {
               Designed for modern life
             </h2>
             <p className="mt-4 text-sm leading-7 text-[#555555]">
-              Expert care for your body and mind, all from home.
+              <AutoLinkedText>{"Expert care for your body and mind, all from home."}</AutoLinkedText>
             </p>
           </div>
 
@@ -458,16 +453,14 @@ export default function HomePage() {
                   <h3 className="mt-5 font-serif text-[1.65rem] leading-tight tracking-[-0.015em] text-[#2A2A2A]">
                     {s.title}
                   </h3>
-                  <p className="mt-2.5 text-sm leading-[1.75] text-[#555]">{s.description}</p>
+                  <p className="mt-2.5 text-sm leading-[1.75] text-[#555]"><AutoLinkedText>{s.description}</AutoLinkedText></p>
 
                   {/* Stats — plain two-column text, no box */}
                   <div className="mt-6 flex gap-8">
                     {s.stats.map((st) => (
                       <div key={st.label}>
-                        <p className={`font-serif text-[1.55rem] leading-none font-medium ${s.accentText}`}>
-                          {st.value}
-                        </p>
-                        <p className="mt-1.5 text-[0.68rem] text-[#777]">{st.label}</p>
+                        <p className={`font-serif text-[1.55rem] leading-none font-medium ${s.accentText}`}><AutoLinkedText>{st.value}</AutoLinkedText></p>
+                        <p className="mt-1.5 text-[0.68rem] text-[#777]"><AutoLinkedText>{st.label}</AutoLinkedText></p>
                       </div>
                     ))}
                   </div>
@@ -526,9 +519,7 @@ export default function HomePage() {
               It's more than a plan, it's personal.
             </h2>
             <p className="mt-5 mx-auto max-w-2xl text-sm leading-7 text-[#555555]">
-              A provider licensed in your state will review your information, so that they can
-              combine guidance on nutrition, activity, sleep, and more into a plan designed around
-              your body's needs.
+              <AutoLinkedText>{"A provider licensed in your state will review your information, so that they can\n              combine guidance on nutrition, activity, sleep, and more into a plan designed around\n              your body's needs."}</AutoLinkedText>
             </p>
           </div>
 
@@ -571,7 +562,7 @@ export default function HomePage() {
                     Compounded GLP-1
                   </p>
                   <p className="font-serif text-base text-[#3A3A3A]">
-                    Semaglutide 0.5mg weekly
+                    <AutoLinkedText>{"Semaglutide 0.5mg weekly"}</AutoLinkedText>
                   </p>
                 </div>
               </div>
@@ -608,7 +599,7 @@ export default function HomePage() {
               From click to care in days, not weeks.
             </h2>
             <p className="mt-5 text-sm leading-7 text-[#555555]">
-              No waiting rooms. No insurance hassles. 94% of patients start treatment within 48 hours.
+              <AutoLinkedText>{"No waiting rooms. No insurance hassles. 94% of patients start treatment within 48 hours."}</AutoLinkedText>
             </p>
           </div>
 
@@ -622,10 +613,8 @@ export default function HomePage() {
                   <i className={`${step.icon} text-xl`} />
                 </span>
                 <h3 className="mt-6 font-serif text-xl text-[#3A3A3A]">{step.title}</h3>
-                <p className="mt-2 text-sm leading-6 text-[#555555]">{step.description}</p>
-                <p className="mt-4 text-[0.7rem] font-semibold uppercase tracking-[0.16em] text-[#C67B5C]">
-                  {step.duration}
-                </p>
+                <p className="mt-2 text-sm leading-6 text-[#555555]"><AutoLinkedText>{step.description}</AutoLinkedText></p>
+                <p className="mt-4 text-[0.7rem] font-semibold uppercase tracking-[0.16em] text-[#C67B5C]"><AutoLinkedText>{step.duration}</AutoLinkedText></p>
               </div>
             ))}
           </div>
@@ -643,7 +632,7 @@ export default function HomePage() {
               Real People. Real Results.
             </h2>
             <p className="mt-4 text-sm text-[#555555]">
-              Join thousands who've transformed their health.
+              <AutoLinkedText>{"Join thousands who've transformed their health."}</AutoLinkedText>
             </p>
           </div>
 
@@ -662,10 +651,8 @@ export default function HomePage() {
                   "{t.quote}"
                 </blockquote>
                 <figcaption className="mt-5 border-t border-[#E8E2D9] pt-3">
-                  <p className="font-serif text-base text-[#3A3A3A]">{t.author}</p>
-                  <p className="text-[0.7rem] font-semibold uppercase tracking-[0.14em] text-[#6B7456]">
-                    {t.detail}
-                  </p>
+                  <p className="font-serif text-base text-[#3A3A3A]"><AutoLinkedText>{t.author}</AutoLinkedText></p>
+                  <p className="text-[0.7rem] font-semibold uppercase tracking-[0.14em] text-[#6B7456]"><AutoLinkedText>{t.detail}</AutoLinkedText></p>
                 </figcaption>
               </figure>
             ))}
@@ -674,7 +661,7 @@ export default function HomePage() {
           <div className="mt-12 flex flex-wrap items-center justify-center gap-6 md:gap-10">
             {trustBadges.map((label, i) => (
               <div key={label} className="flex items-center gap-6 md:gap-10">
-                <p className="font-serif text-base text-[#3A3A3A] md:text-lg">{label}</p>
+                <p className="font-serif text-base text-[#3A3A3A] md:text-lg"><AutoLinkedText>{label}</AutoLinkedText></p>
                 {i < trustBadges.length - 1 && (
                   <span className="hidden h-5 w-px bg-[#C67B5C]/40 md:inline-block" aria-hidden />
                 )}
@@ -695,7 +682,7 @@ export default function HomePage() {
               Available where you are
             </h2>
             <p className="mt-4 text-sm text-[#555555]">
-              Check if Simple Health serves your state
+              <AutoLinkedText>{"Check if Simple Health serves your state"}</AutoLinkedText>
             </p>
           </div>
 
@@ -709,8 +696,8 @@ export default function HomePage() {
                     aria-hidden
                   />
                   <div>
-                    <p className="font-serif text-base font-semibold text-[#3A3A3A]">{c.label}</p>
-                    <p className="mt-1 text-xs text-[#555555]">{c.desc}</p>
+                    <p className="font-serif text-base font-semibold text-[#3A3A3A]"><AutoLinkedText>{c.label}</AutoLinkedText></p>
+                    <p className="mt-1 text-xs text-[#555555]"><AutoLinkedText>{c.desc}</AutoLinkedText></p>
                   </div>
                 </li>
               ))}
@@ -740,7 +727,7 @@ export default function HomePage() {
               Consultation Fees
             </h2>
             <p className="mt-4 text-sm text-[#555555]">
-              Physician-guided care with complete pricing clarity. Includes any &amp; all services.
+              <AutoLinkedText>{"Physician-guided care with complete pricing clarity. Includes any &amp; all services."}</AutoLinkedText>
             </p>
           </div>
 
@@ -751,20 +738,20 @@ export default function HomePage() {
                 className="flex flex-col rounded-2xl border border-[#E8E2D9] bg-[#FAF7F4] p-8 shadow-sm"
               >
                 <h3 className="font-serif text-xl text-[#3A3A3A]">{tier.label}</h3>
-                <p className="mt-2 text-xs leading-5 text-[#555555]">{tier.description}</p>
+                <p className="mt-2 text-xs leading-5 text-[#555555]"><AutoLinkedText>{tier.description}</AutoLinkedText></p>
 
                 <div className="mt-6 grid grid-cols-2 gap-3">
                   <div className="rounded-xl bg-white px-4 py-4 text-center">
                     <p className="text-[0.65rem] font-semibold uppercase tracking-[0.14em] text-[#6B7456]">
                       First Visit
                     </p>
-                    <p className="mt-1 font-serif text-2xl text-[#3A3A3A]">{tier.firstVisit}</p>
+                    <p className="mt-1 font-serif text-2xl text-[#3A3A3A]"><AutoLinkedText>{tier.firstVisit}</AutoLinkedText></p>
                   </div>
                   <div className="rounded-xl bg-white px-4 py-4 text-center">
                     <p className="text-[0.65rem] font-semibold uppercase tracking-[0.14em] text-[#6B7456]">
                       Follow-Up
                     </p>
-                    <p className="mt-1 font-serif text-2xl text-[#3A3A3A]">{tier.followUp}</p>
+                    <p className="mt-1 font-serif text-2xl text-[#3A3A3A]"><AutoLinkedText>{tier.followUp}</AutoLinkedText></p>
                   </div>
                 </div>
 

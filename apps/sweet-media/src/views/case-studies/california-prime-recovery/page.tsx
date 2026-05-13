@@ -5,6 +5,7 @@ import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import SiteHeader from "@/components/feature/SiteHeader";
 import Footer from "@/components/pages/home/components/Footer";
+import { AutoLinkedTextClient } from "@sweetmedia/blog-core";
 
 const results = [
   { val: "30%", label: "Reduction in Paid CPA", icon: "ri-arrow-down-line", color: "text-emerald-600", bg: "bg-emerald-50" },
@@ -151,7 +152,7 @@ export default function CaliforniaPrimeRecoveryPage() {
                 </h1>
 
                 <p className={`text-white/55 text-base leading-relaxed max-w-lg font-light transition-all duration-700 delay-150 ${heroVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}`}>
-                  How Sweet Media helped a Joint Commission-accredited Orange County treatment center reduce paid CPA by 30%, pass Core Web Vitals, and build a scalable digital admissions system.
+                  <AutoLinkedTextClient>{"How Sweet Media helped a Joint Commission-accredited Orange County treatment center reduce paid CPA by 30%, pass Core Web Vitals, and build a scalable digital admissions system."}</AutoLinkedTextClient>
                 </p>
               </div>
 
@@ -201,13 +202,13 @@ export default function CaliforniaPrimeRecoveryPage() {
                 </h2>
                 <div className="space-y-4 text-black/60 text-sm leading-relaxed font-light">
                   <p>
-                    California Prime Recovery is a Joint Commission-accredited and DHCS-certified addiction and mental health treatment provider located in Orange County, California. Since 2016, the organization has provided evidence-based care for individuals struggling with substance use, alcohol addiction, mental health conditions, and dual diagnosis concerns.
+                    <AutoLinkedTextClient>{"California Prime Recovery is a Joint Commission-accredited and DHCS-certified addiction and mental health treatment provider located in Orange County, California. Since 2016, the organization has provided evidence-based care for individuals struggling with substance use, alcohol addiction, mental health conditions, and dual diagnosis concerns."}</AutoLinkedTextClient>
                   </p>
                   <p>
-                    As a competitive behavioral health provider in Southern California, California Prime Recovery needed a stronger digital marketing system — one that could generate more qualified admissions opportunities while lowering acquisition costs, improving website performance, and creating a smoother path from visitor to inquiry.
+                    <AutoLinkedTextClient>{"As a competitive behavioral health provider in Southern California, California Prime Recovery needed a stronger digital marketing system — one that could generate more qualified admissions opportunities while lowering acquisition costs, improving website performance, and creating a smoother path from visitor to inquiry."}</AutoLinkedTextClient>
                   </p>
                   <p>
-                    Sweet Media partnered with California Prime Recovery to improve paid advertising efficiency, strengthen website conversion flow, modernize lead response systems, and support long-term organic growth through SEO-driven content improvements.
+                    <AutoLinkedTextClient>{"Sweet Media partnered with California Prime Recovery to improve paid advertising efficiency, strengthen website conversion flow, modernize lead response systems, and support long-term organic growth through SEO-driven content improvements."}</AutoLinkedTextClient>
                   </p>
                 </div>
               </div>
@@ -229,7 +230,7 @@ export default function CaliforniaPrimeRecoveryPage() {
 
                   <div className="mt-8 pt-6 border-t border-black/8">
                     <p className="text-[10px] tracking-[0.3em] uppercase text-black/40 font-semibold mb-3">Industry</p>
-                    <p className="text-sm text-black/70">Behavioral Health · Addiction Treatment · Mental Health</p>
+                    <p className="text-sm text-black/70"><AutoLinkedTextClient>{"Behavioral Health · Addiction Treatment · Mental Health"}</AutoLinkedTextClient></p>
                   </div>
                 </div>
               </div>
@@ -248,7 +249,7 @@ export default function CaliforniaPrimeRecoveryPage() {
               Multiple gaps across the digital admissions funnel.
             </h2>
             <p className="text-black/50 text-sm leading-relaxed mb-12 max-w-xl font-light">
-              Before working with Sweet Media, California Prime Recovery had several opportunities for improvement across its marketing funnel — from paid media efficiency to website performance and lead response speed.
+              <AutoLinkedTextClient>{"Before working with Sweet Media, California Prime Recovery had several opportunities for improvement across its marketing funnel — from paid media efficiency to website performance and lead response speed."}</AutoLinkedTextClient>
             </p>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
@@ -258,7 +259,7 @@ export default function CaliforniaPrimeRecoveryPage() {
                     <i className={`${c.icon} text-[#0A1F44] text-lg`}></i>
                   </div>
                   <h3 className="text-base font-semibold text-black mb-2" style={{ fontFamily: "'Playfair Display', serif" }}>{c.title}</h3>
-                  <p className="text-sm text-black/55 leading-relaxed font-light">{c.desc}</p>
+                  <p className="text-sm text-black/55 leading-relaxed font-light"><AutoLinkedTextClient>{c.desc}</AutoLinkedTextClient></p>
                 </div>
               ))}
             </div>
@@ -278,7 +279,7 @@ export default function CaliforniaPrimeRecoveryPage() {
                   Improve the entire admissions funnel — not just one channel.
                 </h2>
                 <p className="text-black/55 text-sm leading-relaxed mb-8 font-light">
-                  Sweet Media's approach was built around five core priorities. By improving each stage of the funnel, California Prime Recovery could generate more value from the same marketing traffic while creating a better experience for prospective clients and families.
+                  <AutoLinkedTextClient>{"Sweet Media's approach was built around five core priorities. By improving each stage of the funnel, California Prime Recovery could generate more value from the same marketing traffic while creating a better experience for prospective clients and families."}</AutoLinkedTextClient>
                 </p>
                 <div className="flex flex-col gap-4" ref={metricsRef}>
                   {[
@@ -343,7 +344,7 @@ export default function CaliforniaPrimeRecoveryPage() {
                   </div>
                   <div className="flex-1 min-w-0">
                     <h3 className="text-xl font-semibold text-black mb-3 leading-snug" style={{ fontFamily: "'Playfair Display', serif" }}>{o.headline}</h3>
-                    <p className="text-sm text-black/55 leading-relaxed font-light">{o.body}</p>
+                    <p className="text-sm text-black/55 leading-relaxed font-light"><AutoLinkedTextClient>{o.body}</AutoLinkedTextClient></p>
                   </div>
                   <span className="hidden md:block text-6xl font-bold text-black/4 flex-shrink-0 self-center" style={{ fontFamily: "'Playfair Display', serif" }}>0{i + 1}</span>
                 </div>
@@ -416,7 +417,7 @@ export default function CaliforniaPrimeRecoveryPage() {
               <em className="font-bold not-italic">digital marketing?</em>
             </h2>
             <p className="text-black/50 text-sm leading-relaxed mb-10 max-w-xl mx-auto font-light">
-              Sweet Media helps behavioral health and addiction treatment providers improve paid advertising, SEO, website performance, and admissions lead workflows. If your treatment center is struggling with high CPA, poor follow-up, or low conversion rates — we can help.
+              <AutoLinkedTextClient>{"Sweet Media helps behavioral health and addiction treatment providers improve paid advertising, SEO, website performance, and admissions lead workflows. If your treatment center is struggling with high CPA, poor follow-up, or low conversion rates — we can help."}</AutoLinkedTextClient>
             </p>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
               <button

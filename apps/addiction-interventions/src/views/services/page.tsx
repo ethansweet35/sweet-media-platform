@@ -3,6 +3,7 @@ import Link from "next/link";
 import TrustStrip from "@/components/sections/TrustStrip";
 import BottomCta from "@/components/sections/BottomCta";
 import { PHONE_DISPLAY, PHONE_HREF } from "@/data/site";
+import { AutoLinkedText } from "@sweetmedia/blog-core";
 
 const SUPABASE_IMAGES = "https://bxtwcdgjzzjxjvqdiuvn.supabase.co/storage/v1/object/public/site-assets/images";
 const HERO_BG = `${SUPABASE_IMAGES}/services_hero01.jpg`;
@@ -133,7 +134,7 @@ export default function ServicesPage() {
               Every situation has the <span className="italic text-[#8FAC87]">right approach</span>
             </h1>
             <p className="mb-10 text-lg leading-relaxed text-white/80">
-              We offer the full spectrum of intervention services — substance use, mental health, crisis, specialised populations, and every combination. No template solutions. Every plan is built for one family.
+              <AutoLinkedText>{"We offer the full spectrum of intervention services — substance use, mental health, crisis, specialised populations, and every combination. No template solutions. Every plan is built for one family."}</AutoLinkedText>
             </p>
             <div className="flex flex-col gap-3 sm:flex-row">
               <a href={PHONE_HREF} className="inline-flex items-center gap-2 rounded-full bg-[#8FAC87] px-7 py-3.5 text-sm font-semibold text-white shadow-sm transition hover:bg-[#6F8E68]">
@@ -165,7 +166,7 @@ export default function ServicesPage() {
                   <i className={`${s.icon} text-xl`}></i>
                 </span>
                 <h3 className="font-heading mb-3 text-lg font-bold text-[#1A1A17]">{s.title}</h3>
-                <p className="mb-4 text-sm leading-relaxed text-[#4B4B4B]">{s.body}</p>
+                <p className="mb-4 text-sm leading-relaxed text-[#4B4B4B]"><AutoLinkedText>{s.body}</AutoLinkedText></p>
                 <span className="inline-flex items-center gap-1.5 text-sm font-semibold text-[#507969] underline-offset-4 group-hover:underline">
                   Learn more <i className="ri-arrow-right-line"></i>
                 </span>
@@ -191,7 +192,7 @@ export default function ServicesPage() {
                   <i className={`${s.icon} text-xl`}></i>
                 </span>
                 <h3 className="font-heading mb-3 text-lg font-bold text-[#1A1A17]">{s.title}</h3>
-                <p className="mb-4 text-sm leading-relaxed text-[#4B4B4B]">{s.body}</p>
+                <p className="mb-4 text-sm leading-relaxed text-[#4B4B4B]"><AutoLinkedText>{s.body}</AutoLinkedText></p>
                 <span className="inline-flex items-center gap-1.5 text-sm font-semibold text-[#507969] underline-offset-4 group-hover:underline">
                   Learn more <i className="ri-arrow-right-line"></i>
                 </span>
@@ -212,7 +213,7 @@ export default function ServicesPage() {
               We choose the <span className="italic text-[#8FAC87]">right model</span> for your situation
             </h2>
             <p className="mt-4 max-w-2xl text-base text-white/70">
-              Not every situation calls for the same approach. We match the model to the person — their personality, history, and what has already been tried.
+              <AutoLinkedText>{"Not every situation calls for the same approach. We match the model to the person — their personality, history, and what has already been tried."}</AutoLinkedText>
             </p>
           </div>
           <div className="grid gap-6 sm:grid-cols-2">
@@ -222,7 +223,7 @@ export default function ServicesPage() {
                   <i className={`${m.icon} text-lg`}></i>
                 </div>
                 <h3 className="font-heading mb-3 text-xl font-bold text-white">{m.title}</h3>
-                <p className="mb-4 text-sm leading-relaxed text-white/70">{m.body}</p>
+                <p className="mb-4 text-sm leading-relaxed text-white/70"><AutoLinkedText>{m.body}</AutoLinkedText></p>
                 <span className="inline-flex items-center gap-1.5 text-sm font-semibold text-[#8FAC87]">
                   Learn more <i className="ri-arrow-right-line"></i>
                 </span>
@@ -236,7 +237,7 @@ export default function ServicesPage() {
       <section className="bg-white py-24">
         <div className={CONTAINER}>
           <div className="mb-12">
-            <p className="brand-eyebrow mb-3 text-[#8FAC87]">Specialised Populations</p>
+            <p className="brand-eyebrow mb-3 text-[#8FAC87]"><AutoLinkedText>{"Specialised Populations"}</AutoLinkedText></p>
             <h2 className="font-heading text-4xl font-bold text-[#1A1A17] md:text-5xl">
               Interventions designed for <span className="italic text-[#507969]">specific needs</span>
             </h2>
@@ -248,7 +249,7 @@ export default function ServicesPage() {
                   <i className={`${s.icon} text-xl`}></i>
                 </span>
                 <h3 className="font-heading mb-3 text-lg font-bold text-[#1A1A17]">{s.title}</h3>
-                <p className="mb-4 text-sm leading-relaxed text-[#4B4B4B]">{s.body}</p>
+                <p className="mb-4 text-sm leading-relaxed text-[#4B4B4B]"><AutoLinkedText>{s.body}</AutoLinkedText></p>
                 <span className="inline-flex items-center gap-1.5 text-sm font-semibold text-[#507969] underline-offset-4 group-hover:underline">
                   Learn more <i className="ri-arrow-right-line"></i>
                 </span>
@@ -264,9 +265,9 @@ export default function ServicesPage() {
         <div className="absolute inset-0 bg-gradient-to-r from-[#1A1A17]/70 via-[#1A1A17]/50 to-transparent" />
         <div className="absolute bottom-0 left-0 p-10 text-white">
           <p className="font-heading max-w-md text-2xl italic">
-            "They didn't just know interventions — they knew exactly which one fit our situation. That's the difference."
+            <AutoLinkedText>{"\"They didn't just know interventions — they knew exactly which one fit our situation. That's the difference.\""}</AutoLinkedText>
           </p>
-          <p className="mt-2 text-sm text-white/70">— Family of two adult sons, both now in recovery</p>
+          <p className="mt-2 text-sm text-white/70"><AutoLinkedText>{"— Family of two adult sons, both now in recovery"}</AutoLinkedText></p>
         </div>
       </section>
 

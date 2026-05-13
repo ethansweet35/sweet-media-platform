@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import { AutoLinkedText } from "@sweetmedia/blog-core";
 
 import OurCompanyLeadSection from "@/views/our-company/components/OurCompanyLeadSection";
 import { cipherOnboardingPhases } from "@/lib/cipherOnboardingPhases";
@@ -129,16 +130,14 @@ export default function OurSolutionPage() {
         <div className="relative mx-auto max-w-[1140px] px-[30px] py-[50px] md:px-5 md:py-[100px]">
           <div className="max-w-3xl">
             <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-[#166C96]">
-              End-to-End RCM Services
+              <AutoLinkedText>{"End-to-End RCM Services"}</AutoLinkedText>
             </p>
             <h1 className="mt-4 font-[var(--font-heading)] text-4xl font-medium leading-[1.1] text-white md:text-5xl">
               Behavioral Health{" "}
               <span className="text-[#166C96]">Revenue Cycle Management</span>
             </h1>
             <p className="mt-6 max-w-2xl border-l-[3px] border-white/90 pl-8 text-sm leading-[1.42] text-white/90 md:text-base">
-              Behavioral Health Revenue Cycle Management (RCM) services for behavioral health, addiction, and dual-diagnosis
-              programs, including VOB, UR, claims, AR, and compliance training to improve reimbursements and reduce
-              denials.
+              <AutoLinkedText>{"Behavioral Health Revenue Cycle Management (RCM) services for behavioral health, addiction, and dual-diagnosis\n              programs, including VOB, UR, claims, AR, and compliance training to improve reimbursements and reduce\n              denials."}</AutoLinkedText>
             </p>
             <Link
               href={TEL_HREF}
@@ -156,7 +155,7 @@ export default function OurSolutionPage() {
           <div>
             <div className="flex items-center gap-4">
               <span className="h-px w-[8%] min-w-[48px] bg-[#166C96]" aria-hidden />
-              <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-[#166C96]">Precision Management</p>
+              <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-[#166C96]"><AutoLinkedText>{"Precision Management"}</AutoLinkedText></p>
             </div>
             <h2 className="mt-4 font-[var(--font-heading)] text-3xl font-medium text-[#101E3F] md:text-[2.5rem] md:leading-tight">
               From Intake To Payment{" "}
@@ -164,7 +163,7 @@ export default function OurSolutionPage() {
             </h2>
             <div className="mt-6 space-y-5 text-base leading-relaxed text-slate-700">
               {precisionIntro.map((p, i) => (
-                <p key={i}>{p}</p>
+                <p key={i}><AutoLinkedText>{p}</AutoLinkedText></p>
               ))}
             </div>
             <div className="mt-8 grid grid-cols-1 gap-5 border-t border-slate-200 pt-8 sm:grid-cols-2">
@@ -218,7 +217,7 @@ export default function OurSolutionPage() {
                   <i className={`${card.icon} text-xl leading-none`} aria-hidden />
                 </div>
                 <h3 className="mt-5 font-[var(--font-body)] text-lg font-semibold text-white">{card.title}</h3>
-                <p className="mt-3 text-sm leading-[1.42] text-white/80">{card.description}</p>
+                <p className="mt-3 text-sm leading-[1.42] text-white/80"><AutoLinkedText>{card.description}</AutoLinkedText></p>
                 <ul className="mt-6 space-y-3 border-t border-white/15 pt-6">
                   {card.bullets.map((b) => (
                     <li key={b} className="flex gap-3 text-sm leading-snug text-white/85">
@@ -259,17 +258,17 @@ export default function OurSolutionPage() {
                   />
                 </div>
                 <div className="min-w-0 flex-1">
-                  <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-[#166C96]">{phase.phase}</p>
+                  <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-[#166C96]"><AutoLinkedText>{phase.phase}</AutoLinkedText></p>
                   <h3 className="mt-2 font-[var(--font-heading)] text-2xl font-medium text-[#101E3F] md:text-3xl">
                     {phase.title}
                   </h3>
-                  <p className="mt-3 text-sm font-medium text-slate-500">{phase.tag}</p>
-                  <p className="mt-6 text-lg leading-relaxed text-slate-700">{phase.intro}</p>
+                  <p className="mt-3 text-sm font-medium text-slate-500"><AutoLinkedText>{phase.tag}</AutoLinkedText></p>
+                  <p className="mt-6 text-lg leading-relaxed text-slate-700"><AutoLinkedText>{phase.intro}</AutoLinkedText></p>
                   <div className="mt-10 space-y-10">
                     {phase.blocks.map((b) => (
                       <div key={b.title}>
                         <h4 className="font-[var(--font-body)] text-base font-semibold text-[#101E3F]">{b.title}</h4>
-                        <p className="mt-2 text-sm leading-relaxed text-slate-600">{b.body}</p>
+                        <p className="mt-2 text-sm leading-relaxed text-slate-600"><AutoLinkedText>{b.body}</AutoLinkedText></p>
                       </div>
                     ))}
                   </div>

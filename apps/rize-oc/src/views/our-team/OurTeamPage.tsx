@@ -7,6 +7,7 @@ import SectionWrapper from "@/components/ui/SectionWrapper";
 import Eyebrow from "@/components/ui/Eyebrow";
 import Button from "@/components/ui/Button";
 import AccreditationsBar from "@/views/home/components/AccreditationsBar";
+import { AutoLinkedTextClient } from "@sweetmedia/blog-core";
 
 const WP = "https://rizeoc.com/wp-content/uploads";
 
@@ -209,7 +210,7 @@ function MemberPortrait({ member }: { member: TeamMember }) {
 
       {/* Name + title */}
       <h3 className="mt-4 text-[15px] font-semibold text-ink leading-snug">{member.name}</h3>
-      <p className="mt-0.5 text-[12px] font-medium text-ink/45 leading-snug">{member.title}</p>
+      <p className="mt-0.5 text-[12px] font-medium text-ink/45 leading-snug"><AutoLinkedTextClient>{member.title}</AutoLinkedTextClient></p>
 
     </div>
   );
@@ -253,7 +254,7 @@ export default function OurTeamPage() {
                 <em className="italic text-white/55">Rize OC Team</em>
               </h1>
               <p className="mt-6 text-[16px] font-light leading-relaxed text-white/75 max-w-[480px]">
-                Our team of board-certified physicians, licensed therapists, and recovery specialists share one commitment: helping every client build a life worth living.
+                <AutoLinkedTextClient>{"Our team of board-certified physicians, licensed therapists, and recovery specialists share one commitment: helping every client build a life worth living."}</AutoLinkedTextClient>
               </p>
               <div className="mt-10 flex flex-wrap gap-3">
                 <Button href="tel:9494612620" variant="accent" size="md">
@@ -277,10 +278,8 @@ export default function OurTeamPage() {
                   <p
                     className="font-[family-name:var(--font-display)] font-normal text-white"
                     style={{ fontSize: "clamp(32px, 3.5vw, 48px)", lineHeight: 1 }}
-                  >
-                    {value}
-                  </p>
-                  <p className="mt-2 text-[10px] font-semibold uppercase tracking-[0.2em] text-white/50">{label}</p>
+                  ><AutoLinkedTextClient>{value}</AutoLinkedTextClient></p>
+                  <p className="mt-2 text-[10px] font-semibold uppercase tracking-[0.2em] text-white/50"><AutoLinkedTextClient>{label}</AutoLinkedTextClient></p>
                 </div>
               ))}
             </div>
@@ -314,7 +313,7 @@ export default function OurTeamPage() {
             <div className="flex items-center gap-4 mb-12 pb-8 border-b border-[#EBEBEB]">
               <i className={`${deptMeta[activeDept].icon} text-accent text-2xl`} />
               <div>
-                <p className="font-[family-name:var(--font-display)] text-[28px] font-normal text-ink leading-none">{activeDept}</p>
+                <p className="font-[family-name:var(--font-display)] text-[28px] font-normal text-ink leading-none"><AutoLinkedTextClient>{activeDept}</AutoLinkedTextClient></p>
                 <p className="text-[13px] font-light text-ink/55 mt-1">{deptMeta[activeDept].desc}</p>
               </div>
             </div>
@@ -344,7 +343,7 @@ export default function OurTeamPage() {
                 <em className="italic text-muted font-normal">Behavioral Healthcare</em>
               </h2>
               <p className="mt-5 text-[15px] font-light text-ink/65 leading-relaxed">
-                Rize OC is always looking for exceptional clinicians, counselors, and support staff who share our commitment to evidence-based, compassionate care. If you are passionate about the work of recovery, we would love to hear from you.
+                <AutoLinkedTextClient>{"Rize OC is always looking for exceptional clinicians, counselors, and support staff who share our commitment to evidence-based, compassionate care. If you are passionate about the work of recovery, we would love to hear from you."}</AutoLinkedTextClient>
               </p>
               <div className="mt-7">
                 <Button href="tel:9494612620" variant="accent" size="sm">
@@ -362,8 +361,8 @@ export default function OurTeamPage() {
                 <div key={title} className="flex flex-col gap-3 p-5 border border-soft bg-cream-tile">
                   <i className={`${icon} text-accent text-xl`} />
                   <div>
-                    <p className="text-[13px] font-semibold text-ink">{title}</p>
-                    <p className="text-[12px] font-light text-ink/55 mt-1 leading-relaxed">{desc}</p>
+                    <p className="text-[13px] font-semibold text-ink"><AutoLinkedTextClient>{title}</AutoLinkedTextClient></p>
+                    <p className="text-[12px] font-light text-ink/55 mt-1 leading-relaxed"><AutoLinkedTextClient>{desc}</AutoLinkedTextClient></p>
                   </div>
                 </div>
               ))}
@@ -393,7 +392,7 @@ export default function OurTeamPage() {
             <em className="italic text-white/60">Waiting to Meet You</em>
           </h2>
           <p className="mt-6 text-[15px] font-light text-white/65 max-w-lg mx-auto leading-relaxed">
-            Speak with our admissions team today — free, confidential, and with no obligation.
+            <AutoLinkedTextClient>{"Speak with our admissions team today — free, confidential, and with no obligation."}</AutoLinkedTextClient>
           </p>
           <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
             <Button href="tel:9494612620" variant="accent" size="lg">

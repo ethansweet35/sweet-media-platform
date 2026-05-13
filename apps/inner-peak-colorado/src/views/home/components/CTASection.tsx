@@ -1,5 +1,6 @@
 import Image from 'next/image';
 import Link from 'next/link';
+import { AutoLinkedText } from "@sweetmedia/blog-core";
 
 export default function CTASection() {
   return (
@@ -28,7 +29,7 @@ export default function CTASection() {
         {/* CTA Content */}
         <div className="flex flex-col items-center text-center gap-6 anim-fade-up anim-visible">
           <p className="text-[#3A4A3C]/70 font-light text-base max-w-xl leading-relaxed">
-            You don't have to have it all figured out. You just have to be willing to begin. Our compassionate intake team is ready to walk alongside you — no pressure, no judgment, just care.
+            <AutoLinkedText>{"You don't have to have it all figured out. You just have to be willing to begin. Our compassionate intake team is ready to walk alongside you — no pressure, no judgment, just care."}</AutoLinkedText>
           </p>
           <div className="flex flex-col sm:flex-row gap-4">
             <Link
@@ -46,7 +47,7 @@ export default function CTASection() {
             </Link>
           </div>
           <p className="text-xs text-[#6B7D67] font-light">
-            Confidential · Insurance Accepted · Available 24/7
+            <AutoLinkedText>{"Confidential · Insurance Accepted · Available 24/7"}</AutoLinkedText>
           </p>
         </div>
       </div>

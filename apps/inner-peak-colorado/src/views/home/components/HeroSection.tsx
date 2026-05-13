@@ -1,6 +1,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import HeroContactForm from './HeroContactForm';
+import { AutoLinkedText } from "@sweetmedia/blog-core";
 
 
 export default function HeroSection() {
@@ -73,7 +74,7 @@ export default function HeroSection() {
             </h1>
 
             <p className="text-[#F0ECE1]/80 font-light text-base leading-[1.85] max-w-md">
-              Colorado's women-only virtual outpatient program — delivering evidence-based, trauma-informed mental health and addiction treatment from the comfort of your own home.
+              <AutoLinkedText>{"Colorado's women-only virtual outpatient program — delivering evidence-based, trauma-informed mental health and addiction treatment from the comfort of your own home."}</AutoLinkedText>
             </p>
 
             <div className="flex flex-wrap gap-4 pt-1">

@@ -3,6 +3,7 @@ import Image from 'next/image';
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Breadcrumb from '@/components/base/Breadcrumb';
+import { AutoLinkedTextClient } from "@sweetmedia/blog-core";
 
 const categories = [
   {
@@ -156,7 +157,7 @@ export default function WhatWeTreatPage() {
               </div>
               <div className="flex flex-col gap-5">
                 <p className="text-[#F0ECE1]/75 font-light text-base leading-[1.95]">
-                  We specialize in the full spectrum of women's mental health and addiction challenges — with clinical depth, genuine warmth, and a deep respect for each woman's unique story and lived experience.
+                  <AutoLinkedTextClient>{"We specialize in the full spectrum of women's mental health and addiction challenges — with clinical depth, genuine warmth, and a deep respect for each woman's unique story and lived experience."}</AutoLinkedTextClient>
                 </p>
                 <Link
                   href="/contact"
@@ -176,8 +177,8 @@ export default function WhatWeTreatPage() {
         <div className="max-w-7xl mx-auto grid grid-cols-2 lg:grid-cols-4 gap-6">
           {stats.map((s, i) => (
             <div key={i} className="flex flex-col items-center text-center gap-1">
-              <p className="font-serif text-[#FAF8F5] font-bold leading-none" style={{ fontSize: 'clamp(28px, 3.5vw, 44px)', color: s.color }}>{s.value}</p>
-              <p className="text-[10px] uppercase tracking-widest text-[#F0ECE1]/45 font-light">{s.label}</p>
+              <p className="font-serif text-[#FAF8F5] font-bold leading-none" style={{ fontSize: 'clamp(28px, 3.5vw, 44px)', color: s.color }}><AutoLinkedTextClient>{s.value}</AutoLinkedTextClient></p>
+              <p className="text-[10px] uppercase tracking-widest text-[#F0ECE1]/45 font-light"><AutoLinkedTextClient>{s.label}</AutoLinkedTextClient></p>
             </div>
           ))}
         </div>
@@ -212,7 +213,7 @@ export default function WhatWeTreatPage() {
               <h2 className="font-serif text-[#2C3B2E] leading-[1.15]" style={{ fontSize: 'clamp(26px, 3.5vw, 42px)' }}>
                 {cat.label}
               </h2>
-              <p className="text-[#3A4A3C]/65 font-light text-base leading-[1.95]">{cat.intro}</p>
+              <p className="text-[#3A4A3C]/65 font-light text-base leading-[1.95]"><AutoLinkedTextClient>{cat.intro}</AutoLinkedTextClient></p>
               <div className="flex items-center gap-3 pt-1">
                 <div className="w-8 h-px" style={{ backgroundColor: cat.color }}></div>
                 <span className="text-[11px] uppercase tracking-widest font-medium" style={{ color: cat.color }}>
@@ -244,7 +245,7 @@ export default function WhatWeTreatPage() {
                   <i className={`${item.icon} text-lg transition-colors duration-500 group-hover:text-[#FAF8F5]`} style={{ color: cat.color }}></i>
                 </div>
                 <h3 className="font-serif text-[#2C3B2E] text-xl group-hover:text-[#FAF8F5] transition-colors duration-500">{item.name}</h3>
-                <p className="text-sm text-[#3A4A3C]/65 font-light leading-[1.85] group-hover:text-[#F0ECE1]/65 transition-colors duration-500">{item.desc}</p>
+                <p className="text-sm text-[#3A4A3C]/65 font-light leading-[1.85] group-hover:text-[#F0ECE1]/65 transition-colors duration-500"><AutoLinkedTextClient>{item.desc}</AutoLinkedTextClient></p>
               </div>
             ))}
           </div>
@@ -276,7 +277,7 @@ export default function WhatWeTreatPage() {
               <em className="text-[#DDA15E] not-italic">delivered with soul.</em>
             </h2>
             <p className="text-[#F0ECE1]/60 font-light text-base leading-[1.95] max-w-md">
-              Our clinical team uses the most rigorously tested therapeutic modalities — CBT, DBT, EMDR, ACT, and motivational interviewing — adapted specifically for women's unique neurological, hormonal, and relational needs.
+              <AutoLinkedTextClient>{"Our clinical team uses the most rigorously tested therapeutic modalities — CBT, DBT, EMDR, ACT, and motivational interviewing — adapted specifically for women's unique neurological, hormonal, and relational needs."}</AutoLinkedTextClient>
             </p>
             <div className="flex flex-col gap-3">
               {['Trauma-informed at every level of care', 'Gender-responsive treatment design', 'Integrated dual-diagnosis capability', 'Holistic wellness woven throughout'].map((item, i) => (
@@ -323,7 +324,7 @@ export default function WhatWeTreatPage() {
                   <i className={`${item.icon} text-lg`} style={{ color: item.color }}></i>
                 </div>
                 <h3 className="font-serif text-[#2C3B2E] text-lg">{item.title}</h3>
-                <p className="text-sm text-[#3A4A3C]/60 font-light leading-[1.85]">{item.desc}</p>
+                <p className="text-sm text-[#3A4A3C]/60 font-light leading-[1.85]"><AutoLinkedTextClient>{item.desc}</AutoLinkedTextClient></p>
               </div>
             ))}
           </div>
@@ -353,7 +354,7 @@ export default function WhatWeTreatPage() {
                 </button>
                 {openFaq === i && (
                   <div className="px-7 pb-6">
-                    <p className="text-sm text-[#3A4A3C]/65 font-light leading-[1.9]">{faq.a}</p>
+                    <p className="text-sm text-[#3A4A3C]/65 font-light leading-[1.9]"><AutoLinkedTextClient>{faq.a}</AutoLinkedTextClient></p>
                   </div>
                 )}
               </div>
@@ -370,7 +371,7 @@ export default function WhatWeTreatPage() {
               Not sure if we treat<br />what you're experiencing?
             </h2>
             <p className="text-[#F0ECE1]/60 font-light text-base leading-[1.9] max-w-md">
-              Call us. Our intake specialists will listen without judgment and help you find the right path forward — whether that's with us or another provider.
+              <AutoLinkedTextClient>{"Call us. Our intake specialists will listen without judgment and help you find the right path forward — whether that's with us or another provider."}</AutoLinkedTextClient>
             </p>
             <div className="flex flex-wrap gap-4">
               <Link

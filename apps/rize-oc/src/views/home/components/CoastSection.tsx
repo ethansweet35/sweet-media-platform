@@ -1,6 +1,7 @@
 import SectionWrapper from "@/components/ui/SectionWrapper";
 import Eyebrow from "@/components/ui/Eyebrow";
 import Button from "@/components/ui/Button";
+import { AutoLinkedText } from "@sweetmedia/blog-core";
 
 const nature = [
   "Zuma Beach Access (2 miles)",
@@ -27,7 +28,7 @@ export default function CoastSection() {
             <em className="italic text-ink/55">The Coast</em>
           </h2>
           <p className="mt-6 text-[15px] font-light leading-relaxed text-ink/60 max-w-sm">
-            Recovery does not happen in a vacuum. We utilize the rich, recovery-focused culture of Southern California to build a vibrant foundation for your life after treatment.
+            <AutoLinkedText>{"Recovery does not happen in a vacuum. We utilize the rich, recovery-focused culture of Southern California to build a vibrant foundation for your life after treatment."}</AutoLinkedText>
           </p>
           <div className="mt-8">
             <Button href="/location" variant="ink">
@@ -70,7 +71,7 @@ export default function CoastSection() {
               <Eyebrow colorClass="text-ink/50" tracking="wide">Travel &amp; Logistics</Eyebrow>
             </div>
             <p className="text-[15px] font-light text-ink/65 max-w-lg">
-              Conveniently located 45 minutes from LAX and 60 minutes from Burbank (BUR). We provide private, discreet car service for all incoming admissions.
+              <AutoLinkedText>{"Conveniently located 45 minutes from LAX and 60 minutes from Burbank (BUR). We provide private, discreet car service for all incoming admissions."}</AutoLinkedText>
             </p>
           </div>
         </div>

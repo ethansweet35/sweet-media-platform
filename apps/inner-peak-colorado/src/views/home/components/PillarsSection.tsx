@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { AutoLinkedText } from "@sweetmedia/blog-core";
 
 const pillars = [
   {
@@ -66,7 +67,7 @@ export default function PillarsSection() {
             </h2>
           </div>
           <p className="text-[#F0ECE1]/55 font-light text-base leading-[1.9] lg:max-w-md">
-            Six pillars that define our approach to women's healing — each one chosen with intention, each one proven to transform lives.
+            <AutoLinkedText>{"Six pillars that define our approach to women's healing — each one chosen with intention, each one proven to transform lives."}</AutoLinkedText>
           </p>
         </div>
 
@@ -91,9 +92,7 @@ export default function PillarsSection() {
               </h3>
 
               {/* Description */}
-              <p className="text-sm text-[#F0ECE1]/50 font-light leading-[1.85] group-hover:text-[#F0ECE1]/80 transition-colors duration-300 hidden sm:block">
-                {pillar.desc}
-              </p>
+              <p className="text-sm text-[#F0ECE1]/50 font-light leading-[1.85] group-hover:text-[#F0ECE1]/80 transition-colors duration-300 hidden sm:block"><AutoLinkedText>{pillar.desc}</AutoLinkedText></p>
             </div>
           ))}
         </div>

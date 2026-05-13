@@ -3,6 +3,7 @@ import Image from 'next/image';
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Breadcrumb from '@/components/base/Breadcrumb';
+import { AutoLinkedTextClient } from "@sweetmedia/blog-core";
 
 const tracks = [
   {
@@ -206,7 +207,7 @@ export default function VirtualOutpatientPage() {
               </div>
               <div className="flex flex-col gap-6">
                 <p className="text-[#F0ECE1]/75 font-light text-base leading-[1.95]">
-                  Our virtual outpatient program delivers evidence-based, women-only mental health and addiction treatment — with the same clinical depth as in-person care, and none of the barriers. Heal on your schedule, in your space, without putting your life on hold.
+                  <AutoLinkedTextClient>{"Our virtual outpatient program delivers evidence-based, women-only mental health and addiction treatment — with the same clinical depth as in-person care, and none of the barriers. Heal on your schedule, in your space, without putting your life on hold."}</AutoLinkedTextClient>
                 </p>
                 <div className="flex flex-wrap gap-4">
                   <Link
@@ -240,8 +241,8 @@ export default function VirtualOutpatientPage() {
             { value: '24/7', label: 'Crisis Support', color: '#6B7D67' },
           ].map((s, i) => (
             <div key={i} className="flex flex-col items-center text-center gap-1">
-              <p className="font-serif font-bold leading-none" style={{ fontSize: 'clamp(28px, 3.5vw, 44px)', color: s.color }}>{s.value}</p>
-              <p className="text-[10px] uppercase tracking-widest text-[#F0ECE1]/45 font-light">{s.label}</p>
+              <p className="font-serif font-bold leading-none" style={{ fontSize: 'clamp(28px, 3.5vw, 44px)', color: s.color }}><AutoLinkedTextClient>{s.value}</AutoLinkedTextClient></p>
+              <p className="text-[10px] uppercase tracking-widest text-[#F0ECE1]/45 font-light"><AutoLinkedTextClient>{s.label}</AutoLinkedTextClient></p>
             </div>
           ))}
         </div>
@@ -257,7 +258,7 @@ export default function VirtualOutpatientPage() {
               <em className="text-[#C8795A]">on your own terms.</em>
             </h2>
             <p className="text-[#3A4A3C]/60 font-light text-base max-w-xl mx-auto leading-relaxed">
-              Virtual care isn't a compromise — it's a better fit for most women's lives.
+              <AutoLinkedTextClient>{"Virtual care isn't a compromise — it's a better fit for most women's lives."}</AutoLinkedTextClient>
             </p>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
@@ -267,7 +268,7 @@ export default function VirtualOutpatientPage() {
                   <i className={`${item.icon} text-lg text-[#2C3B2E]`}></i>
                 </div>
                 <h3 className="font-serif text-[#2C3B2E] text-base">{item.title}</h3>
-                <p className="text-[#3A4A3C]/60 font-light text-sm leading-[1.8]">{item.desc}</p>
+                <p className="text-[#3A4A3C]/60 font-light text-sm leading-[1.8]"><AutoLinkedTextClient>{item.desc}</AutoLinkedTextClient></p>
               </div>
             ))}
           </div>
@@ -284,7 +285,7 @@ export default function VirtualOutpatientPage() {
               <em className="text-[#6B7D67]">your lasting recovery.</em>
             </h2>
             <p className="text-[#3A4A3C]/60 font-light text-base max-w-lg mx-auto leading-relaxed">
-              Whether you need intensive daily structure or flexible weekly support, we have a track designed for exactly where you are.
+              <AutoLinkedTextClient>{"Whether you need intensive daily structure or flexible weekly support, we have a track designed for exactly where you are."}</AutoLinkedTextClient>
             </p>
           </div>
 
@@ -366,11 +367,11 @@ export default function VirtualOutpatientPage() {
                 </div>
               </div>
 
-              <p className="text-[#3A4A3C]/65 font-light text-base leading-[1.95]">{track.intro}</p>
+              <p className="text-[#3A4A3C]/65 font-light text-base leading-[1.95]"><AutoLinkedTextClient>{track.intro}</AutoLinkedTextClient></p>
 
               <div className="bg-[#FAF8F5] rounded-2xl p-5 flex flex-col gap-2">
                 <p className="text-[10px] uppercase tracking-widest text-[#6B7D67] font-medium mb-1">Ideal For</p>
-                <p className="text-sm text-[#3A4A3C]/70 font-light leading-relaxed">{track.ideal}</p>
+                <p className="text-sm text-[#3A4A3C]/70 font-light leading-relaxed"><AutoLinkedTextClient>{track.ideal}</AutoLinkedTextClient></p>
               </div>
 
               {/* What's included */}
@@ -411,7 +412,7 @@ export default function VirtualOutpatientPage() {
               <em className="text-[#DDA15E]">first session in 72 hours.</em>
             </h2>
             <p className="text-[#F0ECE1]/60 font-light text-base leading-[1.95] max-w-md">
-              We've made starting treatment as simple and stress-free as possible. Most women are in their first session within 24–72 hours of their initial call.
+              <AutoLinkedTextClient>{"We've made starting treatment as simple and stress-free as possible. Most women are in their first session within 24–72 hours of their initial call."}</AutoLinkedTextClient>
             </p>
             <div className="flex flex-col divide-y divide-[#FAF8F5]/10">
               {[
@@ -424,8 +425,8 @@ export default function VirtualOutpatientPage() {
                 <div key={i} className="group flex items-start gap-6 py-5 cursor-default">
                   <span className="font-serif font-bold text-2xl opacity-25 group-hover:opacity-100 transition-all duration-500 flex-shrink-0 text-[#DDA15E]">{s.step}</span>
                   <div className="flex flex-col gap-1">
-                    <p className="text-sm font-medium text-[#FAF8F5] group-hover:text-[#DDA15E] transition-colors duration-300">{s.label}</p>
-                    <p className="text-sm text-[#F0ECE1]/45 font-light leading-relaxed group-hover:text-[#F0ECE1]/70 transition-colors duration-300">{s.desc}</p>
+                    <p className="text-sm font-medium text-[#FAF8F5] group-hover:text-[#DDA15E] transition-colors duration-300"><AutoLinkedTextClient>{s.label}</AutoLinkedTextClient></p>
+                    <p className="text-sm text-[#F0ECE1]/45 font-light leading-relaxed group-hover:text-[#F0ECE1]/70 transition-colors duration-300"><AutoLinkedTextClient>{s.desc}</AutoLinkedTextClient></p>
                   </div>
                 </div>
               ))}
@@ -474,7 +475,7 @@ export default function VirtualOutpatientPage() {
             ].map((t, i) => (
               <div key={i} className="bg-[#F0ECE1] rounded-2xl p-8 flex flex-col gap-6">
                 <i className="ri-double-quotes-l text-3xl text-[#C8795A]/30"></i>
-                <p className="text-[#3A4A3C]/70 font-light text-sm leading-[1.9] italic flex-1">{t.quote}</p>
+                <p className="text-[#3A4A3C]/70 font-light text-sm leading-[1.9] italic flex-1"><AutoLinkedTextClient>{t.quote}</AutoLinkedTextClient></p>
                 <div className="flex items-center gap-4">
                   <div className="relative w-11 h-11 rounded-full overflow-hidden flex-shrink-0">
                     <Image
@@ -485,8 +486,8 @@ export default function VirtualOutpatientPage() {
 />
                   </div>
                   <div>
-                    <p className="text-[#2C3B2E] font-medium text-sm">{t.name}</p>
-                    <p className="text-[#6B7D67] text-xs font-light">{t.track}</p>
+                    <p className="text-[#2C3B2E] font-medium text-sm"><AutoLinkedTextClient>{t.name}</AutoLinkedTextClient></p>
+                    <p className="text-[#6B7D67] text-xs font-light"><AutoLinkedTextClient>{t.track}</AutoLinkedTextClient></p>
                   </div>
                 </div>
               </div>
@@ -521,7 +522,7 @@ export default function VirtualOutpatientPage() {
                 </button>
                 {openFaq === i && (
                   <div className="px-6 pb-6">
-                    <p className="text-[#F0ECE1]/70 font-light text-sm leading-[1.9]">{faq.a}</p>
+                    <p className="text-[#F0ECE1]/70 font-light text-sm leading-[1.9]"><AutoLinkedTextClient>{faq.a}</AutoLinkedTextClient></p>
                   </div>
                 )}
               </div>
@@ -550,7 +551,7 @@ export default function VirtualOutpatientPage() {
               <em className="text-[#DDA15E]">to change it.</em>
             </h2>
             <p className="text-[#F0ECE1]/70 font-light text-base leading-relaxed">
-              A free, confidential consultation is the only first step. Our clinical team will listen, assess, and guide you to the right track — with no pressure and no commitment required.
+              <AutoLinkedTextClient>{"A free, confidential consultation is the only first step. Our clinical team will listen, assess, and guide you to the right track — with no pressure and no commitment required."}</AutoLinkedTextClient>
             </p>
             <div className="flex flex-col sm:flex-row gap-4">
               <Link

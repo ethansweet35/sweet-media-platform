@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import { AutoLinkedText } from "@sweetmedia/blog-core";
 
 import OurCompanyLeadSection from "@/views/our-company/components/OurCompanyLeadSection";
 
@@ -89,9 +90,7 @@ export default function OurProcess2Page() {
               Our Proven Behavioral Health Billing Process
             </h2>
             <p className="mt-6 text-base leading-relaxed text-white/95">
-              From compliance audits to claims resolution, our step-by-step process protects your revenue and delivers
-              measurable financial results. Cipher Billing&apos;s process ensures compliance, maximizes reimbursements, and
-              provides peace of mind so you can focus on patient care.
+              <AutoLinkedText>{"From compliance audits to claims resolution, our step-by-step process protects your revenue and delivers\n              measurable financial results. Cipher Billing&apos;s process ensures compliance, maximizes reimbursements, and\n              provides peace of mind so you can focus on patient care."}</AutoLinkedText>
             </p>
 
             <div className="mt-10 flex flex-col gap-8">
@@ -141,10 +140,9 @@ export default function OurProcess2Page() {
                 Why Cipher Billing
               </h2>
               <div className="mt-6 space-y-4 text-base leading-relaxed text-white/90">
-                <p>We believe in delivering unmatched service, airtight compliance, and real financial results for our partners.</p>
+                <p><AutoLinkedText>{"We believe in delivering unmatched service, airtight compliance, and real financial results for our partners."}</AutoLinkedText></p>
                 <p>
-                  Our numbers reflect our dedication, with an eligibility turnaround averaging just 9 minutes compared to the
-                  industry standard 30 minutes. To maximize your revenue, request a consultation today.
+                  <AutoLinkedText>{"Our numbers reflect our dedication, with an eligibility turnaround averaging just 9 minutes compared to the\n                  industry standard 30 minutes. To maximize your revenue, request a consultation today."}</AutoLinkedText>
                 </p>
               </div>
               <Link
@@ -162,8 +160,8 @@ export default function OurProcess2Page() {
                   key={s.label}
                   className="flex flex-col justify-center rounded-sm bg-[#101E3F] px-6 py-8 text-center md:px-8"
                 >
-                  <p className="font-[var(--font-heading)] text-3xl font-medium text-white md:text-4xl">{s.value}</p>
-                  <p className="mt-2 text-sm leading-snug text-white/85">{s.label}</p>
+                  <p className="font-[var(--font-heading)] text-3xl font-medium text-white md:text-4xl"><AutoLinkedText>{s.value}</AutoLinkedText></p>
+                  <p className="mt-2 text-sm leading-snug text-white/85"><AutoLinkedText>{s.label}</AutoLinkedText></p>
                 </div>
               ))}
             </div>

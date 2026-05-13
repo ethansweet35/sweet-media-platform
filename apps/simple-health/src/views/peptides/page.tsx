@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useState } from "react";
+import { AutoLinkedTextClient } from "@sweetmedia/blog-core";
 
 const SCHEDULE_CTA = "https://secure.gethealthie.com/appointments/embed_appt?dietitian_id=13219022";
 const cx = "mx-auto w-full max-w-7xl px-5 md:px-8 lg:px-12";
@@ -506,7 +507,7 @@ function FaqItem({ q, a }: { q: string; a: string }) {
         <span className="font-serif text-[1.05rem] text-[#2A2A2A]">{q}</span>
         <i className={`ri-arrow-down-s-line shrink-0 text-xl text-[#C67B5C] transition-transform duration-200 ${open ? "rotate-180" : ""}`} aria-hidden />
       </button>
-      {open && <p className="pb-5 text-sm leading-7 text-[#555]">{a}</p>}
+      {open && <p className="pb-5 text-sm leading-7 text-[#555]"><AutoLinkedTextClient>{a}</AutoLinkedTextClient></p>}
     </div>
   );
 }
@@ -527,10 +528,10 @@ function PeptideCard({ p }: { p: Peptide }) {
         </Link>
       </div>
       <h3 className="mt-4 font-serif text-xl text-[#2A2A2A]">{p.name}</h3>
-      <p className="mt-2 flex-1 text-sm leading-6 text-[#555]">{p.description}</p>
+      <p className="mt-2 flex-1 text-sm leading-6 text-[#555]"><AutoLinkedTextClient>{p.description}</AutoLinkedTextClient></p>
       <div className="mt-5 flex items-end justify-between border-t border-[#E8E2D9] pt-4">
-        <p className="font-serif text-xl font-semibold text-[#C67B5C]">{p.price}</p>
-        <p className="text-[0.65rem] font-semibold uppercase tracking-[0.1em] text-[#888]">{p.delivery}</p>
+        <p className="font-serif text-xl font-semibold text-[#C67B5C]"><AutoLinkedTextClient>{p.price}</AutoLinkedTextClient></p>
+        <p className="text-[0.65rem] font-semibold uppercase tracking-[0.1em] text-[#888]"><AutoLinkedTextClient>{p.delivery}</AutoLinkedTextClient></p>
       </div>
     </div>
   );
@@ -565,9 +566,7 @@ export function PeptidesPage() {
                 <span className="text-[#C67B5C]">Protocols</span>
               </h1>
               <p className="mt-5 max-w-xl text-base leading-7 text-[#555]">
-                Browse 35+ physician-prescribed peptide protocols across six categories — growth
-                hormone, recovery, metabolic, cognitive, hormonal, and longevity. Click any
-                protocol for detailed information.
+                <AutoLinkedTextClient>{"Browse 35+ physician-prescribed peptide protocols across six categories — growth\n                hormone, recovery, metabolic, cognitive, hormonal, and longevity. Click any\n                protocol for detailed information."}</AutoLinkedTextClient>
               </p>
 
               {/* Stats */}
@@ -578,7 +577,7 @@ export function PeptidesPage() {
                       <i className={`${s.icon} text-base text-[#C67B5C]`} aria-hidden />
                       <span className="text-sm text-[#555]">{s.label}</span>
                     </div>
-                    <p className="font-serif text-2xl font-semibold text-[#2A2A2A]">{s.value}</p>
+                    <p className="font-serif text-2xl font-semibold text-[#2A2A2A]"><AutoLinkedTextClient>{s.value}</AutoLinkedTextClient></p>
                   </div>
                 ))}
               </div>
@@ -596,8 +595,8 @@ export function PeptidesPage() {
             {/* Right — consultation card */}
             <div className="overflow-hidden rounded-2xl bg-white shadow-md ring-1 ring-[#E8E2D9]">
               <div className="px-8 pt-7 pb-5 text-center">
-                <p className="font-serif text-xl text-[#2A2A2A]">Peptide Consultation</p>
-                <p className="mt-1 text-sm text-[#888]">Weight loss &amp; longevity support</p>
+                <p className="font-serif text-xl text-[#2A2A2A]"><AutoLinkedTextClient>{"Peptide Consultation"}</AutoLinkedTextClient></p>
+                <p className="mt-1 text-sm text-[#888]"><AutoLinkedTextClient>{"Weight loss &amp; longevity support"}</AutoLinkedTextClient></p>
               </div>
               <div className="mx-6 grid grid-cols-2 divide-x divide-[#E8E2D9] rounded-xl bg-[#FAF7F4] py-5 ring-1 ring-[#E8E2D9]">
                 <div className="px-6 text-center">
@@ -611,7 +610,7 @@ export function PeptidesPage() {
               </div>
               <div className="px-8 pt-5 pb-7">
                 <p className="mb-4 text-[0.65rem] font-semibold uppercase tracking-[0.14em] text-[#888]">
-                  What&apos;s Included:
+                  <AutoLinkedTextClient>{"What&apos;s Included:"}</AutoLinkedTextClient>
                 </p>
                 <ul className="space-y-2.5">
                   {consultationIncludes.map((item) => (
@@ -657,7 +656,7 @@ export function PeptidesPage() {
                     <h2 className="font-serif text-2xl text-[#2A2A2A] md:text-[1.85rem]">
                       {group.label}
                     </h2>
-                    <p className="mt-1 text-sm text-[#888]">{group.subtitle}</p>
+                    <p className="mt-1 text-sm text-[#888]"><AutoLinkedTextClient>{group.subtitle}</AutoLinkedTextClient></p>
                   </div>
                   <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
                     {groupPeptides.map((p) => (
@@ -701,7 +700,7 @@ export function PeptidesPage() {
               From click to care in days, not weeks.
             </h2>
             <p className="mt-4 text-sm leading-7 text-[#555]">
-              No waiting rooms. No insurance hassles. 94% of patients start treatment within 48 hours.
+              <AutoLinkedTextClient>{"No waiting rooms. No insurance hassles. 94% of patients start treatment within 48 hours."}</AutoLinkedTextClient>
             </p>
           </div>
           <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
@@ -719,7 +718,7 @@ export function PeptidesPage() {
                   <span className="mr-1.5 text-sm font-bold text-[#DDD]">0{i + 1}</span>
                   {step.title}
                 </h3>
-                <p className="mt-2 text-sm leading-6 text-[#666]">{step.description}</p>
+                <p className="mt-2 text-sm leading-6 text-[#666]"><AutoLinkedTextClient>{step.description}</AutoLinkedTextClient></p>
               </div>
             ))}
           </div>
@@ -735,9 +734,7 @@ export function PeptidesPage() {
               <span className="text-[#C67B5C]">Pro-longevity.</span>
             </h2>
             <p className="mt-4 text-sm leading-7 text-[#555]">
-              GLP-1 and dual-agonist therapies don't just reduce the number on the scale. They
-              improve the underlying metabolic conditions that make sustained weight management so
-              difficult.
+              <AutoLinkedTextClient>{"GLP-1 and dual-agonist therapies don't just reduce the number on the scale. They\n              improve the underlying metabolic conditions that make sustained weight management so\n              difficult."}</AutoLinkedTextClient>
             </p>
           </div>
           <div className="mt-10 grid gap-6 md:grid-cols-3">
@@ -747,7 +744,7 @@ export function PeptidesPage() {
                   <i className={`${b.icon} text-xl`} aria-hidden />
                 </span>
                 <h3 className="mt-4 font-serif text-lg text-[#2A2A2A]">{b.title}</h3>
-                <p className="mt-2 text-sm leading-6 text-[#555]">{b.description}</p>
+                <p className="mt-2 text-sm leading-6 text-[#555]"><AutoLinkedTextClient>{b.description}</AutoLinkedTextClient></p>
               </div>
             ))}
           </div>

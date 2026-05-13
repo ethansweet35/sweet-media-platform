@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { AutoLinkedText } from "@sweetmedia/blog-core";
 
 const steps = [
   { num: '01', icon: 'ri-phone-line', color: '#C8795A', title: 'Free Consultation', desc: 'A compassionate intake specialist listens to your story — no pressure, no judgment.' },
@@ -23,7 +24,7 @@ export default function AdmissionsPreviewSection() {
               <em className="text-[#C8795A]">72 hours.</em>
             </h2>
             <p className="text-[#3A4A3C]/60 font-light text-base leading-[1.9] max-w-sm">
-              Our admissions process is designed to be as gentle and straightforward as possible. One call is all it takes — our team handles everything else.
+              <AutoLinkedText>{"Our admissions process is designed to be as gentle and straightforward as possible. One call is all it takes — our team handles everything else."}</AutoLinkedText>
             </p>
             <div className="flex flex-wrap gap-4 pt-2">
               <Link
@@ -71,7 +72,7 @@ export default function AdmissionsPreviewSection() {
                   <span className="font-serif font-bold text-2xl opacity-20" style={{ color: s.color }}>{s.num}</span>
                 </div>
                 <h3 className="font-serif text-[#2C3B2E] text-base">{s.title}</h3>
-                <p className="text-xs text-[#3A4A3C]/55 font-light leading-relaxed">{s.desc}</p>
+                <p className="text-xs text-[#3A4A3C]/55 font-light leading-relaxed"><AutoLinkedText>{s.desc}</AutoLinkedText></p>
               </div>
             ))}
           </div>

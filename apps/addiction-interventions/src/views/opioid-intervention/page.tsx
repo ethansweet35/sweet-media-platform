@@ -6,6 +6,7 @@ import BottomCta from "@/components/sections/BottomCta";
 import HeroContactForm from "@/components/feature/HeroContactForm";
 import { PHONE_DISPLAY, PHONE_HREF } from "@/data/site";
 import type { Faq } from "@/data/faqs";
+import { AutoLinkedText } from "@sweetmedia/blog-core";
 
 const SUPABASE_IMAGES =
   "https://bxtwcdgjzzjxjvqdiuvn.supabase.co/storage/v1/object/public/site-assets/images";
@@ -57,7 +58,7 @@ export default function OpioidInterventionPage() {
                 <span className="italic text-[#8FAC87]">evidence-based care, not cold turkey</span>
               </h1>
               <p className="mb-8 max-w-lg text-base leading-relaxed text-white/80 md:text-lg">
-                Whether it began with a prescription or escalated to street opioids, opioid use disorder requires evidence-based treatment and a family that knows how to support recovery without enabling continued use.
+                <AutoLinkedText>{"Whether it began with a prescription or escalated to street opioids, opioid use disorder requires evidence-based treatment and a family that knows how to support recovery without enabling continued use."}</AutoLinkedText>
               </p>
               <div className="mb-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
                 <a href={PHONE_HREF} className="inline-flex items-center gap-2 rounded-full bg-[#8FAC87] px-7 py-3.5 text-sm font-semibold text-white shadow-sm transition hover:bg-[#6F8E68]">
@@ -100,7 +101,7 @@ export default function OpioidInterventionPage() {
                 <span className="italic text-[#507969]">opioid intervention?</span>
               </h2>
               <p className="mb-8 text-base leading-relaxed text-[#4B4B4B] md:text-lg">
-                Opioid dependence can develop quickly, even from legitimate prescriptions. The signs are often subtle at first — doctor shopping, early refill requests, mood changes tied to medication timing. These signs indicate the situation has progressed beyond what a family conversation can fix.
+                <AutoLinkedText>{"Opioid dependence can develop quickly, even from legitimate prescriptions. The signs are often subtle at first — doctor shopping, early refill requests, mood changes tied to medication timing. These signs indicate the situation has progressed beyond what a family conversation can fix."}</AutoLinkedText>
               </p>
               <a href={PHONE_HREF} className="inline-flex items-center gap-2 rounded-full bg-[#3E5B50] px-7 py-3.5 text-sm font-semibold text-white shadow-sm transition hover:bg-[#507969]">
                 <i className="ri-phone-fill"></i> Speak with an interventionist now
@@ -130,10 +131,10 @@ export default function OpioidInterventionPage() {
                 <span className="italic text-[#507969]">actually looks like</span>
               </h2>
               <p className="mb-5 text-base leading-relaxed text-[#4B4B4B]">
-                We help families understand the physiology of opioid dependence and the role of medication-assisted treatment in long-term recovery. Our placements are with programmes that integrate behavioural therapy, peer support, and MAT when clinically appropriate.
+                <AutoLinkedText>{"We help families understand the physiology of opioid dependence and the role of medication-assisted treatment in long-term recovery. Our placements are with programmes that integrate behavioural therapy, peer support, and MAT when clinically appropriate."}</AutoLinkedText>
               </p>
               <p className="text-base leading-relaxed text-[#4B4B4B]">
-                The intervention prepares the family to support recovery without enabling continued use. We coordinate with pain management specialists when legitimate chronic pain is part of the picture, and we plan for the transition to non-opioid pain strategies or carefully managed buprenorphine.
+                <AutoLinkedText>{"The intervention prepares the family to support recovery without enabling continued use. We coordinate with pain management specialists when legitimate chronic pain is part of the picture, and we plan for the transition to non-opioid pain strategies or carefully managed buprenorphine."}</AutoLinkedText>
               </p>
             </div>
             <div className="grid grid-cols-2 gap-4">
@@ -147,8 +148,8 @@ export default function OpioidInterventionPage() {
                   <span className="flex h-12 w-12 items-center justify-center rounded-full bg-[#3E5B50] text-white">
                     <i className={`text-xl ${s.icon}`}></i>
                   </span>
-                  <p className="font-heading mt-4 text-3xl font-bold text-[#3E5B50]">{s.number}</p>
-                  <p className="mt-1 text-xs font-medium text-[#4B4B4B]">{s.label}</p>
+                  <p className="font-heading mt-4 text-3xl font-bold text-[#3E5B50]"><AutoLinkedText>{s.number}</AutoLinkedText></p>
+                  <p className="mt-1 text-xs font-medium text-[#4B4B4B]"><AutoLinkedText>{s.label}</AutoLinkedText></p>
                 </div>
               ))}
             </div>
@@ -161,9 +162,9 @@ export default function OpioidInterventionPage() {
         <div className="absolute inset-0 bg-gradient-to-r from-[#1A1A17]/70 via-[#1A1A17]/50 to-transparent" />
         <div className="absolute bottom-0 left-0 p-10 text-white">
           <p className="font-heading max-w-md text-2xl italic">
-            "We learned how to love him without enabling the pills. The intervention gave us the roadmap."
+            <AutoLinkedText>{"\"We learned how to love him without enabling the pills. The intervention gave us the roadmap.\""}</AutoLinkedText>
           </p>
-          <p className="mt-2 text-sm text-white/70">— Wife of a husband now 2 years in recovery</p>
+          <p className="mt-2 text-sm text-white/70"><AutoLinkedText>{"— Wife of a husband now 2 years in recovery"}</AutoLinkedText></p>
         </div>
       </section>
 
@@ -187,7 +188,7 @@ export default function OpioidInterventionPage() {
                   <i className={`${rel.icon} text-xl`}></i>
                 </span>
                 <h3 className="font-heading mt-5 text-xl font-bold text-[#1A1A17]">{rel.name}</h3>
-                <p className="mt-3 flex-1 text-sm leading-relaxed text-[#4B4B4B]">{rel.desc}</p>
+                <p className="mt-3 flex-1 text-sm leading-relaxed text-[#4B4B4B]"><AutoLinkedText>{rel.desc}</AutoLinkedText></p>
                 <span className="mt-5 inline-flex items-center gap-1.5 text-sm font-semibold text-[#507969] transition group-hover:gap-2.5">
                   Learn more <i className="ri-arrow-right-line"></i>
                 </span>

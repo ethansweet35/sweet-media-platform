@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { useState } from 'react';
 import Breadcrumb from '@/components/base/Breadcrumb';
 import HeroContactForm from '@/views/home/components/HeroContactForm';
+import { AutoLinkedTextClient } from "@sweetmedia/blog-core";
 
 const ACCENT = '#8FA489';
 
@@ -128,7 +129,7 @@ function FaqItem({ q, a }: { q: string; a: string }) {
         <i className={`ri-${open ? 'subtract' : 'add'}-line text-lg flex-shrink-0 mt-0.5`} style={{ color: ACCENT }} />
       </button>
       {open && (
-        <p className="text-sm text-[#3A4A3C]/65 font-light leading-[1.85] pb-5 pr-8">{a}</p>
+        <p className="text-sm text-[#3A4A3C]/65 font-light leading-[1.85] pb-5 pr-8"><AutoLinkedTextClient>{a}</AutoLinkedTextClient></p>
       )}
     </div>
   );
@@ -175,8 +176,7 @@ export default function GroupTherapyPage() {
                   Therapy
                 </h1>
                 <p className="text-[#FAF8F5]/65 font-light leading-[1.85] text-base max-w-md">
-                  A women-only space where shared experience becomes a source of strength. Fully virtual,
-                  clinician-led, and built on the radical power of being truly understood by others.
+                  <AutoLinkedTextClient>{"A women-only space where shared experience becomes a source of strength. Fully virtual,\n                  clinician-led, and built on the radical power of being truly understood by others."}</AutoLinkedTextClient>
                 </p>
                 <div className="flex flex-wrap gap-4">
                   <Link
@@ -226,9 +226,7 @@ export default function GroupTherapyPage() {
               The Power of Group
             </span>
             <p className="font-serif text-[#2C3B2E] mt-6 leading-[1.7]" style={{ fontSize: 'clamp(20px, 2.5vw, 30px)' }}>
-              There is something that happens when a woman hears her own story told by another woman —
-              a recognition so deep it bypasses logic. Group therapy creates that. Repeatedly, reliably,
-              and in ways that one-on-one work cannot fully replicate.
+              <AutoLinkedTextClient>{"There is something that happens when a woman hears her own story told by another woman —\n              a recognition so deep it bypasses logic. Group therapy creates that. Repeatedly, reliably,\n              and in ways that one-on-one work cannot fully replicate."}</AutoLinkedTextClient>
             </p>
           </div>
 
@@ -249,7 +247,7 @@ export default function GroupTherapyPage() {
                   {s.num}
                   <span className="text-sm font-light ml-1 opacity-50">{s.unit}</span>
                 </div>
-                <p className="text-xs text-[#3A4A3C]/45 font-light mt-2 leading-relaxed">{s.label}</p>
+                <p className="text-xs text-[#3A4A3C]/45 font-light mt-2 leading-relaxed"><AutoLinkedTextClient>{s.label}</AutoLinkedTextClient></p>
               </div>
             ))}
           </div>
@@ -260,10 +258,10 @@ export default function GroupTherapyPage() {
             style={{ backgroundColor: `${ACCENT}12`, borderLeft: `3px solid ${ACCENT}` }}
           >
             <p className="font-serif italic text-[#2C3B2E] text-lg leading-relaxed">
-              "The group became the first place I realized I wasn't broken. I was just carrying too much alone."
+              <AutoLinkedTextClient>{"\"The group became the first place I realized I wasn't broken. I was just carrying too much alone.\""}</AutoLinkedTextClient>
             </p>
             <p className="text-xs text-[#3A4A3C]/45 mt-4 uppercase tracking-widest font-light">
-              — Reflecting the experience of many women in our program
+              <AutoLinkedTextClient>{"— Reflecting the experience of many women in our program"}</AutoLinkedTextClient>
             </p>
           </div>
         </div>
@@ -299,7 +297,7 @@ export default function GroupTherapyPage() {
                   <i className={`${p.icon} text-lg`} style={{ color: ACCENT }} />
                 </div>
                 <h3 className="font-serif text-[#2C3B2E] text-lg mb-3 relative z-10">{p.title}</h3>
-                <p className="text-sm text-[#3A4A3C]/60 font-light leading-[1.85] relative z-10">{p.desc}</p>
+                <p className="text-sm text-[#3A4A3C]/60 font-light leading-[1.85] relative z-10"><AutoLinkedTextClient>{p.desc}</AutoLinkedTextClient></p>
               </div>
             ))}
           </div>
@@ -342,7 +340,7 @@ export default function GroupTherapyPage() {
                   {step.duration}
                 </span>
                 <h4 className="font-serif text-[#2C3B2E] text-base mb-2">{step.label}</h4>
-                <p className="text-xs text-[#3A4A3C]/55 font-light leading-relaxed">{step.desc}</p>
+                <p className="text-xs text-[#3A4A3C]/55 font-light leading-relaxed"><AutoLinkedTextClient>{step.desc}</AutoLinkedTextClient></p>
               </div>
             ))}
           </div>
@@ -367,7 +365,7 @@ export default function GroupTherapyPage() {
                     {step.duration}
                   </span>
                   <h4 className="font-serif text-[#2C3B2E] text-base mt-0.5 mb-1">{step.label}</h4>
-                  <p className="text-xs text-[#3A4A3C]/55 font-light leading-relaxed">{step.desc}</p>
+                  <p className="text-xs text-[#3A4A3C]/55 font-light leading-relaxed"><AutoLinkedTextClient>{step.desc}</AutoLinkedTextClient></p>
                 </div>
               </div>
             ))}
@@ -403,7 +401,7 @@ export default function GroupTherapyPage() {
                 </div>
                 <div>
                   <h3 className="font-serif text-[#2C3B2E] text-base mb-2">{g.title}</h3>
-                  <p className="text-sm text-[#3A4A3C]/60 font-light leading-[1.85]">{g.desc}</p>
+                  <p className="text-sm text-[#3A4A3C]/60 font-light leading-[1.85]"><AutoLinkedTextClient>{g.desc}</AutoLinkedTextClient></p>
                 </div>
               </div>
             ))}
@@ -483,9 +481,7 @@ export default function GroupTherapyPage() {
               The connections formed here often outlast the program
             </h3>
             <p className="text-[#FAF8F5]/60 font-light leading-[1.85] text-base mb-8">
-              Women in our groups frequently describe their cohort as the first community where they
-              felt fully known. The shared experience of healing together creates bonds that many
-              maintain long after completing the program.
+              <AutoLinkedTextClient>{"Women in our groups frequently describe their cohort as the first community where they\n              felt fully known. The shared experience of healing together creates bonds that many\n              maintain long after completing the program."}</AutoLinkedTextClient>
             </p>
             <div className="flex flex-wrap gap-3 mb-10">
               {['Process Groups', 'DBT Skills', 'Psychoeducation', 'Somatic Wellness'].map((m) => (
@@ -553,8 +549,7 @@ export default function GroupTherapyPage() {
             Find your group.<br />Find your people.
           </h2>
           <p className="text-[#FAF8F5]/60 font-light leading-[1.85] mb-10 text-base">
-            Group therapy at Inner Peak Colorado is available as part of our Virtual IOP and
-            Virtual OP programs. An initial assessment helps us match you with the right group and level of care.
+            <AutoLinkedTextClient>{"Group therapy at Inner Peak Colorado is available as part of our Virtual IOP and\n            Virtual OP programs. An initial assessment helps us match you with the right group and level of care."}</AutoLinkedTextClient>
           </p>
           <div className="flex flex-wrap justify-center gap-4">
             <Link

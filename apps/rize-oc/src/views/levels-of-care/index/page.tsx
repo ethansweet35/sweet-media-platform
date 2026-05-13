@@ -5,6 +5,7 @@ import Eyebrow from "@/components/ui/Eyebrow";
 import SectionHeader from "@/components/ui/SectionHeader";
 import IconCircle from "@/components/ui/IconCircle";
 import Button from "@/components/ui/Button";
+import { AutoLinkedText } from "@sweetmedia/blog-core";
 
 const BASE = "https://uivbbrwuaffqujzkqjvr.supabase.co/storage/v1/object/public/site-assets/images";
 
@@ -105,7 +106,7 @@ export default function LevelsOfCarePage() {
                 <em className="italic text-white/60">Care</em>
               </h1>
               <p className="mt-6 text-[16px] font-light leading-relaxed text-white/80 max-w-[520px]">
-                Recovery is not a single event — it is a continuum. Rize OC offers every level from medically supervised detox to long-term virtual outpatient, ensuring the right support at every stage.
+                <AutoLinkedText>{"Recovery is not a single event — it is a continuum. Rize OC offers every level from medically supervised detox to long-term virtual outpatient, ensuring the right support at every stage."}</AutoLinkedText>
               </p>
             </div>
 
@@ -165,10 +166,10 @@ export default function LevelsOfCarePage() {
             </h2>
             <div className="flex flex-col gap-4">
               <p className="text-[15px] font-light leading-relaxed text-ink/65">
-                No two journeys to recovery are the same. The appropriate level of care depends on the nature and severity of your condition, your living environment, your support system, and your personal goals.
+                <AutoLinkedText>{"No two journeys to recovery are the same. The appropriate level of care depends on the nature and severity of your condition, your living environment, your support system, and your personal goals."}</AutoLinkedText>
               </p>
               <p className="text-[15px] font-light leading-relaxed text-ink/65">
-                At Rize OC, our clinical team conducts a comprehensive assessment before any recommendation is made — ensuring every client begins at the level that gives them the greatest probability of lasting success.
+                <AutoLinkedText>{"At Rize OC, our clinical team conducts a comprehensive assessment before any recommendation is made — ensuring every client begins at the level that gives them the greatest probability of lasting success."}</AutoLinkedText>
               </p>
             </div>
           </div>
@@ -177,8 +178,8 @@ export default function LevelsOfCarePage() {
               <div key={q} className="flex items-start gap-4 border border-warm p-5">
                 <IconCircle icon={icon} variant="accent-subtle" size="sm" className="shrink-0 mt-0.5" />
                 <div>
-                  <p className="text-[15px] font-medium text-ink mb-1">{q}</p>
-                  <p className="text-sm font-light text-ink/60">{a}</p>
+                  <p className="text-[15px] font-medium text-ink mb-1"><AutoLinkedText>{q}</AutoLinkedText></p>
+                  <p className="text-sm font-light text-ink/60"><AutoLinkedText>{a}</AutoLinkedText></p>
                 </div>
               </div>
             ))}
@@ -229,8 +230,8 @@ export default function LevelsOfCarePage() {
                   <h3 className="font-[family-name:var(--font-display)] text-[26px] font-normal text-ink leading-snug mb-2">
                     {title}
                   </h3>
-                  <p className="text-[10px] font-medium uppercase tracking-[0.2em] text-ink/40 mb-3">{commitment}</p>
-                  <p className="text-[15px] font-light leading-relaxed text-ink/60">{desc}</p>
+                  <p className="text-[10px] font-medium uppercase tracking-[0.2em] text-ink/40 mb-3"><AutoLinkedText>{commitment}</AutoLinkedText></p>
+                  <p className="text-[15px] font-light leading-relaxed text-ink/60"><AutoLinkedText>{desc}</AutoLinkedText></p>
                 </div>
 
                 {/* Arrow */}
@@ -255,7 +256,7 @@ export default function LevelsOfCarePage() {
               How We Determine the Right Level
             </h2>
             <p className="text-[15px] font-light leading-relaxed text-white/60 mb-6">
-              No referral, no self-assessment form, and no guesswork. Every placement decision at Rize OC is made by our licensed clinical team based on a thorough, evidence-based evaluation.
+              <AutoLinkedText>{"No referral, no self-assessment form, and no guesswork. Every placement decision at Rize OC is made by our licensed clinical team based on a thorough, evidence-based evaluation."}</AutoLinkedText>
             </p>
             <div className="flex flex-col gap-3">
               {[
@@ -267,7 +268,7 @@ export default function LevelsOfCarePage() {
               ].map((item) => (
                 <div key={item} className="flex items-center gap-3">
                   <div className="w-2 h-2 rounded-full bg-accent shrink-0" />
-                  <p className="text-[15px] font-light text-white/70">{item}</p>
+                  <p className="text-[15px] font-light text-white/70"><AutoLinkedText>{item}</AutoLinkedText></p>
                 </div>
               ))}
             </div>
@@ -278,11 +279,11 @@ export default function LevelsOfCarePage() {
               <IconCircle icon="ri-shield-check-line" variant="ink" size="sm" />
               <div>
                 <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-ink">Free Assessment</p>
-                <p className="text-xs text-ink/45 mt-0.5">Confidential & no obligation</p>
+                <p className="text-xs text-ink/45 mt-0.5"><AutoLinkedText>{"Confidential & no obligation"}</AutoLinkedText></p>
               </div>
             </div>
             <p className="text-[15px] font-light text-ink/65 mb-6">
-              Speak with our admissions team today. We&apos;ll help you understand your options and determine the level of care that gives you the best foundation for lasting recovery.
+              <AutoLinkedText>{"Speak with our admissions team today. We&apos;ll help you understand your options and determine the level of care that gives you the best foundation for lasting recovery."}</AutoLinkedText>
             </p>
             <div className="flex flex-col gap-3">
               <a

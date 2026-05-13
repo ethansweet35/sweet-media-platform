@@ -1,6 +1,7 @@
 import SectionWrapper from "@/components/ui/SectionWrapper";
 import SectionHeader from "@/components/ui/SectionHeader";
 import IconCircle from "@/components/ui/IconCircle";
+import { AutoLinkedText } from "@sweetmedia/blog-core";
 
 const schedule = [
   { time: "7:00 AM",  title: "Mindful Morning",       desc: "Wake naturally to coastal sunrise with optional meditation or gentle yoga." },
@@ -32,10 +33,10 @@ export default function DaySection() {
             <div key={`${time}-${title}`} className="border border-warm p-7 flex flex-col">
               <div className="flex items-center gap-3 mb-2">
                 <IconCircle icon="ri-settings-3-line" variant="accent-subtle" size="sm" />
-                <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-ink/40">{time}</p>
+                <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-ink/40"><AutoLinkedText>{time}</AutoLinkedText></p>
               </div>
               <h4 className="font-[family-name:var(--font-display)] text-2xl font-normal text-ink mb-3">{title}</h4>
-              <p className="text-[15px] font-light leading-relaxed text-ink/60">{desc}</p>
+              <p className="text-[15px] font-light leading-relaxed text-ink/60"><AutoLinkedText>{desc}</AutoLinkedText></p>
             </div>
           ))}
         </div>
@@ -48,7 +49,7 @@ export default function DaySection() {
               Personalized to Your Needs
             </h4>
             <p className="mt-1.5 text-sm font-light leading-relaxed text-ink/65">
-              This schedule represents a typical residential treatment day. Your actual schedule will be personalized based on your clinical needs, treatment phase, and level of care. We maintain flexibility to honor your healing process while providing structure for recovery.
+              <AutoLinkedText>{"This schedule represents a typical residential treatment day. Your actual schedule will be personalized based on your clinical needs, treatment phase, and level of care. We maintain flexibility to honor your healing process while providing structure for recovery."}</AutoLinkedText>
             </p>
           </div>
         </div>

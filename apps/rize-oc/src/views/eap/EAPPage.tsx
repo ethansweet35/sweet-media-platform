@@ -9,6 +9,7 @@ import Button from "@/components/ui/Button";
 import InsuranceForm from "@/views/home/components/InsuranceForm";
 import AccreditationsBar from "@/views/home/components/AccreditationsBar";
 import FaqAccordion from "@/components/ui/FaqAccordion";
+import { AutoLinkedTextClient } from "@sweetmedia/blog-core";
 
 const BASE = "https://nfjlvkxrbzytjefmcvhg.supabase.co/storage/v1/object/public/site-assets/images";
 
@@ -151,7 +152,7 @@ export default function EAPPage() {
               <em className="italic text-white/55">Programs (EAPs)</em>
             </h1>
             <p className="text-[16px] font-light leading-relaxed text-white/80 max-w-[520px] mb-10">
-              Your EAP benefit may cover addiction and mental health treatment at Rize OC — with complete confidentiality from your employer. Our team handles all coordination at no cost to you.
+              <AutoLinkedTextClient>{"Your EAP benefit may cover addiction and mental health treatment at Rize OC — with complete confidentiality from your employer. Our team handles all coordination at no cost to you."}</AutoLinkedTextClient>
             </p>
             <div className="flex flex-wrap gap-3">
               <Button href="tel:9494612620" variant="accent" size="md">
@@ -200,13 +201,13 @@ export default function EAPPage() {
                 </h2>
               </div>
               <p className="text-[15px] leading-[1.85] text-ink/70">
-                An Employee Assistance Program (EAP) is a confidential benefit offered by most mid-to-large employers that provides employees and their families with access to mental health counseling, substance use treatment referrals, financial and legal consultation, and other support services — at little or no cost to the employee.
+                <AutoLinkedTextClient>{"An Employee Assistance Program (EAP) is a confidential benefit offered by most mid-to-large employers that provides employees and their families with access to mental health counseling, substance use treatment referrals, financial and legal consultation, and other support services — at little or no cost to the employee."}</AutoLinkedTextClient>
               </p>
               <p className="text-[15px] leading-[1.85] text-ink/70">
-                EAPs are administered by third-party organizations, completely independent of your employer. Your company pays for the benefit but receives no information about how individual employees use it. What you share with your EAP counselor stays with your EAP counselor.
+                <AutoLinkedTextClient>{"EAPs are administered by third-party organizations, completely independent of your employer. Your company pays for the benefit but receives no information about how individual employees use it. What you share with your EAP counselor stays with your EAP counselor."}</AutoLinkedTextClient>
               </p>
               <p className="text-[15px] leading-[1.85] text-ink/70">
-                For addiction and mental health treatment, EAPs typically fund an initial assessment and short-term counseling, then coordinate a referral to a treatment provider — like Rize OC — where your health insurance takes over. Rize works directly with your EAP case manager to make this transition seamless.
+                <AutoLinkedTextClient>{"For addiction and mental health treatment, EAPs typically fund an initial assessment and short-term counseling, then coordinate a referral to a treatment provider — like Rize OC — where your health insurance takes over. Rize works directly with your EAP case manager to make this transition seamless."}</AutoLinkedTextClient>
               </p>
             </div>
 
@@ -222,8 +223,8 @@ export default function EAPPage() {
                 <div key={title} className="flex flex-col gap-3 p-5 border border-soft bg-cream-tile">
                   <IconCircle icon={icon} colorClass="bg-accent/10 text-accent" size="w-9 h-9 text-base" />
                   <div>
-                    <p className="text-[13px] font-semibold text-ink leading-snug">{title}</p>
-                    <p className="text-[12px] font-light text-ink/55 mt-1 leading-relaxed">{desc}</p>
+                    <p className="text-[13px] font-semibold text-ink leading-snug"><AutoLinkedTextClient>{title}</AutoLinkedTextClient></p>
+                    <p className="text-[12px] font-light text-ink/55 mt-1 leading-relaxed"><AutoLinkedTextClient>{desc}</AutoLinkedTextClient></p>
                   </div>
                 </div>
               ))}
@@ -249,7 +250,7 @@ export default function EAPPage() {
               <em className="italic text-white/55">Step by Step</em>
             </h2>
             <p className="mt-5 text-[15px] font-light text-white/70 leading-relaxed">
-              We coordinate with your EAP from first call to first day of treatment — so you don&apos;t have to navigate the system alone.
+              <AutoLinkedTextClient>{"We coordinate with your EAP from first call to first day of treatment — so you don&apos;t have to navigate the system alone."}</AutoLinkedTextClient>
             </p>
           </div>
 
@@ -267,7 +268,7 @@ export default function EAPPage() {
                 <div className="relative z-10">
                   <p className="text-[10px] font-semibold uppercase tracking-[0.25em] text-accent mb-2">Step {step}</p>
                   <h3 className="font-[family-name:var(--font-display)] text-[20px] font-normal text-white mb-3 leading-snug">{title}</h3>
-                  <p className="text-[13px] font-light text-white/65 leading-relaxed">{desc}</p>
+                  <p className="text-[13px] font-light text-white/65 leading-relaxed"><AutoLinkedTextClient>{desc}</AutoLinkedTextClient></p>
                 </div>
               </div>
             ))}
@@ -307,7 +308,7 @@ export default function EAPPage() {
                 <em className="italic text-muted font-normal">Protected By Law</em>
               </h2>
               <p className="mt-5 text-[15px] font-light text-ink/65 leading-relaxed mb-8">
-                Many employees hesitate to use their EAP benefit out of fear that their employer will find out. Understanding your legal protections can make the difference between getting help and suffering in silence.
+                <AutoLinkedTextClient>{"Many employees hesitate to use their EAP benefit out of fear that their employer will find out. Understanding your legal protections can make the difference between getting help and suffering in silence."}</AutoLinkedTextClient>
               </p>
               <ul className="flex flex-col gap-4">
                 {employeeRights.map((right, i) => (
@@ -315,7 +316,7 @@ export default function EAPPage() {
                     <span className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-accent text-white">
                       <i className="ri-check-line text-xs" />
                     </span>
-                    <p className="text-[14px] font-light text-ink/70 leading-relaxed">{right}</p>
+                    <p className="text-[14px] font-light text-ink/70 leading-relaxed"><AutoLinkedTextClient>{right}</AutoLinkedTextClient></p>
                   </li>
                 ))}
               </ul>
@@ -337,17 +338,17 @@ export default function EAPPage() {
                   <div key={title} className="flex items-start gap-4 bg-white border border-soft p-5">
                     <IconCircle icon={icon} colorClass="bg-accent/10 text-accent" size="w-9 h-9 text-base shrink-0" />
                     <div>
-                      <p className="text-[14px] font-semibold text-ink">{title}</p>
-                      <p className="text-[13px] font-light text-ink/60 mt-1 leading-relaxed">{desc}</p>
+                      <p className="text-[14px] font-semibold text-ink"><AutoLinkedTextClient>{title}</AutoLinkedTextClient></p>
+                      <p className="text-[13px] font-light text-ink/60 mt-1 leading-relaxed"><AutoLinkedTextClient>{desc}</AutoLinkedTextClient></p>
                     </div>
                   </div>
                 ))}
               </div>
 
               <div className="mt-6 bg-ink p-6">
-                <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-accent mb-2">HR &amp; EAP Coordinators</p>
+                <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-accent mb-2"><AutoLinkedTextClient>{"HR &amp; EAP Coordinators"}</AutoLinkedTextClient></p>
                 <p className="text-[14px] font-light text-white/75 leading-relaxed mb-4">
-                  Rize OC works directly with EAP case managers and HR on referrals, return-to-work plans, and compliance monitoring — with employee consent.
+                  <AutoLinkedTextClient>{"Rize OC works directly with EAP case managers and HR on referrals, return-to-work plans, and compliance monitoring — with employee consent."}</AutoLinkedTextClient>
                 </p>
                 <a
                   href="tel:9494612620"
@@ -373,14 +374,14 @@ export default function EAPPage() {
               EAP Providers We Work With
             </h2>
             <p className="mt-4 text-[14px] font-light text-ink/55 max-w-xl mx-auto">
-              Rize OC coordinates with all major EAP networks. Don&apos;t see yours? Contact us — we work with most providers.
+              <AutoLinkedTextClient>{"Rize OC coordinates with all major EAP networks. Don&apos;t see yours? Contact us — we work with most providers."}</AutoLinkedTextClient>
             </p>
           </div>
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3">
             {eapNetworks.map((name) => (
               <div key={name} className="border border-soft bg-cream-tile px-4 py-4 text-center">
                 <i className="ri-building-line text-accent text-lg mb-2 block" />
-                <p className="text-[12px] font-medium text-ink leading-snug">{name}</p>
+                <p className="text-[12px] font-medium text-ink leading-snug"><AutoLinkedTextClient>{name}</AutoLinkedTextClient></p>
               </div>
             ))}
           </div>
@@ -402,7 +403,7 @@ export default function EAPPage() {
                 <em className="italic text-muted font-normal">EAP Coordination For You</em>
               </h2>
               <p className="text-[15px] font-light leading-relaxed text-ink/65 mb-8">
-                Submit the form and our admissions team will contact your EAP provider, verify your insurance benefits, and walk you through exactly what is covered — completely free, and with no obligation to continue.
+                <AutoLinkedTextClient>{"Submit the form and our admissions team will contact your EAP provider, verify your insurance benefits, and walk you through exactly what is covered — completely free, and with no obligation to continue."}</AutoLinkedTextClient>
               </p>
               <div className="flex flex-col gap-4">
                 {[
@@ -413,8 +414,8 @@ export default function EAPPage() {
                   <div key={title} className="flex items-start gap-4">
                     <IconCircle icon={icon} colorClass="bg-accent/15 text-accent" size="w-8 h-8 text-sm shrink-0 mt-0.5" />
                     <div>
-                      <p className="text-[14px] font-medium text-ink">{title}</p>
-                      <p className="text-[13px] font-light text-ink/55 mt-0.5">{desc}</p>
+                      <p className="text-[14px] font-medium text-ink"><AutoLinkedTextClient>{title}</AutoLinkedTextClient></p>
+                      <p className="text-[13px] font-light text-ink/55 mt-0.5"><AutoLinkedTextClient>{desc}</AutoLinkedTextClient></p>
                     </div>
                   </div>
                 ))}
@@ -424,8 +425,8 @@ export default function EAPPage() {
               <div className="flex items-center gap-3 mb-6">
                 <IconCircle icon="ri-briefcase-4-line" variant="ink" size="sm" />
                 <div>
-                  <p className="text-[10px] font-semibold uppercase tracking-[0.22em] text-ink">EAP &amp; Insurance Verification</p>
-                  <p className="text-xs text-ink/45 mt-0.5">Confidential · No cost · No obligation</p>
+                  <p className="text-[10px] font-semibold uppercase tracking-[0.22em] text-ink"><AutoLinkedTextClient>{"EAP &amp; Insurance Verification"}</AutoLinkedTextClient></p>
+                  <p className="text-xs text-ink/45 mt-0.5"><AutoLinkedTextClient>{"Confidential · No cost · No obligation"}</AutoLinkedTextClient></p>
                 </div>
               </div>
               <InsuranceForm showNotesField />
@@ -449,7 +450,7 @@ export default function EAPPage() {
                 <em className="italic text-muted">Answered Clearly.</em>
               </h2>
               <p className="mt-5 text-[14px] font-light text-ink/60 leading-relaxed">
-                Still unsure about your EAP benefit? Our admissions team answers these questions every day — call anytime.
+                <AutoLinkedTextClient>{"Still unsure about your EAP benefit? Our admissions team answers these questions every day — call anytime."}</AutoLinkedTextClient>
               </p>
               <div className="mt-7 flex flex-col gap-3">
                 <Button href="tel:9494612620" variant="accent" size="sm">
@@ -487,7 +488,7 @@ export default function EAPPage() {
             <em className="italic text-white/60">Coverage You Don&apos;t Know About</em>
           </h2>
           <p className="mt-6 text-[16px] font-light text-white/75 leading-relaxed max-w-[500px] mx-auto">
-            Most employees never use their EAP benefit — often because they don&apos;t know it exists. One call to our team is all it takes to find out what you have.
+            <AutoLinkedTextClient>{"Most employees never use their EAP benefit — often because they don&apos;t know it exists. One call to our team is all it takes to find out what you have."}</AutoLinkedTextClient>
           </p>
           <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
             <Button href="tel:9494612620" variant="accent" size="lg">

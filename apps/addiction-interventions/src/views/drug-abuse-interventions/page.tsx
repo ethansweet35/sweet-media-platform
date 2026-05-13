@@ -6,6 +6,7 @@ import BottomCta from "@/components/sections/BottomCta";
 import HeroContactForm from "@/components/feature/HeroContactForm";
 import { PHONE_DISPLAY, PHONE_HREF } from "@/data/site";
 import type { Faq } from "@/data/faqs";
+import { AutoLinkedText } from "@sweetmedia/blog-core";
 
 const SUPABASE_IMAGES =
   "https://bxtwcdgjzzjxjvqdiuvn.supabase.co/storage/v1/object/public/site-assets/images";
@@ -157,13 +158,13 @@ export default function DrugAbuseInterventionsPage() {
         <div className="relative mx-auto w-full max-w-7xl px-6 py-24 lg:px-10 lg:py-32">
           <div className="grid items-center gap-14 lg:grid-cols-[1fr_460px]">
             <div>
-              <p className="brand-eyebrow mb-4 text-[#8FAC87]">Drug Abuse Interventions</p>
+              <p className="brand-eyebrow mb-4 text-[#8FAC87]"><AutoLinkedText>{"Drug Abuse Interventions"}</AutoLinkedText></p>
               <h1 className="font-heading mb-6 text-4xl font-bold leading-tight text-white md:text-5xl lg:text-6xl">
                 Professional drug interventions —{" "}
                 <span className="italic text-[#8FAC87]">structure when chaos has taken over</span>
               </h1>
               <p className="mb-8 max-w-lg text-base leading-relaxed text-white/80 md:text-lg">
-                Drug dependence creates cycles of enabling, codependency, and crisis that devastate families. Our certified interventionists interrupt those cycles and present treatment in a way your loved one can actually accept — with a bed reserved before we sit down.
+                <AutoLinkedText>{"Drug dependence creates cycles of enabling, codependency, and crisis that devastate families. Our certified interventionists interrupt those cycles and present treatment in a way your loved one can actually accept — with a bed reserved before we sit down."}</AutoLinkedText>
               </p>
 
               <div className="mb-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
@@ -209,7 +210,7 @@ export default function DrugAbuseInterventionsPage() {
                 <span className="italic text-[#507969]">drug intervention?</span>
               </h2>
               <p className="mb-8 text-base leading-relaxed text-[#4B4B4B] md:text-lg">
-                Drug dependence rarely looks like the stereotype until it is far advanced. Many families are shocked when they finally see the full picture. These signs indicate the situation has moved beyond what a family conversation can fix.
+                <AutoLinkedText>{"Drug dependence rarely looks like the stereotype until it is far advanced. Many families are shocked when they finally see the full picture. These signs indicate the situation has moved beyond what a family conversation can fix."}</AutoLinkedText>
               </p>
               <a href={PHONE_HREF} className="inline-flex items-center gap-2 rounded-full bg-[#3E5B50] px-7 py-3.5 text-sm font-semibold text-white shadow-sm transition hover:bg-[#507969]">
                 <i className="ri-phone-fill"></i> Speak with an interventionist now
@@ -240,7 +241,7 @@ export default function DrugAbuseInterventionsPage() {
               <span className="italic text-[#8FAC87]">and why they shouldn't</span>
             </h2>
             <p className="mx-auto mt-5 max-w-2xl text-base leading-relaxed text-white/70">
-              Every family we work with had a reason to wait. We have heard them all — and we understand them. Here is what we know.
+              <AutoLinkedText>{"Every family we work with had a reason to wait. We have heard them all — and we understand them. Here is what we know."}</AutoLinkedText>
             </p>
           </div>
 
@@ -250,8 +251,8 @@ export default function DrugAbuseInterventionsPage() {
                 <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-[#8FAC87]/20 text-[#8FAC87]">
                   <i className={`text-2xl ${item.icon}`}></i>
                 </div>
-                <p className="mb-3 font-heading text-lg font-bold italic text-white/60">{item.myth}</p>
-                <p className="text-sm leading-relaxed text-white/80">{item.truth}</p>
+                <p className="mb-3 font-heading text-lg font-bold italic text-white/60"><AutoLinkedText>{item.myth}</AutoLinkedText></p>
+                <p className="text-sm leading-relaxed text-white/80"><AutoLinkedText>{item.truth}</AutoLinkedText></p>
               </div>
             ))}
           </div>
@@ -264,9 +265,9 @@ export default function DrugAbuseInterventionsPage() {
         <div className="absolute inset-0 bg-gradient-to-r from-[#1A1A17]/70 via-[#1A1A17]/50 to-transparent" />
         <div className="absolute bottom-0 left-0 p-10 text-white">
           <p className="font-heading max-w-md text-2xl italic">
-            "We thought we were protecting him by waiting. We were only protecting the addiction."
+            <AutoLinkedText>{"\"We thought we were protecting him by waiting. We were only protecting the addiction.\""}</AutoLinkedText>
           </p>
-          <p className="mt-2 text-sm text-white/70">— Parents of a son in recovery, 2024</p>
+          <p className="mt-2 text-sm text-white/70"><AutoLinkedText>{"— Parents of a son in recovery, 2024"}</AutoLinkedText></p>
         </div>
       </section>
 
@@ -281,13 +282,13 @@ export default function DrugAbuseInterventionsPage() {
                 <span className="italic text-[#507969]">actually looks like</span>
               </h2>
               <p className="mb-5 text-base leading-relaxed text-[#4B4B4B]">
-                Drug dependence creates cycles of enabling and codependency that devastate families. Our specialists are trained to interrupt those cycles and present treatment in a way your loved one can actually accept.
+                <AutoLinkedText>{"Drug dependence creates cycles of enabling and codependency that devastate families. Our specialists are trained to interrupt those cycles and present treatment in a way your loved one can actually accept."}</AutoLinkedText>
               </p>
               <p className="mb-5 text-base leading-relaxed text-[#4B4B4B]">
-                Unlike an unstructured family conversation or a spontaneous confrontation, a professional intervention is a carefully planned, clinically informed process. We pre-screen and contact treatment centres before the intervention takes place. Your loved one is not deciding whether to get help — they are deciding which bed to go to.
+                <AutoLinkedText>{"Unlike an unstructured family conversation or a spontaneous confrontation, a professional intervention is a carefully planned, clinically informed process. We pre-screen and contact treatment centres before the intervention takes place. Your loved one is not deciding whether to get help — they are deciding which bed to go to."}</AutoLinkedText>
               </p>
               <p className="text-base leading-relaxed text-[#4B4B4B]">
-                We specialise in complex cases: polysubstance use, co-occurring mental health conditions, history of failed treatment attempts, and situations where the person has been in and out of detox or rehab multiple times. We know how to break the cycle.
+                <AutoLinkedText>{"We specialise in complex cases: polysubstance use, co-occurring mental health conditions, history of failed treatment attempts, and situations where the person has been in and out of detox or rehab multiple times. We know how to break the cycle."}</AutoLinkedText>
               </p>
             </div>
 
@@ -303,8 +304,8 @@ export default function DrugAbuseInterventionsPage() {
                   <span className="flex h-12 w-12 items-center justify-center rounded-full bg-[#3E5B50] text-white">
                     <i className={`text-xl ${s.icon}`}></i>
                   </span>
-                  <p className="font-heading mt-4 text-3xl font-bold text-[#3E5B50]">{s.number}</p>
-                  <p className="mt-1 text-xs font-medium text-[#4B4B4B]">{s.label}</p>
+                  <p className="font-heading mt-4 text-3xl font-bold text-[#3E5B50]"><AutoLinkedText>{s.number}</AutoLinkedText></p>
+                  <p className="mt-1 text-xs font-medium text-[#4B4B4B]"><AutoLinkedText>{s.label}</AutoLinkedText></p>
                 </div>
               ))}
             </div>
@@ -324,7 +325,7 @@ export default function DrugAbuseInterventionsPage() {
               </h2>
             </div>
             <p className="text-base leading-relaxed text-[#4B4B4B] md:text-lg">
-              From first call to treatment admission, every step is managed by your interventionist. You are never navigating this alone — and you are never left wondering what comes next.
+              <AutoLinkedText>{"From first call to treatment admission, every step is managed by your interventionist. You are never navigating this alone — and you are never left wondering what comes next."}</AutoLinkedText>
             </p>
           </div>
 
@@ -338,7 +339,7 @@ export default function DrugAbuseInterventionsPage() {
                   <span className="font-heading text-4xl font-bold text-[#EFEFEF]">0{i + 1}</span>
                 </div>
                 <h3 className="font-heading mb-2 text-lg font-bold text-[#1A1A17]">{step.title}</h3>
-                <p className="text-sm leading-relaxed text-[#4B4B4B]">{step.body}</p>
+                <p className="text-sm leading-relaxed text-[#4B4B4B]"><AutoLinkedText>{step.body}</AutoLinkedText></p>
               </div>
             ))}
           </div>
@@ -349,13 +350,13 @@ export default function DrugAbuseInterventionsPage() {
       <section className="bg-white py-24">
         <div className="mx-auto w-full max-w-7xl px-6 lg:px-10">
           <div className="mb-14 text-center">
-            <p className="brand-eyebrow mb-3 text-[#8FAC87]">After the Intervention</p>
+            <p className="brand-eyebrow mb-3 text-[#8FAC87]"><AutoLinkedText>{"After the Intervention"}</AutoLinkedText></p>
             <h2 className="font-heading text-4xl font-bold text-[#1A1A17] md:text-5xl">
               What drug treatment{" "}
               <span className="italic text-[#507969]">actually looks like</span>
             </h2>
             <p className="mx-auto mt-5 max-w-2xl text-base leading-relaxed text-[#4B4B4B]">
-              We only place loved ones in programmes we would send our own families to — and we will not recommend any level of care without explaining exactly why it fits.
+              <AutoLinkedText>{"We only place loved ones in programmes we would send our own families to — and we will not recommend any level of care without explaining exactly why it fits."}</AutoLinkedText>
             </p>
           </div>
 
@@ -366,7 +367,7 @@ export default function DrugAbuseInterventionsPage() {
                   <i className={`text-2xl ${item.icon}`}></i>
                 </span>
                 <h3 className="font-heading mt-5 text-xl font-bold text-[#1A1A17]">{item.title}</h3>
-                <p className="mt-3 flex-1 text-sm leading-relaxed text-[#4B4B4B]">{item.body}</p>
+                <p className="mt-3 flex-1 text-sm leading-relaxed text-[#4B4B4B]"><AutoLinkedText>{item.body}</AutoLinkedText></p>
               </div>
             ))}
           </div>
@@ -382,7 +383,7 @@ export default function DrugAbuseInterventionsPage() {
                 Ready to take the first step?
               </h3>
               <p className="mt-2 text-white/70">
-                Your first call is free, confidential, and judgment-free. We listen first.
+                <AutoLinkedText>{"Your first call is free, confidential, and judgment-free. We listen first."}</AutoLinkedText>
               </p>
             </div>
             <div className="flex shrink-0 flex-col gap-3 sm:flex-row">
@@ -437,7 +438,7 @@ export default function DrugAbuseInterventionsPage() {
                   <i className={`${rel.icon} text-xl`}></i>
                 </span>
                 <h3 className="font-heading mt-5 text-xl font-bold text-[#1A1A17]">{rel.name}</h3>
-                <p className="mt-3 flex-1 text-sm leading-relaxed text-[#4B4B4B]">{rel.desc}</p>
+                <p className="mt-3 flex-1 text-sm leading-relaxed text-[#4B4B4B]"><AutoLinkedText>{rel.desc}</AutoLinkedText></p>
                 <span className="mt-5 inline-flex items-center gap-1.5 text-sm font-semibold text-[#507969] transition group-hover:gap-2.5">
                   Learn more <i className="ri-arrow-right-line"></i>
                 </span>

@@ -6,6 +6,7 @@ import SectionHeader from "@/components/ui/SectionHeader";
 import IconCircle from "@/components/ui/IconCircle";
 import Button from "@/components/ui/Button";
 import FaqAccordion, { type FaqItem } from "@/components/ui/FaqAccordion";
+import { AutoLinkedText } from "@sweetmedia/blog-core";
 
 const BASE = "https://uivbbrwuaffqujzkqjvr.supabase.co/storage/v1/object/public/site-assets/images";
 
@@ -211,7 +212,7 @@ export default function DetoxPage() {
               </h1>
 
               <p className="mt-6 text-[16px] font-light leading-relaxed text-white/80 max-w-[520px]">
-                The medically supervised first step — eliminating substances from the body safely so that lasting recovery work can begin.
+                <AutoLinkedText>{"The medically supervised first step — eliminating substances from the body safely so that lasting recovery work can begin."}</AutoLinkedText>
               </p>
             </div>
 
@@ -251,8 +252,8 @@ export default function DetoxPage() {
               { value: "100%",  label: "Confidential" },
             ].map(({ value, label }) => (
               <div key={label} className="px-8 py-5 border-r border-white/10 last:border-r-0 bg-ink/50 backdrop-blur-sm">
-                <p className="font-[family-name:var(--font-display)] text-[28px] font-normal text-white leading-none">{value}</p>
-                <p className="text-[10px] font-medium uppercase tracking-[0.22em] text-white/50 mt-1.5">{label}</p>
+                <p className="font-[family-name:var(--font-display)] text-[28px] font-normal text-white leading-none"><AutoLinkedText>{value}</AutoLinkedText></p>
+                <p className="text-[10px] font-medium uppercase tracking-[0.22em] text-white/50 mt-1.5"><AutoLinkedText>{label}</AutoLinkedText></p>
               </div>
             ))}
           </div>
@@ -273,25 +274,25 @@ export default function DetoxPage() {
             </h2>
             <div className="flex flex-col gap-5">
               <p className="text-[15px] font-light leading-relaxed text-ink/65">
-                When someone uses a substance repeatedly over time, the brain adapts — recalibrating its chemistry to function in the presence of that substance. Neurotransmitter systems are suppressed or amplified to compensate. The brain, in a sense, rewires itself around the substance.
+                <AutoLinkedText>{"When someone uses a substance repeatedly over time, the brain adapts — recalibrating its chemistry to function in the presence of that substance. Neurotransmitter systems are suppressed or amplified to compensate. The brain, in a sense, rewires itself around the substance."}</AutoLinkedText>
               </p>
               <p className="text-[15px] font-light leading-relaxed text-ink/65">
-                When the substance is suddenly absent, the brain's compensation mechanisms are exposed — driving withdrawal symptoms that can range from uncomfortable to life-threatening, depending on the substance and the degree of physical dependence.
+                <AutoLinkedText>{"When the substance is suddenly absent, the brain's compensation mechanisms are exposed — driving withdrawal symptoms that can range from uncomfortable to life-threatening, depending on the substance and the degree of physical dependence."}</AutoLinkedText>
               </p>
               <p className="text-[15px] font-light leading-relaxed text-ink/65">
-                Medical detox provides a structured, supervised environment where withdrawal is actively managed. Physicians monitor vital signs, administer evidence-based medications, and adjust protocols in real time — dramatically reducing both the danger and the discomfort of the process.
+                <AutoLinkedText>{"Medical detox provides a structured, supervised environment where withdrawal is actively managed. Physicians monitor vital signs, administer evidence-based medications, and adjust protocols in real time — dramatically reducing both the danger and the discomfort of the process."}</AutoLinkedText>
               </p>
               <p className="text-[15px] font-light leading-relaxed text-ink/65">
-                It is equally important to understand what detox is not. Detox alone does not treat addiction — it addresses the acute physical dimension only. The psychological patterns, behavioral habits, and emotional roots of substance use require the structured clinical work that begins in the next level of care. At Rize OC, detox and treatment are designed as a seamless continuum, not two separate events.
+                <AutoLinkedText>{"It is equally important to understand what detox is not. Detox alone does not treat addiction — it addresses the acute physical dimension only. The psychological patterns, behavioral habits, and emotional roots of substance use require the structured clinical work that begins in the next level of care. At Rize OC, detox and treatment are designed as a seamless continuum, not two separate events."}</AutoLinkedText>
               </p>
             </div>
 
             <blockquote className="mt-auto pt-8 border-l-2 border-accent pl-6">
               <p className="text-[17px] font-[family-name:var(--font-display)] font-normal text-ink/70 leading-snug italic">
-                &ldquo;Detox without medical supervision is not bravery — it is unnecessary risk. Science has given us the tools to make this process significantly safer and more humane.&rdquo;
+                <AutoLinkedText>{"&ldquo;Detox without medical supervision is not bravery — it is unnecessary risk. Science has given us the tools to make this process significantly safer and more humane.&rdquo;"}</AutoLinkedText>
               </p>
               <p className="mt-3 text-[11px] font-medium uppercase tracking-[0.2em] text-ink/40">
-                Rize OC Medical Director
+                <AutoLinkedText>{"Rize OC Medical Director"}</AutoLinkedText>
               </p>
             </blockquote>
           </div>
@@ -301,7 +302,7 @@ export default function DetoxPage() {
             {/* Why it matters card */}
             <div className="bg-ink p-7">
               <p className="text-[10px] font-semibold uppercase tracking-[0.35em] text-accent mb-4">
-                Why Supervision Matters
+                <AutoLinkedText>{"Why Supervision Matters"}</AutoLinkedText>
               </p>
               <div className="flex flex-col gap-5">
                 {[
@@ -312,7 +313,7 @@ export default function DetoxPage() {
                 ].map(({ icon, point }) => (
                   <div key={point} className="flex items-start gap-3">
                     <i className={`${icon} text-accent text-base shrink-0 mt-0.5`} />
-                    <p className="text-sm font-light text-white/65 leading-snug">{point}</p>
+                    <p className="text-sm font-light text-white/65 leading-snug"><AutoLinkedText>{point}</AutoLinkedText></p>
                   </div>
                 ))}
               </div>
@@ -373,9 +374,7 @@ export default function DetoxPage() {
                 <h3 className="font-[family-name:var(--font-display)] text-[26px] font-normal text-ink leading-snug mb-3">
                   {title}
                 </h3>
-                <p className="text-[15px] font-light leading-relaxed text-ink/65 mb-5 flex-1">
-                  {body}
-                </p>
+                <p className="text-[15px] font-light leading-relaxed text-ink/65 mb-5 flex-1"><AutoLinkedText>{body}</AutoLinkedText></p>
                 <div className="flex flex-wrap gap-2">
                   {tags.map((tag) => (
                     <span key={tag} className="text-[11px] font-medium uppercase tracking-[0.15em] border border-warm px-3 py-1.5 text-ink/65">
@@ -402,7 +401,7 @@ export default function DetoxPage() {
               Substances We <em className="italic text-white/60">Treat</em>
             </h2>
             <p className="text-[15px] font-light text-white/65 max-w-2xl mx-auto">
-              Our medical team is experienced in managing withdrawal from every major substance — including complex polysubstance presentations.
+              <AutoLinkedText>{"Our medical team is experienced in managing withdrawal from every major substance — including complex polysubstance presentations."}</AutoLinkedText>
             </p>
           </div>
 
@@ -418,7 +417,7 @@ export default function DetoxPage() {
                 <h3 className="font-[family-name:var(--font-display)] text-[22px] font-normal text-white mb-3">
                   {title}
                 </h3>
-                <p className="text-[14px] font-light leading-relaxed text-white/75 flex-1">{desc}</p>
+                <p className="text-[14px] font-light leading-relaxed text-white/75 flex-1"><AutoLinkedText>{desc}</AutoLinkedText></p>
               </div>
             ))}
           </div>
@@ -446,13 +445,13 @@ export default function DetoxPage() {
             </h2>
             <div className="flex flex-col gap-5">
               <p className="text-[15px] font-light leading-relaxed text-ink/65">
-                Withdrawal is not simply uncomfortable — for alcohol, benzodiazepines, and some opioid presentations, it can be life-threatening. Seizures, cardiac arrhythmias, and delirium tremens are medical emergencies that occur without warning in unmanaged withdrawal.
+                <AutoLinkedText>{"Withdrawal is not simply uncomfortable — for alcohol, benzodiazepines, and some opioid presentations, it can be life-threatening. Seizures, cardiac arrhythmias, and delirium tremens are medical emergencies that occur without warning in unmanaged withdrawal."}</AutoLinkedText>
               </p>
               <p className="text-[15px] font-light leading-relaxed text-ink/65">
-                Even when withdrawal is not medically dangerous, the intensity of symptoms is the most common reason people relapse in the first days of a recovery attempt. Returning to use to relieve withdrawal symptoms is not a moral failure — it is a predictable physiological response that medical support can prevent.
+                <AutoLinkedText>{"Even when withdrawal is not medically dangerous, the intensity of symptoms is the most common reason people relapse in the first days of a recovery attempt. Returning to use to relieve withdrawal symptoms is not a moral failure — it is a predictable physiological response that medical support can prevent."}</AutoLinkedText>
               </p>
               <p className="text-[15px] font-light leading-relaxed text-ink/65">
-                Medical detox changes the calculus entirely. Evidence-based withdrawal management medications — combined with continuous medical monitoring — dramatically reduce both the danger and the discomfort, giving you the best possible foundation for the treatment work that follows.
+                <AutoLinkedText>{"Medical detox changes the calculus entirely. Evidence-based withdrawal management medications — combined with continuous medical monitoring — dramatically reduce both the danger and the discomfort, giving you the best possible foundation for the treatment work that follows."}</AutoLinkedText>
               </p>
             </div>
 
@@ -466,7 +465,7 @@ export default function DetoxPage() {
               ].map((item) => (
                 <div key={item} className="flex items-center gap-3">
                   <div className="w-2 h-2 rounded-full bg-accent shrink-0" />
-                  <p className="text-[15px] font-light text-ink/70">{item}</p>
+                  <p className="text-[15px] font-light text-ink/70"><AutoLinkedText>{item}</AutoLinkedText></p>
                 </div>
               ))}
             </div>
@@ -479,10 +478,8 @@ export default function DetoxPage() {
                 <p
                   className="font-[family-name:var(--font-display)] font-normal text-accent shrink-0"
                   style={{ fontSize: "clamp(40px, 4vw, 56px)", lineHeight: 1 }}
-                >
-                  {stat}
-                </p>
-                <p className="text-[15px] font-light leading-relaxed text-ink/65 pt-2">{detail}</p>
+                ><AutoLinkedText>{stat}</AutoLinkedText></p>
+                <p className="text-[15px] font-light leading-relaxed text-ink/65 pt-2"><AutoLinkedText>{detail}</AutoLinkedText></p>
               </div>
             ))}
           </div>
@@ -502,13 +499,13 @@ export default function DetoxPage() {
               Who Is Medical Detox For?
             </h2>
             <p className="text-[15px] font-light leading-relaxed text-ink/65 mb-8">
-              Medical detox is indicated for any individual with significant physical dependence on a substance. If you&apos;re unsure whether you need detox, our admissions team will assess your situation and give you an honest recommendation.
+              <AutoLinkedText>{"Medical detox is indicated for any individual with significant physical dependence on a substance. If you&apos;re unsure whether you need detox, our admissions team will assess your situation and give you an honest recommendation."}</AutoLinkedText>
             </p>
             <Button href="tel:9494612620" variant="ink" size="sm">
               Speak With Admissions
             </Button>
             <p className="mt-4 text-[12px] font-light text-ink/50 leading-relaxed">
-              Free &middot; Confidential &middot; No obligation &middot; Same-day response
+              <AutoLinkedText>{"Free &middot; Confidential &middot; No obligation &middot; Same-day response"}</AutoLinkedText>
             </p>
           </div>
 
@@ -517,7 +514,7 @@ export default function DetoxPage() {
             {candidacyItems.map(({ icon, label }) => (
               <div key={label} className="flex items-center gap-4 border border-warm px-5 py-4">
                 <IconCircle icon={icon} variant="accent-subtle" size="xs" className="shrink-0" />
-                <p className="text-[14px] font-light text-ink/75 leading-snug">{label}</p>
+                <p className="text-[14px] font-light text-ink/75 leading-snug"><AutoLinkedText>{label}</AutoLinkedText></p>
               </div>
             ))}
           </div>
@@ -553,7 +550,7 @@ export default function DetoxPage() {
                 <h3 className="font-[family-name:var(--font-display)] text-[22px] font-normal text-ink mb-3 leading-snug">
                   {title}
                 </h3>
-                <p className="text-[14px] font-light leading-relaxed text-ink/70 flex-1">{desc}</p>
+                <p className="text-[14px] font-light leading-relaxed text-ink/70 flex-1"><AutoLinkedText>{desc}</AutoLinkedText></p>
                 <div className="mt-6">
                   <Link
                     href={href}
@@ -594,7 +591,7 @@ export default function DetoxPage() {
               Frequently Asked Questions
             </h2>
             <p className="text-[15px] font-light leading-relaxed text-ink/60 mb-8">
-              Questions are a natural part of this process. Our admissions team is also available to answer anything you don&apos;t find here.
+              <AutoLinkedText>{"Questions are a natural part of this process. Our admissions team is also available to answer anything you don&apos;t find here."}</AutoLinkedText>
             </p>
             <a
               href="tel:9494612620"
@@ -628,7 +625,7 @@ export default function DetoxPage() {
             You Don&apos;t Have to Navigate This Alone
           </h2>
           <p className="mt-6 text-[15px] font-light leading-relaxed text-white/55 max-w-xl mx-auto">
-            Our admissions team is available 24 hours a day, 7 days a week — to answer your questions, verify your insurance, and help you understand every option. All conversations are completely confidential.
+            <AutoLinkedText>{"Our admissions team is available 24 hours a day, 7 days a week — to answer your questions, verify your insurance, and help you understand every option. All conversations are completely confidential."}</AutoLinkedText>
           </p>
           <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
             <Button href="tel:9494612620" variant="accent" size="lg">

@@ -1,6 +1,7 @@
 import CompanyFaqAccordion, {
   type FaqItem,
 } from "@/views/our-company/components/CompanyFaqAccordion";
+import { AutoLinkedText } from "@sweetmedia/blog-core";
 import OurCompanyLeadSection from "@/views/our-company/components/OurCompanyLeadSection";
 
 /** Elementor post-639 — migration HTML (fewer items than long-form WP marketing copy elsewhere). */
@@ -10,8 +11,7 @@ const faqItems: FaqItem[] = [
     a: (
       <>
         <p>
-          Outsourcing medical billing frees up your time and resources so you can focus on what matters most: caring for
-          your patients. Cipher Billing goes beyond the basics by delivering:
+          <AutoLinkedText>{"Outsourcing medical billing frees up your time and resources so you can focus on what matters most: caring for\n          your patients. Cipher Billing goes beyond the basics by delivering:"}</AutoLinkedText>
         </p>
         <ul>
           <li>Informed admissions support, so you only accept patients who are right for your practice.</li>
@@ -19,7 +19,7 @@ const faqItems: FaqItem[] = [
           <li>Compliance expertise that ensures your billing stays accurate and audit-ready.</li>
           <li>Proactive claims management reduces denials and speeds up reimbursements.</li>
         </ul>
-        <p>The result is less administrative stress, faster days to first payment, and more reliable revenue.</p>
+        <p><AutoLinkedText>{"The result is less administrative stress, faster days to first payment, and more reliable revenue."}</AutoLinkedText></p>
       </>
     ),
   },
@@ -27,7 +27,7 @@ const faqItems: FaqItem[] = [
     q: "What makes Cipher Billing different from other billing companies?",
     a: (
       <>
-        <p>Cipher Billing combines deep expertise with a personal touch. Here&apos;s how we stand apart:</p>
+        <p><AutoLinkedText>{"Cipher Billing combines deep expertise with a personal touch. Here&apos;s how we stand apart:"}</AutoLinkedText></p>
         <ul>
           <li>
             <strong>Dedicated Experience Executive:</strong> Works directly with your admissions and clinical teams to
@@ -51,7 +51,7 @@ const faqItems: FaqItem[] = [
             finalized claims, sometimes resulting in up to <strong>70% additional reimbursement</strong>.
           </li>
         </ul>
-        <p>We don&apos;t just manage your billing—we actively strengthen your practice&apos;s financial foundation.</p>
+        <p><AutoLinkedText>{"We don&apos;t just manage your billing—we actively strengthen your practice&apos;s financial foundation."}</AutoLinkedText></p>
       </>
     ),
   },
@@ -75,8 +75,7 @@ const faqItems: FaqItem[] = [
     a: (
       <>
         <p>
-          With our end-to-end process, your claims are monitored at every stage, giving you confidence that nothing is
-          overlooked and every dollar is pursued.
+          <AutoLinkedText>{"With our end-to-end process, your claims are monitored at every stage, giving you confidence that nothing is\n          overlooked and every dollar is pursued."}</AutoLinkedText>
         </p>
         <ul>
           <li>
@@ -97,7 +96,7 @@ const faqItems: FaqItem[] = [
             additional reimbursement.
           </li>
         </ul>
-        <p>This process results in faster first day payment, stronger compliance, and predictable revenue.</p>
+        <p><AutoLinkedText>{"This process results in faster first day payment, stronger compliance, and predictable revenue."}</AutoLinkedText></p>
       </>
     ),
   },
@@ -105,7 +104,7 @@ const faqItems: FaqItem[] = [
     q: "How does Cipher Billing measure success for your clients?",
     a: (
       <>
-        <p>We measure success by more than collections. It&apos;s about peace of mind and long-term stability. Our clients see:</p>
+        <p><AutoLinkedText>{"We measure success by more than collections. It&apos;s about peace of mind and long-term stability. Our clients see:"}</AutoLinkedText></p>
         <ul>
           <li>Higher reimbursements (sometimes up to 70% more through post-negotiation).</li>
           <li>Days to first payment (30 day average turnaround).</li>
@@ -115,8 +114,7 @@ const faqItems: FaqItem[] = [
           <li>Reduced administrative burden so providers can focus on patient care.</li>
         </ul>
         <p>
-          Success for us means protecting your revenue cycle, giving you clarity, and ensuring you get paid what you
-          deserve without compromise.
+          <AutoLinkedText>{"Success for us means protecting your revenue cycle, giving you clarity, and ensuring you get paid what you\n          deserve without compromise."}</AutoLinkedText>
         </p>
       </>
     ),
@@ -132,7 +130,7 @@ export default function FaqPage() {
             Frequently Asked <span className="text-[#246D92]">Questions</span>
           </h1>
           <p className="mx-auto mt-4 max-w-2xl text-center text-sm leading-[1.42] text-white/85 md:text-base">
-            Everything you need to know about partnering with Cipher Billing for your revenue cycle management.
+            <AutoLinkedText>{"Everything you need to know about partnering with Cipher Billing for your revenue cycle management."}</AutoLinkedText>
           </p>
           <CompanyFaqAccordion items={faqItems} showNumbers={false} />
         </div>

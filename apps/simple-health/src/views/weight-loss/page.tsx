@@ -3,6 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
+import { AutoLinkedTextClient } from "@sweetmedia/blog-core";
 
 const SUPABASE_IMG =
   "https://zxpkxysqzxozgocfuvug.supabase.co/storage/v1/object/public/site-assets/images/wp-migrated";
@@ -359,7 +360,7 @@ function FaqItem({ q, a }: { q: string; a: string }) {
           aria-hidden
         />
       </button>
-      {open && <p className="pb-5 text-sm leading-7 text-[#555]">{a}</p>}
+      {open && <p className="pb-5 text-sm leading-7 text-[#555]"><AutoLinkedTextClient>{a}</AutoLinkedTextClient></p>}
     </div>
   );
 }
@@ -390,8 +391,7 @@ export function WeightLossPage() {
                 <span className="text-[#C67B5C]">Weight Loss Support</span>
               </h1>
               <p className="mt-5 max-w-xl text-base leading-7 text-[#555]">
-                GLP-1 and dual-agonist medications—Tirzepatide and Semaglutide—prescribed
-                by metabolic physicians and delivered to your door. No gimmicks. No guesswork.
+                <AutoLinkedTextClient>{"GLP-1 and dual-agonist medications—Tirzepatide and Semaglutide—prescribed\n                by metabolic physicians and delivered to your door. No gimmicks. No guesswork."}</AutoLinkedTextClient>
               </p>
 
               {/* Stats — icon + label LEFT, value RIGHT (space-between) */}
@@ -402,7 +402,7 @@ export function WeightLossPage() {
                       <i className={`${s.icon} text-base text-[#C67B5C]`} aria-hidden />
                       <span className="text-sm text-[#555]">{s.label}</span>
                     </div>
-                    <p className="font-serif text-2xl font-semibold text-[#2A2A2A]">{s.value}</p>
+                    <p className="font-serif text-2xl font-semibold text-[#2A2A2A]"><AutoLinkedTextClient>{s.value}</AutoLinkedTextClient></p>
                   </div>
                 ))}
               </div>
@@ -421,8 +421,8 @@ export function WeightLossPage() {
             <div className="overflow-hidden rounded-2xl bg-white shadow-md ring-1 ring-[#E8E2D9]">
               {/* Title block */}
               <div className="px-8 pt-7 pb-5 text-center">
-                <p className="font-serif text-xl text-[#2A2A2A]">Weight Loss Consultation</p>
-                <p className="mt-1 text-sm text-[#888]">Weight loss &amp; metabolic therapies</p>
+                <p className="font-serif text-xl text-[#2A2A2A]"><AutoLinkedTextClient>{"Weight Loss Consultation"}</AutoLinkedTextClient></p>
+                <p className="mt-1 text-sm text-[#888]"><AutoLinkedTextClient>{"Weight loss &amp; metabolic therapies"}</AutoLinkedTextClient></p>
               </div>
 
               {/* Price row with vertical divider */}
@@ -440,7 +440,7 @@ export function WeightLossPage() {
               {/* What's included */}
               <div className="px-8 pt-5 pb-7">
                 <p className="mb-4 text-[0.65rem] font-semibold uppercase tracking-[0.14em] text-[#888]">
-                  What&apos;s Included:
+                  <AutoLinkedTextClient>{"What&apos;s Included:"}</AutoLinkedTextClient>
                 </p>
                 <ul className="space-y-2.5">
                   {consultationIncludes.map((item) => (
@@ -465,7 +465,7 @@ export function WeightLossPage() {
               Three Treatment Paths
             </h2>
             <p className="mt-4 text-sm leading-7 text-[#555]">
-              Evidence-based medications from proven standards to cutting-edge innovations.
+              <AutoLinkedTextClient>{"Evidence-based medications from proven standards to cutting-edge innovations."}</AutoLinkedTextClient>
             </p>
           </div>
 
@@ -483,7 +483,7 @@ export function WeightLossPage() {
                     </span>
                     <div>
                       <h3 className="font-serif text-xl text-[#2A2A2A]">{med.name}</h3>
-                      <p className="text-[0.7rem] text-[#888]">{med.delivery}</p>
+                      <p className="text-[0.7rem] text-[#888]"><AutoLinkedTextClient>{med.delivery}</AutoLinkedTextClient></p>
                     </div>
                   </div>
                   <span className={`shrink-0 self-start rounded-full px-3 py-1 text-[0.62rem] font-semibold ${med.badgeColor}`}>
@@ -494,11 +494,11 @@ export function WeightLossPage() {
                 {/* Price LEFT, avg% RIGHT */}
                 <div className="mt-5 flex items-end justify-between border-b border-[#E8E2D9] pb-5">
                   <div>
-                    <p className="font-serif text-xl font-semibold text-[#2A2A2A]">{med.price}</p>
+                    <p className="font-serif text-xl font-semibold text-[#2A2A2A]"><AutoLinkedTextClient>{med.price}</AutoLinkedTextClient></p>
                     <p className="mt-0.5 text-[0.65rem] italic text-[#aaa]">*Based On Dosing*</p>
                   </div>
                   <div className="text-right">
-                    <p className="font-serif text-3xl font-semibold text-[#C67B5C]">{med.avgLoss}</p>
+                    <p className="font-serif text-3xl font-semibold text-[#C67B5C]"><AutoLinkedTextClient>{med.avgLoss}</AutoLinkedTextClient></p>
                     <p className="text-[0.6rem] font-semibold uppercase tracking-[0.1em] text-[#888]">Avg. Loss</p>
                   </div>
                 </div>
@@ -553,8 +553,8 @@ export function WeightLossPage() {
               <h3 className="mt-4 font-serif text-2xl text-[#2A2A2A] md:text-[1.85rem]">
                 {active.name}
               </h3>
-              <p className="mt-1 text-sm italic text-[#888]">{active.subtitle}</p>
-              <p className="mt-4 text-sm leading-7 text-[#555]">{active.summary}</p>
+              <p className="mt-1 text-sm italic text-[#888]"><AutoLinkedTextClient>{active.subtitle}</AutoLinkedTextClient></p>
+              <p className="mt-4 text-sm leading-7 text-[#555]"><AutoLinkedTextClient>{active.summary}</AutoLinkedTextClient></p>
 
               {/* First highlight as a pill chip */}
               <div className="mt-5 flex items-center gap-2.5 rounded-lg bg-[#C67B5C]/10 px-4 py-2.5">
@@ -583,8 +583,8 @@ export function WeightLossPage() {
                   <div key={e.label} className="flex gap-4 py-4 first:pt-0 last:pb-0">
                     <span className="mt-1.5 h-2.5 w-2.5 shrink-0 rounded-full bg-[#C67B5C]" aria-hidden />
                     <div>
-                      <p className="font-semibold text-[#2A2A2A]">{e.label}</p>
-                      <p className="mt-1 text-sm leading-6 text-[#555]">{e.detail}</p>
+                      <p className="font-semibold text-[#2A2A2A]"><AutoLinkedTextClient>{e.label}</AutoLinkedTextClient></p>
+                      <p className="mt-1 text-sm leading-6 text-[#555]"><AutoLinkedTextClient>{e.detail}</AutoLinkedTextClient></p>
                     </div>
                   </div>
                 ))}
@@ -600,8 +600,8 @@ export function WeightLossPage() {
                       {i + 1}
                     </span>
                     <div>
-                      <p className="text-xs font-semibold text-[#C67B5C]">{t.phase}</p>
-                      <p className="text-sm text-[#555]">{t.outcome}</p>
+                      <p className="text-xs font-semibold text-[#C67B5C]"><AutoLinkedTextClient>{t.phase}</AutoLinkedTextClient></p>
+                      <p className="text-sm text-[#555]"><AutoLinkedTextClient>{t.outcome}</AutoLinkedTextClient></p>
                     </div>
                   </div>
                 ))}
@@ -610,8 +610,7 @@ export function WeightLossPage() {
           </div>
 
           <p className="mt-6 text-center text-xs text-[#999]">
-            Results are based on clinical trial data (SURMOUNT-1, STEP 1, PIONEER programs).
-            Individual results vary. Medication prescribed only where clinically appropriate.
+            <AutoLinkedTextClient>{"Results are based on clinical trial data (SURMOUNT-1, STEP 1, PIONEER programs).\n            Individual results vary. Medication prescribed only where clinically appropriate."}</AutoLinkedTextClient>
           </p>
         </div>
       </section>
@@ -627,7 +626,7 @@ export function WeightLossPage() {
               From click to care in days, not weeks.
             </h2>
             <p className="mt-4 text-sm leading-7 text-[#555]">
-              No waiting rooms. No insurance hassles. 94% of patients start treatment within 48 hours.
+              <AutoLinkedTextClient>{"No waiting rooms. No insurance hassles. 94% of patients start treatment within 48 hours."}</AutoLinkedTextClient>
             </p>
           </div>
 
@@ -646,7 +645,7 @@ export function WeightLossPage() {
                   <span className="mr-1.5 text-sm font-bold text-[#DDD]">0{i + 1}</span>
                   {step.title}
                 </h3>
-                <p className="mt-2 text-sm leading-6 text-[#666]">{step.description}</p>
+                <p className="mt-2 text-sm leading-6 text-[#666]"><AutoLinkedTextClient>{step.description}</AutoLinkedTextClient></p>
               </div>
             ))}
           </div>
@@ -675,9 +674,7 @@ export function WeightLossPage() {
                 <span className="text-[#C67B5C]">Metabolic transformation.</span>
               </h2>
               <p className="mt-4 text-sm leading-7 text-[#555]">
-                GLP-1 and dual-agonist therapies don't just reduce the number on the scale.
-                They improve the underlying metabolic conditions that make sustained weight
-                management so difficult.
+                <AutoLinkedTextClient>{"GLP-1 and dual-agonist therapies don't just reduce the number on the scale.\n                They improve the underlying metabolic conditions that make sustained weight\n                management so difficult."}</AutoLinkedTextClient>
               </p>
               <ul className="mt-8 space-y-6">
                 {benefits.map((b) => (
@@ -686,8 +683,8 @@ export function WeightLossPage() {
                       <i className={`${b.icon} text-xl`} aria-hidden />
                     </span>
                     <div>
-                      <p className="font-semibold text-[#2A2A2A]">{b.title}</p>
-                      <p className="mt-1 text-sm leading-6 text-[#555]">{b.description}</p>
+                      <p className="font-semibold text-[#2A2A2A]"><AutoLinkedTextClient>{b.title}</AutoLinkedTextClient></p>
+                      <p className="mt-1 text-sm leading-6 text-[#555]"><AutoLinkedTextClient>{b.description}</AutoLinkedTextClient></p>
                     </div>
                   </li>
                 ))}
@@ -729,7 +726,7 @@ export function WeightLossPage() {
               Consultation Fees
             </h2>
             <p className="mt-4 text-sm leading-7 text-[#555]">
-              Physician-guided care with complete pricing clarity.
+              <AutoLinkedTextClient>{"Physician-guided care with complete pricing clarity."}</AutoLinkedTextClient>
             </p>
           </div>
 
@@ -737,16 +734,16 @@ export function WeightLossPage() {
             {pricingTiers.map((tier) => (
               <div key={tier.label} className="flex flex-col rounded-3xl bg-white p-7 shadow-sm ring-1 ring-[#E8E2D9]">
                 <h3 className="font-serif text-xl text-[#2A2A2A]">{tier.label}</h3>
-                <p className="mt-1 text-xs text-[#888]">{tier.subtitle}</p>
+                <p className="mt-1 text-xs text-[#888]"><AutoLinkedTextClient>{tier.subtitle}</AutoLinkedTextClient></p>
 
                 <div className="mt-6 grid grid-cols-2 divide-x divide-[#E8E2D9] rounded-2xl bg-[#FAF7F4] py-4 ring-1 ring-[#E8E2D9]">
                   <div className="px-5 text-center">
                     <p className="text-[0.6rem] font-semibold uppercase tracking-[0.1em] text-[#888]">First Visit</p>
-                    <p className="mt-1.5 font-serif text-2xl font-semibold text-[#C67B5C]">{tier.firstVisit}</p>
+                    <p className="mt-1.5 font-serif text-2xl font-semibold text-[#C67B5C]"><AutoLinkedTextClient>{tier.firstVisit}</AutoLinkedTextClient></p>
                   </div>
                   <div className="px-5 text-center">
                     <p className="text-[0.6rem] font-semibold uppercase tracking-[0.1em] text-[#888]">Follow-Up</p>
-                    <p className="mt-1.5 font-serif text-2xl font-semibold text-[#C67B5C]">{tier.followUp}</p>
+                    <p className="mt-1.5 font-serif text-2xl font-semibold text-[#C67B5C]"><AutoLinkedTextClient>{tier.followUp}</AutoLinkedTextClient></p>
                   </div>
                 </div>
 

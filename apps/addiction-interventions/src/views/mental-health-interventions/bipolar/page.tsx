@@ -5,6 +5,7 @@ import BottomCta from "@/components/sections/BottomCta";
 import HeroContactForm from "@/components/feature/HeroContactForm";
 import { PHONE_DISPLAY, PHONE_HREF } from "@/data/site";
 import type { Faq } from "@/data/faqs";
+import { AutoLinkedText } from "@sweetmedia/blog-core";
 
 const SUPABASE_IMAGES = "https://bxtwcdgjzzjxjvqdiuvn.supabase.co/storage/v1/object/public/site-assets/images";
 const HERO_BG = `${SUPABASE_IMAGES}/bipolar_hero01.jpg`;
@@ -122,15 +123,13 @@ export default function BipolarInterventionsPage() {
         <div className={`relative ${CONTAINER} py-24 lg:py-32`}>
           <div className="grid items-center gap-14 lg:grid-cols-[1fr_460px]">
             <div>
-              <p className="brand-eyebrow mb-4 text-[#8FAC87]">Bipolar Disorder Interventions</p>
+              <p className="brand-eyebrow mb-4 text-[#8FAC87]"><AutoLinkedText>{"Bipolar Disorder Interventions"}</AutoLinkedText></p>
               <h1 className="font-heading mb-6 text-4xl font-bold leading-tight text-white md:text-5xl lg:text-6xl">
                 Bipolar interventions —{" "}
                 <span className="italic text-[#8FAC87]">navigating the highs and protecting from the lows</span>
               </h1>
               <p className="mb-8 max-w-lg text-base leading-relaxed text-white/80 md:text-lg">
-                Bipolar disorder&apos;s manic highs make the need for help nearly impossible to see — until the crash. We help
-                families intervene during the window between episodes, with a plan that addresses both mood instability and
-                any co-occurring substance use.
+                <AutoLinkedText>{"Bipolar disorder&apos;s manic highs make the need for help nearly impossible to see — until the crash. We help\n                families intervene during the window between episodes, with a plan that addresses both mood instability and\n                any co-occurring substance use."}</AutoLinkedText>
               </p>
               <div className="mb-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
                 <a
@@ -166,13 +165,12 @@ export default function BipolarInterventionsPage() {
         <div className={CONTAINER}>
           <div className="grid gap-16 lg:grid-cols-2 lg:items-start">
             <div>
-              <p className="brand-eyebrow mb-4 text-[#8FAC87]">Recognising the Pattern</p>
+              <p className="brand-eyebrow mb-4 text-[#8FAC87]"><AutoLinkedText>{"Recognising the Pattern"}</AutoLinkedText></p>
               <h2 className="font-heading mb-6 text-4xl font-bold leading-tight text-[#1A1A17] md:text-5xl">
                 Warning signs a bipolar intervention <span className="italic text-[#507969]">may be needed</span>
               </h2>
               <p className="mb-8 text-base leading-relaxed text-[#4B4B4B]">
-                Bipolar disorder is often dismissed as stress, creativity, or personality. By the time families seek help,
-                the damage is already significant. These are the signs that professional intervention is the right next step.
+                <AutoLinkedText>{"Bipolar disorder is often dismissed as stress, creativity, or personality. By the time families seek help,\n                the damage is already significant. These are the signs that professional intervention is the right next step."}</AutoLinkedText>
               </p>
               <ul className="grid gap-3">
                 {SIGNS.map((item) => (
@@ -196,8 +194,8 @@ export default function BipolarInterventionsPage() {
                   <span className="flex h-12 w-12 items-center justify-center rounded-full bg-[#3E5B50] text-white">
                     <i className={`text-xl ${s.icon}`}></i>
                   </span>
-                  <p className="font-heading mt-4 text-3xl font-bold text-[#3E5B50]">{s.number}</p>
-                  <p className="mt-1 text-xs font-medium text-[#4B4B4B]">{s.label}</p>
+                  <p className="font-heading mt-4 text-3xl font-bold text-[#3E5B50]"><AutoLinkedText>{s.number}</AutoLinkedText></p>
+                  <p className="mt-1 text-xs font-medium text-[#4B4B4B]"><AutoLinkedText>{s.label}</AutoLinkedText></p>
                 </div>
               ))}
             </div>
@@ -211,7 +209,7 @@ export default function BipolarInterventionsPage() {
         <div className="pointer-events-none absolute -left-20 bottom-0 h-64 w-64 rounded-full bg-[#8FAC87]/15" />
         <div className={`relative ${CONTAINER}`}>
           <div className="mx-auto mb-14 max-w-2xl text-center">
-            <p className="brand-eyebrow mb-4 text-[#8FAC87]">Setting the Record Straight</p>
+            <p className="brand-eyebrow mb-4 text-[#8FAC87]"><AutoLinkedText>{"Setting the Record Straight"}</AutoLinkedText></p>
             <h2 className="font-heading text-4xl font-bold text-white md:text-5xl">
               What families <span className="italic text-[#8FAC87]">get wrong</span> about bipolar interventions
             </h2>
@@ -222,8 +220,8 @@ export default function BipolarInterventionsPage() {
                 <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-xl bg-[#8FAC87]/20 text-[#8FAC87]">
                   <i className={`${m.icon} text-lg`}></i>
                 </div>
-                <p className="mb-3 text-sm font-semibold italic text-white/60">{m.myth}</p>
-                <p className="text-sm leading-relaxed text-white/85">{m.truth}</p>
+                <p className="mb-3 text-sm font-semibold italic text-white/60"><AutoLinkedText>{m.myth}</AutoLinkedText></p>
+                <p className="text-sm leading-relaxed text-white/85"><AutoLinkedText>{m.truth}</AutoLinkedText></p>
               </div>
             ))}
           </div>
@@ -236,9 +234,9 @@ export default function BipolarInterventionsPage() {
         <div className="absolute inset-0 bg-gradient-to-r from-[#1A1A17]/70 via-[#1A1A17]/50 to-transparent" />
         <div className="absolute bottom-0 left-0 p-10 text-white">
           <p className="font-heading max-w-md text-2xl italic">
-            &ldquo;The highs destroyed our finances. The intervention finally got him the right psychiatric care.&rdquo;
+            <AutoLinkedText>{"&ldquo;The highs destroyed our finances. The intervention finally got him the right psychiatric care.&rdquo;"}</AutoLinkedText>
           </p>
-          <p className="mt-2 text-sm text-white/70">— Wife of a husband with bipolar I, now in stable recovery</p>
+          <p className="mt-2 text-sm text-white/70"><AutoLinkedText>{"— Wife of a husband with bipolar I, now in stable recovery"}</AutoLinkedText></p>
         </div>
       </section>
 
@@ -262,7 +260,7 @@ export default function BipolarInterventionsPage() {
                   </span>
                 </span>
                 <h3 className="font-heading mb-2 text-base font-bold text-[#1A1A17]">{step.title}</h3>
-                <p className="text-sm leading-relaxed text-[#4B4B4B]">{step.body}</p>
+                <p className="text-sm leading-relaxed text-[#4B4B4B]"><AutoLinkedText>{step.body}</AutoLinkedText></p>
               </div>
             ))}
           </div>

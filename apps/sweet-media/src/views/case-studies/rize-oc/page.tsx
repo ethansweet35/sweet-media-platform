@@ -5,6 +5,7 @@ import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import SiteHeader from "@/components/feature/SiteHeader";
 import Footer from "@/components/pages/home/components/Footer";
+import { AutoLinkedTextClient } from "@sweetmedia/blog-core";
 
 const heroStats = [
   { val: "30×", label: "Ad Spend Scaled", icon: "ri-rocket-line", color: "text-emerald-600", bg: "bg-emerald-50" },
@@ -357,7 +358,7 @@ export default function RizeOcPage() {
                 </h1>
 
                 <p className={`text-white/55 text-base leading-relaxed max-w-lg font-light transition-all duration-700 delay-150 ${heroVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}`}>
-                  How Sweet Media helped Rize OC scale paid advertising from $10,000 to $300,000 per month in 4 months — while cutting cost per acquisition from $350 to $115.
+                  <AutoLinkedTextClient>{"How Sweet Media helped Rize OC scale paid advertising from $10,000 to $300,000 per month in 4 months — while cutting cost per acquisition from $350 to $115."}</AutoLinkedTextClient>
                 </p>
               </div>
 
@@ -406,13 +407,13 @@ export default function RizeOcPage() {
                 </h2>
                 <div className="space-y-4 text-black/60 text-sm leading-relaxed font-light">
                   <p>
-                    Rize OC is a behavioral health treatment provider in Orange County, California, offering addiction treatment, detox, outpatient care, and mental health services. At the start of the engagement, Rize OC was spending approximately $10,000 per month on Google Ads with a cost per acquisition of around $350.
+                    <AutoLinkedTextClient>{"Rize OC is a behavioral health treatment provider in Orange County, California, offering addiction treatment, detox, outpatient care, and mental health services. At the start of the engagement, Rize OC was spending approximately $10,000 per month on Google Ads with a cost per acquisition of around $350."}</AutoLinkedTextClient>
                   </p>
                   <p>
-                    The goal was straightforward but demanding: scale spend aggressively while simultaneously improving efficiency. In behavioral health advertising — one of the most competitive and expensive verticals in paid search — that combination requires more than just increasing budgets. It requires a fundamentally different campaign architecture.
+                    <AutoLinkedTextClient>{"The goal was straightforward but demanding: scale spend aggressively while simultaneously improving efficiency. In behavioral health advertising — one of the most competitive and expensive verticals in paid search — that combination requires more than just increasing budgets. It requires a fundamentally different campaign architecture."}</AutoLinkedTextClient>
                   </p>
                   <p>
-                    Sweet Media partnered with Rize OC to rebuild the paid media system from the ground up — creating intent-based campaign structures, dedicated landing pages for every campaign, geographic segmentation, and a multi-channel expansion strategy that ultimately scaled the account to $300,000/month in 4 months while reducing CPA by 67%.
+                    <AutoLinkedTextClient>{"Sweet Media partnered with Rize OC to rebuild the paid media system from the ground up — creating intent-based campaign structures, dedicated landing pages for every campaign, geographic segmentation, and a multi-channel expansion strategy that ultimately scaled the account to $300,000/month in 4 months while reducing CPA by 67%."}</AutoLinkedTextClient>
                   </p>
                 </div>
               </div>
@@ -432,7 +433,7 @@ export default function RizeOcPage() {
                   </div>
                   <div className="mt-8 pt-6 border-t border-black/8">
                     <p className="text-[10px] tracking-[0.3em] uppercase text-black/40 font-semibold mb-3">Industry</p>
-                    <p className="text-sm text-black/70">Behavioral Health · Addiction Treatment · Detox · Mental Health</p>
+                    <p className="text-sm text-black/70"><AutoLinkedTextClient>{"Behavioral Health · Addiction Treatment · Detox · Mental Health"}</AutoLinkedTextClient></p>
                   </div>
                 </div>
               </div>
@@ -451,7 +452,7 @@ export default function RizeOcPage() {
               Scaling spend in one of the most competitive verticals in paid search.
             </h2>
             <p className="text-black/50 text-sm leading-relaxed mb-12 max-w-xl font-light">
-              Behavioral health keywords carry high CPCs, strict compliance requirements, and intense competition. Scaling without a disciplined structure means wasted spend, poor lead quality, and rising CPAs.
+              <AutoLinkedTextClient>{"Behavioral health keywords carry high CPCs, strict compliance requirements, and intense competition. Scaling without a disciplined structure means wasted spend, poor lead quality, and rising CPAs."}</AutoLinkedTextClient>
             </p>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
               {challenges.map((c) => (
@@ -460,7 +461,7 @@ export default function RizeOcPage() {
                     <i className={`${c.icon} text-[#0A1F44] text-lg`}></i>
                   </div>
                   <h3 className="text-base font-semibold text-black mb-2" style={{ fontFamily: "'Playfair Display', serif" }}>{c.title}</h3>
-                  <p className="text-sm text-black/55 leading-relaxed font-light">{c.desc}</p>
+                  <p className="text-sm text-black/55 leading-relaxed font-light"><AutoLinkedTextClient>{c.desc}</AutoLinkedTextClient></p>
                 </div>
               ))}
             </div>
@@ -478,7 +479,7 @@ export default function RizeOcPage() {
               Build a scalable acquisition system — not just bigger campaigns.
             </h2>
             <p className="text-black/50 text-sm leading-relaxed mb-14 max-w-xl font-light">
-              Sweet Media rebuilt the paid media architecture around six core pillars — each designed to improve efficiency at scale rather than just increase spend.
+              <AutoLinkedTextClient>{"Sweet Media rebuilt the paid media architecture around six core pillars — each designed to improve efficiency at scale rather than just increase spend."}</AutoLinkedTextClient>
             </p>
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
@@ -495,7 +496,7 @@ export default function RizeOcPage() {
                       <span className="text-[9px] text-black/25 font-semibold">0{i + 1}</span>
                     </div>
                     <h3 className="text-base font-semibold text-black mb-2" style={{ fontFamily: "'Playfair Display', serif" }}>{s.title}</h3>
-                    <p className="text-sm text-black/55 leading-relaxed font-light">{s.body}</p>
+                    <p className="text-sm text-black/55 leading-relaxed font-light"><AutoLinkedTextClient>{s.body}</AutoLinkedTextClient></p>
                   </div>
                 </div>
               ))}
@@ -551,7 +552,7 @@ export default function RizeOcPage() {
                   </div>
                   <div className="flex-1 min-w-0">
                     <h3 className="text-xl font-semibold text-black mb-3 leading-snug" style={{ fontFamily: "'Playfair Display', serif" }}>{o.headline}</h3>
-                    <p className="text-sm text-black/55 leading-relaxed font-light">{o.body}</p>
+                    <p className="text-sm text-black/55 leading-relaxed font-light"><AutoLinkedTextClient>{o.body}</AutoLinkedTextClient></p>
                   </div>
                   <span className="hidden md:block text-6xl font-bold text-black/4 flex-shrink-0 self-center" style={{ fontFamily: "'Playfair Display', serif" }}>0{i + 1}</span>
                 </div>
@@ -668,7 +669,7 @@ export default function RizeOcPage() {
               <em className="font-bold not-italic">paid advertising?</em>
             </h2>
             <p className="text-black/50 text-sm leading-relaxed mb-10 max-w-xl mx-auto font-light">
-              Sweet Media builds paid media systems for behavioral health and addiction treatment providers that scale efficiently. If your treatment center is ready to grow ad spend without sacrificing CPA — we can help.
+              <AutoLinkedTextClient>{"Sweet Media builds paid media systems for behavioral health and addiction treatment providers that scale efficiently. If your treatment center is ready to grow ad spend without sacrificing CPA — we can help."}</AutoLinkedTextClient>
             </p>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
               <button

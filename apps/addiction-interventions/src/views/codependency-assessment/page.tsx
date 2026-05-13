@@ -3,6 +3,7 @@ import TrustStrip from "@/components/sections/TrustStrip";
 import BottomCta from "@/components/sections/BottomCta";
 import Quiz, { type QuizConfig } from "@/components/quiz/Quiz";
 import { PHONE_DISPLAY, PHONE_HREF } from "@/data/site";
+import { AutoLinkedText } from "@sweetmedia/blog-core";
 
 const STANDARD_OPTIONS = [
   { label: "Almost never", score: 0 },
@@ -132,7 +133,7 @@ export default function CodependencyAssessmentPage() {
                   Codependency is one of the strongest predictors of <span className="italic text-[#8FAC87]">whether recovery takes hold</span>
                 </h2>
                 <p className="mt-4 text-sm leading-relaxed text-white/75">
-                  Families that break codependent patterns before and during treatment see dramatically better outcomes. This assessment helps you understand where you stand — honestly and without judgment.
+                  <AutoLinkedText>{"Families that break codependent patterns before and during treatment see dramatically better outcomes. This assessment helps you understand where you stand — honestly and without judgment."}</AutoLinkedText>
                 </p>
               </div>
               <div className="grid gap-4 sm:grid-cols-2">
@@ -156,16 +157,16 @@ export default function CodependencyAssessmentPage() {
       {/* What codependency really means */}
       <section className="bg-white py-14">
         <div className="mx-auto max-w-4xl px-6 lg:px-10">
-          <p className="brand-eyebrow mb-3 text-[#8FAC87]">Understanding Your Results</p>
+          <p className="brand-eyebrow mb-3 text-[#8FAC87]"><AutoLinkedText>{"Understanding Your Results"}</AutoLinkedText></p>
           <h2 className="font-heading mb-5 text-2xl font-bold text-[#1A1A17] md:text-3xl">
             What codependency actually <span className="italic text-[#507969]">looks like in a family</span>
           </h2>
           <div className="grid gap-5 text-sm leading-relaxed text-[#4B4B4B] md:grid-cols-2">
             <p>
-              Codependency is not a character flaw. It is a learned response to living with someone whose behaviour is unpredictable and distressing. Families develop enabling patterns — covering for the person, absorbing their consequences, adjusting entire household routines around their moods — as a form of protective love. The problem is that these patterns, however well-intentioned, remove the natural pressure that often motivates someone to accept help.
+              <AutoLinkedText>{"Codependency is not a character flaw. It is a learned response to living with someone whose behaviour is unpredictable and distressing. Families develop enabling patterns — covering for the person, absorbing their consequences, adjusting entire household routines around their moods — as a form of protective love. The problem is that these patterns, however well-intentioned, remove the natural pressure that often motivates someone to accept help."}</AutoLinkedText>
             </p>
             <p>
-              The research on addiction treatment is clear: when family members reduce enabling behaviour and establish consistent boundaries, treatment outcomes improve significantly. That does not mean withdrawing love or support. It means redirecting that energy in ways that help rather than protect the addiction. Our interventionists work with families before, during, and after the intervention to reshape these patterns — because that work is just as important as getting your loved one through the door of a treatment facility.
+              <AutoLinkedText>{"The research on addiction treatment is clear: when family members reduce enabling behaviour and establish consistent boundaries, treatment outcomes improve significantly. That does not mean withdrawing love or support. It means redirecting that energy in ways that help rather than protect the addiction. Our interventionists work with families before, during, and after the intervention to reshape these patterns — because that work is just as important as getting your loved one through the door of a treatment facility."}</AutoLinkedText>
             </p>
           </div>
         </div>

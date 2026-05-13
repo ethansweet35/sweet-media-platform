@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { AutoLinkedText } from "@sweetmedia/blog-core";
 
 const conditions = [
   { name: 'PTSD & Trauma', icon: 'ri-heart-line', color: '#C8795A' },
@@ -27,7 +28,7 @@ export default function WhatWeTreatSection() {
           </div>
           <div className="flex flex-col gap-5">
             <p className="text-[#3A4A3C]/65 font-light text-base leading-[1.9]">
-              We specialize in the full spectrum of women's mental health and addiction challenges — with clinical depth, genuine warmth, and a deep respect for each woman's unique story.
+              <AutoLinkedText>{"We specialize in the full spectrum of women's mental health and addiction challenges — with clinical depth, genuine warmth, and a deep respect for each woman's unique story."}</AutoLinkedText>
             </p>
             <Link
               href="/what-we-treat"

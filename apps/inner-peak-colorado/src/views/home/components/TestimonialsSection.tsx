@@ -1,5 +1,6 @@
 'use client';
 import { useInView } from '@/hooks/useInView';
+import { AutoLinkedTextClient } from "@sweetmedia/blog-core";
 
 const testimonials = [
   {
@@ -84,8 +85,8 @@ export default function TestimonialsSection() {
                   {t.initials}
                 </div>
                 <div>
-                  <p className="text-sm font-medium text-[#2C3B2E]">{t.name}</p>
-                  <p className="text-xs text-[#6B7D67] font-light">{t.location}</p>
+                  <p className="text-sm font-medium text-[#2C3B2E]"><AutoLinkedTextClient>{t.name}</AutoLinkedTextClient></p>
+                  <p className="text-xs text-[#6B7D67] font-light"><AutoLinkedTextClient>{t.location}</AutoLinkedTextClient></p>
                 </div>
               </div>
               <p className="text-sm text-[#3A4A3C] font-light leading-[1.85] italic">

@@ -3,6 +3,7 @@ import SectionWrapper from "@/components/ui/SectionWrapper";
 import SectionHeader from "@/components/ui/SectionHeader";
 import Eyebrow from "@/components/ui/Eyebrow";
 import IconCircle from "@/components/ui/IconCircle";
+import { AutoLinkedText } from "@sweetmedia/blog-core";
 
 const features = [
   { icon: "ri-shield-fill",          title: "In-Network",       desc: "With most major PPO plans" },
@@ -38,7 +39,7 @@ export default function InsuranceSection() {
             <div key={title} className="border border-soft bg-cream-tile p-8 flex flex-col items-center text-center">
               <i className={`${icon} text-accent text-4xl mb-5`} />
               <h3 className="font-[family-name:var(--font-display)] text-[22px] font-normal text-ink">{title}</h3>
-              <p className="mt-2 text-[14px] font-light text-ink/55">{desc}</p>
+              <p className="mt-2 text-[14px] font-light text-ink/55"><AutoLinkedText>{desc}</AutoLinkedText></p>
             </div>
           ))}
         </div>
@@ -51,7 +52,7 @@ export default function InsuranceSection() {
               Verify Your Coverage
             </h3>
             <p className="text-[15px] font-light leading-relaxed text-ink/65 mb-8">
-              Navigating behavioral health benefits can be overwhelming. Our dedicated utilization review team will contact your provider directly to determine your exact coverage, out-of-pocket costs, and optimal treatment path—completely free and confidentially.
+              <AutoLinkedText>{"Navigating behavioral health benefits can be overwhelming. Our dedicated utilization review team will contact your provider directly to determine your exact coverage, out-of-pocket costs, and optimal treatment path—completely free and confidentially."}</AutoLinkedText>
             </p>
 
             <div className="flex flex-col gap-5 mb-8">
@@ -59,8 +60,8 @@ export default function InsuranceSection() {
                 <div key={title} className="flex items-start gap-4">
                   <div className="w-9 h-9 rounded-full bg-ink shrink-0 mt-0.5" />
                   <div>
-                    <p className="text-[15px] font-medium text-accent leading-snug">{title}</p>
-                    <p className="text-[13px] font-light text-ink/60 mt-0.5">{desc}</p>
+                    <p className="text-[15px] font-medium text-accent leading-snug"><AutoLinkedText>{title}</AutoLinkedText></p>
+                    <p className="text-[13px] font-light text-ink/60 mt-0.5"><AutoLinkedText>{desc}</AutoLinkedText></p>
                   </div>
                 </div>
               ))}
@@ -70,11 +71,11 @@ export default function InsuranceSection() {
               <Eyebrow colorClass="text-ink/50" tracking="wide" className="mb-4">We Accept:</Eyebrow>
               <div className="grid grid-cols-3 gap-x-4 gap-y-2 mb-4">
                 {carriers.map((c) => (
-                  <p key={c} className="text-[13px] font-medium uppercase tracking-wide text-ink">{c}</p>
+                  <p key={c} className="text-[13px] font-medium uppercase tracking-wide text-ink"><AutoLinkedText>{c}</AutoLinkedText></p>
                 ))}
               </div>
               <p className="text-[13px] font-light text-ink/50">
-                We Don&apos;t Accept Medicaid Or Medical
+                <AutoLinkedText>{"We Don&apos;t Accept Medicaid Or Medical"}</AutoLinkedText>
               </p>
             </div>
           </div>
@@ -85,7 +86,7 @@ export default function InsuranceSection() {
               <IconCircle icon="ri-shield-fill" variant="ink" size="sm" />
               <div>
                 <p className="text-[10px] font-semibold uppercase tracking-[0.22em] text-ink">Get Started Today</p>
-                <p className="text-xs text-ink/45 mt-0.5">Verify your insurance in minutes</p>
+                <p className="text-xs text-ink/45 mt-0.5"><AutoLinkedText>{"Verify your insurance in minutes"}</AutoLinkedText></p>
               </div>
             </div>
             <InsuranceForm showNotesField />

@@ -5,6 +5,7 @@ import Link from 'next/link';
 import Breadcrumb from '@/components/base/Breadcrumb';
 import { useInView } from '@/hooks/useInView';
 import { useParallax } from '@/hooks/useParallax';
+import { AutoLinkedTextClient } from "@sweetmedia/blog-core";
 
 const team = [
   {
@@ -162,7 +163,7 @@ export default function AboutPage() {
                 <em className="text-[#DDA15E] not-italic">Rooted in Colorado.</em>
               </h1>
               <p className="text-[#F0ECE1]/65 font-light text-base leading-[1.95]">
-                Inner Peak Colorado was founded with a singular vision: to create the most compassionate, effective, and beautifully human virtual treatment experience for women navigating mental health and addiction challenges.
+                <AutoLinkedTextClient>{"Inner Peak Colorado was founded with a singular vision: to create the most compassionate, effective, and beautifully human virtual treatment experience for women navigating mental health and addiction challenges."}</AutoLinkedTextClient>
               </p>
               <div className="flex flex-col gap-3 pt-2">
                 {milestones.map((m, i) => (
@@ -213,10 +214,10 @@ export default function AboutPage() {
               for women.
             </h2>
             <p className="text-[#3A4A3C]/70 font-light text-base leading-[1.95]">
-              Our mission at Inner Peak is to create a safe, supportive space where women can heal, rediscover their strengths, and step into the lives they deserve. We recognize that mental health and substance use disorders impact women in unique ways — often shaped by trauma, relationships, societal expectations, and lived experiences that are not always fully understood in traditional treatment settings.
+              <AutoLinkedTextClient>{"Our mission at Inner Peak is to create a safe, supportive space where women can heal, rediscover their strengths, and step into the lives they deserve. We recognize that mental health and substance use disorders impact women in unique ways — often shaped by trauma, relationships, societal expectations, and lived experiences that are not always fully understood in traditional treatment settings."}</AutoLinkedTextClient>
             </p>
             <p className="text-[#3A4A3C]/55 font-light text-base leading-[1.95]">
-              As a women-owned and operated program, we are committed to building an environment rooted in compassion, respect, and clinical excellence. Our program was built intentionally for women who are navigating mental health challenges, substance use, or both.
+              <AutoLinkedTextClient>{"As a women-owned and operated program, we are committed to building an environment rooted in compassion, respect, and clinical excellence. Our program was built intentionally for women who are navigating mental health challenges, substance use, or both."}</AutoLinkedTextClient>
             </p>
             <p className="text-[#3A4A3C]/55 font-light text-base leading-[1.95]">
               We understand that many women carry complex stories — of trauma, caregiving, relationships, identity, and pressure. True healing requires connection, trust, and a sense of belonging. <strong className="text-[#2C3B2E]/80 font-medium">This is that place.</strong>
@@ -276,7 +277,7 @@ export default function AboutPage() {
 </div>
             <div className="absolute bottom-8 left-8 bg-[#2C3B2E]/90 backdrop-blur-sm rounded-2xl px-6 py-5 max-w-[240px]">
               <p className="font-serif text-[#DDA15E] font-bold text-2xl leading-none mb-1">Women-Owned</p>
-              <p className="text-[11px] uppercase tracking-widest text-[#FAF8F5]/70 font-medium">&amp; Operated Program</p>
+              <p className="text-[11px] uppercase tracking-widest text-[#FAF8F5]/70 font-medium"><AutoLinkedTextClient>{"&amp; Operated Program"}</AutoLinkedTextClient></p>
             </div>
           </div>
           <div ref={womenTextRef} className={`flex flex-col gap-8 order-1 lg:order-2 anim-hidden anim-fade-left ${womenTextVisible ? 'anim-visible' : ''}`}>
@@ -288,16 +289,16 @@ export default function AboutPage() {
                 and <em className="text-[#C8795A] not-italic">rebuild.</em>
               </h2>
               <p className="text-[#3A4A3C]/70 font-light text-base leading-[1.95]">
-                Women experience mental health and substance use disorders differently. These experiences are often intertwined with trauma, family dynamics, societal expectations, and roles that can make it difficult to prioritize personal healing.
+                <AutoLinkedTextClient>{"Women experience mental health and substance use disorders differently. These experiences are often intertwined with trauma, family dynamics, societal expectations, and roles that can make it difficult to prioritize personal healing."}</AutoLinkedTextClient>
               </p>
               <p className="text-[#3A4A3C]/55 font-light text-base leading-[1.95]">
-                We create a space where women can speak openly, process deeply, and rebuild — surrounded by others who understand.
+                <AutoLinkedTextClient>{"We create a space where women can speak openly, process deeply, and rebuild — surrounded by others who understand."}</AutoLinkedTextClient>
               </p>
             </div>
             <div className="flex flex-col gap-4 pt-2">
               <h3 className="font-serif text-[#2C3B2E] text-xl">Our Approach to Healing</h3>
               <p className="text-[#3A4A3C]/65 font-light text-sm leading-[1.9]">
-                We believe in treating the whole person. Our clinical approach is grounded in evidence-based care, trauma-informed practices, and individualized treatment planning. Here, healing includes:
+                <AutoLinkedTextClient>{"We believe in treating the whole person. Our clinical approach is grounded in evidence-based care, trauma-informed practices, and individualized treatment planning. Here, healing includes:"}</AutoLinkedTextClient>
               </p>
               <ul className="flex flex-col gap-3">
                 {healingItems.map((item, i) => (
@@ -310,7 +311,7 @@ export default function AboutPage() {
                 ))}
               </ul>
               <p className="text-[#3A4A3C]/55 font-light text-sm leading-[1.9] italic mt-1">
-                We meet you where you are and walk alongside you as you move forward.
+                <AutoLinkedTextClient>{"We meet you where you are and walk alongside you as you move forward."}</AutoLinkedTextClient>
               </p>
             </div>
           </div>
@@ -329,7 +330,7 @@ export default function AboutPage() {
             This work is personal to us.
           </h2>
           <p className="text-[#F0ECE1]/65 font-light text-base leading-[1.95] max-w-2xl">
-            As a women-owned and operated program, we understand. We are committed to creating a space where you feel safe enough to be honest, supported enough to grow, and empowered enough to transform.
+            <AutoLinkedTextClient>{"As a women-owned and operated program, we understand. We are committed to creating a space where you feel safe enough to be honest, supported enough to grow, and empowered enough to transform."}</AutoLinkedTextClient>
           </p>
           <div className="w-16 h-px bg-[#DDA15E]/50 my-2"></div>
           <Link
@@ -358,7 +359,7 @@ export default function AboutPage() {
               </h2>
             </div>
             <p className="text-[#F0ECE1]/50 font-light text-base leading-[1.9] lg:max-w-md">
-              These aren't aspirational statements — they're the lived commitments that shape every clinical decision, every interaction, and every program we offer.
+              <AutoLinkedTextClient>{"These aren't aspirational statements — they're the lived commitments that shape every clinical decision, every interaction, and every program we offer."}</AutoLinkedTextClient>
             </p>
           </div>
           <div ref={valuesListRef} className="flex flex-col divide-y divide-[#FAF8F5]/10">
@@ -370,9 +371,7 @@ export default function AboutPage() {
                 <h3 className="font-serif text-[#FAF8F5] group-hover:text-[#DDA15E] transition-colors duration-300" style={{ fontSize: 'clamp(16px, 2vw, 22px)' }}>
                   {v.title}
                 </h3>
-                <p className="text-sm text-[#F0ECE1]/45 font-light leading-[1.85] group-hover:text-[#F0ECE1]/80 transition-colors duration-300 hidden sm:block">
-                  {v.desc}
-                </p>
+                <p className="text-sm text-[#F0ECE1]/45 font-light leading-[1.85] group-hover:text-[#F0ECE1]/80 transition-colors duration-300 hidden sm:block"><AutoLinkedTextClient>{v.desc}</AutoLinkedTextClient></p>
               </div>
             ))}
           </div>
@@ -391,7 +390,7 @@ export default function AboutPage() {
               </h2>
             </div>
             <p className="text-[#3A4A3C]/60 font-light text-base leading-[1.9] lg:max-w-md">
-              Every member of our clinical team was chosen not just for their credentials, but for their humanity — their ability to hold space for women in their most vulnerable moments.
+              <AutoLinkedTextClient>{"Every member of our clinical team was chosen not just for their credentials, but for their humanity — their ability to hold space for women in their most vulnerable moments."}</AutoLinkedTextClient>
             </p>
           </div>
           <div ref={teamGridRef} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -409,8 +408,8 @@ export default function AboutPage() {
                 <div className="p-6 flex flex-col gap-2">
                   <div className="w-8 h-0.5 rounded-full mb-1" style={{ backgroundColor: member.color }} />
                   <h3 className="font-serif text-[#2C3B2E] text-base leading-snug">{member.name}</h3>
-                  <p className="text-[10px] uppercase tracking-widest font-medium" style={{ color: member.color }}>{member.role}</p>
-                  <p className="text-sm text-[#3A4A3C]/55 font-light leading-relaxed mt-1">{member.bio}</p>
+                  <p className="text-[10px] uppercase tracking-widest font-medium" style={{ color: member.color }}><AutoLinkedTextClient>{member.role}</AutoLinkedTextClient></p>
+                  <p className="text-sm text-[#3A4A3C]/55 font-light leading-relaxed mt-1"><AutoLinkedTextClient>{member.bio}</AutoLinkedTextClient></p>
                 </div>
               </div>
             ))}
@@ -438,7 +437,7 @@ export default function AboutPage() {
               Ready to meet<br />your team?
             </h2>
             <p className="text-[#3A4A3C]/65 font-light text-base leading-[1.9] max-w-sm">
-              Schedule a free, confidential consultation with one of our intake specialists. No commitment required — just a conversation.
+              <AutoLinkedTextClient>{"Schedule a free, confidential consultation with one of our intake specialists. No commitment required — just a conversation."}</AutoLinkedTextClient>
             </p>
             <div className="flex flex-wrap gap-4">
               <Link

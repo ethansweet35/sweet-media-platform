@@ -1,5 +1,6 @@
 import InsuranceForm from "./InsuranceForm";
 import IconCircle from "@/components/ui/IconCircle";
+import { AutoLinkedText } from "@sweetmedia/blog-core";
 
 const trustBadges = [
   { icon: "ri-checkbox-circle-line", label: "Licensed & Accredited" },
@@ -56,8 +57,7 @@ export default function HeroSection() {
           <div className="mt-5 mb-6 w-16 h-[2px] bg-accent" />
 
           <p className="max-w-md text-base font-light leading-relaxed text-ink/70">
-            A profound sanctuary for recovery. We blend elite clinical methodology
-            with the quiet, restorative power of the Southern California coast.
+            <AutoLinkedText>{"A profound sanctuary for recovery. We blend elite clinical methodology\n            with the quiet, restorative power of the Southern California coast."}</AutoLinkedText>
           </p>
 
           <div className="mt-7 flex flex-wrap gap-x-6 gap-y-3">
@@ -96,14 +96,14 @@ export default function HeroSection() {
               <IconCircle icon="ri-shield-check-line" variant="ink" size="md" iconSize="text-lg" />
               <div>
                 <p className="text-[11px] font-medium uppercase tracking-[0.22em] text-ink">Check Coverage</p>
-                <p className="text-xs text-ink/50 mt-0.5">Verify your insurance in minutes</p>
+                <p className="text-xs text-ink/50 mt-0.5"><AutoLinkedText>{"Verify your insurance in minutes"}</AutoLinkedText></p>
               </div>
             </div>
 
             <div className="px-8 pb-8">
               <InsuranceForm />
               <p className="mt-4 text-xs text-ink/40 leading-relaxed">
-                Your information is confidential and HIPAA compliant. We&apos;ll contact you within 24 hours.
+                <AutoLinkedText>{"Your information is confidential and HIPAA compliant. We&apos;ll contact you within 24 hours."}</AutoLinkedText>
               </p>
             </div>
           </div>

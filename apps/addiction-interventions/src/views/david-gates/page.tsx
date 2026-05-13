@@ -2,6 +2,7 @@ import Link from "next/link";
 import PageHero from "@/components/sections/PageHero";
 import TrustStrip from "@/components/sections/TrustStrip";
 import BottomCta from "@/components/sections/BottomCta";
+import { AutoLinkedText } from "@sweetmedia/blog-core";
 
 const CREDENTIALS = [
   {
@@ -61,16 +62,16 @@ export default function DavidGatesPage() {
 
           <div className="mt-6 space-y-5 text-base leading-7 text-[var(--color-ink-muted)] md:text-lg">
             <p>
-              David Allen Gates has more than 20 years of experience managing and directing nationally recognised addiction treatment programs. He has trained intervention specialists, treatment center clinicians, and family coaches across the United States — and he has personally led more than 1,500 interventions for families in crisis.
+              <AutoLinkedText>{"David Allen Gates has more than 20 years of experience managing and directing nationally recognised addiction treatment programs. He has trained intervention specialists, treatment center clinicians, and family coaches across the United States — and he has personally led more than 1,500 interventions for families in crisis."}</AutoLinkedText>
             </p>
             <p>
-              David's approach is built on a single conviction: families already have the love and the desire to help. What they are missing is the structure, the language, and the courage to say the things that most need to be said. His role is to provide that scaffolding — and to walk alongside the family until their loved one is safely in recovery.
+              <AutoLinkedText>{"David's approach is built on a single conviction: families already have the love and the desire to help. What they are missing is the structure, the language, and the courage to say the things that most need to be said. His role is to provide that scaffolding — and to walk alongside the family until their loved one is safely in recovery."}</AutoLinkedText>
             </p>
             <p>
-              He is in long-term recovery himself, which informs every conversation he has with the families who call. He knows what it is to be the person on the other side of the intervention table. He knows what it takes to choose recovery, to keep choosing it, and to rebuild a life worth living.
+              <AutoLinkedText>{"He is in long-term recovery himself, which informs every conversation he has with the families who call. He knows what it is to be the person on the other side of the intervention table. He knows what it takes to choose recovery, to keep choosing it, and to rebuild a life worth living."}</AutoLinkedText>
             </p>
             <p>
-              David has worked in residential treatment, dual-diagnosis programs, executive recovery, and adolescent treatment — giving him the rare ability to match a family's specific situation to the right level of care. He maintains personal relationships with vetted treatment programs nationwide and never recommends a placement his own family would not be welcomed into.
+              <AutoLinkedText>{"David has worked in residential treatment, dual-diagnosis programs, executive recovery, and adolescent treatment — giving him the rare ability to match a family's specific situation to the right level of care. He maintains personal relationships with vetted treatment programs nationwide and never recommends a placement his own family would not be welcomed into."}</AutoLinkedText>
             </p>
           </div>
         </div>
@@ -85,12 +86,8 @@ export default function DavidGatesPage() {
                 key={h.label}
                 className="rounded-2xl border border-[var(--color-divider)] bg-white p-7 text-center"
               >
-                <p className="text-5xl font-semibold tracking-tight text-[var(--color-sage-deep)] md:text-6xl">
-                  {h.stat}
-                </p>
-                <p className="mt-3 text-sm leading-6 text-[var(--color-ink-muted)]">
-                  {h.label}
-                </p>
+                <p className="text-5xl font-semibold tracking-tight text-[var(--color-sage-deep)] md:text-6xl"><AutoLinkedText>{h.stat}</AutoLinkedText></p>
+                <p className="mt-3 text-sm leading-6 text-[var(--color-ink-muted)]"><AutoLinkedText>{h.label}</AutoLinkedText></p>
               </div>
             ))}
           </div>
@@ -116,9 +113,7 @@ export default function DavidGatesPage() {
                 <div className="flex h-12 w-12 flex-none items-center justify-center rounded-full bg-[var(--color-cream)] text-[var(--color-sage-deep)]">
                   <i className={`text-2xl ${c.icon}`}></i>
                 </div>
-                <p className="text-base leading-6 text-[var(--color-ink)]">
-                  {c.label}
-                </p>
+                <p className="text-base leading-6 text-[var(--color-ink)]"><AutoLinkedText>{c.label}</AutoLinkedText></p>
               </div>
             ))}
           </div>
@@ -133,7 +128,7 @@ export default function DavidGatesPage() {
             &ldquo;Recovery is not the moment a loved one walks into treatment. It is the years of healing that follow — for them, and for the family that loves them.&rdquo;
           </blockquote>
           <p className="mt-6 text-sm uppercase tracking-[0.18em] text-[var(--color-ink-muted)]">
-            David Gates · Lead Interventionist
+            <AutoLinkedText>{"David Gates · Lead Interventionist"}</AutoLinkedText>
           </p>
         </div>
       </section>
@@ -142,7 +137,7 @@ export default function DavidGatesPage() {
       <section className="bg-white">
         <div className="mx-auto max-w-3xl px-6 py-16 text-center">
           <p className="text-base leading-7 text-[var(--color-ink-muted)] md:text-lg">
-            Want to read more about how we work as a team?
+            <AutoLinkedText>{"Want to read more about how we work as a team?"}</AutoLinkedText>
           </p>
           <Link
             href="/about-us"

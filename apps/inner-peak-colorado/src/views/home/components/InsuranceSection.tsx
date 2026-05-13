@@ -1,5 +1,6 @@
 'use client';
 import { useState } from 'react';
+import { AutoLinkedTextClient } from "@sweetmedia/blog-core";
 
 
 const insurers = [
@@ -60,13 +61,13 @@ export default function InsuranceSection() {
               <em className="text-[#C8795A] not-italic">for free.</em>
             </h2>
             <p className="text-[#3A4A3C]/65 font-light text-base leading-[1.9] max-w-md">
-              Most of our clients pay little to nothing out of pocket. Submit your information and our team will verify your coverage within 24 hours — completely free and confidential.
+              <AutoLinkedTextClient>{"Most of our clients pay little to nothing out of pocket. Submit your information and our team will verify your coverage within 24 hours — completely free and confidential."}</AutoLinkedTextClient>
             </p>
           </div>
 
           {/* What's covered */}
           <div className="flex flex-col gap-3">
-            <p className="text-xs uppercase tracking-widest text-[#2C3B2E] font-medium mb-1">What we'll verify for you</p>
+            <p className="text-xs uppercase tracking-widest text-[#2C3B2E] font-medium mb-1"><AutoLinkedTextClient>{"What we'll verify for you"}</AutoLinkedTextClient></p>
             {[
               'In-network vs. out-of-network benefits',
               'Deductible & out-of-pocket maximums',
@@ -111,14 +112,14 @@ export default function InsuranceSection() {
               </div>
               <h3 className="font-serif text-[#2C3B2E] text-2xl">Request received.</h3>
               <p className="text-sm text-[#3A4A3C]/65 font-light leading-relaxed max-w-xs">
-                Our team will verify your benefits and reach out within 24 hours. You're one step closer.
+                <AutoLinkedTextClient>{"Our team will verify your benefits and reach out within 24 hours. You're one step closer."}</AutoLinkedTextClient>
               </p>
             </div>
           ) : (
             <>
               <div className="flex flex-col gap-1 mb-8">
                 <h3 className="font-serif text-[#2C3B2E] text-2xl">Verify My Benefits</h3>
-                <p className="text-sm text-[#3A4A3C]/50 font-light">Free · Confidential · No commitment required</p>
+                <p className="text-sm text-[#3A4A3C]/50 font-light"><AutoLinkedTextClient>{"Free · Confidential · No commitment required"}</AutoLinkedTextClient></p>
               </div>
 
               <form
@@ -201,7 +202,7 @@ export default function InsuranceSection() {
                 </button>
 
                 <p className="text-[11px] text-[#3A4A3C]/40 font-light text-center leading-relaxed">
-                  Your information is 100% confidential and HIPAA-compliant. We will never share your data.
+                  <AutoLinkedTextClient>{"Your information is 100% confidential and HIPAA-compliant. We will never share your data."}</AutoLinkedTextClient>
                 </p>
               </form>
             </>

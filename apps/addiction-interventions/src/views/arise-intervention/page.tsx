@@ -5,6 +5,7 @@ import BottomCta from "@/components/sections/BottomCta";
 import HeroContactForm from "@/components/feature/HeroContactForm";
 import { PHONE_DISPLAY, PHONE_HREF } from "@/data/site";
 import type { Faq } from "@/data/faqs";
+import { AutoLinkedText } from "@sweetmedia/blog-core";
 
 const SUPABASE_IMAGES = "https://bxtwcdgjzzjxjvqdiuvn.supabase.co/storage/v1/object/public/site-assets/images";
 const HERO_BG = `${SUPABASE_IMAGES}/arise_hero01.jpg`;
@@ -121,7 +122,7 @@ export default function AriseInterventionPage() {
                 ARISE® interventions — <span className="italic text-[#8FAC87]">invitational, not confrontational</span>
               </h1>
               <p className="mb-8 max-w-lg text-base leading-relaxed text-white/80 md:text-lg">
-                The ARISE® model engages your loved one and their full support network from the very first call. No surprise ambush — just a structured, compassionate invitation that leads to real recovery.
+                <AutoLinkedText>{"The ARISE® model engages your loved one and their full support network from the very first call. No surprise ambush — just a structured, compassionate invitation that leads to real recovery."}</AutoLinkedText>
               </p>
               <div className="mb-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
                 <a href={PHONE_HREF} className="inline-flex items-center gap-2 rounded-full bg-[#8FAC87] px-7 py-3.5 text-sm font-semibold text-white shadow-sm transition hover:bg-[#6F8E68]">
@@ -148,12 +149,12 @@ export default function AriseInterventionPage() {
         <div className={CONTAINER}>
           <div className="grid gap-16 lg:grid-cols-2 lg:items-start">
             <div>
-              <p className="brand-eyebrow mb-4 text-[#8FAC87]">Is ARISE® Right for You?</p>
+              <p className="brand-eyebrow mb-4 text-[#8FAC87]"><AutoLinkedText>{"Is ARISE® Right for You?"}</AutoLinkedText></p>
               <h2 className="font-heading mb-6 text-4xl font-bold leading-tight text-[#1A1A17] md:text-5xl">
                 Signs the ARISE® model is the <span className="italic text-[#507969]">right fit</span>
               </h2>
               <p className="mb-8 text-base leading-relaxed text-[#4B4B4B]">
-                ARISE® is especially powerful when the loved one has some insight, the family wants to preserve the relationship, or a surprise confrontation feels too risky. If several of these are true, call us today.
+                <AutoLinkedText>{"ARISE® is especially powerful when the loved one has some insight, the family wants to preserve the relationship, or a surprise confrontation feels too risky. If several of these are true, call us today."}</AutoLinkedText>
               </p>
               <ul className="grid gap-3">
                 {SIGNS.map((item) => (
@@ -177,8 +178,8 @@ export default function AriseInterventionPage() {
                   <span className="flex h-12 w-12 items-center justify-center rounded-full bg-[#3E5B50] text-white">
                     <i className={`text-xl ${s.icon}`}></i>
                   </span>
-                  <p className="font-heading mt-4 text-3xl font-bold text-[#3E5B50]">{s.number}</p>
-                  <p className="mt-1 text-xs font-medium text-[#4B4B4B]">{s.label}</p>
+                  <p className="font-heading mt-4 text-3xl font-bold text-[#3E5B50]"><AutoLinkedText>{s.number}</AutoLinkedText></p>
+                  <p className="mt-1 text-xs font-medium text-[#4B4B4B]"><AutoLinkedText>{s.label}</AutoLinkedText></p>
                 </div>
               ))}
             </div>
@@ -203,8 +204,8 @@ export default function AriseInterventionPage() {
                 <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-xl bg-[#8FAC87]/20 text-[#8FAC87]">
                   <i className={`${m.icon} text-lg`}></i>
                 </div>
-                <p className="mb-3 text-sm font-semibold italic text-white/60">{m.myth}</p>
-                <p className="text-sm leading-relaxed text-white/85">{m.truth}</p>
+                <p className="mb-3 text-sm font-semibold italic text-white/60"><AutoLinkedText>{m.myth}</AutoLinkedText></p>
+                <p className="text-sm leading-relaxed text-white/85"><AutoLinkedText>{m.truth}</AutoLinkedText></p>
               </div>
             ))}
           </div>
@@ -217,9 +218,9 @@ export default function AriseInterventionPage() {
         <div className="absolute inset-0 bg-gradient-to-r from-[#1A1A17]/70 via-[#1A1A17]/50 to-transparent" />
         <div className="absolute bottom-0 left-0 p-10 text-white">
           <p className="font-heading max-w-md text-2xl italic">
-            "Because we were invited in from the beginning, my son never felt ambushed. He chose treatment."
+            <AutoLinkedText>{"\"Because we were invited in from the beginning, my son never felt ambushed. He chose treatment.\""}</AutoLinkedText>
           </p>
-          <p className="mt-2 text-sm text-white/70">— Mother of a son now 2 years sober</p>
+          <p className="mt-2 text-sm text-white/70"><AutoLinkedText>{"— Mother of a son now 2 years sober"}</AutoLinkedText></p>
         </div>
       </section>
 
@@ -243,7 +244,7 @@ export default function AriseInterventionPage() {
                   </span>
                 </span>
                 <h3 className="font-heading mb-2 text-base font-bold text-[#1A1A17]">{step.title}</h3>
-                <p className="text-sm leading-relaxed text-[#4B4B4B]">{step.body}</p>
+                <p className="text-sm leading-relaxed text-[#4B4B4B]"><AutoLinkedText>{step.body}</AutoLinkedText></p>
               </div>
             ))}
           </div>

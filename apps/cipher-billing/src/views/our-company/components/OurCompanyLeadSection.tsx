@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { AutoLinkedTextClient } from "@sweetmedia/blog-core";
 
 const leadIntro =
   "Schedule a complimentary consultation with our billing experts to review your current revenue cycle and identify opportunities for improvement.";
@@ -50,12 +51,12 @@ export default function OurCompanyLeadSection() {
       <div className="mx-auto grid max-w-[1140px] gap-14 px-6 py-20 md:grid-cols-[1.08fr_0.92fr] md:items-start md:py-28">
         <div className="max-w-xl">
           <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-white/85">
-            READY TO TRANSFORM YOUR REVENUE CYCLE?
+            <AutoLinkedTextClient>{"READY TO TRANSFORM YOUR REVENUE CYCLE?"}</AutoLinkedTextClient>
           </p>
           <h2 className="mt-4 font-[var(--font-heading)] text-3xl font-medium leading-[1.15] md:text-[2.65rem]">
             Let&apos;s Discuss How We Can <span className="text-[#166C96]">Maximize Your Revenue.</span>
           </h2>
-          <p className="mt-6 text-sm leading-[1.42] text-white/90">{leadIntro}</p>
+          <p className="mt-6 text-sm leading-[1.42] text-white/90"><AutoLinkedTextClient>{leadIntro}</AutoLinkedTextClient></p>
 
           <blockquote className="mt-10 border-none p-0">
             <p
@@ -97,7 +98,7 @@ export default function OurCompanyLeadSection() {
                 <a href={contactPhoneHref} className="mt-1 block text-sm font-medium text-white hover:text-[#166C96]">
                   {contactPhoneDisplay}
                 </a>
-                <p className="mt-1 text-xs leading-[1.35] text-white/75">Mon–Fri, 8AM–5:30PM PST</p>
+                <p className="mt-1 text-xs leading-[1.35] text-white/75"><AutoLinkedTextClient>{"Mon–Fri, 8AM–5:30PM PST"}</AutoLinkedTextClient></p>
               </div>
             </div>
 
@@ -125,7 +126,7 @@ export default function OurCompanyLeadSection() {
         <div className="rounded-lg border border-white/10 bg-[#101E3F] p-8 shadow-lg md:p-10">
           <h3 className="font-marcellus text-2xl font-medium text-white md:text-[1.75rem]">Get Started Today</h3>
           <p className="mt-3 max-w-md font-[var(--font-body)] text-sm leading-[1.42] text-white/85">
-            Fill out the form below and we&apos;ll contact you within 24 hours.
+            <AutoLinkedTextClient>{"Fill out the form below and we&apos;ll contact you within 24 hours."}</AutoLinkedTextClient>
           </p>
 
           <form className="mt-8 grid gap-5" action="/api/contact" method="post">
@@ -209,7 +210,7 @@ export default function OurCompanyLeadSection() {
             </button>
 
             <p className="text-center text-[11px] leading-[1.35] text-[#AAB3B9]">
-              By submitting this form, you agree to our privacy policy and consent to be contacted by Cipher Billing.
+              <AutoLinkedTextClient>{"By submitting this form, you agree to our privacy policy and consent to be contacted by Cipher Billing."}</AutoLinkedTextClient>
             </p>
           </form>
         </div>

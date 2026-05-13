@@ -9,6 +9,7 @@ import Button from "@/components/ui/Button";
 import InsuranceForm from "@/views/home/components/InsuranceForm";
 import AccreditationsBar from "@/views/home/components/AccreditationsBar";
 import FaqAccordion, { type FaqItem } from "@/components/ui/FaqAccordion";
+import { AutoLinkedTextClient } from "@sweetmedia/blog-core";
 
 const BASE = "https://nfjlvkxrbzytjefmcvhg.supabase.co/storage/v1/object/public/site-assets/images";
 
@@ -188,9 +189,7 @@ export default function ServiceAreaTemplate({ data }: { data: ServiceAreaData })
               <br />
               <em className="italic text-white/55">{heroHeadlineEmphasis}</em>
             </h1>
-            <p className="text-[16px] font-light leading-relaxed text-white/80 max-w-[540px] mb-10">
-              {heroBody}
-            </p>
+            <p className="text-[16px] font-light leading-relaxed text-white/80 max-w-[540px] mb-10"><AutoLinkedTextClient>{heroBody}</AutoLinkedTextClient></p>
             <div className="flex flex-wrap gap-3">
               <Button href="tel:9494612620" variant="accent" size="md">
                 <i className="ri-phone-line mr-2 text-sm" /> Call (949) 461-2620
@@ -215,10 +214,8 @@ export default function ServiceAreaTemplate({ data }: { data: ServiceAreaData })
                 <p
                   className="font-[family-name:var(--font-display)] font-normal text-white"
                   style={{ fontSize: "clamp(20px, 2.3vw, 32px)" }}
-                >
-                  {value}
-                </p>
-                <p className="mt-1 text-[10px] font-semibold uppercase tracking-[0.18em] text-white/55">{label}</p>
+                ><AutoLinkedTextClient>{value}</AutoLinkedTextClient></p>
+                <p className="mt-1 text-[10px] font-semibold uppercase tracking-[0.18em] text-white/55"><AutoLinkedTextClient>{label}</AutoLinkedTextClient></p>
               </div>
             ))}
           </div>
@@ -238,7 +235,7 @@ export default function ServiceAreaTemplate({ data }: { data: ServiceAreaData })
                   &ldquo;{introQuote}&rdquo;
                 </p>
                 <p className="mt-4 text-[11px] font-semibold uppercase tracking-[0.22em] text-accent">
-                  — Rize OC Clinical Team
+                  <AutoLinkedTextClient>{"— Rize OC Clinical Team"}</AutoLinkedTextClient>
                 </p>
               </div>
               <div className="grid grid-cols-2 gap-4 mt-2">
@@ -267,7 +264,7 @@ export default function ServiceAreaTemplate({ data }: { data: ServiceAreaData })
                 </h2>
               </div>
               {introParagraphs.map((para, i) => (
-                <p key={i} className="text-[15px] leading-[1.85] text-ink/70">{para}</p>
+                <p key={i} className="text-[15px] leading-[1.85] text-ink/70"><AutoLinkedTextClient>{para}</AutoLinkedTextClient></p>
               ))}
               <div className="mt-2">
                 <Button href="/admissions" variant="accent" size="sm">
@@ -293,7 +290,7 @@ export default function ServiceAreaTemplate({ data }: { data: ServiceAreaData })
               <em className="italic text-muted font-normal">{city} Residents</em>
             </h2>
             <p className="mt-4 text-[15px] font-light text-ink/60 leading-relaxed">
-              A full continuum of care — from medically supervised detox through flexible outpatient recovery.
+              <AutoLinkedTextClient>{"A full continuum of care — from medically supervised detox through flexible outpatient recovery."}</AutoLinkedTextClient>
             </p>
           </div>
 
@@ -309,7 +306,7 @@ export default function ServiceAreaTemplate({ data }: { data: ServiceAreaData })
                   <span className="text-[10px] font-semibold uppercase tracking-[0.2em] text-ink/40">{label}</span>
                 </div>
                 <h3 className="font-[family-name:var(--font-display)] text-[20px] font-normal text-ink mb-2 group-hover:text-accent transition-colors leading-snug">{title}</h3>
-                <p className="text-[13px] font-light text-ink/60 leading-snug flex-1">{desc}</p>
+                <p className="text-[13px] font-light text-ink/60 leading-snug flex-1"><AutoLinkedTextClient>{desc}</AutoLinkedTextClient></p>
                 <p className="mt-5 text-[11px] font-medium uppercase tracking-[0.2em] text-accent flex items-center gap-1.5 group-hover:gap-3 transition-all">
                   Learn More <i className="ri-arrow-right-line" />
                 </p>
@@ -389,7 +386,7 @@ export default function ServiceAreaTemplate({ data }: { data: ServiceAreaData })
                   <IconCircle icon={icon} colorClass="bg-accent/10 text-accent" size="w-10 h-10 text-lg shrink-0" />
                   <h3 className="font-semibold text-ink text-[14px] leading-tight mt-2">{title}</h3>
                 </div>
-                <p className="text-[14px] text-ink/60 leading-relaxed">{desc}</p>
+                <p className="text-[14px] text-ink/60 leading-relaxed"><AutoLinkedTextClient>{desc}</AutoLinkedTextClient></p>
               </div>
             ))}
           </div>
@@ -411,7 +408,7 @@ export default function ServiceAreaTemplate({ data }: { data: ServiceAreaData })
                 <em className="italic text-muted font-normal">In Minutes, Not Days</em>
               </h2>
               <p className="text-[15px] font-light leading-relaxed text-ink/65 mb-8">
-                Our utilization review team calls your insurer directly — for free — and walks you through exactly what your plan covers, your out-of-pocket costs, and what treatment level is authorized.
+                <AutoLinkedTextClient>{"Our utilization review team calls your insurer directly — for free — and walks you through exactly what your plan covers, your out-of-pocket costs, and what treatment level is authorized."}</AutoLinkedTextClient>
               </p>
               <div className="flex flex-col gap-4 mb-8">
                 {[
@@ -422,14 +419,14 @@ export default function ServiceAreaTemplate({ data }: { data: ServiceAreaData })
                   <div key={title} className="flex items-start gap-4">
                     <IconCircle icon={icon} colorClass="bg-accent/15 text-accent" size="w-8 h-8 text-sm shrink-0 mt-0.5" />
                     <div>
-                      <p className="text-[14px] font-medium text-ink">{title}</p>
-                      <p className="text-[13px] font-light text-ink/55 mt-0.5">{desc}</p>
+                      <p className="text-[14px] font-medium text-ink"><AutoLinkedTextClient>{title}</AutoLinkedTextClient></p>
+                      <p className="text-[13px] font-light text-ink/55 mt-0.5"><AutoLinkedTextClient>{desc}</AutoLinkedTextClient></p>
                     </div>
                   </div>
                 ))}
               </div>
               <p className="text-[13px] font-light text-ink/45 italic">
-                We accept most major PPOs. We do not accept Medi-Cal or Medicaid.
+                <AutoLinkedTextClient>{"We accept most major PPOs. We do not accept Medi-Cal or Medicaid."}</AutoLinkedTextClient>
               </p>
             </div>
             <div className="bg-white p-10">
@@ -437,7 +434,7 @@ export default function ServiceAreaTemplate({ data }: { data: ServiceAreaData })
                 <IconCircle icon="ri-shield-fill" variant="ink" size="sm" />
                 <div>
                   <p className="text-[10px] font-semibold uppercase tracking-[0.22em] text-ink">Free Benefit Check</p>
-                  <p className="text-xs text-ink/45 mt-0.5">No obligation · HIPAA compliant</p>
+                  <p className="text-xs text-ink/45 mt-0.5"><AutoLinkedTextClient>{"No obligation · HIPAA compliant"}</AutoLinkedTextClient></p>
                 </div>
               </div>
               <InsuranceForm showNotesField />
@@ -461,7 +458,7 @@ export default function ServiceAreaTemplate({ data }: { data: ServiceAreaData })
                 <em className="italic text-muted">Questions, Answered.</em>
               </h2>
               <p className="mt-5 text-[14px] font-light text-ink/60 leading-relaxed">
-                Still have questions? Our admissions team is available 24/7.
+                <AutoLinkedTextClient>{"Still have questions? Our admissions team is available 24/7."}</AutoLinkedTextClient>
               </p>
               <div className="mt-7 flex flex-col gap-3">
                 <Button href="tel:9494612620" variant="accent" size="sm">

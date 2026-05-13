@@ -1,6 +1,7 @@
 import SectionWrapper from "@/components/ui/SectionWrapper";
 import Eyebrow from "@/components/ui/Eyebrow";
 import IconCircle from "@/components/ui/IconCircle";
+import { AutoLinkedText } from "@sweetmedia/blog-core";
 
 const therapies = [
   { category: "Trauma",          icon: "ri-eye-line", title: "EMDR Therapy",                 desc: "Reprocessing deeply rooted trauma through bilateral stimulation, allowing the brain to heal psychological wounds naturally." },
@@ -40,7 +41,7 @@ export default function TherapiesSection() {
               Clinical Rigor<br />Meets Coastal<br />Tranquility
             </h3>
             <p className="mt-6 text-sm font-light leading-relaxed text-white/60">
-              We integrate the most effective evidence-based therapies with holistic modalities, creating a comprehensive treatment experience that addresses the whole person—mind, body, and spirit.
+              <AutoLinkedText>{"We integrate the most effective evidence-based therapies with holistic modalities, creating a comprehensive treatment experience that addresses the whole person—mind, body, and spirit."}</AutoLinkedText>
             </p>
 
             <div className="mt-10 flex flex-col gap-5">
@@ -48,8 +49,8 @@ export default function TherapiesSection() {
                 <div key={label} className="flex items-center gap-4">
                   <IconCircle icon={icon} variant="accent" size="sm" />
                   <div>
-                    <p className="font-[family-name:var(--font-display)] text-2xl font-normal text-white">{value}</p>
-                    <p className="text-xs font-light text-white/50">{label}</p>
+                    <p className="font-[family-name:var(--font-display)] text-2xl font-normal text-white"><AutoLinkedText>{value}</AutoLinkedText></p>
+                    <p className="text-xs font-light text-white/50"><AutoLinkedText>{label}</AutoLinkedText></p>
                   </div>
                 </div>
               ))}
@@ -60,14 +61,14 @@ export default function TherapiesSection() {
           <div className="grid sm:grid-cols-2 border-l border-warm">
             {therapies.map(({ category, icon, title, desc }) => (
               <div key={title} className="border-b border-r border-warm p-7 flex flex-col min-h-[281px]">
-                <p className="text-[9px] font-semibold uppercase tracking-[0.3em] text-ink/40 mb-5">{category}</p>
+                <p className="text-[9px] font-semibold uppercase tracking-[0.3em] text-ink/40 mb-5"><AutoLinkedText>{category}</AutoLinkedText></p>
                 <div className="flex items-center gap-4 mb-5">
                   <IconCircle icon={icon} variant="ink" size="lg" iconSize="text-lg" />
                   <h3 className="font-[family-name:var(--font-display)] text-[22px] font-semibold text-ink leading-snug">
                     {title}
                   </h3>
                 </div>
-                <p className="text-[15px] font-light leading-relaxed text-ink/65">{desc}</p>
+                <p className="text-[15px] font-light leading-relaxed text-ink/65"><AutoLinkedText>{desc}</AutoLinkedText></p>
               </div>
             ))}
           </div>

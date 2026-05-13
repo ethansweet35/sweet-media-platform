@@ -1,3 +1,4 @@
+import { AutoLinkedText } from "@sweetmedia/blog-core";
 // No interactivity needed — pure price list
 
 type PriceItem = { name: string; price: string };
@@ -186,9 +187,7 @@ function OrnamentDivider() {
 function PriceGroup({ group }: { group: PriceGroup }) {
   return (
     <div>
-      <p className="text-[0.68rem] font-medium uppercase tracking-[0.22em] text-[#C67B5C]">
-        {group.category}
-      </p>
+      <p className="text-[0.68rem] font-medium uppercase tracking-[0.22em] text-[#C67B5C]"><AutoLinkedText>{group.category}</AutoLinkedText></p>
       <h2 className="mt-1.5 font-serif text-[1.55rem] italic leading-tight text-[#2A2020]">
         {group.title}
       </h2>
@@ -225,8 +224,7 @@ export function PricingPage() {
           Medication Price List
         </h1>
         <p className="mx-auto mt-4 max-w-xl text-sm leading-7 text-[#8a7f76]">
-          All prices reflect per-vial medication costs. Consultation fees are billed separately.
-          Prices subject to change — confirm at time of order.
+          <AutoLinkedText>{"All prices reflect per-vial medication costs. Consultation fees are billed separately.\n          Prices subject to change — confirm at time of order."}</AutoLinkedText>
         </p>
         <a
           href={SCHEDULE_CTA}
@@ -248,9 +246,7 @@ export function PricingPage() {
 
         {/* Disclaimer */}
         <p className="mt-16 border-t border-[#E8DDD0] pt-8 text-center text-xs leading-6 text-[#8a7f76]">
-          Results are based on clinical trial data. Individual results vary. Medication prescribed
-          only where clinically appropriate. All compounded medications are prepared by FDA-registered
-          503B compounding pharmacies.
+          <AutoLinkedText>{"Results are based on clinical trial data. Individual results vary. Medication prescribed\n          only where clinically appropriate. All compounded medications are prepared by FDA-registered\n          503B compounding pharmacies."}</AutoLinkedText>
         </p>
       </section>
     </div>

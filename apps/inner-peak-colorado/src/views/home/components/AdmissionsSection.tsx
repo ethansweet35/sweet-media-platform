@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { AutoLinkedText } from "@sweetmedia/blog-core";
 
 const steps = [
   {
@@ -55,7 +56,7 @@ export default function AdmissionsSection() {
           </div>
           <div className="flex flex-col gap-5">
             <p className="text-[#3A4A3C]/65 font-light text-base leading-[1.9]">
-              We've designed our admissions process to be as gentle and straightforward as possible. You focus on being ready — we'll handle everything else.
+              <AutoLinkedText>{"We've designed our admissions process to be as gentle and straightforward as possible. You focus on being ready — we'll handle everything else."}</AutoLinkedText>
             </p>
             <div className="flex items-center gap-3">
               <div className="w-2 h-2 rounded-full bg-[#8FA489]"></div>
@@ -87,7 +88,7 @@ export default function AdmissionsSection() {
                     </div>
                     <h3 className="font-serif text-[#2C3B2E] text-base leading-snug">{step.title}</h3>
                   </div>
-                  <p className="text-sm text-[#3A4A3C]/60 font-light leading-[1.8]">{step.desc}</p>
+                  <p className="text-sm text-[#3A4A3C]/60 font-light leading-[1.8]"><AutoLinkedText>{step.desc}</AutoLinkedText></p>
                 </div>
               </div>
             ))}
@@ -97,8 +98,8 @@ export default function AdmissionsSection() {
         {/* Bottom CTA strip */}
         <div className="mt-14 bg-[#2C3B2E] rounded-2xl px-8 py-7 flex flex-col sm:flex-row items-center justify-between gap-5 anim-scale anim-visible">
           <div className="flex flex-col gap-1">
-            <p className="font-serif text-[#FAF8F5] text-lg">Ready to take the first step?</p>
-            <p className="text-sm text-[#F0ECE1]/55 font-light">Our intake team is available right now — call, text, or fill out our form.</p>
+            <p className="font-serif text-[#FAF8F5] text-lg"><AutoLinkedText>{"Ready to take the first step?"}</AutoLinkedText></p>
+            <p className="text-sm text-[#F0ECE1]/55 font-light"><AutoLinkedText>{"Our intake team is available right now — call, text, or fill out our form."}</AutoLinkedText></p>
           </div>
           <Link
             href="/contact"

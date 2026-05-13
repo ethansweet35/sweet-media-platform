@@ -1,3 +1,4 @@
+import { AutoLinkedText } from "@sweetmedia/blog-core";
 const stats = [
   { value: '50+', label: 'Years Collective Experience', icon: 'ri-heart-line', color: '#C8795A' },
   { value: '12+', label: 'Therapeutic Modalities', icon: 'ri-group-line', color: '#6B7D67' },
@@ -23,12 +24,8 @@ export default function StatsSection() {
             <p
               className="font-serif text-[#2C3B2E] font-bold leading-none"
               style={{ fontSize: 'clamp(30px, 3.5vw, 48px)' }}
-            >
-              {stat.value}
-            </p>
-            <p className="text-[11px] uppercase tracking-widest text-[#3A4A3C]/50 font-light leading-snug">
-              {stat.label}
-            </p>
+            ><AutoLinkedText>{stat.value}</AutoLinkedText></p>
+            <p className="text-[11px] uppercase tracking-widest text-[#3A4A3C]/50 font-light leading-snug"><AutoLinkedText>{stat.label}</AutoLinkedText></p>
           </div>
         ))}
       </div>

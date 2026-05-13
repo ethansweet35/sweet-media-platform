@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { AutoLinkedText } from "@sweetmedia/blog-core";
 
 import OurCompanyLeadSection from "@/views/our-company/components/OurCompanyLeadSection";
 
@@ -44,8 +45,7 @@ export default function ResourcesHubPage() {
             Guides, FAQs &amp; <span className="text-[#166C96]">insights</span>
           </h1>
           <p className="mt-6 max-w-2xl text-sm leading-relaxed text-white/85 md:text-base">
-            Explore Cipher Billing&apos;s library of behavioral health billing resources—from coding references to
-            state-level reimbursement intelligence.
+            <AutoLinkedText>{"Explore Cipher Billing&apos;s library of behavioral health billing resources—from coding references to\n            state-level reimbursement intelligence."}</AutoLinkedText>
           </p>
         </div>
       </section>
@@ -67,7 +67,7 @@ export default function ResourcesHubPage() {
               <h2 className="mt-6 font-[var(--font-heading)] text-xl font-medium text-[#101E3F] group-hover:text-[#166C96]">
                 {item.title}
               </h2>
-              <p className="mt-3 flex-1 text-sm leading-relaxed text-slate-600">{item.description}</p>
+              <p className="mt-3 flex-1 text-sm leading-relaxed text-slate-600"><AutoLinkedText>{item.description}</AutoLinkedText></p>
               <span className="mt-6 inline-flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.14em] text-[#166C96]">
                 View
                 <i className="ri-arrow-right-line text-base" aria-hidden />

@@ -3,6 +3,7 @@ import PageHero from "@/components/sections/PageHero";
 import TrustStrip from "@/components/sections/TrustStrip";
 import BottomCta from "@/components/sections/BottomCta";
 import { LOCATIONS } from "@/data/locations";
+import { AutoLinkedText } from "@sweetmedia/blog-core";
 
 export default function ServiceAreasPage() {
   const states = LOCATIONS.filter((l) => l.type === "state").sort((a, b) =>
@@ -29,18 +30,18 @@ export default function ServiceAreasPage() {
         <div className="mx-auto max-w-7xl px-6 lg:px-10">
           <div className="grid gap-12 lg:grid-cols-[1.2fr_1fr] lg:items-start">
             <div>
-              <p className="brand-eyebrow mb-3 text-[#8FAC87]">How Our National Coverage Works</p>
+              <p className="brand-eyebrow mb-3 text-[#8FAC87]"><AutoLinkedText>{"How Our National Coverage Works"}</AutoLinkedText></p>
               <h2 className="font-heading mb-5 text-3xl font-bold leading-tight text-[#1A1A17] md:text-4xl">
                 We come to you — <span className="italic text-[#507969]">wherever your family is</span>
               </h2>
               <p className="mb-4 text-base leading-relaxed text-[#4B4B4B]">
-                An effective intervention happens in your loved one&apos;s own environment, not in a clinical office. That means our certified interventionists travel to you — your home, your city, and your state. We have worked in all 50 states, from densely populated metro areas like Los Angeles and New York City to rural communities where access to addiction services is thin and the stigma around seeking help runs deep.
+                <AutoLinkedText>{"An effective intervention happens in your loved one&apos;s own environment, not in a clinical office. That means our certified interventionists travel to you — your home, your city, and your state. We have worked in all 50 states, from densely populated metro areas like Los Angeles and New York City to rural communities where access to addiction services is thin and the stigma around seeking help runs deep."}</AutoLinkedText>
               </p>
               <p className="mb-4 text-base leading-relaxed text-[#4B4B4B]">
-                When you call, we immediately assess the geographic landscape: which local treatment facilities have openings, which transport options exist, and how far your loved one may need to travel to access the right level of care. In some cases, staying local is the right choice. In others — especially when local relationships are part of the enabling pattern — an out-of-state residential program is clinically indicated. We help you understand both options before the intervention day.
+                <AutoLinkedText>{"When you call, we immediately assess the geographic landscape: which local treatment facilities have openings, which transport options exist, and how far your loved one may need to travel to access the right level of care. In some cases, staying local is the right choice. In others — especially when local relationships are part of the enabling pattern — an out-of-state residential program is clinically indicated. We help you understand both options before the intervention day."}</AutoLinkedText>
               </p>
               <p className="text-base leading-relaxed text-[#4B4B4B]">
-                Our interventionists typically arrive within 24 to 48 hours of your initial call. We conduct a full pre-intervention briefing with every participating family member, prepare written impact statements, establish a clear treatment admission date, and remain on-site through the entire session — and available by phone in the hours and days that follow.
+                <AutoLinkedText>{"Our interventionists typically arrive within 24 to 48 hours of your initial call. We conduct a full pre-intervention briefing with every participating family member, prepare written impact statements, establish a clear treatment admission date, and remain on-site through the entire session — and available by phone in the hours and days that follow."}</AutoLinkedText>
               </p>
             </div>
             <div className="grid gap-4">
@@ -58,7 +59,7 @@ export default function ServiceAreasPage() {
                   </span>
                   <div>
                     <h3 className="font-heading text-base font-bold text-[#1A1A17]">{f.title}</h3>
-                    <p className="mt-1 text-sm leading-relaxed text-[#4B4B4B]">{f.body}</p>
+                    <p className="mt-1 text-sm leading-relaxed text-[#4B4B4B]"><AutoLinkedText>{f.body}</AutoLinkedText></p>
                   </div>
                 </div>
               ))}
@@ -89,9 +90,7 @@ export default function ServiceAreasPage() {
                   className="group flex items-center justify-between rounded-2xl border border-[var(--color-divider)] bg-white p-6 transition hover:border-[var(--color-sage)] hover:shadow-md"
                 >
                   <div>
-                    <p className="text-xs uppercase tracking-[0.18em] text-[var(--color-ink-muted)]">
-                      {c.parentRegion}
-                    </p>
+                    <p className="text-xs uppercase tracking-[0.18em] text-[var(--color-ink-muted)]"><AutoLinkedText>{c.parentRegion}</AutoLinkedText></p>
                     <h3 className="mt-1 text-lg font-semibold tracking-tight text-[var(--color-ink)]">
                       {c.displayName}
                     </h3>
@@ -116,8 +115,7 @@ export default function ServiceAreasPage() {
                 {states.length}+ states with dedicated landing pages.
               </h2>
               <p className="mt-3 max-w-2xl text-base leading-7 text-[var(--color-ink-muted)] md:text-lg">
-                Don't see yours listed? We still cover you — call us and we'll
-                connect you with a certified interventionist serving your area.
+                <AutoLinkedText>{"Don't see yours listed? We still cover you — call us and we'll\n                connect you with a certified interventionist serving your area."}</AutoLinkedText>
               </p>
             </div>
           </div>

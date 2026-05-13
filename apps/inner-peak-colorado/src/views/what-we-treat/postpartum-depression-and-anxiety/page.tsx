@@ -4,6 +4,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useState } from 'react';
 import Breadcrumb from '@/components/base/Breadcrumb';
+import { AutoLinkedTextClient } from "@sweetmedia/blog-core";
 
 const ACCENT = '#8FA489';
 
@@ -187,7 +188,7 @@ export default function PostpartumDepressionAndAnxietyPage() {
               </div>
               <div className="flex flex-col gap-6">
                 <p className="text-[#F0ECE1]/75 font-light text-base leading-[1.95]">
-                  Postpartum depression and anxiety are not signs of weakness or failure — they are medical conditions that affect one in five new mothers. At Inner Peak Colorado, we provide specialized, judgment-free perinatal mental health care for women across Colorado.
+                  <AutoLinkedTextClient>{"Postpartum depression and anxiety are not signs of weakness or failure — they are medical conditions that affect one in five new mothers. At Inner Peak Colorado, we provide specialized, judgment-free perinatal mental health care for women across Colorado."}</AutoLinkedTextClient>
                 </p>
                 <div className="flex flex-wrap gap-4">
                   <Link
@@ -224,10 +225,10 @@ export default function PostpartumDepressionAndAnxietyPage() {
               <em className="text-[#C8795A]">deserves real care.</em>
             </h2>
             <p className="text-[#3A4A3C]/65 font-light text-base leading-[1.95]">
-              Postpartum depression and anxiety are not character flaws or signs that you don&apos;t love your baby. They are driven by dramatic hormonal shifts, sleep deprivation, identity disruption, and the enormous weight of new responsibility. For women with a prior history of depression, anxiety, or trauma, the risk is even higher — and the need for specialized support even more urgent.
+              <AutoLinkedTextClient>{"Postpartum depression and anxiety are not character flaws or signs that you don&apos;t love your baby. They are driven by dramatic hormonal shifts, sleep deprivation, identity disruption, and the enormous weight of new responsibility. For women with a prior history of depression, anxiety, or trauma, the risk is even higher — and the need for specialized support even more urgent."}</AutoLinkedTextClient>
             </p>
             <p className="text-[#3A4A3C]/65 font-light text-base leading-[1.95]">
-              In Colorado, access to perinatal mental health specialists remains limited. Our virtual IOP and outpatient programs give new mothers across the state access to evidence-based care — without leaving home, without arranging childcare, and without putting their recovery on hold.
+              <AutoLinkedTextClient>{"In Colorado, access to perinatal mental health specialists remains limited. Our virtual IOP and outpatient programs give new mothers across the state access to evidence-based care — without leaving home, without arranging childcare, and without putting their recovery on hold."}</AutoLinkedTextClient>
             </p>
             <div className="flex items-center gap-3 pt-1">
               <div className="w-8 h-px" style={{ backgroundColor: ACCENT }}></div>
@@ -249,7 +250,7 @@ export default function PostpartumDepressionAndAnxietyPage() {
             <div className="bg-[#2C3B2E] rounded-[0.75rem_2rem_0.75rem_2rem] p-7 flex flex-col gap-3">
               <i className="ri-double-quotes-l text-2xl" style={{ color: ACCENT }}></i>
               <p className="font-serif text-[#FAF8F5] text-base leading-[1.7] italic">
-                &quot;I kept telling myself I just needed more sleep. It took months to realize what I was experiencing was real and treatable — and that I didn&apos;t have to suffer through it alone.&quot;
+                <AutoLinkedTextClient>{"&quot;I kept telling myself I just needed more sleep. It took months to realize what I was experiencing was real and treatable — and that I didn&apos;t have to suffer through it alone.&quot;"}</AutoLinkedTextClient>
               </p>
               <p className="text-[10px] uppercase tracking-widest font-medium" style={{ color: '#DDA15E' }}>
                 — Program Graduate
@@ -271,7 +272,7 @@ export default function PostpartumDepressionAndAnxietyPage() {
               <em className="text-[#C8795A]">struggle is real and treatable.</em>
             </h2>
             <p className="text-[#3A4A3C]/60 font-light text-base max-w-xl mx-auto leading-relaxed">
-              Postpartum mental health conditions span a wide spectrum. We treat all presentations with the same clinical depth and compassion.
+              <AutoLinkedTextClient>{"Postpartum mental health conditions span a wide spectrum. We treat all presentations with the same clinical depth and compassion."}</AutoLinkedTextClient>
             </p>
           </div>
 
@@ -290,7 +291,7 @@ export default function PostpartumDepressionAndAnxietyPage() {
                   </span>
                 </div>
                 <h3 className="font-serif text-[#2C3B2E] text-xl">{type.name}</h3>
-                <p className="text-sm text-[#3A4A3C]/60 font-light leading-[1.85]">{type.desc}</p>
+                <p className="text-sm text-[#3A4A3C]/60 font-light leading-[1.85]"><AutoLinkedTextClient>{type.desc}</AutoLinkedTextClient></p>
               </div>
             ))}
           </div>
@@ -309,7 +310,7 @@ export default function PostpartumDepressionAndAnxietyPage() {
               <em className="text-[#C8795A]">than the baby blues.</em>
             </h2>
             <p className="text-[#3A4A3C]/60 font-light text-base max-w-2xl mx-auto leading-relaxed">
-              You don&apos;t have to meet every criterion. If these patterns feel familiar and have lasted more than two weeks, support can help.
+              <AutoLinkedTextClient>{"You don&apos;t have to meet every criterion. If these patterns feel familiar and have lasted more than two weeks, support can help."}</AutoLinkedTextClient>
             </p>
           </div>
 
@@ -355,7 +356,7 @@ export default function PostpartumDepressionAndAnxietyPage() {
 
           <div className="mt-8 bg-[#2C3B2E] rounded-2xl p-7 flex flex-col sm:flex-row items-center justify-between gap-6">
             <p className="text-[#F0ECE1]/80 font-light text-base leading-relaxed max-w-2xl">
-              Postpartum conditions are highly treatable. The sooner you reach out, the sooner relief becomes possible — for you and for the people who depend on you.
+              <AutoLinkedTextClient>{"Postpartum conditions are highly treatable. The sooner you reach out, the sooner relief becomes possible — for you and for the people who depend on you."}</AutoLinkedTextClient>
             </p>
             <Link
               href="/contact"
@@ -397,7 +398,7 @@ export default function PostpartumDepressionAndAnxietyPage() {
                     <i className={`${pillar.icon} text-sm`} style={{ color: ACCENT }}></i>
                   </div>
                   <h3 className="font-serif text-[#FAF8F5] text-sm">{pillar.title}</h3>
-                  <p className="text-[#F0ECE1]/55 font-light text-xs leading-[1.8]">{pillar.desc}</p>
+                  <p className="text-[#F0ECE1]/55 font-light text-xs leading-[1.8]"><AutoLinkedTextClient>{pillar.desc}</AutoLinkedTextClient></p>
                 </div>
               ))}
             </div>
@@ -418,17 +419,17 @@ export default function PostpartumDepressionAndAnxietyPage() {
                 <em className="text-[#C8795A]">can look like.</em>
               </h2>
               <p className="text-[#3A4A3C]/65 font-light text-base leading-[1.95]">
-                Recovery is not about becoming the mother you imagined. It&apos;s about finding yourself again — with support that honors how exhausted and overwhelmed you already are.
+                <AutoLinkedTextClient>{"Recovery is not about becoming the mother you imagined. It&apos;s about finding yourself again — with support that honors how exhausted and overwhelmed you already are."}</AutoLinkedTextClient>
               </p>
               <div className="bg-[#F0ECE1] rounded-[2rem_0.75rem_2rem_0.75rem] p-7 flex flex-col gap-3">
                 <p className="text-xs uppercase tracking-widest font-medium" style={{ color: ACCENT }}>
-                  Most women begin within
+                  <AutoLinkedTextClient>{"Most women begin within"}</AutoLinkedTextClient>
                 </p>
                 <p className="font-serif text-[#2C3B2E]" style={{ fontSize: 'clamp(28px, 3vw, 40px)' }}>
                   24–72 hours
                 </p>
                 <p className="text-[#3A4A3C]/60 font-light text-sm leading-relaxed">
-                  From first call to first session. We know you can&apos;t wait — and neither can your recovery.
+                  <AutoLinkedTextClient>{"From first call to first session. We know you can&apos;t wait — and neither can your recovery."}</AutoLinkedTextClient>
                 </p>
               </div>
             </div>
@@ -451,7 +452,7 @@ export default function PostpartumDepressionAndAnxietyPage() {
                     <h3 className="font-serif text-[#2C3B2E] text-base group-hover:text-[#C8795A] transition-colors duration-300">
                       {item.label}
                     </h3>
-                    <p className="text-sm text-[#3A4A3C]/60 font-light leading-[1.85]">{item.desc}</p>
+                    <p className="text-sm text-[#3A4A3C]/60 font-light leading-[1.85]"><AutoLinkedTextClient>{item.desc}</AutoLinkedTextClient></p>
                   </div>
                 </div>
               ))}
@@ -473,7 +474,7 @@ export default function PostpartumDepressionAndAnxietyPage() {
                 <em className="text-[#C8795A]">perinatal care.</em>
               </h2>
               <p className="text-[#3A4A3C]/60 font-light text-sm leading-[1.85]">
-                We select modalities based on clinical evidence for perinatal mental health and adapt them to where you are in your postpartum journey.
+                <AutoLinkedTextClient>{"We select modalities based on clinical evidence for perinatal mental health and adapt them to where you are in your postpartum journey."}</AutoLinkedTextClient>
               </p>
               <Link
                 href="/therapy"
@@ -523,7 +524,7 @@ export default function PostpartumDepressionAndAnxietyPage() {
                 </button>
                 {openFaq === i && (
                   <div className="px-6 pb-6">
-                    <p className="text-[#F0ECE1]/70 font-light text-sm leading-[1.9]">{faq.a}</p>
+                    <p className="text-[#F0ECE1]/70 font-light text-sm leading-[1.9]"><AutoLinkedTextClient>{faq.a}</AutoLinkedTextClient></p>
                   </div>
                 )}
               </div>
@@ -554,7 +555,7 @@ export default function PostpartumDepressionAndAnxietyPage() {
               <em style={{ color: ACCENT }}>even in this season.</em>
             </h2>
             <p className="text-[#F0ECE1]/70 font-light text-base leading-relaxed">
-              A free, confidential assessment is the first step. Our perinatal-trained clinical team will listen without judgment and help you understand what support is right for where you are right now.
+              <AutoLinkedTextClient>{"A free, confidential assessment is the first step. Our perinatal-trained clinical team will listen without judgment and help you understand what support is right for where you are right now."}</AutoLinkedTextClient>
             </p>
             <div className="flex flex-col sm:flex-row gap-4">
               <Link

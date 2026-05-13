@@ -4,6 +4,7 @@ import TrustStrip from "@/components/sections/TrustStrip";
 import BottomCta from "@/components/sections/BottomCta";
 import Quiz, { type QuizConfig } from "@/components/quiz/Quiz";
 import { PHONE_DISPLAY, PHONE_HREF } from "@/data/site";
+import { AutoLinkedText } from "@sweetmedia/blog-core";
 
 const STANDARD_OPTIONS = [
   { label: "Never / not at all", score: 0 },
@@ -135,8 +136,8 @@ export default function InterventionQuizPage() {
                 <span className="flex h-12 w-12 items-center justify-center rounded-2xl bg-[#3E5B50] text-white">
                   <i className={`${f.icon} text-xl`}></i>
                 </span>
-                <p className="font-heading font-bold text-[#1A1A17]">{f.title}</p>
-                <p className="text-sm text-[#4B4B4B]">{f.desc}</p>
+                <p className="font-heading font-bold text-[#1A1A17]"><AutoLinkedText>{f.title}</AutoLinkedText></p>
+                <p className="text-sm text-[#4B4B4B]"><AutoLinkedText>{f.desc}</AutoLinkedText></p>
               </div>
             ))}
           </div>

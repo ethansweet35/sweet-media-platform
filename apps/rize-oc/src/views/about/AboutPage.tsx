@@ -8,6 +8,7 @@ import SectionHeader from "@/components/ui/SectionHeader";
 import IconCircle from "@/components/ui/IconCircle";
 import Button from "@/components/ui/Button";
 import AccreditationsBar from "@/views/home/components/AccreditationsBar";
+import { AutoLinkedTextClient } from "@sweetmedia/blog-core";
 
 const BASE = "https://nfjlvkxrbzytjefmcvhg.supabase.co/storage/v1/object/public/site-assets/images";
 
@@ -136,7 +137,7 @@ export default function AboutPage() {
               <em className="italic text-white/60">Happens.</em>
             </h1>
             <p className="text-[17px] font-light leading-relaxed text-white/85 max-w-[520px] mb-10">
-              Orange County&apos;s premier destination for evidence-based addiction and mental health treatment — where cutting-edge clinical care meets the serenity of California&apos;s coast.
+              <AutoLinkedTextClient>{"Orange County&apos;s premier destination for evidence-based addiction and mental health treatment — where cutting-edge clinical care meets the serenity of California&apos;s coast."}</AutoLinkedTextClient>
             </p>
             <div className="flex flex-wrap gap-3">
               <Button href="/admissions" variant="accent" size="md">
@@ -155,10 +156,8 @@ export default function AboutPage() {
                 <p
                   className="font-[family-name:var(--font-display)] font-normal text-white"
                   style={{ fontSize: "clamp(28px, 3vw, 42px)" }}
-                >
-                  {value}
-                </p>
-                <p className="mt-1 text-[10px] font-semibold uppercase tracking-[0.18em] text-white/65">{label}</p>
+                ><AutoLinkedTextClient>{value}</AutoLinkedTextClient></p>
+                <p className="mt-1 text-[10px] font-semibold uppercase tracking-[0.18em] text-white/65"><AutoLinkedTextClient>{label}</AutoLinkedTextClient></p>
               </div>
             ))}
           </div>
@@ -176,10 +175,10 @@ export default function AboutPage() {
                 className="font-[family-name:var(--font-display)] font-normal text-ink leading-snug"
                 style={{ fontSize: "clamp(26px, 2.8vw, 40px)" }}
               >
-                &ldquo;A place where cutting-edge medical care meets the serenity of California&apos;s coast.&rdquo;
+                <AutoLinkedTextClient>{"&ldquo;A place where cutting-edge medical care meets the serenity of California&apos;s coast.&rdquo;"}</AutoLinkedTextClient>
               </p>
               <p className="mt-4 text-[11px] font-semibold uppercase tracking-[0.22em] text-accent">
-                — Rize Recovery Founders
+                <AutoLinkedTextClient>{"— Rize Recovery Founders"}</AutoLinkedTextClient>
               </p>
             </div>
 
@@ -198,7 +197,7 @@ export default function AboutPage() {
               />
               <div className="absolute bottom-6 left-6">
                 <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-white/70">
-                  Our Orange County Facility
+                  <AutoLinkedTextClient>{"Our Orange County Facility"}</AutoLinkedTextClient>
                 </p>
               </div>
             </div>
@@ -215,13 +214,13 @@ export default function AboutPage() {
             </div>
 
             <p className="text-[15px] leading-[1.85] text-ink/70">
-              Rize Recovery was founded by a team of addiction medicine specialists and recovery advocates who recognized a critical gap in the treatment landscape: the absence of truly premium, evidence-based care that treats the whole person — mind, body, and spirit.
+              <AutoLinkedTextClient>{"Rize Recovery was founded by a team of addiction medicine specialists and recovery advocates who recognized a critical gap in the treatment landscape: the absence of truly premium, evidence-based care that treats the whole person — mind, body, and spirit."}</AutoLinkedTextClient>
             </p>
             <p className="text-[15px] leading-[1.85] text-ink/70">
-              Our founders drew from their own experiences in recovery and decades of clinical practice to create a treatment center that would offer more than traditional rehab. They envisioned a place where cutting-edge medical care meets the serenity of California&apos;s coast, where evidence-based therapies are delivered in an environment of genuine luxury and respect.
+              <AutoLinkedTextClient>{"Our founders drew from their own experiences in recovery and decades of clinical practice to create a treatment center that would offer more than traditional rehab. They envisioned a place where cutting-edge medical care meets the serenity of California&apos;s coast, where evidence-based therapies are delivered in an environment of genuine luxury and respect."}</AutoLinkedTextClient>
             </p>
             <p className="text-[15px] leading-[1.85] text-ink/70">
-              Located in Orange County, California, Rize opened its doors with a singular mission: to provide treatment that honors the dignity of every individual while delivering measurable, lasting results. We understand that seeking help is an act of courage — and we&apos;ve created an environment where that courage is met with compassion, expertise, and unwavering support.
+              <AutoLinkedTextClient>{"Located in Orange County, California, Rize opened its doors with a singular mission: to provide treatment that honors the dignity of every individual while delivering measurable, lasting results. We understand that seeking help is an act of courage — and we&apos;ve created an environment where that courage is met with compassion, expertise, and unwavering support."}</AutoLinkedTextClient>
             </p>
             <p className="text-[15px] leading-[1.85] text-ink/70">
               Today, Rize stands as Orange County&apos;s premier destination for individuals and families seeking transformative recovery care — a place where healing happens not despite luxury, but <em>because of it</em>.
@@ -254,7 +253,7 @@ export default function AboutPage() {
               <em className="italic text-white/60">Mind, Body &amp; Spirit</em>
             </h2>
             <p className="mt-5 text-[15px] font-light text-white/75 leading-relaxed">
-              Recovery is not a single event. It is the cumulative restoration of every dimension of a human life. Our clinical model is built around this truth.
+              <AutoLinkedTextClient>{"Recovery is not a single event. It is the cumulative restoration of every dimension of a human life. Our clinical model is built around this truth."}</AutoLinkedTextClient>
             </p>
           </div>
 
@@ -273,7 +272,7 @@ export default function AboutPage() {
                   <IconCircle icon={icon} colorClass="bg-accent/15 text-accent" size="w-12 h-12 text-xl" />
                   <span className="text-[10px] font-semibold uppercase tracking-[0.3em] text-accent">{title}</span>
                 </div>
-                <p className="text-[15px] font-light leading-[1.8] text-white/80 relative z-10">{body}</p>
+                <p className="text-[15px] font-light leading-[1.8] text-white/80 relative z-10"><AutoLinkedTextClient>{body}</AutoLinkedTextClient></p>
               </div>
             ))}
           </div>
@@ -288,7 +287,7 @@ export default function AboutPage() {
             What Sets Us Apart
           </SectionHeader>
           <p className="mt-5 text-[15px] text-ink/65 leading-relaxed">
-            Many treatment centers claim to offer premium care. Rize is one of the few that can demonstrate it at every level of the clinical experience.
+            <AutoLinkedTextClient>{"Many treatment centers claim to offer premium care. Rize is one of the few that can demonstrate it at every level of the clinical experience."}</AutoLinkedTextClient>
           </p>
         </div>
 
@@ -306,7 +305,7 @@ export default function AboutPage() {
                 <IconCircle icon={icon} colorClass="bg-accent/10 text-accent" size="w-10 h-10 text-lg shrink-0" />
                 <h3 className="font-semibold text-ink text-[15px] leading-tight mt-2">{title}</h3>
               </div>
-              <p className="text-[14px] text-ink/65 leading-relaxed">{body}</p>
+              <p className="text-[14px] text-ink/65 leading-relaxed"><AutoLinkedTextClient>{body}</AutoLinkedTextClient></p>
             </div>
           ))}
           {/* Sixth cell — CTA card */}
@@ -323,10 +322,10 @@ export default function AboutPage() {
                 className="font-[family-name:var(--font-display)] font-normal text-white leading-tight"
                 style={{ fontSize: "clamp(22px, 2vw, 30px)" }}
               >
-                Most Insurance Plans Accepted
+                <AutoLinkedTextClient>{"Most Insurance Plans Accepted"}</AutoLinkedTextClient>
               </p>
               <p className="text-[13px] font-light text-white/75 leading-relaxed">
-                Our admissions team verifies your benefits within hours. Same-day assessments available.
+                <AutoLinkedTextClient>{"Our admissions team verifies your benefits within hours. Same-day assessments available."}</AutoLinkedTextClient>
               </p>
               <div className="mt-auto">
                 <Button href="/admissions" variant="accent" size="sm">
@@ -356,10 +355,10 @@ export default function AboutPage() {
                 <em className="italic text-white/60">Lived the Work</em>
               </h2>
               <p className="mt-6 text-[15px] font-light text-white/80 leading-[1.85]">
-                Our clinical team is led by board-certified addiction medicine physicians, licensed psychologists, and certified therapists who bring both deep expertise and lived understanding to the work of recovery.
+                <AutoLinkedTextClient>{"Our clinical team is led by board-certified addiction medicine physicians, licensed psychologists, and certified therapists who bring both deep expertise and lived understanding to the work of recovery."}</AutoLinkedTextClient>
               </p>
               <p className="mt-4 text-[15px] font-light text-white/80 leading-[1.85]">
-                Many of our staff members are themselves in long-term recovery — they bring an irreplaceable dimension of human understanding to every client interaction. This is not just a job for our team. It is a calling.
+                <AutoLinkedTextClient>{"Many of our staff members are themselves in long-term recovery — they bring an irreplaceable dimension of human understanding to every client interaction. This is not just a job for our team. It is a calling."}</AutoLinkedTextClient>
               </p>
               <div className="mt-8">
                 <Button href="/admissions" variant="outline-white" size="sm">
@@ -377,8 +376,8 @@ export default function AboutPage() {
                 >
                   <IconCircle icon={icon} colorClass="bg-accent/15 text-accent" size="w-10 h-10 text-lg" />
                   <div>
-                    <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-accent">{role}</p>
-                    <p className="mt-2 text-[13px] font-light text-white/75 leading-relaxed">{description}</p>
+                    <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-accent"><AutoLinkedTextClient>{role}</AutoLinkedTextClient></p>
+                    <p className="mt-2 text-[13px] font-light text-white/75 leading-relaxed"><AutoLinkedTextClient>{description}</AutoLinkedTextClient></p>
                   </div>
                 </div>
               ))}
@@ -409,7 +408,7 @@ export default function AboutPage() {
               <em className="italic text-white/65">With a Single Call</em>
             </h2>
             <p className="mt-6 text-[16px] font-light text-white/80 leading-relaxed max-w-[500px] mx-auto">
-            Speak confidentially with our admissions team — no commitment required. We answer every call, every hour of the day.
+            <AutoLinkedTextClient>{"Speak confidentially with our admissions team — no commitment required. We answer every call, every hour of the day."}</AutoLinkedTextClient>
           </p>
           <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
             <Button href="/admissions" variant="accent" size="lg">

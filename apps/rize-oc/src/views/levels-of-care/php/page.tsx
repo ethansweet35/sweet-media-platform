@@ -6,6 +6,7 @@ import SectionHeader from "@/components/ui/SectionHeader";
 import IconCircle from "@/components/ui/IconCircle";
 import Button from "@/components/ui/Button";
 import FaqAccordion, { type FaqItem } from "@/components/ui/FaqAccordion";
+import { AutoLinkedText } from "@sweetmedia/blog-core";
 
 const BASE = "https://nfjlvkxrbzytjefmcvhg.supabase.co/storage/v1/object/public/site-assets/images";
 
@@ -200,7 +201,7 @@ export default function PhpPage() {
               <em className="italic text-white/60">Program (PHP)</em>
             </h1>
             <p className="mt-6 text-[16px] font-light leading-relaxed text-white/75 max-w-[520px]">
-              Six hours of daily intensive clinical programming — the full therapeutic depth of residential treatment, with the healing freedom of home each evening.
+              <AutoLinkedText>{"Six hours of daily intensive clinical programming — the full therapeutic depth of residential treatment, with the healing freedom of home each evening."}</AutoLinkedText>
             </p>
             <div className="mt-8 flex flex-wrap gap-3">
               <Button href="#verify" variant="accent" size="md">Verify Insurance — Free</Button>
@@ -216,8 +217,8 @@ export default function PhpPage() {
                 { value: "1:3",  label: "Staff-to-Client Ratio" },
               ].map(({ value, label }) => (
                 <div key={label}>
-                  <p className="font-[family-name:var(--font-display)] text-[28px] font-normal text-white leading-none">{value}</p>
-                  <p className="text-[10px] font-medium uppercase tracking-[0.22em] text-white/45 mt-1.5">{label}</p>
+                  <p className="font-[family-name:var(--font-display)] text-[28px] font-normal text-white leading-none"><AutoLinkedText>{value}</AutoLinkedText></p>
+                  <p className="text-[10px] font-medium uppercase tracking-[0.22em] text-white/45 mt-1.5"><AutoLinkedText>{label}</AutoLinkedText></p>
                 </div>
               ))}
             </div>
@@ -265,25 +266,25 @@ export default function PhpPage() {
             </h2>
             <div className="flex flex-col gap-5">
               <p className="text-[15px] font-light leading-relaxed text-ink/65">
-                Partial Hospitalization is a classification recognized by every major insurance provider and behavioral health licensing body — it represents the highest intensity of outpatient care available. At Rize OC, PHP delivers the full clinical breadth of residential programming in a structured daytime format.
+                <AutoLinkedText>{"Partial Hospitalization is a classification recognized by every major insurance provider and behavioral health licensing body — it represents the highest intensity of outpatient care available. At Rize OC, PHP delivers the full clinical breadth of residential programming in a structured daytime format."}</AutoLinkedText>
               </p>
               <p className="text-[15px] font-light leading-relaxed text-ink/65">
-                Five to six hours of programming per day, five or more days per week, means a PHP client at Rize is receiving 25 to 30 hours of direct clinical contact every week — more than most residential programs actually deliver, when you subtract meals, sleep, and unstructured time.
+                <AutoLinkedText>{"Five to six hours of programming per day, five or more days per week, means a PHP client at Rize is receiving 25 to 30 hours of direct clinical contact every week — more than most residential programs actually deliver, when you subtract meals, sleep, and unstructured time."}</AutoLinkedText>
               </p>
               <p className="text-[15px] font-light leading-relaxed text-ink/65">
-                The evening transition component is not a compromise — it is a clinical advantage. Returning to a real environment each evening means PHP clients practice newly learned skills in real situations, with the safety net of returning to the program the next morning to process what happened.
+                <AutoLinkedText>{"The evening transition component is not a compromise — it is a clinical advantage. Returning to a real environment each evening means PHP clients practice newly learned skills in real situations, with the safety net of returning to the program the next morning to process what happened."}</AutoLinkedText>
               </p>
               <p className="text-[15px] font-light leading-relaxed text-ink/65">
-                For clients with dual-diagnosis presentations — substance use alongside depression, trauma, anxiety, or bipolar disorder — PHP's embedded psychiatric team provides the medication management and daily monitoring that makes comprehensive integrated treatment possible.
+                <AutoLinkedText>{"For clients with dual-diagnosis presentations — substance use alongside depression, trauma, anxiety, or bipolar disorder — PHP's embedded psychiatric team provides the medication management and daily monitoring that makes comprehensive integrated treatment possible."}</AutoLinkedText>
               </p>
             </div>
 
             <blockquote className="mt-auto pt-8 border-l-2 border-accent pl-6">
               <p className="text-[17px] font-[family-name:var(--font-display)] font-normal text-ink/70 leading-snug italic">
-                &ldquo;PHP is not a step down from residential — for dual-diagnosis clients, it is often where the real work begins. The combination of intensive daytime programming and real-world evening application is uniquely powerful.&rdquo;
+                <AutoLinkedText>{"&ldquo;PHP is not a step down from residential — for dual-diagnosis clients, it is often where the real work begins. The combination of intensive daytime programming and real-world evening application is uniquely powerful.&rdquo;"}</AutoLinkedText>
               </p>
               <p className="mt-3 text-[11px] font-medium uppercase tracking-[0.2em] text-ink/40">
-                Rize OC Clinical Director
+                <AutoLinkedText>{"Rize OC Clinical Director"}</AutoLinkedText>
               </p>
             </blockquote>
           </div>
@@ -302,7 +303,7 @@ export default function PhpPage() {
                 ].map(({ icon, point }) => (
                   <div key={point} className="flex items-start gap-3">
                     <i className={`${icon} text-accent text-base shrink-0 mt-0.5`} />
-                    <p className="text-sm font-light text-white/65 leading-snug">{point}</p>
+                    <p className="text-sm font-light text-white/65 leading-snug"><AutoLinkedText>{point}</AutoLinkedText></p>
                   </div>
                 ))}
               </div>
@@ -359,7 +360,7 @@ export default function PhpPage() {
                 <h3 className="font-[family-name:var(--font-display)] text-[26px] font-normal text-ink leading-snug mb-3">
                   {title}
                 </h3>
-                <p className="text-[15px] font-light leading-relaxed text-ink/65 mb-5 flex-1">{body}</p>
+                <p className="text-[15px] font-light leading-relaxed text-ink/65 mb-5 flex-1"><AutoLinkedText>{body}</AutoLinkedText></p>
                 <div className="flex flex-wrap gap-2">
                   {tags.map((tag) => (
                     <span key={tag} className="text-[11px] font-medium uppercase tracking-[0.15em] border border-warm px-3 py-1.5 text-ink/65">
@@ -385,7 +386,7 @@ export default function PhpPage() {
               Therapies &amp; <em className="italic text-white/60">Modalities</em>
             </h2>
             <p className="text-[15px] font-light text-white/65 max-w-2xl mx-auto">
-              Rize OC PHP integrates the most evidence-based clinical modalities available — delivered by licensed clinicians with specialized training in each approach.
+              <AutoLinkedText>{"Rize OC PHP integrates the most evidence-based clinical modalities available — delivered by licensed clinicians with specialized training in each approach."}</AutoLinkedText>
             </p>
           </div>
 
@@ -401,7 +402,7 @@ export default function PhpPage() {
                   )}
                 </div>
                 <h3 className="font-[family-name:var(--font-display)] text-[22px] font-normal text-white mb-3">{title}</h3>
-                <p className="text-[14px] font-light leading-relaxed text-white/75 flex-1">{desc}</p>
+                <p className="text-[14px] font-light leading-relaxed text-white/75 flex-1"><AutoLinkedText>{desc}</AutoLinkedText></p>
               </div>
             ))}
           </div>
@@ -428,13 +429,13 @@ export default function PhpPage() {
             </h2>
             <div className="flex flex-col gap-5">
               <p className="text-[15px] font-light leading-relaxed text-ink/65">
-                The research on PHP outcomes is clear: intensive outpatient treatment with structured daily programming produces significantly better long-term recovery outcomes than standard outpatient care for moderate-to-severe substance use and co-occurring disorders.
+                <AutoLinkedText>{"The research on PHP outcomes is clear: intensive outpatient treatment with structured daily programming produces significantly better long-term recovery outcomes than standard outpatient care for moderate-to-severe substance use and co-occurring disorders."}</AutoLinkedText>
               </p>
               <p className="text-[15px] font-light leading-relaxed text-ink/65">
-                The mechanism is straightforward — daily therapeutic contact creates genuine momentum. Problems are identified and addressed within 24 hours, not at a weekly appointment. Skills are practiced, reinforced, and refined continuously rather than in isolation.
+                <AutoLinkedText>{"The mechanism is straightforward — daily therapeutic contact creates genuine momentum. Problems are identified and addressed within 24 hours, not at a weekly appointment. Skills are practiced, reinforced, and refined continuously rather than in isolation."}</AutoLinkedText>
               </p>
               <p className="text-[15px] font-light leading-relaxed text-ink/65">
-                For clients with co-occurring mental health conditions, the availability of daily psychiatric support means medication can be titrated appropriately, crises can be caught early, and the clinical picture can evolve in real time — leading to better psychiatric stabilization and dramatically reduced hospitalization risk.
+                <AutoLinkedText>{"For clients with co-occurring mental health conditions, the availability of daily psychiatric support means medication can be titrated appropriately, crises can be caught early, and the clinical picture can evolve in real time — leading to better psychiatric stabilization and dramatically reduced hospitalization risk."}</AutoLinkedText>
               </p>
             </div>
 
@@ -448,7 +449,7 @@ export default function PhpPage() {
               ].map((item) => (
                 <div key={item} className="flex items-center gap-3">
                   <div className="w-2 h-2 rounded-full bg-accent shrink-0" />
-                  <p className="text-[15px] font-light text-ink/70">{item}</p>
+                  <p className="text-[15px] font-light text-ink/70"><AutoLinkedText>{item}</AutoLinkedText></p>
                 </div>
               ))}
             </div>
@@ -460,10 +461,8 @@ export default function PhpPage() {
                 <p
                   className="font-[family-name:var(--font-display)] font-normal text-accent shrink-0"
                   style={{ fontSize: "clamp(40px, 4vw, 56px)", lineHeight: 1 }}
-                >
-                  {stat}
-                </p>
-                <p className="text-[15px] font-light leading-relaxed text-ink/65 pt-2">{detail}</p>
+                ><AutoLinkedText>{stat}</AutoLinkedText></p>
+                <p className="text-[15px] font-light leading-relaxed text-ink/65 pt-2"><AutoLinkedText>{detail}</AutoLinkedText></p>
               </div>
             ))}
           </div>
@@ -482,13 +481,13 @@ export default function PhpPage() {
               Is PHP Right for You?
             </h2>
             <p className="text-[15px] font-light leading-relaxed text-ink/65 mb-8">
-              PHP is appropriate for individuals who are medically stable but require intensive daily clinical support. If you&apos;re unsure which level of care is right for you, our admissions team will conduct a thorough assessment and make an honest recommendation.
+              <AutoLinkedText>{"PHP is appropriate for individuals who are medically stable but require intensive daily clinical support. If you&apos;re unsure which level of care is right for you, our admissions team will conduct a thorough assessment and make an honest recommendation."}</AutoLinkedText>
             </p>
             <Button href="tel:9494612620" variant="ink" size="sm">
               Speak With Admissions
             </Button>
             <p className="mt-4 text-[12px] font-light text-ink/50 leading-relaxed">
-              Free &middot; Confidential &middot; No obligation &middot; Same-day response
+              <AutoLinkedText>{"Free &middot; Confidential &middot; No obligation &middot; Same-day response"}</AutoLinkedText>
             </p>
           </div>
 
@@ -496,7 +495,7 @@ export default function PhpPage() {
             {candidacyItems.map(({ icon, label }) => (
               <div key={label} className="flex items-center gap-4 border border-warm px-5 py-4">
                 <IconCircle icon={icon} variant="accent-subtle" size="xs" className="shrink-0" />
-                <p className="text-[14px] font-light text-ink/75 leading-snug">{label}</p>
+                <p className="text-[14px] font-light text-ink/75 leading-snug"><AutoLinkedText>{label}</AutoLinkedText></p>
               </div>
             ))}
           </div>
@@ -526,7 +525,7 @@ export default function PhpPage() {
                   </span>
                 </div>
                 <h3 className="font-[family-name:var(--font-display)] text-[22px] font-normal text-ink mb-3 leading-snug">{title}</h3>
-                <p className="text-[14px] font-light leading-relaxed text-ink/70 flex-1">{desc}</p>
+                <p className="text-[14px] font-light leading-relaxed text-ink/70 flex-1"><AutoLinkedText>{desc}</AutoLinkedText></p>
                 <div className="mt-6">
                   <Link href={href} className="text-[11px] font-medium uppercase tracking-[0.2em] text-accent flex items-center gap-1.5 hover:gap-3 transition-all">
                     {cta} <i className="ri-arrow-right-line" />
@@ -563,7 +562,7 @@ export default function PhpPage() {
               Frequently Asked Questions
             </h2>
             <p className="text-[15px] font-light leading-relaxed text-ink/60 mb-8">
-              Questions are a natural part of this process. Our admissions team is available to answer anything you don&apos;t find here.
+              <AutoLinkedText>{"Questions are a natural part of this process. Our admissions team is available to answer anything you don&apos;t find here."}</AutoLinkedText>
             </p>
             <a href="tel:9494612620" className="flex items-center gap-2 text-accent text-[14px] font-medium hover:text-ink transition-colors">
               <i className="ri-phone-line" /> (949)-461-2620
@@ -591,7 +590,7 @@ export default function PhpPage() {
             The Most Important Step Is the First One
           </h2>
           <p className="mt-6 text-[15px] font-light leading-relaxed text-white/55 max-w-xl mx-auto">
-            Our admissions team is available 24/7 to answer questions, verify your insurance, and help you understand every option. All conversations are completely confidential and carry no obligation.
+            <AutoLinkedText>{"Our admissions team is available 24/7 to answer questions, verify your insurance, and help you understand every option. All conversations are completely confidential and carry no obligation."}</AutoLinkedText>
           </p>
           <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
             <Button href="tel:9494612620" variant="accent" size="lg">

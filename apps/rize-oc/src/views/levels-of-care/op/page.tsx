@@ -6,6 +6,7 @@ import SectionHeader from "@/components/ui/SectionHeader";
 import IconCircle from "@/components/ui/IconCircle";
 import Button from "@/components/ui/Button";
 import FaqAccordion, { type FaqItem } from "@/components/ui/FaqAccordion";
+import { AutoLinkedText } from "@sweetmedia/blog-core";
 
 const BASE = "https://nfjlvkxrbzytjefmcvhg.supabase.co/storage/v1/object/public/site-assets/images";
 
@@ -164,7 +165,7 @@ export default function OpPage() {
                 <em className="italic text-white/60">Program (OP)</em>
               </h1>
               <p className="mt-6 text-[16px] font-light leading-relaxed text-white/80 max-w-[520px]">
-                Long-term recovery sustainment — one to two sessions weekly, ongoing alumni community, and the clinical partnership that extends recovery indefinitely.
+                <AutoLinkedText>{"Long-term recovery sustainment — one to two sessions weekly, ongoing alumni community, and the clinical partnership that extends recovery indefinitely."}</AutoLinkedText>
               </p>
             </div>
 
@@ -198,8 +199,8 @@ export default function OpPage() {
               { value: "100%",   label: "Therapeutic Continuity" },
             ].map(({ value, label }) => (
               <div key={label} className="px-8 py-5 border-r border-white/10 last:border-r-0 bg-ink/50 backdrop-blur-sm">
-                <p className="font-[family-name:var(--font-display)] text-[28px] font-normal text-white leading-none">{value}</p>
-                <p className="text-[10px] font-medium uppercase tracking-[0.22em] text-white/50 mt-1.5">{label}</p>
+                <p className="font-[family-name:var(--font-display)] text-[28px] font-normal text-white leading-none"><AutoLinkedText>{value}</AutoLinkedText></p>
+                <p className="text-[10px] font-medium uppercase tracking-[0.22em] text-white/50 mt-1.5"><AutoLinkedText>{label}</AutoLinkedText></p>
               </div>
             ))}
           </div>
@@ -219,25 +220,25 @@ export default function OpPage() {
             </h2>
             <div className="flex flex-col gap-5">
               <p className="text-[15px] font-light leading-relaxed text-ink/65">
-                Standard Outpatient represents the final structured level of care in the clinical continuum — and in many ways, the most important. The work done in detox, PHP, and IOP creates a foundation. Outpatient is where that foundation becomes a life.
+                <AutoLinkedText>{"Standard Outpatient represents the final structured level of care in the clinical continuum — and in many ways, the most important. The work done in detox, PHP, and IOP creates a foundation. Outpatient is where that foundation becomes a life."}</AutoLinkedText>
               </p>
               <p className="text-[15px] font-light leading-relaxed text-ink/65">
-                The transition from IOP to OP is a meaningful clinical milestone — a marker of stability, capacity, and readiness to lead your own recovery with professional support alongside rather than in front. Rather than intensive programming, OP provides the ongoing therapeutic relationship, relapse prevention support, and community connection that sustains recovery through the full complexity of daily life.
+                <AutoLinkedText>{"The transition from IOP to OP is a meaningful clinical milestone — a marker of stability, capacity, and readiness to lead your own recovery with professional support alongside rather than in front. Rather than intensive programming, OP provides the ongoing therapeutic relationship, relapse prevention support, and community connection that sustains recovery through the full complexity of daily life."}</AutoLinkedText>
               </p>
               <p className="text-[15px] font-light leading-relaxed text-ink/65">
-                At Rize OC, OP is not a bureaucratic formality before discharge — it is a genuine ongoing clinical relationship. Your primary therapist remains the same. The depth of individual work deepens. And the Rize alumni community becomes a permanent resource rather than a transitional one.
+                <AutoLinkedText>{"At Rize OC, OP is not a bureaucratic formality before discharge — it is a genuine ongoing clinical relationship. Your primary therapist remains the same. The depth of individual work deepens. And the Rize alumni community becomes a permanent resource rather than a transitional one."}</AutoLinkedText>
               </p>
               <p className="text-[15px] font-light leading-relaxed text-ink/65">
-                OP at Rize is open-ended by design. Duration is determined entirely by clinical value and personal judgment — not by insurance timelines or arbitrary program endpoints. Recovery is a lifelong practice, and the therapeutic relationship available in OP is designed to match that commitment.
+                <AutoLinkedText>{"OP at Rize is open-ended by design. Duration is determined entirely by clinical value and personal judgment — not by insurance timelines or arbitrary program endpoints. Recovery is a lifelong practice, and the therapeutic relationship available in OP is designed to match that commitment."}</AutoLinkedText>
               </p>
             </div>
 
             <blockquote className="mt-auto pt-8 border-l-2 border-accent pl-6">
               <p className="text-[17px] font-[family-name:var(--font-display)] font-normal text-ink/70 leading-snug italic">
-                &ldquo;The clients I&apos;m most proud of are the ones who stayed. Not in PHP, not in IOP — in relationship. Outpatient is where the real identity work happens, away from the scaffolding.&rdquo;
+                <AutoLinkedText>{"&ldquo;The clients I&apos;m most proud of are the ones who stayed. Not in PHP, not in IOP — in relationship. Outpatient is where the real identity work happens, away from the scaffolding.&rdquo;"}</AutoLinkedText>
               </p>
               <p className="mt-3 text-[11px] font-medium uppercase tracking-[0.2em] text-ink/40">
-                Rize OC Primary Therapist
+                <AutoLinkedText>{"Rize OC Primary Therapist"}</AutoLinkedText>
               </p>
             </blockquote>
           </div>
@@ -256,7 +257,7 @@ export default function OpPage() {
                 ].map(({ icon, point }) => (
                   <div key={point} className="flex items-start gap-3">
                     <i className={`${icon} text-accent text-base shrink-0 mt-0.5`} />
-                    <p className="text-sm font-light text-white/65 leading-snug">{point}</p>
+                    <p className="text-sm font-light text-white/65 leading-snug"><AutoLinkedText>{point}</AutoLinkedText></p>
                   </div>
                 ))}
               </div>
@@ -374,10 +375,10 @@ export default function OpPage() {
                 The first year after completing intensive treatment is the highest-risk period in early recovery. Social reintegration, professional pressures, relationship challenges, and the absence of the clinical structure that provided safety during treatment all converge simultaneously.
               </p>
               <p className="text-[15px] font-light leading-relaxed text-ink/65">
-                Ongoing outpatient support during this critical window is not a crutch — it is the single most evidence-supported intervention for preventing long-term relapse among individuals who have completed higher levels of care. The therapeutic relationship provides both the ongoing processing of challenges and the early warning system that allows the clinical team to respond before a crisis develops.
+                <AutoLinkedText>{"Ongoing outpatient support during this critical window is not a crutch — it is the single most evidence-supported intervention for preventing long-term relapse among individuals who have completed higher levels of care. The therapeutic relationship provides both the ongoing processing of challenges and the early warning system that allows the clinical team to respond before a crisis develops."}</AutoLinkedText>
               </p>
               <p className="text-[15px] font-light leading-relaxed text-ink/65">
-                The alumni community is equally important. Human connection — belonging to a community of people with shared experience and shared commitment — is what the research consistently identifies as recovery&apos;s most powerful protective factor over time.
+                <AutoLinkedText>{"The alumni community is equally important. Human connection — belonging to a community of people with shared experience and shared commitment — is what the research consistently identifies as recovery&apos;s most powerful protective factor over time."}</AutoLinkedText>
               </p>
             </div>
 
@@ -391,7 +392,7 @@ export default function OpPage() {
               ].map((item) => (
                 <div key={item} className="flex items-center gap-3">
                   <div className="w-2 h-2 rounded-full bg-accent shrink-0" />
-                  <p className="text-[15px] font-light text-ink/70">{item}</p>
+                  <p className="text-[15px] font-light text-ink/70"><AutoLinkedText>{item}</AutoLinkedText></p>
                 </div>
               ))}
             </div>
@@ -403,10 +404,8 @@ export default function OpPage() {
                 <p
                   className="font-[family-name:var(--font-display)] font-normal text-accent shrink-0"
                   style={{ fontSize: "clamp(40px, 4vw, 56px)", lineHeight: 1 }}
-                >
-                  {stat}
-                </p>
-                <p className="text-[15px] font-light leading-relaxed text-ink/65 pt-2">{detail}</p>
+                ><AutoLinkedText>{stat}</AutoLinkedText></p>
+                <p className="text-[15px] font-light leading-relaxed text-ink/65 pt-2"><AutoLinkedText>{detail}</AutoLinkedText></p>
               </div>
             ))}
           </div>
@@ -425,13 +424,13 @@ export default function OpPage() {
               Who Benefits From Outpatient?
             </h2>
             <p className="text-[15px] font-light leading-relaxed text-ink/65 mb-8">
-              OP is ideal for individuals who have completed a higher level of care and are ready to take the lead in their recovery — with ongoing professional support alongside, not in front.
+              <AutoLinkedText>{"OP is ideal for individuals who have completed a higher level of care and are ready to take the lead in their recovery — with ongoing professional support alongside, not in front."}</AutoLinkedText>
             </p>
             <Button href="tel:9494612620" variant="ink" size="sm">
               Speak With Admissions
             </Button>
             <p className="mt-4 text-[12px] font-light text-ink/50 leading-relaxed">
-              Free &middot; Confidential &middot; No obligation &middot; Same-day response
+              <AutoLinkedText>{"Free &middot; Confidential &middot; No obligation &middot; Same-day response"}</AutoLinkedText>
             </p>
           </div>
 
@@ -439,7 +438,7 @@ export default function OpPage() {
             {candidacyItems.map(({ icon, label }) => (
               <div key={label} className="flex items-center gap-4 border border-warm px-5 py-4">
                 <IconCircle icon={icon} variant="accent-subtle" size="xs" className="shrink-0" />
-                <p className="text-[14px] font-light text-ink/75 leading-snug">{label}</p>
+                <p className="text-[14px] font-light text-ink/75 leading-snug"><AutoLinkedText>{label}</AutoLinkedText></p>
               </div>
             ))}
           </div>
@@ -497,7 +496,7 @@ export default function OpPage() {
                   </span>
                 </div>
                 <h3 className="font-[family-name:var(--font-display)] text-[22px] font-normal text-ink mb-3 leading-snug">{title}</h3>
-                <p className="text-[14px] font-light leading-relaxed text-ink/70 flex-1">{desc}</p>
+                <p className="text-[14px] font-light leading-relaxed text-ink/70 flex-1"><AutoLinkedText>{desc}</AutoLinkedText></p>
                 <div className="mt-6">
                   <Link href={href} className="text-[11px] font-medium uppercase tracking-[0.2em] text-accent flex items-center gap-1.5 hover:gap-3 transition-all">
                     {cta} <i className="ri-arrow-right-line" />
@@ -521,7 +520,7 @@ export default function OpPage() {
               Frequently Asked Questions
             </h2>
             <p className="text-[15px] font-light leading-relaxed text-ink/60 mb-8">
-              Our admissions team is available to answer anything you don&apos;t find here.
+              <AutoLinkedText>{"Our admissions team is available to answer anything you don&apos;t find here."}</AutoLinkedText>
             </p>
             <a href="tel:9494612620" className="flex items-center gap-2 text-accent text-[14px] font-medium hover:text-ink transition-colors">
               <i className="ri-phone-line" /> (949)-461-2620
@@ -549,7 +548,7 @@ export default function OpPage() {
             Recovery Is a Practice, Not a Destination
           </h2>
           <p className="mt-6 text-[15px] font-light leading-relaxed text-white/55 max-w-xl mx-auto">
-            Our admissions team is available 24/7 to discuss your situation, verify insurance, and help you find the right level of ongoing support. All conversations are completely confidential.
+            <AutoLinkedText>{"Our admissions team is available 24/7 to discuss your situation, verify insurance, and help you find the right level of ongoing support. All conversations are completely confidential."}</AutoLinkedText>
           </p>
           <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
             <Button href="tel:9494612620" variant="accent" size="lg">

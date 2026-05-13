@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { useState } from 'react';
 import Breadcrumb from '@/components/base/Breadcrumb';
 import HeroContactForm from '@/views/home/components/HeroContactForm';
+import { AutoLinkedTextClient } from "@sweetmedia/blog-core";
 
 const ACCENT = '#8FA489';
 const WARM = '#C8795A';
@@ -165,7 +166,7 @@ function FaqItem({ q, a }: { q: string; a: string }) {
         <i className={`ri-${open ? 'subtract' : 'add'}-line text-lg flex-shrink-0 mt-0.5`} style={{ color: ACCENT }} />
       </button>
       {open && (
-        <p className="text-sm text-[#3A4A3C]/65 font-light leading-[1.85] pb-5 pr-8">{a}</p>
+        <p className="text-sm text-[#3A4A3C]/65 font-light leading-[1.85] pb-5 pr-8"><AutoLinkedTextClient>{a}</AutoLinkedTextClient></p>
       )}
     </div>
   );
@@ -212,9 +213,7 @@ export default function CbtPage() {
                   Therapy
                 </h1>
                 <p className="text-[#FAF8F5]/65 font-light leading-[1.85] text-base max-w-md">
-                  CBT helps you understand the connection between your thoughts, feelings, and behaviors —
-                  and teaches practical skills to change the patterns keeping you stuck. Fully virtual,
-                  clinically grounded, and designed for real life.
+                  <AutoLinkedTextClient>{"CBT helps you understand the connection between your thoughts, feelings, and behaviors —\n                  and teaches practical skills to change the patterns keeping you stuck. Fully virtual,\n                  clinically grounded, and designed for real life."}</AutoLinkedTextClient>
                 </p>
                 <div className="flex flex-wrap gap-4">
                   <Link
@@ -263,9 +262,7 @@ export default function CbtPage() {
               What It Is
             </span>
             <p className="font-serif text-[#2C3B2E] mt-6 leading-[1.7]" style={{ fontSize: 'clamp(20px, 2.5vw, 30px)' }}>
-              CBT is built on a simple but profound idea: the way you think shapes how you feel,
-              and how you feel shapes what you do. Change the pattern, and you change the experience.
-              It is practical, structured, and one of the most researched therapies in existence.
+              <AutoLinkedTextClient>{"CBT is built on a simple but profound idea: the way you think shapes how you feel,\n              and how you feel shapes what you do. Change the pattern, and you change the experience.\n              It is practical, structured, and one of the most researched therapies in existence."}</AutoLinkedTextClient>
             </p>
           </div>
 
@@ -285,7 +282,7 @@ export default function CbtPage() {
                   {s.num}
                   <span className="text-sm font-light ml-1 opacity-50">{s.unit}</span>
                 </div>
-                <p className="text-xs text-[#3A4A3C]/45 font-light mt-2 leading-relaxed">{s.label}</p>
+                <p className="text-xs text-[#3A4A3C]/45 font-light mt-2 leading-relaxed"><AutoLinkedTextClient>{s.label}</AutoLinkedTextClient></p>
               </div>
             ))}
           </div>
@@ -295,11 +292,10 @@ export default function CbtPage() {
             style={{ backgroundColor: `${ACCENT}0D`, borderLeft: `3px solid ${ACCENT}` }}
           >
             <p className="font-serif italic text-[#2C3B2E] text-lg leading-relaxed">
-              &quot;CBT doesn&apos;t ask you to think positive. It asks you to think accurately —
-              and then helps you act in ways that align with who you actually want to be.&quot;
+              <AutoLinkedTextClient>{"&quot;CBT doesn&apos;t ask you to think positive. It asks you to think accurately —\n              and then helps you act in ways that align with who you actually want to be.&quot;"}</AutoLinkedTextClient>
             </p>
             <p className="text-xs text-[#3A4A3C]/45 mt-4 uppercase tracking-widest font-light">
-              — The core philosophy of CBT at Inner Peak Colorado
+              <AutoLinkedTextClient>{"— The core philosophy of CBT at Inner Peak Colorado"}</AutoLinkedTextClient>
             </p>
           </div>
         </div>
@@ -317,7 +313,7 @@ export default function CbtPage() {
               <em className="text-[#C8795A]">to treat.</em>
             </h2>
             <p className="text-[#3A4A3C]/60 font-light text-base max-w-xl mx-auto leading-relaxed">
-              CBT is among the most clinically validated treatments across a wide range of mental health conditions. We tailor the approach to your specific presentation.
+              <AutoLinkedTextClient>{"CBT is among the most clinically validated treatments across a wide range of mental health conditions. We tailor the approach to your specific presentation."}</AutoLinkedTextClient>
             </p>
           </div>
 
@@ -339,7 +335,7 @@ export default function CbtPage() {
                   </span>
                 </div>
                 <h3 className="font-serif text-[#2C3B2E] text-xl">{item.name}</h3>
-                <p className="text-sm text-[#3A4A3C]/60 font-light leading-[1.85]">{item.desc}</p>
+                <p className="text-sm text-[#3A4A3C]/60 font-light leading-[1.85]"><AutoLinkedTextClient>{item.desc}</AutoLinkedTextClient></p>
               </div>
             ))}
           </div>
@@ -360,7 +356,7 @@ export default function CbtPage() {
                 <em className="text-[#C8795A]">to interrupt.</em>
               </h2>
               <p className="text-[#3A4A3C]/65 font-light text-base leading-[1.95]">
-                Cognitive distortions are habitual ways of thinking that feel completely true but consistently skew toward the negative. They are not character flaws — they are patterns the brain develops, often as protection. CBT gives you the tools to recognize and rewrite them.
+                <AutoLinkedTextClient>{"Cognitive distortions are habitual ways of thinking that feel completely true but consistently skew toward the negative. They are not character flaws — they are patterns the brain develops, often as protection. CBT gives you the tools to recognize and rewrite them."}</AutoLinkedTextClient>
               </p>
               <div className="flex items-center gap-3 pt-1">
                 <div className="w-8 h-px" style={{ backgroundColor: ACCENT }}></div>
@@ -450,7 +446,7 @@ export default function CbtPage() {
                     <i className={`${pillar.icon} text-sm`} style={{ color: ACCENT }}></i>
                   </div>
                   <h3 className="font-serif text-[#FAF8F5] text-sm">{pillar.title}</h3>
-                  <p className="text-[#F0ECE1]/55 font-light text-xs leading-[1.8]">{pillar.desc}</p>
+                  <p className="text-[#F0ECE1]/55 font-light text-xs leading-[1.8]"><AutoLinkedTextClient>{pillar.desc}</AutoLinkedTextClient></p>
                 </div>
               ))}
             </div>
@@ -481,17 +477,17 @@ export default function CbtPage() {
                 <em className="text-[#C8795A]">actually looks like.</em>
               </h2>
               <p className="text-[#3A4A3C]/65 font-light text-base leading-[1.95]">
-                CBT is structured but not rigid. Each phase builds on the last, moving from awareness to active skill use to lasting change.
+                <AutoLinkedTextClient>{"CBT is structured but not rigid. Each phase builds on the last, moving from awareness to active skill use to lasting change."}</AutoLinkedTextClient>
               </p>
               <div className="bg-[#F0ECE1] rounded-[2rem_0.75rem_2rem_0.75rem] p-7 flex flex-col gap-3">
                 <p className="text-xs uppercase tracking-widest font-medium" style={{ color: ACCENT }}>
-                  Most clients begin within
+                  <AutoLinkedTextClient>{"Most clients begin within"}</AutoLinkedTextClient>
                 </p>
                 <p className="font-serif text-[#2C3B2E]" style={{ fontSize: 'clamp(28px, 3vw, 40px)' }}>
                   24–72 hours
                 </p>
                 <p className="text-[#3A4A3C]/60 font-light text-sm leading-relaxed">
-                  From first call to first session, depending on clinical fit and scheduling.
+                  <AutoLinkedTextClient>{"From first call to first session, depending on clinical fit and scheduling."}</AutoLinkedTextClient>
                 </p>
               </div>
             </div>
@@ -514,7 +510,7 @@ export default function CbtPage() {
                     <h3 className="font-serif text-[#2C3B2E] text-base group-hover:text-[#C8795A] transition-colors duration-300">
                       {item.label}
                     </h3>
-                    <p className="text-sm text-[#3A4A3C]/60 font-light leading-[1.85]">{item.desc}</p>
+                    <p className="text-sm text-[#3A4A3C]/60 font-light leading-[1.85]"><AutoLinkedTextClient>{item.desc}</AutoLinkedTextClient></p>
                   </div>
                 </div>
               ))}
@@ -536,7 +532,7 @@ export default function CbtPage() {
                 <em className="text-[#C8795A]">in your sessions.</em>
               </h2>
               <p className="text-[#3A4A3C]/60 font-light text-sm leading-[1.85]">
-                Your therapist draws from the full CBT toolkit, selecting and adapting techniques based on your presentation and goals.
+                <AutoLinkedTextClient>{"Your therapist draws from the full CBT toolkit, selecting and adapting techniques based on your presentation and goals."}</AutoLinkedTextClient>
               </p>
               <Link
                 href="/therapy"
@@ -608,8 +604,7 @@ export default function CbtPage() {
             So can your life.
           </h2>
           <p className="text-[#FAF8F5]/60 font-light leading-[1.85] mb-10 text-base">
-            A free, confidential consultation is the first step. Our clinical team will help you
-            understand whether CBT is right for you and how quickly you can begin.
+            <AutoLinkedTextClient>{"A free, confidential consultation is the first step. Our clinical team will help you\n            understand whether CBT is right for you and how quickly you can begin."}</AutoLinkedTextClient>
           </p>
           <div className="flex flex-wrap justify-center gap-4">
             <Link

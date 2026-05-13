@@ -5,6 +5,7 @@ import FaqAccordion from "@/components/sections/FaqAccordion";
 import BottomCta from "@/components/sections/BottomCta";
 import { PHONE_DISPLAY, PHONE_HREF } from "@/data/site";
 import type { Faq } from "@/data/faqs";
+import { AutoLinkedText } from "@sweetmedia/blog-core";
 
 const SUPABASE_IMAGES = "https://bxtwcdgjzzjxjvqdiuvn.supabase.co/storage/v1/object/public/site-assets/images";
 const HERO_BG = `${SUPABASE_IMAGES}/is_it_time_hero01.jpg`;
@@ -102,8 +103,7 @@ export default function IsItTimeForAnInterventionPage() {
               Is it time for an <span className="italic text-[#8FAC87]">intervention?</span>
             </h1>
             <p className="mb-8 text-lg leading-relaxed text-white/80">
-              Most families wait too long. Use this guide to honestly assess whether your loved one&apos;s situation has
-              reached the point where a structured intervention is the right next step.
+              <AutoLinkedText>{"Most families wait too long. Use this guide to honestly assess whether your loved one&apos;s situation has\n              reached the point where a structured intervention is the right next step."}</AutoLinkedText>
             </p>
             <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap">
               <a
@@ -130,13 +130,12 @@ export default function IsItTimeForAnInterventionPage() {
         <div className={CONTAINER}>
           <div className="grid gap-16 lg:grid-cols-[1.4fr_1fr] lg:items-start">
             <div>
-              <p className="brand-eyebrow mb-4 text-[#8FAC87]">Signs an Intervention May Be Needed</p>
+              <p className="brand-eyebrow mb-4 text-[#8FAC87]"><AutoLinkedText>{"Signs an Intervention May Be Needed"}</AutoLinkedText></p>
               <h2 className="font-heading mb-6 text-4xl font-bold text-[#1A1A17] md:text-5xl">
                 Warning signs you <span className="italic text-[#507969]">should not ignore</span>
               </h2>
               <p className="mb-8 text-base leading-relaxed text-[#4B4B4B]">
-                There is no magic threshold. But these are the patterns that, in our experience, signal that a
-                structured intervention — not another conversation — is the right next step.
+                <AutoLinkedText>{"There is no magic threshold. But these are the patterns that, in our experience, signal that a\n                structured intervention — not another conversation — is the right next step."}</AutoLinkedText>
               </p>
               <ul className="grid gap-3">
                 {SIGNS.map((sign) => (
@@ -155,10 +154,10 @@ export default function IsItTimeForAnInterventionPage() {
                 <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-red-500/20 text-red-400">
                   <i className="ri-alarm-warning-line text-xl"></i>
                 </span>
-                <p className="font-heading text-lg font-bold">Urgent — call us immediately</p>
+                <p className="font-heading text-lg font-bold"><AutoLinkedText>{"Urgent — call us immediately"}</AutoLinkedText></p>
               </div>
               <p className="mb-5 text-sm text-white/70">
-                If any of the following are currently true, do not wait for the right time. Call us now.
+                <AutoLinkedText>{"If any of the following are currently true, do not wait for the right time. Call us now."}</AutoLinkedText>
               </p>
               <ul className="space-y-3">
                 {URGENT_SIGNS.map((sign) => (
@@ -194,16 +193,16 @@ export default function IsItTimeForAnInterventionPage() {
                 <span className="flex h-12 w-12 items-center justify-center rounded-2xl bg-[#8FAC87]/15 text-[#507969]">
                   <i className={`${r.icon} text-xl`}></i>
                 </span>
-                <p className="mt-5 text-base font-semibold italic text-[#4B4B4B]">{r.reason}</p>
-                <p className="mt-3 text-sm leading-relaxed text-[#4B4B4B]">{r.truth}</p>
+                <p className="mt-5 text-base font-semibold italic text-[#4B4B4B]"><AutoLinkedText>{r.reason}</AutoLinkedText></p>
+                <p className="mt-3 text-sm leading-relaxed text-[#4B4B4B]"><AutoLinkedText>{r.truth}</AutoLinkedText></p>
               </div>
             ))}
           </div>
           <div className="mt-10 rounded-2xl border border-[#8FAC87]/30 bg-[#8FAC87]/10 p-6 text-center">
             <p className="text-base font-semibold text-[#3E5B50]">
-              The most common regret we hear from families post-intervention is not &ldquo;we acted too soon.&rdquo;
+              <AutoLinkedText>{"The most common regret we hear from families post-intervention is not &ldquo;we acted too soon.&rdquo;"}</AutoLinkedText>
             </p>
-            <p className="mt-1 text-sm text-[#507969]">It is: &ldquo;We should have done this years ago.&rdquo;</p>
+            <p className="mt-1 text-sm text-[#507969]"><AutoLinkedText>{"It is: &ldquo;We should have done this years ago.&rdquo;"}</AutoLinkedText></p>
           </div>
         </div>
       </section>
