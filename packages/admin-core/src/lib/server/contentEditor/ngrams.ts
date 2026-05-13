@@ -169,6 +169,66 @@ const GENERIC_UNIGRAM_BLOCKLIST = new Set<string>([
   "tool", "tools",
   "step", "steps", "stage", "stages", "phase", "phases",
   "process", "processes",
+  "aspect", "aspects", "factor", "factors", "experience", "experiences",
+  "situation", "situations", "circumstance", "circumstances",
+  "role", "roles", "part", "parts", "side", "sides",
+  "list", "lists", "guide", "guides", "guideline", "guidelines",
+  "content", "contents", "section", "sections", "topic", "topics",
+  "subject", "subjects", "item", "items",
+  "amount", "amounts", "level", "levels", "rate", "rates",
+  "number", "numbers", "count", "counts",
+  // More generic verbs / verbings that snuck through
+  "learn", "learns", "learning", "learned", "teach", "teaches", "teaching",
+  "start", "starts", "started", "starting",
+  "begin", "begins", "began", "beginning",
+  "stop", "stops", "stopped", "stopping",
+  "end", "ends", "ended", "ending",
+  "improve", "improves", "improved", "improving",
+  "increase", "increases", "increased", "increasing",
+  "decrease", "decreases", "decreased", "decreasing",
+  "reduce", "reduces", "reduced", "reducing",
+  "develop", "develops", "developed", "developing",
+  "grow", "grows", "grew", "growing", "grown",
+  "build", "builds", "built", "building",
+  "create", "creates", "created", "creating",
+  "manage", "manages", "managed", "managing",
+  "consider", "considers", "considered", "considering",
+  "address", "addresses", "addressed", "addressing",
+  "lead", "leads", "led", "leading",
+  "offer", "offers", "offered", "offering",
+  "provide", "provides", "provided", "providing",
+  "deal", "deals", "dealt", "dealing",
+  "love", "loves", "loved", "loving",
+  "play", "plays", "played", "playing",
+  "win", "wins", "won", "winning",
+  "lose", "loses", "lost", "losing",
+  "meet", "meets", "met", "meeting", "meetings",
+  // Numbers / cardinals as words
+  "one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten",
+  "first", "second", "third", "fourth", "fifth", "last", "next",
+  // Quantitative modifiers
+  "long", "short", "quick", "fast", "slow",
+  "likely", "unlikely", "possible", "probable", "potential",
+  "higher", "lower", "greater", "lesser", "bigger", "smaller",
+  "single", "multiple", "individual", "personal", "private", "public",
+  "typical", "typically", "usual", "usually", "normal", "normally",
+  "general", "generally", "specific", "specifically",
+  // Connectors / softeners
+  "according", "whether", "either", "neither", "although", "however",
+  "therefore", "thus", "hence", "yet", "still", "ever",
+  "real", "actually", "truly", "indeed", "simply",
+  "doesn", "don", "isn", "aren", "wasn", "weren", "won", "didn",
+  // Topic-meta filler
+  "chat", "chats", "talk", "talks", "talking",
+  "page", "pages", "site", "sites", "website",
+  "journal", "journals", "blog", "blogs",
+  "office", "offices", "organization", "organizations",
+  "gov", "edu", "com", "org",
+  // Time fragments
+  "minute", "minutes", "hour", "hours", "moment", "moments",
+  // Generic outcome words
+  "benefit", "benefits", "advantage", "advantages",
+  "criteria", "criterion", "standard", "standards",
 ]);
 
 /**
@@ -197,12 +257,18 @@ function isUsefulTerm(term: string): boolean {
   if (allStop) return false;
   // Reject standalone generic unigrams that aren't actionable SEO terms.
   if (tokens.length === 1 && GENERIC_UNIGRAM_BLOCKLIST.has(tokens[0])) return false;
-  // Multi-word phrases starting or ending with a generic word are usually
-  // junk fragments ("a lot of", "as well", "in this", etc.) — for unigrams
-  // we've already blocked them above; for 2+ grams require non-blocklist
-  // tokens at BOTH boundaries (we still allow blocklist words inside).
-  if (tokens.length >= 2) {
-    if (GENERIC_UNIGRAM_BLOCKLIST.has(tokens[0]) && GENERIC_UNIGRAM_BLOCKLIST.has(tokens[tokens.length - 1])) {
+
+  // Multi-word phrases: at least one boundary token must NOT be blocklisted.
+  // Bigrams where either boundary is generic are almost always junk
+  // ("may involve", "amount money", "groups gamblers", "approach treatment").
+  if (tokens.length === 2) {
+    if (GENERIC_UNIGRAM_BLOCKLIST.has(tokens[0]) || GENERIC_UNIGRAM_BLOCKLIST.has(tokens[1])) {
+      return false;
+    }
+  }
+  // Trigrams: require non-blocklist at BOTH ends but allow blocklist in middle.
+  if (tokens.length >= 3) {
+    if (GENERIC_UNIGRAM_BLOCKLIST.has(tokens[0]) || GENERIC_UNIGRAM_BLOCKLIST.has(tokens[tokens.length - 1])) {
       return false;
     }
   }

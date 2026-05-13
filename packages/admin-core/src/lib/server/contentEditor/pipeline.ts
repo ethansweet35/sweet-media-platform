@@ -70,7 +70,7 @@ const NLP_CONCURRENCY = 5;
 const FACT_EXTRACTION_CONCURRENCY = 4;
 const SERP_CACHE_TTL_HOURS = 24;
 const MIN_UNIQUE_DOMAINS_REQUIRED = 3;
-const TERMS_LIMIT = 150;
+const TERMS_LIMIT = 90;
 const FACT_DEDUP_SIMILARITY_THRESHOLD = 0.85;
 const TARGET_FACT_COUNT = 25;
 
@@ -574,8 +574,9 @@ async function curateTermsWithAI(
   candidates: MergedTerm[],
   competitorHeadings: Array<{ text: string }>,
 ): Promise<{ curated: MergedTerm[]; added: string[]; cost_usd: number }> {
-  // Review a large pool — Surfer-style breadth.
-  const topN = candidates.slice(0, 200);
+  // Review a focused pool — too large and Sonnet over-keeps; ~140 candidates
+  // covers Surfer's full term universe without overwhelming.
+  const topN = candidates.slice(0, 140);
   const headingSample = competitorHeadings
     .slice(0, 40)
     .map((h) => h.text)
@@ -593,8 +594,8 @@ async function curateTermsWithAI(
 
   const systemPrompt =
     "You are an expert SEO content strategist curating term lists like Surfer SEO. " +
-    "Your job is to keep terms that build topical authority and drop generic filler. " +
-    "Be RIGOROUS, not permissive — quality over quantity. " +
+    "Industry-standard term lists for a single keyword are 60-80 terms. " +
+    "Be STRICT — when in doubt, DROP. Quality over quantity. " +
     "Always respond with only a valid JSON object — no markdown, no commentary.";
 
   const userPrompt =
@@ -603,30 +604,34 @@ async function curateTermsWithAI(
       ? `Competitor headings sample: ${headingSample}\n\n`
       : "") +
     `Below are ${topN.length} candidate terms extracted from top-ranking competitor pages. ` +
-    `Each shows the share of competitors that use it and average frequency per page.\n\n` +
-    `═══ KEEP a term if it is ═══\n` +
+    `Each shows competitor coverage % and average frequency per page.\n\n` +
+    `═══ YOUR TARGET ═══\n` +
+    `Return between 50 and 75 of the strongest terms in "keep". ` +
+    `Surfer typically returns ~75-85 for a topic this rich; aim for the same. ` +
+    `When uncertain about a term: DROP IT.\n\n` +
+    `═══ KEEP a term only if it is ═══\n` +
     `1. A specific clinical/technical concept (e.g. "cognitive behavioral therapy", "motivational interviewing")\n` +
-    `2. A named treatment modality, therapy type, method, or assessment\n` +
-    `3. A named organization, resource, or helpline (e.g. "gamblers anonymous", "national problem gambling helpline")\n` +
-    `4. A topical multi-word phrase competitors agree on (e.g. "treatment plan", "family therapy", "relapse prevention")\n` +
-    `5. A topical unigram with clear domain meaning in this context (e.g. "addiction", "recovery", "urge", "compulsive", "therapy")\n\n` +
+    `2. A named treatment modality, therapy, method, medication, or assessment\n` +
+    `3. A named organization, resource, or helpline (e.g. "gamblers anonymous")\n` +
+    `4. A multi-word noun phrase competitors agree on AND adds topical specificity\n` +
+    `5. A unigram with strong domain meaning in this exact context (e.g. for gambling addiction: "addiction", "recovery", "compulsive", "urge", "therapy", "depression", "anxiety", "family", "support")\n\n` +
     `═══ DROP a term if it is ═══\n` +
-    `1. A generic verb regardless of topic ("ask", "feel", "find", "work", "change", "use", "make", "take", "give")\n` +
-    `2. A modal/auxiliary word ("may", "might", "must", "even", "though")\n` +
-    `3. A vague modifier ("specific", "comprehensive", "available", "associated", "different", "important")\n` +
-    `4. Scientific-paper metadata ("studies", "article", "review", "research", "randomized", "trial", "results", "findings")\n` +
-    `5. Abstract noun filler ("approach", "method", "step", "process", "information", "tools", "issues")\n` +
-    `6. Time/sequence words ("month", "year", "weeks", "first step")\n` +
-    `7. A malformed fragment or text-encoding artifact\n` +
-    `8. Off-topic noise\n` +
-    `9. A duplicate of another candidate (plural form, or shorter form of a kept phrase)\n\n` +
-    `═══ ADD up to 15 missing terms ═══\n` +
+    `1. ANY generic verb ("ask", "feel", "find", "work", "change", "learn", "start", "improve", "manage", "develop", "lead", "offer", "play", "win", "lose", "meet", "consider", "address")\n` +
+    `2. A modal/auxiliary/connector ("may", "might", "even", "though", "whether", "although", "according")\n` +
+    `3. A vague modifier ("specific", "comprehensive", "available", "associated", "different", "typical", "personal", "individual", "real", "single", "long", "likely", "possible", "higher")\n` +
+    `4. Scientific-paper metadata ("studies", "article", "review", "research", "randomized", "trial", "results", "findings", "criteria", "guidelines")\n` +
+    `5. Abstract noun filler ("approach", "method", "step", "process", "aspect", "factor", "role", "system", "section", "experience", "situation")\n` +
+    `6. Numbers, time, or cardinal words ("month", "year", "weeks", "minutes", "three", "four", "first")\n` +
+    `7. A weak/awkward bigram where one half is filler ("may involve", "groups gamblers", "approach treatment", "amount money")\n` +
+    `8. A duplicate (singular/plural pair, or shorter substring of a kept phrase already in list)\n` +
+    `9. Off-topic, malformed, or text-encoding artifact\n\n` +
+    `═══ ADD up to 10 missing terms ═══\n` +
     `Important topical concepts NOT in the candidate list. Rules:\n` +
-    `- Write each as a natural-sounding phrase a clinician or expert would say\n` +
-    `- DO NOT append "${primaryKeyword.split(" ").pop()}" or "gambling" or "addiction" to make phrases — write them naturally\n` +
-    `- Examples of GOOD adds: "motivational interviewing", "12-step program", "family therapy", "screen for gambling disorder"\n` +
-    `- Examples of BAD adds: "pharmacological treatment gambling", "naltrexone gambling disorder", "cognitive restructuring gambling"\n` +
-    `- Prefer specific 2-3 word noun phrases over single words\n\n` +
+    `- Write each as a natural phrase a clinician or expert would say\n` +
+    `- NEVER concatenate the primary keyword onto a phrase to make it longer\n` +
+    `- GOOD examples: "motivational interviewing", "12-step program", "family therapy"\n` +
+    `- BAD examples: "pharmacological treatment gambling", "naltrexone gambling disorder"\n` +
+    `- Prefer 2-3 word noun phrases over single words\n\n` +
     `Candidate terms:\n${termList}\n\n` +
     `Respond ONLY with this JSON (no preamble):\n` +
     `{"keep":["term1","term2",...],"add":["new_term1","new_term2",...]}`;
@@ -650,15 +655,16 @@ async function curateTermsWithAI(
       (c) => keepSet.has(c.term.toLowerCase()) || c.term.toLowerCase() === pkLower,
     );
 
-    // Carry through any candidates ranked below the reviewed window unchanged.
-    const rest = candidates.slice(topN.length);
+    // DO NOT carry through tail candidates — Sonnet has reviewed the whole
+    // pool we care about. Anything ranked below the review window is too
+    // low-signal to surface in the brief anyway.
 
     const added = (add ?? [])
       .map((t: string) => t.toLowerCase().trim())
       .filter((t: string) => t.length >= 3)
-      .slice(0, 15);
+      .slice(0, 10);
 
-    return { curated: [...curated, ...rest], added, cost_usd: result.cost_usd };
+    return { curated, added, cost_usd: result.cost_usd };
   } catch (err) {
     // Non-fatal: log and fall back to unfiltered candidates.
     console.warn("[content-editor] term curation AI call failed, using unfiltered candidates:", err);
