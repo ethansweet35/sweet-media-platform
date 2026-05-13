@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { supabase } from "../lib/supabase";
 import type { SeoBriefRow } from "../types/seo-brief";
+import type { BlogSection } from "@sweetmedia/blog-core";
 
 /* ----------------------------- list hook ------------------------------ */
 
@@ -231,6 +232,135 @@ export function briefToMarkdown(brief: SeoBriefRow): string {
   }
 
   return lines.join("\n").trim();
+}
+
+/* --------------------- linked blog post (by brief id) ------------------ */
+
+export interface LinkedBlogPost {
+  id: string;
+  title: string;
+  slug: string;
+  excerpt: string | null;
+  category: string | null;
+  meta_description: string | null;
+  /** Raw `content` column — usually a JSON-stringified BlogSection[]. */
+  content: string | null;
+  focus_keyword: string | null;
+}
+
+/**
+ * Find the blog post linked to a brief (`blog_posts.seo_brief_id = briefId`).
+ * Returns the first match; we treat the brief→post relationship as 1:1.
+ */
+export function useLinkedBlogPost(briefId: string | null): {
+  post: LinkedBlogPost | null;
+  loading: boolean;
+  refresh: () => Promise<void>;
+} {
+  const [post, setPost] = useState<LinkedBlogPost | null>(null);
+  const [loading, setLoading] = useState<boolean>(!!briefId);
+
+  const refresh = useCallback(async () => {
+    if (!briefId) {
+      setPost(null);
+      setLoading(false);
+      return;
+    }
+    setLoading(true);
+    const { data } = await supabase
+      .from("blog_posts")
+      .select("id, title, slug, excerpt, category, meta_description, content, focus_keyword")
+      .eq("seo_brief_id", briefId)
+      .limit(1)
+      .maybeSingle();
+    setPost((data as LinkedBlogPost | null) ?? null);
+    setLoading(false);
+  }, [briefId]);
+
+  useEffect(() => {
+    void refresh();
+  }, [refresh]);
+
+  return { post, loading, refresh };
+}
+
+/**
+ * Convert a `blog_posts.content` value (BlogSection[] JSON or raw string)
+ * into a markdown representation suitable for the brief draft textarea.
+ *
+ * Handles plain strings (treated as already-markdown), JSON-stringified
+ * BlogSection[] arrays, and plain BlogSection[] values.
+ */
+export function blogContentToMarkdown(content: unknown): string {
+  if (content === null || content === undefined) return "";
+
+  let sections: BlogSection[] | null = null;
+  if (typeof content === "string") {
+    const trimmed = content.trim();
+    if (!trimmed) return "";
+    if (trimmed.startsWith("[")) {
+      try {
+        const parsed = JSON.parse(trimmed) as unknown;
+        if (Array.isArray(parsed)) sections = parsed as BlogSection[];
+      } catch {
+        return trimmed;
+      }
+    } else {
+      return trimmed;
+    }
+  } else if (Array.isArray(content)) {
+    sections = content as BlogSection[];
+  }
+
+  if (!sections) return "";
+
+  const out: string[] = [];
+  for (const s of sections) {
+    if (!s || typeof s !== "object") continue;
+    const text = typeof s.text === "string" ? s.text.trim() : "";
+    switch (s.type) {
+      case "h2":
+        if (text) out.push(`## ${text}`);
+        break;
+      case "h3":
+        if (text) out.push(`### ${text}`);
+        break;
+      case "paragraph":
+        if (text) out.push(text);
+        break;
+      case "pullquote":
+      case "callout":
+        if (text) out.push(`> ${text}`);
+        break;
+      case "list":
+        if (s.items?.length) out.push(s.items.map((it) => `- ${it}`).join("\n"));
+        break;
+      case "numbered":
+        if (s.items?.length) out.push(s.items.map((it, i) => `${i + 1}. ${it}`).join("\n"));
+        break;
+      case "stat-row":
+        if (s.stats?.length) {
+          out.push(s.stats.map((st) => `**${st.value}** ${st.label}`).join(" · "));
+        }
+        break;
+      case "divider":
+        out.push("---");
+        break;
+      case "table":
+        if (s.tableHeaders?.length && s.tableRows?.length) {
+          out.push(`| ${s.tableHeaders.join(" | ")} |`);
+          out.push(`| ${s.tableHeaders.map(() => "---").join(" | ")} |`);
+          for (const row of s.tableRows) {
+            out.push(`| ${row.join(" | ")} |`);
+          }
+        }
+        break;
+      default:
+        if (text) out.push(text);
+        break;
+    }
+  }
+  return out.join("\n\n").trim();
 }
 
 /** Convenience selector — same shape used by AdminBlogWriterPage when pre-filling. */

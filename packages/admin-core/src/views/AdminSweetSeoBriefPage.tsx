@@ -3,9 +3,16 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import { useParams } from "next/navigation";
+import type { BlogSection } from "@sweetmedia/blog-core";
 import AdminPageHeader from "../components/AdminPageHeader";
 import { ADMIN_OCEAN } from "../lib/adminTheme";
-import { useSeoBrief } from "../hooks/useSeoBriefs";
+import { supabase } from "../lib/supabase";
+import {
+  blogContentToMarkdown,
+  briefToMarkdown,
+  useLinkedBlogPost,
+  useSeoBrief,
+} from "../hooks/useSeoBriefs";
 import {
   SEO_BRIEF_MODELS,
   computeContentScore,
@@ -138,12 +145,17 @@ export default function AdminSweetSeoBriefPage({ briefId: briefIdProp }: AdminSw
   const briefIdFromRoute = typeof rawId === "string" ? rawId : Array.isArray(rawId) ? rawId[0] : undefined;
   const briefId = briefIdProp ?? briefIdFromRoute ?? null;
   const { brief, loading, error, saving, saveDraft, rerun, refresh } = useSeoBrief(briefId);
+  const linked = useLinkedBlogPost(brief?.id ?? null);
   const [draft, setDraft] = useState("");
   const [activeTermFilter, setActiveTermFilter] = useState<"all" | "missing" | "ok" | "over">("all");
   const [showRerun, setShowRerun] = useState(false);
   const [rerunModel, setRerunModel] = useState<string>("");
+  const [rewriting, setRewriting] = useState(false);
+  const [rewriteError, setRewriteError] = useState<string | null>(null);
+  const [rewriteSuccess, setRewriteSuccess] = useState(false);
   const dirtyRef = useRef(false);
   const lastSavedRef = useRef("");
+  const seededFromPostRef = useRef(false);
 
   // Hydrate the editor whenever the brief loads/changes from server.
   useEffect(() => {
@@ -154,6 +166,27 @@ export default function AdminSweetSeoBriefPage({ briefId: briefIdProp }: AdminSw
       if (!rerunModel) setRerunModel(brief.model ?? SEO_BRIEF_MODELS[0].id);
     }
   }, [brief, rerunModel]);
+
+  // Seed the brief draft from the linked blog post's content on first load
+  // when the brief has no draft yet. This makes the score reflect the actual
+  // post immediately so the user can see what's missing before rewriting.
+  useEffect(() => {
+    if (!brief || !linked.post || linked.loading) return;
+    if (seededFromPostRef.current) return;
+    if ((brief.draft_content ?? "").trim()) {
+      seededFromPostRef.current = true;
+      return;
+    }
+    if (dirtyRef.current) return;
+
+    const md = blogContentToMarkdown(linked.post.content);
+    if (!md.trim()) {
+      seededFromPostRef.current = true;
+      return;
+    }
+    seededFromPostRef.current = true;
+    setDraft(md);
+  }, [brief, linked.post, linked.loading]);
 
   // Debounced autosave.
   useEffect(() => {
@@ -186,6 +219,74 @@ export default function AdminSweetSeoBriefPage({ briefId: briefIdProp }: AdminSw
     setDraft((prev) => (prev ? `${prev.trimEnd()}\n\n${snippet}\n` : `${snippet}\n`));
   }, []);
 
+  const handleRewriteLinkedPost = useCallback(async () => {
+    if (!brief || !linked.post) return;
+    setRewriting(true);
+    setRewriteError(null);
+    setRewriteSuccess(false);
+    try {
+      const words = brief.content_structure?.words;
+      const midpoint = words
+        ? Math.round((words.min + words.max) / 2)
+        : 2000;
+      const targetWordCount = Math.max(800, Math.min(4000, midpoint));
+
+      const res = await fetch("/api/admin/rewrite-blog-post", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          topic: linked.post.title,
+          primaryKeyword: brief.keyword,
+          category: linked.post.category || undefined,
+          targetWordCount,
+          seoGuidelines: briefToMarkdown(brief),
+        }),
+      });
+      const json = (await res.json().catch(() => ({}))) as {
+        ok?: boolean;
+        title?: string;
+        excerpt?: string;
+        metaDescription?: string;
+        content?: BlogSection[];
+        error?: string;
+      };
+      if (!res.ok || !json.ok || !json.content) {
+        throw new Error(
+          typeof json.error === "string" ? json.error : `HTTP ${res.status}`,
+        );
+      }
+
+      const newContent = json.content;
+      const words2 = JSON.stringify(newContent).split(/\s+/).filter(Boolean).length;
+      const readTime = `${Math.max(1, Math.ceil(words2 / 200))} min read`;
+
+      const { error: updateError } = await supabase
+        .from("blog_posts")
+        .update({
+          title: json.title ?? linked.post.title,
+          excerpt: json.excerpt ?? linked.post.excerpt ?? "",
+          meta_description: json.metaDescription ?? linked.post.meta_description ?? "",
+          content: JSON.stringify(newContent),
+          read_time: readTime,
+          seo_guidance_applied: true,
+        })
+        .eq("id", linked.post.id);
+
+      if (updateError) throw new Error(updateError.message);
+
+      const newMarkdown = blogContentToMarkdown(newContent);
+      if (newMarkdown.trim()) setDraft(newMarkdown);
+
+      setRewriteSuccess(true);
+      await linked.refresh();
+      window.setTimeout(() => setRewriteSuccess(false), 6000);
+    } catch (err) {
+      setRewriteError(err instanceof Error ? err.message : "Rewrite failed.");
+    } finally {
+      setRewriting(false);
+    }
+  }, [brief, linked]);
+
   if (loading) {
     return (
       <div className="p-10 text-center text-sm text-neutral-500">
@@ -215,13 +316,40 @@ export default function AdminSweetSeoBriefPage({ briefId: briefIdProp }: AdminSw
         subtitle="Live-scored against the top-ranking pages on Google. Edits autosave."
         actions={
           <div className="flex flex-wrap items-center gap-2">
+            {linked.post ? (
+              <button
+                type="button"
+                onClick={() => void handleRewriteLinkedPost()}
+                disabled={rewriting}
+                className="px-3 py-2 rounded-lg text-[11px] font-bold uppercase tracking-[0.1em] text-white disabled:opacity-50 cursor-pointer"
+                style={{ backgroundColor: ADMIN_OCEAN }}
+                title="Rewrite the linked blog post using this brief"
+              >
+                {rewriting ? (
+                  <>
+                    <i className="ri-loader-4-line animate-spin mr-1" />
+                    Rewriting…
+                  </>
+                ) : (
+                  <>
+                    <i className="ri-sparkling-2-line mr-1" />
+                    Rewrite Linked Post
+                  </>
+                )}
+              </button>
+            ) : null}
             <Link
               href={`/admin/blog-writer?brief_id=${brief.id}`}
-              className="px-3 py-2 rounded-lg text-[11px] font-bold uppercase tracking-[0.1em] text-white"
-              style={{ backgroundColor: ADMIN_OCEAN }}
+              className={
+                linked.post
+                  ? "px-3 py-2 rounded-lg text-[11px] font-bold uppercase tracking-[0.1em] border border-neutral-200 text-neutral-700 hover:border-neutral-400"
+                  : "px-3 py-2 rounded-lg text-[11px] font-bold uppercase tracking-[0.1em] text-white"
+              }
+              style={linked.post ? undefined : { backgroundColor: ADMIN_OCEAN }}
+              title={linked.post ? "Create a brand-new post from this brief" : undefined}
             >
               <i className="ri-quill-pen-line mr-1" />
-              Use in Blog Writer
+              {linked.post ? "New Post" : "Use in Blog Writer"}
             </Link>
             <button
               type="button"
@@ -239,6 +367,43 @@ export default function AdminSweetSeoBriefPage({ briefId: briefIdProp }: AdminSw
           </div>
         }
       />
+
+      {linked.post ? (
+        <div className="mb-4 rounded-xl border border-emerald-200 bg-emerald-50 px-4 py-3 flex items-center justify-between gap-3 flex-wrap">
+          <div className="flex items-center gap-2.5 min-w-0">
+            <i className="ri-links-line text-emerald-700 text-base shrink-0" />
+            <div className="min-w-0">
+              <p className="text-[10px] font-bold uppercase tracking-[0.12em] text-emerald-700">
+                Linked blog post
+              </p>
+              <p className="mt-0.5 text-[13px] text-neutral-800 truncate">
+                {linked.post.title}
+              </p>
+            </div>
+          </div>
+          <div className="flex items-center gap-3">
+            {rewriteSuccess ? (
+              <span className="text-[11px] font-bold text-emerald-700 flex items-center gap-1">
+                <i className="ri-check-line" /> Post updated
+              </span>
+            ) : null}
+            {rewriteError ? (
+              <span className="text-[11px] font-bold text-red-600 flex items-center gap-1">
+                <i className="ri-error-warning-line" />
+                {rewriteError}
+              </span>
+            ) : null}
+            <Link
+              href={`/blog/${linked.post.slug}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-[11px] font-semibold text-emerald-800 hover:text-emerald-900 underline-offset-2 hover:underline flex items-center gap-1"
+            >
+              View post <i className="ri-external-link-line" />
+            </Link>
+          </div>
+        </div>
+      ) : null}
 
       {showRerun ? (
         <div className="mb-6 rounded-xl border border-amber-200 bg-amber-50 p-4 flex items-center justify-between gap-3">
