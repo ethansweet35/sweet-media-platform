@@ -411,16 +411,23 @@ async function phase3_nlpAndNgrams(
     };
   });
 
-  // Ensure the primary keyword itself is in the list, even if it didn't
-  // make the relevance cut (rare but possible for very competitive SERPs).
-  const hasPrimary = termsToInsert.some((t) => t.is_primary_keyword);
-  if (!hasPrimary) {
+  // Ensure the primary keyword is in the list, even if it didn't pass the
+  // relevance cut. Cap its relevance at 2× the highest other term so it's
+  // important but doesn't single-handedly dominate the weighted score
+  // (previously set to 9999, which made competitor coverage drop to ~7%).
+  const topRelevance = termsToInsert.length > 0
+    ? Math.max(...termsToInsert.map((t) => t.relevance_score))
+    : 100;
+  const primaryKwRelevance = Math.max(50, topRelevance * 2);
+
+  const primaryIdx = termsToInsert.findIndex((t) => t.is_primary_keyword);
+  if (primaryIdx === -1) {
     termsToInsert.unshift({
       editor_id: editor.id,
       term: editor.primary_keyword.toLowerCase(),
       term_type: "nlp_keyword",
       entity_type: null,
-      relevance_score: 9999,
+      relevance_score: Number(primaryKwRelevance.toFixed(4)),
       avg_frequency: 0,
       min_recommended_uses: 3,
       max_recommended_uses: 10,
@@ -429,6 +436,12 @@ async function phase3_nlpAndNgrams(
       is_heading_recommended: true,
       is_primary_keyword: true,
     });
+  } else {
+    // Primary kw appeared in n-grams too — keep its observed relevance but
+    // ensure it's at least as weighted as the cap.
+    termsToInsert[primaryIdx].relevance_score = Number(
+      Math.max(termsToInsert[primaryIdx].relevance_score, primaryKwRelevance).toFixed(4),
+    );
   }
 
   await client.from("content_editor_terms").insert(termsToInsert);

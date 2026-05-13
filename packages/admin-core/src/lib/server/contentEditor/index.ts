@@ -59,11 +59,18 @@ export {
 export {
   scoreDocument,
   computeTargetScore,
+  computeAiSearchScore,
   type ScoringTerm,
+  type ScoringQuestion,
   type DraftDocument,
   type TermStatus,
   type TermUsage,
+  type StructuralStatus,
+  type StructuralCheck,
+  type StructuralTargets,
+  type PlacementChecks,
   type ScoreBreakdown,
+  type ScoringOptions,
 } from "./scoring";
 
 export {

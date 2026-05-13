@@ -19,10 +19,13 @@ import {
   type ContentEditorRow,
 } from "./db";
 import {
+  computeAiSearchScore,
   scoreDocument,
   type DraftDocument,
   type ScoreBreakdown,
+  type ScoringQuestion,
   type ScoringTerm,
+  type StructuralTargets,
 } from "./scoring";
 import { cosineSimilarity, embedTexts } from "./embeddings";
 import { sha256, splitSentences } from "./textUtils";
@@ -346,19 +349,23 @@ export interface ScoreDraftInput {
   metaDescription?: string | null;
   h1Text?: string | null;
   bodyPlaintext: string;
-  /** Optional pre-extracted heading texts; otherwise we extract from markdown. */
+  /** Markdown body — enables structural metrics (h2/h3/images/paragraph count). */
+  bodyMarkdown?: string | null;
+  /** Pre-extracted heading texts (used for placement + per-term flags). */
   earlyHeadings?: string[];
-  /** If true, also score AI-search coverage via embedding similarity (slower). */
+  /** All headings (used for per-term occurs_in_heading flag). */
+  allHeadings?: string[];
+  /** Compute AI-search fact coverage via embeddings (~$0.001 per call, ~500ms slower). */
   includeFactCoverage?: boolean;
-  /** If true, persist the computed score to the current draft row. */
+  /** Persist the computed score to the current draft row. */
   persist?: boolean;
 }
 
 export interface ScoreDraftResult extends ScoreBreakdown {
   /** Per-fact coverage flags (only present when includeFactCoverage=true). */
   fact_coverage?: Array<{ fact_id: string; covered: boolean; similarity: number }>;
-  /** AI search score (0-100) based on fact + question coverage. */
-  ai_search_score?: number;
+  /** Fact coverage % (independent of ai_search_score). */
+  fact_coverage_score?: number;
 }
 
 const FACT_COVERAGE_SIMILARITY_THRESHOLD = 0.78;
@@ -384,14 +391,21 @@ export async function scoreDraft(input: ScoreDraftInput): Promise<ScoreDraftResu
     });
   }
 
-  const { data: termsData } = await client
-    .from("content_editor_terms")
-    .select(
-      "term, relevance_score, min_recommended_uses, max_recommended_uses, is_primary_keyword, user_included, user_blacklisted",
-    )
-    .eq("editor_id", input.editorId);
+  // Parallel-load terms + questions for the editor.
+  const [termsRes, questionsRes] = await Promise.all([
+    client
+      .from("content_editor_terms")
+      .select(
+        "term, relevance_score, min_recommended_uses, max_recommended_uses, is_primary_keyword, user_included, user_blacklisted",
+      )
+      .eq("editor_id", input.editorId),
+    client
+      .from("content_editor_questions")
+      .select("id, question, user_dismissed")
+      .eq("editor_id", input.editorId),
+  ]);
 
-  const terms = ((termsData ?? []) as ScoringTerm[]).map((t) => ({
+  const terms = ((termsRes.data ?? []) as ScoringTerm[]).map((t) => ({
     term: t.term,
     relevance_score: t.relevance_score,
     min_recommended_uses: t.min_recommended_uses,
@@ -401,21 +415,61 @@ export async function scoreDraft(input: ScoreDraftInput): Promise<ScoreDraftResu
     user_blacklisted: t.user_blacklisted,
   }));
 
+  const questions = ((questionsRes.data ?? []) as ScoringQuestion[]).map((q) => ({
+    id: q.id,
+    question: q.question,
+    user_dismissed: q.user_dismissed,
+  }));
+
+  // Derive structural targets from the editor row if it has them populated.
+  let structuralTargets: StructuralTargets | undefined;
+  if (
+    editor.recommended_word_count_min != null &&
+    editor.recommended_word_count_max != null &&
+    editor.recommended_h2_min != null &&
+    editor.recommended_h2_max != null
+  ) {
+    structuralTargets = {
+      word_count_min: editor.recommended_word_count_min,
+      word_count_max: editor.recommended_word_count_max,
+      word_count_target: editor.recommended_word_count_target ?? undefined,
+      h2_min: editor.recommended_h2_min,
+      h2_max: editor.recommended_h2_max,
+      h3_min: editor.recommended_h3_min ?? undefined,
+      h3_max: editor.recommended_h3_max ?? undefined,
+      paragraph_min: editor.recommended_paragraph_count_min ?? undefined,
+      paragraph_max: editor.recommended_paragraph_count_max ?? undefined,
+      image_min: editor.recommended_image_min ?? undefined,
+      image_max: editor.recommended_image_max ?? undefined,
+    };
+  }
+
   const doc: DraftDocument = {
     body: input.bodyPlaintext,
+    bodyMarkdown: input.bodyMarkdown ?? null,
     titleTag: input.titleTag,
     h1Text: input.h1Text,
     metaDescription: input.metaDescription,
     earlyHeadings: input.earlyHeadings,
+    allHeadings: input.allHeadings,
   };
 
-  const breakdown = scoreDocument(doc, terms, editor.primary_keyword);
+  const breakdown = scoreDocument(doc, terms, editor.primary_keyword, {
+    structuralTargets,
+    questions,
+  });
   const result: ScoreDraftResult = { ...breakdown };
 
   if (input.includeFactCoverage) {
     const factCoverage = await computeFactCoverage(client, input.editorId, input.bodyPlaintext);
     result.fact_coverage = factCoverage.perFact;
-    result.ai_search_score = factCoverage.score;
+    result.fact_coverage_score = factCoverage.score;
+    // Now we have all 3 AI-search components — compute the combined score.
+    result.ai_search_score = computeAiSearchScore({
+      factCoverage: factCoverage.score,
+      questionCoverage: result.question_coverage_score,
+      citableStructure: result.citable_structure_score,
+    });
   }
 
   if (input.persist) {
@@ -426,6 +480,8 @@ export async function scoreDraft(input: ScoreDraftInput): Promise<ScoreDraftResu
         computed_coverage_score: result.coverage_score,
         computed_frequency_score: result.frequency_score,
         computed_placement_score: result.placement_score,
+        computed_seo_score: result.seo_score ?? null,
+        computed_ai_search_score: result.ai_search_score ?? null,
       })
       .eq("editor_id", input.editorId)
       .eq("is_current", true);

@@ -58,6 +58,7 @@ export {
   // Scoring
   scoreDocument,
   computeTargetScore,
+  computeAiSearchScore,
   // Pricing constants
   CLAUDE_MODELS,
   claudeCallCost,
@@ -82,10 +83,16 @@ export {
   type ContentEditorRow,
   type CompetitorRow,
   type ScoringTerm,
+  type ScoringQuestion,
   type DraftDocument,
   type TermStatus,
   type TermUsage,
+  type StructuralStatus,
+  type StructuralCheck,
+  type StructuralTargets,
+  type PlacementChecks,
   type ScoreBreakdown,
+  type ScoringOptions,
   // API handlers
   createContentEditor,
   getContentEditorState,
