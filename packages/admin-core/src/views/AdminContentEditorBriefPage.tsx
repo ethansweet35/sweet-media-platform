@@ -460,29 +460,240 @@ function PageModeRecommendations({
           />
         ) : null}
         {draft.body_markdown ? (
-          <div className="pt-3 border-t border-[#3d6f7f]/15">
-            <div className="flex items-center justify-between mb-2">
-              <p className="font-semibold text-neutral-700">Recommended body content</p>
-              <button
-                type="button"
-                onClick={() => copy("body", draft.body_markdown ?? "")}
-                className="px-2 py-0.5 rounded text-[10px] font-semibold border border-neutral-200 text-neutral-600 hover:border-neutral-400"
-              >
-                <i className={`mr-1 ${copiedKey === "body" ? "ri-check-line" : "ri-clipboard-line"}`} />
-                {copiedKey === "body" ? "Copied" : "Copy markdown"}
-              </button>
-            </div>
-            <div className="max-h-[40vh] overflow-y-auto rounded-lg border border-neutral-200 bg-white px-4 py-3 text-[12px] font-mono whitespace-pre-wrap text-neutral-700 leading-relaxed">
-              {draft.body_markdown}
-            </div>
-            <p className="mt-2 text-[10px] text-neutral-500 leading-snug">
-              Body recommendations are reference only — they aren't auto-applied to the live page.
-              Use them as a guide when editing your page.tsx file directly.
-            </p>
-          </div>
+          <SurgicalEditsPanel
+            markdown={draft.body_markdown}
+            copiedKey={copiedKey}
+            onCopy={copy}
+          />
         ) : null}
       </div>
     </div>
+  );
+}
+
+/**
+ * Renders the AI-generated body markdown as a list of surgical edit cards.
+ *
+ * The AI emits sections shaped like:
+ *
+ *   ## Edit existing section: <H2 from live page>
+ *   **ADD this sentence at the end of that section:** "..."
+ *   *Why this helps:* covers ...
+ *
+ * or:
+ *
+ *   ## Suggest new section: <new H2>
+ *   *Place it after:* ...
+ *   *Suggested content:* ...
+ *   *Why this helps:* ...
+ *
+ * We split by `## ` markers and group the lines into typed cards. Anything
+ * that doesn't fit the pattern falls back to raw markdown in a code block.
+ */
+function SurgicalEditsPanel({
+  markdown,
+  copiedKey,
+  onCopy,
+}: {
+  markdown: string;
+  copiedKey: string | null;
+  onCopy: (key: string, text: string) => void;
+}) {
+  const edits = useMemo(() => parseSurgicalEdits(markdown), [markdown]);
+  const editsCount = edits.filter((e) => e.kind !== "raw").length;
+
+  return (
+    <div className="pt-3 border-t border-[#3d6f7f]/15">
+      <div className="flex items-center justify-between mb-2">
+        <div>
+          <p className="font-semibold text-neutral-700">Suggested page edits</p>
+          <p className="text-[10px] text-neutral-500">
+            {editsCount > 0
+              ? `${editsCount} surgical edit${editsCount === 1 ? "" : "s"} — apply by hand to preserve your page's layout`
+              : "AI recommendations"}
+          </p>
+        </div>
+        <button
+          type="button"
+          onClick={() => onCopy("body", markdown)}
+          className="px-2 py-0.5 rounded text-[10px] font-semibold border border-neutral-200 text-neutral-600 hover:border-neutral-400"
+        >
+          <i className={`mr-1 ${copiedKey === "body" ? "ri-check-line" : "ri-clipboard-line"}`} />
+          {copiedKey === "body" ? "Copied" : "Copy all markdown"}
+        </button>
+      </div>
+
+      <div className="space-y-2.5 max-h-[55vh] overflow-y-auto pr-1">
+        {edits.map((e, idx) => {
+          if (e.kind === "raw") {
+            return (
+              <div
+                key={`raw-${idx}`}
+                className="rounded-lg border border-neutral-200 bg-white px-3 py-2 text-[12px] font-mono whitespace-pre-wrap text-neutral-700 leading-relaxed"
+              >
+                {e.text}
+              </div>
+            );
+          }
+          const isNew = e.kind === "new-section";
+          const copyKey = `edit-${idx}`;
+          return (
+            <div
+              key={copyKey}
+              className={`rounded-lg border px-3 py-2.5 ${
+                isNew
+                  ? "border-emerald-200/70 bg-emerald-50/40"
+                  : "border-amber-200/70 bg-amber-50/40"
+              }`}
+            >
+              <div className="flex items-center justify-between mb-1.5 gap-2">
+                <div className="flex items-center gap-1.5 min-w-0">
+                  <span
+                    className={`px-1.5 py-0.5 rounded text-[9px] font-bold tracking-wider uppercase flex-shrink-0 ${
+                      isNew ? "bg-emerald-700 text-white" : "bg-amber-700 text-white"
+                    }`}
+                  >
+                    {isNew ? "New section" : "Edit"}
+                  </span>
+                  <p className="text-[12px] font-semibold text-neutral-800 truncate" title={e.heading}>
+                    {e.heading}
+                  </p>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => onCopy(copyKey, e.copyText)}
+                  className="px-2 py-0.5 rounded text-[10px] font-semibold border border-neutral-200 bg-white text-neutral-600 hover:border-neutral-400 flex-shrink-0"
+                >
+                  <i className={`mr-1 ${copiedKey === copyKey ? "ri-check-line" : "ri-clipboard-line"}`} />
+                  {copiedKey === copyKey ? "Copied" : "Copy"}
+                </button>
+              </div>
+              <div className="space-y-1.5 text-[12px] text-neutral-700">
+                {e.body.map((line, i) => (
+                  <SurgicalEditLine key={i} text={line} />
+                ))}
+              </div>
+            </div>
+          );
+        })}
+      </div>
+
+      <p className="mt-2 text-[10px] text-neutral-500 leading-snug">
+        These suggestions preserve your existing page layout. Copy each edit and apply by hand to the relevant section of <code className="px-1 py-0.5 rounded bg-neutral-100 font-mono text-[10px]">page.tsx</code>.
+      </p>
+    </div>
+  );
+}
+
+interface ParsedEdit {
+  kind: "existing-section" | "new-section" | "raw";
+  heading: string;
+  body: string[];
+  copyText: string;
+  text: string;
+}
+
+const EXISTING_PREFIX_RE = /^edit existing section:\s*/i;
+const NEW_PREFIX_RE = /^suggest new section:\s*/i;
+
+function parseSurgicalEdits(md: string): ParsedEdit[] {
+  if (!md.trim()) return [];
+
+  // Split on top-level `## ` headings while preserving the heading itself
+  // in each chunk. Use a regex-keep-split via map/zip.
+  const parts: string[] = [];
+  const lines = md.split("\n");
+  let buffer: string[] = [];
+  for (const line of lines) {
+    if (/^##\s/.test(line)) {
+      if (buffer.length) parts.push(buffer.join("\n"));
+      buffer = [line];
+    } else {
+      buffer.push(line);
+    }
+  }
+  if (buffer.length) parts.push(buffer.join("\n"));
+
+  const edits: ParsedEdit[] = [];
+  for (const part of parts) {
+    const trimmed = part.trim();
+    if (!trimmed) continue;
+    const headingMatch = trimmed.match(/^##\s+(.+?)$/m);
+    if (!headingMatch) {
+      // Body before any heading — treat as raw notes.
+      edits.push({
+        kind: "raw",
+        heading: "",
+        body: [trimmed],
+        copyText: trimmed,
+        text: trimmed,
+      });
+      continue;
+    }
+    const rawHeading = headingMatch[1].trim();
+    let kind: ParsedEdit["kind"] = "raw";
+    let heading = rawHeading;
+    if (EXISTING_PREFIX_RE.test(rawHeading)) {
+      kind = "existing-section";
+      heading = rawHeading.replace(EXISTING_PREFIX_RE, "").trim();
+    } else if (NEW_PREFIX_RE.test(rawHeading)) {
+      kind = "new-section";
+      heading = rawHeading.replace(NEW_PREFIX_RE, "").trim();
+    }
+    if (kind === "raw") {
+      edits.push({ kind, heading: rawHeading, body: [trimmed], copyText: trimmed, text: trimmed });
+      continue;
+    }
+    const body = trimmed
+      .split("\n")
+      .slice(1)
+      .map((l) => l.trim())
+      .filter((l) => l.length > 0);
+    edits.push({
+      kind,
+      heading,
+      body,
+      copyText: trimmed,
+      text: trimmed,
+    });
+  }
+  return edits;
+}
+
+/** Tiny inline renderer: bolds **...**, italicizes *...*, quotes "..." */
+function SurgicalEditLine({ text }: { text: string }) {
+  // Split into segments by markdown tokens. Keep simple — bold/italic/quote only.
+  const segments = text.split(/(\*\*[^*]+\*\*|\*[^*]+\*|"[^"]+")/g);
+  return (
+    <p className="leading-snug">
+      {segments.map((seg, i) => {
+        if (/^\*\*[^*]+\*\*$/.test(seg)) {
+          return (
+            <strong key={i} className="font-bold text-neutral-900">
+              {seg.slice(2, -2)}
+            </strong>
+          );
+        }
+        if (/^\*[^*]+\*$/.test(seg)) {
+          return (
+            <em key={i} className="text-neutral-500 italic">
+              {seg.slice(1, -1)}
+            </em>
+          );
+        }
+        if (/^"[^"]+"$/.test(seg)) {
+          return (
+            <span
+              key={i}
+              className="px-1 py-0.5 rounded bg-white border border-neutral-200 font-mono text-[11px] text-neutral-800"
+            >
+              {seg.slice(1, -1)}
+            </span>
+          );
+        }
+        return <span key={i}>{seg}</span>;
+      })}
+    </p>
   );
 }
 

@@ -25,6 +25,7 @@ import type {
   ContentEditorQuestionRow,
   ContentEditorFactRow,
 } from "./api";
+import { loadLatestSnapshotIgnoreTtl, type TrackedPageLiveSnapshot } from "./livePageAnalysis";
 
 const DEFAULT_MODEL = "anthropic/claude-sonnet-4.6";
 const ALLOWED_MODELS = new Set([
@@ -275,44 +276,61 @@ function buildSeoGuidelines(
 }
 
 /**
- * Lightweight Page Mode prompt — generates only Title/Meta/H1 + a
- * recommended outline (H2 list with 1-2 sentence summaries), NOT a
- * full 2000-word body. Pages have hand-coded React layouts so a long
- * body is never auto-applied; the outline is what the user actually
- * needs to optimize their existing page.
+ * Page Mode prompt — generates SURGICAL edits to an existing live page,
+ * NOT a full rewrite. The AI sees the actual live page plaintext + the
+ * brief's missing terms/questions/facts, and proposes small targeted
+ * changes that preserve the page's voice, structure, and layout:
  *
- * Output is ~500-1500 tokens (vs ~6000-12000 for full blog mode).
- * Runs in ~30-60s instead of ~2-4min — well within Vercel's 5min limit.
+ *   - 1-sentence additions to existing sections
+ *   - small phrase swaps that introduce missing keywords naturally
+ *   - new short H2 sections ONLY when no existing section is a good fit
+ *
+ * Output is ~500-1500 tokens, runs in ~30-60s. Vercel-safe.
  */
 function buildPageModeSystemPrompt(knowledgeBaseBlock: string): string {
-  return `You are an expert SEO content strategist generating optimization recommendations for a LIVE PAGE that already exists in production. You're NOT writing a new blog post — you're suggesting targeted improvements to an existing page that has hand-coded React layout.
+  return `You are an expert SEO content strategist. You're optimizing a LIVE PAGE that already exists in production with a hand-coded React layout. Your goal is to preserve the page's voice, format, and structure while suggesting small surgical improvements that close coverage gaps from the content brief.
 
 [KNOWLEDGE BASE]
-${knowledgeBaseBlock || "(none provided — use authoritative best practices for the given topic)"}
+${knowledgeBaseBlock || "(none provided — use authoritative best practices for the topic)"}
 [END KNOWLEDGE BASE]
 
-YOUR JOB:
-1. Generate a better SEO title (under 70 chars, includes primary keyword)
-2. Generate a better meta description (under 155 chars, includes primary keyword)
-3. Recommend a better H1 for the page
-4. Recommend an outline of H2 sections this page should cover (5-9 headings, each with 1-2 sentence summary of what that section should discuss)
+CRITICAL RULES:
+1. Do NOT rewrite the whole page. Propose SURGICAL EDITS only.
+2. Each edit must be small: 1-3 sentences, OR a short phrase swap.
+3. Prefer adding sentences to EXISTING sections over creating new ones.
+4. Suggest new H2 sections ONLY when a missing topic has no plausible home in any existing section.
+5. Preserve the page's tone and voice as you see it in the live content.
+6. Every edit must cite which brief items it addresses (terms, questions, facts).
+7. Aim for 4-8 total edits (existing section edits + at most 1-2 new sections).
 
-DO NOT generate full body paragraphs, FAQs, or long copy. The user will hand-port the outline into their existing page layout. Keep summaries terse and actionable (1-2 sentences each, no rambling).
+EDIT TYPES:
+- ADD-SENTENCE: append a 1-2 sentence addition to a specific existing section
+- REPLACE-PHRASE: swap a specific short phrase from the live page with a tighter, keyword-rich variant
+- ADD-SECTION: propose a new short H2 section with 2-3 sentence intro (use sparingly)
 
-The brief lists MUST-COVER terms, questions, and facts. Use these to inform which H2 sections are most important. Every H2 should connect to high-priority terms or questions from the brief.
-
-OUTPUT FORMAT (return ONLY this JSON, no markdown fences, no preamble):
+OUTPUT FORMAT (return ONLY this JSON object — no markdown fences, no preamble):
 {
   "title": "string — SEO-optimized, under 70 chars, includes primary keyword",
   "metaDescription": "string under 155 chars, includes primary keyword, has CTA",
   "content": [
-    { "type": "h1", "text": "Recommended H1" },
-    { "type": "h2", "text": "First H2 heading" },
-    { "type": "paragraph", "text": "1-2 sentence summary of what this section should cover, referencing 2-3 key terms from the brief." },
-    { "type": "h2", "text": "Second H2 heading" },
-    { "type": "paragraph", "text": "Summary..." }
+    { "type": "h1", "text": "Recommended H1 (if changing)" },
+    { "type": "h2", "text": "Edit existing section: <verbatim H2 heading from the live page>" },
+    { "type": "paragraph", "text": "**ADD this sentence at the end of that section:** \\"...\\"" },
+    { "type": "paragraph", "text": "*Why this helps:* covers <comma-separated brief items, e.g. terms/questions/facts>" },
+
+    { "type": "h2", "text": "Edit existing section: <another existing H2>" },
+    { "type": "paragraph", "text": "**REPLACE the phrase:** \\"...verbatim from live page...\\"" },
+    { "type": "paragraph", "text": "**WITH:** \\"...new wording...\\"" },
+    { "type": "paragraph", "text": "*Why this helps:* covers <brief items>" },
+
+    { "type": "h2", "text": "Suggest new section: <new H2 heading>" },
+    { "type": "paragraph", "text": "*Place it after:* <existing H2 the new section should follow>" },
+    { "type": "paragraph", "text": "*Suggested content:* 2-3 sentence intro that flows naturally from the surrounding context..." },
+    { "type": "paragraph", "text": "*Why this helps:* covers <brief items>" }
   ]
-}`;
+}
+
+Use \\" for any quotation marks inside string values. Do not use markdown code fences around the JSON.`;
 }
 
 function buildSystemPrompt(knowledgeBaseBlock: string): string {
@@ -373,6 +391,74 @@ Output ONLY a valid JSON object conforming to this shape:
   ]
 }
 No markdown fences. No preamble. No trailing commentary.`;
+}
+
+/**
+ * Build the Page Mode user message. Embeds the live page's actual H2 list
+ * and a slice of its plaintext so the AI can reference real existing
+ * sections by name in its surgical edits.
+ */
+function buildPageModeUserMessage(opts: {
+  primaryKeyword: string;
+  snapshot: TrackedPageLiveSnapshot | null;
+  guidelines: string;
+  customInstructions?: string;
+}): string {
+  const { primaryKeyword, snapshot, guidelines, customInstructions } = opts;
+
+  const headings = snapshot?.headings ?? [];
+  const h1 = headings.find((h) => h.level === 1)?.text ?? null;
+  const h2List = headings.filter((h) => h.level === 2).map((h) => h.text);
+
+  // Truncate plaintext to keep prompt size sane. Sonnet has 200k context;
+  // we stay well under to keep latency low.
+  const plaintext = (snapshot?.plaintext ?? "").slice(0, 12000);
+
+  const lines: string[] = [
+    `Primary keyword: ${primaryKeyword}`,
+    `Tone: derive from knowledge base; default authoritative, evidence-based, helpful`,
+    ``,
+  ];
+
+  if (snapshot && plaintext) {
+    lines.push(`=== LIVE PAGE CONTENT (your edits must reference this content) ===`);
+    if (h1) lines.push(`Current H1: ${h1}`);
+    if (h2List.length > 0) {
+      lines.push(`Current H2 sections (in order):`);
+      for (let i = 0; i < h2List.length; i++) {
+        lines.push(`  ${i + 1}. ${h2List[i]}`);
+      }
+    }
+    lines.push(``);
+    lines.push(`Full plaintext of the live page:`);
+    lines.push(`"""`);
+    lines.push(plaintext);
+    lines.push(`"""`);
+    lines.push(`=== END LIVE PAGE CONTENT ===`);
+    lines.push(``);
+  } else {
+    lines.push(`(Live page content not yet fetched — propose general improvements based only on the content brief.)`);
+    lines.push(``);
+  }
+
+  lines.push(`=== CONTENT BRIEF (the gap analysis your edits should close) ===`);
+  lines.push(guidelines.slice(0, 12000));
+  lines.push(`=== END CONTENT BRIEF ===`);
+
+  if (customInstructions?.trim()) {
+    lines.push(``);
+    lines.push(`Additional instructions:`);
+    lines.push(customInstructions.trim());
+  }
+
+  lines.push(``);
+  lines.push(
+    `Generate the SEO Title, Meta Description, and a SHORT list of surgical edits to the live page above. ` +
+      `For each edit, reference an existing H2 section by its exact verbatim name (or propose a new H2 only when needed). ` +
+      `Output only the JSON object as specified — no markdown fences, no preamble, no trailing commentary.`,
+  );
+
+  return lines.join("\n");
 }
 
 async function loadBrandKnowledgeBase(client: ReturnType<typeof getAdminClient>): Promise<string> {
@@ -474,31 +560,30 @@ export async function runAutoOptimize(opts: AutoOptimizeOptions): Promise<void> 
         )
       : 2000);
 
-  // Page Mode (editor.linked_tracked_page_id is set): use the lightweight
-  // prompt that generates Title/Meta/H1 + outline only. The user hand-ports
-  // the outline into their existing React page layout — they don't need a
-  // 24KB body draft they'll never paste in.
+  // Page Mode (editor.linked_tracked_page_id is set): generate surgical
+  // edits against the actual live page content. We load the most recent
+  // snapshot (if any) and embed its plaintext + H2 list into the prompt
+  // so the AI proposes targeted changes vs a full rewrite.
   const isPageMode = !!editor.linked_tracked_page_id;
+  let livePageSnapshot: TrackedPageLiveSnapshot | null = null;
+  if (isPageMode && editor.linked_tracked_page_id) {
+    livePageSnapshot = await loadLatestSnapshotIgnoreTtl(
+      editor.linked_tracked_page_id,
+      editorId,
+    );
+  }
+
   const systemPrompt = isPageMode
     ? buildPageModeSystemPrompt(kb)
     : buildSystemPrompt(kb);
 
   const userMessage = isPageMode
-    ? [
-        `Live page: optimization recommendations needed`,
-        `Primary keyword: ${editor.primary_keyword}`,
-        `Tone: derive from knowledge base; default authoritative + helpful`,
-        ``,
-        `=== CONTENT BRIEF (use to inform recommendations) ===`,
-        guidelines.slice(0, 15000),
-        `=== END CONTENT BRIEF ===`,
-        opts.customInstructions
-          ? `\nAdditional instructions:\n${opts.customInstructions.trim()}`
-          : "",
-        `\nGenerate the SEO Title, Meta Description, recommended H1, and an outline of recommended H2 sections (each with a 1-2 sentence summary). Output only the JSON object as specified.`,
-      ]
-        .filter(Boolean)
-        .join("\n")
+    ? buildPageModeUserMessage({
+        primaryKeyword: editor.primary_keyword,
+        snapshot: livePageSnapshot,
+        guidelines,
+        customInstructions: opts.customInstructions,
+      })
     : [
         `Topic: ${editor.primary_keyword}`,
         `Primary keyword: ${editor.primary_keyword}`,
@@ -532,8 +617,9 @@ export async function runAutoOptimize(opts: AutoOptimizeOptions): Promise<void> 
         { role: "system", content: systemPrompt },
         { role: "user", content: userMessage },
       ],
-      // Page Mode generates ~500-1500 tokens; full blog mode needs much more.
-      max_tokens: isPageMode ? 2500 : 12000,
+      // Page Mode generates ~1000-3000 tokens of surgical edits; full
+      // blog mode needs much more for the complete draft.
+      max_tokens: isPageMode ? 4000 : 12000,
       temperature: 0.4,
     }),
   });
