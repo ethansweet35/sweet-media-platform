@@ -323,23 +323,20 @@ export default function HomePage() {
                     </span>
                   ))}
                 </div>
-                <div className="leading-tight">
-                  <div className="flex items-center gap-1">
-                    {[0, 1, 2, 3, 4].map((i) => (
-                      <i key={i} className="ri-star-fill text-[0.7rem] text-[#C67B5C]" />
-                    ))}
-                    <span className="ml-1 text-[0.78rem] font-semibold text-[#3A3A3A]">4.9</span>
-                  </div>
-                  <p className="text-[0.68rem] text-[#888]">10,000+ patients treated</p>
+                <div className="flex items-center gap-1">
+                  {[0, 1, 2, 3, 4].map((i) => (
+                    <i key={i} className="ri-star-fill text-[0.7rem] text-[#C67B5C]" />
+                  ))}
+                  <span className="ml-1 text-[0.78rem] font-semibold text-[#3A3A3A]">4.9</span>
                 </div>
               </div>
               <div className="flex items-center gap-2.5 px-5 py-3">
                 <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#6B7456]/12">
                   <i className="ri-shield-check-fill text-base text-[#6B7456]" />
                 </span>
-                <div className="leading-tight">
-                  <p className="text-[0.78rem] font-semibold text-[#3A3A3A]">HIPAA Compliant</p>
-                  <p className="text-[0.68rem] text-[#888]">Secure &amp; confidential</p>
+                <div className="flex flex-col gap-0">
+                  <p className="text-[0.78rem] font-semibold leading-none text-[#3A3A3A]">HIPAA Compliant</p>
+                  <p className="mt-px text-[0.68rem] leading-none text-[#888]">Secure &amp; confidential</p>
                 </div>
               </div>
             </div>
