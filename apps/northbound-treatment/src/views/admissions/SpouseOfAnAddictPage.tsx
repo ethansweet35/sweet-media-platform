@@ -15,7 +15,7 @@ export default function SpouseOfAnAddictPage() {
     <div className="min-h-screen bg-white">
 
       {/* Hero */}
-      <section className="bg-[#1b2a47] py-24">
+      <section className="bg-[#3a6697] py-24">
         <div className="mx-auto max-w-7xl px-6 lg:px-10">
           <p className="mb-4 text-xs font-semibold uppercase tracking-[0.2em] text-[#e97a52]">Family Support</p>
           <h1 className="font-heading text-5xl font-bold text-white md:text-6xl">
@@ -58,7 +58,7 @@ export default function SpouseOfAnAddictPage() {
         <div className="mx-auto max-w-7xl px-6 lg:px-10">
           <div className="mb-12">
             <p className="mb-3 text-xs font-semibold uppercase tracking-[0.2em] text-[#e97a52]"><AutoLinkedText>{"Guidance for Spouses"}</AutoLinkedText></p>
-            <h2 className="font-heading text-4xl font-bold text-[#1b2a47] md:text-5xl">How to Support Recovery</h2>
+            <h2 className="font-heading text-4xl font-bold text-[#3a6697] md:text-5xl">How to Support Recovery</h2>
             <p className="mt-4 max-w-2xl text-[#64748b] leading-7">
               <AutoLinkedText>{"Our team at Northbound hopes to give you the information and tools you need to help your\n              spouse achieve a full recovery — while also protecting your own wellbeing."}</AutoLinkedText>
             </p>
@@ -66,10 +66,10 @@ export default function SpouseOfAnAddictPage() {
           <div className="grid gap-px bg-[#cdd8e8] sm:grid-cols-2 lg:grid-cols-3">
             {strategies.map((s) => (
               <div key={s.title} className="bg-white p-8 flex flex-col gap-4">
-                <span className="flex h-12 w-12 items-center justify-center bg-[#eef2f7] text-[#1b2a47]">
+                <span className="flex h-12 w-12 items-center justify-center bg-[#eef2f7] text-[#3a6697]">
                   <i className={`${s.icon} text-2xl`} />
                 </span>
-                <h3 className="font-heading text-xl font-bold text-[#1b2a47]">{s.title}</h3>
+                <h3 className="font-heading text-xl font-bold text-[#3a6697]">{s.title}</h3>
                 <p className="text-sm leading-7 text-[#64748b]"><AutoLinkedText>{s.body}</AutoLinkedText></p>
               </div>
             ))}
@@ -81,7 +81,7 @@ export default function SpouseOfAnAddictPage() {
       <section className="bg-[#eef2f7] py-20">
         <div className="mx-auto max-w-7xl px-6 lg:px-10 flex flex-col md:flex-row items-center justify-between gap-8">
           <div>
-            <h2 className="font-heading text-3xl font-bold text-[#1b2a47] md:text-4xl">
+            <h2 className="font-heading text-3xl font-bold text-[#3a6697] md:text-4xl">
               Our Family Services team is here for you too.
             </h2>
             <p className="mt-3 text-[#64748b] max-w-xl">

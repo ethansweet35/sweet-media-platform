@@ -13,7 +13,7 @@ export default function PostBlogMobileShareRow({
   const encodedUrl = encodeURIComponent(canonicalUrl);
 
   const btnBase =
-    "flex h-9 w-9 items-center justify-center border border-[#cdd8e8] text-[#94a3b8] transition-all hover:border-[#1b2a47] hover:bg-[#1b2a47] hover:text-white";
+    "flex h-9 w-9 items-center justify-center border border-[#cdd8e8] text-[#94a3b8] transition-all hover:border-[#3a6697] hover:bg-[#3a6697] hover:text-white";
 
   return (
     <div className="mt-10 border-t border-[#eef2f7] pt-8 lg:hidden">

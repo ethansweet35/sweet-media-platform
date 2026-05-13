@@ -45,7 +45,7 @@ export default function Page() {
     <div className="min-h-screen bg-white">
 
       {/* Hero */}
-      <section className="relative overflow-hidden bg-[#1b2a47] pb-16 pt-28 lg:pb-20 lg:pt-36">
+      <section className="relative overflow-hidden bg-[#3a6697] pb-16 pt-28 lg:pb-20 lg:pt-36">
         <div className="pointer-events-none absolute left-8 top-8 h-16 w-16 border-l-2 border-t-2 border-white/10" />
         <div className="pointer-events-none absolute right-8 top-8 h-16 w-16 border-r-2 border-t-2 border-white/10" />
         <div className="pointer-events-none absolute -right-32 -top-32 h-96 w-96 rounded-full bg-[#e97a52]/10 blur-3xl" />
@@ -69,7 +69,7 @@ export default function Page() {
           <div className="mt-8 flex flex-wrap gap-3">
             <a
               href="tel:8888563990"
-              className="flex items-center gap-2 bg-[#e97a52] px-7 py-3.5 text-[11px] font-bold uppercase tracking-[0.18em] text-white transition-colors hover:bg-white hover:text-[#1b2a47]"
+              className="flex items-center gap-2 bg-[#e97a52] px-7 py-3.5 text-[11px] font-bold uppercase tracking-[0.18em] text-white transition-colors hover:bg-white hover:text-[#3a6697]"
             >
               <i className="ri-phone-line" /> Verify My Benefits
             </a>
@@ -82,7 +82,7 @@ export default function Page() {
           </div>
         </div>
 
-        <div className="absolute bottom-0 left-0 right-0 h-[3px] bg-gradient-to-r from-[#e97a52] via-[#1b2a47] to-[#e97a52]/30" />
+        <div className="absolute bottom-0 left-0 right-0 h-[3px] bg-gradient-to-r from-[#e97a52] via-[#3a6697] to-[#e97a52]/30" />
       </section>
 
       {/* How it works */}
@@ -92,7 +92,7 @@ export default function Page() {
             <div className="h-[2px] w-10 bg-[#e97a52]" />
             <span className="text-[10px] font-bold uppercase tracking-[0.28em] text-[#e97a52]">How It Works</span>
           </div>
-          <h2 className="font-heading mb-12 text-4xl font-bold text-[#1b2a47] md:text-5xl">
+          <h2 className="font-heading mb-12 text-4xl font-bold text-[#3a6697] md:text-5xl">
             Free benefits check — <span className="italic text-[#e97a52]">results in under an hour</span>
           </h2>
 
@@ -100,7 +100,7 @@ export default function Page() {
             {STEPS.map((s) => (
               <div key={s.n} className="bg-white p-8">
                 <p className="font-heading text-4xl font-bold text-[#e97a52]/20">{s.n}</p>
-                <h3 className="font-heading mt-3 text-lg font-bold text-[#1b2a47]">{s.title}</h3>
+                <h3 className="font-heading mt-3 text-lg font-bold text-[#3a6697]">{s.title}</h3>
                 <p className="mt-2 text-sm leading-relaxed text-[#64748b]">{s.desc}</p>
               </div>
             ))}
@@ -115,7 +115,7 @@ export default function Page() {
             <div className="h-[2px] w-10 bg-[#e97a52]" />
             <span className="text-[10px] font-bold uppercase tracking-[0.28em] text-[#e97a52]">In-Network Carriers</span>
           </div>
-          <h2 className="font-heading mb-10 text-4xl font-bold text-[#1b2a47] md:text-5xl">
+          <h2 className="font-heading mb-10 text-4xl font-bold text-[#3a6697] md:text-5xl">
             Accepted <span className="italic text-[#e97a52]">insurance plans</span>
           </h2>
 
@@ -124,11 +124,11 @@ export default function Page() {
               <Link
                 key={c.href}
                 href={c.href}
-                className="group flex items-center justify-between bg-white px-6 py-5 transition-colors hover:bg-[#1b2a47]"
+                className="group flex items-center justify-between bg-white px-6 py-5 transition-colors hover:bg-[#3a6697]"
               >
                 <div className="flex items-center gap-3">
                   <i className="ri-shield-check-line text-[#e97a52] text-lg" />
-                  <span className="font-heading text-sm font-bold text-[#1b2a47] transition-colors group-hover:text-white">
+                  <span className="font-heading text-sm font-bold text-[#3a6697] transition-colors group-hover:text-white">
                     {c.label}
                   </span>
                 </div>
@@ -139,7 +139,7 @@ export default function Page() {
 
           <p className="mt-6 text-sm text-[#64748b]">
             Don&apos;t see your carrier?{" "}
-            <Link href="/contact-us/" className="font-semibold text-[#e97a52] underline underline-offset-2 hover:text-[#1b2a47]">
+            <Link href="/contact-us/" className="font-semibold text-[#e97a52] underline underline-offset-2 hover:text-[#3a6697]">
               Call us
             </Link>{" "}
             — we work with many additional plans and can often negotiate out-of-network benefits.
@@ -148,7 +148,7 @@ export default function Page() {
       </section>
 
       {/* CTA */}
-      <section className="relative overflow-hidden bg-[#1b2a47] py-16 md:py-20">
+      <section className="relative overflow-hidden bg-[#3a6697] py-16 md:py-20">
         <div className="pointer-events-none absolute -right-24 -top-24 h-64 w-64 rounded-full bg-[#e97a52]/10 blur-3xl" />
         <div className="relative mx-auto w-full max-w-7xl px-6 lg:px-10 text-center">
           <p className="text-xs font-bold uppercase tracking-[0.22em] text-[#e97a52]">Start Today</p>
@@ -165,7 +165,7 @@ export default function Page() {
           <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
             <a
               href="tel:8888563990"
-              className="flex items-center gap-2 bg-[#e97a52] px-8 py-4 text-[11px] font-bold uppercase tracking-[0.18em] text-white transition-colors hover:bg-white hover:text-[#1b2a47]"
+              className="flex items-center gap-2 bg-[#e97a52] px-8 py-4 text-[11px] font-bold uppercase tracking-[0.18em] text-white transition-colors hover:bg-white hover:text-[#3a6697]"
             >
               <i className="ri-phone-line" /> Call (888) 856-3990
             </a>

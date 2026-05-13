@@ -12,7 +12,7 @@ export default function BlogHero({ searchQuery, onSearchChange }: BlogHeroProps)
   const [isFocused, setIsFocused] = useState(false);
 
   return (
-    <section className="relative overflow-hidden bg-[#1b2a47] pt-28 pb-16 lg:pt-36 lg:pb-20">
+    <section className="relative overflow-hidden bg-[#3a6697] pt-28 pb-16 lg:pt-36 lg:pb-20">
       {/* Architectural corner accents */}
       <div className="pointer-events-none absolute left-8 top-8 h-16 w-16 border-l-2 border-t-2 border-white/10" />
       <div className="pointer-events-none absolute right-8 top-8 h-16 w-16 border-r-2 border-t-2 border-white/10" />
@@ -92,7 +92,7 @@ export default function BlogHero({ searchQuery, onSearchChange }: BlogHeroProps)
       </div>
 
       {/* Bottom accent bar */}
-      <div className="absolute bottom-0 left-0 right-0 h-[3px] bg-gradient-to-r from-[#e97a52] via-[#1b2a47] to-[#e97a52]/30" />
+      <div className="absolute bottom-0 left-0 right-0 h-[3px] bg-gradient-to-r from-[#e97a52] via-[#3a6697] to-[#e97a52]/30" />
     </section>
   );
 }

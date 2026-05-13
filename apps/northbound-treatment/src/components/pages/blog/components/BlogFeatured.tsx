@@ -70,7 +70,7 @@ export default function BlogFeatured() {
               <span className="text-[11px] font-medium text-[#64748b]">{post.readTime}</span>
             </div>
 
-            <h2 className="font-heading mb-4 text-3xl font-bold leading-snug text-[#1b2a47] md:text-4xl">
+            <h2 className="font-heading mb-4 text-3xl font-bold leading-snug text-[#3a6697] md:text-4xl">
               {post.title}
             </h2>
 
@@ -81,7 +81,7 @@ export default function BlogFeatured() {
             {/* Author + CTA */}
             <div className="flex items-center justify-between border-t border-[#eef2f7] pt-6">
               <div className="flex items-center gap-3">
-                <div className="flex h-9 w-9 items-center justify-center bg-[#1b2a47]">
+                <div className="flex h-9 w-9 items-center justify-center bg-[#3a6697]">
                   <span className="text-[10px] font-bold text-white">
                     {post.author
                       .split(" ")
@@ -90,14 +90,14 @@ export default function BlogFeatured() {
                   </span>
                 </div>
                 <div>
-                  <p className="text-sm font-semibold text-[#1b2a47]">{post.author}</p>
+                  <p className="text-sm font-semibold text-[#3a6697]">{post.author}</p>
                   <p className="text-[11px] text-[#64748b]">{post.authorRole}</p>
                 </div>
               </div>
 
               <Link
                 href={`/blog/${post.slug}`}
-                className="group flex items-center gap-2 bg-[#1b2a47] px-5 py-2.5 text-[11px] font-bold uppercase tracking-[0.15em] text-white transition-colors hover:bg-[#e97a52]"
+                className="group flex items-center gap-2 bg-[#3a6697] px-5 py-2.5 text-[11px] font-bold uppercase tracking-[0.15em] text-white transition-colors hover:bg-[#e97a52]"
               >
                 Read Article
                 <i className="ri-arrow-right-line text-sm transition-transform group-hover:translate-x-0.5" />

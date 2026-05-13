@@ -68,14 +68,14 @@ export default function BlogPostPreviewPage({ slug }: { slug: string }) {
           <div className="mx-auto mb-6 flex h-16 w-16 items-center justify-center border border-[#cdd8e8] bg-[#eef2f7]">
             <i className="ri-article-line text-2xl text-[#94a3b8]" />
           </div>
-          <h1 className="font-heading mb-3 text-2xl font-bold text-[#1b2a47]">Article Not Found</h1>
+          <h1 className="font-heading mb-3 text-2xl font-bold text-[#3a6697]">Article Not Found</h1>
           <p className="mb-8 text-sm text-[#64748b]">
             This article doesn&apos;t exist or may have been moved.
           </p>
           <button
             type="button"
             onClick={() => router.push("/blog")}
-            className="bg-[#1b2a47] px-6 py-3 text-[11px] font-bold uppercase tracking-[0.2em] text-white transition-colors hover:bg-[#e97a52] cursor-pointer"
+            className="bg-[#3a6697] px-6 py-3 text-[11px] font-bold uppercase tracking-[0.2em] text-white transition-colors hover:bg-[#e97a52] cursor-pointer"
           >
             Back to Journal
           </button>
@@ -117,7 +117,7 @@ export default function BlogPostPreviewPage({ slug }: { slug: string }) {
             <div className="flex-1 min-w-0 max-w-3xl">
               {post.excerpt && (
                 <div className="mb-8 border-l-4 border-[#e97a52] py-2 pl-5 pb-8 border-b border-b-[#eef2f7]">
-                  <p className="font-heading text-lg font-bold italic leading-relaxed text-[#1b2a47] md:text-xl">
+                  <p className="font-heading text-lg font-bold italic leading-relaxed text-[#3a6697] md:text-xl">
                     {post.excerpt}
                   </p>
                 </div>
@@ -159,7 +159,7 @@ export default function BlogPostPreviewPage({ slug }: { slug: string }) {
                       .map((s, i) => (
                         <span
                           key={i}
-                          className="cursor-pointer border-l-2 border-transparent py-1.5 pl-3 text-[12px] leading-snug text-[#94a3b8] transition-colors hover:border-[#e97a52] hover:text-[#1b2a47]"
+                          className="cursor-pointer border-l-2 border-transparent py-1.5 pl-3 text-[12px] leading-snug text-[#94a3b8] transition-colors hover:border-[#e97a52] hover:text-[#3a6697]"
                         >
                           {s.text}
                         </span>
@@ -189,7 +189,7 @@ export default function BlogPostPreviewPage({ slug }: { slug: string }) {
                 )}
 
                 <div className="border border-[#cdd8e8] bg-[#eef2f7] p-5">
-                  <p className="font-heading text-sm font-bold text-[#1b2a47]">
+                  <p className="font-heading text-sm font-bold text-[#3a6697]">
                     Ready to start recovery?
                   </p>
                   <p className="mt-1 text-[11px] leading-relaxed text-[#64748b]">
@@ -197,7 +197,7 @@ export default function BlogPostPreviewPage({ slug }: { slug: string }) {
                   </p>
                   <a
                     href="tel:8888563990"
-                    className="mt-4 flex items-center gap-2 bg-[#e97a52] px-4 py-2.5 text-[10px] font-bold uppercase tracking-[0.15em] text-white transition-colors hover:bg-[#1b2a47]"
+                    className="mt-4 flex items-center gap-2 bg-[#e97a52] px-4 py-2.5 text-[10px] font-bold uppercase tracking-[0.15em] text-white transition-colors hover:bg-[#3a6697]"
                   >
                     <i className="ri-phone-line" />
                     Call Now

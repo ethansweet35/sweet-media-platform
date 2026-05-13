@@ -59,7 +59,7 @@ export default function PostRelated({ currentPost, allPosts }: PostRelatedProps)
                     sizes="(max-width: 768px) 100vw, 33vw"
                   />
                   <div className="absolute left-0 top-4">
-                    <span className="bg-[#1b2a47] px-3 py-1 text-[9px] font-bold uppercase tracking-[0.2em] text-white">
+                    <span className="bg-[#3a6697] px-3 py-1 text-[9px] font-bold uppercase tracking-[0.2em] text-white">
                       {post.category}
                     </span>
                   </div>
@@ -73,7 +73,7 @@ export default function PostRelated({ currentPost, allPosts }: PostRelatedProps)
                     <span className="text-[11px] text-[#94a3b8]">{post.readTime}</span>
                   </div>
 
-                  <h3 className="font-heading mb-3 text-base font-bold leading-snug text-[#1b2a47] transition-colors duration-200 group-hover:text-[#e97a52] line-clamp-2">
+                  <h3 className="font-heading mb-3 text-base font-bold leading-snug text-[#3a6697] transition-colors duration-200 group-hover:text-[#e97a52] line-clamp-2">
                     {post.title}
                   </h3>
 
@@ -83,7 +83,7 @@ export default function PostRelated({ currentPost, allPosts }: PostRelatedProps)
 
                   <div className="flex items-center justify-between border-t border-[#eef2f7] pt-4">
                     <div className="flex items-center gap-2">
-                      <div className="flex h-7 w-7 items-center justify-center bg-[#1b2a47]">
+                      <div className="flex h-7 w-7 items-center justify-center bg-[#3a6697]">
                         <span className="text-[9px] font-bold text-white">
                           {post.author
                             .split(" ")
@@ -94,7 +94,7 @@ export default function PostRelated({ currentPost, allPosts }: PostRelatedProps)
                       <span className="text-[11px] font-medium text-[#64748b]">{post.author}</span>
                     </div>
 
-                    <span className="flex items-center gap-1 text-[11px] font-bold uppercase tracking-[0.1em] text-[#e97a52] transition-colors hover:text-[#1b2a47]">
+                    <span className="flex items-center gap-1 text-[11px] font-bold uppercase tracking-[0.1em] text-[#e97a52] transition-colors hover:text-[#3a6697]">
                       Read
                       <i className="ri-arrow-right-line text-xs transition-transform group-hover:translate-x-0.5" />
                     </span>

@@ -45,7 +45,7 @@ export default function TransitionalLivingPage() {
   return (
     <>
       {/* ── HERO ──────────────────────────────────────────────────────── */}
-      <section className="relative overflow-hidden bg-[#1b2a47]">
+      <section className="relative overflow-hidden bg-[#3a6697]">
         <div className="absolute inset-0">
           <Image
             src={`${BASE}/nbt_transitional_hero01.jpg`}
@@ -55,7 +55,7 @@ export default function TransitionalLivingPage() {
             priority
             sizes="100vw"
           />
-          <div className="absolute inset-0 bg-gradient-to-r from-[#1b2a47]/95 via-[#1b2a47]/80 to-[#1b2a47]/40" />
+          <div className="absolute inset-0 bg-gradient-to-r from-[#3a6697]/95 via-[#3a6697]/80 to-[#3a6697]/40" />
         </div>
         <div className="relative z-10 mx-auto w-full max-w-7xl px-6 pb-16 pt-28 lg:px-10 lg:pb-20 lg:pt-36">
           <div className="max-w-3xl">
@@ -95,7 +95,7 @@ export default function TransitionalLivingPage() {
               <p className="text-xs font-semibold uppercase tracking-[0.14em] text-[#e97a52]">
                 <AutoLinkedText>{"Why Transitional Living Matters"}</AutoLinkedText>
               </p>
-              <h2 className="font-heading mt-3 text-4xl font-bold text-[#1b2a47] md:text-5xl">
+              <h2 className="font-heading mt-3 text-4xl font-bold text-[#3a6697] md:text-5xl">
                 The Bridge Between Treatment and <span className="italic text-[#e97a52]">Real Life</span>
               </h2>
               <p className="mt-5 leading-relaxed text-[#64748b]">
@@ -118,7 +118,7 @@ export default function TransitionalLivingPage() {
                   sizes="(max-width: 1024px) 100vw, 50vw"
                 />
               </div>
-              <div className="absolute -bottom-5 -right-5 bg-[#1b2a47] px-6 py-5 shadow-xl">
+              <div className="absolute -bottom-5 -right-5 bg-[#3a6697] px-6 py-5 shadow-xl">
                 <p className="font-heading text-3xl font-bold text-white">2×</p>
                 <p className="mt-0.5 text-xs font-semibold uppercase tracking-[0.12em] text-[#e97a52]">
                   <AutoLinkedText>{"Better outcomes with 90+ days of structured support"}</AutoLinkedText>
@@ -136,7 +136,7 @@ export default function TransitionalLivingPage() {
             <p className="text-xs font-semibold uppercase tracking-[0.14em] text-[#e97a52]">
               <AutoLinkedText>{"The Full Transitional Continuum"}</AutoLinkedText>
             </p>
-            <h2 className="font-heading mt-3 text-4xl font-bold text-[#1b2a47] md:text-5xl">
+            <h2 className="font-heading mt-3 text-4xl font-bold text-[#3a6697] md:text-5xl">
               Programs for Every <span className="italic text-[#e97a52]">Stage of Recovery</span>
             </h2>
           </div>
@@ -146,7 +146,7 @@ export default function TransitionalLivingPage() {
                 <div className="mb-4 flex h-12 w-12 items-center justify-center bg-[#e97a52]/10">
                   <i className={`${level.icon} text-2xl text-[#e97a52]`} />
                 </div>
-                <h3 className="font-heading text-xl font-bold text-[#1b2a47]">{level.title}</h3>
+                <h3 className="font-heading text-xl font-bold text-[#3a6697]">{level.title}</h3>
                 <p className="mt-3 text-sm leading-relaxed text-[#64748b]"><AutoLinkedText>{level.description}</AutoLinkedText></p>
                 <ul className="mt-5 space-y-2">
                   {level.features.map((f) => (
@@ -163,7 +163,7 @@ export default function TransitionalLivingPage() {
       </section>
 
       {/* ── DARK STATS ────────────────────────────────────────────────── */}
-      <section className="bg-[#1b2a47] py-14">
+      <section className="bg-[#3a6697] py-14">
         <div className="mx-auto w-full max-w-7xl px-6 lg:px-10">
           <div className="grid gap-10 text-center sm:grid-cols-3">
             {STATS.map((s) => (
@@ -181,7 +181,7 @@ export default function TransitionalLivingPage() {
         <div className="mx-auto w-full max-w-7xl px-6 lg:px-10">
           <div className="mb-10">
             <p className="text-xs font-semibold uppercase tracking-[0.14em] text-[#e97a52]">Who It&rsquo;s For</p>
-            <h2 className="font-heading mt-3 text-4xl font-bold text-[#1b2a47] md:text-5xl">
+            <h2 className="font-heading mt-3 text-4xl font-bold text-[#3a6697] md:text-5xl">
               Who Benefits From <span className="italic text-[#e97a52]">Transitional Living</span>
             </h2>
           </div>
@@ -198,7 +198,7 @@ export default function TransitionalLivingPage() {
                 <div className="mb-3 flex h-10 w-10 items-center justify-center bg-[#e97a52]/10">
                   <i className={`${item.icon} text-xl text-[#e97a52]`} />
                 </div>
-                <h3 className="font-heading text-base font-bold text-[#1b2a47]">{item.title}</h3>
+                <h3 className="font-heading text-base font-bold text-[#3a6697]">{item.title}</h3>
                 <p className="mt-2 text-sm leading-relaxed text-[#64748b]"><AutoLinkedText>{item.body}</AutoLinkedText></p>
               </div>
             ))}

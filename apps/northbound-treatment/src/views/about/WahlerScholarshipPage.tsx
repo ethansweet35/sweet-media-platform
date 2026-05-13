@@ -6,7 +6,7 @@ export default function WahlerScholarshipPage() {
     <div className="min-h-screen bg-white">
 
       {/* Hero */}
-      <section className="bg-[#1b2a47] py-24">
+      <section className="bg-[#3a6697] py-24">
         <div className="mx-auto max-w-7xl px-6 lg:px-10">
           <p className="mb-4 text-xs font-semibold uppercase tracking-[0.2em] text-[#e97a52]"><AutoLinkedText>{"Financial Assistance"}</AutoLinkedText></p>
           <h1 className="font-heading text-5xl font-bold text-white md:text-6xl">
@@ -24,7 +24,7 @@ export default function WahlerScholarshipPage() {
           <div className="grid gap-12 lg:grid-cols-2">
             <div>
               <p className="mb-3 text-xs font-semibold uppercase tracking-[0.2em] text-[#e97a52]"><AutoLinkedText>{"About the Scholarship"}</AutoLinkedText></p>
-              <h2 className="font-heading text-3xl font-bold text-[#1b2a47] mb-6">
+              <h2 className="font-heading text-3xl font-bold text-[#3a6697] mb-6">
                 Named in Honor of Jason Wahler
               </h2>
               <p className="text-sm leading-7 text-[#64748b] mb-4">
@@ -35,7 +35,7 @@ export default function WahlerScholarshipPage() {
               </p>
             </div>
             <div className="bg-[#eef2f7] p-8 flex flex-col gap-6">
-              <h3 className="font-heading text-xl font-bold text-[#1b2a47]">Eligibility &amp; Application</h3>
+              <h3 className="font-heading text-xl font-bold text-[#3a6697]">Eligibility &amp; Application</h3>
               <ul className="space-y-4">
                 {[
                   "Demonstrated financial need",
@@ -61,7 +61,7 @@ export default function WahlerScholarshipPage() {
       </section>
 
       {/* Also see */}
-      <section className="bg-[#1b2a47] py-20">
+      <section className="bg-[#3a6697] py-20">
         <div className="mx-auto max-w-7xl px-6 lg:px-10 flex flex-col md:flex-row items-center justify-between gap-8">
           <div>
             <h2 className="font-heading text-3xl font-bold text-white md:text-4xl">

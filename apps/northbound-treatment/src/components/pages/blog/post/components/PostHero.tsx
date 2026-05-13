@@ -10,7 +10,7 @@ interface PostHeroProps {
 
 export default function PostHero({ post }: PostHeroProps) {
   return (
-    <section className="relative overflow-hidden bg-[#1b2a47] pb-0 pt-24 lg:pt-28">
+    <section className="relative overflow-hidden bg-[#3a6697] pb-0 pt-24 lg:pt-28">
       {/* Corner accents */}
       <div className="pointer-events-none absolute left-8 top-8 h-16 w-16 border-l-2 border-t-2 border-white/10" />
       <div className="pointer-events-none absolute right-8 top-8 h-16 w-16 border-r-2 border-t-2 border-white/10" />
@@ -112,7 +112,7 @@ export default function PostHero({ post }: PostHeroProps) {
                   className="object-cover object-center"
                 />
                 {/* Gradient overlay at bottom to blend into page */}
-                <div className="absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-[#1b2a47]/60 to-transparent" />
+                <div className="absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-[#3a6697]/60 to-transparent" />
               </div>
             </div>
           )}
@@ -120,7 +120,7 @@ export default function PostHero({ post }: PostHeroProps) {
       </div>
 
       {/* Bottom accent bar */}
-      <div className="h-[3px] bg-gradient-to-r from-[#e97a52] via-[#1b2a47] to-[#e97a52]/30" />
+      <div className="h-[3px] bg-gradient-to-r from-[#e97a52] via-[#3a6697] to-[#e97a52]/30" />
     </section>
   );
 }

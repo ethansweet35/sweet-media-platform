@@ -21,7 +21,7 @@ export default function LgbtqPage() {
     <div className="min-h-screen bg-white">
 
       {/* Hero */}
-      <section className="bg-[#1b2a47] py-24">
+      <section className="bg-[#3a6697] py-24">
         <div className="mx-auto max-w-7xl px-6 lg:px-10">
           <p className="mb-4 text-xs font-semibold uppercase tracking-[0.2em] text-[#e97a52]"><AutoLinkedText>{"Specialized Programs"}</AutoLinkedText></p>
           <h1 className="font-heading text-5xl font-bold text-white md:text-6xl">
@@ -61,7 +61,7 @@ export default function LgbtqPage() {
           <div className="grid gap-16 lg:grid-cols-2 items-start">
             <div>
               <p className="mb-3 text-xs font-semibold uppercase tracking-[0.2em] text-[#e97a52]">Why It Matters</p>
-              <h2 className="font-heading text-4xl font-bold text-[#1b2a47] mb-6 md:text-5xl">
+              <h2 className="font-heading text-4xl font-bold text-[#3a6697] mb-6 md:text-5xl">
                 Affirming Care Changes Outcomes
               </h2>
               <p className="text-sm leading-7 text-[#64748b] mb-4">
@@ -72,7 +72,7 @@ export default function LgbtqPage() {
               </p>
             </div>
             <div className="bg-[#eef2f7] p-8">
-              <h3 className="font-heading text-xl font-bold text-[#1b2a47] mb-6">Our Commitment to You</h3>
+              <h3 className="font-heading text-xl font-bold text-[#3a6697] mb-6">Our Commitment to You</h3>
               <ul className="space-y-4">
                 {[
                   "No discrimination based on sexual orientation or gender identity",
@@ -98,15 +98,15 @@ export default function LgbtqPage() {
         <div className="mx-auto max-w-7xl px-6 lg:px-10">
           <div className="mb-12">
             <p className="mb-3 text-xs font-semibold uppercase tracking-[0.2em] text-[#e97a52]">Program Features</p>
-            <h2 className="font-heading text-4xl font-bold text-[#1b2a47] md:text-5xl">What Makes Our Program Different</h2>
+            <h2 className="font-heading text-4xl font-bold text-[#3a6697] md:text-5xl">What Makes Our Program Different</h2>
           </div>
           <div className="grid gap-px bg-[#cdd8e8] sm:grid-cols-2 lg:grid-cols-3">
             {features.map((f) => (
               <div key={f.title} className="bg-white p-8 flex flex-col gap-4">
-                <span className="flex h-12 w-12 items-center justify-center bg-[#eef2f7] text-[#1b2a47]">
+                <span className="flex h-12 w-12 items-center justify-center bg-[#eef2f7] text-[#3a6697]">
                   <i className={`${f.icon} text-2xl`} />
                 </span>
-                <h3 className="font-heading text-xl font-bold text-[#1b2a47]">{f.title}</h3>
+                <h3 className="font-heading text-xl font-bold text-[#3a6697]">{f.title}</h3>
                 <p className="text-sm leading-7 text-[#64748b]"><AutoLinkedText>{f.body}</AutoLinkedText></p>
               </div>
             ))}
@@ -115,7 +115,7 @@ export default function LgbtqPage() {
       </section>
 
       {/* CTA */}
-      <section className="bg-[#1b2a47] py-20">
+      <section className="bg-[#3a6697] py-20">
         <div className="mx-auto max-w-7xl px-6 lg:px-10 text-center">
           <h2 className="font-heading text-3xl font-bold text-white md:text-4xl">
             You deserve care that sees all of you.

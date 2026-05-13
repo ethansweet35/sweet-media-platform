@@ -22,7 +22,7 @@ export default function AlternativeSentencingPage() {
     <div className="min-h-screen bg-white">
 
       {/* Hero */}
-      <section className="bg-[#1b2a47] py-24">
+      <section className="bg-[#3a6697] py-24">
         <div className="mx-auto max-w-7xl px-6 lg:px-10">
           <p className="mb-4 text-xs font-semibold uppercase tracking-[0.2em] text-[#e97a52]">Admissions</p>
           <h1 className="font-heading text-5xl font-bold text-white md:text-6xl">
@@ -48,7 +48,7 @@ export default function AlternativeSentencingPage() {
           <div className="grid gap-16 lg:grid-cols-2 items-start">
             <div>
               <p className="mb-3 text-xs font-semibold uppercase tracking-[0.2em] text-[#e97a52]">Who This Helps</p>
-              <h2 className="font-heading text-4xl font-bold text-[#1b2a47] mb-6 md:text-5xl">
+              <h2 className="font-heading text-4xl font-bold text-[#3a6697] mb-6 md:text-5xl">
                 Treatment Instead of Incarceration
               </h2>
               <p className="text-sm leading-7 text-[#64748b] mb-4">
@@ -59,7 +59,7 @@ export default function AlternativeSentencingPage() {
               </p>
             </div>
             <div className="bg-[#eef2f7] p-8">
-              <h3 className="font-heading text-xl font-bold text-[#1b2a47] mb-6">Who May Qualify</h3>
+              <h3 className="font-heading text-xl font-bold text-[#3a6697] mb-6">Who May Qualify</h3>
               <ul className="space-y-4">
                 {eligible.map((e) => (
                   <li key={e} className="flex items-start gap-3">
@@ -78,16 +78,16 @@ export default function AlternativeSentencingPage() {
         <div className="mx-auto max-w-7xl px-6 lg:px-10">
           <div className="mb-12">
             <p className="mb-3 text-xs font-semibold uppercase tracking-[0.2em] text-[#e97a52]">The Process</p>
-            <h2 className="font-heading text-4xl font-bold text-[#1b2a47] md:text-5xl">How It Works</h2>
+            <h2 className="font-heading text-4xl font-bold text-[#3a6697] md:text-5xl">How It Works</h2>
           </div>
           <div className="grid gap-px bg-[#cdd8e8] sm:grid-cols-2 lg:grid-cols-4">
             {steps.map((s, i) => (
               <div key={s.title} className="bg-white p-8 flex flex-col gap-4">
                 <div className="flex items-center gap-3">
                   <span className="flex h-10 w-10 items-center justify-center bg-[#e97a52] text-white text-xs font-bold">{i + 1}</span>
-                  <i className={`${s.icon} text-xl text-[#1b2a47]`} />
+                  <i className={`${s.icon} text-xl text-[#3a6697]`} />
                 </div>
-                <h3 className="font-heading text-lg font-bold text-[#1b2a47]">{s.title}</h3>
+                <h3 className="font-heading text-lg font-bold text-[#3a6697]">{s.title}</h3>
                 <p className="text-sm leading-7 text-[#64748b]"><AutoLinkedText>{s.body}</AutoLinkedText></p>
               </div>
             ))}
@@ -96,7 +96,7 @@ export default function AlternativeSentencingPage() {
       </section>
 
       {/* CTA */}
-      <section className="bg-[#1b2a47] py-20">
+      <section className="bg-[#3a6697] py-20">
         <div className="mx-auto max-w-7xl px-6 lg:px-10 flex flex-col md:flex-row items-center justify-between gap-8">
           <div>
             <h2 className="font-heading text-3xl font-bold text-white md:text-4xl">

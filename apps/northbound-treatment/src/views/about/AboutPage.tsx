@@ -25,7 +25,7 @@ export default function AboutPage() {
     <div className="min-h-screen bg-white">
 
       {/* Hero */}
-      <section className="bg-[#1b2a47] py-24">
+      <section className="bg-[#3a6697] py-24">
         <div className="mx-auto max-w-7xl px-6 lg:px-10">
           <p className="mb-4 text-xs font-semibold uppercase tracking-[0.2em] text-[#e97a52]">Who We Are</p>
           <h1 className="font-heading text-5xl font-bold text-white md:text-6xl lg:text-7xl">
@@ -51,7 +51,7 @@ export default function AboutPage() {
           <div className="grid gap-16 lg:grid-cols-2 items-center">
             <div>
               <p className="mb-3 text-xs font-semibold uppercase tracking-[0.2em] text-[#e97a52]">Our Story</p>
-              <h2 className="font-heading text-4xl font-bold text-[#1b2a47] mb-6 md:text-5xl">
+              <h2 className="font-heading text-4xl font-bold text-[#3a6697] mb-6 md:text-5xl">
                 From a Local IOP to a National Leader
               </h2>
               <p className="text-sm leading-7 text-[#64748b] mb-4">
@@ -85,7 +85,7 @@ export default function AboutPage() {
       </section>
 
       {/* Mission */}
-      <section className="py-20 bg-[#1b2a47]">
+      <section className="py-20 bg-[#3a6697]">
         <div className="mx-auto max-w-5xl px-6 lg:px-10 text-center">
           <p className="mb-4 text-xs font-semibold uppercase tracking-[0.2em] text-[#e97a52]">Our Mission</p>
           <h2 className="font-heading text-3xl font-bold text-white md:text-4xl leading-snug">
@@ -101,7 +101,7 @@ export default function AboutPage() {
               { value: "15+", label: "Insurance Plans" },
               { value: "4.6★", label: "Google Rating" },
             ].map((s) => (
-              <div key={s.label} className="bg-[#1b2a47] py-8 px-4">
+              <div key={s.label} className="bg-[#3a6697] py-8 px-4">
                 <p className="font-heading text-3xl font-bold text-[#e97a52]"><AutoLinkedText>{s.value}</AutoLinkedText></p>
                 <p className="mt-1 text-xs font-semibold uppercase tracking-[0.1em] text-white/60"><AutoLinkedText>{s.label}</AutoLinkedText></p>
               </div>
@@ -127,17 +127,17 @@ export default function AboutPage() {
             </div>
             <div>
               <p className="mb-3 text-xs font-semibold uppercase tracking-[0.2em] text-[#e97a52]">Our Philosophy</p>
-              <h2 className="font-heading text-4xl font-bold text-[#1b2a47] mb-10 md:text-5xl">
+              <h2 className="font-heading text-4xl font-bold text-[#3a6697] mb-10 md:text-5xl">
                 How We Think About Recovery
               </h2>
               <div className="space-y-8">
                 {philosophyPoints.map((p) => (
                   <div key={p.title} className="flex items-start gap-5">
-                    <span className="flex h-11 w-11 shrink-0 items-center justify-center bg-[#1b2a47] text-white">
+                    <span className="flex h-11 w-11 shrink-0 items-center justify-center bg-[#3a6697] text-white">
                       <i className={`${p.icon} text-xl`} />
                     </span>
                     <div>
-                      <h3 className="font-heading text-lg font-bold text-[#1b2a47] mb-1">{p.title}</h3>
+                      <h3 className="font-heading text-lg font-bold text-[#3a6697] mb-1">{p.title}</h3>
                       <p className="text-sm leading-7 text-[#64748b]"><AutoLinkedText>{p.body}</AutoLinkedText></p>
                     </div>
                   </div>
@@ -153,15 +153,15 @@ export default function AboutPage() {
         <div className="mx-auto max-w-7xl px-6 lg:px-10">
           <div className="mb-12">
             <p className="mb-3 text-xs font-semibold uppercase tracking-[0.2em] text-[#e97a52]">Learn More</p>
-            <h2 className="font-heading text-4xl font-bold text-[#1b2a47] md:text-5xl">Explore Northbound</h2>
+            <h2 className="font-heading text-4xl font-bold text-[#3a6697] md:text-5xl">Explore Northbound</h2>
           </div>
           <div className="grid gap-px bg-[#cdd8e8] sm:grid-cols-2 lg:grid-cols-3">
             {subPages.map((p) => (
               <Link key={p.label} href={p.href} className="group bg-white p-8 flex flex-col gap-3 hover:bg-[#eef2f7] transition-colors">
-                <span className="flex h-12 w-12 items-center justify-center bg-[#eef2f7] text-[#1b2a47] group-hover:bg-white transition-colors">
+                <span className="flex h-12 w-12 items-center justify-center bg-[#eef2f7] text-[#3a6697] group-hover:bg-white transition-colors">
                   <i className={`${p.icon} text-2xl`} />
                 </span>
-                <h3 className="font-heading text-xl font-bold text-[#1b2a47]">{p.label}</h3>
+                <h3 className="font-heading text-xl font-bold text-[#3a6697]">{p.label}</h3>
                 <p className="text-sm leading-6 text-[#64748b] flex-1"><AutoLinkedText>{p.desc}</AutoLinkedText></p>
                 <span className="text-xs font-semibold text-[#e97a52] flex items-center gap-1 mt-1">
                   Learn more <i className="ri-arrow-right-line" />
@@ -173,7 +173,7 @@ export default function AboutPage() {
       </section>
 
       {/* CTA */}
-      <section className="bg-[#1b2a47] py-20">
+      <section className="bg-[#3a6697] py-20">
         <div className="mx-auto max-w-7xl px-6 lg:px-10 flex flex-col md:flex-row items-center justify-between gap-8">
           <div>
             <h2 className="font-heading text-3xl font-bold text-white md:text-4xl">

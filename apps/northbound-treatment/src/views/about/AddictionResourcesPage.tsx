@@ -29,7 +29,7 @@ export default function AddictionResourcesPage() {
     <div className="min-h-screen bg-white">
 
       {/* Hero */}
-      <section className="bg-[#1b2a47] py-24">
+      <section className="bg-[#3a6697] py-24">
         <div className="mx-auto max-w-7xl px-6 lg:px-10">
           <p className="mb-4 text-xs font-semibold uppercase tracking-[0.2em] text-[#e97a52]">What We Treat</p>
           <h1 className="font-heading text-5xl font-bold text-white md:text-6xl">
@@ -46,7 +46,7 @@ export default function AddictionResourcesPage() {
         <div className="mx-auto max-w-7xl px-6 lg:px-10">
           <div className="mb-12">
             <p className="mb-3 text-xs font-semibold uppercase tracking-[0.2em] text-[#e97a52]">Levels of Care</p>
-            <h2 className="font-heading text-4xl font-bold text-[#1b2a47] md:text-5xl">Treatment Programs</h2>
+            <h2 className="font-heading text-4xl font-bold text-[#3a6697] md:text-5xl">Treatment Programs</h2>
             <p className="mt-4 max-w-2xl text-[#64748b] leading-7">
               <AutoLinkedText>{"We understand that everyone&apos;s addiction story is different. Our full continuum of care\n              ensures every client gets exactly the level of support they need — from acute medical\n              detox through long-term sober living."}</AutoLinkedText>
             </p>
@@ -54,10 +54,10 @@ export default function AddictionResourcesPage() {
           <div className="grid gap-px bg-[#cdd8e8] sm:grid-cols-2 lg:grid-cols-4">
             {programs.map((p) => (
               <Link key={p.label} href={p.href} className="group bg-white p-8 flex flex-col gap-3 hover:bg-[#eef2f7] transition-colors">
-                <span className="flex h-12 w-12 items-center justify-center bg-[#eef2f7] text-[#1b2a47] group-hover:bg-white transition-colors">
+                <span className="flex h-12 w-12 items-center justify-center bg-[#eef2f7] text-[#3a6697] group-hover:bg-white transition-colors">
                   <i className={`${p.icon} text-2xl`} />
                 </span>
-                <h3 className="font-heading text-lg font-bold text-[#1b2a47]">{p.label}</h3>
+                <h3 className="font-heading text-lg font-bold text-[#3a6697]">{p.label}</h3>
                 <p className="text-sm text-[#64748b] leading-6"><AutoLinkedText>{p.desc}</AutoLinkedText></p>
                 <span className="mt-auto text-xs font-semibold text-[#e97a52] flex items-center gap-1">
                   Learn more <i className="ri-arrow-right-line" />
@@ -73,14 +73,14 @@ export default function AddictionResourcesPage() {
         <div className="mx-auto max-w-7xl px-6 lg:px-10">
           <div className="mb-10">
             <p className="mb-3 text-xs font-semibold uppercase tracking-[0.2em] text-[#e97a52]">Substance Addiction</p>
-            <h2 className="font-heading text-4xl font-bold text-[#1b2a47] md:text-5xl">What We Treat</h2>
+            <h2 className="font-heading text-4xl font-bold text-[#3a6697] md:text-5xl">What We Treat</h2>
           </div>
           <div className="flex flex-wrap gap-3">
             {substances.map((s) => (
               <Link
                 key={s.label}
                 href={s.href}
-                className="border border-[#cdd8e8] bg-white px-5 py-3 text-sm font-semibold text-[#1b2a47] hover:border-[#e97a52] hover:text-[#e97a52] transition-colors"
+                className="border border-[#cdd8e8] bg-white px-5 py-3 text-sm font-semibold text-[#3a6697] hover:border-[#e97a52] hover:text-[#e97a52] transition-colors"
               >
                 {s.label}
               </Link>
@@ -90,7 +90,7 @@ export default function AddictionResourcesPage() {
       </section>
 
       {/* CTA */}
-      <section className="bg-[#1b2a47] py-20">
+      <section className="bg-[#3a6697] py-20">
         <div className="mx-auto max-w-7xl px-6 lg:px-10 flex flex-col md:flex-row items-center justify-between gap-8">
           <div>
             <h2 className="font-heading text-3xl font-bold text-white md:text-4xl">Not sure where to start?</h2>

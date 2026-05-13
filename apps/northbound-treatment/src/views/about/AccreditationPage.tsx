@@ -42,7 +42,7 @@ export default function AccreditationPage() {
     <div className="min-h-screen bg-white">
 
       {/* Hero */}
-      <section className="bg-[#1b2a47] py-24">
+      <section className="bg-[#3a6697] py-24">
         <div className="mx-auto max-w-7xl px-6 lg:px-10">
           <p className="mb-4 text-xs font-semibold uppercase tracking-[0.2em] text-[#e97a52]">Our Standards</p>
           <h1 className="font-heading text-5xl font-bold text-white md:text-6xl">
@@ -59,15 +59,15 @@ export default function AccreditationPage() {
         <div className="mx-auto max-w-7xl px-6 lg:px-10">
           <div className="mb-12">
             <p className="mb-3 text-xs font-semibold uppercase tracking-[0.2em] text-[#e97a52]"><AutoLinkedText>{"Certified &amp; Accredited"}</AutoLinkedText></p>
-            <h2 className="font-heading text-4xl font-bold text-[#1b2a47] md:text-5xl">Our Accreditations</h2>
+            <h2 className="font-heading text-4xl font-bold text-[#3a6697] md:text-5xl">Our Accreditations</h2>
           </div>
           <div className="grid gap-px bg-[#cdd8e8] sm:grid-cols-2 lg:grid-cols-3">
             {accreditations.map((a) => (
               <div key={a.name} className="bg-white p-8 flex flex-col gap-4">
-                <span className="flex h-12 w-12 items-center justify-center bg-[#eef2f7] text-[#1b2a47]">
+                <span className="flex h-12 w-12 items-center justify-center bg-[#eef2f7] text-[#3a6697]">
                   <i className={`${a.icon} text-2xl`} />
                 </span>
-                <h3 className="font-heading text-lg font-bold text-[#1b2a47]">{a.name}</h3>
+                <h3 className="font-heading text-lg font-bold text-[#3a6697]">{a.name}</h3>
                 <p className="text-sm leading-7 text-[#64748b]"><AutoLinkedText>{a.body}</AutoLinkedText></p>
               </div>
             ))}
@@ -80,13 +80,13 @@ export default function AccreditationPage() {
         <div className="mx-auto max-w-7xl px-6 lg:px-10">
           <div className="mb-10">
             <p className="mb-3 text-xs font-semibold uppercase tracking-[0.2em] text-[#e97a52]"><AutoLinkedText>{"Recognized Excellence"}</AutoLinkedText></p>
-            <h2 className="font-heading text-4xl font-bold text-[#1b2a47] md:text-5xl">Awards &amp; Recognition</h2>
+            <h2 className="font-heading text-4xl font-bold text-[#3a6697] md:text-5xl">Awards &amp; Recognition</h2>
           </div>
           <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {awards.map((a) => (
               <li key={a} className="flex items-start gap-3 bg-white border border-[#cdd8e8] px-6 py-5">
                 <i className="ri-star-fill text-[#e97a52] mt-0.5 shrink-0" />
-                <span className="text-sm font-medium text-[#1b2a47]">{a}</span>
+                <span className="text-sm font-medium text-[#3a6697]">{a}</span>
               </li>
             ))}
           </ul>
@@ -94,7 +94,7 @@ export default function AccreditationPage() {
       </section>
 
       {/* CTA */}
-      <section className="bg-[#1b2a47] py-20">
+      <section className="bg-[#3a6697] py-20">
         <div className="mx-auto max-w-7xl px-6 lg:px-10 text-center">
           <h2 className="font-heading text-3xl font-bold text-white md:text-4xl">
             Choose a program you can trust.

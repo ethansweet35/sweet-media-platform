@@ -46,14 +46,14 @@ type FormState = "idle" | "submitting" | "success" | "error";
 
 function Label({ children }: { children: React.ReactNode }) {
   return (
-    <label className="block text-xs font-semibold uppercase tracking-[0.12em] text-[#1b2a47] mb-1.5">
+    <label className="block text-xs font-semibold uppercase tracking-[0.12em] text-[#3a6697] mb-1.5">
       {children}
     </label>
   );
 }
 
 const inputCls =
-  "w-full border border-[#cdd8e8] bg-white px-4 py-3 text-sm text-[#1b2a47] placeholder:text-[#94a3b8] focus:border-[#e97a52] focus:outline-none transition-colors";
+  "w-full border border-[#cdd8e8] bg-white px-4 py-3 text-sm text-[#3a6697] placeholder:text-[#94a3b8] focus:border-[#e97a52] focus:outline-none transition-colors";
 
 export default function ContactPage() {
   const [formState, setFormState] = useState<FormState>("idle");
@@ -85,7 +85,7 @@ export default function ContactPage() {
     <div className="min-h-screen bg-white">
 
       {/* Hero */}
-      <section className="bg-[#1b2a47] py-20">
+      <section className="bg-[#3a6697] py-20">
         <div className="mx-auto max-w-7xl px-6 lg:px-10">
           <p className="mb-4 text-xs font-semibold uppercase tracking-[0.2em] text-[#e97a52]"><AutoLinkedTextClient>{"We&apos;re Here to Help"}</AutoLinkedTextClient></p>
           <h1 className="font-heading text-5xl font-bold text-white md:text-6xl">
@@ -113,14 +113,14 @@ export default function ContactPage() {
             {/* Form */}
             <div>
               <p className="mb-3 text-xs font-semibold uppercase tracking-[0.2em] text-[#e97a52]">Start Your Journey</p>
-              <h2 className="font-heading text-3xl font-bold text-[#1b2a47] mb-8">
+              <h2 className="font-heading text-3xl font-bold text-[#3a6697] mb-8">
                 Tell Us About Yourself
               </h2>
 
               {formState === "success" ? (
                 <div className="border border-[#cdd8e8] bg-[#eef2f7] p-10 text-center">
                   <i className="ri-checkbox-circle-line text-4xl text-[#e97a52]" />
-                  <h3 className="font-heading text-2xl font-bold text-[#1b2a47] mt-4">Thank you — we&apos;ll be in touch shortly.</h3>
+                  <h3 className="font-heading text-2xl font-bold text-[#3a6697] mt-4">Thank you — we&apos;ll be in touch shortly.</h3>
                   <p className="mt-3 text-sm text-[#64748b] max-w-md mx-auto">
                     One of our admissions specialists will reach out to you within 24 hours.
                     For immediate help, call us at <a href="tel:8663110003" className="font-semibold text-[#e97a52]">(866) 311-0003</a>.
@@ -140,8 +140,8 @@ export default function ContactPage() {
                           onClick={() => setSeekingFor(opt)}
                           className={`flex-1 py-3 text-sm font-semibold border transition-colors ${
                             seekingFor === opt
-                              ? "bg-[#1b2a47] text-white border-[#1b2a47]"
-                              : "bg-white text-[#64748b] border-[#cdd8e8] hover:border-[#1b2a47]"
+                              ? "bg-[#3a6697] text-white border-[#3a6697]"
+                              : "bg-white text-[#64748b] border-[#cdd8e8] hover:border-[#3a6697]"
                           }`}
                         >
                           {opt}
@@ -242,7 +242,7 @@ export default function ContactPage() {
             <div className="space-y-8">
 
               {/* Phone CTA */}
-              <div className="bg-[#1b2a47] p-8">
+              <div className="bg-[#3a6697] p-8">
                 <p className="text-xs font-semibold uppercase tracking-[0.15em] text-[#e97a52] mb-3">
                   Immediate Help
                 </p>
@@ -267,7 +267,7 @@ export default function ContactPage() {
                 <p className="text-sm text-[#64748b] leading-6 mb-4">
                   <AutoLinkedTextClient>{"We&apos;re in-network with 15+ major insurance plans. Verify your coverage at no cost — in minutes."}</AutoLinkedTextClient>
                 </p>
-                <Link href="/insurance/" className="inline-flex items-center gap-1.5 text-sm font-semibold text-[#1b2a47] hover:text-[#e97a52] transition-colors">
+                <Link href="/insurance/" className="inline-flex items-center gap-1.5 text-sm font-semibold text-[#3a6697] hover:text-[#e97a52] transition-colors">
                   Verify Insurance <i className="ri-arrow-right-line" />
                 </Link>
               </div>
@@ -280,7 +280,7 @@ export default function ContactPage() {
                     <Link key={loc.name} href={loc.href} className="group flex items-start gap-3 hover:text-[#e97a52] transition-colors">
                       <i className={`${loc.icon} text-[#e97a52] mt-0.5 shrink-0`} />
                       <div>
-                        <p className="text-sm font-semibold text-[#1b2a47] group-hover:text-[#e97a52] transition-colors"><AutoLinkedTextClient>{loc.name}</AutoLinkedTextClient></p>
+                        <p className="text-sm font-semibold text-[#3a6697] group-hover:text-[#e97a52] transition-colors"><AutoLinkedTextClient>{loc.name}</AutoLinkedTextClient></p>
                         <p className="text-xs text-[#64748b]"><AutoLinkedTextClient>{loc.address}</AutoLinkedTextClient></p>
                       </div>
                     </Link>
@@ -292,7 +292,7 @@ export default function ContactPage() {
               <div className="bg-[#eef2f7] p-6">
                 <div className="flex items-center gap-3 mb-3">
                   <i className="ri-award-2-line text-[#e97a52] text-xl" />
-                  <p className="text-sm font-semibold text-[#1b2a47]">JCAHO Accredited</p>
+                  <p className="text-sm font-semibold text-[#3a6697]">JCAHO Accredited</p>
                 </div>
                 <div className="flex items-center gap-3">
                   <i className="ri-star-fill text-[#e97a52]" />
@@ -309,12 +309,12 @@ export default function ContactPage() {
       <section className="py-16 bg-[#eef2f7] border-t border-[#cdd8e8]">
         <div className="mx-auto max-w-7xl px-6 lg:px-10">
           <p className="mb-3 text-xs font-semibold uppercase tracking-[0.2em] text-[#e97a52]">Find Us</p>
-          <h2 className="font-heading text-3xl font-bold text-[#1b2a47] mb-10">Our Treatment Centers</h2>
+          <h2 className="font-heading text-3xl font-bold text-[#3a6697] mb-10">Our Treatment Centers</h2>
           <div className="grid gap-px bg-[#cdd8e8] sm:grid-cols-2 lg:grid-cols-4">
             {locations.map((loc) => (
-              <Link key={loc.name} href={loc.href} className="group bg-white p-6 flex flex-col gap-3 hover:bg-[#1b2a47] transition-colors">
+              <Link key={loc.name} href={loc.href} className="group bg-white p-6 flex flex-col gap-3 hover:bg-[#3a6697] transition-colors">
                 <i className={`${loc.icon} text-2xl text-[#e97a52]`} />
-                <p className="font-heading text-base font-bold text-[#1b2a47] group-hover:text-white transition-colors"><AutoLinkedTextClient>{loc.name}</AutoLinkedTextClient></p>
+                <p className="font-heading text-base font-bold text-[#3a6697] group-hover:text-white transition-colors"><AutoLinkedTextClient>{loc.name}</AutoLinkedTextClient></p>
                 <p className="text-xs text-[#64748b] group-hover:text-white/70 transition-colors"><AutoLinkedTextClient>{loc.address}</AutoLinkedTextClient></p>
                 <span className="mt-auto text-xs font-semibold text-[#e97a52] flex items-center gap-1">
                   View location <i className="ri-arrow-right-line" />

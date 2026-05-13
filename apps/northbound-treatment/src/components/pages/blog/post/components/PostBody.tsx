@@ -17,7 +17,7 @@ function AutoLinkedText({ segments }: { segments: LinkSegment[] }) {
           <Link
             key={i}
             href={seg.href ?? "/"}
-            className="font-medium text-[#e97a52] underline underline-offset-2 transition-colors hover:text-[#1b2a47]"
+            className="font-medium text-[#e97a52] underline underline-offset-2 transition-colors hover:text-[#3a6697]"
           >
             {seg.content}
           </Link>
@@ -43,14 +43,14 @@ function InlineText({
   const inlineSegments: InlineSegment[] = parseInlineLinks(text);
 
   const linkClass =
-    "font-medium text-[#e97a52] underline underline-offset-2 transition-colors hover:text-[#1b2a47]";
+    "font-medium text-[#e97a52] underline underline-offset-2 transition-colors hover:text-[#3a6697]";
 
   return (
     <>
       {inlineSegments.map((seg, i) => {
         // Bold
         if (seg.type === "bold") {
-          return <strong key={i} className="font-bold text-[#1b2a47]">{seg.content}</strong>;
+          return <strong key={i} className="font-bold text-[#3a6697]">{seg.content}</strong>;
         }
 
         // Italic
@@ -60,7 +60,7 @@ function InlineText({
 
         // Bold + italic
         if (seg.type === "bolditalic") {
-          return <strong key={i} className="font-bold text-[#1b2a47]"><em>{seg.content}</em></strong>;
+          return <strong key={i} className="font-bold text-[#3a6697]"><em>{seg.content}</em></strong>;
         }
 
         // Explicit markdown link
@@ -130,7 +130,7 @@ export default function PostBody({ sections, autoLinkMap, currentSlug, usedHrefs
             return (
               <h2
                 key={i}
-                className="font-heading mt-12 mb-5 border-l-[3px] border-[#e97a52] pl-4 text-2xl font-bold text-[#1b2a47] md:text-[1.625rem]"
+                className="font-heading mt-12 mb-5 border-l-[3px] border-[#e97a52] pl-4 text-2xl font-bold text-[#3a6697] md:text-[1.625rem]"
               >
                 <InlineText
                   text={section.text ?? ""}
@@ -146,7 +146,7 @@ export default function PostBody({ sections, autoLinkMap, currentSlug, usedHrefs
             return (
               <h3
                 key={i}
-                className="font-heading mt-8 mb-3 text-lg font-bold text-[#1b2a47] md:text-xl"
+                className="font-heading mt-8 mb-3 text-lg font-bold text-[#3a6697] md:text-xl"
               >
                 <InlineText
                   text={section.text ?? ""}
@@ -164,7 +164,7 @@ export default function PostBody({ sections, autoLinkMap, currentSlug, usedHrefs
                 key={i}
                 className="relative my-10 border-l-4 border-[#e97a52] bg-[#eef2f7] py-6 pl-8 pr-6"
               >
-                <p className="font-heading text-xl font-bold italic leading-relaxed text-[#1b2a47] md:text-2xl">
+                <p className="font-heading text-xl font-bold italic leading-relaxed text-[#3a6697] md:text-2xl">
                   &ldquo;
                   <InlineText
                     text={section.text ?? ""}
@@ -186,7 +186,7 @@ export default function PostBody({ sections, autoLinkMap, currentSlug, usedHrefs
                     ? "border-amber-400 bg-amber-50"
                     : section.variant === "tip"
                       ? "border-[#e97a52] bg-[#eef2f7]"
-                      : "border-[#1b2a47] bg-[#eef2f7]"
+                      : "border-[#3a6697] bg-[#eef2f7]"
                 }`}
               >
                 <div
@@ -195,7 +195,7 @@ export default function PostBody({ sections, autoLinkMap, currentSlug, usedHrefs
                       ? "text-amber-500"
                       : section.variant === "tip"
                         ? "text-[#e97a52]"
-                        : "text-[#1b2a47]"
+                        : "text-[#3a6697]"
                   }`}
                 >
                   <i
@@ -210,7 +210,7 @@ export default function PostBody({ sections, autoLinkMap, currentSlug, usedHrefs
                 </div>
                 <p
                   className={`text-sm leading-relaxed ${
-                    section.variant === "warning" ? "text-amber-800" : "text-[#1b2a47]"
+                    section.variant === "warning" ? "text-amber-800" : "text-[#3a6697]"
                   }`}
                 >
                   {section.text}
@@ -244,7 +244,7 @@ export default function PostBody({ sections, autoLinkMap, currentSlug, usedHrefs
               <ol key={i} className="my-6 space-y-4">
                 {section.items?.map((item, j) => (
                   <li key={j} className="flex gap-4 text-base leading-relaxed text-[#4b5563]">
-                    <span className="flex h-7 w-7 shrink-0 items-center justify-center bg-[#1b2a47] text-[11px] font-bold text-white">
+                    <span className="flex h-7 w-7 shrink-0 items-center justify-center bg-[#3a6697] text-[11px] font-bold text-white">
                       {j + 1}
                     </span>
                     <span className="pt-0.5">
@@ -264,7 +264,7 @@ export default function PostBody({ sections, autoLinkMap, currentSlug, usedHrefs
             return (
               <div key={i} className="my-10 grid grid-cols-1 gap-px bg-[#cdd8e8] sm:grid-cols-3">
                 {section.stats?.map((stat, j) => (
-                  <div key={j} className="bg-[#1b2a47] p-6 text-center">
+                  <div key={j} className="bg-[#3a6697] p-6 text-center">
                     <p className="font-heading text-3xl font-bold text-[#e97a52] md:text-4xl">
                       {stat.value}
                     </p>
@@ -282,7 +282,7 @@ export default function PostBody({ sections, autoLinkMap, currentSlug, usedHrefs
                 <table className="w-full border-collapse text-left text-sm">
                   {section.tableHeaders && section.tableHeaders.length > 0 && (
                     <thead>
-                      <tr className="bg-[#1b2a47]">
+                      <tr className="bg-[#3a6697]">
                         {section.tableHeaders.map((header, j) => (
                           <th
                             key={j}
@@ -304,7 +304,7 @@ export default function PostBody({ sections, autoLinkMap, currentSlug, usedHrefs
                           <td
                             key={k}
                             className={`border-t border-[#cdd8e8] px-4 py-3 leading-relaxed text-[#64748b] ${
-                              k === 0 ? "font-semibold text-[#1b2a47]" : ""
+                              k === 0 ? "font-semibold text-[#3a6697]" : ""
                             }`}
                           >
                             <InlineText

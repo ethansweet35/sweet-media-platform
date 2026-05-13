@@ -107,7 +107,7 @@ export default function MentalHealthHubPage() {
   return (
     <>
       {/* ── HERO ──────────────────────────────────────────────────────── */}
-      <section className="relative overflow-hidden bg-[#1b2a47]">
+      <section className="relative overflow-hidden bg-[#3a6697]">
         <div className="absolute inset-0">
           <Image
             src={`${BASE}/nbt_mh_hub_hero01.jpg`}
@@ -117,7 +117,7 @@ export default function MentalHealthHubPage() {
             priority
             sizes="100vw"
           />
-          <div className="absolute inset-0 bg-gradient-to-r from-[#1b2a47]/95 via-[#1b2a47]/85 to-[#1b2a47]/50" />
+          <div className="absolute inset-0 bg-gradient-to-r from-[#3a6697]/95 via-[#3a6697]/85 to-[#3a6697]/50" />
         </div>
         <div className="relative z-10 mx-auto w-full max-w-7xl px-6 pb-16 pt-28 lg:px-10 lg:pb-20 lg:pt-36">
           <div className="max-w-3xl">
@@ -165,7 +165,7 @@ export default function MentalHealthHubPage() {
               <p className="text-xs font-semibold uppercase tracking-[0.14em] text-[#e97a52]">
                 <AutoLinkedText>{"Why Co-Occurring Disorders Require Integrated Care"}</AutoLinkedText>
               </p>
-              <h2 className="font-heading mt-3 text-4xl font-bold text-[#1b2a47] md:text-5xl">
+              <h2 className="font-heading mt-3 text-4xl font-bold text-[#3a6697] md:text-5xl">
                 You Can&apos;t Treat One Without <span className="italic text-[#e97a52]">the Other</span>
               </h2>
               <p className="mt-5 leading-relaxed text-[#64748b]">
@@ -188,7 +188,7 @@ export default function MentalHealthHubPage() {
                   sizes="(max-width: 1024px) 100vw, 50vw"
                 />
               </div>
-              <div className="absolute -bottom-5 -right-5 bg-[#1b2a47] px-6 py-5 shadow-xl">
+              <div className="absolute -bottom-5 -right-5 bg-[#3a6697] px-6 py-5 shadow-xl">
                 <p className="font-heading text-3xl font-bold text-white">50%+</p>
                 <p className="mt-0.5 text-xs font-semibold uppercase tracking-[0.12em] text-[#e97a52]">
                   <AutoLinkedText>{"of addiction clients have co-occurring mental health conditions"}</AutoLinkedText>
@@ -206,7 +206,7 @@ export default function MentalHealthHubPage() {
             <p className="text-xs font-semibold uppercase tracking-[0.14em] text-[#e97a52]">
               Conditions We Treat
             </p>
-            <h2 className="font-heading mt-3 text-4xl font-bold text-[#1b2a47] md:text-5xl">
+            <h2 className="font-heading mt-3 text-4xl font-bold text-[#3a6697] md:text-5xl">
               Mental Health Disorders We <span className="italic text-[#e97a52]">Specialize In</span>
             </h2>
             <p className="mt-4 max-w-2xl leading-relaxed text-[#64748b]">
@@ -228,7 +228,7 @@ export default function MentalHealthHubPage() {
                     {cond.tag}
                   </span>
                 </div>
-                <h3 className="font-heading text-lg font-bold text-[#1b2a47]">{cond.name}</h3>
+                <h3 className="font-heading text-lg font-bold text-[#3a6697]">{cond.name}</h3>
                 <p className="mt-2 text-sm leading-relaxed text-[#64748b]"><AutoLinkedText>{cond.description}</AutoLinkedText></p>
                 <p className="mt-4 flex items-center gap-1 text-xs font-semibold text-[#e97a52]">
                   Learn more <i className="ri-arrow-right-line transition group-hover:translate-x-1" />
@@ -240,7 +240,7 @@ export default function MentalHealthHubPage() {
       </section>
 
       {/* ── WHY NORTHBOUND ────────────────────────────────────────────── */}
-      <section className="bg-[#1b2a47] py-16 lg:py-24">
+      <section className="bg-[#3a6697] py-16 lg:py-24">
         <div className="mx-auto w-full max-w-7xl px-6 lg:px-10">
           <div className="mb-12">
             <p className="text-xs font-semibold uppercase tracking-[0.14em] text-[#e97a52]">

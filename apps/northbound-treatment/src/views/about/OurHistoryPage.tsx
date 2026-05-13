@@ -44,7 +44,7 @@ export default function OurHistoryPage() {
     <div className="min-h-screen bg-white">
 
       {/* Hero */}
-      <section className="bg-[#1b2a47] py-24">
+      <section className="bg-[#3a6697] py-24">
         <div className="mx-auto max-w-7xl px-6 lg:px-10">
           <p className="mb-4 text-xs font-semibold uppercase tracking-[0.2em] text-[#e97a52]">About Northbound</p>
           <h1 className="font-heading text-5xl font-bold text-white md:text-6xl">
@@ -66,7 +66,7 @@ export default function OurHistoryPage() {
                   {m.year.length <= 4 ? m.year.slice(-2) : "★"}
                 </div>
                 <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#e97a52] mb-1"><AutoLinkedText>{m.year}</AutoLinkedText></p>
-                <h3 className="font-heading text-2xl font-bold text-[#1b2a47] mb-3">{m.title}</h3>
+                <h3 className="font-heading text-2xl font-bold text-[#3a6697] mb-3">{m.title}</h3>
                 <p className="text-sm leading-7 text-[#64748b] max-w-2xl"><AutoLinkedText>{m.body}</AutoLinkedText></p>
               </div>
             ))}
@@ -78,7 +78,7 @@ export default function OurHistoryPage() {
       <section className="bg-[#eef2f7] py-20">
         <div className="mx-auto max-w-7xl px-6 lg:px-10 flex flex-col md:flex-row items-center justify-between gap-8">
           <div>
-            <h2 className="font-heading text-3xl font-bold text-[#1b2a47] md:text-4xl">
+            <h2 className="font-heading text-3xl font-bold text-[#3a6697] md:text-4xl">
               Ready to write your own recovery story?
             </h2>
             <p className="mt-3 text-[#64748b]"><AutoLinkedText>{"Our admissions team is available 24/7."}</AutoLinkedText></p>

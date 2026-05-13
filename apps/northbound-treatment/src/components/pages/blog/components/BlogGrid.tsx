@@ -44,7 +44,7 @@ export default function BlogGrid({ searchQuery, lockedCategoryName }: BlogGridPr
                 {isSearching ? `Results for "${searchQuery}"` : "Latest Articles"}
               </span>
             </div>
-            <h2 className="font-heading text-3xl font-bold text-[#1b2a47] md:text-4xl">
+            <h2 className="font-heading text-3xl font-bold text-[#3a6697] md:text-4xl">
               {isSearching
                 ? `${filtered.length} Article${filtered.length !== 1 ? "s" : ""} Found`
                 : "All Insights"}
@@ -60,8 +60,8 @@ export default function BlogGrid({ searchQuery, lockedCategoryName }: BlogGridPr
                   onClick={() => setActiveCategory(cat)}
                   className={`px-4 py-2 text-[11px] font-semibold uppercase tracking-[0.12em] transition-all duration-200 cursor-pointer whitespace-nowrap ${
                     activeCategory === cat
-                      ? "bg-[#1b2a47] text-white"
-                      : "border border-[#cdd8e8] bg-white text-[#64748b] hover:border-[#1b2a47] hover:text-[#1b2a47]"
+                      ? "bg-[#3a6697] text-white"
+                      : "border border-[#cdd8e8] bg-white text-[#64748b] hover:border-[#3a6697] hover:text-[#3a6697]"
                   }`}
                 >
                   {cat}
@@ -106,7 +106,7 @@ export default function BlogGrid({ searchQuery, lockedCategoryName }: BlogGridPr
                   />
                   {/* Left-edge category tag */}
                   <div className="absolute left-0 top-4">
-                    <span className="bg-[#1b2a47] px-3 py-1 text-[9px] font-bold uppercase tracking-[0.2em] text-white">
+                    <span className="bg-[#3a6697] px-3 py-1 text-[9px] font-bold uppercase tracking-[0.2em] text-white">
                       {post.category}
                     </span>
                   </div>
@@ -121,7 +121,7 @@ export default function BlogGrid({ searchQuery, lockedCategoryName }: BlogGridPr
                     <span className="text-[11px] text-[#94a3b8]">{post.readTime}</span>
                   </div>
 
-                  <h3 className="font-heading mb-3 text-lg font-bold leading-snug text-[#1b2a47] group-hover:text-[#e97a52] transition-colors duration-200">
+                  <h3 className="font-heading mb-3 text-lg font-bold leading-snug text-[#3a6697] group-hover:text-[#e97a52] transition-colors duration-200">
                     {post.title}
                   </h3>
 
@@ -132,7 +132,7 @@ export default function BlogGrid({ searchQuery, lockedCategoryName }: BlogGridPr
                   {/* Footer */}
                   <div className="mt-auto flex items-center justify-between border-t border-[#eef2f7] pt-4">
                     <div className="flex items-center gap-2">
-                      <div className="flex h-7 w-7 items-center justify-center bg-[#1b2a47]">
+                      <div className="flex h-7 w-7 items-center justify-center bg-[#3a6697]">
                         <span className="text-[9px] font-bold text-white">
                           {post.author
                             .split(" ")
@@ -145,7 +145,7 @@ export default function BlogGrid({ searchQuery, lockedCategoryName }: BlogGridPr
 
                     <Link
                       href={`/blog/${post.slug}`}
-                      className="flex items-center gap-1 text-[11px] font-bold uppercase tracking-[0.1em] text-[#e97a52] transition-colors hover:text-[#1b2a47]"
+                      className="flex items-center gap-1 text-[11px] font-bold uppercase tracking-[0.1em] text-[#e97a52] transition-colors hover:text-[#3a6697]"
                     >
                       Read
                       <i className="ri-arrow-right-line text-xs transition-transform group-hover:translate-x-0.5" />
@@ -174,7 +174,7 @@ export default function BlogGrid({ searchQuery, lockedCategoryName }: BlogGridPr
         {/* CTA strip */}
         <div className="mt-16 flex flex-col items-center gap-5 border border-[#cdd8e8] bg-white py-10 text-center md:flex-row md:justify-between md:px-12 md:text-left">
           <div>
-            <p className="font-heading text-xl font-bold text-[#1b2a47]">
+            <p className="font-heading text-xl font-bold text-[#3a6697]">
               Ready to start your recovery journey?
             </p>
             <p className="mt-1 text-sm text-[#64748b]">
@@ -184,13 +184,13 @@ export default function BlogGrid({ searchQuery, lockedCategoryName }: BlogGridPr
           <div className="flex shrink-0 gap-3">
             <Link
               href="/contact-us"
-              className="bg-[#e97a52] px-6 py-3 text-[11px] font-bold uppercase tracking-[0.15em] text-white transition-colors hover:bg-[#1b2a47]"
+              className="bg-[#e97a52] px-6 py-3 text-[11px] font-bold uppercase tracking-[0.15em] text-white transition-colors hover:bg-[#3a6697]"
             >
               Contact Us
             </Link>
             <a
               href="tel:8888563990"
-              className="border border-[#1b2a47] px-6 py-3 text-[11px] font-bold uppercase tracking-[0.15em] text-[#1b2a47] transition-colors hover:bg-[#1b2a47] hover:text-white"
+              className="border border-[#3a6697] px-6 py-3 text-[11px] font-bold uppercase tracking-[0.15em] text-[#3a6697] transition-colors hover:bg-[#3a6697] hover:text-white"
             >
               Call Now
             </a>

@@ -28,7 +28,7 @@ export default function PostAuthor({ post }: PostAuthorProps) {
               className="h-full w-full object-cover object-top"
             />
           ) : (
-            <div className="flex h-full w-full items-center justify-center bg-[#1b2a47] text-lg font-bold text-white">
+            <div className="flex h-full w-full items-center justify-center bg-[#3a6697] text-lg font-bold text-white">
               {post.author
                 .split(" ")
                 .map((n) => n[0])
@@ -40,8 +40,8 @@ export default function PostAuthor({ post }: PostAuthorProps) {
         {/* Info */}
         <div className="flex-1">
           <div className="mb-2 flex flex-wrap items-center gap-3">
-            <h3 className="font-heading text-lg font-bold text-[#1b2a47]">{post.author}</h3>
-            <span className="bg-[#1b2a47] px-3 py-1 text-[9px] font-bold uppercase tracking-[0.18em] text-white">
+            <h3 className="font-heading text-lg font-bold text-[#3a6697]">{post.author}</h3>
+            <span className="bg-[#3a6697] px-3 py-1 text-[9px] font-bold uppercase tracking-[0.18em] text-white">
               {post.authorRole}
             </span>
           </div>
@@ -49,13 +49,13 @@ export default function PostAuthor({ post }: PostAuthorProps) {
           <div className="mt-4 flex items-center gap-2">
             <a
               href="#"
-              className="flex h-8 w-8 items-center justify-center border border-[#cdd8e8] text-[#94a3b8] transition-all hover:border-[#1b2a47] hover:bg-[#1b2a47] hover:text-white"
+              className="flex h-8 w-8 items-center justify-center border border-[#cdd8e8] text-[#94a3b8] transition-all hover:border-[#3a6697] hover:bg-[#3a6697] hover:text-white"
             >
               <i className="ri-linkedin-fill text-sm" />
             </a>
             <a
               href="#"
-              className="flex h-8 w-8 items-center justify-center border border-[#cdd8e8] text-[#94a3b8] transition-all hover:border-[#1b2a47] hover:bg-[#1b2a47] hover:text-white"
+              className="flex h-8 w-8 items-center justify-center border border-[#cdd8e8] text-[#94a3b8] transition-all hover:border-[#3a6697] hover:bg-[#3a6697] hover:text-white"
             >
               <i className="ri-twitter-x-line text-sm" />
             </a>

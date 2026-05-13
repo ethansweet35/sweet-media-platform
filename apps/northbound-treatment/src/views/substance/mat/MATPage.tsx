@@ -106,7 +106,7 @@ export default function MATPage() {
   return (
     <>
       {/* ── HERO ──────────────────────────────────────────────────────── */}
-      <section className="relative overflow-hidden bg-[#1b2a47]">
+      <section className="relative overflow-hidden bg-[#3a6697]">
         <div className="absolute inset-0">
           <Image
             src={`${BASE}/nbt_mat_hero01.jpg`}
@@ -116,7 +116,7 @@ export default function MATPage() {
             priority
             sizes="100vw"
           />
-          <div className="absolute inset-0 bg-gradient-to-r from-[#1b2a47]/95 via-[#1b2a47]/85 to-[#1b2a47]/50" />
+          <div className="absolute inset-0 bg-gradient-to-r from-[#3a6697]/95 via-[#3a6697]/85 to-[#3a6697]/50" />
         </div>
         <div className="relative z-10 mx-auto w-full max-w-7xl px-6 pb-16 pt-28 lg:px-10 lg:pb-20 lg:pt-36">
           <div className="max-w-3xl">
@@ -149,7 +149,7 @@ export default function MATPage() {
       </section>
 
       {/* ── TRUST STRIP ───────────────────────────────────────────────── */}
-      <div className="border-b border-[#1b2a47]/20 bg-[#1b2a47]/90 py-3.5">
+      <div className="border-b border-[#3a6697]/20 bg-[#3a6697]/90 py-3.5">
         <div className="mx-auto flex w-full max-w-7xl flex-wrap items-center justify-center gap-x-8 gap-y-2 px-6 lg:px-10">
           {[
             { icon: "ri-award-line", text: "DHCS Licensed #300661CP" },
@@ -174,7 +174,7 @@ export default function MATPage() {
               <p className="text-xs font-semibold uppercase tracking-[0.14em] text-[#e97a52]">
                 What Is MAT?
               </p>
-              <h2 className="font-heading mt-3 text-4xl font-bold text-[#1b2a47] md:text-5xl">
+              <h2 className="font-heading mt-3 text-4xl font-bold text-[#3a6697] md:text-5xl">
                 Medicine That Makes <span className="italic text-[#e97a52]">Recovery Possible</span>
               </h2>
               <p className="mt-5 leading-relaxed text-[#64748b]">
@@ -211,7 +211,7 @@ export default function MATPage() {
         <div className="mx-auto w-full max-w-7xl px-6 lg:px-10">
           <div className="mb-12">
             <p className="text-xs font-semibold uppercase tracking-[0.14em] text-[#e97a52]"><AutoLinkedTextClient>{"FDA-Approved Options"}</AutoLinkedTextClient></p>
-            <h2 className="font-heading mt-3 text-4xl font-bold text-[#1b2a47] md:text-5xl">
+            <h2 className="font-heading mt-3 text-4xl font-bold text-[#3a6697] md:text-5xl">
               Medications Used in <span className="italic text-[#e97a52]">MAT</span>
             </h2>
             <p className="mt-4 max-w-2xl leading-relaxed text-[#64748b]">
@@ -225,11 +225,11 @@ export default function MATPage() {
                   <div className="flex h-10 w-10 shrink-0 items-center justify-center bg-[#e97a52]/10">
                     <i className={`${med.icon} text-xl text-[#e97a52]`} />
                   </div>
-                  <span className="rounded-full bg-[#1b2a47]/8 px-3 py-1 text-xs font-semibold text-[#1b2a47]">
+                  <span className="rounded-full bg-[#3a6697]/8 px-3 py-1 text-xs font-semibold text-[#3a6697]">
                     {med.tag}
                   </span>
                 </div>
-                <h3 className="font-heading text-lg font-bold text-[#1b2a47]">{med.name}</h3>
+                <h3 className="font-heading text-lg font-bold text-[#3a6697]">{med.name}</h3>
                 <p className="mt-3 text-sm leading-relaxed text-[#64748b]"><AutoLinkedTextClient>{med.body}</AutoLinkedTextClient></p>
                 <ul className="mt-4 space-y-2">
                   {med.conditions.map((c) => (
@@ -246,7 +246,7 @@ export default function MATPage() {
       </section>
 
       {/* ── HOW NORTHBOUND INTEGRATES MAT ─────────────────────────────── */}
-      <section className="bg-[#1b2a47] py-16 lg:py-24">
+      <section className="bg-[#3a6697] py-16 lg:py-24">
         <div className="mx-auto w-full max-w-7xl px-6 lg:px-10">
           <div className="mb-12">
             <p className="text-xs font-semibold uppercase tracking-[0.14em] text-[#e97a52]">Our Approach</p>
@@ -284,7 +284,7 @@ export default function MATPage() {
           <div className="grid gap-12 lg:grid-cols-[1fr_2fr] lg:gap-16">
             <div className="lg:pt-2">
               <p className="text-xs font-semibold uppercase tracking-[0.14em] text-[#e97a52]">Common Questions</p>
-              <h2 className="font-heading mt-2 text-4xl font-bold text-[#1b2a47] md:text-5xl">
+              <h2 className="font-heading mt-2 text-4xl font-bold text-[#3a6697] md:text-5xl">
                 About <span className="italic text-[#e97a52]">MAT</span>
               </h2>
               <p className="mt-4 text-sm leading-relaxed text-[#64748b]">
@@ -292,7 +292,7 @@ export default function MATPage() {
               </p>
               <Link
                 href="tel:8663110003"
-                className="mt-6 inline-flex items-center gap-2 bg-[#1b2a47] px-6 py-3.5 text-sm font-bold text-white transition hover:bg-[#2d3f5e]"
+                className="mt-6 inline-flex items-center gap-2 bg-[#3a6697] px-6 py-3.5 text-sm font-bold text-white transition hover:bg-[#2d3f5e]"
               >
                 <i className="ri-phone-fill" /> (866) 311-0003
               </Link>
@@ -304,7 +304,7 @@ export default function MATPage() {
                     onClick={() => setOpenFaq(openFaq === i ? null : i)}
                     className="flex w-full items-start justify-between gap-4 px-6 py-5 text-left transition hover:bg-[#eef2f7]/50"
                   >
-                    <span className="font-heading text-sm font-bold text-[#1b2a47]">{faq.q}</span>
+                    <span className="font-heading text-sm font-bold text-[#3a6697]">{faq.q}</span>
                     <i className={`ri-arrow-down-s-line mt-0.5 shrink-0 text-xl text-[#e97a52] transition-transform duration-200 ${openFaq === i ? "rotate-180" : ""}`} />
                   </button>
                   {openFaq === i && (

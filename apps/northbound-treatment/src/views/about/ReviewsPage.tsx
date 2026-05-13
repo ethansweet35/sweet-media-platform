@@ -52,7 +52,7 @@ export default function ReviewsPage() {
     <div className="min-h-screen bg-white">
 
       {/* Hero */}
-      <section className="bg-[#1b2a47] py-24">
+      <section className="bg-[#3a6697] py-24">
         <div className="mx-auto max-w-7xl px-6 lg:px-10">
           <p className="mb-4 text-xs font-semibold uppercase tracking-[0.2em] text-[#e97a52]">What Clients Say</p>
           <h1 className="font-heading text-5xl font-bold text-white md:text-6xl">
@@ -71,7 +71,7 @@ export default function ReviewsPage() {
             {stats.map((s) => (
               <div key={s.label} className="py-12 px-8 text-center">
                 <p className="font-heading text-4xl font-bold text-[#e97a52]"><AutoLinkedText>{s.value}</AutoLinkedText></p>
-                <p className="mt-1 text-sm font-semibold text-[#1b2a47]"><AutoLinkedText>{s.label}</AutoLinkedText></p>
+                <p className="mt-1 text-sm font-semibold text-[#3a6697]"><AutoLinkedText>{s.label}</AutoLinkedText></p>
                 <p className="text-xs text-[#64748b]"><AutoLinkedText>{s.sub}</AutoLinkedText></p>
               </div>
             ))}
@@ -84,7 +84,7 @@ export default function ReviewsPage() {
         <div className="mx-auto max-w-7xl px-6 lg:px-10">
           <div className="mb-12">
             <p className="mb-3 text-xs font-semibold uppercase tracking-[0.2em] text-[#e97a52]">Stories of Recovery</p>
-            <h2 className="font-heading text-4xl font-bold text-[#1b2a47] md:text-5xl">Client Testimonials</h2>
+            <h2 className="font-heading text-4xl font-bold text-[#3a6697] md:text-5xl">Client Testimonials</h2>
           </div>
           <div className="grid gap-px bg-[#cdd8e8] sm:grid-cols-2 lg:grid-cols-3">
             {testimonials.map((t, i) => (
@@ -96,7 +96,7 @@ export default function ReviewsPage() {
                 </div>
                 <p className="text-sm leading-7 text-[#64748b] flex-1 italic">&ldquo;{t.quote}&rdquo;</p>
                 <div>
-                  <p className="text-sm font-semibold text-[#1b2a47]"><AutoLinkedText>{t.author}</AutoLinkedText></p>
+                  <p className="text-sm font-semibold text-[#3a6697]"><AutoLinkedText>{t.author}</AutoLinkedText></p>
                   <p className="text-xs text-[#64748b]"><AutoLinkedText>{t.role}</AutoLinkedText></p>
                 </div>
               </div>
@@ -109,7 +109,7 @@ export default function ReviewsPage() {
       <section className="bg-[#eef2f7] py-20">
         <div className="mx-auto max-w-7xl px-6 lg:px-10 flex flex-col md:flex-row items-center justify-between gap-8">
           <div>
-            <h2 className="font-heading text-3xl font-bold text-[#1b2a47] md:text-4xl">
+            <h2 className="font-heading text-3xl font-bold text-[#3a6697] md:text-4xl">
               Ready to start your recovery story?
             </h2>
             <p className="mt-3 text-[#64748b]"><AutoLinkedText>{"Speak with an admissions specialist today — it&apos;s free and confidential."}</AutoLinkedText></p>

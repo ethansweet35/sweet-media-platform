@@ -93,11 +93,11 @@ function MemberCard({ member }: { member: Member }) {
           className="object-cover object-top transition-transform duration-500 group-hover:scale-105"
           sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-[#1b2a47]/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+        <div className="absolute inset-0 bg-gradient-to-t from-[#3a6697]/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
       </div>
       <div className="flex flex-col flex-1 p-6">
         <p className="text-xs font-semibold uppercase tracking-[0.15em] text-[#e97a52] mb-1"><AutoLinkedText>{member.title}</AutoLinkedText></p>
-        <h3 className="font-heading text-lg font-bold text-[#1b2a47] leading-tight">
+        <h3 className="font-heading text-lg font-bold text-[#3a6697] leading-tight">
           {member.name}
         </h3>
         {member.bio && (
@@ -120,7 +120,7 @@ export default function TeamPage() {
     <div className="min-h-screen bg-white">
 
       {/* ── Hero ──────────────────────────────────────────────── */}
-      <section className="bg-[#1b2a47] py-24">
+      <section className="bg-[#3a6697] py-24">
         <div className="mx-auto max-w-7xl px-6 lg:px-10">
           <p className="mb-4 text-xs font-semibold uppercase tracking-[0.2em] text-[#e97a52]">
             Our People
@@ -155,7 +155,7 @@ export default function TeamPage() {
             <p className="mb-3 text-xs font-semibold uppercase tracking-[0.2em] text-[#e97a52]">
               Leadership
             </p>
-            <h2 className="font-heading text-4xl font-bold text-[#1b2a47] md:text-5xl">
+            <h2 className="font-heading text-4xl font-bold text-[#3a6697] md:text-5xl">
               Executive Team
             </h2>
           </div>
@@ -175,7 +175,7 @@ export default function TeamPage() {
             <p className="mb-3 text-xs font-semibold uppercase tracking-[0.2em] text-[#e97a52]">
               Clinical Medicine
             </p>
-            <h2 className="font-heading text-4xl font-bold text-[#1b2a47] md:text-5xl">
+            <h2 className="font-heading text-4xl font-bold text-[#3a6697] md:text-5xl">
               Medical Staff
             </h2>
           </div>
@@ -192,7 +192,7 @@ export default function TeamPage() {
             </div>
             <div className="flex flex-col justify-center p-8 lg:p-12">
               <p className="text-xs font-semibold uppercase tracking-[0.15em] text-[#e97a52] mb-2"><AutoLinkedText>{medical[0].title}</AutoLinkedText></p>
-              <h3 className="font-heading text-2xl font-bold text-[#1b2a47] mb-6">
+              <h3 className="font-heading text-2xl font-bold text-[#3a6697] mb-6">
                 {medical[0].name}
               </h3>
               <p className="text-sm leading-7 text-[#64748b]"><AutoLinkedText>{medical[0].bio}</AutoLinkedText></p>
@@ -208,7 +208,7 @@ export default function TeamPage() {
             <p className="mb-3 text-xs font-semibold uppercase tracking-[0.2em] text-[#e97a52]">
               <AutoLinkedText>{"Operations &amp; Clinical"}</AutoLinkedText>
             </p>
-            <h2 className="font-heading text-4xl font-bold text-[#1b2a47] md:text-5xl">
+            <h2 className="font-heading text-4xl font-bold text-[#3a6697] md:text-5xl">
               Leadership Team
             </h2>
           </div>
@@ -221,7 +221,7 @@ export default function TeamPage() {
       </section>
 
       {/* ── CTA Strip ────────────────────────────────────────── */}
-      <section className="bg-[#1b2a47] py-20">
+      <section className="bg-[#3a6697] py-20">
         <div className="mx-auto max-w-7xl px-6 lg:px-10 flex flex-col items-center text-center gap-6">
           <h2 className="font-heading text-3xl font-bold text-white md:text-4xl">
             Ready to join a team that changes lives?

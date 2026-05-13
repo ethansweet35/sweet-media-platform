@@ -87,7 +87,7 @@ export default function ServicesHubPage() {
     <div className="min-h-screen bg-white">
 
       {/* ── Hero ── */}
-      <section className="relative overflow-hidden bg-[#1b2a47] pb-16 pt-28 lg:pb-20 lg:pt-36">
+      <section className="relative overflow-hidden bg-[#3a6697] pb-16 pt-28 lg:pb-20 lg:pt-36">
         <div className="pointer-events-none absolute left-8 top-8 h-16 w-16 border-l-2 border-t-2 border-white/10" />
         <div className="pointer-events-none absolute right-8 top-8 h-16 w-16 border-r-2 border-t-2 border-white/10" />
         <div className="pointer-events-none absolute -right-32 -top-32 h-96 w-96 rounded-full bg-[#e97a52]/10 blur-3xl" />
@@ -110,7 +110,7 @@ export default function ServicesHubPage() {
           {/* Stats strip */}
           <div className="mt-10 grid grid-cols-2 gap-px border border-white/10 bg-white/10 sm:grid-cols-4">
             {STATS.map((s) => (
-              <div key={s.label} className="bg-[#1b2a47] px-6 py-5 text-center">
+              <div key={s.label} className="bg-[#3a6697] px-6 py-5 text-center">
                 <p className="font-heading text-3xl font-bold text-[#e97a52]"><AutoLinkedText>{s.value}</AutoLinkedText></p>
                 <p className="mt-0.5 text-[10px] font-semibold uppercase tracking-[0.15em] text-white/40"><AutoLinkedText>{s.label}</AutoLinkedText></p>
               </div>
@@ -118,7 +118,7 @@ export default function ServicesHubPage() {
           </div>
         </div>
 
-        <div className="absolute bottom-0 left-0 right-0 h-[3px] bg-gradient-to-r from-[#e97a52] via-[#1b2a47] to-[#e97a52]/30" />
+        <div className="absolute bottom-0 left-0 right-0 h-[3px] bg-gradient-to-r from-[#e97a52] via-[#3a6697] to-[#e97a52]/30" />
       </section>
 
       {/* ── Levels of Care ── */}
@@ -128,7 +128,7 @@ export default function ServicesHubPage() {
             <div className="h-[2px] w-10 bg-[#e97a52]" />
             <span className="text-[10px] font-bold uppercase tracking-[0.28em] text-[#e97a52]">Levels of Care</span>
           </div>
-          <h2 className="font-heading mb-12 max-w-2xl text-4xl font-bold text-[#1b2a47] md:text-5xl">
+          <h2 className="font-heading mb-12 max-w-2xl text-4xl font-bold text-[#3a6697] md:text-5xl">
             A program for every <span className="italic text-[#e97a52]">stage of recovery</span>
           </h2>
 
@@ -139,11 +139,11 @@ export default function ServicesHubPage() {
                 href={item.href}
                 className="group flex flex-col gap-4 bg-white p-8 transition-colors hover:bg-[#eef2f7]"
               >
-                <div className="flex h-10 w-10 items-center justify-center border border-[#cdd8e8] bg-[#eef2f7] text-[#1b2a47] transition-colors group-hover:border-[#e97a52] group-hover:bg-[#e97a52] group-hover:text-white">
+                <div className="flex h-10 w-10 items-center justify-center border border-[#cdd8e8] bg-[#eef2f7] text-[#3a6697] transition-colors group-hover:border-[#e97a52] group-hover:bg-[#e97a52] group-hover:text-white">
                   <i className={`${item.icon} text-lg`} />
                 </div>
                 <div>
-                  <h3 className="font-heading font-bold text-[#1b2a47] transition-colors group-hover:text-[#e97a52]">
+                  <h3 className="font-heading font-bold text-[#3a6697] transition-colors group-hover:text-[#e97a52]">
                     {item.label}
                   </h3>
                   <p className="mt-2 text-sm leading-relaxed text-[#64748b]"><AutoLinkedText>{item.desc}</AutoLinkedText></p>
@@ -164,7 +164,7 @@ export default function ServicesHubPage() {
             <div className="h-[2px] w-10 bg-[#e97a52]" />
             <span className="text-[10px] font-bold uppercase tracking-[0.28em] text-[#e97a52]">Signature Programs</span>
           </div>
-          <h2 className="font-heading mb-10 max-w-2xl text-4xl font-bold text-[#1b2a47] md:text-5xl">
+          <h2 className="font-heading mb-10 max-w-2xl text-4xl font-bold text-[#3a6697] md:text-5xl">
             What makes Northbound <span className="italic text-[#e97a52]">different</span>
           </h2>
 
@@ -173,12 +173,12 @@ export default function ServicesHubPage() {
               <Link
                 key={item.href}
                 href={item.href}
-                className="group flex flex-col items-center gap-3 bg-white p-6 text-center transition-colors hover:bg-[#1b2a47]"
+                className="group flex flex-col items-center gap-3 bg-white p-6 text-center transition-colors hover:bg-[#3a6697]"
               >
-                <div className="flex h-12 w-12 items-center justify-center bg-[#eef2f7] text-[#1b2a47] transition-colors group-hover:bg-[#e97a52]/20 group-hover:text-[#e97a52]">
+                <div className="flex h-12 w-12 items-center justify-center bg-[#eef2f7] text-[#3a6697] transition-colors group-hover:bg-[#e97a52]/20 group-hover:text-[#e97a52]">
                   <i className={`${item.icon} text-xl`} />
                 </div>
-                <span className="font-heading text-sm font-bold text-[#1b2a47] transition-colors group-hover:text-white">
+                <span className="font-heading text-sm font-bold text-[#3a6697] transition-colors group-hover:text-white">
                   {item.label}
                 </span>
                 <i className="ri-arrow-right-line text-xs text-[#e97a52] opacity-0 transition-all group-hover:translate-x-0.5 group-hover:opacity-100" />
@@ -189,7 +189,7 @@ export default function ServicesHubPage() {
       </section>
 
       {/* ── CTA ── */}
-      <section className="relative overflow-hidden bg-[#1b2a47] py-16 md:py-20">
+      <section className="relative overflow-hidden bg-[#3a6697] py-16 md:py-20">
         <div className="pointer-events-none absolute -right-24 -top-24 h-64 w-64 rounded-full bg-[#e97a52]/10 blur-3xl" />
         <div className="relative mx-auto w-full max-w-7xl px-6 lg:px-10">
           <div className="flex flex-col gap-8 md:flex-row md:items-center md:justify-between">
@@ -205,7 +205,7 @@ export default function ServicesHubPage() {
             <div className="flex shrink-0 flex-col gap-3">
               <a
                 href="tel:8888563990"
-                className="flex items-center justify-center gap-2 bg-[#e97a52] px-8 py-4 text-[11px] font-bold uppercase tracking-[0.18em] text-white transition-colors hover:bg-white hover:text-[#1b2a47]"
+                className="flex items-center justify-center gap-2 bg-[#e97a52] px-8 py-4 text-[11px] font-bold uppercase tracking-[0.18em] text-white transition-colors hover:bg-white hover:text-[#3a6697]"
               >
                 <i className="ri-phone-line" />
                 Call Us 24/7

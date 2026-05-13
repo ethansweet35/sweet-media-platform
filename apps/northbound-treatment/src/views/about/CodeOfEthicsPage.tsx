@@ -39,7 +39,7 @@ export default function CodeOfEthicsPage() {
     <div className="min-h-screen bg-white">
 
       {/* Hero */}
-      <section className="bg-[#1b2a47] py-24">
+      <section className="bg-[#3a6697] py-24">
         <div className="mx-auto max-w-7xl px-6 lg:px-10">
           <p className="mb-4 text-xs font-semibold uppercase tracking-[0.2em] text-[#e97a52]">Our Values</p>
           <h1 className="font-heading text-5xl font-bold text-white md:text-6xl">
@@ -55,7 +55,7 @@ export default function CodeOfEthicsPage() {
       <section className="py-20 bg-[#eef2f7]">
         <div className="mx-auto max-w-5xl px-6 lg:px-10 text-center">
           <p className="mb-4 text-xs font-semibold uppercase tracking-[0.2em] text-[#e97a52]">Our Mission</p>
-          <h2 className="font-heading text-3xl font-bold text-[#1b2a47] md:text-4xl leading-snug">
+          <h2 className="font-heading text-3xl font-bold text-[#3a6697] md:text-4xl leading-snug">
             We assist in helping as many people as possible to achieve a successful and
             fulfilled life beyond addiction.
           </h2>
@@ -70,15 +70,15 @@ export default function CodeOfEthicsPage() {
         <div className="mx-auto max-w-7xl px-6 lg:px-10">
           <div className="mb-12">
             <p className="mb-3 text-xs font-semibold uppercase tracking-[0.2em] text-[#e97a52]">How We Operate</p>
-            <h2 className="font-heading text-4xl font-bold text-[#1b2a47] md:text-5xl">Core Values</h2>
+            <h2 className="font-heading text-4xl font-bold text-[#3a6697] md:text-5xl">Core Values</h2>
           </div>
           <div className="grid gap-px bg-[#cdd8e8] sm:grid-cols-2 lg:grid-cols-3">
             {values.map((v) => (
               <div key={v.title} className="bg-white p-8 flex flex-col gap-4">
-                <span className="flex h-12 w-12 items-center justify-center bg-[#eef2f7] text-[#1b2a47]">
+                <span className="flex h-12 w-12 items-center justify-center bg-[#eef2f7] text-[#3a6697]">
                   <i className={`${v.icon} text-2xl`} />
                 </span>
-                <h3 className="font-heading text-xl font-bold text-[#1b2a47]">{v.title}</h3>
+                <h3 className="font-heading text-xl font-bold text-[#3a6697]">{v.title}</h3>
                 <p className="text-sm leading-7 text-[#64748b]"><AutoLinkedText>{v.body}</AutoLinkedText></p>
               </div>
             ))}
@@ -87,7 +87,7 @@ export default function CodeOfEthicsPage() {
       </section>
 
       {/* CTA */}
-      <section className="bg-[#1b2a47] py-20">
+      <section className="bg-[#3a6697] py-20">
         <div className="mx-auto max-w-7xl px-6 lg:px-10 flex flex-col md:flex-row items-center justify-between gap-8">
           <h2 className="font-heading text-3xl font-bold text-white md:text-4xl">
             Experience the Northbound difference.

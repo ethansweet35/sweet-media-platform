@@ -42,7 +42,7 @@ export default function MensResidentialPage() {
   return (
     <>
       {/* ── HERO ──────────────────────────────────────────────────────── */}
-      <section className="relative overflow-hidden bg-[#1b2a47]">
+      <section className="relative overflow-hidden bg-[#3a6697]">
         <div className="absolute inset-0">
           <Image
             src={`${BASE}/nbt_mens_hero01.jpg`}
@@ -52,7 +52,7 @@ export default function MensResidentialPage() {
             priority
             sizes="100vw"
           />
-          <div className="absolute inset-0 bg-gradient-to-r from-[#1b2a47]/95 via-[#1b2a47]/80 to-[#1b2a47]/40" />
+          <div className="absolute inset-0 bg-gradient-to-r from-[#3a6697]/95 via-[#3a6697]/80 to-[#3a6697]/40" />
         </div>
         <div className="relative z-10 mx-auto w-full max-w-7xl px-6 pb-16 pt-28 lg:px-10 lg:pb-20 lg:pt-36">
           <div className="max-w-3xl">
@@ -92,7 +92,7 @@ export default function MensResidentialPage() {
               <p className="text-xs font-semibold uppercase tracking-[0.14em] text-[#e97a52]">
                 <AutoLinkedText>{"Why Men&apos;s-Specific Treatment"}</AutoLinkedText>
               </p>
-              <h2 className="font-heading mt-3 text-4xl font-bold text-[#1b2a47] md:text-5xl">
+              <h2 className="font-heading mt-3 text-4xl font-bold text-[#3a6697] md:text-5xl">
                 Men Don&apos;t Ask for Help — <span className="italic text-[#e97a52]">Until They Do</span>
               </h2>
               <p className="mt-5 leading-relaxed text-[#64748b]">
@@ -128,7 +128,7 @@ export default function MensResidentialPage() {
               <p className="text-xs font-semibold uppercase tracking-[0.14em] text-[#e97a52]">
                 <AutoLinkedText>{"Men-Specific Clinical Focus"}</AutoLinkedText>
               </p>
-              <h2 className="font-heading mt-3 text-4xl font-bold text-[#1b2a47] md:text-5xl">
+              <h2 className="font-heading mt-3 text-4xl font-bold text-[#3a6697] md:text-5xl">
                 What Our Men&apos;s Program <span className="italic text-[#e97a52]">Addresses</span>
               </h2>
               <p className="mt-5 leading-relaxed text-[#64748b]">
@@ -152,7 +152,7 @@ export default function MensResidentialPage() {
                     <i className={`${item.icon} text-xl text-[#e97a52]`} />
                   </div>
                   <div>
-                    <h3 className="font-heading text-base font-bold text-[#1b2a47]">{item.title}</h3>
+                    <h3 className="font-heading text-base font-bold text-[#3a6697]">{item.title}</h3>
                     <p className="mt-1 text-sm leading-relaxed text-[#64748b]"><AutoLinkedText>{item.body}</AutoLinkedText></p>
                   </div>
                 </div>
@@ -163,7 +163,7 @@ export default function MensResidentialPage() {
       </section>
 
       {/* ── DARK SECTION ──────────────────────────────────────────────── */}
-      <section className="bg-[#1b2a47] py-16 lg:py-24">
+      <section className="bg-[#3a6697] py-16 lg:py-24">
         <div className="mx-auto w-full max-w-7xl px-6 lg:px-10">
           <div className="grid gap-10 lg:grid-cols-[2fr_1fr] lg:gap-16 lg:items-center">
             <div>

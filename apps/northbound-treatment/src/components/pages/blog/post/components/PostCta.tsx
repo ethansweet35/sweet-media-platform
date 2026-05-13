@@ -2,7 +2,7 @@ import Link from "next/link";
 
 export default function PostCta() {
   return (
-    <section className="relative overflow-hidden bg-[#1b2a47] py-16 md:py-20">
+    <section className="relative overflow-hidden bg-[#3a6697] py-16 md:py-20">
       {/* Decorative corner accents */}
       <div className="pointer-events-none absolute left-6 top-6 h-12 w-12 border-l-2 border-t-2 border-white/10" />
       <div className="pointer-events-none absolute right-6 bottom-6 h-12 w-12 border-r-2 border-b-2 border-white/10" />
@@ -43,7 +43,7 @@ export default function PostCta() {
           <div className="flex shrink-0 flex-col gap-3">
             <a
               href="tel:8888563990"
-              className="flex items-center justify-center gap-2 bg-[#e97a52] px-8 py-4 text-[11px] font-bold uppercase tracking-[0.18em] text-white transition-colors hover:bg-white hover:text-[#1b2a47]"
+              className="flex items-center justify-center gap-2 bg-[#e97a52] px-8 py-4 text-[11px] font-bold uppercase tracking-[0.18em] text-white transition-colors hover:bg-white hover:text-[#3a6697]"
             >
               <i className="ri-phone-line" />
               Call Us Now

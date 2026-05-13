@@ -60,7 +60,7 @@ export default function PostInlineRelated({ currentPost, allPosts }: PostInlineR
               <span className="mb-1 block text-[9px] font-bold uppercase tracking-[0.2em] text-[#e97a52]">
                 {post.category}
               </span>
-              <h4 className="font-heading line-clamp-2 text-sm font-bold leading-snug text-[#1b2a47] transition-colors group-hover:text-[#e97a52]">
+              <h4 className="font-heading line-clamp-2 text-sm font-bold leading-snug text-[#3a6697] transition-colors group-hover:text-[#e97a52]">
                 {post.title}
               </h4>
               <div className="mt-1.5 flex items-center gap-2">
