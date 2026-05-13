@@ -161,7 +161,7 @@ export default function ServiceAreaTemplate({ data }: { data: ServiceAreaData })
           className="absolute inset-0"
           style={{
             background:
-              "linear-gradient(to bottom, rgba(44,48,46,0.45) 0%, rgba(44,48,46,0.20) 35%, rgba(44,48,46,0.65) 65%, rgba(44,48,46,0.97) 100%)",
+              "linear-gradient(to bottom, rgba(44,48,46,0.55) 0%, rgba(44,48,46,0.45) 30%, rgba(44,48,46,0.78) 65%, rgba(44,48,46,0.98) 100%)",
           }}
         />
 

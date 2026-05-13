@@ -89,9 +89,18 @@ export default function Footer() {
           </div>
         </div>
 
-        <div className="mt-12 border-t border-white/10 pt-6 flex flex-col gap-2 md:flex-row md:items-center md:justify-between text-xs text-white/30">
-          <p>© {new Date().getFullYear()} Rize OC. All rights reserved.</p>
-          <p>Licensed by DHCS · ASAM Certified · Joint Commission Accredited</p>
+        <div className="mt-12 border-t border-white/10 pt-6 flex flex-col gap-3">
+          <div className="flex flex-col gap-1.5 text-[11px] text-white/35 border border-white/8 bg-white/[0.03] rounded-[3px] px-5 py-4 md:flex-row md:items-center md:gap-6">
+            <span className="font-medium text-white/50">Certified by the State of California, Department of Health Care Services</span>
+            <span className="hidden md:block text-white/15">·</span>
+            <span>License&nbsp;#&nbsp;300741AP</span>
+            <span className="hidden md:block text-white/15">·</span>
+            <span>Expiration Date: 4/30/2027</span>
+          </div>
+          <div className="flex flex-col gap-2 md:flex-row md:items-center md:justify-between text-xs text-white/30">
+            <p>© {new Date().getFullYear()} Rize OC. All rights reserved.</p>
+            <p>Licensed by DHCS · ASAM Certified · Joint Commission Accredited</p>
+          </div>
         </div>
       </div>
     </footer>

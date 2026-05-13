@@ -71,6 +71,16 @@ const cities = [
       "Minutes from Newport Beach. Fast admissions, flexible programs, and dual-diagnosis care for a dynamic community.",
     highlights: ["Closest to Newport Beach", "Stimulant & alcohol specialists", "Same-day admission possible"],
   },
+  {
+    name: "Huntington Beach",
+    slug: "huntington-beach",
+    image: "huntington-beach_hero01.jpg",
+    imageAlt: "Aerial golden-hour view of Huntington Beach California pier and the Pacific coastline",
+    driveTime: "~20 min",
+    description:
+      "Surf City's coastal lifestyle can mask escalating patterns. Premium, discreet care close to one of OC's most iconic communities.",
+    highlights: ["Alcohol & substance specialists", "Flexible IOP scheduling", "Dual-diagnosis care"],
+  },
 ];
 
 const reasons = [
@@ -99,7 +109,7 @@ export default function ServiceAreasHubPage() {
           className="absolute inset-0"
           style={{
             background:
-              "linear-gradient(to bottom, rgba(44,48,46,0.40) 0%, rgba(44,48,46,0.18) 30%, rgba(44,48,46,0.60) 65%, rgba(44,48,46,0.97) 100%)",
+              "linear-gradient(to bottom, rgba(44,48,46,0.55) 0%, rgba(44,48,46,0.45) 30%, rgba(44,48,46,0.78) 65%, rgba(44,48,46,0.98) 100%)",
           }}
         />
 
