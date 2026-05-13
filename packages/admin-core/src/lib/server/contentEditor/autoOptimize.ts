@@ -210,7 +210,8 @@ function buildSeoGuidelines(
   const sorted = [...terms]
     .filter((t) => !t.user_blacklisted)
     .sort((a, b) => (b.relevance_score ?? 0) - (a.relevance_score ?? 0));
-  const topTerms = sorted.slice(0, 50);
+  // Include ALL terms — the 95% coverage target requires none to be silently dropped.
+  const topTerms = sorted;
   if (topTerms.length) {
     lines.push(`## NLP TERMS — USE EVERY ONE OF THESE (mandatory)`);
     lines.push(``);
@@ -263,14 +264,15 @@ function buildSeoGuidelines(
     lines.push(``);
   }
 
-  lines.push(`## FINAL VERIFICATION`);
+  lines.push(`## FINAL VERIFICATION — 95% COVERAGE REQUIRED`);
   lines.push(``);
-  lines.push(`Before returning your output, mentally check off this list:`);
-  lines.push(`- [ ] Every NLP term above appears at least its minimum count`);
-  lines.push(`- [ ] Every question above is answered in the article`);
-  lines.push(`- [ ] Every fact above is paraphrased into the article`);
-  lines.push(`- [ ] Word count is within the structural target range`);
-  lines.push(`- [ ] The primary keyword appears in title, meta description, first paragraph, and at least one H2`);
+  lines.push(`You MUST achieve ≥95% coverage of the NLP terms above (i.e. at most 1 in 20 may be missed). Before returning your output, run through this checklist:`);
+  lines.push(`- [ ] Count how many NLP terms you have covered vs the total list. If below 95%, add more content until you hit it.`);
+  lines.push(`- [ ] Every question above is answered — as a dedicated FAQ H3 or organically in a body section.`);
+  lines.push(`- [ ] Every fact above is paraphrased naturally into the article.`);
+  lines.push(`- [ ] Word count is within the structural target range.`);
+  lines.push(`- [ ] The primary keyword appears in title, meta description, first paragraph, and at least one H2.`);
+  lines.push(`- [ ] If terms could not fit in existing sections, NEW H2 sections were added to host them — there is no limit on how many new sections you may add.`);
 
   return lines.join("\n").trim();
 }
@@ -287,25 +289,26 @@ function buildSeoGuidelines(
  * read of what's missing.
  */
 function buildPageModeSystemPrompt(knowledgeBaseBlock: string): string {
-  return `You are an expert SEO content strategist. You're optimizing a LIVE PAGE that already exists in production with a hand-coded React layout. Your goal is to preserve the page's voice, format, and structure while suggesting small surgical improvements that close coverage gaps from the content brief.
+  return `You are an expert SEO content strategist. You are optimizing a LIVE PAGE that already exists in production with a hand-coded React layout. Your goal is to close the coverage gaps from the content brief and achieve ≥95% NLP term coverage — using as many edits and new sections as required to get there.
 
 [KNOWLEDGE BASE]
 ${knowledgeBaseBlock || "(none provided — use authoritative best practices for the topic)"}
 [END KNOWLEDGE BASE]
 
+COVERAGE TARGET: You MUST cover at least 95% of the NLP terms in the brief (i.e. at most 1 in 20 may remain uncovered). There is NO limit on the number of edits or new sections you add to reach this target.
+
 CRITICAL RULES:
-1. Do NOT rewrite the whole page. Propose SURGICAL EDITS only.
-2. Each edit must be small: 1-3 sentences, OR a short phrase swap.
-3. Prefer adding sentences to EXISTING sections over creating new ones.
-4. Suggest new H2 sections ONLY when a missing topic has no plausible home in any existing section.
-5. Preserve the page's tone and voice as you see it in the live content.
-6. Every edit must cite which brief items it addresses (terms, questions, facts).
-7. Aim for 4-8 total edits (existing section edits + at most 1-2 new sections).
+1. Preserve the page's voice, tone, and existing structure — do not rewrite sections that are already well-covered.
+2. For MISSING TERMS: add sentences to existing sections, swap phrases to include the term, or add entirely new H2 sections as needed.
+3. Add as many new H2 sections as needed — there is no cap. New sections should feel native to the page's voice and logic.
+4. Preserve the page's tone and voice as you see it in the live content.
+5. Every edit must cite which brief items it addresses (terms, questions, facts).
+6. Before finalising: count how many NLP terms are covered. If below 95%, add more edits or sections until you hit it.
 
 EDIT TYPES:
-- ADD-SENTENCE: append a 1-2 sentence addition to a specific existing section
-- REPLACE-PHRASE: swap a specific short phrase from the live page with a tighter, keyword-rich variant
-- ADD-SECTION: propose a new short H2 section with 2-3 sentence intro (use sparingly)
+- ADD-SENTENCE: append 1-3 sentences to a specific existing section
+- REPLACE-PHRASE: swap a specific short phrase from the live page with a keyword-rich variant
+- ADD-SECTION: add a new H2 section with a 3-5 sentence body (add as many as needed to reach 95% coverage)
 
 OUTPUT FORMAT (return ONLY this JSON object — no markdown fences, no preamble):
 {
@@ -324,7 +327,7 @@ OUTPUT FORMAT (return ONLY this JSON object — no markdown fences, no preamble)
 
     { "type": "h2", "text": "Suggest new section: <new H2 heading>" },
     { "type": "paragraph", "text": "*Place it after:* <existing H2 the new section should follow>" },
-    { "type": "paragraph", "text": "*Suggested content:* 2-3 sentence intro that flows naturally from the surrounding context..." },
+    { "type": "paragraph", "text": "*Suggested content:* 3-5 sentence body covering the missing terms and facts naturally..." },
     { "type": "paragraph", "text": "*Why this helps:* covers <brief items>" }
   ]
 }
@@ -452,8 +455,8 @@ function buildPageModeUserMessage(opts: {
 
   lines.push(``);
   lines.push(
-    `Generate the SEO Title, Meta Description, and a SHORT list of surgical edits to the live page above. ` +
-      `For each edit, reference an existing H2 section by its exact verbatim name (or propose a new H2 only when needed). ` +
+    `Generate the SEO Title, Meta Description, and a COMPREHENSIVE list of edits to the live page above that achieves ≥95% NLP term coverage. ` +
+      `For each edit, reference an existing H2 section by its exact verbatim name, or propose a new H2 section (add as many new sections as needed — there is no cap). ` +
       `Output only the JSON object as specified — no markdown fences, no preamble, no trailing commentary.`,
   );
 
@@ -616,9 +619,9 @@ export async function runAutoOptimize(opts: AutoOptimizeOptions): Promise<void> 
         { role: "system", content: systemPrompt },
         { role: "user", content: userMessage },
       ],
-      // Page Mode generates ~1000-3000 tokens of surgical edits; full
-      // blog mode needs much more for the complete draft.
-      max_tokens: isPageMode ? 4000 : 12000,
+      // Page Mode now generates comprehensive coverage edits (no section cap),
+      // so it needs more headroom. Blog mode needs the full 12k for a complete draft.
+      max_tokens: isPageMode ? 8000 : 12000,
       temperature: 0.4,
     }),
   });

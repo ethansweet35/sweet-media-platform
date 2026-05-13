@@ -220,7 +220,7 @@ async function loadBriefContext(
       .select("term, min_recommended_uses, max_recommended_uses, is_heading_recommended, user_blacklisted, relevance_score")
       .eq("editor_id", editorId)
       .order("relevance_score", { ascending: false })
-      .limit(40),
+      .limit(150),
     client
       .from("content_editor_questions")
       .select("question, user_dismissed")
@@ -322,7 +322,7 @@ function buildAgentPrompt(opts: {
 
   const wordTarget = brief.recommended_word_count_target ?? 1500;
 
-  return `You are optimizing an existing tracked page for SEO content quality. Your goal is to open a pull request that improves the page's coverage of the content brief while strictly preserving the brand design system.
+  return `You are optimizing an existing tracked page for SEO content quality. Your goal is to open a pull request that achieves ≥95% coverage of every NLP term in the content brief while strictly preserving the brand design system. There is NO cap on the number of new sections you may add — add as many as the coverage target requires.
 
 # Target page
 
@@ -346,7 +346,7 @@ function buildAgentPrompt(opts: {
 7. **Verify before opening the PR.**
    - Run \`pnpm --filter @sweetmedia/${page.app_dir.replace("apps/", "")} typecheck\` and ensure it passes.
    - Run \`pnpm --filter @sweetmedia/${page.app_dir.replace("apps/", "")} lint\` (if defined).
-   - Quickly grep for the primary keyword + the highest-priority terms in your edited files to confirm coverage.
+   - Grep for EVERY term in the brief against your edited files. Count how many are covered. If coverage is below 95%, add more content or new sections until you reach it. Do not open the PR below 95%.
    - Re-count the word count of EVERY slot you edited and verify it satisfies the LAYOUT BUDGET below. If any slot is over budget, trim before opening the PR.
 
 # LAYOUT BUDGET — non-negotiable
@@ -410,9 +410,11 @@ The brief's facts, questions, and term coverage almost always belong in **new H2
 
 - **Hero**: keep it short and punchy. Preserve the brand voice. The primary keyword can appear naturally but the hero is not where coverage happens.
 - **Existing section intros**: phrase swaps only. Tighten and swap, don't extend.
-- **New H2 sections you add**: this is where ~70% of new keyword + fact coverage should live.
-- **FAQ accordion**: this is where ~25% of new question + fact coverage should live.
-- **New bullet items in checklist/grid sections**: ~5%.
+- **New H2 sections you add**: this is where the majority of new keyword + fact coverage should live. Add as many new H2 sections as needed — there is NO cap. Each new section should address a logical cluster of missing terms and feel native to the page's content and voice.
+- **FAQ accordion**: great for question coverage and secondary terms. Add as many new FAQ entries as needed.
+- **New bullet items in checklist/grid sections**: efficient for short terms that fit naturally as a feature or benefit.
+
+**Coverage goal: ≥95% of all NLP terms must be present in the final page.** If you finish your planned edits and coverage is still below 95%, add more new H2 sections until you reach it.
 
 # Content brief (mandatory coverage)
 
@@ -467,10 +469,12 @@ When you finish, the PR title should be:
 
 The PR description must include:
 
+- **Coverage count** — "X of Y NLP terms covered (Z%)". The PR is NOT ready if Z < 95%.
 - **Layout-budget audit** — a markdown table with one row per slot you edited, showing was / now / budget / OK. The PR is NOT ready until every row is ✅. (See "Section comparison check" rule above.)
 - Which existing sections you tightened (phrase swaps only — no length expansion past budget)
-- Which new sections you added (with the brand component name you used for each, e.g. "added a new \`<DifferentiatorCards>\`-style section called …")
+- Which new sections you added (with the brand component name you used for each, e.g. "added a new \`<DifferentiatorCards>\`-style section called …"), and which terms each new section covers
 - A checklist showing which brief terms / questions / facts are now covered, and where each appears (which section / FAQ entry).
+- Any terms that remain uncovered after the PR (should be ≤5% of the total list), with a brief note on why they were excluded (e.g. irrelevant to this page's audience).
 - The typecheck + lint output (must be green).
 
 ${opts.customInstructions ? `\n# Additional instructions from the operator\n\n${opts.customInstructions}\n` : ""}`;
