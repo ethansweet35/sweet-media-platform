@@ -390,6 +390,111 @@ function CompetitorsPanel({ competitors }: { competitors: { id: string; serp_pos
   );
 }
 
+// ── Auto-Optimize helpers ────────────────────────────────────────────────────
+
+function buildSeoGuidelines(
+  editor: { primary_keyword: string; recommended_word_count_min?: number | null; recommended_word_count_max?: number | null; recommended_word_count_target?: number | null; recommended_h2_count?: number | null; recommended_h3_count?: number | null },
+  terms: ContentEditorTermRow[],
+  questions: ContentEditorQuestionRow[],
+  facts: ContentEditorFactRow[],
+): string {
+  const lines: string[] = [];
+
+  const wMin = editor.recommended_word_count_min;
+  const wMax = editor.recommended_word_count_max;
+  const wTarget = editor.recommended_word_count_target ?? (wMin && wMax ? Math.round((wMin + wMax) / 2) : null);
+  if (wTarget) {
+    lines.push(`## Structural Targets`);
+    lines.push(`- Word count: ${wMin ?? "?"}–${wMax ?? "?"} words (aim for ~${wTarget})`);
+    if (editor.recommended_h2_count) lines.push(`- H2 headings: ~${editor.recommended_h2_count}`);
+    if (editor.recommended_h3_count) lines.push(`- H3 headings: ~${editor.recommended_h3_count}`);
+    lines.push("");
+  }
+
+  const topTerms = [...terms].sort((a, b) => (b.relevance_score ?? 0) - (a.relevance_score ?? 0)).slice(0, 35);
+  if (topTerms.length) {
+    lines.push(`## Important NLP Terms (use naturally, in order of importance)`);
+    for (const t of topTerms) {
+      const freq = t.min_recommended_uses != null
+        ? ` — use ${t.min_recommended_uses}–${t.max_recommended_uses ?? t.min_recommended_uses * 2}× in the article`
+        : "";
+      const headingNote = t.is_heading_recommended ? " ✓ appears in competitor headings" : "";
+      lines.push(`- ${t.term}${freq}${headingNote}`);
+    }
+    lines.push("");
+  }
+
+  const activeQuestions = questions.filter((q) => !q.user_dismissed).slice(0, 12);
+  if (activeQuestions.length) {
+    lines.push(`## Questions to Answer (include in FAQ or body)`);
+    for (const q of activeQuestions) {
+      lines.push(`- ${q.question}`);
+    }
+    lines.push("");
+  }
+
+  const topFacts = facts.filter((f) => !f.user_dismissed).slice(0, 12);
+  if (topFacts.length) {
+    lines.push(`## Key Facts / Claims to Cover`);
+    for (const f of topFacts) {
+      lines.push(`- ${f.fact_text}`);
+    }
+    lines.push("");
+  }
+
+  return lines.join("\n").trim();
+}
+
+interface ContentBlock {
+  type: string;
+  text?: string;
+  items?: string[];
+  variant?: string;
+  stats?: { value: string; label: string }[];
+  tableHeaders?: string[];
+  tableRows?: string[][];
+}
+
+function blocksToMarkdown(blocks: ContentBlock[]): string {
+  const parts: string[] = [];
+  for (const b of blocks) {
+    switch (b.type) {
+      case "h1": parts.push(`# ${b.text ?? ""}\n`); break;
+      case "h2": parts.push(`## ${b.text ?? ""}\n`); break;
+      case "h3": parts.push(`### ${b.text ?? ""}\n`); break;
+      case "h4": parts.push(`#### ${b.text ?? ""}\n`); break;
+      case "paragraph": parts.push(`${b.text ?? ""}\n`); break;
+      case "pullquote": parts.push(`> ${b.text ?? ""}\n`); break;
+      case "callout": parts.push(`> **${b.variant ? b.variant.toUpperCase() + ": " : ""}**${b.text ?? ""}\n`); break;
+      case "divider": parts.push(`---\n`); break;
+      case "list":
+        if (b.items?.length) parts.push(b.items.map((i) => `- ${i}`).join("\n") + "\n");
+        break;
+      case "numbered":
+        if (b.items?.length) parts.push(b.items.map((i, idx) => `${idx + 1}. ${i}`).join("\n") + "\n");
+        break;
+      case "stat-row":
+        if (b.stats?.length) {
+          parts.push(b.stats.map((s) => `**${s.value}** — ${s.label}`).join(" | ") + "\n");
+        }
+        break;
+      case "table":
+        if (b.tableHeaders?.length) {
+          parts.push("| " + b.tableHeaders.join(" | ") + " |");
+          parts.push("|" + b.tableHeaders.map(() => " --- ").join("|") + "|");
+          for (const row of b.tableRows ?? []) {
+            parts.push("| " + row.join(" | ") + " |");
+          }
+          parts.push("");
+        }
+        break;
+    }
+  }
+  return parts.join("\n").replace(/\n{3,}/g, "\n\n").trim();
+}
+
+// ────────────────────────────────────────────────────────────────────────────
+
 export default function AdminContentEditorBriefPage({ briefId: briefIdProp }: Props = {}) {
   const params = useParams();
   const rawId = params?.id;
@@ -406,6 +511,8 @@ export default function AdminContentEditorBriefPage({ briefId: briefIdProp }: Pr
   });
   const [filter, setFilter] = useState<"all" | "missing" | "good" | "over">("all");
   const [factCoverageEnabled, setFactCoverageEnabled] = useState(false);
+  const [optimizing, setOptimizing] = useState(false);
+  const [optimizeError, setOptimizeError] = useState<string | null>(null);
 
   // Hydrate draft from server when state loads / changes.
   useEffect(() => {
@@ -424,6 +531,52 @@ export default function AdminContentEditorBriefPage({ briefId: briefIdProp }: Pr
     debounceMs: 1200,
   });
   const { saving, saved } = useDraftAutosave(drafts, editorId, 4000);
+
+  async function handleAutoOptimize() {
+    if (!state) return;
+    const { editor, terms, questions, facts } = state;
+    const confirmed = window.confirm(
+      "Auto-Optimize will replace your current draft with an AI-written version optimized against this brief. Continue?",
+    );
+    if (!confirmed) return;
+    setOptimizing(true);
+    setOptimizeError(null);
+    try {
+      const wTarget =
+        editor.recommended_word_count_target ??
+        (Math.round(((editor.recommended_word_count_min ?? 0) + (editor.recommended_word_count_max ?? 0)) / 2) || 2000);
+      const guidelines = buildSeoGuidelines(editor, terms, questions, facts);
+      const res = await fetch("/api/admin/rewrite-blog-post", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          topic: editor.primary_keyword,
+          primaryKeyword: editor.primary_keyword,
+          targetWordCount: wTarget,
+          seoGuidelines: guidelines,
+        }),
+      });
+      const data = (await res.json()) as {
+        ok?: boolean;
+        error?: string;
+        title?: string;
+        metaDescription?: string;
+        content?: ContentBlock[];
+      };
+      if (!res.ok || !data.ok) throw new Error(data.error ?? "Auto-Optimize failed.");
+      const markdown = blocksToMarkdown(data.content ?? []);
+      setDrafts({
+        titleTag: data.title ?? drafts.titleTag,
+        metaDescription: data.metaDescription ?? drafts.metaDescription,
+        h1Text: data.title ?? drafts.h1Text,
+        bodyMarkdown: markdown,
+      });
+    } catch (err) {
+      setOptimizeError(String(err));
+    } finally {
+      setOptimizing(false);
+    }
+  }
 
   if (loading) {
     return (
@@ -470,6 +623,19 @@ export default function AdminContentEditorBriefPage({ briefId: briefIdProp }: Pr
           <div className="flex flex-wrap items-center gap-2">
             <button
               type="button"
+              onClick={() => void handleAutoOptimize()}
+              disabled={optimizing || processing}
+              className="px-4 py-2 rounded-lg text-[11px] font-bold uppercase tracking-[0.1em] bg-[#3d6f7f] text-white hover:bg-[#2f5a6b] disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-1.5"
+              title="Generate a fully-optimized draft from this brief using AI"
+            >
+              {optimizing ? (
+                <><i className="ri-loader-4-line animate-spin" /> Optimizing…</>
+              ) : (
+                <><i className="ri-magic-line" /> Auto-Optimize</>
+              )}
+            </button>
+            <button
+              type="button"
               onClick={() => void rerun()}
               className="px-3 py-2 rounded-lg text-[11px] font-bold uppercase tracking-[0.1em] border border-neutral-200 text-neutral-700 hover:border-neutral-400"
             >
@@ -484,6 +650,23 @@ export default function AdminContentEditorBriefPage({ briefId: briefIdProp }: Pr
           </div>
         }
       />
+
+      {optimizeError ? (
+        <div className="rounded-2xl border border-red-200 bg-red-50 p-4 flex items-start gap-3">
+          <i className="ri-error-warning-line text-red-600 mt-0.5" />
+          <div className="flex-1">
+            <p className="text-[12px] font-semibold text-red-900">Auto-Optimize failed</p>
+            <p className="mt-0.5 text-[11px] text-red-700">{optimizeError}</p>
+          </div>
+          <button
+            type="button"
+            onClick={() => setOptimizeError(null)}
+            className="text-red-400 hover:text-red-600 text-sm"
+          >
+            <i className="ri-close-line" />
+          </button>
+        </div>
+      ) : null}
 
       {processing ? (
         <div className="rounded-2xl border border-amber-200 bg-amber-50 p-6 flex items-center gap-4">
