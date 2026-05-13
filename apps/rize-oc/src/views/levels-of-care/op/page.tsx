@@ -138,7 +138,7 @@ export default function OpPage() {
       {/* ①  Hero ─────────────────────────────────────────────────────────── */}
       <section className="relative bg-ink overflow-hidden min-h-[88vh] flex flex-col justify-end">
         <Image
-          src={`${BASE}/op_hero02.jpg`}
+          src={`${BASE}/op_hero03.jpg`}
           alt="Serene outdoor courtyard at Rize OC outpatient wellness center in Orange County California"
           fill
           className="object-cover object-center"

@@ -179,7 +179,7 @@ export default function DetoxPage() {
       <section className="relative bg-ink overflow-hidden min-h-[88vh] flex flex-col justify-end">
         {/* Full-bleed background image */}
         <Image
-          src={`${BASE}/detox_hero02.jpg`}
+          src="https://nfjlvkxrbzytjefmcvhg.supabase.co/storage/v1/object/public/site-assets/images/detox_hero04.jpg"
           alt="Luxury coastal recovery facility outdoor terrace at Rize OC, Orange County"
           fill
           className="object-cover object-center"

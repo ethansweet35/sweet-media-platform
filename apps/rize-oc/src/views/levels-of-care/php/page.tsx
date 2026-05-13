@@ -170,9 +170,9 @@ export default function PhpPage() {
   return (
     <>
       {/* ①  Hero ─────────────────────────────────────────────────────────── */}
-      <section className="relative bg-ink overflow-hidden min-h-[88vh] flex flex-col justify-end">
+      <section className="relative bg-ink overflow-hidden min-h-screen flex flex-col">
         <Image
-          src={`${BASE}/php_hero02.jpg`}
+          src={`${BASE}/php_hero03.jpg`}
           alt="Bright premium group therapy room at Rize OC Partial Hospitalization Program in Orange County"
           fill
           className="object-cover object-center"
@@ -180,63 +180,73 @@ export default function PhpPage() {
         />
         <div
           className="absolute inset-0"
-          style={{ background: "linear-gradient(to top, rgba(44,48,46,1) 0%, rgba(44,48,46,0.92) 30%, rgba(44,48,46,0.65) 55%, rgba(44,48,46,0.2) 100%)" }}
+          style={{ background: "linear-gradient(110deg, rgba(44,48,46,0.97) 0%, rgba(44,48,46,0.90) 38%, rgba(44,48,46,0.55) 62%, rgba(44,48,46,0.1) 100%)" }}
         />
+        <span
+          className="pointer-events-none select-none absolute right-[3%] top-1/2 -translate-y-1/2 font-[family-name:var(--font-display)] italic font-normal leading-none text-white/[0.04]"
+          style={{ fontSize: "clamp(160px, 22vw, 320px)" }}
+          aria-hidden
+        >02</span>
 
-        <div className="relative z-10 w-full">
-          <div className="absolute bottom-full mb-8 left-0 w-full px-6 lg:px-12 xl:px-20">
-            <Eyebrow colorClass="text-accent">Levels of Care — Step 2</Eyebrow>
-          </div>
-
-          <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-8 px-6 lg:px-12 xl:px-20 pb-16 pt-0">
-            <div className="flex-1 max-w-3xl">
-              <h1
-                className="font-[family-name:var(--font-display)] font-normal text-white"
-                style={{ fontSize: "clamp(52px, 6.5vw, 96px)", lineHeight: 0.95 }}
-              >
-                Partial Hospitalization<br />
-                <em className="italic text-white/60">Program (PHP)</em>
-              </h1>
-              <p className="mt-6 text-[16px] font-light leading-relaxed text-white/80 max-w-[520px]">
-                Six hours of daily intensive clinical programming — the full therapeutic depth of residential treatment, with the healing freedom of home each evening.
-              </p>
+        {/* Main content — vertically centered */}
+        <div className="relative z-10 flex-1 flex items-center">
+          <div className="mx-auto w-full max-w-[1300px] px-6 lg:px-10 py-28">
+            <Eyebrow colorClass="text-accent" className="mb-6">Levels of Care — Step 2</Eyebrow>
+            <h1
+              className="font-[family-name:var(--font-display)] font-normal text-white max-w-[760px]"
+              style={{ fontSize: "clamp(48px, 6vw, 92px)", lineHeight: 0.95 }}
+            >
+              Partial Hospitalization<br />
+              <em className="italic text-white/60">Program (PHP)</em>
+            </h1>
+            <p className="mt-6 text-[16px] font-light leading-relaxed text-white/75 max-w-[520px]">
+              Six hours of daily intensive clinical programming — the full therapeutic depth of residential treatment, with the healing freedom of home each evening.
+            </p>
+            <div className="mt-8 flex flex-wrap gap-3">
+              <Button href="#verify" variant="accent" size="md">Verify Insurance — Free</Button>
+              <Button href="tel:9494612620" variant="outline-white" size="md">
+                <i className="ri-phone-line mr-2 text-sm" /> (949)-461-2620
+              </Button>
             </div>
-
-            <div className="flex flex-col items-start lg:items-end gap-4 shrink-0">
-              <div className="flex flex-wrap gap-3">
-                <Button href="#verify" variant="accent" size="md">
-                  Verify Insurance — Free
-                </Button>
-                <Button href="tel:9494612620" variant="outline-white" size="md">
-                  <i className="ri-phone-line mr-2 text-sm" /> (949)-461-2620
-                </Button>
-              </div>
-              <div className="flex flex-wrap items-center gap-x-5 gap-y-2">
-                {[
-                  { icon: "ri-checkbox-circle-line", text: "Joint Commission Accredited" },
-                  { icon: "ri-shield-check-line",    text: "DHCS Licensed" },
-                  { icon: "ri-time-line",            text: "Same-Day Admissions" },
-                ].map(({ icon, text }) => (
-                  <div key={text} className="flex items-center gap-1.5">
-                    <i className={`${icon} text-accent text-sm`} />
-                    <span className="text-[11px] font-medium uppercase tracking-[0.15em] text-white/80">{text}</span>
-                  </div>
-                ))}
-              </div>
+            <div className="mt-10 flex flex-wrap gap-x-10 gap-y-4 border-t border-white/10 pt-8">
+              {[
+                { value: "6hrs", label: "Daily Programming" },
+                { value: "5–7",  label: "Days Per Week" },
+                { value: "2–4",  label: "Week Average Stay" },
+                { value: "1:3",  label: "Staff-to-Client Ratio" },
+              ].map(({ value, label }) => (
+                <div key={label}>
+                  <p className="font-[family-name:var(--font-display)] text-[28px] font-normal text-white leading-none">{value}</p>
+                  <p className="text-[10px] font-medium uppercase tracking-[0.22em] text-white/45 mt-1.5">{label}</p>
+                </div>
+              ))}
             </div>
           </div>
+        </div>
 
-          <div className="grid grid-cols-2 lg:grid-cols-4 border-t border-white/10">
+        {/* Continuum progress strip */}
+        <div className="relative z-10 border-t border-white/10">
+          <div className="mx-auto max-w-[1300px] w-full flex">
             {[
-              { value: "6hrs",  label: "Daily Programming" },
-              { value: "5–7",   label: "Days Per Week" },
-              { value: "2–4",   label: "Week Average Stay" },
-              { value: "1:3",   label: "Staff-to-Client Ratio" },
-            ].map(({ value, label }) => (
-              <div key={label} className="px-8 py-5 border-r border-white/10 last:border-r-0 bg-ink/50 backdrop-blur-sm">
-                <p className="font-[family-name:var(--font-display)] text-[28px] font-normal text-white leading-none">{value}</p>
-                <p className="text-[10px] font-medium uppercase tracking-[0.22em] text-white/50 mt-1.5">{label}</p>
-              </div>
+              { num: "01", label: "Detox",   href: "/drug-alcohol-detox",                          active: false },
+              { num: "02", label: "PHP",     href: "/partial-hospitalization-program-orange-county", active: true  },
+              { num: "03", label: "IOP",     href: "/iop-program-orange-county",                    active: false },
+              { num: "04", label: "OP",      href: "/outpatient-program",                            active: false },
+              { num: "05", label: "Virtual", href: "/virtual-outpatient-program",                    active: false },
+            ].map(({ num, label, href, active }) => (
+              <Link
+                key={href}
+                href={href}
+                className={`relative flex-1 flex flex-col items-center justify-center py-4 border-r border-white/10 last:border-r-0 transition-colors ${
+                  active ? "bg-accent/10" : "hover:bg-white/5"
+                }`}
+              >
+                <span className="text-[9px] font-medium tracking-[0.3em] text-white/25">{num}</span>
+                <span className={`text-[10px] font-semibold uppercase tracking-[0.2em] mt-0.5 transition-colors ${
+                  active ? "text-accent" : "text-white/40 hover:text-white/70"
+                }`}>{label}</span>
+                {active && <div className="absolute bottom-0 left-0 right-0 h-[2px] bg-accent" />}
+              </Link>
             ))}
           </div>
         </div>

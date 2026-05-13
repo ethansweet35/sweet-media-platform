@@ -77,39 +77,79 @@ export default function LevelsOfCarePage() {
   return (
     <>
       {/* ── Hero ──────────────────────────────────────────────────────────── */}
-      <section className="bg-ink">
-        <SectionWrapper py="py-0" className="grid lg:grid-cols-[1fr_500px] min-h-[480px] items-stretch gap-0">
-          <div className="flex flex-col justify-center py-[80px] pr-0 lg:pr-16">
-            <Eyebrow colorClass="text-accent" className="mb-5">Treatment Programs</Eyebrow>
-            <h1
-              className="font-[family-name:var(--font-display)] font-normal text-white"
-              style={{ fontSize: "clamp(40px, 5vw, 72px)", lineHeight: 1.05 }}
-            >
-              Levels of Care
-            </h1>
-            <div className="mt-5 mb-6 w-12 h-[2px] bg-accent" />
-            <p className="text-[15px] font-light leading-relaxed text-white/65 max-w-lg">
-              Recovery is not a single event — it is a continuum. Rize OC offers every level of care from medically supervised detox to long-term virtual outpatient, ensuring you always have the right support at the right moment.
-            </p>
-            <div className="mt-8 flex flex-wrap gap-4">
-              <Button href="#programs" variant="accent" size="sm">View All Programs</Button>
-              <Button href="tel:9494612620" variant="outline-white" size="sm">
-                <i className="ri-phone-line mr-2" /> (949)-461-2620
-              </Button>
+      <section className="relative bg-ink overflow-hidden min-h-[88vh] flex flex-col justify-end">
+        <Image
+          src="https://nfjlvkxrbzytjefmcvhg.supabase.co/storage/v1/object/public/site-assets/images/loc_hero02.jpg"
+          alt="Aerial golden-hour view of a serene behavioral health treatment campus in Orange County California with courtyard fountain and coastal hills"
+          fill
+          className="object-cover object-center"
+          priority
+        />
+        <div
+          className="absolute inset-0"
+          style={{ background: "linear-gradient(to top, rgba(44,48,46,1) 0%, rgba(44,48,46,0.92) 30%, rgba(44,48,46,0.65) 55%, rgba(44,48,46,0.2) 100%)" }}
+        />
+
+        <div className="relative z-10 w-full">
+          <div className="absolute bottom-full mb-8 left-0 w-full px-6 lg:px-12 xl:px-20">
+            <Eyebrow colorClass="text-accent">Treatment Programs</Eyebrow>
+          </div>
+
+          <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-8 px-6 lg:px-12 xl:px-20 pb-16 pt-0">
+            <div className="flex-1 max-w-3xl">
+              <h1
+                className="font-[family-name:var(--font-display)] font-normal text-white"
+                style={{ fontSize: "clamp(52px, 6.5vw, 96px)", lineHeight: 0.95 }}
+              >
+                Levels of<br />
+                <em className="italic text-white/60">Care</em>
+              </h1>
+              <p className="mt-6 text-[16px] font-light leading-relaxed text-white/80 max-w-[520px]">
+                Recovery is not a single event — it is a continuum. Rize OC offers every level from medically supervised detox to long-term virtual outpatient, ensuring the right support at every stage.
+              </p>
+            </div>
+
+            <div className="flex flex-col items-start lg:items-end gap-4 shrink-0">
+              <div className="flex flex-wrap gap-3">
+                <Button href="#programs" variant="accent" size="md">View All Programs</Button>
+                <Button href="tel:9494612620" variant="outline-white" size="md">
+                  <i className="ri-phone-line mr-2 text-sm" /> (949)-461-2620
+                </Button>
+              </div>
+              <div className="flex flex-wrap items-center gap-x-5 gap-y-2">
+                {[
+                  { icon: "ri-checkbox-circle-line", text: "Joint Commission Accredited" },
+                  { icon: "ri-shield-check-line",    text: "DHCS Licensed" },
+                  { icon: "ri-time-line",            text: "Same-Day Admissions" },
+                ].map(({ icon, text }) => (
+                  <div key={text} className="flex items-center gap-1.5">
+                    <i className={`${icon} text-accent text-sm`} />
+                    <span className="text-[11px] font-medium uppercase tracking-[0.15em] text-white/80">{text}</span>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
 
-          <div className="relative hidden lg:block">
-            <Image
-              src={`${BASE}/loc_hero01.jpg`}
-              alt="Rize OC treatment facility exterior at golden hour"
-              fill
-              className="object-cover"
-              priority
-            />
-            <div className="absolute inset-0 bg-ink/20" />
+          <div className="grid grid-cols-2 lg:grid-cols-5 border-t border-white/10">
+            {[
+              { label: "Detox",   href: "/drug-alcohol-detox" },
+              { label: "PHP",     href: "/partial-hospitalization-program-orange-county" },
+              { label: "IOP",     href: "/iop-program-orange-county" },
+              { label: "OP",      href: "/outpatient-program" },
+              { label: "Virtual", href: "/virtual-outpatient-program" },
+            ].map(({ label, href }) => (
+              <Link
+                key={href}
+                href={href}
+                className="px-6 py-5 border-r border-white/10 last:border-r-0 bg-ink/50 backdrop-blur-sm flex items-center justify-between group hover:bg-white/5 transition-colors"
+              >
+                <span className="text-[11px] font-semibold uppercase tracking-[0.2em] text-white/50 group-hover:text-accent transition-colors">{label}</span>
+                <i className="ri-arrow-right-line text-white/20 text-sm group-hover:text-accent transition-colors" />
+              </Link>
+            ))}
           </div>
-        </SectionWrapper>
+        </div>
       </section>
 
       {/* ── Intro copy ────────────────────────────────────────────────────── */}

@@ -172,7 +172,7 @@ export default function IopPage() {
       {/* ①  Hero ─────────────────────────────────────────────────────────── */}
       <section className="relative bg-ink overflow-hidden min-h-[88vh] flex flex-col justify-end">
         <Image
-          src={`${BASE}/iop_hero02.jpg`}
+          src={`${BASE}/iop_hero03.jpg`}
           alt="Modern individual therapy counseling office at Rize OC Intensive Outpatient Program in Orange County"
           fill
           className="object-cover object-center"

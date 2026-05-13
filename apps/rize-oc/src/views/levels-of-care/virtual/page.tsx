@@ -136,7 +136,7 @@ export default function VirtualPage() {
       {/* ①  Hero ─────────────────────────────────────────────────────────── */}
       <section className="relative bg-ink overflow-hidden min-h-[88vh] flex flex-col justify-end">
         <Image
-          src={`${BASE}/vop_hero02.jpg`}
+          src={`${BASE}/vop_hero03.jpg`}
           alt="Person participating in secure telehealth therapy session from a comfortable California home"
           fill
           className="object-cover object-center"

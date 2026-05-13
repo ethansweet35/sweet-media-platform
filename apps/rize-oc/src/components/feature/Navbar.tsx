@@ -66,7 +66,7 @@ export default function Navbar() {
     "/virtual-outpatient-program", "/levels-of-care",
   ].some((p) => pathname === p || pathname.startsWith(p + "/"));
 
-  const isTreatActive = pathname.startsWith("/addiction") || pathname.startsWith("/mental-health");
+  const isTreatActive = pathname === "/what-we-treat" || pathname.startsWith("/addiction") || pathname.startsWith("/mental-health");
 
   const handleAddEnter = () => {
     if (addTimer.current) clearTimeout(addTimer.current);
@@ -158,14 +158,15 @@ export default function Navbar() {
             onMouseEnter={() => setTreatOpen(true)}
             onMouseLeave={() => { setTreatOpen(false); setAddOpen(false); }}
           >
-            <button
+            <Link
+              href="/what-we-treat"
               className={`flex items-center gap-1 text-[11px] font-medium uppercase tracking-[0.18em] transition-colors ${
                 isTreatActive ? "text-accent" : "text-ink hover:text-accent"
               }`}
             >
               What We Treat
               <i className={`ri-arrow-down-s-line text-sm transition-transform duration-200 ${treatOpen ? "rotate-180" : ""}`} />
-            </button>
+            </Link>
 
             {/* First-level dropdown */}
             <div
@@ -406,6 +407,13 @@ export default function Navbar() {
               </button>
               {mobileTreatOpen && (
                 <div className="mb-2 border-l-2 border-accent pl-4 flex flex-col gap-1">
+                  <Link
+                    href="/what-we-treat"
+                    onClick={() => setMenuOpen(false)}
+                    className="py-2 text-[11px] font-medium uppercase tracking-[0.15em] text-ink/70 hover:text-accent"
+                  >
+                    All Conditions Overview
+                  </Link>
                   {/* Addiction sub-section */}
                   <button
                     onClick={() => setMobileAddOpen(!mobileAddOpen)}
