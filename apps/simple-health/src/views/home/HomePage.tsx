@@ -247,7 +247,7 @@ export default function HomePage() {
               </span>
               Telehealth Reimagined
             </span>
-            <h1 className="mt-6 font-serif text-[2.5rem] leading-[1.05] text-[#3A3A3A] md:text-[3.2rem] md:leading-[1.04] lg:text-[3.6rem] lg:leading-[1.04]">
+            <h1 className="mt-6 font-serif text-[2rem] leading-[1.08] text-[#3A3A3A] sm:text-[2.5rem] sm:leading-[1.05] md:text-[3.2rem] md:leading-[1.04] lg:text-[3.6rem] lg:leading-[1.04]">
               <span className="block">Simple,</span>
               <span className="relative inline-block text-[#C67B5C]">
                 On-Demand
@@ -268,7 +268,7 @@ export default function HomePage() {
                   />
                 </svg>
               </span>
-              <span className="block whitespace-nowrap">Telehealth Services</span>
+              <span className="block lg:whitespace-nowrap">Telehealth Services</span>
             </h1>
             <p className="mt-6 max-w-xl text-[0.95rem] leading-7 font-normal text-[#555555]">
               Access the new standard of care — from GLP-1 weight loss and longevity peptides to
@@ -305,7 +305,7 @@ export default function HomePage() {
             </div>
 
             {/* Trust strip — single unified card */}
-            <div className="mt-9 inline-flex flex-wrap items-stretch divide-x divide-[#EDE7DD] rounded-2xl border border-[#E8E2D9] bg-white/80 shadow-sm backdrop-blur-sm">
+            <div className="mt-9 flex w-full flex-col items-stretch divide-y divide-[#EDE7DD] rounded-2xl border border-[#E8E2D9] bg-white/80 shadow-sm backdrop-blur-sm sm:inline-flex sm:w-auto sm:flex-row sm:divide-x sm:divide-y-0">
               <div className="flex items-center gap-3 px-5 py-3">
                 <div className="flex -space-x-2">
                   {[
@@ -334,7 +334,7 @@ export default function HomePage() {
                 </div>
               </div>
               <div className="flex items-center gap-2.5 px-5 py-3">
-                <span className="flex h-9 w-9 items-center justify-center rounded-full bg-[#6B7456]/12">
+                <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#6B7456]/12">
                   <i className="ri-shield-check-fill text-base text-[#6B7456]" />
                 </span>
                 <div className="leading-tight">
@@ -349,19 +349,19 @@ export default function HomePage() {
           <div className="relative">
             <div className="relative overflow-hidden rounded-2xl bg-white shadow-md">
               {/* Card header strip */}
-              <div className="relative overflow-hidden border-b border-[#F2EDE5] bg-gradient-to-r from-[#FAF7F4] via-[#FAF7F4] to-white px-8 py-5 md:px-10">
+              <div className="relative overflow-hidden border-b border-[#F2EDE5] bg-gradient-to-r from-[#FAF7F4] via-[#FAF7F4] to-white px-6 py-5 md:px-10">
                 <div className="absolute inset-y-0 right-0 w-24 bg-gradient-to-l from-[#C67B5C]/5 to-transparent" />
-                <div className="relative flex items-start justify-between gap-4">
-                  <div>
+                <div className="relative flex items-start justify-between gap-3">
+                  <div className="min-w-0 flex-1">
                     <div className="flex items-center gap-2">
-                      <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-[#C67B5C]/12">
+                      <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-[#C67B5C]/12">
                         <i className="ri-line-chart-line text-sm text-[#C67B5C]" />
                       </span>
                       <p className="text-[0.66rem] font-bold uppercase tracking-[0.18em] text-[#C67B5C]">
                         Outcomes Report
                       </p>
                     </div>
-                    <h2 className="mt-3 font-serif text-2xl text-[#3A3A3A] md:text-[1.95rem] md:leading-tight">
+                    <h2 className="mt-3 font-serif text-xl text-[#3A3A3A] sm:text-2xl md:text-[1.95rem] md:leading-tight">
                       Real results.{" "}
                       <span className="italic text-[#C67B5C]">Real science.</span>
                     </h2>
@@ -379,15 +379,15 @@ export default function HomePage() {
               </div>
 
               {/* Stats body */}
-              <div className="px-8 py-7 md:px-10 md:py-8">
+              <div className="px-6 py-6 md:px-10 md:py-8">
                 <p className="mb-5 text-[0.68rem] font-semibold uppercase tracking-[0.16em] text-[#888]">
                   Average patient outcomes
                 </p>
-                <div className="grid grid-cols-2 gap-x-6 gap-y-6">
+                <div className="grid grid-cols-2 gap-x-4 gap-y-5 md:gap-x-6 md:gap-y-6">
                   {heroStats.map((stat) => (
                     <div key={stat.label} className="relative">
                       <div className="flex items-baseline gap-2">
-                        <p className="font-serif text-[1.85rem] leading-none text-[#3A3A3A]">
+                        <p className="font-serif text-[1.5rem] leading-none text-[#3A3A3A] sm:text-[1.85rem]">
                           {stat.value}
                         </p>
                         <span
@@ -397,7 +397,7 @@ export default function HomePage() {
                           <i className="ri-arrow-up-line align-middle" />
                         </span>
                       </div>
-                      <p className="mt-1.5 text-[0.66rem] font-semibold uppercase tracking-[0.12em] text-[#6B7456]">
+                      <p className="mt-1.5 text-[0.62rem] font-semibold uppercase tracking-[0.1em] text-[#6B7456] sm:text-[0.66rem] sm:tracking-[0.12em]">
                         {stat.label}
                       </p>
                       <div className="mt-2.5 h-1.5 w-full overflow-hidden rounded-full bg-[#F2EDE5]">
@@ -412,7 +412,7 @@ export default function HomePage() {
               </div>
 
               {/* Card footer attribution */}
-              <div className="flex items-center justify-between gap-3 border-t border-[#F2EDE5] bg-[#FAF7F4]/60 px-8 py-3 md:px-10">
+              <div className="flex flex-wrap items-center justify-between gap-x-3 gap-y-1.5 border-t border-[#F2EDE5] bg-[#FAF7F4]/60 px-6 py-3 md:px-10">
                 <p className="text-[0.66rem] text-[#888]">
                   Aggregated from clinical follow-ups · Updated quarterly
                 </p>
