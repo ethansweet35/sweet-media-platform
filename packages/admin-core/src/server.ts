@@ -32,3 +32,34 @@ export {
   getBrief,
   deleteBrief,
 } from "./lib/server/sweetSeoBrief";
+
+// ─── Content Editor vendor wrappers ─────────────────────────────────────
+// Used by the new Surfer/Rankability-style content optimization pipeline.
+// Each wrapper returns `{ data, cost_usd }` so the pipeline orchestrator
+// can update `content_editors.total_cost_usd` as it runs.
+export {
+  ContentEditorError,
+  fetchSerpResults,
+  scrapePage,
+  analyzeEntities,
+  callClaude,
+  embedTexts,
+  cosineSimilarity,
+  CLAUDE_MODELS,
+  claudeCallCost,
+  OPENAI_EMBEDDING_DIMENSIONS,
+  type VendorCallResult,
+  type SerpFetchResult,
+  type SerpOrganicResult,
+  type ScrapeResult,
+  type ScrapedHeading,
+  type NlpEntity,
+  type NlpEntityType,
+  type ClaudeCallOptions,
+  type ClaudeCallResult,
+  type ClaudeModelAlias,
+  type ClaudeUsage,
+  type EmbeddingResult,
+  type FetchSerpOptions,
+  type ScrapeOptions,
+} from "./lib/server/contentEditor";
