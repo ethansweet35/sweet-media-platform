@@ -48,7 +48,7 @@ interface AdminBlogTableProps {
   onRunSeo: (post: BlogPost) => void;
   onApplySeo: (post: BlogPost, result: SeoGenResult) => void;
   onDismissSeo: (postId: string) => void;
-  /** Optional callback to refetch posts after a Sweet SEO mutation. */
+  /** Optional callback to refetch posts after a Content Editor mutation. */
   onSeoChange?: () => void | Promise<void>;
   /** Persist a focus_keyword change for the given post. */
   onUpdateFocusKeyword: (post: BlogPost, keyword: string | null) => Promise<boolean>;
@@ -93,7 +93,7 @@ export default function AdminBlogTable({
     status: 130,      // "Published" pill button
     autopublish: 120, // header "Auto-publish" + toggle
     keyword: 280,     // inline-edit input + Suggest popover trigger
-    sweetSeo: 340,    // score ring + brief chip + applied checkbox + refresh
+    contentEditor: 340, // Content Editor chip + score badge + open-link
     actions: 290,     // edit + preview + star + gen-card button + meta-data + delete
   });
   const resizeRef = useRef<{ col: keyof typeof colWidths; startX: number; startW: number } | null>(null);
@@ -173,7 +173,7 @@ export default function AdminBlogTable({
       <div className="overflow-x-auto">
         <table style={{ width: tableWidth, minWidth: tableWidth }} className="table-fixed">
           <colgroup>
-            {(["check","title","seoTitle","metaDesc","author","date","status","autopublish","keyword","sweetSeo","actions"] as (keyof typeof colWidths)[]).map((c) => (
+            {(["check","title","seoTitle","metaDesc","author","date","status","autopublish","keyword","contentEditor","actions"] as (keyof typeof colWidths)[]).map((c) => (
               <col key={c} style={{ width: colWidths[c] + "px" }} />
             ))}
           </colgroup>
@@ -200,7 +200,7 @@ export default function AdminBlogTable({
               <SortTh field="status" label="Status" rk="status" />
               <StaticTh label="Auto-publish" rk="autopublish" />
               <StaticTh label="Primary Keyword" rk="keyword" />
-              <StaticTh label="Content Editor" rk="sweetSeo" />
+              <StaticTh label="Content Editor" rk="contentEditor" />
               <StaticTh label="Actions" rk="actions" right />
             </tr>
           </thead>

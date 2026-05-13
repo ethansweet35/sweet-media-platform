@@ -207,8 +207,7 @@ create table if not exists public.blog_posts (
   published_at timestamptz,
   scheduled_publish_at timestamptz,
   approved_for_publish boolean not null default false,
-  -- Legacy Surfer columns — superseded by seo_brief_id (Sweet SEO). Kept for
-  -- backward compatibility; safe to drop in a future migration.
+  -- Legacy Surfer columns — kept for backward compatibility; safe to drop in a future migration.
   surfer_content_editor_id bigint,
   surfer_permalink_hash text,
   surfer_audit_id bigint,
@@ -218,10 +217,6 @@ create table if not exists public.blog_posts (
   surfer_last_error text,
   surfer_guidance_applied boolean not null default false,
   published_url text,
-  -- Sweet SEO integration (see migrations/2026-05-12_swap_surfer_for_sweet_seo.sql).
-  -- FK to seo_briefs is added at the bottom of this file, after seo_briefs exists.
-  seo_brief_id uuid,
-  seo_guidance_applied boolean not null default false,
   -- Content Editor integration (see migrations/2026-05-12_link_blog_pages_to_content_editor.sql).
   -- FK to content_editors is added at the bottom of this file.
   content_editor_id uuid,
@@ -229,7 +224,6 @@ create table if not exists public.blog_posts (
   updated_at timestamptz not null default now()
 );
 
-create index if not exists blog_posts_seo_brief_idx on public.blog_posts(seo_brief_id);
 create index if not exists blog_posts_content_editor_idx on public.blog_posts(content_editor_id);
 
 alter table public.blog_posts enable row level security;
@@ -312,16 +306,12 @@ create table if not exists public.tracked_pages (
   surfer_last_error text,
   surfer_guidance_applied boolean not null default false,
   published_url text,
-  -- Sweet SEO integration. FK to seo_briefs is added at the bottom of this file.
-  seo_brief_id uuid,
-  seo_guidance_applied boolean not null default false,
   -- Content Editor integration. FK to content_editors is added at the bottom of this file.
   content_editor_id uuid,
   created_at timestamptz not null default now(),
   updated_at timestamptz not null default now()
 );
 
-create index if not exists tracked_pages_seo_brief_idx on public.tracked_pages(seo_brief_id);
 create index if not exists tracked_pages_content_editor_idx on public.tracked_pages(content_editor_id);
 
 create table if not exists public.system_settings (
@@ -332,37 +322,12 @@ create table if not exists public.system_settings (
   updated_at timestamptz not null default now()
 );
 
--- Sweet SEO content briefs (see migrations/2026-05-12_sweet_seo_briefs.sql)
-create table if not exists public.seo_briefs (
-  id uuid primary key default gen_random_uuid(),
-  keyword text not null,
-  country text not null default 'US',
-  status text not null default 'pending',
-  model text,
-  content_structure jsonb,
-  important_terms jsonb,
-  questions jsonb,
-  facts jsonb,
-  citations jsonb,
-  notes text,
-  draft_content text not null default '',
-  error_message text,
-  created_by uuid,
-  created_at timestamptz not null default now(),
-  updated_at timestamptz not null default now()
-);
-
-create index if not exists seo_briefs_created_at_idx on public.seo_briefs(created_at desc);
-create index if not exists seo_briefs_status_idx on public.seo_briefs(status);
-create index if not exists seo_briefs_keyword_idx on public.seo_briefs(lower(keyword));
-
 -- Enable RLS on admin-managed tables
 alter table public.blog_queue enable row level security;
 alter table public.blog_knowledge_base enable row level security;
 alter table public.internal_links enable row level security;
 alter table public.tracked_pages enable row level security;
 alter table public.system_settings enable row level security;
-alter table public.seo_briefs enable row level security;
 
 -- Admin policies for operational tables
 drop policy if exists "Admins can manage blog queue" on public.blog_queue;
@@ -383,29 +348,6 @@ create policy "Admins can manage tracked pages" on public.tracked_pages for all 
 
 drop policy if exists "Admins can manage system settings" on public.system_settings;
 create policy "Admins can manage system settings" on public.system_settings for all to authenticated using (exists (select 1 from public.admin_users au where lower(au.email) = lower(auth.jwt() ->> 'email'))) with check (exists (select 1 from public.admin_users au where lower(au.email) = lower(auth.jwt() ->> 'email')));
-
-drop policy if exists "Admins can manage seo briefs" on public.seo_briefs;
-create policy "Admins can manage seo briefs" on public.seo_briefs for all to authenticated using (exists (select 1 from public.admin_users au where lower(au.email) = lower(auth.jwt() ->> 'email'))) with check (exists (select 1 from public.admin_users au where lower(au.email) = lower(auth.jwt() ->> 'email')));
-
--- Wire up the FKs from blog_posts/tracked_pages.seo_brief_id -> seo_briefs.id
--- (declared as plain uuid above so the schema file can run top-to-bottom).
-do $$
-begin
-  if not exists (
-    select 1 from pg_constraint where conname = 'blog_posts_seo_brief_id_fkey'
-  ) then
-    alter table public.blog_posts
-      add constraint blog_posts_seo_brief_id_fkey
-      foreign key (seo_brief_id) references public.seo_briefs(id) on delete set null;
-  end if;
-  if not exists (
-    select 1 from pg_constraint where conname = 'tracked_pages_seo_brief_id_fkey'
-  ) then
-    alter table public.tracked_pages
-      add constraint tracked_pages_seo_brief_id_fkey
-      foreign key (seo_brief_id) references public.seo_briefs(id) on delete set null;
-  end if;
-end $$;
 
 -- =========================================================
 -- CONTENT EDITOR (Surfer/Rankability-style content optimization)
@@ -660,6 +602,80 @@ create index if not exists tracked_page_live_snapshots_page_idx
 create index if not exists tracked_page_live_snapshots_editor_idx
   on public.tracked_page_live_snapshots(scored_against_editor_id, fetched_at desc);
 
+-- =========================================================
+-- ai_optimize_runs — Cursor cloud agent runs that open AI-authored PRs
+--
+-- An admin clicks "Optimize Page (Open PR)" in the Content Editor brief
+-- workspace. The server-side handler fires a Cursor cloud agent via
+-- @cursor/sdk that clones this repo, reads the page's tsx + the brand
+-- design system rules + the content brief (terms/questions/facts), and
+-- opens a PR with code-level edits. We record the agent id, run id, and
+-- (when finished) the PR URL so the admin UI can surface the diff.
+-- =========================================================
+create table if not exists public.ai_optimize_runs (
+  id uuid primary key default gen_random_uuid(),
+  editor_id uuid references public.content_editors(id) on delete cascade,
+  tracked_page_id uuid references public.tracked_pages(id) on delete cascade,
+
+  -- Cursor SDK identifiers (cloud agents are prefixed `bc-`).
+  cursor_agent_id text,
+  cursor_run_id text,
+
+  -- Lifecycle
+  --   queued     — row inserted; not yet dispatched to Cursor
+  --   running    — Cursor accepted the run
+  --   pr_opened  — agent finished and PR is open
+  --   merged     — admin merged the PR
+  --   failed     — Cursor reported error or backend rejected
+  --   cancelled  — admin cancelled the agent
+  status text not null default 'queued',
+  status_message text,
+
+  -- Output
+  pr_url text,
+  pr_number int,
+  branch_name text,
+  diff_summary text,
+
+  -- Vercel preview deployment (populated after PR opens). The admin
+  -- workspace surfaces preview_url as a clickable Preview link and runs
+  -- a one-off scoring pass against the preview HTML so admins see the
+  -- projected content score lift before merging.
+  vercel_project_id text,
+  preview_url text,
+  preview_content_score numeric(5,2),
+  preview_word_count int,
+  preview_scored_at timestamptz,
+  preview_fetch_error text,
+
+  -- Provenance
+  triggered_by_email text,
+  model_id text,
+  prompt text,
+  error text,
+
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now(),
+  completed_at timestamptz
+);
+
+create index if not exists ai_optimize_runs_editor_idx on public.ai_optimize_runs(editor_id, created_at desc);
+create index if not exists ai_optimize_runs_page_idx on public.ai_optimize_runs(tracked_page_id, created_at desc);
+create index if not exists ai_optimize_runs_status_idx on public.ai_optimize_runs(status);
+
+create or replace function public.tg_ai_optimize_runs_updated_at()
+returns trigger language plpgsql as $fn$
+begin
+  new.updated_at = now();
+  return new;
+end;
+$fn$;
+
+drop trigger if exists ai_optimize_runs_updated_at on public.ai_optimize_runs;
+create trigger ai_optimize_runs_updated_at
+  before update on public.ai_optimize_runs
+  for each row execute function public.tg_ai_optimize_runs_updated_at();
+
 alter table public.content_editors                  enable row level security;
 alter table public.content_editor_competitors       enable row level security;
 alter table public.content_editor_terms             enable row level security;
@@ -671,6 +687,7 @@ alter table public.content_editor_draft_term_usage  enable row level security;
 alter table public.content_editor_serp_cache        enable row level security;
 alter table public.content_editor_domain_blacklist  enable row level security;
 alter table public.tracked_page_live_snapshots      enable row level security;
+alter table public.ai_optimize_runs                 enable row level security;
 
 do $$
 declare tbl text; pname text;
@@ -678,7 +695,8 @@ begin
   for tbl in select unnest(array[
     'content_editors','content_editor_competitors','content_editor_terms','content_editor_questions',
     'content_editor_facts','content_editor_outlines','content_editor_drafts','content_editor_draft_term_usage',
-    'content_editor_serp_cache','content_editor_domain_blacklist','tracked_page_live_snapshots'
+    'content_editor_serp_cache','content_editor_domain_blacklist','tracked_page_live_snapshots',
+    'ai_optimize_runs'
   ]) loop
     pname := 'Admins can manage ' || tbl;
     execute format('drop policy if exists %I on public.%I', pname, tbl);

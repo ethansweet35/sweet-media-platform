@@ -18,8 +18,6 @@ type DbTrackedPageRow = {
   notes: string | null;
   created_at: string;
   updated_at: string;
-  seo_brief_id?: string | null;
-  seo_guidance_applied?: boolean | null;
   published_url?: string | null;
   content_editor_id?: string | null;
 };
@@ -39,8 +37,6 @@ function rowToPage(row: DbTrackedPageRow): TrackedPage {
     notes: row.notes,
     created_at: row.created_at,
     updated_at: row.updated_at,
-    seo_brief_id: row.seo_brief_id ?? null,
-    seo_guidance_applied: row.seo_guidance_applied === true,
     published_url: row.published_url ?? null,
     content_editor_id: row.content_editor_id ?? null,
   };
@@ -138,9 +134,6 @@ export function useTrackedPages() {
             updates.notes !== null && String(updates.notes).trim() ? String(updates.notes).trim() : null;
         if (updates.is_active !== undefined) row.is_active = updates.is_active;
         if (updates.display_order !== undefined) row.display_order = updates.display_order;
-        if (updates.seo_brief_id !== undefined) row.seo_brief_id = updates.seo_brief_id;
-        if (updates.seo_guidance_applied !== undefined)
-          row.seo_guidance_applied = updates.seo_guidance_applied;
         if (updates.published_url !== undefined)
           row.published_url =
             updates.published_url !== null && String(updates.published_url).trim()

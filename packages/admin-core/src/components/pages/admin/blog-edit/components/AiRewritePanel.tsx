@@ -16,7 +16,7 @@ export interface RewriteParams {
   category: string;
   targetWordCount: number;
   model: string;
-  /** Sweet SEO brief markdown / NLP guidelines to follow. */
+  /** SEO brief markdown / NLP guidelines (e.g. exported from a Content Editor brief) to follow. */
   seoGuidelines: string;
 }
 
@@ -126,10 +126,10 @@ export default function AiRewritePanel({
             </p>
           </div>
 
-          {/* Sweet SEO brief */}
+          {/* SEO brief */}
           <div>
             <label className={labelCls}>
-              Sweet SEO Brief
+              SEO Brief
               <span className="ml-1.5 normal-case font-normal text-neutral-400">optional</span>
             </label>
             <div className="space-y-2">
@@ -147,7 +147,7 @@ export default function AiRewritePanel({
               </button>
               <input ref={fileRef} type="file" accept=".txt,.md,text/plain,text/markdown" className="hidden" onChange={handleFileUpload} />
               <textarea value={seoGuidelines} onChange={(e) => setSeoGuidelines(e.target.value)}
-                rows={4} placeholder="Or paste a Sweet SEO brief (NLP terms, structure targets, questions, facts)..."
+                rows={4} placeholder="Or paste a SEO brief (NLP terms, structure targets, questions, facts)..."
                 className={`${inputCls} resize-none`} />
               {seoGuidelines && (
                 <p className="text-[11px] text-neutral-400">

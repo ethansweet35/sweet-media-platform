@@ -6,11 +6,9 @@ export * from "./types/content-links";
 export * from "./types/knowledge-base";
 export * from "./types/tracked-page";
 export * from "./types/semrush";
-export * from "./types/seo-brief";
 
 export { default as AdminPageHeader } from "./components/AdminPageHeader";
 export { default as OptimizationStatusBanner } from "./components/OptimizationStatusBanner";
-export { default as SweetSeoCell, type SweetSeoCellRow } from "./components/SweetSeoCell";
 export { default as ContentEditorCell, type ContentEditorCellRow } from "./components/ContentEditorCell";
 export { useContentEditorRowActions, type ContentEditorRowRef } from "./hooks/useContentEditorRowActions";
 export { default as KeywordSuggestPopover } from "./components/KeywordSuggestPopover";
@@ -33,7 +31,6 @@ export {
 export { useInternalLinks, type InternalLink } from "./hooks/useInternalLinks";
 export { useDashboardData, formatDashboardDate, relativeTimeSince } from "./hooks/useDashboardData";
 export { useAdminBlogPosts } from "./hooks/useAdminBlogPosts";
-export { useSeoBriefRowActions } from "./hooks/useSeoBriefRowActions";
 export { useBlogPostBySlug } from "./hooks/useBlogPostBySlug";
 export { useLinkUtilization, type LinkUtilization, type UtilizationStatus } from "./hooks/useLinkUtilization";
 export { getPublicSiteOrigin, canonicalBlogPostUrl } from "./lib/publicSiteUrl";
@@ -79,8 +76,6 @@ export { default as AdminLinkHealthPage } from "./views/AdminLinkHealthPage";
 export { default as AdminSetupPage } from "./views/AdminSetupPage";
 export { default as AdminBrandSettingsPage } from "./views/AdminBrandSettingsPage";
 export { default as AdminKeywordResearchPage } from "./views/AdminKeywordResearchPage";
-export { default as AdminSweetSeoPage } from "./views/AdminSweetSeoPage";
-export { default as AdminSweetSeoBriefPage } from "./views/AdminSweetSeoBriefPage";
 export { default as AdminContentEditorPage } from "./views/AdminContentEditorPage";
 export { default as AdminContentEditorBriefPage } from "./views/AdminContentEditorBriefPage";
 export {
@@ -116,5 +111,4 @@ export {
   STATUS_IS_PROCESSING,
   EEAT_CHECK_LABELS,
 } from "./types/content-editor";
-export { useSeoBriefs, useSeoBrief, useBriefForWriter, briefToMarkdown } from "./hooks/useSeoBriefs";
 export { useBrandSettings, type BrandSettingsRow, type BusinessHoursRow } from "./hooks/useBrandSettings";

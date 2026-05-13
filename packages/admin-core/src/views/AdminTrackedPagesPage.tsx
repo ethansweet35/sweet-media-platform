@@ -102,7 +102,7 @@ export default function AdminTrackedPagesPage() {
 
   // Column widths (px)
   const [colWidths, setColWidths] = useState({
-    check: 48, route: 200, title: 160, seo: 210, meta: 220, keyword: 260, sweetSeo: 340, status: 120, date: 140, actions: 140,
+    check: 48, route: 200, title: 160, seo: 210, meta: 220, keyword: 260, contentEditor: 340, status: 120, date: 140, actions: 140,
   });
   const resizeRef = useRef<{ col: keyof typeof colWidths; startX: number; startW: number } | null>(null);
 
@@ -278,8 +278,7 @@ export default function AdminTrackedPagesPage() {
     const active = pages.filter((p) => p.is_active).length;
     const inactive = total - active;
     const withKeyword = pages.filter((p) => (p.primary_keyword?.trim() ?? "").length > 0).length;
-    const linked = pages.filter((p) => !!p.seo_brief_id).length;
-    return { total, active, inactive, withKeyword, linked };
+    return { total, active, inactive, withKeyword };
   }, [pages]);
 
   const filteredSorted = useMemo(() => {
@@ -580,7 +579,7 @@ export default function AdminTrackedPagesPage() {
                 <div className="overflow-x-auto">
                   <table className="text-left text-sm" style={{ tableLayout: "fixed", width: tableWidth + "px", minWidth: "100%" }}>
                     <colgroup>
-                      {(["check","route","title","seo","meta","keyword","sweetSeo","status","date","actions"] as (keyof typeof colWidths)[]).map((c) => (
+                      {(["check","route","title","seo","meta","keyword","contentEditor","status","date","actions"] as (keyof typeof colWidths)[]).map((c) => (
                         <col key={c} style={{ width: colWidths[c] + "px" }} />
                       ))}
                     </colgroup>
@@ -598,7 +597,7 @@ export default function AdminTrackedPagesPage() {
                         <StaticTh label="SEO Title" rk="seo" />
                         <StaticTh label="Meta Desc." rk="meta" />
                         <SortTh col="keyword" label="Keyword" rk="keyword" />
-                        <StaticTh label="Content Editor" rk="sweetSeo" />
+                        <StaticTh label="Content Editor" rk="contentEditor" />
                         <SortTh col="status" label="Status" rk="status" />
                         <SortTh col="created_at" label="Added" rk="date" />
                         <StaticTh label="Actions" rk="actions" right />

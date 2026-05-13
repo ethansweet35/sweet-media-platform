@@ -133,8 +133,7 @@ export default function AdminBlogDashboard() {
     const published = posts.filter((p) => p.status === "published").length;
     const drafts = posts.filter((p) => p.status === "draft").length;
     const featured = posts.filter((p) => p.featured).length;
-    const linked = posts.filter((p) => !!p.seo_brief_id).length;
-    return { total, published, drafts, featured, linked };
+    return { total, published, drafts, featured };
   }, [posts]);
 
   const filtered = useMemo(() => {
@@ -469,14 +468,6 @@ export default function AdminBlogDashboard() {
         subtitle="Manage drafts, scheduling, hero images, and featured posts."
         actions={
           <>
-            <Link
-              href="/admin/sweet-seo"
-              className="flex items-center gap-2 rounded-xl border border-black/[0.1] bg-white px-4 py-2.5 text-[11px] font-bold uppercase tracking-[0.12em] text-neutral-700 shadow-[0_1px_12px_rgba(0,0,0,0.04)] transition-colors hover:bg-black/[0.02]"
-              title="Open Sweet SEO content briefs"
-            >
-              <i className="ri-sparkling-2-line text-xs" />
-              Sweet SEO
-            </Link>
             <Link
               href="/admin/blog-writer"
               className="flex items-center gap-2 rounded-xl px-5 py-2.5 text-[11px] font-bold uppercase tracking-[0.12em] text-white transition-opacity hover:opacity-95 shadow-[0_2px_12px_rgba(61,111,127,0.2)]"

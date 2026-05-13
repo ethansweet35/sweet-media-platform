@@ -34,11 +34,9 @@ export interface BlogPost {
   focus_keyword?: string | null;
   approved_for_publish?: boolean;
   scheduled_publish_at?: string | null;
-  // Sweet SEO fields (mirrors blog_posts columns added by 2026-05-12 migration)
-  seo_brief_id?: string | null;
-  seo_guidance_applied?: boolean;
+  /** Live URL for the published post — used by AI optimize / OG previews. */
   published_url?: string | null;
-  /** Linked Content Editor (replaces seo_brief_id for new flows). */
+  /** Linked Content Editor row (mirrors blog_posts.content_editor_id). */
   content_editor_id?: string | null;
 }
 
@@ -67,8 +65,6 @@ export interface DbBlogPost {
   approved_for_publish?: boolean | null;
   scheduled_publish_at?: string | null;
   focus_keyword?: string | null;
-  seo_brief_id?: string | null;
-  seo_guidance_applied?: boolean | null;
   published_url?: string | null;
   content_editor_id?: string | null;
 }
@@ -223,8 +219,6 @@ export function dbToBlogPost(db: DbBlogPost): BlogPost {
       : {}),
     scheduled_publish_at: db.scheduled_publish_at ?? null,
     focus_keyword: db.focus_keyword ?? null,
-    seo_brief_id: db.seo_brief_id ?? null,
-    seo_guidance_applied: db.seo_guidance_applied === true,
     published_url: db.published_url ?? null,
     content_editor_id: db.content_editor_id ?? null,
   };

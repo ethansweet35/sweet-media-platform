@@ -56,7 +56,7 @@ function KPICard({ value, label }: KPICardProps) {
 
 export default function AdminDashboardPage() {
   const { user } = useAuth();
-  const { stats, recentDrafts, upcomingPublishes, systemStatus, seoStats, loading, error, refetch } =
+  const { stats, recentDrafts, upcomingPublishes, systemStatus, loading, error, refetch } =
     useDashboardData();
   const autoPub = useAutoPublishEnabled();
 
@@ -115,84 +115,6 @@ export default function AdminDashboardPage() {
             <KPICard value={stats.drafts} label="Drafts" />
             <KPICard value={stats.scheduled} label="Scheduled" />
           </div>
-
-          {/* Sweet SEO summary */}
-          <article className="mb-10 rounded-2xl border border-black/[0.06] bg-white px-6 py-6 shadow-[0_1px_20px_rgba(0,0,0,0.04)]">
-            <div className="mb-5 flex items-start justify-between gap-4 flex-wrap">
-              <div>
-                <h2 className={`text-xl font-semibold text-neutral-900 ${adminFontSerif}`}>
-                  Sweet SEO
-                </h2>
-                <p className="mt-1 text-[12px] text-neutral-500">
-                  Live content scores from your Sweet SEO briefs.
-                  {seoStats.lastRefreshedAt ? (
-                    <span> Last brief activity {relativeTimeSince(seoStats.lastRefreshedAt)}.</span>
-                  ) : (
-                    <span> No briefs yet — link one to a post or page to start scoring.</span>
-                  )}
-                </p>
-              </div>
-              <Link
-                href="/admin/sweet-seo"
-                className="flex items-center gap-2 rounded-xl border border-black/[0.1] bg-white px-4 py-2.5 text-[11px] font-bold uppercase tracking-[0.12em] text-neutral-700 shadow-[0_1px_12px_rgba(0,0,0,0.04)] transition-colors hover:bg-black/[0.02]"
-              >
-                <i className="ri-sparkling-2-line text-xs" />
-                Open Sweet SEO
-              </Link>
-            </div>
-            <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
-              <div className="rounded-xl bg-black/[0.02] px-4 py-4">
-                <p className={`text-3xl font-semibold leading-none text-neutral-900 ${adminFontSerif}`}>
-                  {seoStats.avgScore != null ? seoStats.avgScore : "—"}
-                </p>
-                <p className="mt-2 text-[11px] font-medium uppercase tracking-[0.18em] text-neutral-500">
-                  Avg score
-                </p>
-              </div>
-              <div className="rounded-xl bg-black/[0.02] px-4 py-4">
-                <p className={`text-3xl font-semibold leading-none text-neutral-900 ${adminFontSerif}`}>
-                  {seoStats.scored}
-                  <span className="text-neutral-400 text-xl">/{seoStats.eligible}</span>
-                </p>
-                <p className="mt-2 text-[11px] font-medium uppercase tracking-[0.18em] text-neutral-500">
-                  Scored
-                </p>
-              </div>
-              <div className="rounded-xl bg-black/[0.02] px-4 py-4">
-                <p className={`text-3xl font-semibold leading-none text-neutral-900 ${adminFontSerif}`}>
-                  {seoStats.linked}
-                </p>
-                <p className="mt-2 text-[11px] font-medium uppercase tracking-[0.18em] text-neutral-500">
-                  Linked briefs
-                </p>
-              </div>
-              <div className="rounded-xl bg-black/[0.02] px-4 py-4">
-                <p className={`text-3xl font-semibold leading-none text-neutral-900 ${adminFontSerif}`}>
-                  {seoStats.applied}
-                </p>
-                <p className="mt-2 text-[11px] font-medium uppercase tracking-[0.18em] text-neutral-500">
-                  Applied
-                </p>
-              </div>
-            </div>
-            {seoStats.eligible - seoStats.linked > 0 && (
-              <p className="mt-4 text-[12px] text-neutral-500">
-                <span className="font-semibold text-neutral-700">
-                  {seoStats.eligible - seoStats.linked}
-                </span>{" "}
-                active row{seoStats.eligible - seoStats.linked !== 1 ? "s" : ""} without a Sweet SEO brief —
-                open the{" "}
-                <Link href="/admin/blogs" className="underline font-semibold" style={{ color: ADMIN_OCEAN }}>
-                  Blog Posts
-                </Link>{" "}
-                or{" "}
-                <Link href="/admin/pages" className="underline font-semibold" style={{ color: ADMIN_OCEAN }}>
-                  Pages
-                </Link>{" "}
-                view to create one.
-              </p>
-            )}
-          </article>
 
           {/* Quick actions */}
           <div className="mb-10 flex flex-col gap-3 sm:flex-row sm:flex-wrap">

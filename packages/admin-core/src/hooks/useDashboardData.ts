@@ -2,11 +2,6 @@
 
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { supabase } from "../lib/supabase";
-import {
-  computeContentScore,
-  type SeoBriefRow,
-  type SeoBriefStatus,
-} from "../types/seo-brief";
 
 const dateFmt = new Intl.DateTimeFormat("en-US", { dateStyle: "medium" });
 
@@ -33,21 +28,6 @@ export interface UpcomingPublishRow {
 
 export interface DashboardSystemStatus {
   lastAutoPublishAt: string | null;
-}
-
-export interface DashboardSeoStats {
-  /** Posts + pages whose linked brief is ready and has a computable score. */
-  scored: number;
-  /** Average computed Sweet SEO content score across all scored rows (rounded). */
-  avgScore: number | null;
-  /** Total active rows that *should* have a brief (published posts + active pages). */
-  eligible: number;
-  /** Active rows with a Sweet SEO brief linked. */
-  linked: number;
-  /** Rows where the writer has marked guidance as applied. */
-  applied: number;
-  /** Most recent brief.updated_at across all linked rows. */
-  lastRefreshedAt: string | null;
 }
 
 type BlogScanRow = {
@@ -150,14 +130,6 @@ export function useDashboardData() {
   const [systemStatus, setSystemStatus] = useState<DashboardSystemStatus>({
     lastAutoPublishAt: null,
   });
-  const [seoStats, setSeoStats] = useState<DashboardSeoStats>({
-    scored: 0,
-    avgScore: null,
-    eligible: 0,
-    linked: 0,
-    applied: 0,
-    lastRefreshedAt: null,
-  });
 
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -168,14 +140,7 @@ export function useDashboardData() {
     const nowIso = new Date().toISOString();
 
     try {
-      const [
-        scanRes,
-        draftsRes,
-        upcomingRes,
-        publishedRes,
-        blogSeoRes,
-        pageSeoRes,
-      ] = await Promise.all([
+      const [scanRes, draftsRes, upcomingRes, publishedRes] = await Promise.all([
         supabase
           .from("blog_posts")
           .select("id, status, scheduled_publish_at, approved_for_publish"),
@@ -200,14 +165,6 @@ export function useDashboardData() {
           .not("published_at", "is", null)
           .order("published_at", { ascending: false })
           .limit(80),
-        supabase
-          .from("blog_posts")
-          .select("id, status, seo_brief_id, seo_guidance_applied")
-          .eq("status", "published"),
-        supabase
-          .from("tracked_pages")
-          .select("id, is_active, seo_brief_id, seo_guidance_applied")
-          .eq("is_active", true),
       ]);
 
       const firstErr =
@@ -222,62 +179,6 @@ export function useDashboardData() {
       setUpcomingPublishes(((upcomingRes.data ?? []) as UpcomingPublishRow[]) ?? []);
       setSystemStatus({
         lastAutoPublishAt: pickLastCronishPublish(publishedRes.data as PublishedProbe[]),
-      });
-
-      // Compose Sweet SEO stats across both tables.
-      type SeoBag = {
-        seo_brief_id: string | null;
-        seo_guidance_applied: boolean | null;
-      };
-      const blogRows = (blogSeoRes.data ?? []) as SeoBag[];
-      const pageRows = (pageSeoRes.data ?? []) as SeoBag[];
-      const all = [...blogRows, ...pageRows];
-      const briefIds = Array.from(
-        new Set(all.map((r) => r.seo_brief_id).filter((v): v is string => !!v)),
-      );
-
-      let scoredVals: number[] = [];
-      let lastRefreshed: string | null = null;
-      if (briefIds.length > 0) {
-        const { data: briefsData } = await supabase
-          .from("seo_briefs")
-          .select("id, status, draft_content, content_structure, important_terms, updated_at")
-          .in("id", briefIds);
-        const briefs = (briefsData ?? []) as Pick<
-          SeoBriefRow,
-          "id" | "status" | "draft_content" | "content_structure" | "important_terms" | "updated_at"
-        >[];
-        for (const b of briefs) {
-          if ((b.status as SeoBriefStatus) === "ready") {
-            const score = computeContentScore(
-              b.draft_content ?? "",
-              b.content_structure ?? null,
-              b.important_terms ?? null,
-            ).score;
-            scoredVals.push(score);
-          }
-          if (b.updated_at) {
-            if (!lastRefreshed || Date.parse(b.updated_at) > Date.parse(lastRefreshed)) {
-              lastRefreshed = b.updated_at;
-            }
-          }
-        }
-      }
-
-      const avg =
-        scoredVals.length > 0
-          ? Math.round(scoredVals.reduce((s, v) => s + v, 0) / scoredVals.length)
-          : null;
-      const linked = all.filter((r) => !!r.seo_brief_id).length;
-      const applied = all.filter((r) => r.seo_guidance_applied === true).length;
-
-      setSeoStats({
-        scored: scoredVals.length,
-        avgScore: avg,
-        eligible: all.length,
-        linked,
-        applied,
-        lastRefreshedAt: lastRefreshed,
       });
     } catch (e) {
       setError(e instanceof Error ? e.message : "Failed to load dashboard");
@@ -296,20 +197,10 @@ export function useDashboardData() {
       recentDrafts,
       upcomingPublishes,
       systemStatus,
-      seoStats,
       loading,
       error,
       refetch: fetchAll,
     }),
-    [
-      stats,
-      recentDrafts,
-      upcomingPublishes,
-      systemStatus,
-      seoStats,
-      loading,
-      error,
-      fetchAll,
-    ],
+    [stats, recentDrafts, upcomingPublishes, systemStatus, loading, error, fetchAll],
   );
 }

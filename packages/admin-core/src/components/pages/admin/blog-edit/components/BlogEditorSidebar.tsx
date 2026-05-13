@@ -251,7 +251,7 @@ export default function BlogEditorSidebar({ form, onChange, postDate, slugError 
         <div>
           <label className={labelCls}>
             Focus Keyword
-            <span className="ml-1.5 normal-case font-normal text-neutral-400">used by Sweet SEO</span>
+            <span className="ml-1.5 normal-case font-normal text-neutral-400">used by Content Editor</span>
           </label>
           <input
             type="text"

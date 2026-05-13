@@ -26,13 +26,6 @@ export {
   type SemrushAutoPickResult,
 } from "./lib/server/semrushClient";
 
-export {
-  SweetSeoError,
-  analyzeKeyword,
-  getBrief,
-  deleteBrief,
-} from "./lib/server/sweetSeoBrief";
-
 // ─── Content Editor — full pipeline + vendor wrappers ──────────────────
 // Surfer/Rankability-style content optimization. Each vendor wrapper
 // returns `{ data, cost_usd }`. The pipeline orchestrator is idempotent
