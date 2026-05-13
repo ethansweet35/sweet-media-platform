@@ -3,9 +3,9 @@ import { resolveTrackedPageMetadata } from "@sweetmedia/admin-core";
 import GeorgiaPage from "@/views/georgia/page";
 
 const fallbackMetadata: Metadata = {
-  title: "Addiction & Mental Health Interventions in Georgia | Addiction Interventions",
+  title: "Georgia Addiction Intervention Services | Addiction Interventions",
   description:
-    "Certified interventionists serving Georgia. On-site addiction and mental health interventions — families helped within 24–48 hours. Free confidential consultation.",
+    "Need addiction intervention services in Georgia? Addiction Interventions provides expert support and guidance. Find help for your loved one today. Learn more.",
   alternates: { canonical: "/service-areas/georgia" },
 };
 
