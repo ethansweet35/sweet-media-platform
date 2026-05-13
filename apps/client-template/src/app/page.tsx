@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { resolveTrackedPageMetadata } from "@sweetmedia/admin-core";
+import { resolveTrackedPageMetadata, OptimizationStatusBanner } from "@sweetmedia/admin-core";
 
 const fallbackMetadata: Metadata = {
   title: "Client Brand Homepage | Client Brand",
@@ -13,6 +13,10 @@ export async function generateMetadata(): Promise<Metadata> {
 export default function Page() {
   return (
     <main className="min-h-screen bg-[var(--color-background)] px-6 py-24 text-[var(--color-primary)]">
+      {/* AI optimization status banner — renders only when a Cursor agent
+          is actively rewriting this page's tsx. Drop one on every tracked
+          route so visitors get a subtle "fresh content incoming" signal. */}
+      <OptimizationStatusBanner trackedPagePath="/" brandName="Client Brand" />
       <section className="mx-auto max-w-5xl">
         <p className="mb-4 text-xs font-semibold uppercase tracking-[0.25em] text-[var(--color-accent)]">
           Client Template

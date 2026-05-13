@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import { OptimizationStatusBanner } from "@sweetmedia/admin-core";
 import HeroContactForm from "@/components/feature/HeroContactForm";
 import FaqAccordion from "@/components/sections/FaqAccordion";
 import BottomCta from "@/components/sections/BottomCta";
@@ -103,6 +104,17 @@ export interface StatePageConfig {
   regionsSupportingText?: string;
 }
 
+interface StatePageTemplateProps {
+  config: StatePageConfig;
+  /**
+   * Canonical route path (e.g. "/service-areas/alaska"). When set, renders
+   * an <OptimizationStatusBanner/> at the top of the page so visitors get
+   * a subtle signal while a Cursor cloud-agent optimization PR is in flight.
+   * The banner auto-disappears once the run completes.
+   */
+  trackedPagePath?: string;
+}
+
 function makeProcess(stateName: string): StateProcessStep[] {
   return [
     {
@@ -138,7 +150,7 @@ function makeProcess(stateName: string): StateProcessStep[] {
   ];
 }
 
-export default function StatePageTemplate({ config }: { config: StatePageConfig }) {
+export default function StatePageTemplate({ config, trackedPagePath }: StatePageTemplateProps) {
   const { stateName } = config;
   const fullBleed = Boolean(config.fullBleedStateLayout);
   const process = config.processSteps ?? makeProcess(stateName);
@@ -155,6 +167,16 @@ export default function StatePageTemplate({ config }: { config: StatePageConfig 
 
   return (
     <main className="min-h-screen bg-white">
+      {/* AI optimization status banner — renders only when a Cursor agent
+          is actively rewriting this page's tsx. Auto-hides via ISR
+          revalidation once the run completes. */}
+      {trackedPagePath ? (
+        <OptimizationStatusBanner
+          trackedPagePath={trackedPagePath}
+          brandName="Addiction Interventions"
+        />
+      ) : null}
+
 
       {/* ── HERO ───────────────────────────────────────────────────────── */}
       <section className="relative w-full overflow-hidden bg-[#1A1A17]">

@@ -389,6 +389,14 @@ function relativeAgo(iso: string | null): string {
   return `${days}d ago`;
 }
 
+/** Cursor SDK model options surfaced in the panel's per-run model picker. */
+const OPTIMIZE_PR_MODELS: { id: string; label: string; hint: string }[] = [
+  { id: "composer-2", label: "Composer 2", hint: "Fastest · cheapest · default" },
+  { id: "claude-sonnet-4-6", label: "Claude Sonnet 4.6", hint: "Thoughtful · balanced" },
+  { id: "claude-opus-4-7", label: "Claude Opus 4.7", hint: "Best reasoning · slowest" },
+  { id: "gpt-5-5-pro", label: "GPT-5.5 Pro", hint: "Strong alt opinion" },
+];
+
 function AiOptimizeRunsPanel({
   runs,
   triggering,
@@ -398,10 +406,12 @@ function AiOptimizeRunsPanel({
 }: {
   runs: AiOptimizeRun[];
   triggering: boolean;
-  onTrigger: () => void | Promise<void>;
+  onTrigger: (opts?: { model?: string; customInstructions?: string }) => void | Promise<void>;
   onCancel: (id: string) => void | Promise<void>;
   cancellingId: string | null;
 }) {
+  const [selectedModel, setSelectedModel] = useState<string>(OPTIMIZE_PR_MODELS[0].id);
+
   return (
     <div className="rounded-2xl border border-[#3d6f7f]/30 bg-[#f9fbfc] shadow-sm overflow-hidden">
       <div className="px-5 py-3 border-b border-[#3d6f7f]/15 bg-[#3d6f7f]/[0.06] flex items-center justify-between flex-wrap gap-3">
@@ -414,23 +424,47 @@ function AiOptimizeRunsPanel({
             </span>
           </p>
         </div>
-        <button
-          type="button"
-          onClick={() => void onTrigger()}
-          disabled={triggering}
-          className="px-3 py-1.5 rounded-lg text-[10px] font-bold uppercase tracking-[0.1em] bg-[#3d6f7f] text-white hover:bg-[#2f5a6b] disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-1.5"
-          title="Fire a Cursor cloud agent that reads this page's .tsx + the brief, and opens a PR with code-level edits matching the brand design system"
-        >
-          {triggering ? (
-            <>
-              <i className="ri-loader-4-line animate-spin" /> Dispatching…
-            </>
-          ) : (
-            <>
-              <i className="ri-magic-line" /> Open new optimization PR
-            </>
-          )}
-        </button>
+        <div className="flex items-center gap-2 flex-wrap">
+          <label
+            className="text-[10px] font-bold uppercase tracking-[0.1em] text-neutral-500"
+            htmlFor="optimize-pr-model-select"
+          >
+            Model
+          </label>
+          <select
+            id="optimize-pr-model-select"
+            value={selectedModel}
+            onChange={(e) => setSelectedModel(e.target.value)}
+            disabled={triggering}
+            className="text-[11px] font-mono border border-neutral-200 rounded-md px-2 py-1 bg-white cursor-pointer disabled:opacity-50"
+            title={
+              OPTIMIZE_PR_MODELS.find((m) => m.id === selectedModel)?.hint ?? selectedModel
+            }
+          >
+            {OPTIMIZE_PR_MODELS.map((m) => (
+              <option key={m.id} value={m.id}>
+                {m.label}
+              </option>
+            ))}
+          </select>
+          <button
+            type="button"
+            onClick={() => void onTrigger({ model: selectedModel })}
+            disabled={triggering}
+            className="px-3 py-1.5 rounded-lg text-[10px] font-bold uppercase tracking-[0.1em] bg-[#3d6f7f] text-white hover:bg-[#2f5a6b] disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-1.5"
+            title="Fire a Cursor cloud agent that reads this page's .tsx + the brief, and opens a PR with code-level edits matching the brand design system"
+          >
+            {triggering ? (
+              <>
+                <i className="ri-loader-4-line animate-spin" /> Dispatching…
+              </>
+            ) : (
+              <>
+                <i className="ri-magic-line" /> Open new optimization PR
+              </>
+            )}
+          </button>
+        </div>
       </div>
 
       <div className="px-5 py-4 space-y-2 text-[12px]">
@@ -1684,8 +1718,8 @@ Body copy here. Use markdown — \`#\` headings, \`![alt](url)\` images, \`-\` b
               <AiOptimizeRunsPanel
                 runs={aiOptimizeRuns}
                 triggering={triggeringAiRun}
-                onTrigger={async () => {
-                  await triggerRun();
+                onTrigger={async (opts) => {
+                  await triggerRun(opts);
                   await refetchAiRuns();
                 }}
                 onCancel={async (id) => {

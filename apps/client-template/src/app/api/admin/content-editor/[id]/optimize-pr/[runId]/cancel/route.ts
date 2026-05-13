@@ -1,7 +1,9 @@
 import { NextResponse } from "next/server";
+import { revalidatePath } from "next/cache";
 import {
   ContentEditorError,
   cancelAiOptimizeRun,
+  getRevalidationPathsForEditor,
 } from "@sweetmedia/admin-core/server";
 
 export const runtime = "nodejs";
@@ -19,7 +21,7 @@ interface RouteContext {
  * UI doesn't get stuck if Cursor is unavailable).
  */
 export async function POST(_request: Request, ctx: RouteContext) {
-  const { runId } = await ctx.params;
+  const { id: editorId, runId } = await ctx.params;
   if (!runId) {
     return NextResponse.json(
       { ok: false, error: "runId is required." },
@@ -28,6 +30,21 @@ export async function POST(_request: Request, ctx: RouteContext) {
   }
   try {
     const run = await cancelAiOptimizeRun(runId);
+    // Revalidate so the banner disappears from the live page(s) instantly.
+    if (editorId) {
+      try {
+        const paths = await getRevalidationPathsForEditor(editorId);
+        for (const p of paths) {
+          try {
+            revalidatePath(p);
+          } catch (err) {
+            console.warn(`[optimize-pr cancel] revalidatePath(${p}) failed:`, err);
+          }
+        }
+      } catch (err) {
+        console.warn("[optimize-pr cancel] revalidation lookup failed:", err);
+      }
+    }
     return NextResponse.json({ ok: true, run });
   } catch (err) {
     if (err instanceof ContentEditorError) {

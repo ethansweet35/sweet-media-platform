@@ -129,6 +129,54 @@ export async function getAiOptimizeRun(id: string): Promise<AiOptimizeRunRow | n
   return (data ?? null) as AiOptimizeRunRow | null;
 }
 
+/**
+ * Return every public-facing route path that should be revalidated when
+ * this editor's run state changes. Used by the API routes after trigger /
+ * cancel / refresh so the <OptimizationStatusBanner/> on the live page
+ * shows + hides immediately.
+ *
+ * Includes:
+ *   - The tracked page's route_path (when the editor is linked to one)
+ *   - Every published blog post's /blog/<slug> route that this editor authored
+ */
+export async function getRevalidationPathsForEditor(
+  editorId: string,
+): Promise<string[]> {
+  if (!editorId) return [];
+  const adm = getAdminClient();
+  const paths = new Set<string>();
+
+  // Tracked page (via the editor's linked_tracked_page_id).
+  const { data: editorRow } = await adm
+    .from("content_editors")
+    .select("linked_tracked_page_id")
+    .eq("id", editorId)
+    .maybeSingle();
+  const linkedTrackedPageId = (editorRow as { linked_tracked_page_id?: string | null } | null)
+    ?.linked_tracked_page_id;
+  if (linkedTrackedPageId) {
+    const { data: pageRow } = await adm
+      .from("tracked_pages")
+      .select("route_path")
+      .eq("id", linkedTrackedPageId)
+      .maybeSingle();
+    const path = (pageRow as { route_path?: string } | null)?.route_path;
+    if (path) paths.add(path);
+  }
+
+  // Blog posts authored against this editor.
+  const { data: posts } = await adm
+    .from("blog_posts")
+    .select("slug, status")
+    .eq("content_editor_id", editorId);
+  for (const p of (posts ?? []) as Array<{ slug: string; status: string | null }>) {
+    if (!p.slug) continue;
+    paths.add(`/blog/${p.slug}`);
+  }
+
+  return Array.from(paths);
+}
+
 /* ────────────────────────────────────────────────────────────────────── */
 /*  Prompt construction                                                   */
 /* ────────────────────────────────────────────────────────────────────── */
@@ -309,9 +357,30 @@ ${factLines || "(none)"}
 - Do **not** add new top-level dependencies.
 - Do **not** edit blog routes, admin routes, or any file under \`packages/\` unless a typed interface change is unavoidable.
 - Do **not** edit any other brand's app directory.
-- Preserve existing imagery URLs (Supabase storage paths). If new imagery is needed, add a TODO comment instead of inventing a URL.
 - Preserve the existing \`generateMetadata\` + \`resolveTrackedPageMetadata\` pattern. Update \`fallbackMetadata\` if you change the SEO title/description.
 - Match the brand design system rule for spacing, colors, typography, and section composition.
+
+# Imagery rules (important)
+
+Net-new sections often want imagery. Follow this priority order:
+
+1. **Reuse what already exists in this app.** Search the brand's existing image references first:
+   - \`git grep -h "supabase.co/storage/v1/object/public/site-assets/images" ${page.app_dir}/src\` — every Supabase image URL the brand already ships.
+   - The brand's centralized image asset module(s) if any (e.g. \`${page.app_dir}/src/data/*.ts\`, \`${page.app_dir}/src/views/home/assets.ts\`).
+   - Pick the most semantically related image already in the brand bucket and reuse its public URL verbatim.
+
+2. **If no existing image fits**, do NOT invent a URL. Insert a TODO placeholder using this exact pattern so the operator can swap in a real image later:
+
+\`\`\`tsx
+{/* TODO_AI_IMAGE: <one-line description of what the image should show>
+    Suggested filename: <route-prefix>_<section-name><01>.jpg
+    Upload to: site-assets/images/ on this brand's Supabase project. */}
+<Image src="/placeholder-needs-replacement.jpg" alt="<placeholder alt>" width={1200} height={800} />
+\`\`\`
+
+3. **Never hallucinate a Supabase URL** that isn't already in the codebase. Broken images are worse than honest TODOs.
+
+4. **Reuse existing alt text** when reusing an image, but if the surrounding context changed, update the alt text to fit the new section.
 
 # Output
 

@@ -2,5 +2,10 @@ import StatePageTemplate from "@/components/templates/StatePageTemplate";
 import { STATE_PAGES } from "@/data/state-pages";
 
 export default function AlaskaPage() {
-  return <StatePageTemplate config={STATE_PAGES["alaska"]} />;
+  return (
+    <StatePageTemplate
+      config={STATE_PAGES["alaska"]}
+      trackedPagePath="/service-areas/alaska"
+    />
+  );
 }

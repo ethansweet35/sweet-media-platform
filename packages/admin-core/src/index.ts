@@ -9,6 +9,7 @@ export * from "./types/semrush";
 export * from "./types/seo-brief";
 
 export { default as AdminPageHeader } from "./components/AdminPageHeader";
+export { default as OptimizationStatusBanner } from "./components/OptimizationStatusBanner";
 export { default as SweetSeoCell, type SweetSeoCellRow } from "./components/SweetSeoCell";
 export { default as ContentEditorCell, type ContentEditorCellRow } from "./components/ContentEditorCell";
 export { useContentEditorRowActions, type ContentEditorRowRef } from "./hooks/useContentEditorRowActions";

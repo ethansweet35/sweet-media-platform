@@ -12,7 +12,7 @@ import {
   fetchPublishedBlogPostsForListing,
   fetchPublishedBlogPostSlugs,
 } from "@sweetmedia/blog-core";
-import { AuthProvider } from "@sweetmedia/admin-core";
+import { AuthProvider, OptimizationStatusBanner } from "@sweetmedia/admin-core";
 
 export const revalidate = 3600;
 
@@ -130,5 +130,17 @@ export default async function Page({ params, searchParams }: PageProps) {
 
   const autoLinkMap = buildManualOnlyLinkMap(manualMappings);
 
-  return <BlogPostViewServer post={post} allPosts={allPosts} autoLinkMap={autoLinkMap} />;
+  return (
+    <>
+      {/* Show a subtle banner while a Cursor agent is rewriting this
+          blog post's tsx — auto-hides via ISR once the run completes. */}
+      {post.content_editor_id ? (
+        <OptimizationStatusBanner
+          contentEditorId={post.content_editor_id}
+          brandName="Client Brand"
+        />
+      ) : null}
+      <BlogPostViewServer post={post} allPosts={allPosts} autoLinkMap={autoLinkMap} />
+    </>
+  );
 }

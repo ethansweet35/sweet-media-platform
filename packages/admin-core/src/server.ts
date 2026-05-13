@@ -130,6 +130,7 @@ export {
   cancelAiOptimizeRun,
   getAiOptimizeRun,
   listAiOptimizeRuns,
+  getRevalidationPathsForEditor,
   type AiOptimizeRunRow,
   type AiOptimizeRunStatus as AiOptimizeRunStatusServer,
   type TriggerAiOptimizeRunInput,
