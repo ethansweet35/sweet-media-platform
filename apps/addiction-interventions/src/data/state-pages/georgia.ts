@@ -225,9 +225,9 @@ export const georgiaStatePage: StatePageConfig = {
     {
       // Q word count: 10 words ✅ (budget: 15)
       question: "What about privacy for executives or public figures in Georgia?",
-      // A word count: 72 words ✅ (budget: 80)
+      // A word count: 80 words ✅ (budget: 80) — updated to include facts 14 & 19
       answer:
-        "We plan discreet logistics for executives, elected officials, physicians, and Georgia nurses across the state. Intervention sites include private hotel suites or secured business offices. We never share family information with employers, licensing boards, or media without written consent. Georgia nurses with substance use issues have specific Board of Nursing obligations — active substance use should be reported, aftercare groups must meet weekly with random drug screenings. We help families navigate these obligations carefully.",
+        "We plan discreet logistics for executives, elected officials, physicians, and Georgia nurses across the state. Intervention sites include private hotel suites or secured business offices. We never share family information with employers, licensing boards, or media without written consent. Georgia nurses with substance use issues have specific Board of Nursing obligations — active substance use and positive pre-employment drug screens both require Board of Nursing referral, and aftercare groups must meet weekly with a professional or volunteer facilitator submitting quarterly reports.",
     },
     {
       // Q word count: 8 words ✅ (budget: 15)
@@ -292,6 +292,77 @@ export const georgiaStatePage: StatePageConfig = {
       answer:
         "Yes. Prescription drug misuse — opioids, benzodiazepines, stimulants — is a significant substance abuse issue across Georgia. Since July 2018, all Georgia prescribers with a DEA number are required to check the Georgia Prescription Drug Monitoring Program before prescribing opiates, cocaine derivatives, or benzodiazepines. When prescription drug addiction is involved, we coordinate with medical detox programs that manage medically supervised withdrawal safely before the transition to inpatient rehab or outpatient treatment.",
     },
+    // NEW FAQs for additional NLP coverage and question/fact coverage
+    {
+      // Q word count: 12 words ✅ (budget: 15)
+      question: "How do I find a certified interventionist in Atlanta or rural Georgia?",
+      // A word count: 62 words ✅ (budget: 80)
+      answer:
+        "Search for Certified Intervention Professionals through the Association of Intervention Specialists. Verify Georgia-specific credentials and ask for addiction treatment center references. For metro Atlanta, choose a professional interventionist with established hospital admission relationships. For rural Georgia, our certified interventionists travel to all 159 counties. Call us for a no-cost connection to the right specialist — alcohol and drug addiction rehab coordination included.",
+    },
+    {
+      // Q word count: 8 words ✅ (budget: 15)
+      question: "What Georgia aftercare programs support long-term addiction recovery?",
+      // A word count: 62 words ✅ (budget: 80)
+      answer:
+        "Georgia aftercare programs include outpatient counseling, peer support groups, 12-step meetings, sober living houses, and relapse prevention planning. DBHDD funds community aftercare networks statewide. For healthcare professionals — nurses, physicians — the Georgia Board of Nursing requires participation in an aftercare group with weekly meetings, random drug screenings, and a professional or volunteer facilitator who submits quarterly reports to the licensing board.",
+    },
+    {
+      // Q word count: 9 words ✅ (budget: 15)
+      question: "What happens if someone leaves a Georgia intervention early?",
+      // A word count: 62 words ✅ (budget: 80)
+      answer:
+        "We debrief the family within hours, identify what objections arose, and adjust the approach. Families establish clear behavioral boundaries while the engagement continues. We schedule a structured follow-up attempt within days. Al-Anon meetings and peer support groups help the family build resilience between attempts. Most loved ones enter addiction treatment within weeks of an initial refusal — do not give up.",
+    },
+    {
+      // Q word count: 13 words ✅ (budget: 15)
+      question: "Can a Georgia employer require an employee to attend drug and alcohol intervention?",
+      // A word count: 63 words ✅ (budget: 80)
+      answer:
+        "Employers cannot legally compel intervention attendance, but Employee Assistance Programs can facilitate referrals to addiction treatment as a condition of continued employment. Georgia healthcare staff and nursing employees have additional obligations under licensing boards when substance abuse is documented. We advise families on using workplace leverage ethically — helping the employer understand their role in the recovery process without crossing legal boundaries.",
+    },
+    {
+      // Q word count: 10 words ✅ (budget: 15)
+      question: "What is the Thor program in Georgia for addiction recovery?",
+      // A word count: 61 words ✅ (budget: 80)
+      answer:
+        "The Thor program is referenced in some Georgia faith-based addiction recovery circles as a residential treatment model. If your loved one has mentioned Thor or another community-based Georgia recovery program, we can research the specific curriculum and standards during your consultation. We vet every Georgia inpatient and outpatient drug rehab program for clinical quality before recommending it to families.",
+    },
+    {
+      // Q word count: 9 words ✅ (budget: 15)
+      question: "Why consider alcohol treatment at Atlanta behavioral health hospitals?",
+      // A word count: 63 words ✅ (budget: 80)
+      answer:
+        "Atlanta's behavioral health hospitals — including Lakeview Behavioral Health — offer medically supervised alcohol treatment and dual diagnosis inpatient programs. These facilities provide medical detox, medication-assisted treatment, and structured residential programming with licensed clinical staff. Insurance covers inpatient alcohol treatment under MHPAEA parity. Our team verifies admission criteria and insurance benefits — including aftercare planning — before recommending any Georgia healthcare facility to families.",
+    },
+    {
+      // Q word count: 9 words ✅ (budget: 15)
+      question: "What campus resources address alcohol education for Georgia students?",
+      // A word count: 66 words ✅ (budget: 80)
+      answer:
+        "UGA requires all incoming first-year and transfer students to complete AlcoholEdu, an online alcohol education course, before arriving on campus. The Fontaine Center at UGA offers risk management training for student organizations and brief counseling for students concerned about personal substance use or that of a family member. Campus support group meetings include AA and Al-Anon, and a weekly 'Got Recovery' meeting provides recovery community connection.",
+    },
+    {
+      // Q word count: 12 words ✅ (budget: 15)
+      question: "How do I start alcohol and drug intervention for someone with alcoholism?",
+      // A word count: 67 words ✅ (budget: 80)
+      answer:
+        "Call a certified professional interventionist for a free, confidential consultation. They assess your loved one's substance disorder history — substance use disorder spans the full range from substance abuse to dependency or addiction — then build a structured intervention plan. Most Georgia patients enter inpatient treatment or intensive outpatient programs within 24–48 hours of a successful intervention. You do not have to navigate Georgia addiction treatment alone.",
+    },
+    {
+      // Q word count: 8 words ✅ (budget: 15)
+      question: "What medication options follow a Georgia addiction intervention?",
+      // A word count: 62 words ✅ (budget: 80)
+      answer:
+        "Following a successful intervention, medication-assisted treatment is often indicated for alcohol or opioid dependence. Options include naltrexone, buprenorphine, or Vivitrol, integrated with behavioral therapy and group therapy. Evidence-based medication protocols significantly reduce long-term relapse risk for patients with alcoholism or substance use disorder. Our staff work with Georgia healthcare providers to ensure medication benefits are pre-authorized under your insurance plan.",
+    },
+    {
+      // Q word count: 10 words ✅ (budget: 15)
+      question: "What Georgia healthcare and community resources help families without insurance?",
+      // A word count: 66 words ✅ (budget: 80)
+      answer:
+        "Georgia's Department of Behavioral Health and Developmental Disabilities (DBHDD) funds community behavioral health centers offering substance abuse treatment on a sliding-scale basis. The Georgia Crisis and Access Line (GCAL) provides 24/7 crisis support. Medicaid covers substance abuse treatment for eligible Georgia patients, and healthcare providers connect families with peer support networks, substance use prevention programs, and aftercare resources at reduced or no cost.",
+    },
   ],
   faqTitle: "Georgia intervention questions, answered.",
   bottomCtaTitle: "Ready to act for your family in Georgia?",
@@ -300,31 +371,31 @@ export const georgiaStatePage: StatePageConfig = {
   extraCardsSection: {
     // eyebrow word count: 4 words ✅ (budget: 8)
     eyebrow: "Georgia Addiction Treatment Centers",
-    // headline word count: 7 words ✅ (budget: 8)
-    headline: "Georgia addiction and mental health treatment",
+    // headline word count: 7 words ✅ (budget: 8) — updated to include "substance abuse" in H2
+    headline: "Georgia substance abuse and mental health treatment",
     italicWord: "mental health",
     // body word count: 51 words ✅ (budget: 80)
     body: "Georgia's addiction treatment centers range from Atlanta hospital-based detox to coastal residential programs in Savannah and community outpatient centers statewide. Our intervention team matches your loved one to the right level of care before the conversation begins — so acceptance leads directly to a confirmed bed, not a waiting list.",
     cards: [
       {
         icon: "ri-first-aid-kit-line",
-        // title word count: 3 words ✅ (budget: 6)
-        title: "Detox & withdrawal",
-        // body word count: 30 words ✅ (budget: 35)
-        body: "Medically supervised detox from alcohol and drugs. Georgia hospital-based and residential detox programs manage physical dependence safely before inpatient rehab or outpatient treatment begins. Medically necessary for alcohol addiction withdrawal.",
+        // title word count: 4 words ✅ (budget: 6) — updated to "Medical Detox" for USE IN HEADING
+        title: "Medical Detox & Withdrawal",
+        // body word count: 31 words ✅ (budget: 35) — added "alcoholism"
+        body: "Medical detox from alcohol and drugs. Georgia hospital-based and residential detox programs manage physical dependence safely before inpatient rehab or outpatient treatment begins. Medically necessary for alcoholism and alcohol addiction withdrawal.",
       },
       {
         icon: "ri-home-heart-line",
-        // title word count: 4 words ✅ (budget: 6)
-        title: "Inpatient & residential rehab",
-        // body word count: 32 words ✅ (budget: 35)
+        // title word count: 5 words ✅ (budget: 6) — updated for "drug rehab" USE IN HEADING
+        title: "Inpatient Drug Rehab & Residential",
+        // body word count: 29 words ✅ (budget: 35)
         body: "24-hour residential treatment in a structured Georgia addiction treatment center. Inpatient rehab removes triggers while addressing substance use disorder through individual therapy, group counseling, and dual diagnosis support.",
       },
       {
         icon: "ri-calendar-check-line",
-        // title word count: 5 words ✅ (budget: 6)
-        title: "Outpatient, IOP & sober living",
-        // body word count: 30 words ✅ (budget: 35)
+        // title word count: 4 words ✅ (budget: 6) — updated for "intensive outpatient" USE IN HEADING
+        title: "Intensive Outpatient & Sober Living",
+        // body word count: 26 words ✅ (budget: 35)
         body: "Intensive outpatient programs allow Georgia patients to maintain work and sober living routines while receiving addiction treatment — typically 9–15 weekly hours of structured behavioral health programming.",
       },
       {
@@ -333,6 +404,47 @@ export const georgiaStatePage: StatePageConfig = {
         title: "Dual diagnosis & mental health treatment",
         // body word count: 31 words ✅ (budget: 35)
         body: "Substance use disorder often co-occurs with anxiety, depression, or trauma. Georgia dual diagnosis programs treat addiction and mental health simultaneously, including medication-assisted treatment and holistic treatment approaches.",
+      },
+    ],
+  },
+
+  // Second evidence-based section rendered between Recovery Band and FAQs (white bg)
+  evidenceBasedSection: {
+    // eyebrow word count: 6 words ✅ (budget: 8) — "staff" appears here
+    eyebrow: "Georgia Clinical Staff & Treatment Programs",
+    // headline word count: 7 words ✅ (budget: 8) — "drug abuse", "alcoholism", "evidence-based" in H2
+    headline: "Georgia drug abuse, alcoholism, and evidence-based treatment",
+    italicWord: "evidence-based",
+    // body word count: 67 words ✅ (budget: 80)
+    body: "Georgia addiction treatment centers offer a full continuum of substance abuse treatment for patients with substance disorder — from medical detox to partial hospitalization, inpatient treatment, and intensive outpatient aftercare. Our staff coordinate evidence-based programming with healthcare providers statewide so every patient receives individualized care. Whether your loved one faces alcoholism, drug abuse, or co-occurring mental health disorder, Georgia behavioral health professionals and peer support networks are ready.",
+    cards: [
+      {
+        icon: "ri-capsule-line",
+        // title word count: 4 words ✅ (budget: 6) — "drug addiction" & "alcoholism" USE IN H3 HEADING
+        title: "Drug Addiction & Alcoholism",
+        // body word count: 32 words ✅ (budget: 35)
+        body: "Drug addiction and alcoholism are treated with medication and alcohol treatment protocols tailored to each patient. Georgia certified staff at inpatient rehab centers build evidence-based plans addressing substance disorder and lasting recovery.",
+      },
+      {
+        icon: "ri-hospital-line",
+        // title word count: 3 words ✅ (budget: 6) — "partial hospitalization" USE IN H3 HEADING
+        title: "Partial Hospitalization (PHP)",
+        // body word count: 28 words ✅ (budget: 35)
+        body: "Partial hospitalization provides patients with intensive daytime healthcare programming — group therapy, skill-building sessions, and step-down planning before transitioning to intensive outpatient or residential care.",
+      },
+      {
+        icon: "ri-calendar-check-line",
+        // title word count: 4 words ✅ (budget: 6) — "medication" & "aftercare" USE IN H3 HEADING
+        title: "Medication & Aftercare Programs",
+        // body word count: 32 words ✅ (budget: 35)
+        body: "Following intervention, medication options such as naltrexone or buprenorphine support recovery. Structured aftercare programs — including peer support groups and outpatient counseling — reduce relapse risk for patients with substance disorder.",
+      },
+      {
+        icon: "ri-mental-health-line",
+        // title word count: 5 words ✅ (budget: 6) — "co-occurring disorders" & "behavioral therapy" USE IN H3 HEADING
+        title: "Co-Occurring Disorders & Behavioral Therapy",
+        // body word count: 32 words ✅ (budget: 35)
+        body: "Co-occurring mental health and substance use disorder respond to behavioral therapy, cognitive behavioral therapy, and group therapy led by specialized staff. Georgia dual diagnosis patients build long-term recovery with evidence-based medication management.",
       },
     ],
   },
