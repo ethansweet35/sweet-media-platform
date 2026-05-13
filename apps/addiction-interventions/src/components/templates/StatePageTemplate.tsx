@@ -95,6 +95,19 @@ export interface StatePageConfig {
   processSteps?: StateProcessStep[];
   processIntro?: string;
 
+  /**
+   * Optional additional H2 section rendered between Conditions and Recovery.
+   * Use for state-specific treatment pathway cards (detox, inpatient, outpatient, etc.).
+   */
+  extraCardsSection?: {
+    eyebrow: string;
+    headline: string;
+    /** A single word or short phrase inside the headline to render in italic sage green */
+    italicWord?: string;
+    body: string;
+    cards: { icon: string; title: string; body: string }[];
+  };
+
   urgencyEyebrow?: string;
   /** When set with urgencyHeadlineAfter, middle span uses urgencyHeadlineItalic */
   urgencyHeadlineBefore?: string;
@@ -113,6 +126,47 @@ interface StatePageTemplateProps {
    * The banner auto-disappears once the run completes.
    */
   trackedPagePath?: string;
+}
+
+interface ExtraCardsSectionProps {
+  section: NonNullable<StatePageConfig["extraCardsSection"]>;
+  container: string;
+}
+
+function ExtraCardsSection({ section, container }: ExtraCardsSectionProps) {
+  const parts = section.italicWord ? section.headline.split(section.italicWord) : null;
+  return (
+    <section className="bg-[#F5F3E7] py-20 md:py-24">
+      <div className={container}>
+        <div className="mb-12 max-w-3xl">
+          <p className="brand-eyebrow mb-3 text-[#8FAC87]">{section.eyebrow}</p>
+          <h2 className="font-heading text-3xl font-bold text-[#1A1A17] md:text-4xl lg:text-5xl">
+            {parts ? (
+              <>
+                {parts[0]}
+                <span className="italic text-[#507969]">{section.italicWord}</span>
+                {parts[1]}
+              </>
+            ) : (
+              section.headline
+            )}
+          </h2>
+          <p className="mt-5 text-base leading-relaxed text-[#4B4B4B] md:text-lg">{section.body}</p>
+        </div>
+        <div className={`grid gap-6 sm:grid-cols-2 ${section.cards.length > 3 ? "lg:grid-cols-4" : "lg:grid-cols-3"}`}>
+          {section.cards.map((card) => (
+            <div key={card.title} className="rounded-3xl bg-white p-6 ring-1 ring-[#EFEFEF] shadow-sm">
+              <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-[#8FAC87] text-white">
+                <i className={`${card.icon} text-lg`} />
+              </span>
+              <h3 className="mt-5 font-heading text-base font-bold text-[#1A1A17]">{card.title}</h3>
+              <p className="mt-2 text-sm leading-relaxed text-[#4B4B4B]">{card.body}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
 }
 
 function makeProcess(stateName: string): StateProcessStep[] {
@@ -505,6 +559,11 @@ export default function StatePageTemplate({ config, trackedPagePath }: StatePage
           </div>
         </div>
       </section>
+
+      {/* ── EXTRA CARDS SECTION (state-specific, optional) ──────────────── */}
+      {config.extraCardsSection && (
+        <ExtraCardsSection section={config.extraCardsSection} container={CONTAINER} />
+      )}
 
       {/* ── RECOVERY BAND ───────────────────────────────────────────────── */}
       {fullBleed && config.recoveryImage ? (
