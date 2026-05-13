@@ -468,6 +468,16 @@ interface MergedTerm {
   coverage: number;
 }
 
+/**
+ * Google NLP entity types that are almost always noise for SEO term
+ * extraction. PERSON (journalist/doctor names), DATE/NUMBER/PRICE/etc.
+ * rarely belong in a content brief. EVENT and WORK_OF_ART occasionally
+ * help so we keep them.
+ */
+const LOW_VALUE_ENTITY_TYPES = new Set<string>([
+  "PERSON", "DATE", "NUMBER", "PRICE", "PHONE_NUMBER", "ADDRESS",
+]);
+
 function mergeEntitiesAndNgrams(
   entities: Map<string, { totalSalience: number; mentions: number; type: string; appearedInDocs: number }>,
   ngrams: NgramTerm[],
@@ -475,13 +485,15 @@ function mergeEntitiesAndNgrams(
 ): MergedTerm[] {
   const merged = new Map<string, MergedTerm>();
 
-  // Seed with n-grams (more comprehensive baseline)
+  // Seed with n-grams (more comprehensive baseline). We use the
+  // length-weighted score from extractNgrams so that multi-word phrases
+  // dominate the merged ranking — matching Surfer's output shape.
   for (const ng of ngrams) {
     merged.set(ng.term, {
       term: ng.term,
       type: "ngram",
       entityType: null,
-      relevance: ng.tfIdf,
+      relevance: ng.score,
       avgFreq: ng.avgFreq,
       maxFreq: ng.maxFreq,
       coverage: ng.coverage,
@@ -492,8 +504,15 @@ function mergeEntitiesAndNgrams(
   // entity isn't already in the map, add it with a synthetic relevance.
   for (const [key, e] of entities.entries()) {
     const coverage = totalDocs > 0 ? e.appearedInDocs / totalDocs : 0;
-    if (coverage < 0.3) continue; // Need to appear in 30%+ of docs to count
+    // Require entities to appear in at least 50% of competitors (was 30%) so we
+    // surface things that ALL top-ranking pages cover — not one-off mentions.
+    if (coverage < 0.5) continue;
+    // Skip generic, non-actionable entity types unless they're extremely
+    // salient (a journalist name with salience > 0.05 is exceptionally
+    // central to the topic and should remain).
     const avgSalience = e.totalSalience / Math.max(1, e.appearedInDocs);
+    if (LOW_VALUE_ENTITY_TYPES.has(e.type) && avgSalience < 0.05) continue;
+
     // Salience is 0..1; scale to comparable magnitude with tf-idf.
     const synthRelevance = avgSalience * 20 * (1 + coverage);
 
@@ -504,6 +523,13 @@ function mergeEntitiesAndNgrams(
       existing.entityType = e.type;
       existing.relevance = Math.max(existing.relevance, synthRelevance) + synthRelevance * 0.3;
     } else {
+      // Skip standalone single-word entities — these are almost always
+      // generic nouns that the n-gram extractor already filtered out
+      // (the multi-word phrase containing them was kept instead).
+      // We never add a unigram entity that wasn't already an n-gram.
+      const tokens = key.split(/\s+/);
+      if (tokens.length === 1) continue;
+
       // Avg occurrence count = mentions / docs that contained it.
       const avgFreq = e.mentions / Math.max(1, e.appearedInDocs);
       merged.set(key, {

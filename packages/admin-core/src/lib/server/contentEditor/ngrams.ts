@@ -35,19 +35,29 @@ export interface NgramTerm {
   avgFreq: number;
   /** Maximum occurrences in any single doc. */
   maxFreq: number;
-  /** tf-idf score, used for ranking. */
+  /** tf-idf score, used for ranking (without length bonus). */
   tfIdf: number;
+  /** Length-weighted final score used for ranking (multi-word phrases preferred). */
+  score: number;
   /** Token count of the n-gram (1, 2, or 3). */
   n: number;
 }
 
 export interface NgramExtractionOptions {
-  /** Minimum fraction of docs that must contain a term. Default 0.4. */
+  /** Minimum fraction of docs that must contain a term. Default 0.5. */
   minDocFreq?: number;
   /** Cap result list at this many terms. Default 200. */
   limit?: number;
-  /** Minimum total occurrences across corpus. Default 3. */
+  /** Minimum total occurrences across corpus. Default 5. */
   minTotalFreq?: number;
+  /**
+   * Minimum average frequency (in docs that contain it) required for a
+   * unigram to be kept. Multi-word phrases use minTotalFreq only.
+   * Default 5 — i.e. a single word must be used heavily and consistently
+   * to qualify (catches "treatment", "therapy") and filters generic words
+   * ("disorder", "individuals", "behavioral").
+   */
+  unigramMinAvgFreq?: number;
 }
 
 /** Extract unigram, bigram, trigram terms from a single doc's tokens. */
@@ -84,6 +94,52 @@ function extractTermsFromTokens(tokens: string[]): Map<string, number> {
 }
 
 /**
+ * Generic single-word nouns that pass tf-idf but aren't actionable SEO
+ * terms on their own. These almost always appear inside more useful
+ * multi-word phrases ("mental health", "gambling disorder", "treatment
+ * plan", "behavioral therapy") and the multi-word form should win.
+ *
+ * Surfer SEO's term list is ~95% multi-word for the same reason.
+ */
+const GENERIC_UNIGRAM_BLOCKLIST = new Set<string>([
+  // Generic descriptors
+  "individuals", "individual", "people", "person", "patient", "patients",
+  "client", "clients", "family", "families", "loved", "ones",
+  "specialist", "specialists", "professional", "professionals",
+  // Generic clinical descriptors (only useful as part of phrases)
+  "disorder", "disorders", "condition", "conditions", "issue", "issues",
+  "problem", "problems", "symptom", "symptoms", "behavior", "behaviors",
+  "behavioral", "emotional", "psychological", "mental", "physical",
+  "medical", "clinical", "health", "wellness",
+  // Process/program filler
+  "process", "processes", "program", "programs", "plan", "plans",
+  "option", "options", "service", "services", "approach", "approaches",
+  "method", "methods", "step", "steps", "stage", "stages",
+  "phase", "phases", "level", "levels", "type", "types", "kind", "kinds",
+  // Generic outcomes
+  "support", "help", "care", "need", "needs", "goal", "goals",
+  "result", "results", "outcome", "outcomes", "benefit", "benefits",
+  // Soft narrative filler
+  "way", "ways", "thing", "things", "time", "times", "year", "years",
+  "day", "days", "week", "weeks", "month", "months",
+  "life", "lives", "world", "experience", "experiences",
+  // Generic verbs that survive tokenization
+  "include", "includes", "including", "included", "provide", "provides",
+  "providing", "provided", "offer", "offers", "offering", "offered",
+  "ensure", "ensures", "ensuring", "ensured",
+  "begin", "begins", "beginning", "began", "started", "starts",
+  "find", "finds", "found", "finding",
+  "work", "works", "working", "worked",
+  "feel", "feels", "felt", "feeling", "feelings",
+  // Connectors / fillers
+  "important", "different", "various", "many", "several",
+  "may", "might", "must", "often", "always", "never",
+  "well", "good", "best", "better", "great", "right",
+  "new", "old", "first", "last", "long", "short",
+  "high", "low", "large", "small", "real", "true",
+]);
+
+/**
  * Filter out low-quality terms that pass tf-idf thresholds but aren't
  * meaningful to a human reader (numbers, isolated stopword n-grams, etc.).
  */
@@ -99,7 +155,67 @@ function isUsefulTerm(term: string): boolean {
   const tokens = term.split(" ");
   const allStop = tokens.every((t) => ENGLISH_STOPWORDS.has(t));
   if (allStop) return false;
+  // Reject standalone generic unigrams that aren't actionable SEO terms.
+  if (tokens.length === 1 && GENERIC_UNIGRAM_BLOCKLIST.has(tokens[0])) return false;
+  // Multi-word phrases starting or ending with a generic word are usually
+  // junk fragments ("a lot of", "as well", "in this", etc.) — for unigrams
+  // we've already blocked them above; for 2+ grams require non-blocklist
+  // tokens at BOTH boundaries (we still allow blocklist words inside).
+  if (tokens.length >= 2) {
+    if (GENERIC_UNIGRAM_BLOCKLIST.has(tokens[0]) && GENERIC_UNIGRAM_BLOCKLIST.has(tokens[tokens.length - 1])) {
+      return false;
+    }
+  }
   return true;
+}
+
+/**
+ * Length-bonus multiplier. Multi-word phrases are far more useful as SEO
+ * targets than unigrams; we boost their score so the final ranked list
+ * mirrors Surfer's (mostly 2-3 word phrases, unigrams only when truly
+ * essential).
+ */
+function lengthBonus(n: number): number {
+  if (n === 1) return 0.35;
+  if (n === 2) return 1.0;
+  if (n === 3) return 1.35;
+  return 1.0;
+}
+
+/**
+ * Containment-aware dedup pass.
+ *
+ * If a unigram U is ranked below a multi-word phrase P that contains U
+ * and P covers a large share of U's occurrences across the corpus, drop
+ * U — the multi-word phrase already represents that concept better.
+ *
+ * Conservative: only drops unigrams (never multi-word phrases) and only
+ * when ≥60% of the unigram's total occurrences are absorbed by a single
+ * higher-ranked phrase.
+ */
+function containmentDedup(ranked: NgramTerm[]): NgramTerm[] {
+  const kept: NgramTerm[] = [];
+  const multiWordSeen: NgramTerm[] = [];
+  for (const term of ranked) {
+    if (term.n === 1) {
+      let absorbed = false;
+      for (const phrase of multiWordSeen) {
+        const tokens = phrase.term.split(" ");
+        if (!tokens.includes(term.term)) continue;
+        // Phrase contains this unigram. Estimate absorption.
+        // Phrase occurrences carry exactly one instance of the unigram per occurrence.
+        if (phrase.totalFreq >= term.totalFreq * 0.6) {
+          absorbed = true;
+          break;
+        }
+      }
+      if (absorbed) continue;
+    } else {
+      multiWordSeen.push(term);
+    }
+    kept.push(term);
+  }
+  return kept;
 }
 
 /**
@@ -113,8 +229,9 @@ export function extractNgrams(
   docs: string[],
   opts: NgramExtractionOptions = {},
 ): NgramTerm[] {
-  const minDocFreq = opts.minDocFreq ?? 0.4;
-  const minTotalFreq = opts.minTotalFreq ?? 3;
+  const minDocFreq = opts.minDocFreq ?? 0.5;
+  const minTotalFreq = opts.minTotalFreq ?? 5;
+  const unigramMinAvgFreq = opts.unigramMinAvgFreq ?? 5;
   const limit = opts.limit ?? 200;
 
   // Filter to non-empty docs.
@@ -155,10 +272,21 @@ export function extractNgrams(
     const avgFreq = perDoc.reduce((a, b) => a + b, 0) / perDoc.length;
     const maxFreq = Math.max(...perDoc);
 
-    const idf = Math.log(N / df);
-    const tfIdf = totalFreq * idf;
-
     const n = term.split(" ").length;
+
+    // Strict unigram filter: a single word must be used heavily and
+    // consistently across competitors to be considered a meaningful term.
+    // This filters out generic words like "disorder", "behavioral",
+    // "individuals" while keeping high-density domain anchors like
+    // "treatment" or "therapy" (Surfer's pattern).
+    if (n === 1 && avgFreq < unigramMinAvgFreq) continue;
+
+    // Smoothed IDF: ln(1 + N/df). This stays positive even when a term
+    // appears in 100% of docs (where the classical ln(N/df) = 0 would
+    // zero out the most universally-used term in the corpus).
+    const idf = Math.log(1 + N / df);
+    const tfIdf = totalFreq * idf;
+    const score = tfIdf * lengthBonus(n);
 
     results.push({
       term,
@@ -168,16 +296,21 @@ export function extractNgrams(
       avgFreq,
       maxFreq,
       tfIdf,
+      score,
       n,
     });
   }
 
-  // Sort by tf-idf descending. Multi-word phrases tend to score higher
-  // than unigrams (lower idf because they're rarer), so this naturally
-  // surfaces meaningful phrases like "intensive outpatient program".
-  results.sort((a, b) => b.tfIdf - a.tfIdf);
+  // Sort by length-weighted score descending — bigrams/trigrams get
+  // boosted vs unigrams, so the final list reads like Surfer's
+  // (mostly 2-3 word phrases, unigrams only when truly essential).
+  results.sort((a, b) => b.score - a.score);
 
-  return results.slice(0, limit);
+  // Containment-aware dedup: drop unigrams that are mostly absorbed by
+  // higher-ranked multi-word phrases containing them.
+  const deduped = containmentDedup(results);
+
+  return deduped.slice(0, limit);
 }
 
 /**
