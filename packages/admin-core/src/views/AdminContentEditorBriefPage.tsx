@@ -553,7 +553,7 @@ export default function AdminContentEditorBriefPage({ briefId: briefIdProp }: Pr
   const idFromRoute = typeof rawId === "string" ? rawId : Array.isArray(rawId) ? rawId[0] : undefined;
   const editorId = briefIdProp ?? idFromRoute ?? null;
 
-  const { state, loading, error, rerun, refresh } = useContentEditor(editorId);
+  const { state, loading, error, rerun, refresh, clearError } = useContentEditor(editorId);
 
   const [drafts, setDrafts] = useState<DraftInputs>({
     titleTag: "",
@@ -638,7 +638,7 @@ export default function AdminContentEditorBriefPage({ briefId: briefIdProp }: Pr
     );
   }
 
-  if (!state || error) {
+  if (!state) {
     return (
       <div className="mx-auto max-w-screen-md py-16 text-center">
         <i className="ri-error-warning-line text-4xl text-neutral-300" />
@@ -702,6 +702,19 @@ export default function AdminContentEditorBriefPage({ briefId: briefIdProp }: Pr
           </div>
         }
       />
+
+      {error ? (
+        <div className="rounded-2xl border border-red-200 bg-red-50 p-4 flex items-start gap-3 mx-auto max-w-screen-xl mb-4">
+          <i className="ri-error-warning-line text-red-600 mt-0.5" />
+          <div className="flex-1 min-w-0">
+            <p className="text-[12px] font-semibold text-red-900">Re-run</p>
+            <p className="mt-0.5 text-[11px] text-red-700 break-words">{error}</p>
+          </div>
+          <button type="button" onClick={() => clearError()} className="text-red-400 hover:text-red-600 text-sm shrink-0">
+            <i className="ri-close-line" />
+          </button>
+        </div>
+      ) : null}
 
       {optimizeError ? (
         <div className="rounded-2xl border border-red-200 bg-red-50 p-4 flex items-start gap-3">

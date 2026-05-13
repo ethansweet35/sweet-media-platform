@@ -132,8 +132,9 @@ interface UseContentEditorState {
 }
 
 export function useContentEditor(id: string | null): UseContentEditorState & {
-  refresh: () => Promise<void>;
+  refresh: (opts?: { silent?: boolean }) => Promise<void>;
   rerun: () => Promise<void>;
+  clearError: () => void;
 } {
   const [data, setData] = useState<UseContentEditorState>({
     state: null,
@@ -141,9 +142,12 @@ export function useContentEditor(id: string | null): UseContentEditorState & {
     error: null,
   });
 
-  const refresh = useCallback(async () => {
+  const refresh = useCallback(async (options?: { silent?: boolean }) => {
     if (!id) return;
-    setData((s) => ({ ...s, loading: true }));
+    const silent = options?.silent === true;
+    if (!silent) {
+      setData((s) => ({ ...s, loading: true }));
+    }
     const res = await fetch(`/api/admin/content-editor/${id}`, { cache: "no-store" });
     const json = (await res.json().catch(() => ({}))) as
       | { ok: true; editor: ContentEditorState["editor"]; competitors: ContentEditorState["competitors"]; terms: ContentEditorState["terms"]; questions: ContentEditorState["questions"]; facts: ContentEditorState["facts"]; outline: ContentEditorState["outline"]; currentDraft: ContentEditorState["currentDraft"]; }
@@ -183,18 +187,56 @@ export function useContentEditor(id: string | null): UseContentEditorState & {
     const status: ContentEditorStatus | undefined = data.state?.editor.status;
     if (!status || !STATUS_IS_PROCESSING[status]) return;
     const t = setInterval(() => {
-      void refresh();
+      void refresh({ silent: true });
     }, 4000);
     return () => clearInterval(t);
   }, [id, data.state?.editor.status, refresh]);
 
   const rerun = useCallback(async () => {
     if (!id) return;
-    await fetch(`/api/admin/content-editor/${id}/run`, { method: "POST" });
-    await refresh();
-  }, [id, refresh]);
+    const status = data.state?.editor.status;
+    const forceRebuild = status === "ready";
+    if (forceRebuild) {
+      const ok = window.confirm(
+        "Full re-analysis will delete the competitor brief stored for this editor and regenerate it from scratch (~$0.30, 90–180 seconds). Your draft text is preserved. Continue?",
+      );
+      if (!ok) return;
+    }
+    try {
+      const res = await fetch(`/api/admin/content-editor/${id}/run`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ force: forceRebuild }),
+      });
+      const json = (await res.json().catch(() => ({}))) as { ok?: boolean; error?: string };
+      if (!res.ok || json.ok === false) {
+        const msg =
+          typeof json?.error === "string"
+            ? json.error
+            : res.status === 409
+              ? "Pipeline busy — wait for the current run to finish."
+              : `Re-run failed (HTTP ${res.status}).`;
+        setData((s) => ({ ...s, error: msg }));
+        return;
+      }
+      await refresh({ silent: true });
+      // `after()` schedules the pipeline shortly after this response; poll a few times
+      // so we leave `ready` → `pending`/processing without needing a full page reload.
+      for (const ms of [400, 1200, 3000, 8000]) {
+        setTimeout(() => {
+          void refresh({ silent: true });
+        }, ms);
+      }
+    } catch {
+      setData((s) => ({ ...s, error: "Network error while triggering re-run." }));
+    }
+  }, [id, refresh, data.state?.editor.status]);
 
-  return { ...data, refresh, rerun };
+  const clearError = useCallback(() => {
+    setData((s) => ({ ...s, error: null }));
+  }, []);
+
+  return { ...data, refresh, rerun, clearError };
 }
 
 // ────────────────────────────────────────────────────────────────────────
@@ -235,7 +277,7 @@ export function useLiveScore(
   drafts: DraftInputs,
   opts: UseLiveScoreOptions,
 ): UseLiveScoreState {
-  const { editorId, debounceMs = 1200, includeFactCoverage = false, persist = false } = opts;
+  const { editorId, debounceMs = 1200, includeFactCoverage = false, persist = true } = opts;
   const [score, setScore] = useState<ScoreBreakdown | null>(null);
   const [scoring, setScoring] = useState(false);
   const [error, setError] = useState<string | null>(null);

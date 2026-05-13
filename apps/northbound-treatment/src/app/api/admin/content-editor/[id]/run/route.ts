@@ -2,6 +2,8 @@ import { NextResponse } from "next/server";
 import { after } from "next/server";
 import {
   ContentEditorError,
+  getContentEditorAdminClient,
+  loadContentEditor,
   runContentEditorPipeline,
 } from "@sweetmedia/admin-core/server";
 
@@ -19,16 +21,50 @@ interface RouteContext {
  *
  * Returns 202 immediately; the pipeline runs in the `after()` callback.
  */
-export async function POST(_request: Request, ctx: RouteContext) {
+export async function POST(request: Request, ctx: RouteContext) {
   const { id } = await ctx.params;
   if (!id) {
     return NextResponse.json({ ok: false, error: "id is required." }, { status: 400 });
   }
 
+  let forceRebuild = false;
+  try {
+    const parsed = (await request.json()) as unknown;
+    if (parsed && typeof parsed === "object" && "force" in parsed) {
+      forceRebuild = (parsed as { force?: boolean }).force === true;
+    }
+  } catch {
+    /* Empty body → resume / retry checkpoints without wiping (default). */
+  }
+
+  if (forceRebuild) {
+    const adm = getContentEditorAdminClient();
+    const editorRow = await loadContentEditor(adm, id);
+    if (!editorRow) {
+      return NextResponse.json({ ok: false, error: "Editor not found." }, { status: 404 });
+    }
+    const PIPELINE_BUSY = new Set([
+      "fetching_serp",
+      "extracting_content",
+      "analyzing_nlp",
+      "extracting_facts",
+      "computing_guidelines",
+    ]);
+    if (PIPELINE_BUSY.has(editorRow.status)) {
+      return NextResponse.json(
+        {
+          ok: false,
+          error: "Cannot rebuild yet — pipeline is still running on this editor. Wait until it finishes.",
+        },
+        { status: 409 },
+      );
+    }
+  }
+
   try {
     after(async () => {
       try {
-        await runContentEditorPipeline({ editorId: id });
+        await runContentEditorPipeline({ editorId: id, forceRebuild });
       } catch (err) {
         console.error("[content-editor] pipeline failed:", err);
       }

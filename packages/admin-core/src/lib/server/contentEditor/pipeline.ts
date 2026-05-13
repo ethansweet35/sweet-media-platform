@@ -32,9 +32,11 @@ import {
   scrapePage,
 } from "./index";
 import {
+  type ContentEditorStatus,
   ContentEditorRow,
   CompetitorRow,
   addCost,
+  clearPipelineArtifacts,
   getAdminClient,
   loadBlacklistedDomains,
   loadCompetitors,
@@ -76,7 +78,22 @@ export interface RunPipelineOptions {
   editorId: string;
   /** Inject a Supabase client for testing; defaults to service-role client. */
   client?: SupabaseClient;
+  /**
+   * Wipes SERP-derived rows (competitors, terms, facts, …) + guideline scores
+   * and re-runs the full pipeline from phase 1. Use this from the manual
+   * `/run` route when an editor already has `status=ready`; without it,
+   * the pipeline exits immediately because every phase short-circuit is hot.
+   */
+  forceRebuild?: boolean;
 }
+
+const PIPELINE_BUSY: ContentEditorStatus[] = [
+  "fetching_serp",
+  "extracting_content",
+  "analyzing_nlp",
+  "extracting_facts",
+  "computing_guidelines",
+];
 
 /**
  * Top-level entrypoint. Runs all 8 phases sequentially. Idempotent — each
@@ -87,14 +104,34 @@ export interface RunPipelineOptions {
  */
 export async function runContentEditorPipeline(opts: RunPipelineOptions): Promise<void> {
   const client = opts.client ?? getAdminClient();
-  const editor = await loadEditor(client, opts.editorId);
+  let editor = await loadEditor(client, opts.editorId);
   if (!editor) {
     throw new ContentEditorError(`Editor ${opts.editorId} not found`, {
       source: "pipeline",
       status: 404,
     });
   }
-  if (editor.status === "ready") return;
+
+  if (opts.forceRebuild && PIPELINE_BUSY.includes(editor.status)) {
+    throw new ContentEditorError(
+      "Cannot rebuild while the pipeline is still running. Wait until this editor finishes or fails.",
+      { source: "pipeline", status: 409 },
+    );
+  }
+
+  if (opts.forceRebuild) {
+    await clearPipelineArtifacts(client, opts.editorId);
+    const reloaded = await loadEditor(client, opts.editorId);
+    if (!reloaded) {
+      throw new ContentEditorError(`Editor ${opts.editorId} not found after reset.`, {
+        source: "pipeline",
+        status: 500,
+      });
+    }
+    editor = reloaded;
+  } else if (editor.status === "ready") {
+    return;
+  }
 
   try {
     await phase1_serpFetch(client, editor);

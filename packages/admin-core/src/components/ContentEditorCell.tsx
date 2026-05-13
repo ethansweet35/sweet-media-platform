@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import Link from "next/link";
 import { supabase } from "../lib/supabase";
 import {
@@ -123,7 +123,7 @@ export default function ContentEditorCell({
   compact = false,
 }: ContentEditorCellProps) {
   const ref: ContentEditorRowRef = { kind, id: row.id };
-  const { states, createEditorForRow, rerunEditorForRow } = useContentEditorRowActions();
+  const { states, createEditorForRow } = useContentEditorRowActions();
   const rowKey = `${kind}:${row.id}`;
   const action = states[rowKey];
 
@@ -135,62 +135,52 @@ export default function ContentEditorCell({
   const editorProcessing = editor ? STATUS_IS_PROCESSING[editor.status] : false;
   const isProcessing = editorProcessing || action?.status === "loading";
 
-  // Hydrate the joined editor whenever the row's editor id changes.
-  const lastFetchedRef = useRef<string | null>(null);
-  useEffect(() => {
-    if (!editorId) {
-      setEditor(null);
-      lastFetchedRef.current = null;
-      return;
-    }
-    if (lastFetchedRef.current === editorId) return;
-    lastFetchedRef.current = editorId;
+  const fetchJoinedEditor = useCallback(async (targetId: string): Promise<JoinedEditor | null> => {
     setEditorLoading(true);
-    void (async () => {
+    try {
       const { data } = await supabase
         .from("content_editors")
         .select("id, status, status_message, error, target_score, competitor_avg_score, updated_at, content_editor_drafts(computed_content_score, is_current)")
-        .eq("id", editorId)
+        .eq("id", targetId)
         .maybeSingle();
+      let result: JoinedEditor | null = null;
       if (data) {
         const raw = data as Record<string, unknown>;
         const drafts = Array.isArray(raw.content_editor_drafts) ? raw.content_editor_drafts : [];
         const cur = drafts.find((d: Record<string, unknown>) => d.is_current);
         const current_content_score = (cur as Record<string, unknown> | undefined)?.computed_content_score as number | null ?? null;
         const { content_editor_drafts: _d, ...rest } = raw;
-        setEditor({ ...rest, current_content_score } as JoinedEditor);
+        result = { ...rest, current_content_score } as JoinedEditor;
+        setEditor(result);
       } else {
         setEditor(null);
       }
+      return result;
+    } finally {
       setEditorLoading(false);
-    })();
-  }, [editorId]);
+    }
+  }, []);
 
-  // Poll while processing.
+  useEffect(() => {
+    if (!editorId) {
+      setEditor(null);
+      return;
+    }
+    void fetchJoinedEditor(editorId);
+  }, [editorId, fetchJoinedEditor]);
+
   useEffect(() => {
     if (!editorId || !editor || !STATUS_IS_PROCESSING[editor.status]) return;
-    const t = setInterval(async () => {
-      const { data } = await supabase
-        .from("content_editors")
-        .select("id, status, status_message, error, target_score, competitor_avg_score, updated_at, content_editor_drafts(computed_content_score, is_current)")
-        .eq("id", editorId)
-        .maybeSingle();
-      let next: JoinedEditor | null = null;
-      if (data) {
-        const raw = data as Record<string, unknown>;
-        const drafts = Array.isArray(raw.content_editor_drafts) ? raw.content_editor_drafts : [];
-        const cur = drafts.find((d: Record<string, unknown>) => d.is_current);
-        const current_content_score = (cur as Record<string, unknown> | undefined)?.computed_content_score as number | null ?? null;
-        const { content_editor_drafts: _d, ...rest } = raw;
-        next = { ...rest, current_content_score } as JoinedEditor;
-      }
-      setEditor(next);
-      if (next && !STATUS_IS_PROCESSING[next.status]) {
-        await onChange?.();
-      }
+    const t = setInterval(() => {
+      void (async () => {
+        const next = await fetchJoinedEditor(editorId);
+        if (next && !STATUS_IS_PROCESSING[next.status]) {
+          await onChange?.();
+        }
+      })();
     }, 5000);
     return () => clearInterval(t);
-  }, [editorId, editor?.status, onChange, editor]);
+  }, [editorId, editor?.status, fetchJoinedEditor, editor, onChange]);
 
   const noKeyword = !row.primary_keyword?.trim();
   // Show the actual scored content score if available; fall back to target for context.
@@ -212,11 +202,20 @@ export default function ContentEditorCell({
 
   const handleRerun = useCallback(async () => {
     if (!editorId) return;
-    await rerunEditorForRow(ref, editorId);
-    // Trigger a refresh of the joined editor.
-    lastFetchedRef.current = null;
+    const forceRebuild = editor?.status === "ready";
+    const res = await fetch(`/api/admin/content-editor/${editorId}/run`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ force: forceRebuild }),
+    });
+    if (!res.ok) {
+      const j = (await res.json().catch(() => ({}))) as { error?: string };
+      console.warn("[ContentEditorCell] re-run failed:", j.error ?? res.status);
+      return;
+    }
+    await fetchJoinedEditor(editorId);
     await onChange?.();
-  }, [editorId, onChange, rerunEditorForRow, ref]);
+  }, [editorId, editor?.status, onChange, fetchJoinedEditor]);
 
   return (
     <div className={`relative flex items-center gap-2 ${compact ? "" : "min-w-[240px]"}`}>

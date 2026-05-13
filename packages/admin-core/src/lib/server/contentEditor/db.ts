@@ -181,3 +181,63 @@ export async function addCost(
     .update({ total_cost_usd: next, updated_at: new Date().toISOString() })
     .eq("id", editorId);
 }
+
+/**
+ * Deletes all pipeline-produced rows for an editor while preserving drafts.
+ * Draft rows (and FK usage rows) persist; cascade removes `*_draft_term_usage`
+ * rows when linked terms are deleted.
+ *
+ * Resets guideline + score columns on `content_editors` so phases 3–8
+ * re-populate cleanly. Used for manual "fresh SERP" re-runs.
+ */
+export async function clearPipelineArtifacts(
+  client: SupabaseClient,
+  editorId: string,
+): Promise<void> {
+  const tables = [
+    "content_editor_competitors",
+    "content_editor_terms",
+    "content_editor_questions",
+    "content_editor_facts",
+    "content_editor_outlines",
+  ] as const;
+  for (const t of tables) {
+    const { error } = await client.from(t).delete().eq("editor_id", editorId);
+    if (error) {
+      throw new ContentEditorError(`Failed to clear ${t}: ${error.message}`, {
+        source: "pipeline",
+        status: 500,
+      });
+    }
+  }
+
+  const { error: editErr } = await client
+    .from("content_editors")
+    .update({
+      status: "pending",
+      status_message: null,
+      error: null,
+      recommended_word_count_min: null,
+      recommended_word_count_max: null,
+      recommended_word_count_target: null,
+      recommended_h2_min: null,
+      recommended_h2_max: null,
+      recommended_h3_min: null,
+      recommended_h3_max: null,
+      recommended_image_min: null,
+      recommended_image_max: null,
+      recommended_paragraph_count_min: null,
+      recommended_paragraph_count_max: null,
+      competitor_avg_score: null,
+      target_score: null,
+      completed_at: null,
+      updated_at: new Date().toISOString(),
+    })
+    .eq("id", editorId);
+  if (editErr) {
+    throw new ContentEditorError(`Failed to reset editor after clear: ${editErr.message}`, {
+      source: "pipeline",
+      status: 500,
+    });
+  }
+}
