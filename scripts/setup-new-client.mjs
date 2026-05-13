@@ -633,7 +633,7 @@ CONTACT_BRAND_NAME=${name}
    (Adds optional --project <vercel-project-name> if the brand's Vercel project name differs from its slug.)
 4. 1Password: add RESEND_API_KEY to apps/${slug}/.env.local, then run:
    node scripts/setup-new-client.mjs --slug ${slug} ... --save-to-1password
-   (or save manually — open apps/${slug}/.env.local and apps/${slug}/.upload.env)`
+   (or save manually — open apps/${slug}/.env.local and apps/${slug}/.upload.env)
 ${existsSync(appDir) ? '' : `4. Scaffold was skipped — run manually:\n   node scripts/scaffold-client-app.mjs --slug ${slug} --name "${name.replace(/"/g, '\\"')}" --url ${siteUrl} --ref ${ref} --anon-key "<anon_key>"\n`}
 ${adminEmail
   ? `• Admin login ready: ${adminEmail} / ChangeMe123! → change password after first login`
