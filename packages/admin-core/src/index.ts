@@ -73,5 +73,33 @@ export { default as AdminBrandSettingsPage } from "./views/AdminBrandSettingsPag
 export { default as AdminKeywordResearchPage } from "./views/AdminKeywordResearchPage";
 export { default as AdminSweetSeoPage } from "./views/AdminSweetSeoPage";
 export { default as AdminSweetSeoBriefPage } from "./views/AdminSweetSeoBriefPage";
+export { default as AdminContentEditorPage } from "./views/AdminContentEditorPage";
+export { default as AdminContentEditorBriefPage } from "./views/AdminContentEditorBriefPage";
+export {
+  useContentEditors,
+  useContentEditor,
+  useLiveScore,
+  useDraftAutosave,
+  type DraftInputs,
+} from "./hooks/useContentEditors";
+export type {
+  ContentEditorListRow,
+  ContentEditorRow as ContentEditorClientRow,
+  ContentEditorCompetitorRow as ContentEditorClientCompetitorRow,
+  ContentEditorTermRow as ContentEditorClientTermRow,
+  ContentEditorQuestionRow as ContentEditorClientQuestionRow,
+  ContentEditorFactRow as ContentEditorClientFactRow,
+  ContentEditorOutlineRow as ContentEditorClientOutlineRow,
+  ContentEditorDraftRow as ContentEditorClientDraftRow,
+  ContentEditorState as ContentEditorClientState,
+  ContentEditorStatus,
+  TermStatus,
+  StructuralStatus,
+  PlacementChecks,
+  TermUsage,
+  StructuralCheck,
+  ScoreBreakdown,
+} from "./types/content-editor";
+export { STATUS_LABELS, STATUS_IS_PROCESSING } from "./types/content-editor";
 export { useSeoBriefs, useSeoBrief, useBriefForWriter, briefToMarkdown } from "./hooks/useSeoBriefs";
 export { useBrandSettings, type BrandSettingsRow, type BusinessHoursRow } from "./hooks/useBrandSettings";
