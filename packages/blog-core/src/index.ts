@@ -1,6 +1,6 @@
 export * from "./types/blog";
 export { supabase } from "./lib/supabase";
-export { useBlogPosts, useBlogPost, useBlogCategories, useSearchBlogPosts } from "./hooks/useBlogPosts";
+export { useBlogPosts, useBlogPost, useBlogCategories, useSearchBlogPosts, usePaginatedBlogPosts } from "./hooks/useBlogPosts";
 export * from "./lib/autoInternalLinks";
 export { getInternalLinkMappings, getPageAutoLinkRegistry } from "./lib/getInternalLinkMappings";
 export { AutoLinkedText, initPageAutoLinks } from "./components/AutoLinkedText";

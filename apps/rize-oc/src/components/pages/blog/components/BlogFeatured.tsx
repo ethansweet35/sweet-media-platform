@@ -1,26 +1,24 @@
 "use client";
 
 import Image from "next/image";
-import { useRouter } from "next/navigation";
+import Link from "next/link";
 import { useBlogPosts } from "@sweetmedia/blog-core";
 
 export default function BlogFeatured() {
   const { posts, loading } = useBlogPosts();
-  const router = useRouter();
-
   const post = posts.find((p) => p.featured);
 
   if (loading) {
     return (
       <section className="w-full bg-white">
-        <div className="max-w-screen-xl mx-auto px-6 py-16 md:py-24">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-center animate-pulse">
-            <div className="aspect-[4/3] bg-neutral-100 rounded-2xl" />
+        <div className="mx-auto w-full max-w-[1300px] px-6 lg:px-10 py-[80px]">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center animate-pulse">
+            <div className="aspect-[4/3] bg-[#EBEBEB]" />
             <div className="space-y-4">
-              <div className="h-4 bg-neutral-100 rounded w-1/3" />
-              <div className="h-8 bg-neutral-100 rounded w-3/4" />
-              <div className="h-4 bg-neutral-100 rounded w-full" />
-              <div className="h-4 bg-neutral-100 rounded w-2/3" />
+              <div className="h-3 bg-[#EBEBEB] w-1/4" />
+              <div className="h-10 bg-[#EBEBEB] w-3/4" />
+              <div className="h-4 bg-[#EBEBEB] w-full" />
+              <div className="h-4 bg-[#EBEBEB] w-2/3" />
             </div>
           </div>
         </div>
@@ -32,72 +30,78 @@ export default function BlogFeatured() {
 
   return (
     <section className="w-full bg-white">
-      <div className="max-w-screen-xl mx-auto px-6 py-16 md:py-24">
-        <div className="flex items-center gap-3 mb-10 justify-center lg:justify-start">
-          <div className="w-8 h-px bg-neutral-300" />
-          <span className="text-[10px] tracking-[0.3em] uppercase text-neutral-400 font-semibold">
+      <div className="mx-auto w-full max-w-[1300px] px-6 lg:px-10 py-[80px]">
+        {/* Section label */}
+        <div className="flex items-center gap-4 mb-12">
+          <div className="w-8 h-px bg-[#DCDCDC]" />
+          <span className="text-[10px] tracking-[0.32em] uppercase text-ink/40 font-semibold">
             Featured Article
           </span>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-center">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
           {/* Image */}
-          <div className="relative rounded-2xl overflow-hidden">
-            <Image
-              src={post.image}
-              alt={post.title}
-              width={1200}
-              height={900}
-              priority
-              className="w-full h-auto block"
-              sizes="(max-width: 1024px) 100vw, 50vw"
-            />
-            <div className="absolute top-4 left-4">
-              <span className="inline-block bg-white/90 backdrop-blur-sm text-[10px] tracking-[0.2em] uppercase font-bold text-[#1F2937] px-3 py-1.5 rounded-full">
-                {post.category}
-              </span>
+          <Link href={`/blog/${post.slug}`} className="group block overflow-hidden">
+            <div className="relative aspect-[4/3] overflow-hidden">
+              <Image
+                src={post.image}
+                alt={post.title}
+                fill
+                priority
+                sizes="(max-width: 1024px) 100vw, 50vw"
+                className="object-cover object-center transition-transform duration-700 group-hover:scale-105"
+              />
+              {/* Category badge */}
+              <div className="absolute top-4 left-4">
+                <span className="inline-block bg-accent text-white text-[9px] tracking-[0.2em] uppercase font-semibold px-3 py-1.5">
+                  {post.category}
+                </span>
+              </div>
             </div>
-          </div>
+          </Link>
 
           {/* Content */}
           <div>
-            <div className="flex items-center gap-3 mb-5">
-              <span className="text-[11px] text-neutral-400">{post.date}</span>
-              <span className="w-1 h-1 rounded-full bg-neutral-300" />
-              <span className="text-[11px] text-neutral-400">{post.readTime}</span>
+            <div className="flex items-center gap-3 mb-6 text-[11px] text-ink/40">
+              <span>{post.date}</span>
+              <span className="w-1 h-1 rounded-full bg-ink/20" />
+              <span>{post.readTime}</span>
             </div>
 
-            <h2
-              className="text-2xl md:text-3xl lg:text-4xl font-light text-neutral-900 leading-snug mb-5"
-              style={{ fontFamily: "'Inter', serif" }}
-            >
-              {post.title}
-            </h2>
+            <Link href={`/blog/${post.slug}`} className="group block">
+              <h2
+                className="font-[family-name:var(--font-display)] font-normal text-ink leading-[1.0] group-hover:opacity-75 transition-opacity"
+                style={{ fontSize: "clamp(30px, 3vw, 46px)" }}
+              >
+                {post.title}
+              </h2>
+            </Link>
 
-            <p className="text-sm md:text-base text-neutral-500 leading-relaxed mb-8">
+            <p className="mt-5 text-[15px] font-light text-ink/60 leading-relaxed">
               {post.excerpt}
             </p>
 
-            <div className="flex items-center justify-between">
+            <div className="mt-8 flex items-center justify-between border-t border-[#EBEBEB] pt-6">
+              {/* Author */}
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-full bg-[#1F2937] flex items-center justify-center">
-                  <span className="text-white text-xs font-bold">
-                    {post.author.split(" ").map((n) => n[0]).join("")}
+                <div className="w-9 h-9 rounded-full bg-ink flex items-center justify-center shrink-0">
+                  <span className="text-white text-[10px] font-bold">
+                    {(post.author ?? "R").split(" ").map((n) => n[0]).join("")}
                   </span>
                 </div>
                 <div>
-                  <p className="text-sm font-medium text-neutral-800">{post.author}</p>
-                  <p className="text-[11px] text-neutral-400">{post.authorRole}</p>
+                  <p className="text-[12px] font-semibold text-ink">{post.author ?? "Rize OC"}</p>
+                  <p className="text-[11px] text-ink/40">{post.authorRole}</p>
                 </div>
               </div>
 
-              <button
-                onClick={() => router.push(`/blog/${post.slug}`)}
-                className="group flex items-center gap-2 text-[11px] tracking-[0.15em] uppercase font-bold text-[#1F2937] hover:text-[#2563EB] transition-colors cursor-pointer whitespace-nowrap"
+              <Link
+                href={`/blog/${post.slug}`}
+                className="group flex items-center gap-1.5 text-[10px] tracking-[0.2em] uppercase font-semibold text-accent hover:gap-3 transition-all"
               >
                 Read Article
-                <i className="ri-arrow-right-line text-sm group-hover:translate-x-1 transition-transform"></i>
-              </button>
+                <i className="ri-arrow-right-line text-xs" />
+              </Link>
             </div>
           </div>
         </div>

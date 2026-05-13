@@ -12,55 +12,53 @@ export default function BlogHero({ searchQuery, onSearchChange }: BlogHeroProps)
   const [isFocused, setIsFocused] = useState(false);
 
   return (
-    <section className="relative w-full overflow-hidden bg-[#1F2937]">
-      <div
-        className="absolute inset-0 opacity-[0.08]"
-        style={{
-          backgroundImage:
-            "radial-gradient(circle at 1px 1px, #F8FAFC 1px, transparent 0)",
-          backgroundSize: "34px 34px",
-        }}
-      />
-      <div className="absolute -top-24 right-0 w-96 h-96 rounded-full bg-[#DDA15E]/10 blur-3xl" />
-      <div className="absolute bottom-0 left-0 w-80 h-80 rounded-full bg-[#8FA489]/10 blur-3xl" />
+    <section className="relative w-full overflow-hidden bg-ink py-[100px]">
+      {/* Decorative glows */}
+      <div className="pointer-events-none absolute -right-40 -top-40 h-[500px] w-[500px] rounded-full bg-accent/5" />
+      <div className="pointer-events-none absolute -left-24 bottom-0 h-80 w-80 rounded-full bg-accent/5" />
 
-      <div className="relative max-w-7xl mx-auto px-8 md:px-16 pt-36 pb-20 md:pt-44 md:pb-28">
-        <div className="flex items-center gap-2 mb-8">
+      <div className="relative mx-auto w-full max-w-[1300px] px-6 lg:px-10">
+        {/* Breadcrumb */}
+        <div className="flex items-center gap-2 mb-10">
           <Link
             href="/"
-            className="text-[10px] tracking-[0.25em] uppercase text-[#E2E8F0]/45 hover:text-[#E2E8F0]/80 transition-colors"
+            className="text-[10px] tracking-[0.25em] uppercase text-white/40 hover:text-accent transition-colors"
           >
             Home
           </Link>
-          <span className="text-[#E2E8F0]/25">/</span>
-          <span className="text-[10px] tracking-[0.25em] uppercase text-[#DDA15E]">
-            Resources
+          <span className="text-white/25 text-xs">/</span>
+          <span className="text-[10px] tracking-[0.25em] uppercase text-accent">
+            Blog
           </span>
         </div>
 
         <div className="max-w-3xl">
-          <span className="text-xs uppercase tracking-[0.35em] text-[#DDA15E] font-medium">
-            Rize OC Journal
-          </span>
-
-          <h1
-            className="font-serif text-[#F8FAFC] leading-[1.08] mt-6 mb-6"
-            style={{ fontSize: "clamp(42px, 6vw, 78px)" }}
-          >
-            Thoughtful guidance for{" "}
-            <em className="text-[#DDA15E]">healing at home.</em>
-          </h1>
-
-          <p className="text-[#E2E8F0]/70 font-light text-base md:text-lg leading-[1.9] max-w-2xl mb-10">
-            Mental health, addiction recovery, trauma-informed care, and wellness resources from the Rize OC team.
+          <p className="text-[10px] font-semibold uppercase tracking-[0.35em] text-accent mb-5">
+            Rize OC Blog
           </p>
 
+          <h1
+            className="font-[family-name:var(--font-display)] font-normal text-white leading-[0.95]"
+            style={{ fontSize: "clamp(48px, 6vw, 84px)" }}
+          >
+            Insights for
+            <br />
+            <em className="italic text-white/55">healing &amp; recovery.</em>
+          </h1>
+
+          <p className="mt-7 text-[16px] font-light leading-relaxed text-white/65 max-w-2xl">
+            Mental health, addiction recovery, trauma-informed care, and wellness resources from the Rize OC clinical team.
+          </p>
+
+          {/* Search */}
           <div
-            className={`max-w-xl flex items-center gap-3 bg-[#F8FAFC]/10 backdrop-blur-sm border rounded-full px-5 py-3 transition-all duration-200 ${
-              isFocused ? "border-[#DDA15E]/50 bg-[#F8FAFC]/15" : "border-[#F8FAFC]/15"
+            className={`mt-10 max-w-xl flex items-center gap-3 border px-5 py-3.5 transition-all duration-200 ${
+              isFocused
+                ? "border-accent/50 bg-white/8"
+                : "border-white/15 bg-white/5"
             }`}
           >
-            <i className="ri-search-line text-[#E2E8F0]/45 text-lg" />
+            <i className="ri-search-line text-white/40 text-lg" />
             <input
               type="text"
               value={searchQuery}
@@ -68,12 +66,12 @@ export default function BlogHero({ searchQuery, onSearchChange }: BlogHeroProps)
               onFocus={() => setIsFocused(true)}
               onBlur={() => setIsFocused(false)}
               placeholder="Search articles..."
-              className="flex-1 bg-transparent text-sm text-[#F8FAFC] placeholder:text-[#E2E8F0]/35 focus:outline-none"
+              className="flex-1 bg-transparent text-sm text-white placeholder:text-white/30 focus:outline-none"
             />
             {searchQuery && (
               <button
-              onClick={() => onSearchChange("")}
-                className="w-6 h-6 flex items-center justify-center rounded-full bg-[#F8FAFC]/10 hover:bg-[#F8FAFC]/20 text-[#E2E8F0]/60 transition-colors cursor-pointer"
+                onClick={() => onSearchChange("")}
+                className="w-6 h-6 flex items-center justify-center bg-white/10 hover:bg-white/20 text-white/60 transition-colors"
                 aria-label="Clear search"
               >
                 <i className="ri-close-line text-xs" />

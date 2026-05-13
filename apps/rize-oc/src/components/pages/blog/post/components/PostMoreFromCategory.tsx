@@ -49,15 +49,21 @@ export default function PostMoreFromCategory({ currentPost, allPosts }: PostMore
               className="group bg-white rounded-xl overflow-hidden border border-neutral-100 hover:border-neutral-200 transition-all duration-300 block"
             >
               <article>
-                <div className="relative aspect-[16/9] overflow-hidden">
-                  <Image
-                    src={post.image}
-                    alt={post.title}
-                    fill
-                    loading="lazy"
-                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 280px"
-                    className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500"
-                  />
+                <div className="relative aspect-[16/9] overflow-hidden bg-neutral-100">
+                  {post.image ? (
+                    <Image
+                      src={post.image}
+                      alt={post.title}
+                      fill
+                      loading="lazy"
+                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 280px"
+                      className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500"
+                    />
+                  ) : (
+                    <div className="w-full h-full flex items-center justify-center text-neutral-300">
+                      <i className="ri-article-line text-3xl" />
+                    </div>
+                  )}
                 </div>
                 <div className="p-4">
                   <span className="text-[9px] tracking-[0.2em] uppercase font-semibold text-[#1F2937]/60 mb-1.5 block">

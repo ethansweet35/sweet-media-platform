@@ -311,7 +311,7 @@ export default function Navbar() {
           >
             <button
               className={`flex items-center gap-1 text-[11px] font-medium uppercase tracking-[0.18em] transition-colors ${
-                pathname.startsWith("/resources") || pathname === "/verify-insurance" || pathname.startsWith("/service-areas") || pathname === "/employee-assistance-program"
+                pathname.startsWith("/resources") || pathname === "/verify-insurance" || pathname.startsWith("/service-areas") || pathname === "/employee-assistance-program" || pathname === "/blog" || pathname.startsWith("/blog/")
                   ? "text-accent"
                   : "text-ink hover:text-accent"
               }`}
@@ -328,6 +328,7 @@ export default function Navbar() {
               <div className="bg-cream-nav border border-soft shadow-lg w-[290px] py-2">
                 <div className="h-[2px] bg-accent w-full mb-1" />
                 {[
+                  { label: "Blog",                        path: "/blog" },
                   { label: "Verify Insurance",            path: "/verify-insurance" },
                   { label: "Service Areas",               path: "/service-areas" },
                   { label: "Employee Assistance (EAP)",   path: "/employee-assistance-program" },
@@ -336,7 +337,7 @@ export default function Navbar() {
                     key={path}
                     href={path}
                     className={`block px-6 py-3.5 text-[11px] font-medium uppercase tracking-[0.15em] border-b border-soft/50 last:border-0 transition-colors ${
-                      pathname === path ? "text-accent bg-accent/5" : "text-ink hover:text-accent hover:bg-accent/5"
+                      pathname === path || (path === "/blog" && pathname.startsWith("/blog/")) ? "text-accent bg-accent/5" : "text-ink hover:text-accent hover:bg-accent/5"
                     }`}
                   >
                     {label}
@@ -512,6 +513,7 @@ export default function Navbar() {
               {mobileResourcesOpen && (
                 <div className="mb-2 border-l-2 border-accent pl-4 flex flex-col gap-1">
                   {[
+                    { label: "Blog",                       path: "/blog" },
                     { label: "Verify Insurance",           path: "/verify-insurance" },
                     { label: "Service Areas",              path: "/service-areas" },
                     { label: "Employee Assistance (EAP)",  path: "/employee-assistance-program" },

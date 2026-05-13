@@ -106,6 +106,47 @@ export function useBlogCategories() {
   return { categories, loading };
 }
 
+export function usePaginatedBlogPosts(page: number, pageSize: number, category?: string) {
+  const [posts, setPosts] = useState<BlogPost[]>([]);
+  const [total, setTotal] = useState(0);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetch = async () => {
+      setLoading(true);
+      try {
+        const from = page * pageSize;
+        const to = from + pageSize - 1;
+
+        let query = supabase
+          .from("blog_posts")
+          .select("*", { count: "exact" })
+          .eq("status", "published")
+          .eq("featured", false)
+          .order("published_at", { ascending: false, nullsFirst: false })
+          .range(from, to);
+
+        if (category && category !== "All") {
+          query = query.eq("category", category);
+        }
+
+        const { data, count, error: supaError } = await query;
+        if (supaError) throw supaError;
+        setPosts((data as DbBlogPost[] || []).map(dbToBlogPost));
+        setTotal(count ?? 0);
+      } catch {
+        setPosts([]);
+        setTotal(0);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetch();
+  }, [page, pageSize, category]);
+
+  return { posts, total, loading };
+}
+
 export function useSearchBlogPosts(query: string) {
   const [posts, setPosts] = useState<BlogPost[]>([]);
   const [loading, setLoading] = useState(false);

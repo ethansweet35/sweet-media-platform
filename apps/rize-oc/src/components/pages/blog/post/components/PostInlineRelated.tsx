@@ -48,15 +48,21 @@ export default function PostInlineRelated({ currentPost, allPosts }: PostInlineR
             href={`/blog/${post.slug}`}
             className="group flex items-start gap-4 p-3 -mx-3 rounded-xl hover:bg-white transition-all duration-200"
           >
-            <div className="relative w-16 h-16 md:w-20 md:h-20 rounded-lg overflow-hidden flex-shrink-0">
-              <Image
-                src={post.image}
-                alt={post.title}
-                fill
-                loading="lazy"
-                sizes="80px"
-                className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-300"
-              />
+            <div className="relative w-16 h-16 md:w-20 md:h-20 rounded-lg overflow-hidden flex-shrink-0 bg-neutral-100">
+              {post.image ? (
+                <Image
+                  src={post.image}
+                  alt={post.title}
+                  fill
+                  loading="lazy"
+                  sizes="80px"
+                  className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-300"
+                />
+              ) : (
+                <div className="w-full h-full flex items-center justify-center text-neutral-300">
+                  <i className="ri-article-line text-xl" />
+                </div>
+              )}
             </div>
             <div className="flex-1 min-w-0">
               <span className="text-[9px] tracking-[0.2em] uppercase font-semibold text-[#1F2937]/60 mb-1 block">
