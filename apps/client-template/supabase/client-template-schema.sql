@@ -399,5 +399,222 @@ begin
   end if;
 end $$;
 
+-- =========================================================
+-- CONTENT EDITOR (Surfer/Rankability-style content optimization)
+-- See migrations/2026-05-12_content_editor_schema.sql for the full migration
+-- with seed data and inline documentation. The block below is the structural
+-- equivalent collapsed for the canonical schema file.
+-- =========================================================
+
+create extension if not exists vector;
+
+create table if not exists public.content_editors (
+  id uuid primary key default gen_random_uuid(),
+  created_by uuid,
+  primary_keyword text not null,
+  secondary_keywords text[] not null default '{}',
+  location_code int not null default 2840,
+  language_code text not null default 'en',
+  device text not null default 'desktop',
+  competitor_pool_size int not null default 20,
+  status text not null default 'pending',
+  status_message text,
+  error text,
+  total_cost_usd numeric(10,4) not null default 0,
+  blog_post_id text,                                    -- not FK: blog_posts.id type varies (text on sweet-media, uuid elsewhere)
+  recommended_word_count_min int,
+  recommended_word_count_max int,
+  recommended_word_count_target int,
+  recommended_h2_min int,
+  recommended_h2_max int,
+  recommended_h3_min int,
+  recommended_h3_max int,
+  recommended_image_min int,
+  recommended_image_max int,
+  recommended_paragraph_count_min int,
+  recommended_paragraph_count_max int,
+  competitor_avg_score numeric(5,2),
+  target_score numeric(5,2),
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now(),
+  completed_at timestamptz
+);
+
+create index if not exists content_editors_status_idx on public.content_editors(status);
+create index if not exists content_editors_created_at_idx on public.content_editors(created_at desc);
+create index if not exists content_editors_blog_post_idx on public.content_editors(blog_post_id);
+create index if not exists content_editors_keyword_idx on public.content_editors(lower(primary_keyword));
+
+create table if not exists public.content_editor_competitors (
+  id uuid primary key default gen_random_uuid(),
+  editor_id uuid not null references public.content_editors(id) on delete cascade,
+  serp_position int not null,
+  url text not null,
+  domain text not null,
+  title text,
+  meta_description text,
+  word_count int,
+  h1_text text,
+  h2_count int,
+  h3_count int,
+  paragraph_count int,
+  image_count int,
+  internal_link_count int,
+  external_link_count int,
+  raw_html_storage_key text,
+  cleaned_text text,
+  headings jsonb,
+  individual_content_score numeric(5,2),
+  included_in_benchmark boolean not null default true,
+  fetch_status text not null default 'pending',
+  fetch_error text,
+  created_at timestamptz not null default now()
+);
+
+create index if not exists content_editor_competitors_editor_idx on public.content_editor_competitors(editor_id, serp_position);
+
+create table if not exists public.content_editor_terms (
+  id uuid primary key default gen_random_uuid(),
+  editor_id uuid not null references public.content_editors(id) on delete cascade,
+  term text not null,
+  term_type text not null,
+  entity_type text,
+  relevance_score numeric(8,4) not null,
+  avg_frequency numeric(8,4),
+  min_recommended_uses int not null,
+  max_recommended_uses int not null,
+  target_uses int not null,
+  competitor_coverage_pct numeric(5,2),
+  is_heading_recommended boolean not null default false,
+  is_primary_keyword boolean not null default false,
+  user_blacklisted boolean not null default false,
+  user_included boolean not null default true,
+  created_at timestamptz not null default now()
+);
+
+create index if not exists content_editor_terms_editor_relevance_idx on public.content_editor_terms(editor_id, relevance_score desc);
+create index if not exists content_editor_terms_editor_term_idx on public.content_editor_terms(editor_id, lower(term));
+
+create table if not exists public.content_editor_questions (
+  id uuid primary key default gen_random_uuid(),
+  editor_id uuid not null references public.content_editors(id) on delete cascade,
+  question text not null,
+  source text not null,
+  recommended_position int,
+  user_dismissed boolean not null default false,
+  created_at timestamptz not null default now()
+);
+
+create index if not exists content_editor_questions_editor_idx on public.content_editor_questions(editor_id);
+
+create table if not exists public.content_editor_facts (
+  id uuid primary key default gen_random_uuid(),
+  editor_id uuid not null references public.content_editors(id) on delete cascade,
+  fact_text text not null,
+  source_url text not null,
+  source_domain text not null,
+  source_position int,
+  source_count int not null default 1,
+  embedding vector(1536),
+  topic_cluster text,
+  importance_score numeric(5,2),
+  covered_in_draft boolean not null default false,
+  user_dismissed boolean not null default false,
+  created_at timestamptz not null default now()
+);
+
+create index if not exists content_editor_facts_editor_idx on public.content_editor_facts(editor_id, importance_score desc);
+
+create table if not exists public.content_editor_outlines (
+  id uuid primary key default gen_random_uuid(),
+  editor_id uuid not null references public.content_editors(id) on delete cascade,
+  heading_level int not null,
+  heading_text text not null,
+  position int not null,
+  source text,
+  recommended_word_count int,
+  created_at timestamptz not null default now()
+);
+
+create index if not exists content_editor_outlines_editor_idx on public.content_editor_outlines(editor_id, position);
+
+create table if not exists public.content_editor_drafts (
+  id uuid primary key default gen_random_uuid(),
+  editor_id uuid not null references public.content_editors(id) on delete cascade,
+  title_tag text,
+  meta_description text,
+  h1_text text,
+  body_html text,
+  body_plaintext text,
+  body_markdown text,
+  word_count int,
+  computed_content_score numeric(5,2),
+  computed_coverage_score numeric(5,2),
+  computed_frequency_score numeric(5,2),
+  computed_placement_score numeric(5,2),
+  computed_seo_score numeric(5,2),
+  computed_ai_search_score numeric(5,2),
+  sentence_embeddings jsonb,
+  is_current boolean not null default true,
+  created_at timestamptz not null default now()
+);
+
+create index if not exists content_editor_drafts_editor_idx on public.content_editor_drafts(editor_id, is_current);
+create unique index if not exists content_editor_drafts_one_current_per_editor on public.content_editor_drafts(editor_id) where is_current = true;
+
+create table if not exists public.content_editor_draft_term_usage (
+  id uuid primary key default gen_random_uuid(),
+  draft_id uuid not null references public.content_editor_drafts(id) on delete cascade,
+  term_id uuid not null references public.content_editor_terms(id) on delete cascade,
+  occurrence_count int not null default 0,
+  occurs_in_heading boolean not null default false,
+  occurs_in_first_100_words boolean not null default false,
+  status text not null
+);
+
+create index if not exists content_editor_draft_term_usage_draft_idx on public.content_editor_draft_term_usage(draft_id);
+create unique index if not exists content_editor_draft_term_usage_unique on public.content_editor_draft_term_usage(draft_id, term_id);
+
+create table if not exists public.content_editor_serp_cache (
+  cache_key text primary key,
+  payload jsonb not null,
+  fetched_at timestamptz not null default now()
+);
+
+create table if not exists public.content_editor_domain_blacklist (
+  domain_pattern text primary key,
+  reason text,
+  created_at timestamptz not null default now()
+);
+
+alter table public.content_editors                  enable row level security;
+alter table public.content_editor_competitors       enable row level security;
+alter table public.content_editor_terms             enable row level security;
+alter table public.content_editor_questions         enable row level security;
+alter table public.content_editor_facts             enable row level security;
+alter table public.content_editor_outlines          enable row level security;
+alter table public.content_editor_drafts            enable row level security;
+alter table public.content_editor_draft_term_usage  enable row level security;
+alter table public.content_editor_serp_cache        enable row level security;
+alter table public.content_editor_domain_blacklist  enable row level security;
+
+do $$
+declare tbl text; pname text;
+begin
+  for tbl in select unnest(array[
+    'content_editors','content_editor_competitors','content_editor_terms','content_editor_questions',
+    'content_editor_facts','content_editor_outlines','content_editor_drafts','content_editor_draft_term_usage',
+    'content_editor_serp_cache','content_editor_domain_blacklist'
+  ]) loop
+    pname := 'Admins can manage ' || tbl;
+    execute format('drop policy if exists %I on public.%I', pname, tbl);
+    execute format($p$
+      create policy %I on public.%I for all to authenticated
+        using (exists (select 1 from public.admin_users au where lower(au.email) = lower(auth.jwt() ->> 'email')))
+        with check (exists (select 1 from public.admin_users au where lower(au.email) = lower(auth.jwt() ->> 'email')));
+    $p$, pname, tbl);
+  end loop;
+end $$;
+
 -- Storage expectation: create a public bucket named site-assets.
 -- Recommended folders: images/, blog-featured/, logos/, og/.
