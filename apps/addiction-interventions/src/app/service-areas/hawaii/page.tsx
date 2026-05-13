@@ -3,9 +3,9 @@ import { resolveTrackedPageMetadata } from "@sweetmedia/admin-core";
 import HawaiiPage from "@/views/hawaii/page";
 
 const fallbackMetadata: Metadata = {
-  title: "Addiction & Mental Health Interventions in Hawaii | Addiction Interventions",
+  title: "Addiction Intervention Services in Hawaii | Get Help Now",
   description:
-    "Certified interventionists serving Hawaii. On-site addiction and mental health interventions — families helped within 24–48 hours. Free confidential consultation.",
+    "Seeking addiction intervention services in Hawaii? Our experienced interventionists provide compassionate support and guidance. Find help for your loved one today. Learn more.",
   alternates: { canonical: "/service-areas/hawaii" },
 };
 

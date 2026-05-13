@@ -3,10 +3,13 @@ import { additionalUsStatePages } from "./additional-us-states";
 import { builtInStatePages } from "./built-in";
 import { californiaStatePage } from "./california";
 import { georgiaStatePage } from "./georgia";
+import { hawaiiStatePage } from "./hawaii";
 
 export const STATE_PAGES: Record<string, StatePageConfig> = {
   ...builtInStatePages,
   california: californiaStatePage,
   georgia: georgiaStatePage,
   ...additionalUsStatePages,
+  // Hawaii has a dedicated optimised file — must come after the spread to win
+  hawaii: hawaiiStatePage,
 };
