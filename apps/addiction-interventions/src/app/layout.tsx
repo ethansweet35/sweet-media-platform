@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Playfair_Display, Montserrat } from "next/font/google";
 import Script from "next/script";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import "./globals.css";
 import Layout from "@/components/feature/Layout";
 
@@ -78,6 +79,7 @@ export default function RootLayout({
       </head>
       <body className={`${playfair.variable} ${montserrat.variable} antialiased`}>
         <Layout>{children}</Layout>
+        <SpeedInsights />
       </body>
     </html>
   );

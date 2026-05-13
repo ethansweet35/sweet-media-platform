@@ -16,6 +16,7 @@
     "@sweetmedia/admin-core": "workspace:*",
     "@sweetmedia/blog-core": "workspace:*",
     "@sweetmedia/seo-schema": "workspace:*",
+    "@vercel/speed-insights": "^1.3.1",
     "dotenv": "^17.4.2",
     "next": "16.2.4",
     "react": "19.2.4",
