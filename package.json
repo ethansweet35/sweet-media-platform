@@ -3,7 +3,7 @@
   "private": true,
   "packageManager": "pnpm@10.33.2",
   "pnpm": {
-    "onlyBuiltDependencies": ["esbuild", "sharp", "unrs-resolver"]
+    "onlyBuiltDependencies": ["esbuild", "sharp", "unrs-resolver", "sqlite3"]
   },
   "scripts": {
     "dev": "turbo dev --filter=!@sweetmedia/client-template",
