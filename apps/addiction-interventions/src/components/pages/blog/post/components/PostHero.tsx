@@ -111,7 +111,7 @@ export default function PostHero({ post }: PostHeroProps) {
 
       {/* ── Full-bleed hero image ─────────────────────────────────────────── */}
       {post.image ? (
-        <div className="relative w-full aspect-[21/8] overflow-hidden bg-[#3E5B50]">
+        <div className="relative w-full h-[220px] md:h-[320px] overflow-hidden bg-[#3E5B50]">
           <Image
             src={post.image}
             alt={post.title}
