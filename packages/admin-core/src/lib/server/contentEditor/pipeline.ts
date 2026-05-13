@@ -42,6 +42,7 @@ import {
   setStatus,
 } from "./db";
 import { ContentEditorError } from "./errors";
+import { isAuthoritativeDomain } from "./eeat";
 import { extractNgrams, termAppearsInHeadings, type NgramTerm } from "./ngrams";
 import {
   buildFactExtractionPrompt,
@@ -828,10 +829,24 @@ async function phase7_factsExtraction(
     }
   }
 
-  // Rank clusters: importance × source_count weighting.
+  // Rank clusters: importance × source_count + authoritative-source bonus.
+  //
+  // Facts sourced from .gov / .edu / SAMHSA / NIH / APA / Mayo Clinic / etc.
+  // get a 1.5× importance multiplier per the YMYL spec. This pushes
+  // higher-trust facts to the top of the recommendations list, which
+  // matters disproportionately for AI-citation outcomes (AI engines
+  // strongly prefer to cite high-authority sources).
+  const authoritativeBonus = (cluster: typeof clusters[number]): number => {
+    for (const domain of cluster.sourceDomains) {
+      if (isAuthoritativeDomain(domain)) return 0.5; // adds 50% to importance
+    }
+    return 0;
+  };
   clusters.sort((a, b) => {
-    const aScore = a.representative.importance + a.sourceDomains.size * 8;
-    const bScore = b.representative.importance + b.sourceDomains.size * 8;
+    const aImpAdj = a.representative.importance * (1 + authoritativeBonus(a));
+    const bImpAdj = b.representative.importance * (1 + authoritativeBonus(b));
+    const aScore = aImpAdj + a.sourceDomains.size * 8;
+    const bScore = bImpAdj + b.sourceDomains.size * 8;
     return bScore - aScore;
   });
 

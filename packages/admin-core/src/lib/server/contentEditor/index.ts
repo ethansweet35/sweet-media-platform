@@ -74,6 +74,18 @@ export {
 } from "./scoring";
 
 export {
+  computeEeatScore,
+  isAuthoritativeDomain,
+  isAuthoritativeUrl,
+  AUTHORITATIVE_DOMAINS,
+  AUTHORITATIVE_TLDS,
+  type EeatBreakdown,
+  type EeatCheck,
+  type EeatCheckKey,
+  type EeatScoreInput,
+} from "./eeat";
+
+export {
   extractNgrams,
   termAppearsInHeadings,
   type NgramTerm,

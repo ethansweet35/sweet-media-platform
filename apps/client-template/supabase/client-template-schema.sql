@@ -575,6 +575,7 @@ create table if not exists public.content_editor_drafts (
   computed_placement_score numeric(5,2),
   computed_seo_score numeric(5,2),
   computed_ai_search_score numeric(5,2),
+  computed_eeat_score numeric(5,2),
   sentence_embeddings jsonb,
   is_current boolean not null default true,
   created_at timestamptz not null default now()

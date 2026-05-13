@@ -12,11 +12,13 @@ import {
   type DraftInputs,
 } from "../hooks/useContentEditors";
 import {
+  EEAT_CHECK_LABELS,
   STATUS_IS_PROCESSING,
   STATUS_LABELS,
   type ContentEditorFactRow,
   type ContentEditorQuestionRow,
   type ContentEditorTermRow,
+  type EeatBreakdown,
   type ScoreBreakdown,
   type StructuralCheck,
   type TermUsage,
@@ -289,6 +291,59 @@ function FactsPanel({ facts }: { facts: ContentEditorFactRow[] }) {
   );
 }
 
+function EeatPanel({ eeat }: { eeat: EeatBreakdown }) {
+  return (
+    <div>
+      <div className="flex items-center justify-between mb-3">
+        <div>
+          <p className="text-[10px] font-bold uppercase tracking-[0.12em] text-neutral-400">
+            E-E-A-T (YMYL)
+          </p>
+          <p className="text-[10px] text-neutral-400 mt-0.5">
+            Expertise · Authoritativeness · Trustworthiness
+          </p>
+        </div>
+        <span className="text-[14px] font-bold" style={{ color: scoreColor(eeat.score) }}>
+          {Math.round(eeat.score)}/100
+        </span>
+      </div>
+      <ul className="space-y-1.5">
+        {eeat.checks.map((c) => (
+          <li
+            key={c.key}
+            className="flex items-start justify-between gap-2 text-[12px]"
+            title={c.detail}
+          >
+            <span className={`flex items-center gap-1.5 ${c.passed ? "text-neutral-700" : "text-neutral-400"}`}>
+              <i
+                className={
+                  c.passed
+                    ? "ri-checkbox-circle-fill text-emerald-500 text-sm"
+                    : "ri-close-circle-line text-neutral-300 text-sm"
+                }
+              />
+              {EEAT_CHECK_LABELS[c.key]}
+            </span>
+            <span className={`text-[10px] font-mono ${c.passed ? "text-emerald-600" : "text-neutral-300"}`}>
+              {c.passed ? `+${c.weight}` : `−${c.weight}`}
+            </span>
+          </li>
+        ))}
+      </ul>
+      {eeat.authoritative_citation_count > 0 ? (
+        <p className="mt-3 pt-3 border-t border-neutral-100 text-[10px] text-neutral-400 leading-relaxed">
+          <span className="font-bold text-emerald-700">{eeat.authoritative_citation_count}</span> unique
+          authoritative source{eeat.authoritative_citation_count === 1 ? "" : "s"} cited (.gov, .edu, SAMHSA, NIH, Mayo, etc.)
+        </p>
+      ) : (
+        <p className="mt-3 pt-3 border-t border-neutral-100 text-[10px] text-neutral-400 leading-relaxed">
+          Link to .gov, .edu, samhsa.gov, nih.gov, apa.org, or mayoclinic.org to boost authority.
+        </p>
+      )}
+    </div>
+  );
+}
+
 function CompetitorsPanel({ competitors }: { competitors: { id: string; serp_position: number; url: string; domain: string; word_count: number | null; individual_content_score: number | null; included_in_benchmark: boolean }[] }) {
   if (!competitors.length) return null;
   return (
@@ -534,6 +589,12 @@ export default function AdminContentEditorBriefPage({ briefId: briefIdProp }: Pr
                   checks={score.structural_checks}
                   score={score.structural_alignment ?? 0}
                 />
+              </div>
+            ) : null}
+
+            {score?.eeat ? (
+              <div className="rounded-2xl border border-neutral-200 bg-white p-5 shadow-sm">
+                <EeatPanel eeat={score.eeat} />
               </div>
             ) : null}
 

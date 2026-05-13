@@ -172,6 +172,26 @@ export interface StructuralCheck {
   max: number;
 }
 
+export type EeatCheckKey =
+  | "author_bio"
+  | "medical_reviewer"
+  | "last_updated_visible"
+  | "authoritative_citations"
+  | "schema_markup";
+
+export interface EeatCheck {
+  key: EeatCheckKey;
+  passed: boolean;
+  detail?: string;
+  weight: number;
+}
+
+export interface EeatBreakdown {
+  score: number;
+  checks: EeatCheck[];
+  authoritative_citation_count: number;
+}
+
 export interface ScoreBreakdown {
   content_score: number;
   coverage_score: number;
@@ -188,7 +208,17 @@ export interface ScoreBreakdown {
   ai_search_score?: number;
   fact_coverage?: Array<{ fact_id: string; covered: boolean; similarity: number }>;
   fact_coverage_score?: number;
+  eeat_score: number;
+  eeat?: EeatBreakdown;
 }
+
+export const EEAT_CHECK_LABELS: Record<EeatCheckKey, string> = {
+  author_bio: "Author byline & bio",
+  medical_reviewer: "Medical reviewer",
+  last_updated_visible: "Last-updated date",
+  authoritative_citations: "Authoritative citations",
+  schema_markup: "Schema markup",
+};
 
 // ─── Status display helpers ────────────────────────────────────────────
 

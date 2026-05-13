@@ -101,7 +101,14 @@ export type {
   TermUsage,
   StructuralCheck,
   ScoreBreakdown,
+  EeatBreakdown,
+  EeatCheck,
+  EeatCheckKey,
 } from "./types/content-editor";
-export { STATUS_LABELS, STATUS_IS_PROCESSING } from "./types/content-editor";
+export {
+  STATUS_LABELS,
+  STATUS_IS_PROCESSING,
+  EEAT_CHECK_LABELS,
+} from "./types/content-editor";
 export { useSeoBriefs, useSeoBrief, useBriefForWriter, briefToMarkdown } from "./hooks/useSeoBriefs";
 export { useBrandSettings, type BrandSettingsRow, type BusinessHoursRow } from "./hooks/useBrandSettings";

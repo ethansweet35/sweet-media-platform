@@ -482,6 +482,7 @@ export async function scoreDraft(input: ScoreDraftInput): Promise<ScoreDraftResu
         computed_placement_score: result.placement_score,
         computed_seo_score: result.seo_score ?? null,
         computed_ai_search_score: result.ai_search_score ?? null,
+        computed_eeat_score: result.eeat_score,
       })
       .eq("editor_id", input.editorId)
       .eq("is_current", true);

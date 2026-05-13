@@ -28,6 +28,7 @@ import {
   getFirstNWords,
   splitSentences,
 } from "./textUtils";
+import { computeEeatScore, type EeatBreakdown } from "./eeat";
 
 // ───────────────────────────────────────────────────────────────────────
 //  Inputs
@@ -139,6 +140,10 @@ export interface ScoreBreakdown {
 
   /** Combined AI search score (computed only if both question + facts supplied to api layer). */
   ai_search_score?: number;
+
+  /** YMYL E-E-A-T score (0-100) and per-check breakdown. Always computed. */
+  eeat_score: number;
+  eeat?: EeatBreakdown;
 }
 
 // ───────────────────────────────────────────────────────────────────────
@@ -543,6 +548,13 @@ export function scoreDocument(
 
   const content_score = coverage * 0.6 + frequency * 0.25 + placement * 0.15;
 
+  // Always compute EEAT for the YMYL audience this platform serves
+  // (behavioral health, medical, etc.).
+  const eeat = computeEeatScore({
+    body: doc.body,
+    markdown: doc.bodyMarkdown ?? null,
+  });
+
   const result: ScoreBreakdown = {
     content_score: round(content_score),
     coverage_score: round(coverage),
@@ -550,6 +562,8 @@ export function scoreDocument(
     placement_score: round(placement),
     term_usage: termUsage,
     placement_checks: placementChecks,
+    eeat_score: eeat.score,
+    eeat,
   };
 
   // Layer 2: Structural alignment + SEO score (if targets given)
