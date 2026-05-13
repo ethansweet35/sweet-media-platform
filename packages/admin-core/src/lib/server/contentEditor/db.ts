@@ -43,6 +43,11 @@ export interface ContentEditorRow {
   recommended_paragraph_count_max: number | null;
   competitor_avg_score: number | null;
   target_score: number | null;
+  /**
+   * When set, the editor is in "Page Mode" — its workspace renders a live-page
+   * coverage view + AI optimization recommendations instead of an editable draft.
+   */
+  linked_tracked_page_id: string | null;
   created_at: string;
   updated_at: string;
   completed_at: string | null;

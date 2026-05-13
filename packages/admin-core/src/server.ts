@@ -51,6 +51,10 @@ export {
   runContentEditorPipeline,
   runAutoOptimize,
   type AutoOptimizeOptions,
+  fetchAndScoreLivePage,
+  loadLatestSnapshotIgnoreTtl,
+  type FetchAndScoreLivePageOptions,
+  type TrackedPageLiveSnapshot,
   // DB helpers
   getAdminClient as getContentEditorAdminClient,
   loadEditor as loadContentEditor,

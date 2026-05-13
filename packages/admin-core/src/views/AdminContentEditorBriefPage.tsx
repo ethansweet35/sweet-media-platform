@@ -237,6 +237,270 @@ function PipelineTimeline({
   );
 }
 
+function PageModeBanner({
+  routePath,
+  snapshot,
+  scanning,
+  scanError,
+  onClearError,
+}: {
+  routePath: string;
+  snapshot: { fetched_at: string; word_count: number | null; computed_content_score: number | null; status_code: number | null; fetch_error: string | null } | null;
+  scanning: boolean;
+  scanError: string | null;
+  onClearError: () => void;
+}) {
+  const siteUrl = typeof window !== "undefined" ? window.location.origin : "";
+  // Production URL when SSR'd from another origin would be wrong; the
+  // server uses NEXT_PUBLIC_SITE_URL. For the link in the UI we just use
+  // the route path which works regardless.
+  const href = routePath.startsWith("/") ? routePath : `/${routePath}`;
+
+  const fetchedDate = snapshot?.fetched_at ? new Date(snapshot.fetched_at) : null;
+  const ageMs = fetchedDate ? Date.now() - fetchedDate.getTime() : null;
+  const ageLabel =
+    ageMs == null
+      ? "never"
+      : ageMs < 60_000
+        ? "just now"
+        : ageMs < 3_600_000
+          ? `${Math.round(ageMs / 60_000)}m ago`
+          : `${Math.round(ageMs / 3_600_000)}h ago`;
+
+  return (
+    <div className="mb-4 rounded-2xl border border-[#3d6f7f]/30 bg-[#3d6f7f]/[0.04] p-5">
+      <div className="flex items-start gap-4">
+        <i className="ri-global-line text-2xl text-[#3d6f7f] mt-0.5" />
+        <div className="flex-1 min-w-0">
+          <div className="flex items-baseline gap-2 flex-wrap">
+            <p className="text-sm font-semibold text-[#1f4452]">Page Mode</p>
+            <a
+              href={href}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-[12px] font-mono text-[#3d6f7f] hover:underline"
+            >
+              {siteUrl ? `${siteUrl}${href === "/" ? "" : href}` : href}
+              <i className="ri-external-link-line ml-1 text-[10px]" />
+            </a>
+          </div>
+          <p className="mt-1 text-[11px] text-neutral-600 leading-snug">
+            The brief is scoring your <strong>live page</strong> against top-ranking competitors.
+            Body content is read-only — the editor surfaces SEO gaps and Auto-Optimize generates
+            recommendations you can selectively apply.
+          </p>
+          <div className="mt-2 flex flex-wrap items-center gap-3 text-[11px] text-neutral-500">
+            <span>
+              Last scan: <span className="font-mono font-semibold text-neutral-700">{ageLabel}</span>
+            </span>
+            {snapshot?.word_count != null ? (
+              <span>
+                Words: <span className="font-mono font-semibold text-neutral-700">{snapshot.word_count}</span>
+              </span>
+            ) : null}
+            {snapshot?.computed_content_score != null ? (
+              <span>
+                Score: <span className="font-mono font-semibold text-neutral-700">{Math.round(snapshot.computed_content_score)}</span>
+              </span>
+            ) : null}
+            {snapshot?.status_code != null && snapshot.status_code !== 200 ? (
+              <span className="text-amber-700">
+                HTTP <span className="font-mono font-semibold">{snapshot.status_code}</span>
+              </span>
+            ) : null}
+            {scanning ? (
+              <span className="text-[#3d6f7f] flex items-center gap-1">
+                <i className="ri-loader-4-line animate-spin" /> Scanning live page…
+              </span>
+            ) : null}
+          </div>
+          {snapshot?.fetch_error ? (
+            <p className="mt-2 text-[11px] text-red-700">
+              <i className="ri-error-warning-line mr-1" />
+              Last scan error: {snapshot.fetch_error}
+            </p>
+          ) : null}
+        </div>
+      </div>
+      {scanError ? (
+        <div className="mt-3 rounded-lg border border-red-200 bg-red-50 px-3 py-2 flex items-start gap-2">
+          <i className="ri-error-warning-line text-red-600 mt-0.5 text-sm" />
+          <p className="flex-1 text-[11px] text-red-900">{scanError}</p>
+          <button type="button" onClick={onClearError} className="text-red-400 hover:text-red-600 text-sm">
+            <i className="ri-close-line" />
+          </button>
+        </div>
+      ) : null}
+    </div>
+  );
+}
+
+function PageModeRecommendations({
+  draft,
+  linkedSeoTitle,
+  linkedMetaDescription,
+  onApply,
+  applying,
+}: {
+  draft: {
+    title_tag: string | null;
+    meta_description: string | null;
+    h1_text: string | null;
+    body_markdown: string | null;
+  };
+  linkedSeoTitle: string | null;
+  linkedMetaDescription: string | null;
+  onApply: () => void;
+  applying: boolean;
+}) {
+  const [copiedKey, setCopiedKey] = useState<string | null>(null);
+
+  function copy(key: string, text: string) {
+    if (typeof navigator === "undefined" || !navigator.clipboard) return;
+    void navigator.clipboard.writeText(text).then(() => {
+      setCopiedKey(key);
+      setTimeout(() => setCopiedKey(null), 2000);
+    });
+  }
+
+  const titleChanged = !!draft.title_tag && draft.title_tag.trim() !== (linkedSeoTitle ?? "").trim();
+  const metaChanged = !!draft.meta_description && draft.meta_description.trim() !== (linkedMetaDescription ?? "").trim();
+
+  return (
+    <div className="rounded-2xl border border-[#3d6f7f]/30 bg-[#f9fbfc] shadow-sm overflow-hidden">
+      <div className="px-5 py-3 border-b border-[#3d6f7f]/15 bg-[#3d6f7f]/[0.06] flex items-center justify-between flex-wrap gap-3">
+        <div className="flex items-center gap-2">
+          <i className="ri-magic-line text-[#3d6f7f]" />
+          <p className="text-[12px] font-bold uppercase tracking-[0.12em] text-[#1f4452]">
+            AI recommendations
+          </p>
+        </div>
+        <button
+          type="button"
+          onClick={onApply}
+          disabled={applying || (!titleChanged && !metaChanged)}
+          className="px-3 py-1.5 rounded-lg text-[10px] font-bold uppercase tracking-[0.1em] bg-emerald-700 text-white hover:bg-emerald-800 disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-1.5"
+          title={
+            !titleChanged && !metaChanged
+              ? "No changes to apply — recommendations match live page"
+              : "Apply AI-recommended SEO meta to the live page (prompts confirmation)"
+          }
+        >
+          {applying ? <><i className="ri-loader-4-line animate-spin" /> Applying…</> : <><i className="ri-check-line" /> Apply SEO Meta</>}
+        </button>
+      </div>
+
+      <div className="px-5 py-4 space-y-3 text-[12px]">
+        {draft.title_tag ? (
+          <RecRow
+            label="SEO Title"
+            current={linkedSeoTitle}
+            recommended={draft.title_tag}
+            changed={titleChanged}
+            copied={copiedKey === "title"}
+            onCopy={() => copy("title", draft.title_tag ?? "")}
+          />
+        ) : null}
+        {draft.meta_description ? (
+          <RecRow
+            label="Meta description"
+            current={linkedMetaDescription}
+            recommended={draft.meta_description}
+            changed={metaChanged}
+            copied={copiedKey === "meta"}
+            onCopy={() => copy("meta", draft.meta_description ?? "")}
+          />
+        ) : null}
+        {draft.h1_text ? (
+          <RecRow
+            label="Recommended H1"
+            current={null}
+            recommended={draft.h1_text}
+            changed={true}
+            copied={copiedKey === "h1"}
+            onCopy={() => copy("h1", draft.h1_text ?? "")}
+          />
+        ) : null}
+        {draft.body_markdown ? (
+          <div className="pt-3 border-t border-[#3d6f7f]/15">
+            <div className="flex items-center justify-between mb-2">
+              <p className="font-semibold text-neutral-700">Recommended body content</p>
+              <button
+                type="button"
+                onClick={() => copy("body", draft.body_markdown ?? "")}
+                className="px-2 py-0.5 rounded text-[10px] font-semibold border border-neutral-200 text-neutral-600 hover:border-neutral-400"
+              >
+                <i className={`mr-1 ${copiedKey === "body" ? "ri-check-line" : "ri-clipboard-line"}`} />
+                {copiedKey === "body" ? "Copied" : "Copy markdown"}
+              </button>
+            </div>
+            <div className="max-h-[40vh] overflow-y-auto rounded-lg border border-neutral-200 bg-white px-4 py-3 text-[12px] font-mono whitespace-pre-wrap text-neutral-700 leading-relaxed">
+              {draft.body_markdown}
+            </div>
+            <p className="mt-2 text-[10px] text-neutral-500 leading-snug">
+              Body recommendations are reference only — they aren't auto-applied to the live page.
+              Use them as a guide when editing your page.tsx file directly.
+            </p>
+          </div>
+        ) : null}
+      </div>
+    </div>
+  );
+}
+
+function RecRow({
+  label,
+  current,
+  recommended,
+  changed,
+  copied,
+  onCopy,
+}: {
+  label: string;
+  current: string | null;
+  recommended: string;
+  changed: boolean;
+  copied: boolean;
+  onCopy: () => void;
+}) {
+  return (
+    <div>
+      <div className="flex items-center justify-between mb-1">
+        <p className="text-[10px] font-bold uppercase tracking-[0.12em] text-neutral-500 flex items-center gap-1.5">
+          {label}
+          {changed ? (
+            <span className="px-1.5 py-0.5 rounded bg-amber-100 text-amber-800 text-[9px] font-bold tracking-normal">
+              changed
+            </span>
+          ) : (
+            <span className="px-1.5 py-0.5 rounded bg-neutral-100 text-neutral-500 text-[9px] font-bold tracking-normal">
+              unchanged
+            </span>
+          )}
+        </p>
+        <button
+          type="button"
+          onClick={onCopy}
+          className="px-2 py-0.5 rounded text-[10px] font-semibold border border-neutral-200 text-neutral-600 hover:border-neutral-400"
+        >
+          <i className={`mr-1 ${copied ? "ri-check-line" : "ri-clipboard-line"}`} />
+          {copied ? "Copied" : "Copy"}
+        </button>
+      </div>
+      {current ? (
+        <p className="text-[11px] text-neutral-400 line-through mb-1">
+          <span className="text-neutral-300 mr-1">Current:</span>
+          {current}
+        </p>
+      ) : null}
+      <p className="text-[13px] text-neutral-800 bg-emerald-50/50 border border-emerald-200/40 rounded px-2 py-1.5">
+        <span className="text-emerald-700 font-semibold text-[10px] uppercase tracking-wider mr-1.5">AI</span>
+        {recommended}
+      </p>
+    </div>
+  );
+}
+
 function OptimizingBanner({ startedAt }: { startedAt: number }) {
   const [now, setNow] = useState(() => Date.now());
   useEffect(() => {
@@ -659,8 +923,30 @@ export default function AdminContentEditorBriefPage({ briefId: briefIdProp }: Pr
   const [optimizeStartedAt, setOptimizeStartedAt] = useState<number | null>(null);
   const [optimizeBaselineDraftId, setOptimizeBaselineDraftId] = useState<string | null>(null);
 
+  // Page Mode state — when the editor is linked to a tracked page.
+  const isPageMode = !!state?.linkedPage;
+  const [livePageScanning, setLivePageScanning] = useState(false);
+  const [livePageScanError, setLivePageScanError] = useState<string | null>(null);
+  const [applyingSeoMeta, setApplyingSeoMeta] = useState(false);
+  const [applySeoMetaResult, setApplySeoMetaResult] = useState<{ ok: boolean; message: string } | null>(null);
+
   // Hydrate draft from server when state loads / changes.
+  //
+  // Page Mode: hydrate from the live-page snapshot + the tracked page's
+  // current SEO meta. The center column shows this read-only; the right
+  // column scores against this content. AI Auto-Optimize results land in
+  // currentDraft as recommendations that the user can selectively apply.
   useEffect(() => {
+    if (state?.linkedPage) {
+      const snap = state.linkedPage.liveSnapshot;
+      setDrafts({
+        titleTag: state.linkedPage.seo_title ?? "",
+        metaDescription: state.linkedPage.meta_description ?? "",
+        h1Text: snap?.headings?.find((h) => h.level === 1)?.text ?? "",
+        bodyMarkdown: snap?.plaintext ?? "",
+      });
+      return;
+    }
     if (!state?.currentDraft) return;
     setDrafts({
       titleTag: state.currentDraft.title_tag ?? "",
@@ -668,7 +954,114 @@ export default function AdminContentEditorBriefPage({ briefId: briefIdProp }: Pr
       h1Text: state.currentDraft.h1_text ?? "",
       bodyMarkdown: state.currentDraft.body_markdown ?? "",
     });
-  }, [state?.currentDraft]);
+  }, [state?.currentDraft, state?.linkedPage]);
+
+  // Page Mode: auto-trigger an initial live scan once the editor is Ready
+  // and we don't have a snapshot yet. (Don't fire while the pipeline is
+  // still running — the scan route would 409.)
+  useEffect(() => {
+    if (!isPageMode || !editorId || !state?.linkedPage) return;
+    if (state.linkedPage.liveSnapshot) return;
+    if (state.editor.status !== "ready") return;
+    if (livePageScanning) return;
+    void (async () => {
+      setLivePageScanning(true);
+      setLivePageScanError(null);
+      try {
+        const res = await fetch(
+          `/api/admin/tracked-pages/${state.linkedPage!.id}/scan-live`,
+          {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ editorId, force: false }),
+          },
+        );
+        const j = (await res.json().catch(() => ({}))) as { ok?: boolean; error?: string };
+        if (!res.ok || j.ok === false) {
+          throw new Error(j.error ?? `Live scan failed (HTTP ${res.status}).`);
+        }
+        // Snapshot typically lands in 3-10s. Poll a few times then stop.
+        setTimeout(() => void refresh({ silent: true }), 4000);
+        setTimeout(() => void refresh({ silent: true }), 10000);
+        setTimeout(() => void refresh({ silent: true }), 20000);
+        setTimeout(() => setLivePageScanning(false), 25000);
+      } catch (err) {
+        setLivePageScanError(err instanceof Error ? err.message : String(err));
+        setLivePageScanning(false);
+      }
+    })();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isPageMode, editorId, state?.linkedPage?.id, state?.editor.status, state?.linkedPage?.liveSnapshot?.id]);
+
+  async function handleRescanLivePage() {
+    if (!editorId || !state?.linkedPage) return;
+    setLivePageScanning(true);
+    setLivePageScanError(null);
+    try {
+      const res = await fetch(
+        `/api/admin/tracked-pages/${state.linkedPage.id}/scan-live`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ editorId, force: true }),
+        },
+      );
+      const j = (await res.json().catch(() => ({}))) as { ok?: boolean; error?: string };
+      if (!res.ok || j.ok === false) {
+        throw new Error(j.error ?? `Live scan failed (HTTP ${res.status}).`);
+      }
+      // Poll briefly so the new snapshot picks up.
+      setTimeout(() => void refresh({ silent: true }), 5000);
+      setTimeout(() => void refresh({ silent: true }), 12000);
+      setTimeout(() => setLivePageScanning(false), 15000);
+    } catch (err) {
+      setLivePageScanError(err instanceof Error ? err.message : String(err));
+      setLivePageScanning(false);
+    }
+  }
+
+  async function handleApplySeoMeta() {
+    if (!state?.linkedPage || !state.currentDraft) return;
+    const title = state.currentDraft.title_tag?.trim() ?? null;
+    const desc = state.currentDraft.meta_description?.trim() ?? null;
+    if (!title && !desc) {
+      setApplySeoMetaResult({ ok: false, message: "No AI-recommended title or description available yet. Run Auto-Optimize first." });
+      return;
+    }
+    const summary = [
+      title ? `Title:\n${title}` : null,
+      desc ? `Meta description:\n${desc}` : null,
+    ].filter(Boolean).join("\n\n");
+    const ok = window.confirm(
+      `Apply these SEO updates to the live page (${state.linkedPage.route_path})?\n\n${summary}\n\nThe page will be revalidated immediately — change is live as soon as you confirm.`,
+    );
+    if (!ok) return;
+    setApplyingSeoMeta(true);
+    setApplySeoMetaResult(null);
+    try {
+      const res = await fetch(
+        `/api/admin/tracked-pages/${state.linkedPage.id}/apply-seo-meta`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ seoTitle: title, metaDescription: desc }),
+        },
+      );
+      const j = (await res.json().catch(() => ({}))) as { ok?: boolean; error?: string };
+      if (!res.ok || j.ok === false) {
+        throw new Error(j.error ?? `Apply failed (HTTP ${res.status}).`);
+      }
+      setApplySeoMetaResult({ ok: true, message: "Applied. The page metadata is live." });
+      await refresh({ silent: true });
+    } catch (err) {
+      setApplySeoMetaResult({
+        ok: false,
+        message: err instanceof Error ? err.message : String(err),
+      });
+    } finally {
+      setApplyingSeoMeta(false);
+    }
+  }
 
   // Restore in-flight auto-optimize state from sessionStorage on mount.
   // Survives page navigation so the user can leave and come back.
@@ -721,12 +1114,17 @@ export default function AdminContentEditorBriefPage({ briefId: briefIdProp }: Pr
     return () => clearInterval(t);
   }, [optimizing, editorId, refresh]);
 
+  // In Page Mode we want to compute scores from the live plaintext (so the
+  // right column term counts are accurate) but we don't want to persist
+  // those scores to the editor's draft row — the snapshot owns its score.
   const { score, scoring } = useLiveScore(drafts, {
     editorId,
     includeFactCoverage: factCoverageEnabled,
     debounceMs: 1200,
+    persist: !isPageMode,
   });
-  const { saving, saved } = useDraftAutosave(drafts, editorId, 4000);
+  // No autosave in Page Mode — there is no editable draft.
+  const { saving, saved } = useDraftAutosave(drafts, isPageMode ? null : editorId, 4000);
 
   async function handleAutoOptimize() {
     if (!state || !editorId) return;
@@ -811,16 +1209,37 @@ export default function AdminContentEditorBriefPage({ briefId: briefIdProp }: Pr
             ? STATUS_LABELS[editor.status] + "…"
             : editor.status === "failed"
               ? "Pipeline failed — view error below"
-              : "Live-scored against the top-ranking competitors. Edits autosave."
+              : isPageMode
+                ? `Page Mode — scoring ${state.linkedPage!.route_path} against the live page.`
+                : "Live-scored against the top-ranking competitors. Edits autosave."
         }
         actions={
           <div className="flex flex-wrap items-center gap-2">
+            {isPageMode && state.currentDraft ? (
+              <button
+                type="button"
+                onClick={() => void handleApplySeoMeta()}
+                disabled={applyingSeoMeta || optimizing || processing}
+                className="px-4 py-2 rounded-lg text-[11px] font-bold uppercase tracking-[0.1em] bg-emerald-700 text-white hover:bg-emerald-800 disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-1.5"
+                title="Apply the AI-recommended SEO title and meta description to the live page"
+              >
+                {applyingSeoMeta ? (
+                  <><i className="ri-loader-4-line animate-spin" /> Applying…</>
+                ) : (
+                  <><i className="ri-check-line" /> Apply SEO Meta</>
+                )}
+              </button>
+            ) : null}
             <button
               type="button"
               onClick={() => void handleAutoOptimize()}
               disabled={optimizing || processing}
               className="px-4 py-2 rounded-lg text-[11px] font-bold uppercase tracking-[0.1em] bg-[#3d6f7f] text-white hover:bg-[#2f5a6b] disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-1.5"
-              title="Generate a fully-optimized draft from this brief using AI"
+              title={
+                isPageMode
+                  ? "Generate AI-recommended SEO title, meta description, and content for this page"
+                  : "Generate a fully-optimized draft from this brief using AI"
+              }
             >
               {optimizing ? (
                 <><i className="ri-loader-4-line animate-spin" /> Optimizing…</>
@@ -828,13 +1247,29 @@ export default function AdminContentEditorBriefPage({ briefId: briefIdProp }: Pr
                 <><i className="ri-magic-line" /> Auto-Optimize</>
               )}
             </button>
-            <button
-              type="button"
-              onClick={() => void rerun()}
-              className="px-3 py-2 rounded-lg text-[11px] font-bold uppercase tracking-[0.1em] border border-neutral-200 text-neutral-700 hover:border-neutral-400"
-            >
-              <i className="ri-refresh-line mr-1" /> Re-run
-            </button>
+            {isPageMode ? (
+              <button
+                type="button"
+                onClick={() => void handleRescanLivePage()}
+                disabled={livePageScanning || processing}
+                className="px-3 py-2 rounded-lg text-[11px] font-bold uppercase tracking-[0.1em] border border-neutral-200 text-neutral-700 hover:border-neutral-400 disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-1.5"
+                title="Re-fetch the live page and re-score against the brief"
+              >
+                {livePageScanning ? (
+                  <><i className="ri-loader-4-line animate-spin" /> Scanning…</>
+                ) : (
+                  <><i className="ri-radar-line" /> Rescan</>
+                )}
+              </button>
+            ) : (
+              <button
+                type="button"
+                onClick={() => void rerun()}
+                className="px-3 py-2 rounded-lg text-[11px] font-bold uppercase tracking-[0.1em] border border-neutral-200 text-neutral-700 hover:border-neutral-400"
+              >
+                <i className="ri-refresh-line mr-1" /> Re-run
+              </button>
+            )}
             <Link
               href="/admin/content-editor"
               className="px-3 py-2 rounded-lg text-[11px] font-bold uppercase tracking-[0.1em] border border-neutral-200 text-neutral-700 hover:border-neutral-400"
@@ -877,6 +1312,42 @@ export default function AdminContentEditorBriefPage({ briefId: briefIdProp }: Pr
 
       {optimizing ? (
         <OptimizingBanner startedAt={optimizeStartedAt ?? Date.now()} />
+      ) : null}
+
+      {applySeoMetaResult ? (
+        <div
+          className={`mb-4 rounded-2xl border p-4 flex items-start gap-3 ${
+            applySeoMetaResult.ok
+              ? "border-emerald-200 bg-emerald-50"
+              : "border-red-200 bg-red-50"
+          }`}
+        >
+          <i
+            className={`${
+              applySeoMetaResult.ok ? "ri-check-double-line text-emerald-700" : "ri-error-warning-line text-red-600"
+            } mt-0.5 text-sm`}
+          />
+          <p className={`flex-1 text-[12px] ${applySeoMetaResult.ok ? "text-emerald-900" : "text-red-900"}`}>
+            {applySeoMetaResult.message}
+          </p>
+          <button
+            type="button"
+            onClick={() => setApplySeoMetaResult(null)}
+            className={`${applySeoMetaResult.ok ? "text-emerald-400 hover:text-emerald-700" : "text-red-400 hover:text-red-600"} text-sm`}
+          >
+            <i className="ri-close-line" />
+          </button>
+        </div>
+      ) : null}
+
+      {isPageMode && state.linkedPage ? (
+        <PageModeBanner
+          routePath={state.linkedPage.route_path}
+          snapshot={state.linkedPage.liveSnapshot}
+          scanning={livePageScanning}
+          scanError={livePageScanError}
+          onClearError={() => setLivePageScanError(null)}
+        />
       ) : null}
 
       {processing ? (
@@ -993,71 +1464,111 @@ export default function AdminContentEditorBriefPage({ briefId: briefIdProp }: Pr
             </div>
           </aside>
 
-          {/* CENTER: editor */}
+          {/* CENTER: editor (or live page view in Page Mode) */}
           <section className="space-y-3">
             <div className="rounded-2xl border border-neutral-200 bg-white shadow-sm overflow-hidden">
               <div className="px-5 py-3 border-b border-neutral-100 grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div>
                   <label className="block text-[10px] font-bold uppercase tracking-[0.12em] text-neutral-400 mb-1">
-                    Title tag
+                    {isPageMode ? "Live SEO title" : "Title tag"}
                   </label>
                   <input
                     type="text"
                     value={drafts.titleTag}
-                    onChange={(e) => setDrafts((d) => ({ ...d, titleTag: e.target.value }))}
-                    placeholder="60-char SEO title…"
-                    className="w-full px-3 py-2 text-sm border border-neutral-200 rounded-lg bg-white focus:outline-none focus:border-[#3d6f7f]"
+                    onChange={(e) => isPageMode ? undefined : setDrafts((d) => ({ ...d, titleTag: e.target.value }))}
+                    readOnly={isPageMode}
+                    placeholder={isPageMode ? "(no SEO title set on tracked page)" : "60-char SEO title…"}
+                    className={`w-full px-3 py-2 text-sm border rounded-lg focus:outline-none ${
+                      isPageMode
+                        ? "border-neutral-200 bg-neutral-50 text-neutral-600 cursor-default"
+                        : "border-neutral-200 bg-white focus:border-[#3d6f7f]"
+                    }`}
                   />
                 </div>
                 <div>
                   <label className="block text-[10px] font-bold uppercase tracking-[0.12em] text-neutral-400 mb-1">
-                    H1
+                    {isPageMode ? "Live H1" : "H1"}
                   </label>
                   <input
                     type="text"
                     value={drafts.h1Text}
-                    onChange={(e) => setDrafts((d) => ({ ...d, h1Text: e.target.value }))}
-                    placeholder="The visible page headline…"
-                    className="w-full px-3 py-2 text-sm border border-neutral-200 rounded-lg bg-white focus:outline-none focus:border-[#3d6f7f]"
+                    onChange={(e) => isPageMode ? undefined : setDrafts((d) => ({ ...d, h1Text: e.target.value }))}
+                    readOnly={isPageMode}
+                    placeholder={isPageMode ? "(no H1 found on live page)" : "The visible page headline…"}
+                    className={`w-full px-3 py-2 text-sm border rounded-lg focus:outline-none ${
+                      isPageMode
+                        ? "border-neutral-200 bg-neutral-50 text-neutral-600 cursor-default"
+                        : "border-neutral-200 bg-white focus:border-[#3d6f7f]"
+                    }`}
                   />
                 </div>
                 <div className="sm:col-span-2">
                   <label className="block text-[10px] font-bold uppercase tracking-[0.12em] text-neutral-400 mb-1">
-                    Meta description
+                    {isPageMode ? "Live meta description" : "Meta description"}
                   </label>
                   <input
                     type="text"
                     value={drafts.metaDescription}
-                    onChange={(e) => setDrafts((d) => ({ ...d, metaDescription: e.target.value }))}
-                    placeholder="150-160 char description…"
-                    className="w-full px-3 py-2 text-sm border border-neutral-200 rounded-lg bg-white focus:outline-none focus:border-[#3d6f7f]"
+                    onChange={(e) => isPageMode ? undefined : setDrafts((d) => ({ ...d, metaDescription: e.target.value }))}
+                    readOnly={isPageMode}
+                    placeholder={isPageMode ? "(no meta description set on tracked page)" : "150-160 char description…"}
+                    className={`w-full px-3 py-2 text-sm border rounded-lg focus:outline-none ${
+                      isPageMode
+                        ? "border-neutral-200 bg-neutral-50 text-neutral-600 cursor-default"
+                        : "border-neutral-200 bg-white focus:border-[#3d6f7f]"
+                    }`}
                   />
                 </div>
               </div>
               <div className="px-5 py-2.5 border-b border-neutral-100 flex items-center justify-between gap-3 text-[11px]">
-                <p className="font-bold uppercase tracking-[0.12em] text-neutral-700">Draft</p>
+                <p className="font-bold uppercase tracking-[0.12em] text-neutral-700">
+                  {isPageMode ? "Live page content" : "Draft"}
+                </p>
                 <div className="flex items-center gap-3 text-neutral-400">
                   <span>Words: <span className="font-mono font-bold text-neutral-700">
                     {drafts.bodyMarkdown.trim() ? drafts.bodyMarkdown.trim().split(/\s+/).filter(Boolean).length : 0}
                   </span> / {wordTarget}</span>
                   {scoring ? <span><i className="ri-loader-4-line animate-spin" /> Scoring</span> : null}
-                  {saving ? <span><i className="ri-loader-4-line animate-spin" /> Saving</span> : saved ? <span><i className="ri-cloud-line" /> Saved</span> : null}
+                  {!isPageMode && (saving ? <span><i className="ri-loader-4-line animate-spin" /> Saving</span> : saved ? <span><i className="ri-cloud-line" /> Saved</span> : null)}
                 </div>
               </div>
-              <textarea
-                value={drafts.bodyMarkdown}
-                onChange={(e) => setDrafts((d) => ({ ...d, bodyMarkdown: e.target.value }))}
-                placeholder={`# ${editor.primary_keyword}
+              {isPageMode ? (
+                <div className="w-full min-h-[40vh] max-h-[70vh] overflow-y-auto px-6 py-5 text-[13px] leading-relaxed text-neutral-700 font-mono whitespace-pre-wrap bg-neutral-50/40">
+                  {drafts.bodyMarkdown.trim() ? (
+                    drafts.bodyMarkdown
+                  ) : (
+                    <p className="text-neutral-400 text-center italic mt-10">
+                      {livePageScanning ? "Scanning live page…" : "No live page content yet — click Rescan to fetch."}
+                    </p>
+                  )}
+                </div>
+              ) : (
+                <textarea
+                  value={drafts.bodyMarkdown}
+                  onChange={(e) => setDrafts((d) => ({ ...d, bodyMarkdown: e.target.value }))}
+                  placeholder={`# ${editor.primary_keyword}
 
 Start writing the opening paragraph that names the problem and previews the solution…
 
 ## First section heading
 
 Body copy here. Use markdown — \`#\` headings, \`![alt](url)\` images, \`-\` bullets.`}
-                className="w-full min-h-[70vh] resize-y px-6 py-5 text-[14px] leading-relaxed text-neutral-800 placeholder-neutral-300 focus:outline-none font-mono"
-                spellCheck
-              />
+                  className="w-full min-h-[70vh] resize-y px-6 py-5 text-[14px] leading-relaxed text-neutral-800 placeholder-neutral-300 focus:outline-none font-mono"
+                  spellCheck
+                />
+              )}
             </div>
+
+            {/* AI Recommendations panel (Page Mode only, when a draft exists) */}
+            {isPageMode && state.currentDraft ? (
+              <PageModeRecommendations
+                draft={state.currentDraft}
+                linkedSeoTitle={state.linkedPage?.seo_title ?? null}
+                linkedMetaDescription={state.linkedPage?.meta_description ?? null}
+                onApply={() => void handleApplySeoMeta()}
+                applying={applyingSeoMeta}
+              />
+            ) : null}
 
             {/* Placement checks */}
             {score?.placement_checks ? (

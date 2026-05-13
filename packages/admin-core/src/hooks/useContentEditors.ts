@@ -150,7 +150,17 @@ export function useContentEditor(id: string | null): UseContentEditorState & {
     }
     const res = await fetch(`/api/admin/content-editor/${id}`, { cache: "no-store" });
     const json = (await res.json().catch(() => ({}))) as
-      | { ok: true; editor: ContentEditorState["editor"]; competitors: ContentEditorState["competitors"]; terms: ContentEditorState["terms"]; questions: ContentEditorState["questions"]; facts: ContentEditorState["facts"]; outline: ContentEditorState["outline"]; currentDraft: ContentEditorState["currentDraft"]; }
+      | {
+          ok: true;
+          editor: ContentEditorState["editor"];
+          competitors: ContentEditorState["competitors"];
+          terms: ContentEditorState["terms"];
+          questions: ContentEditorState["questions"];
+          facts: ContentEditorState["facts"];
+          outline: ContentEditorState["outline"];
+          currentDraft: ContentEditorState["currentDraft"];
+          linkedPage?: ContentEditorState["linkedPage"];
+        }
       | { ok: false; error: string };
 
     if (!res.ok || !("ok" in json) || !json.ok) {
@@ -167,6 +177,7 @@ export function useContentEditor(id: string | null): UseContentEditorState & {
         facts: json.facts,
         outline: json.outline,
         currentDraft: json.currentDraft,
+        linkedPage: json.linkedPage ?? null,
       },
       loading: false,
       error: null,

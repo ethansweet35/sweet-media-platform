@@ -42,6 +42,8 @@ export interface CreateContentEditorInput {
   device?: "desktop" | "mobile";
   competitorPoolSize?: number;
   blogPostId?: string | null;
+  /** When set, the editor is created in Page Mode linked to this tracked_pages.id. */
+  trackedPageId?: string | null;
   createdBy?: string;
 }
 
@@ -108,6 +110,29 @@ export interface ContentEditorDraftRow {
   created_at: string;
 }
 
+/** Linked tracked-page info — present only in Page Mode editors. */
+export interface ContentEditorLinkedPageInfo {
+  id: string;
+  route_path: string;
+  page_title: string | null;
+  seo_title: string | null;
+  meta_description: string | null;
+  /** Most recent live-page snapshot (may be older than the TTL — UI decides whether to refetch). */
+  liveSnapshot: {
+    id: string;
+    fetched_at: string;
+    status_code: number | null;
+    word_count: number | null;
+    computed_content_score: number | null;
+    computed_coverage_score: number | null;
+    computed_frequency_score: number | null;
+    computed_placement_score: number | null;
+    fetch_error: string | null;
+    plaintext: string | null;
+    headings: Array<{ level: number; text: string }> | null;
+  } | null;
+}
+
 /** Composite payload returned by getContentEditorState. */
 export interface ContentEditorState {
   editor: ContentEditorRow;
@@ -134,6 +159,8 @@ export interface ContentEditorState {
   facts: ContentEditorFactRow[];
   outline: ContentEditorOutlineRow[];
   currentDraft: ContentEditorDraftRow | null;
+  /** Populated when editor.linked_tracked_page_id is set. */
+  linkedPage: ContentEditorLinkedPageInfo | null;
 }
 
 // ───────────────────────────────────────────────────────────────────────
@@ -167,6 +194,7 @@ export async function createContentEditor(
     competitor_pool_size: Math.min(50, Math.max(10, input.competitorPoolSize ?? 20)),
     status: "pending",
     blog_post_id: input.blogPostId ?? null,
+    linked_tracked_page_id: input.trackedPageId ?? null,
     created_by: input.createdBy ?? null,
   };
 
@@ -247,6 +275,45 @@ export async function getContentEditorState(
         .maybeSingle(),
     ]);
 
+  // Page Mode: load linked tracked page + most recent live snapshot.
+  let linkedPage: ContentEditorLinkedPageInfo | null = null;
+  if (editor.linked_tracked_page_id) {
+    const [pageRes, snapshotRes] = await Promise.all([
+      client
+        .from("tracked_pages")
+        .select("id, route_path, page_title, seo_title, meta_description")
+        .eq("id", editor.linked_tracked_page_id)
+        .maybeSingle(),
+      client
+        .from("tracked_page_live_snapshots")
+        .select(
+          "id, fetched_at, status_code, word_count, computed_content_score, computed_coverage_score, computed_frequency_score, computed_placement_score, fetch_error, plaintext, headings",
+        )
+        .eq("tracked_page_id", editor.linked_tracked_page_id)
+        .eq("scored_against_editor_id", editorId)
+        .order("fetched_at", { ascending: false })
+        .limit(1)
+        .maybeSingle(),
+    ]);
+    if (pageRes.data) {
+      const page = pageRes.data as {
+        id: string;
+        route_path: string;
+        page_title: string | null;
+        seo_title: string | null;
+        meta_description: string | null;
+      };
+      linkedPage = {
+        id: page.id,
+        route_path: page.route_path,
+        page_title: page.page_title,
+        seo_title: page.seo_title,
+        meta_description: page.meta_description,
+        liveSnapshot: (snapshotRes.data ?? null) as ContentEditorLinkedPageInfo["liveSnapshot"],
+      };
+    }
+  }
+
   return {
     editor,
     competitors: (competitorsRes.data ?? []) as ContentEditorState["competitors"],
@@ -255,6 +322,7 @@ export async function getContentEditorState(
     facts: (factsRes.data ?? []) as ContentEditorFactRow[],
     outline: (outlineRes.data ?? []) as ContentEditorOutlineRow[],
     currentDraft: (draftRes.data ?? null) as ContentEditorDraftRow | null,
+    linkedPage,
   };
 }
 

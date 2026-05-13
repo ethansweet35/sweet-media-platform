@@ -31,6 +31,10 @@ export interface ContentEditorListRow {
   /** Populated via join with content_editor_drafts; null if no draft has been scored yet. */
   current_content_score: number | null;
   blog_post_id: string | null;
+  /** When set, the editor is in Page Mode (linked to a tracked_pages row). */
+  linked_tracked_page_id?: string | null;
+  /** Live-page score for the linked tracked page (only present in Page Mode). */
+  live_page_score?: number | null;
   created_at: string;
   updated_at: string;
   completed_at: string | null;
@@ -132,6 +136,31 @@ export interface ContentEditorDraftRow {
   created_at: string;
 }
 
+/** Live-page snapshot summary (client-safe). */
+export interface ContentEditorLiveSnapshot {
+  id: string;
+  fetched_at: string;
+  status_code: number | null;
+  word_count: number | null;
+  computed_content_score: number | null;
+  computed_coverage_score: number | null;
+  computed_frequency_score: number | null;
+  computed_placement_score: number | null;
+  fetch_error: string | null;
+  plaintext: string | null;
+  headings: Array<{ level: number; text: string }> | null;
+}
+
+/** Linked tracked-page info — only present in Page Mode editors. */
+export interface ContentEditorLinkedPage {
+  id: string;
+  route_path: string;
+  page_title: string | null;
+  seo_title: string | null;
+  meta_description: string | null;
+  liveSnapshot: ContentEditorLiveSnapshot | null;
+}
+
 /** Composite payload returned by GET /api/admin/content-editor/[id]. */
 export interface ContentEditorState {
   editor: ContentEditorRow;
@@ -141,6 +170,7 @@ export interface ContentEditorState {
   facts: ContentEditorFactRow[];
   outline: ContentEditorOutlineRow[];
   currentDraft: ContentEditorDraftRow | null;
+  linkedPage: ContentEditorLinkedPage | null;
 }
 
 // ─── Scoring types (mirror of server-side, client-safe) ────────────────

@@ -50,6 +50,13 @@ export {
 } from "./autoOptimize";
 
 export {
+  fetchAndScoreLivePage,
+  loadLatestSnapshotIgnoreTtl,
+  type FetchAndScoreLivePageOptions,
+  type TrackedPageLiveSnapshot,
+} from "./livePageAnalysis";
+
+export {
   getAdminClient,
   loadEditor,
   loadCompetitors,

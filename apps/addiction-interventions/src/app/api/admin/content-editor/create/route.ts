@@ -20,6 +20,7 @@ interface CreateRequest {
   device?: "desktop" | "mobile";
   competitorPoolSize?: number;
   blogPostId?: string | null;
+  trackedPageId?: string | null;
 }
 
 export async function POST(request: Request) {
@@ -47,6 +48,7 @@ export async function POST(request: Request) {
       device: body.device,
       competitorPoolSize: body.competitorPoolSize,
       blogPostId: body.blogPostId ?? null,
+      trackedPageId: body.trackedPageId ?? null,
     });
 
     // Kick off the pipeline asynchronously — runs after the 202 response

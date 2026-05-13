@@ -98,6 +98,11 @@ interface JoinedEditor {
   competitor_avg_score: number | null;
   updated_at: string;
   current_content_score: number | null;
+  /** When set, this editor is in Page Mode (linked to tracked_pages.id). */
+  linked_tracked_page_id: string | null;
+  /** Live-page score for the linked tracked page (Page Mode only). */
+  live_page_score: number | null;
+  live_page_fetched_at: string | null;
 }
 
 function relativeAge(iso: string | null): string {
@@ -140,7 +145,9 @@ export default function ContentEditorCell({
     try {
       const { data } = await supabase
         .from("content_editors")
-        .select("id, status, status_message, error, target_score, competitor_avg_score, updated_at, content_editor_drafts(computed_content_score, is_current)")
+        .select(
+          "id, status, status_message, error, target_score, competitor_avg_score, updated_at, linked_tracked_page_id, content_editor_drafts(computed_content_score, is_current)",
+        )
         .eq("id", targetId)
         .maybeSingle();
       let result: JoinedEditor | null = null;
@@ -149,8 +156,33 @@ export default function ContentEditorCell({
         const drafts = Array.isArray(raw.content_editor_drafts) ? raw.content_editor_drafts : [];
         const cur = drafts.find((d: Record<string, unknown>) => d.is_current);
         const current_content_score = (cur as Record<string, unknown> | undefined)?.computed_content_score as number | null ?? null;
+        const linked_tracked_page_id = (raw.linked_tracked_page_id as string | null) ?? null;
+
+        // Page Mode: pull the most recent live-page snapshot for this editor.
+        let live_page_score: number | null = null;
+        let live_page_fetched_at: string | null = null;
+        if (linked_tracked_page_id) {
+          const { data: snap } = await supabase
+            .from("tracked_page_live_snapshots")
+            .select("computed_content_score, fetched_at")
+            .eq("tracked_page_id", linked_tracked_page_id)
+            .eq("scored_against_editor_id", targetId)
+            .order("fetched_at", { ascending: false })
+            .limit(1)
+            .maybeSingle();
+          if (snap) {
+            live_page_score = (snap as { computed_content_score: number | null }).computed_content_score ?? null;
+            live_page_fetched_at = (snap as { fetched_at: string | null }).fetched_at ?? null;
+          }
+        }
+
         const { content_editor_drafts: _d, ...rest } = raw;
-        result = { ...rest, current_content_score } as JoinedEditor;
+        result = {
+          ...rest,
+          current_content_score,
+          live_page_score,
+          live_page_fetched_at,
+        } as JoinedEditor;
         setEditor(result);
       } else {
         setEditor(null);
@@ -183,13 +215,21 @@ export default function ContentEditorCell({
   }, [editorId, editor?.status, fetchJoinedEditor, editor, onChange]);
 
   const noKeyword = !row.primary_keyword?.trim();
-  // Show the actual scored content score if available; fall back to target for context.
-  const currentScore = editor?.current_content_score ?? null;
+  const isPageMode = !!editor?.linked_tracked_page_id;
+  // In Page Mode the ring shows the LIVE page score; in Blog Mode it
+  // shows the current draft's score (both fall back to target).
+  const currentScore = isPageMode
+    ? (editor?.live_page_score ?? null)
+    : (editor?.current_content_score ?? null);
   const targetScore = editor?.target_score ?? null;
   const displayScore = currentScore ?? targetScore;
 
+  const liveScanAge = isPageMode ? relativeAge(editor?.live_page_fetched_at ?? null) : null;
+
   const statusTitle = hasEditor && editor
-    ? `Score: ${currentScore != null ? Math.round(currentScore) : "—"} / Target: ${targetScore != null ? Math.round(targetScore) : "—"} · ${STATUS_LABELS[editor.status]} · Updated ${relativeAge(editor.updated_at)}`
+    ? isPageMode
+      ? `Live page: ${currentScore != null ? Math.round(currentScore) : "—"} / Target: ${targetScore != null ? Math.round(targetScore) : "—"} · Last scan ${liveScanAge ?? "never"} · ${STATUS_LABELS[editor.status]}`
+      : `Score: ${currentScore != null ? Math.round(currentScore) : "—"} / Target: ${targetScore != null ? Math.round(targetScore) : "—"} · ${STATUS_LABELS[editor.status]} · Updated ${relativeAge(editor.updated_at)}`
     : noKeyword
       ? "Set a primary keyword to generate a content editor"
       : "Generate a Content Editor brief for this keyword";
@@ -202,6 +242,27 @@ export default function ContentEditorCell({
 
   const handleRerun = useCallback(async () => {
     if (!editorId) return;
+    // Page Mode: clicking refresh re-scans the live page instead of rerunning the pipeline.
+    if (editor?.linked_tracked_page_id) {
+      const res = await fetch(`/api/admin/tracked-pages/${editor.linked_tracked_page_id}/scan-live`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ editorId, force: true }),
+      });
+      if (!res.ok) {
+        const j = (await res.json().catch(() => ({}))) as { error?: string };
+        console.warn("[ContentEditorCell] live-scan failed:", j.error ?? res.status);
+        return;
+      }
+      // Wait a moment for the snapshot to land, then refresh.
+      setTimeout(() => {
+        void (async () => {
+          await fetchJoinedEditor(editorId);
+          await onChange?.();
+        })();
+      }, 8000);
+      return;
+    }
     const forceRebuild = editor?.status === "ready";
     const res = await fetch(`/api/admin/content-editor/${editorId}/run`, {
       method: "POST",
@@ -215,7 +276,7 @@ export default function ContentEditorCell({
     }
     await fetchJoinedEditor(editorId);
     await onChange?.();
-  }, [editorId, editor?.status, onChange, fetchJoinedEditor]);
+  }, [editorId, editor?.status, editor?.linked_tracked_page_id, onChange, fetchJoinedEditor]);
 
   return (
     <div className={`relative flex items-center gap-2 ${compact ? "" : "min-w-[240px]"}`}>

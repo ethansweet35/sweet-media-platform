@@ -418,6 +418,13 @@ begin
       add constraint tracked_pages_content_editor_id_fkey
       foreign key (content_editor_id) references public.content_editors(id) on delete set null;
   end if;
+  if not exists (
+    select 1 from pg_constraint where conname = 'content_editors_linked_tracked_page_id_fkey'
+  ) then
+    alter table public.content_editors
+      add constraint content_editors_linked_tracked_page_id_fkey
+      foreign key (linked_tracked_page_id) references public.tracked_pages(id) on delete set null;
+  end if;
 end $$;
 
 -- =========================================================
@@ -456,6 +463,7 @@ create table if not exists public.content_editors (
   recommended_paragraph_count_max int,
   competitor_avg_score numeric(5,2),
   target_score numeric(5,2),
+  linked_tracked_page_id uuid,                          -- nullable FK to tracked_pages; set when editor is page-mode (added via ALTER below to break ordering cycle)
   created_at timestamptz not null default now(),
   updated_at timestamptz not null default now(),
   completed_at timestamptz
@@ -465,6 +473,7 @@ create index if not exists content_editors_status_idx on public.content_editors(
 create index if not exists content_editors_created_at_idx on public.content_editors(created_at desc);
 create index if not exists content_editors_blog_post_idx on public.content_editors(blog_post_id);
 create index if not exists content_editors_keyword_idx on public.content_editors(lower(primary_keyword));
+create index if not exists content_editors_linked_tracked_page_idx on public.content_editors(linked_tracked_page_id);
 
 create table if not exists public.content_editor_competitors (
   id uuid primary key default gen_random_uuid(),
@@ -609,6 +618,38 @@ create table if not exists public.content_editor_domain_blacklist (
   created_at timestamptz not null default now()
 );
 
+-- Cached live-page analysis snapshots for the Content Editor "Page Mode".
+-- Populated by fetchAndScoreLivePage() in admin-core. TTL is enforced
+-- application-side (default 1h); a fresh fetch is triggered when the
+-- snapshot's fetched_at is older than the TTL or when the user clicks
+-- "Refetch live page" in the brief workspace.
+create table if not exists public.tracked_page_live_snapshots (
+  id uuid primary key default gen_random_uuid(),
+  tracked_page_id uuid not null references public.tracked_pages(id) on delete cascade,
+  fetched_at timestamptz not null default now(),
+  status_code int,
+  url text not null,
+  plaintext text,
+  headings jsonb,
+  word_count int,
+  computed_content_score numeric(5,2),
+  computed_coverage_score numeric(5,2),
+  computed_frequency_score numeric(5,2),
+  computed_placement_score numeric(5,2),
+  computed_seo_score numeric(5,2),
+  computed_eeat_score numeric(5,2),
+  fetch_error text,
+  -- Editor this snapshot was scored against. Multiple editors could
+  -- (in theory) target the same tracked page; we score against the most
+  -- recently linked editor and keep history per editor for diffing.
+  scored_against_editor_id uuid references public.content_editors(id) on delete set null
+);
+
+create index if not exists tracked_page_live_snapshots_page_idx
+  on public.tracked_page_live_snapshots(tracked_page_id, fetched_at desc);
+create index if not exists tracked_page_live_snapshots_editor_idx
+  on public.tracked_page_live_snapshots(scored_against_editor_id, fetched_at desc);
+
 alter table public.content_editors                  enable row level security;
 alter table public.content_editor_competitors       enable row level security;
 alter table public.content_editor_terms             enable row level security;
@@ -619,6 +660,7 @@ alter table public.content_editor_drafts            enable row level security;
 alter table public.content_editor_draft_term_usage  enable row level security;
 alter table public.content_editor_serp_cache        enable row level security;
 alter table public.content_editor_domain_blacklist  enable row level security;
+alter table public.tracked_page_live_snapshots      enable row level security;
 
 do $$
 declare tbl text; pname text;
@@ -626,7 +668,7 @@ begin
   for tbl in select unnest(array[
     'content_editors','content_editor_competitors','content_editor_terms','content_editor_questions',
     'content_editor_facts','content_editor_outlines','content_editor_drafts','content_editor_draft_term_usage',
-    'content_editor_serp_cache','content_editor_domain_blacklist'
+    'content_editor_serp_cache','content_editor_domain_blacklist','tracked_page_live_snapshots'
   ]) loop
     pname := 'Admins can manage ' || tbl;
     execute format('drop policy if exists %I on public.%I', pname, tbl);

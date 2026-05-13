@@ -35,6 +35,7 @@ interface CreateResponse {
 async function postCreate(body: {
   primaryKeyword: string;
   blogPostId?: string | null;
+  trackedPageId?: string | null;
 }): Promise<ContentEditorListRow> {
   const res = await fetch("/api/admin/content-editor/create", {
     method: "POST",
@@ -93,6 +94,7 @@ export function useContentEditorRowActions() {
         const editor = await postCreate({
           primaryKeyword: trimmed,
           blogPostId: ref.kind === "blog" ? ref.id : null,
+          trackedPageId: ref.kind === "page" ? ref.id : null,
         });
         // Link the new editor back to the row.
         const { error } = await supabase
