@@ -539,7 +539,13 @@ function RecRow({
   );
 }
 
-function OptimizingBanner({ startedAt }: { startedAt: number }) {
+function OptimizingBanner({
+  startedAt,
+  onReset,
+}: {
+  startedAt: number;
+  onReset?: () => void;
+}) {
   const [now, setNow] = useState(() => Date.now());
   useEffect(() => {
     const id = setInterval(() => setNow(Date.now()), 1000);
@@ -548,41 +554,86 @@ function OptimizingBanner({ startedAt }: { startedAt: number }) {
   const elapsed = Math.max(0, (now - startedAt) / 1000);
   const eta = Math.max(0, 120 - elapsed);
 
+  // Vercel function maxDuration is 300s. After that, the `after()` task
+  // gets SIGKILL'd silently. We surface this with progressively-stronger
+  // warnings so the user knows when something's actually wrong vs. just slow.
+  const isSlow = elapsed > 180 && elapsed <= 300;
+  const isLikelyTimedOut = elapsed > 300;
+  const isCertainlyDead = elapsed > 330;
+
+  const bgClass = isCertainlyDead
+    ? "border-red-300 bg-red-50"
+    : isLikelyTimedOut
+      ? "border-amber-300 bg-amber-50"
+      : isSlow
+        ? "border-amber-200 bg-amber-50/60"
+        : "border-[#3d6f7f]/30 bg-[#3d6f7f]/5";
+
+  const accentClass = isCertainlyDead
+    ? "text-red-700"
+    : isLikelyTimedOut || isSlow
+      ? "text-amber-700"
+      : "text-[#3d6f7f]";
+
   return (
-    <div className="rounded-2xl border border-[#3d6f7f]/30 bg-[#3d6f7f]/5 p-5 mb-4 flex items-start gap-4">
-      <div className="relative flex-shrink-0 mt-0.5">
-        <i className="ri-magic-line text-2xl text-[#3d6f7f]" />
-        <span className="absolute -top-1 -right-1 inline-flex h-3 w-3">
-          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#3d6f7f] opacity-60" />
-          <span className="relative inline-flex rounded-full h-3 w-3 bg-[#3d6f7f]" />
-        </span>
-      </div>
-      <div className="flex-1 min-w-0">
-        <div className="flex items-baseline justify-between gap-3 flex-wrap">
-          <p className="text-sm font-semibold text-[#1f4452]">
-            Auto-Optimize in progress…
-          </p>
-          <div className="text-[11px] font-mono text-[#3d6f7f] tabular-nums">
-            <span className="opacity-70">elapsed</span>{" "}
-            <span className="font-semibold">{formatDuration(elapsed)}</span>
-            {eta > 0 ? (
-              <>
-                <span className="opacity-50 mx-1.5">·</span>
-                <span className="opacity-70">est. remaining</span>{" "}
-                <span className="font-semibold">~{formatDuration(eta)}</span>
-              </>
-            ) : (
-              <>
-                <span className="opacity-50 mx-1.5">·</span>
-                <span className="font-semibold">finalizing…</span>
-              </>
-            )}
-          </div>
+    <div className={`rounded-2xl border p-5 mb-4 ${bgClass}`}>
+      <div className="flex items-start gap-4">
+        <div className="relative flex-shrink-0 mt-0.5">
+          <i className={`ri-magic-line text-2xl ${accentClass}`} />
+          {!isCertainlyDead ? (
+            <span className="absolute -top-1 -right-1 inline-flex h-3 w-3">
+              <span className={`animate-ping absolute inline-flex h-full w-full rounded-full opacity-60 ${isLikelyTimedOut ? "bg-amber-600" : isSlow ? "bg-amber-500" : "bg-[#3d6f7f]"}`} />
+              <span className={`relative inline-flex rounded-full h-3 w-3 ${isLikelyTimedOut ? "bg-amber-600" : isSlow ? "bg-amber-500" : "bg-[#3d6f7f]"}`} />
+            </span>
+          ) : null}
         </div>
-        <p className="mt-1 text-[12px] text-[#3d6f7f]/90 leading-snug">
-          AI is rewriting your draft against the content brief. This runs in the background —
-          you can navigate away and come back. The new draft will appear here automatically when ready.
-        </p>
+        <div className="flex-1 min-w-0">
+          <div className="flex items-baseline justify-between gap-3 flex-wrap">
+            <p className={`text-sm font-semibold ${isCertainlyDead ? "text-red-900" : isLikelyTimedOut || isSlow ? "text-amber-900" : "text-[#1f4452]"}`}>
+              {isCertainlyDead
+                ? "Auto-Optimize appears to have failed"
+                : isLikelyTimedOut
+                  ? "Taking longer than expected"
+                  : isSlow
+                    ? "Auto-Optimize taking a while…"
+                    : "Auto-Optimize in progress…"}
+            </p>
+            <div className={`text-[11px] font-mono tabular-nums ${accentClass}`}>
+              <span className="opacity-70">elapsed</span>{" "}
+              <span className="font-semibold">{formatDuration(elapsed)}</span>
+              {eta > 0 && !isLikelyTimedOut ? (
+                <>
+                  <span className="opacity-50 mx-1.5">·</span>
+                  <span className="opacity-70">est. remaining</span>{" "}
+                  <span className="font-semibold">~{formatDuration(eta)}</span>
+                </>
+              ) : !isLikelyTimedOut ? (
+                <>
+                  <span className="opacity-50 mx-1.5">·</span>
+                  <span className="font-semibold">finalizing…</span>
+                </>
+              ) : null}
+            </div>
+          </div>
+          <p className={`mt-1 text-[12px] leading-snug ${isCertainlyDead ? "text-red-800" : isLikelyTimedOut || isSlow ? "text-amber-800" : "text-[#3d6f7f]/90"}`}>
+            {isCertainlyDead
+              ? "The background task should have finished by now. Vercel's 5-minute function limit was likely exceeded. Reset and try again — the page brief is unchanged."
+              : isLikelyTimedOut
+                ? "Past Vercel's 5-minute function limit. The task may have been killed. If no recommendations appear in another minute or two, reset and retry."
+                : isSlow
+                  ? "AI is still working. Most runs finish in 90–180s; this one is unusual but may still complete."
+                  : "AI is rewriting your draft against the content brief. This runs in the background — you can navigate away and come back. The new draft will appear here automatically when ready."}
+          </p>
+          {(isLikelyTimedOut || isCertainlyDead) && onReset ? (
+            <button
+              type="button"
+              onClick={onReset}
+              className={`mt-3 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[11px] font-bold uppercase tracking-[0.1em] ${isCertainlyDead ? "bg-red-700 text-white hover:bg-red-800" : "bg-amber-700 text-white hover:bg-amber-800"}`}
+            >
+              <i className="ri-restart-line" /> Reset & retry
+            </button>
+          ) : null}
+        </div>
       </div>
     </div>
   );
@@ -1112,8 +1163,10 @@ export default function AdminContentEditorBriefPage({ briefId: briefIdProp }: Pr
     if (startedRaw) {
       const startedAt = Number(startedRaw);
       if (Number.isFinite(startedAt) && startedAt > 0) {
-        // 10-minute safety stale-out — if the flag is older than this, clear it.
-        if (Date.now() - startedAt < 10 * 60 * 1000) {
+        // 6-minute safety stale-out — Vercel kills functions at 5min, so
+        // anything past 6min is definitely dead. Show the banner anyway so
+        // the user sees the timed-out state and can click Reset & retry.
+        if (Date.now() - startedAt < 6 * 60 * 1000) {
           setOptimizing(true);
           setOptimizeStartedAt(startedAt);
           setOptimizeBaselineDraftId(baseline);
@@ -1163,6 +1216,16 @@ export default function AdminContentEditorBriefPage({ briefId: briefIdProp }: Pr
   });
   // No autosave in Page Mode — there is no editable draft.
   const { saving, saved } = useDraftAutosave(drafts, isPageMode ? null : editorId, 4000);
+
+  function resetOptimizingState() {
+    setOptimizing(false);
+    setOptimizeStartedAt(null);
+    setOptimizeBaselineDraftId(null);
+    if (typeof window !== "undefined" && editorId) {
+      window.sessionStorage.removeItem(`content-editor-optimize-start:${editorId}`);
+      window.sessionStorage.removeItem(`content-editor-optimize-baseline:${editorId}`);
+    }
+  }
 
   async function handleAutoOptimize() {
     if (!state || !editorId) return;
@@ -1349,7 +1412,10 @@ export default function AdminContentEditorBriefPage({ briefId: briefIdProp }: Pr
       ) : null}
 
       {optimizing ? (
-        <OptimizingBanner startedAt={optimizeStartedAt ?? Date.now()} />
+        <OptimizingBanner
+          startedAt={optimizeStartedAt ?? Date.now()}
+          onReset={resetOptimizingState}
+        />
       ) : null}
 
       {applySeoMetaResult ? (

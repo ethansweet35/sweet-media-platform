@@ -76,7 +76,7 @@ export default function AdminContentEditorPage() {
         const raw = window.sessionStorage.getItem(key);
         if (!raw) continue;
         const startedAt = Number(raw);
-        if (!Number.isFinite(startedAt) || Date.now() - startedAt > 10 * 60 * 1000) {
+        if (!Number.isFinite(startedAt) || Date.now() - startedAt > 6 * 60 * 1000) {
           window.sessionStorage.removeItem(key);
           window.sessionStorage.removeItem(
             `content-editor-optimize-baseline:${key.slice(prefix.length)}`,

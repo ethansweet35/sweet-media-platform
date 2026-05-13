@@ -274,6 +274,47 @@ function buildSeoGuidelines(
   return lines.join("\n").trim();
 }
 
+/**
+ * Lightweight Page Mode prompt — generates only Title/Meta/H1 + a
+ * recommended outline (H2 list with 1-2 sentence summaries), NOT a
+ * full 2000-word body. Pages have hand-coded React layouts so a long
+ * body is never auto-applied; the outline is what the user actually
+ * needs to optimize their existing page.
+ *
+ * Output is ~500-1500 tokens (vs ~6000-12000 for full blog mode).
+ * Runs in ~30-60s instead of ~2-4min — well within Vercel's 5min limit.
+ */
+function buildPageModeSystemPrompt(knowledgeBaseBlock: string): string {
+  return `You are an expert SEO content strategist generating optimization recommendations for a LIVE PAGE that already exists in production. You're NOT writing a new blog post — you're suggesting targeted improvements to an existing page that has hand-coded React layout.
+
+[KNOWLEDGE BASE]
+${knowledgeBaseBlock || "(none provided — use authoritative best practices for the given topic)"}
+[END KNOWLEDGE BASE]
+
+YOUR JOB:
+1. Generate a better SEO title (under 70 chars, includes primary keyword)
+2. Generate a better meta description (under 155 chars, includes primary keyword)
+3. Recommend a better H1 for the page
+4. Recommend an outline of H2 sections this page should cover (5-9 headings, each with 1-2 sentence summary of what that section should discuss)
+
+DO NOT generate full body paragraphs, FAQs, or long copy. The user will hand-port the outline into their existing page layout. Keep summaries terse and actionable (1-2 sentences each, no rambling).
+
+The brief lists MUST-COVER terms, questions, and facts. Use these to inform which H2 sections are most important. Every H2 should connect to high-priority terms or questions from the brief.
+
+OUTPUT FORMAT (return ONLY this JSON, no markdown fences, no preamble):
+{
+  "title": "string — SEO-optimized, under 70 chars, includes primary keyword",
+  "metaDescription": "string under 155 chars, includes primary keyword, has CTA",
+  "content": [
+    { "type": "h1", "text": "Recommended H1" },
+    { "type": "h2", "text": "First H2 heading" },
+    { "type": "paragraph", "text": "1-2 sentence summary of what this section should cover, referencing 2-3 key terms from the brief." },
+    { "type": "h2", "text": "Second H2 heading" },
+    { "type": "paragraph", "text": "Summary..." }
+  ]
+}`;
+}
+
 function buildSystemPrompt(knowledgeBaseBlock: string): string {
   return `You are an expert SEO content writer. Use the following knowledge base as the authoritative reference for brand voice, services, tone, and approved proof points. If the knowledge base is empty, write high-quality general content for the given topic.
 
@@ -433,24 +474,49 @@ export async function runAutoOptimize(opts: AutoOptimizeOptions): Promise<void> 
         )
       : 2000);
 
-  const userMessage = [
-    `Topic: ${editor.primary_keyword}`,
-    `Primary keyword: ${editor.primary_keyword}`,
-    `Category: let AI decide based on topic`,
-    `Tone: authoritative but compassionate, evidence-based`,
-    `Target word count: ${wTarget}`,
-    `Audience: derive from knowledge base, or default to general informed adult readers`,
-    ``,
-    `=== CONTENT BRIEF (MANDATORY — strict compliance required, see system prompt rule 5) ===`,
-    guidelines.slice(0, 20000),
-    `=== END CONTENT BRIEF ===`,
-    opts.customInstructions
-      ? `\nAdditional instructions:\n${opts.customInstructions.trim()}`
-      : "",
-    `\nGenerate the blog post now. Output only the JSON object as specified.`,
-  ]
-    .filter(Boolean)
-    .join("\n");
+  // Page Mode (editor.linked_tracked_page_id is set): use the lightweight
+  // prompt that generates Title/Meta/H1 + outline only. The user hand-ports
+  // the outline into their existing React page layout — they don't need a
+  // 24KB body draft they'll never paste in.
+  const isPageMode = !!editor.linked_tracked_page_id;
+  const systemPrompt = isPageMode
+    ? buildPageModeSystemPrompt(kb)
+    : buildSystemPrompt(kb);
+
+  const userMessage = isPageMode
+    ? [
+        `Live page: optimization recommendations needed`,
+        `Primary keyword: ${editor.primary_keyword}`,
+        `Tone: derive from knowledge base; default authoritative + helpful`,
+        ``,
+        `=== CONTENT BRIEF (use to inform recommendations) ===`,
+        guidelines.slice(0, 15000),
+        `=== END CONTENT BRIEF ===`,
+        opts.customInstructions
+          ? `\nAdditional instructions:\n${opts.customInstructions.trim()}`
+          : "",
+        `\nGenerate the SEO Title, Meta Description, recommended H1, and an outline of recommended H2 sections (each with a 1-2 sentence summary). Output only the JSON object as specified.`,
+      ]
+        .filter(Boolean)
+        .join("\n")
+    : [
+        `Topic: ${editor.primary_keyword}`,
+        `Primary keyword: ${editor.primary_keyword}`,
+        `Category: let AI decide based on topic`,
+        `Tone: authoritative but compassionate, evidence-based`,
+        `Target word count: ${wTarget}`,
+        `Audience: derive from knowledge base, or default to general informed adult readers`,
+        ``,
+        `=== CONTENT BRIEF (MANDATORY — strict compliance required, see system prompt rule 5) ===`,
+        guidelines.slice(0, 20000),
+        `=== END CONTENT BRIEF ===`,
+        opts.customInstructions
+          ? `\nAdditional instructions:\n${opts.customInstructions.trim()}`
+          : "",
+        `\nGenerate the blog post now. Output only the JSON object as specified.`,
+      ]
+        .filter(Boolean)
+        .join("\n");
 
   const orRes = await fetch("https://openrouter.ai/api/v1/chat/completions", {
     method: "POST",
@@ -463,10 +529,11 @@ export async function runAutoOptimize(opts: AutoOptimizeOptions): Promise<void> 
     body: JSON.stringify({
       model,
       messages: [
-        { role: "system", content: buildSystemPrompt(kb) },
+        { role: "system", content: systemPrompt },
         { role: "user", content: userMessage },
       ],
-      max_tokens: 12000,
+      // Page Mode generates ~500-1500 tokens; full blog mode needs much more.
+      max_tokens: isPageMode ? 2500 : 12000,
       temperature: 0.4,
     }),
   });
@@ -522,6 +589,16 @@ export async function runAutoOptimize(opts: AutoOptimizeOptions): Promise<void> 
       status: 502,
     });
   }
+
+  // In Page Mode the AI emits a separate H1 block; use it as h1_text so the
+  // PageModeRecommendations panel shows the recommended H1 alongside the
+  // title. In Blog Mode the title doubles as the H1.
+  let recommendedH1 = title;
+  if (isPageMode) {
+    const firstH1 = blocks.find((b) => b.type === "h1");
+    if (firstH1?.text) recommendedH1 = firstH1.text.trim();
+  }
+
   const bodyMarkdown = blocksToMarkdown(blocks);
 
   // Persist as the current draft (in-place update preserves draft history
@@ -530,7 +607,7 @@ export async function runAutoOptimize(opts: AutoOptimizeOptions): Promise<void> 
     editorId,
     titleTag: title,
     metaDescription,
-    h1Text: title,
+    h1Text: recommendedH1,
     bodyMarkdown,
     bodyPlaintext: bodyMarkdown,
   });
@@ -538,6 +615,8 @@ export async function runAutoOptimize(opts: AutoOptimizeOptions): Promise<void> 
   // Immediately score the new draft so the list view shows a current score
   // without waiting for the user to open the brief page (which triggers
   // useLiveScore). Errors here are non-fatal — the user can score on open.
+  // (Page Mode editors don't display draft scores in the list, but we still
+  // score for the Recommendations panel's "If applied" projection.)
   try {
     const headings: string[] = [];
     for (const line of bodyMarkdown.split("\n")) {
@@ -548,7 +627,7 @@ export async function runAutoOptimize(opts: AutoOptimizeOptions): Promise<void> 
       editorId,
       titleTag: title,
       metaDescription,
-      h1Text: title,
+      h1Text: recommendedH1,
       bodyPlaintext: bodyMarkdown,
       bodyMarkdown,
       earlyHeadings: headings.slice(0, 3),
