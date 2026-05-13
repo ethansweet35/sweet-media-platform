@@ -209,6 +209,9 @@ Fetch WP CSS → Elementor/globals token JSON
 - `CONTACT_TO_EMAIL`, `CONTACT_FROM_EMAIL`, `CONTACT_BRAND_NAME` — contact route inbox + sender + label (Resend sender domain must be verified)
 - `OPENROUTER_API_KEY` — admin AI routes (`/api/admin/rewrite-blog-post`, `/api/admin/generate-seo-meta`, `/api/admin/sweet-seo/analyze`); shared from repo-root `.env`
 - `SEMRUSH_API_KEY` — Semrush keyword research routes (`/api/admin/semrush/overview`, `/api/admin/semrush/suggestions`) and `/admin/keyword-research` view; shared from repo-root `.env`
+- `DATAFORSEO_LOGIN` + `DATAFORSEO_PASSWORD` — Content Editor SERP fetch (top-20 organic + People Also Ask); shared from repo-root `.env`
+- `FIRECRAWL_API_KEY` — Content Editor competitor page scraping (JS-rendered → clean markdown); shared from repo-root `.env`
+- `GOOGLE_NLP_API_KEY` — Content Editor entity extraction (Google Cloud Natural Language API, `analyzeEntities`); shared from repo-root `.env`
 - Optional: `TRACKED_PAGE_METADATA_CACHE_SECONDS`
 
 **Scaffold auto-writes** `.env.local` with the public Supabase vars and the contact form vars when `setup-new-client.mjs` runs successfully. `scripts/publish-client-to-vercel.mjs` then upserts those values plus shared root secrets (`OPENROUTER_API_KEY`, `SEMRUSH_API_KEY`) onto the Vercel project. Use `--project <vercel-project-name>` for brands whose Vercel project name does not match their slug (`sweet-media` → `sweet-media-platform`, `inner-peak-colorado` → `inner-peak-colorado-platform`).

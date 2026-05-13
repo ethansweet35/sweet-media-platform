@@ -133,12 +133,20 @@ async function main() {
     'CONTACT_BRAND_NAME',
     'OPENROUTER_API_KEY',
     'SEMRUSH_API_KEY',
+    'DATAFORSEO_LOGIN',
+    'DATAFORSEO_PASSWORD',
+    'FIRECRAWL_API_KEY',
+    'GOOGLE_NLP_API_KEY',
   ];
 
   // Shared platform secrets live in repo-root .env; per-brand values stay in apps/<slug>/.env.local.
   const ROOT_SHARED_SECRETS = new Set([
     'OPENROUTER_API_KEY',
     'SEMRUSH_API_KEY',
+    'DATAFORSEO_LOGIN',
+    'DATAFORSEO_PASSWORD',
+    'FIRECRAWL_API_KEY',
+    'GOOGLE_NLP_API_KEY',
   ]);
 
   const resolve = (key) => {
