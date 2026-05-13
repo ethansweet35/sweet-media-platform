@@ -695,6 +695,17 @@ create table if not exists public.ai_optimize_runs (
   branch_name text,
   diff_summary text,
 
+  -- Vercel preview deployment (populated after PR opens). The admin
+  -- workspace surfaces preview_url as a clickable Preview link and runs
+  -- a one-off scoring pass against the preview HTML so admins see the
+  -- projected content score lift before merging.
+  vercel_project_id text,
+  preview_url text,
+  preview_content_score numeric(5,2),
+  preview_word_count int,
+  preview_scored_at timestamptz,
+  preview_fetch_error text,
+
   -- Provenance
   triggered_by_email text,
   model_id text,

@@ -397,18 +397,73 @@ const OPTIMIZE_PR_MODELS: { id: string; label: string; hint: string }[] = [
   { id: "gpt-5-5-pro", label: "GPT-5.5 Pro", hint: "Strong alt opinion" },
 ];
 
+function ScoreLift({
+  liveScore,
+  previewScore,
+}: {
+  liveScore: number | null;
+  previewScore: number | null;
+}) {
+  if (previewScore == null) {
+    return (
+      <span className="text-[10px] text-neutral-400 italic">
+        scoring preview…
+      </span>
+    );
+  }
+  const live = liveScore != null ? Math.round(liveScore) : null;
+  const prev = Math.round(previewScore);
+  const lift = live != null ? prev - live : null;
+  const liftColor =
+    lift == null
+      ? "text-neutral-500"
+      : lift > 0
+        ? "text-emerald-700"
+        : lift < 0
+          ? "text-rose-700"
+          : "text-neutral-500";
+  return (
+    <span className="inline-flex items-center gap-1.5 text-[11px] font-mono">
+      <span className="text-neutral-500">Live:</span>
+      <strong className="text-neutral-700">{live ?? "—"}</strong>
+      <span className="text-neutral-400">→</span>
+      <span className="text-neutral-500">Preview:</span>
+      <strong
+        className={
+          prev >= 75
+            ? "text-emerald-700"
+            : prev >= 50
+              ? "text-amber-700"
+              : "text-rose-700"
+        }
+      >
+        {prev}
+      </strong>
+      {lift != null ? (
+        <strong className={liftColor}>
+          ({lift > 0 ? "+" : ""}
+          {lift})
+        </strong>
+      ) : null}
+    </span>
+  );
+}
+
 function AiOptimizeRunsPanel({
   runs,
   triggering,
   onTrigger,
   onCancel,
   cancellingId,
+  liveScore,
 }: {
   runs: AiOptimizeRun[];
   triggering: boolean;
   onTrigger: (opts?: { model?: string; customInstructions?: string }) => void | Promise<void>;
   onCancel: (id: string) => void | Promise<void>;
   cancellingId: string | null;
+  /** Current live-page content score for the editor (drives the "Live: X → Preview: Y" lift). */
+  liveScore: number | null;
 }) {
   const [selectedModel, setSelectedModel] = useState<string>(OPTIMIZE_PR_MODELS[0].id);
 
@@ -551,6 +606,41 @@ function AiOptimizeRunsPanel({
                     <i className="ri-error-warning-line mr-1" />
                     {run.error}
                   </p>
+                ) : null}
+
+                {run.status === "pr_opened" || run.status === "merged" ? (
+                  <div className="mt-1 flex flex-wrap items-center gap-3 px-2.5 py-2 rounded-lg bg-[#3d6f7f]/[0.04] border border-[#3d6f7f]/15">
+                    {run.preview_url ? (
+                      <a
+                        href={run.preview_url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-1 text-[10px] font-bold uppercase tracking-[0.1em] text-[#3d6f7f] hover:underline"
+                        title="Open the Vercel preview deployment for this PR in a new tab"
+                      >
+                        <i className="ri-eye-line text-[12px]" />
+                        Preview page
+                        <i className="ri-external-link-line text-[9px] opacity-70" />
+                      </a>
+                    ) : (
+                      <span className="text-[10px] text-neutral-400 italic">
+                        Locating preview deployment…
+                      </span>
+                    )}
+                    <ScoreLift
+                      liveScore={liveScore}
+                      previewScore={run.preview_content_score}
+                    />
+                    {run.preview_fetch_error ? (
+                      <span
+                        title={run.preview_fetch_error}
+                        className="text-[10px] text-amber-700"
+                      >
+                        <i className="ri-error-warning-line mr-1" />
+                        Preview score unavailable
+                      </span>
+                    ) : null}
+                  </div>
                 ) : null}
 
                 <div className="flex items-center gap-3 text-[10px] text-neutral-400 mt-0.5">
@@ -1727,6 +1817,7 @@ Body copy here. Use markdown — \`#\` headings, \`![alt](url)\` images, \`-\` b
                   await refetchAiRuns();
                 }}
                 cancellingId={cancellingId}
+                liveScore={state.linkedPage?.liveSnapshot?.computed_content_score ?? null}
               />
             ) : null}
 

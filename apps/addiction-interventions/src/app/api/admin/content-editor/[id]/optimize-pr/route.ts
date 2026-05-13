@@ -120,6 +120,10 @@ export async function POST(request: Request, ctx: RouteContext) {
       appDir: APP_DIR,
       model: body.model,
       customInstructions: body.customInstructions,
+      // Optional: set AI_OPTIMIZE_VERCEL_PROJECT_ID in this app's Vercel
+      // env to the project's prj_… id so the admin panel can surface the
+      // PR's preview URL + auto-score it against the brief.
+      vercelProjectId: process.env.AI_OPTIMIZE_VERCEL_PROJECT_ID ?? null,
     });
     // Revalidate so the OptimizationStatusBanner appears on the live page
     // (and any blog post backed by this editor) immediately.

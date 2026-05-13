@@ -33,6 +33,12 @@ export interface AiOptimizeRun {
   pr_number: number | null;
   branch_name: string | null;
   diff_summary: string | null;
+  vercel_project_id: string | null;
+  preview_url: string | null;
+  preview_content_score: number | null;
+  preview_word_count: number | null;
+  preview_scored_at: string | null;
+  preview_fetch_error: string | null;
   triggered_by_email: string | null;
   model_id: string | null;
   prompt: string | null;

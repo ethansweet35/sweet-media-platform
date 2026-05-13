@@ -53,8 +53,10 @@ export {
   type AutoOptimizeOptions,
   fetchAndScoreLivePage,
   loadLatestSnapshotIgnoreTtl,
+  scoreUrlAgainstEditor,
   type FetchAndScoreLivePageOptions,
   type TrackedPageLiveSnapshot,
+  type ScoreUrlResult,
   // DB helpers
   getAdminClient as getContentEditorAdminClient,
   loadEditor as loadContentEditor,

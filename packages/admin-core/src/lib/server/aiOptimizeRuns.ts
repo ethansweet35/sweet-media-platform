@@ -24,6 +24,7 @@ import { createClient, type SupabaseClient } from "@supabase/supabase-js";
 import { Agent, CursorAgentError } from "@cursor/sdk";
 import { ContentEditorError } from "./contentEditor/errors";
 import { loadEditor } from "./contentEditor/db";
+import { scoreUrlAgainstEditor } from "./contentEditor/livePageAnalysis";
 
 const DEFAULT_REPO_URL =
   process.env.AI_OPTIMIZE_REPO_URL?.trim() ||
@@ -51,6 +52,15 @@ export interface AiOptimizeRunRow {
   pr_number: number | null;
   branch_name: string | null;
   diff_summary: string | null;
+  /** Vercel project id for the brand this run targets — needed to look up the preview deployment. */
+  vercel_project_id: string | null;
+  /** READY Vercel preview URL for the agent's PR (populated after PR opens). */
+  preview_url: string | null;
+  /** Content score the preview earned against the editor's brief. */
+  preview_content_score: number | null;
+  preview_word_count: number | null;
+  preview_scored_at: string | null;
+  preview_fetch_error: string | null;
   triggered_by_email: string | null;
   model_id: string | null;
   prompt: string | null;
@@ -411,6 +421,15 @@ export interface TriggerAiOptimizeRunInput {
   customInstructions?: string;
   baseRef?: string;
   repoUrl?: string;
+  /**
+   * Vercel project id (e.g. "prj_OYpFeZsFIDT6uLMFMCfEOWcD43Gh") for the
+   * brand. When set, after the agent opens its PR we use the Vercel API
+   * to look up the READY preview deployment for that PR and store its
+   * URL on the run row so the admin can preview + score before merging.
+   * Pass via env var `AI_OPTIMIZE_VERCEL_PROJECT_ID` from each app's
+   * /optimize-pr route handler.
+   */
+  vercelProjectId?: string | null;
 }
 
 /**
@@ -462,6 +481,7 @@ export async function triggerAiOptimizeRun(
       triggered_by_email: input.triggeredByEmail ?? null,
       model_id: modelId,
       prompt,
+      vercel_project_id: input.vercelProjectId ?? null,
     })
     .select("*")
     .single();
@@ -637,7 +657,166 @@ export async function refreshAiOptimizeRunFromCursor(
     );
     return row;
   }
-  return data as AiOptimizeRunRow;
+  const refreshed = data as AiOptimizeRunRow;
+
+  // If we just flipped to pr_opened, kick off preview discovery + scoring
+  // as fire-and-forget. The next poll will surface preview_url + score.
+  if (
+    refreshed.status === "pr_opened" &&
+    refreshed.pr_number != null &&
+    refreshed.vercel_project_id &&
+    !refreshed.preview_url
+  ) {
+    void detectAndScorePreview(refreshed).catch((err) => {
+      console.warn(
+        `[ai_optimize_runs] preview detection failed for run ${id}:`,
+        err instanceof Error ? err.message : String(err),
+      );
+    });
+  }
+
+  return refreshed;
+}
+
+/* ────────────────────────────────────────────────────────────────────── */
+/*  Vercel preview detection + scoring                                    */
+/* ────────────────────────────────────────────────────────────────────── */
+
+interface VercelDeploymentLite {
+  uid: string;
+  url: string;
+  state: string;
+  meta?: { githubPrId?: string; githubCommitRef?: string };
+  created: number;
+}
+
+/**
+ * Look up the latest READY Vercel preview deployment for a given PR
+ * number on a given Vercel project. Returns the full preview URL (with
+ * https://) or null if nothing's ready yet.
+ *
+ * Uses VERCEL_TOKEN from env. Team id is optional.
+ */
+async function fetchVercelPreviewUrlForPr(opts: {
+  vercelProjectId: string;
+  prNumber: number;
+}): Promise<string | null> {
+  const token = process.env.VERCEL_TOKEN?.trim();
+  if (!token) {
+    console.warn("[ai_optimize_runs] VERCEL_TOKEN missing — can't fetch preview URL.");
+    return null;
+  }
+  const teamId = process.env.VERCEL_TEAM_ID?.trim() ?? null;
+
+  const params = new URLSearchParams({
+    projectId: opts.vercelProjectId,
+    limit: "10",
+    state: "READY",
+    target: "preview",
+  });
+  if (teamId) params.set("teamId", teamId);
+
+  const url = `https://api.vercel.com/v6/deployments?${params.toString()}`;
+  let json: { deployments?: VercelDeploymentLite[] };
+  try {
+    const res = await fetch(url, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    if (!res.ok) {
+      console.warn(`[ai_optimize_runs] Vercel list-deployments failed (${res.status})`);
+      return null;
+    }
+    json = (await res.json()) as { deployments?: VercelDeploymentLite[] };
+  } catch (err) {
+    console.warn("[ai_optimize_runs] Vercel API error:", err);
+    return null;
+  }
+
+  const wantPr = String(opts.prNumber);
+  const match = (json.deployments ?? []).find(
+    (d) => d.meta?.githubPrId === wantPr && d.state === "READY",
+  );
+  if (!match?.url) return null;
+  return match.url.startsWith("http") ? match.url : `https://${match.url}`;
+}
+
+/**
+ * After a PR is opened, find its Vercel preview URL, fetch the rewritten
+ * page's HTML from that preview, score it against the editor's brief,
+ * and persist the result on the run row. All steps are best-effort.
+ */
+async function detectAndScorePreview(run: AiOptimizeRunRow): Promise<void> {
+  if (!run.vercel_project_id || run.pr_number == null) return;
+
+  const previewBase = await fetchVercelPreviewUrlForPr({
+    vercelProjectId: run.vercel_project_id,
+    prNumber: run.pr_number,
+  });
+
+  const adm = getAdminClient();
+  if (!previewBase) {
+    // Don't error out — the preview may still be building. The next poll
+    // will retry.
+    return;
+  }
+
+  // Compose the full URL: preview base + the tracked page's route path.
+  let routePath: string | null = null;
+  if (run.tracked_page_id) {
+    const { data: page } = await adm
+      .from("tracked_pages")
+      .select("route_path")
+      .eq("id", run.tracked_page_id)
+      .maybeSingle();
+    routePath = (page as { route_path?: string } | null)?.route_path ?? null;
+  }
+  if (!routePath) {
+    // No tracked-page context — we can still store the preview base URL
+    // so the admin gets a clickable link.
+    await adm
+      .from("ai_optimize_runs")
+      .update({ preview_url: previewBase })
+      .eq("id", run.id);
+    return;
+  }
+  const fullPreviewUrl = `${previewBase.replace(/\/$/, "")}${routePath.startsWith("/") ? "" : "/"}${routePath}`;
+
+  // Score the preview against the editor's brief. We persist the score on
+  // the run row (not on tracked_page_live_snapshots) so the live-page
+  // dashboard keeps showing the production score, untouched.
+  if (!run.editor_id) {
+    await adm
+      .from("ai_optimize_runs")
+      .update({ preview_url: fullPreviewUrl })
+      .eq("id", run.id);
+    return;
+  }
+
+  try {
+    const result = await scoreUrlAgainstEditor({
+      url: fullPreviewUrl,
+      editorId: run.editor_id,
+    });
+    await adm
+      .from("ai_optimize_runs")
+      .update({
+        preview_url: fullPreviewUrl,
+        preview_content_score: result.content_score,
+        preview_word_count: result.word_count,
+        preview_scored_at: new Date().toISOString(),
+        preview_fetch_error: result.fetch_error,
+      })
+      .eq("id", run.id);
+  } catch (err) {
+    const message = err instanceof Error ? err.message : String(err);
+    await adm
+      .from("ai_optimize_runs")
+      .update({
+        preview_url: fullPreviewUrl,
+        preview_fetch_error: message,
+      })
+      .eq("id", run.id);
+  }
 }
 
 /**

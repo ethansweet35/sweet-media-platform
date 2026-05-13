@@ -52,8 +52,10 @@ export {
 export {
   fetchAndScoreLivePage,
   loadLatestSnapshotIgnoreTtl,
+  scoreUrlAgainstEditor,
   type FetchAndScoreLivePageOptions,
   type TrackedPageLiveSnapshot,
+  type ScoreUrlResult,
 } from "./livePageAnalysis";
 
 export {

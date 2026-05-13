@@ -427,6 +427,166 @@ async function persistSnapshot(
 }
 
 /**
+ * Score an arbitrary URL against an editor's brief WITHOUT writing to
+ * `tracked_page_live_snapshots`. Used by ai_optimize_runs to score the
+ * Vercel preview deployment of an in-flight PR so admins see the
+ * projected content score before merging.
+ *
+ * Returns `null` for word_count + content_score when the page fetch
+ * fails — the caller decides whether to surface the error or treat it
+ * as transient.
+ */
+export interface ScoreUrlResult {
+  content_score: number | null;
+  coverage_score: number | null;
+  frequency_score: number | null;
+  placement_score: number | null;
+  seo_score: number | null;
+  eeat_score: number | null;
+  word_count: number | null;
+  status_code: number | null;
+  fetch_error: string | null;
+}
+
+export async function scoreUrlAgainstEditor(opts: {
+  url: string;
+  editorId: string;
+}): Promise<ScoreUrlResult> {
+  const client = getAdminClient();
+  const editor = await loadEditor(client, opts.editorId);
+  if (!editor) {
+    throw new ContentEditorError("Editor not found.", { source: "api", status: 404 });
+  }
+
+  let html = "";
+  let statusCode: number | null = null;
+  let fetchError: string | null = null;
+  try {
+    const ctrl = new AbortController();
+    const timer = setTimeout(() => ctrl.abort(), FETCH_TIMEOUT_MS);
+    const res = await fetch(opts.url, {
+      method: "GET",
+      headers: {
+        "User-Agent": FETCH_USER_AGENT,
+        Accept: "text/html,application/xhtml+xml",
+      },
+      signal: ctrl.signal,
+      redirect: "follow",
+      cache: "no-store",
+    });
+    clearTimeout(timer);
+    statusCode = res.status;
+    if (!res.ok) {
+      fetchError = `HTTP ${res.status} fetching ${opts.url}`;
+    } else {
+      html = await res.text();
+    }
+  } catch (err) {
+    fetchError = err instanceof Error ? err.message : String(err);
+  }
+
+  if (!html.trim()) {
+    return {
+      content_score: null,
+      coverage_score: null,
+      frequency_score: null,
+      placement_score: null,
+      seo_score: null,
+      eeat_score: null,
+      word_count: null,
+      status_code: statusCode,
+      fetch_error: fetchError ?? "Empty response body.",
+    };
+  }
+
+  const titleTag = extractTitleTag(html);
+  const metaDescription = extractMetaDescription(html);
+  const h1Text = extractH1(html);
+  const { plaintext, headings } = stripToPlaintext(html);
+  const wordCount = plaintext ? plaintext.split(/\s+/).filter(Boolean).length : 0;
+
+  const [termsRes, questionsRes] = await Promise.all([
+    client
+      .from("content_editor_terms")
+      .select(
+        "term, relevance_score, min_recommended_uses, max_recommended_uses, is_primary_keyword, user_included, user_blacklisted",
+      )
+      .eq("editor_id", editor.id),
+    client
+      .from("content_editor_questions")
+      .select("id, question, user_dismissed")
+      .eq("editor_id", editor.id),
+  ]);
+
+  const terms: ScoringTerm[] = ((termsRes.data ?? []) as ScoringTerm[]).map((t) => ({
+    term: t.term,
+    relevance_score: t.relevance_score,
+    min_recommended_uses: t.min_recommended_uses,
+    max_recommended_uses: t.max_recommended_uses,
+    is_primary_keyword: t.is_primary_keyword,
+    user_included: t.user_included,
+    user_blacklisted: t.user_blacklisted,
+  }));
+  const questions: ScoringQuestion[] = ((questionsRes.data ?? []) as ScoringQuestion[]).map(
+    (q) => ({
+      id: q.id,
+      question: q.question,
+      user_dismissed: q.user_dismissed,
+    }),
+  );
+
+  let structuralTargets: StructuralTargets | undefined;
+  if (
+    editor.recommended_word_count_min != null &&
+    editor.recommended_word_count_max != null &&
+    editor.recommended_h2_min != null &&
+    editor.recommended_h2_max != null
+  ) {
+    structuralTargets = {
+      word_count_min: editor.recommended_word_count_min,
+      word_count_max: editor.recommended_word_count_max,
+      word_count_target: editor.recommended_word_count_target ?? undefined,
+      h2_min: editor.recommended_h2_min,
+      h2_max: editor.recommended_h2_max,
+      h3_min: editor.recommended_h3_min ?? undefined,
+      h3_max: editor.recommended_h3_max ?? undefined,
+      paragraph_min: editor.recommended_paragraph_count_min ?? undefined,
+      paragraph_max: editor.recommended_paragraph_count_max ?? undefined,
+      image_min: editor.recommended_image_min ?? undefined,
+      image_max: editor.recommended_image_max ?? undefined,
+    };
+  }
+
+  const headingTexts = headings.map((h) => h.text);
+  const doc: DraftDocument = {
+    body: plaintext,
+    titleTag,
+    h1Text,
+    metaDescription,
+    earlyHeadings: headingTexts.slice(0, 3),
+    allHeadings: headingTexts,
+    bodyMarkdown: null,
+  };
+
+  const breakdown = scoreDocument(doc, terms, editor.primary_keyword, {
+    structuralTargets,
+    questions,
+  });
+
+  return {
+    content_score: breakdown.content_score ?? null,
+    coverage_score: breakdown.coverage_score ?? null,
+    frequency_score: breakdown.frequency_score ?? null,
+    placement_score: breakdown.placement_score ?? null,
+    seo_score: breakdown.seo_score ?? null,
+    eeat_score: breakdown.eeat_score ?? null,
+    word_count: wordCount,
+    status_code: statusCode,
+    fetch_error: null,
+  };
+}
+
+/**
  * Convenience: load the most recent snapshot for the editor regardless of
  * TTL (used by the brief page to render the last-known state immediately
  * while a fresh fetch runs in the background).
