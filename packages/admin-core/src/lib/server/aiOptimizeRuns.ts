@@ -340,12 +340,79 @@ function buildAgentPrompt(opts: {
 1. **Locate the page source.** Start with \`${page.app_dir}/src/app${page.route_path === "/" ? "/page.tsx" : page.route_path + "/page.tsx"}\`. Follow the imports to find the view file, the template, the brand sections, and the data file that drives the template (if any).
 2. **Read the brand design system.** Open every relevant file in \`.cursor/rules/*.mdc\` — especially the brand-specific design system rule for this app. Match the tone, components, Tailwind tokens, icon set, and section rhythm documented there.
 3. **Read shared components.** Before adding any new section, search \`${page.app_dir}/src/components/sections/\`, \`${page.app_dir}/src/components/templates/\`, and the brand's view files for existing reusable section components. Reuse them. Do NOT invent generic Tailwind layouts when a brand component already exists.
-4. **Plan your edits.** Identify which existing sections should be tightened (phrase swaps, sentence additions) and which new sections to add. New sections must look like they belong — same component patterns, same visual rhythm.
-5. **Make the edits.** Edit \`.tsx\` files (and the corresponding data files when a template uses one). Use existing components. Do not introduce new dependencies. Do not modify shared template internals for one-off needs — extend the template's props if necessary, but prefer working through existing props.
-6. **Verify before opening the PR.**
+4. **Inventory the current page's slot lengths.** This step is mandatory. Before writing any edit, run \`wc -w\` (or count manually) on the current text in each slot of the data file: hero headline, hero body, each H2, each section intro paragraph, each card body, each FAQ answer. Write this inventory out as a comment block in your scratch notes. You will use it in step 5.
+5. **Plan your edits with the LAYOUT BUDGET rules below.** Decide which existing sections to tighten with phrase swaps (NOT to make longer) and which NEW sections to add to host the brief's missing content. New sections must look like they belong — same component patterns, same visual rhythm.
+6. **Make the edits.** Edit \`.tsx\` files (and the corresponding data files when a template uses one). Use existing components. Do not introduce new dependencies. Do not modify shared template internals for one-off needs — extend the template's props if necessary, but prefer working through existing props.
+7. **Verify before opening the PR.**
    - Run \`pnpm --filter @sweetmedia/${page.app_dir.replace("apps/", "")} typecheck\` and ensure it passes.
    - Run \`pnpm --filter @sweetmedia/${page.app_dir.replace("apps/", "")} lint\` (if defined).
    - Quickly grep for the primary keyword + the highest-priority terms in your edited files to confirm coverage.
+   - Re-count the word count of EVERY slot you edited and verify it satisfies the LAYOUT BUDGET below. If any slot is over budget, trim before opening the PR.
+
+# LAYOUT BUDGET — non-negotiable
+
+This is the single most important constraint in this entire prompt. The brand's typography sizes were designed for SHORT copy in headline slots and TIGHT copy in section intros. Long copy in the wrong slot literally breaks the visual design (text overflows, hero gets crushed, sections look bloated). If you only follow one rule from this prompt, follow this one.
+
+## Hard length budgets per slot
+
+| Slot | Max words | Notes |
+|---|---|---|
+| Hero H1 / headline | **12** | Punchy. One clear thesis. Not a paragraph. |
+| Hero italic emphasis word(s) | **2** | One word ideal, two max. |
+| Hero body / subhead | **35** | Two sentences max. |
+| Eyebrow / kicker above H2 | **8** | Phrase, not sentence. |
+| Section H2 heading | **8** | Phrase, not sentence. |
+| Section intro paragraph (under an H2) | **80** | Tighten existing prose — don't pad it. |
+| Card heading (in a grid) | **6** | Short label. |
+| Card body (in a grid) | **35** | Two short sentences. |
+| Stat label | **4** | Two-word ideal. |
+| FAQ question | **15** | Phrased as a real user question. |
+| FAQ answer | **80** | Aim for 60. Quality over comprehensiveness. |
+| Process step title | **6** | |
+| Process step body | **40** | |
+
+If a slot is currently below its budget, you may extend it — but only up to **1.5× the current word count, OR the slot budget above, whichever is lower**. Never exceed the budget.
+
+## "Don't bloat — branch" rule
+
+When the brief requires more depth than any single existing slot can hold:
+
+1. **Do NOT** stuff more sentences into the hero, an existing intro paragraph, or a card body.
+2. **Do** add a NEW H2 section AFTER the existing ones (and before the FAQ / closing CTA), using a brand-native section component that already exists. New sections come with their own intro paragraph budget (≤ 80 words), and let you stage the additional content cleanly.
+3. **Do** add new FAQ entries — they're the cheapest place to add depth without breaking design. FAQ accordions tolerate length variance well.
+4. **Do** add new bullet items to existing checklist / differentiator grids (each bullet ≤ 12 words).
+
+## Section comparison check (mandatory)
+
+Before opening the PR, for EVERY section you edited, fill out this table in the PR description:
+
+| Slot | Was (words) | Now (words) | Budget | OK? |
+|---|---|---|---|---|
+| Hero H1 | 5 | 11 | 12 | ✅ |
+| Hero body | 18 | 30 | 35 | ✅ |
+| ... | | | | |
+
+If any "OK?" cell shows ❌, fix it before opening the PR.
+
+## Anti-pattern — DO NOT DO THIS
+
+The single failure mode that breaks every layout: turning the hero into a paragraph and turning each section intro into an essay. Specifically:
+
+- ❌ Hero H1 with 45 words explaining the whole service
+- ❌ Section H2 with 15 words trying to fit a keyword phrase verbatim
+- ❌ Section intro paragraph that runs 200+ words because "the brief needs this content somewhere"
+- ❌ Card body with 100+ words causing the grid to grow uneven
+- ❌ Putting a primary-keyword variant into the hero by extending the headline (instead, put it in the meta description, the H2 of a new section, or an early section intro)
+
+## Where to put long-form content
+
+The brief's facts, questions, and term coverage almost always belong in **new H2 sections + the FAQ accordion**, not in the hero or existing intros. Distribute coverage like this:
+
+- **Hero**: keep it short and punchy. Preserve the brand voice. The primary keyword can appear naturally but the hero is not where coverage happens.
+- **Existing section intros**: phrase swaps only. Tighten and swap, don't extend.
+- **New H2 sections you add**: this is where ~70% of new keyword + fact coverage should live.
+- **FAQ accordion**: this is where ~25% of new question + fact coverage should live.
+- **New bullet items in checklist/grid sections**: ~5%.
 
 # Content brief (mandatory coverage)
 
@@ -398,12 +465,13 @@ When you finish, the PR title should be:
 
 > AI page optimization: \`${page.route_path}\` (${brief.primary_keyword})
 
-The PR description should include:
+The PR description must include:
 
-- Which existing sections you tightened
-- Which new sections you added (and which brand components you used)
-- A checklist showing which brief terms / questions / facts are now covered
-- The typecheck + lint output (must be green)
+- **Layout-budget audit** — a markdown table with one row per slot you edited, showing was / now / budget / OK. The PR is NOT ready until every row is ✅. (See "Section comparison check" rule above.)
+- Which existing sections you tightened (phrase swaps only — no length expansion past budget)
+- Which new sections you added (with the brand component name you used for each, e.g. "added a new \`<DifferentiatorCards>\`-style section called …")
+- A checklist showing which brief terms / questions / facts are now covered, and where each appears (which section / FAQ entry).
+- The typecheck + lint output (must be green).
 
 ${opts.customInstructions ? `\n# Additional instructions from the operator\n\n${opts.customInstructions}\n` : ""}`;
 }
