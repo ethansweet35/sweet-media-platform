@@ -59,6 +59,17 @@ export default function AdminContentEditorPage() {
   const [keyword, setKeyword] = useState("");
   const [submitting, setSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
+  const [retryingId, setRetryingId] = useState<string | null>(null);
+
+  const handleRetry = async (id: string) => {
+    setRetryingId(id);
+    try {
+      await fetch(`/api/admin/content-editor/${id}/run`, { method: "POST" });
+      await refresh();
+    } finally {
+      setRetryingId(null);
+    }
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -236,6 +247,21 @@ export default function AdminContentEditorPage() {
                         </td>
                         <td className="px-3 py-3 text-right">
                           <div className="inline-flex items-center gap-1.5">
+                            {row.status === "failed" ? (
+                              <button
+                                type="button"
+                                onClick={() => void handleRetry(row.id)}
+                                disabled={retryingId === row.id}
+                                title="Retry from last failed phase"
+                                className="px-2.5 py-1 rounded-md text-[10px] font-bold uppercase tracking-[0.08em] text-white bg-amber-600 hover:bg-amber-700 disabled:opacity-50 cursor-pointer transition-colors"
+                              >
+                                {retryingId === row.id ? (
+                                  <i className="ri-loader-4-line animate-spin" />
+                                ) : (
+                                  <><i className="ri-refresh-line mr-0.5" />Retry</>
+                                )}
+                              </button>
+                            ) : null}
                             <Link
                               href={`/admin/content-editor/${row.id}`}
                               className="px-2.5 py-1 rounded-md text-[10px] font-bold uppercase tracking-[0.08em] text-white cursor-pointer hover:opacity-90 transition-opacity"
