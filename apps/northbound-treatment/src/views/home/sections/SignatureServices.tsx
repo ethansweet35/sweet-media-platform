@@ -169,9 +169,10 @@ export default function SignatureServices() {
                 alt={tile.alt}
                 fill
                 sizes="(min-width: 1024px) 50vw, 100vw"
-                className="object-cover opacity-70 grayscale-0 transition-transform duration-700 group-hover:scale-105"
+                className="object-cover opacity-85 grayscale-0 transition-transform duration-700 group-hover:scale-105"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-navy via-navy/40 to-transparent"></div>
+              {/* Gradient only on lower ~55% so photography stays visible; lighter stops for readability */}
+              <div className="pointer-events-none absolute inset-x-0 bottom-0 h-[55%] bg-gradient-to-t from-navy/75 via-navy/20 to-transparent"></div>
               <div className="absolute bottom-0 left-0 w-full p-8">
                 <div className="mb-3 flex items-center gap-4">
                   <span className={`h-[1px] w-8 ${tile.badgeBar}`}></span>
