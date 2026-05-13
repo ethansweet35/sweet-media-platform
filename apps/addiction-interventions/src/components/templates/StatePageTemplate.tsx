@@ -115,6 +115,18 @@ export interface StatePageConfig {
   urgencyHeadlineAfter?: string;
 
   regionsSupportingText?: string;
+
+  /**
+   * Optional second H2 section rendered between the Recovery Band and FAQs.
+   * Uses white background to maintain visual rhythm after the dark Recovery Band.
+   */
+  evidenceBasedSection?: {
+    eyebrow: string;
+    headline: string;
+    italicWord?: string;
+    body: string;
+    cards: { icon: string; title: string; body: string }[];
+  };
 }
 
 interface StatePageTemplateProps {
@@ -131,12 +143,14 @@ interface StatePageTemplateProps {
 interface ExtraCardsSectionProps {
   section: NonNullable<StatePageConfig["extraCardsSection"]>;
   container: string;
+  variant?: "cream" | "white";
 }
 
-function ExtraCardsSection({ section, container }: ExtraCardsSectionProps) {
+function ExtraCardsSection({ section, container, variant = "cream" }: ExtraCardsSectionProps) {
+  const bg = variant === "white" ? "bg-white" : "bg-[#F5F3E7]";
   const parts = section.italicWord ? section.headline.split(section.italicWord) : null;
   return (
-    <section className="bg-[#F5F3E7] py-20 md:py-24">
+    <section className={`${bg} py-20 md:py-24`}>
       <div className={container}>
         <div className="mb-12 max-w-3xl">
           <p className="brand-eyebrow mb-3 text-[#8FAC87]">{section.eyebrow}</p>
@@ -618,6 +632,11 @@ export default function StatePageTemplate({ config, trackedPagePath }: StatePage
             </div>
           </div>
         </section>
+      )}
+
+      {/* ── EVIDENCE-BASED SECTION (state-specific, optional) ───────────── */}
+      {config.evidenceBasedSection && (
+        <ExtraCardsSection section={config.evidenceBasedSection} container={CONTAINER} variant="white" />
       )}
 
       {/* ── FAQs ────────────────────────────────────────────────────────── */}
