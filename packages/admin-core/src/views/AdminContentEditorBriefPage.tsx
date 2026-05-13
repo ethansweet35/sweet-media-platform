@@ -100,12 +100,27 @@ function ScoreRing({ score, label, size = 80 }: { score: number; label?: string;
           style={{ transition: "stroke-dashoffset 0.4s ease, stroke 0.4s ease" }}
         />
       </svg>
-      <div className="absolute inset-0 flex flex-col items-center justify-center">
-        <span className="font-bold leading-none" style={{ color, fontSize: Math.round(size * 0.175) }}>
+      <div className="absolute inset-0 flex flex-col items-center justify-center leading-none">
+        <span
+          className="font-bold tracking-tight"
+          style={{
+            color,
+            fontSize: Math.round(size * (label ? 0.26 : 0.32)),
+            lineHeight: 1,
+          }}
+        >
           {Math.round(score)}
         </span>
         {label ? (
-          <span className="text-[9px] uppercase tracking-[0.15em] text-neutral-400 font-bold mt-0.5">
+          <span
+            className="uppercase text-neutral-400 font-semibold"
+            style={{
+              fontSize: Math.max(6, Math.round(size * 0.08)),
+              letterSpacing: "0.08em",
+              lineHeight: 1,
+              marginTop: Math.round(size * 0.04),
+            }}
+          >
             {label}
           </span>
         ) : null}

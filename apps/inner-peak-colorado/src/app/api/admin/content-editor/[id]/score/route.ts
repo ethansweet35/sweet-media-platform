@@ -14,7 +14,9 @@ interface ScoreRequest {
   metaDescription?: string | null;
   h1Text?: string | null;
   bodyPlaintext?: string;
+  bodyMarkdown?: string | null;
   earlyHeadings?: string[];
+  allHeadings?: string[];
   includeFactCoverage?: boolean;
   persist?: boolean;
 }
@@ -44,7 +46,9 @@ export async function POST(request: Request, ctx: RouteContext) {
       metaDescription: body.metaDescription,
       h1Text: body.h1Text,
       bodyPlaintext,
+      bodyMarkdown: body.bodyMarkdown ?? null,
       earlyHeadings: body.earlyHeadings,
+      allHeadings: body.allHeadings,
       includeFactCoverage: body.includeFactCoverage === true,
       persist: body.persist === true,
     });
