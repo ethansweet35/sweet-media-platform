@@ -189,7 +189,7 @@ export default function ContentEditorCell({
   const displayScore = currentScore ?? targetScore;
 
   const statusTitle = hasEditor && editor
-    ? `Score: ${currentScore != null ? Math.round(currentScore) : "—"} / Target: ${targetScore ?? "—"} · ${STATUS_LABELS[editor.status]} · Updated ${relativeAge(editor.updated_at)}`
+    ? `Score: ${currentScore != null ? Math.round(currentScore) : "—"} / Target: ${targetScore != null ? Math.round(targetScore) : "—"} · ${STATUS_LABELS[editor.status]} · Updated ${relativeAge(editor.updated_at)}`
     : noKeyword
       ? "Set a primary keyword to generate a content editor"
       : "Generate a Content Editor brief for this keyword";

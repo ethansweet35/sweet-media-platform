@@ -285,11 +285,11 @@ export default function AdminContentEditorPage() {
                                 {Math.round(row.current_content_score)}
                               </span>
                               <span className="text-neutral-300">/</span>
-                              <span className="text-neutral-400">{row.target_score ?? "—"}</span>
+                              <span className="text-neutral-400">{row.target_score != null ? Math.round(row.target_score) : "—"}</span>
                             </span>
                           ) : (
                             <span className={`font-mono text-[13px] font-semibold ${scoreClass(row.target_score)}`}>
-                              {row.target_score != null ? <>— <span className="text-neutral-400 text-[11px]">/ {row.target_score}</span></> : "—"}
+                              {row.target_score != null ? <>— <span className="text-neutral-400 text-[11px]">/ {Math.round(row.target_score)}</span></> : "—"}
                             </span>
                           )}
                         </td>
