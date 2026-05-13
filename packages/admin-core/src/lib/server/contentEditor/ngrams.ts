@@ -44,18 +44,20 @@ export interface NgramTerm {
 }
 
 export interface NgramExtractionOptions {
-  /** Minimum fraction of docs that must contain a term. Default 0.5. */
+  /**
+   * Minimum fraction of docs that must contain a term. Default 0.25 —
+   * Surfer-style, surface anything 3+ of top 10 competitors agree on.
+   */
   minDocFreq?: number;
-  /** Cap result list at this many terms. Default 200. */
+  /** Cap result list at this many terms. Default 300. */
   limit?: number;
-  /** Minimum total occurrences across corpus. Default 5. */
+  /** Minimum total occurrences across corpus. Default 3. */
   minTotalFreq?: number;
   /**
    * Minimum average frequency (in docs that contain it) required for a
    * unigram to be kept. Multi-word phrases use minTotalFreq only.
-   * Default 5 — i.e. a single word must be used heavily and consistently
-   * to qualify (catches "treatment", "therapy") and filters generic words
-   * ("disorder", "individuals", "behavioral").
+   * Default 2 — Surfer keeps unigrams used as little as 2x/doc; the
+   * downstream AI curation pass does the topical pruning.
    */
   unigramMinAvgFreq?: number;
 }
@@ -94,74 +96,40 @@ function extractTermsFromTokens(tokens: string[]): Map<string, number> {
 }
 
 /**
- * Generic single-word nouns that pass tf-idf but aren't actionable SEO
- * terms on their own. These almost always appear inside more useful
- * multi-word phrases ("mental health", "gambling disorder", "treatment
- * plan", "behavioral therapy") and the multi-word form should win.
+ * Truly noise unigrams. Kept deliberately small.
  *
- * Surfer SEO's term list is ~95% multi-word for the same reason.
+ * Surfer surfaces many "generic" words ("support", "recovery", "family",
+ * "urge", "stress", "behavior") because in topical context they ARE
+ * meaningful signals. The AI curation pass downstream of n-gram extraction
+ * does the topical pruning; this list only blocks tokens that are noise
+ * regardless of topic.
  */
 const GENERIC_UNIGRAM_BLOCKLIST = new Set<string>([
-  // Generic descriptors
-  "individuals", "individual", "people", "person", "patient", "patients",
-  "client", "clients", "family", "families", "loved", "ones",
-  "specialist", "specialists", "professional", "professionals",
-  // Generic clinical descriptors (only useful as part of phrases)
-  "disorder", "disorders", "condition", "conditions", "issue", "issues",
-  "problem", "problems", "symptom", "symptoms", "behavior", "behaviors",
-  "behavioral", "emotional", "psychological", "mental", "physical",
-  "medical", "clinical", "health", "wellness",
-  // Process/program filler
-  "process", "processes", "program", "programs", "plan", "plans",
-  "option", "options", "service", "services", "approach", "approaches",
-  "method", "methods", "step", "steps", "stage", "stages",
-  "phase", "phases", "level", "levels", "type", "types", "kind", "kinds",
-  // Generic outcomes
-  "support", "help", "care", "need", "needs", "goal", "goals",
-  "result", "results", "outcome", "outcomes", "benefit", "benefits",
-  // Soft narrative filler
-  "way", "ways", "thing", "things", "time", "times", "year", "years",
-  "day", "days", "week", "weeks", "month", "months",
-  "life", "lives", "world", "experience", "experiences",
-  // Generic verbs that survive tokenization
-  "include", "includes", "including", "included", "provide", "provides",
-  "providing", "provided", "offer", "offers", "offering", "offered",
-  "ensure", "ensures", "ensuring", "ensured",
-  "begin", "begins", "beginning", "began", "started", "starts",
-  "find", "finds", "found", "finding",
-  "work", "works", "working", "worked",
-  "feel", "feels", "felt", "feeling", "feelings",
-  "show", "shows", "shown", "showing",
-  "take", "takes", "taken", "taking", "took",
-  "give", "gives", "given", "giving", "gave",
+  // Pronouns / connectors that snuck past stopword removal
+  "anyone", "someone", "everyone", "nothing", "something", "anything",
+  // Vague quantifiers / fillers
+  "lot", "lots", "bit", "bits", "much", "more", "less", "fewer",
+  "various", "several", "many", "few",
+  // Vague time / sequence
+  "today", "tomorrow", "yesterday", "soon", "later", "earlier",
+  "always", "never", "often", "sometimes", "usually",
+  // Generic positive / negative modifiers
+  "well", "good", "best", "better", "great", "right", "wrong", "bad",
+  "important", "different", "similar", "same",
+  // Generic verbs of state / speech that add no topical info
+  "say", "says", "said", "saying", "tell", "tells", "told", "telling",
+  "think", "thinks", "thought", "thinking",
+  "make", "makes", "made", "making",
+  "take", "takes", "took", "taking", "taken",
+  "give", "gives", "gave", "giving", "given",
+  "show", "shows", "showed", "showing", "shown",
   "look", "looks", "looked", "looking",
   "come", "comes", "came", "coming",
   "follow", "follows", "followed", "following",
-  "change", "changes", "changed", "changing",
-  "help", "helped", "helping",
-  "place", "placed", "places",
-  "part", "parts",
-  "put", "puts", "putting",
-  "call", "calls", "called", "calling",
-  "turn", "turns", "turned", "turning",
-  "keep", "keeps", "kept", "keeping",
-  "let", "lets", "letting",
-  "try", "tries", "tried", "trying",
-  "ask", "asks", "asked", "asking",
+  "include", "includes", "including", "included",
+  "ensure", "ensures", "ensuring", "ensured",
   "seem", "seems", "seemed", "seeming",
-  "leave", "leaves", "left", "leaving",
-  "move", "moves", "moved", "moving",
-  "live", "lives", "lived", "living",
-  "lead", "leads", "led", "leading",
-  "build", "builds", "built", "building",
-  // Connectors / fillers
-  "important", "different", "various", "many", "several",
-  "may", "might", "must", "often", "always", "never",
-  "well", "good", "best", "better", "great", "right",
-  "new", "old", "first", "last", "long", "short",
-  "high", "low", "large", "small", "real", "true",
-  "able", "around", "every", "even", "still", "just",
-  "rather", "quite", "simply", "already", "though",
+  "appear", "appears", "appeared", "appearing",
 ]);
 
 /**
@@ -262,10 +230,10 @@ export function extractNgrams(
   docs: string[],
   opts: NgramExtractionOptions = {},
 ): NgramTerm[] {
-  const minDocFreq = opts.minDocFreq ?? 0.5;
-  const minTotalFreq = opts.minTotalFreq ?? 5;
-  const unigramMinAvgFreq = opts.unigramMinAvgFreq ?? 5;
-  const limit = opts.limit ?? 200;
+  const minDocFreq = opts.minDocFreq ?? 0.25;
+  const minTotalFreq = opts.minTotalFreq ?? 3;
+  const unigramMinAvgFreq = opts.unigramMinAvgFreq ?? 2;
+  const limit = opts.limit ?? 300;
 
   // Filter to non-empty docs.
   const corpus = docs.filter((d): d is string => typeof d === "string" && d.trim().length > 0);

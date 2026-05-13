@@ -70,7 +70,7 @@ const NLP_CONCURRENCY = 5;
 const FACT_EXTRACTION_CONCURRENCY = 4;
 const SERP_CACHE_TTL_HOURS = 24;
 const MIN_UNIQUE_DOMAINS_REQUIRED = 3;
-const TERMS_LIMIT = 100;
+const TERMS_LIMIT = 150;
 const FACT_DEDUP_SIMILARITY_THRESHOLD = 0.85;
 const TARGET_FACT_COUNT = 25;
 
@@ -401,8 +401,15 @@ async function phase3_nlpAndNgrams(
   }
 
   // Run TF-IDF n-gram extraction across all docs.
+  // Lower thresholds → broader Surfer-style candidate pool; AI curation
+  // downstream does the topical pruning.
   const docTexts = competitors.map((c) => c.cleaned_text ?? "");
-  const ngrams = extractNgrams(docTexts, { minDocFreq: 0.4, limit: 250 });
+  const ngrams = extractNgrams(docTexts, {
+    minDocFreq: 0.25,
+    minTotalFreq: 3,
+    unigramMinAvgFreq: 2,
+    limit: 300,
+  });
 
   // Merge entities + n-grams. Use lowercase key for dedup.
   const merged = mergeEntitiesAndNgrams(allEntities, ngrams, competitors.length);
@@ -441,10 +448,10 @@ async function phase3_nlpAndNgrams(
   } => {
     const scale = (targetWordCount / Math.max(1, avgWordCount));
     const minUses = Math.max(1, Math.round(m.avgFreq * scale));
-    // Cap maxFreq at 2.5× avgFreq to prevent a single high-volume outlier
-    // page from exploding the recommended range (e.g. "gambling /63–289"
-    // when most competitors use it ~63 times — Surfer gives "56–76").
-    const cappedMaxFreq = Math.min(m.maxFreq, Math.ceil(m.avgFreq * 2.5));
+    // Cap maxFreq at 4× avgFreq to prevent extreme outlier pages from
+    // exploding the range while still allowing Surfer-style spread
+    // (e.g. "treatment 39–114" — ~3× avg).
+    const cappedMaxFreq = Math.min(m.maxFreq, Math.ceil(m.avgFreq * 4));
     const maxUses = Math.max(minUses + 1, Math.round(cappedMaxFreq * scale));
     const targetUses = Math.round((minUses + maxUses) / 2);
 
@@ -567,18 +574,28 @@ async function curateTermsWithAI(
   candidates: MergedTerm[],
   competitorHeadings: Array<{ text: string }>,
 ): Promise<{ curated: MergedTerm[]; added: string[]; cost_usd: number }> {
-  const topN = candidates.slice(0, 120);
+  // Review a large pool — Surfer-style breadth.
+  const topN = candidates.slice(0, 200);
   const headingSample = competitorHeadings
-    .slice(0, 30)
+    .slice(0, 40)
     .map((h) => h.text)
     .filter(Boolean)
-    .join(", ");
+    .join(" | ");
 
-  const termList = topN.map((c, i) => `${i + 1}. ${c.term}`).join("\n");
+  // Include coverage + avg frequency so the model has the same competitor
+  // signals Surfer uses, not just term strings.
+  const termList = topN
+    .map((c, i) => {
+      const cov = Math.round(c.coverage * 100);
+      return `${i + 1}. ${c.term} (in ${cov}% of competitors, avg ${c.avgFreq.toFixed(1)}x/page)`;
+    })
+    .join("\n");
 
   const systemPrompt =
-    "You are an expert SEO content strategist specializing in topical authority. " +
-    "Your job is to curate term lists that will help a page comprehensively cover a topic. " +
+    "You are an expert SEO content strategist analyzing competitor-validated terms (Surfer-style). " +
+    "Be PERMISSIVE: keep any term that real top-ranking competitor pages consistently use, " +
+    "because that's evidence of what comprehensive coverage of the topic actually looks like. " +
+    "Only drop terms that are pure noise (junk text, malformed fragments, or completely off-topic). " +
     "Always respond with only a valid JSON object — no markdown, no commentary.";
 
   const userPrompt =
@@ -587,20 +604,24 @@ async function curateTermsWithAI(
       ? `Competitor headings sample: ${headingSample}\n\n`
       : "") +
     `Below are ${topN.length} candidate terms extracted from the top-ranking competitor pages ` +
-    `using TF-IDF and Google NLP. Curate this list.\n\n` +
-    `KEEP a term if it:\n` +
-    `- Represents a specific named concept, treatment, method, therapeutic approach, or clinical term\n` +
-    `- Is something a comprehensive, authoritative article on "${primaryKeyword}" must explicitly discuss\n` +
-    `- Is a meaningful multi-word phrase or high-value domain-specific unigram\n\n` +
-    `DROP a term if it:\n` +
-    `- Is a generic or filler word that would appear on any page (regardless of topic)\n` +
-    `- Is a common verb, adjective, or connector that adds no topical specificity\n` +
-    `- Doesn't uniquely identify a subtopic or concept\n\n` +
-    `ADD up to 10 terms: important topical concepts for "${primaryKeyword}" that are ` +
-    `clearly missing from the candidate list. Prefer specific named methods, clinical terms, ` +
-    `resources, or subtopics — not generic words.\n\n` +
+    `using TF-IDF and Google NLP. Each shows the share of competitors that use it and average ` +
+    `frequency per page.\n\n` +
+    `KEEP a term if ANY of these are true:\n` +
+    `- It's a specific clinical, technical, or named concept (treatments, methods, conditions, organizations, resources)\n` +
+    `- It's a multi-word phrase competitors agree on (even if it sounds generic in isolation)\n` +
+    `- It's a unigram with topical relevance to "${primaryKeyword}" — even commonly-used words ` +
+    `like "support", "recovery", "family", "behavior", "urge", "stress" if they recur in this topic\n` +
+    `- It appears in ≥40% of competitors OR is used frequently (≥3x average) on the pages where it does appear\n\n` +
+    `DROP a term ONLY if:\n` +
+    `- It is text encoding noise or a malformed fragment\n` +
+    `- It is wholly unrelated to the topic\n` +
+    `- It is a navigation/UI artifact ("subscribe", "newsletter", "cookies") that escaped filtering\n\n` +
+    `Default to KEEP when uncertain — competitors' consistent usage is itself a signal.\n\n` +
+    `ADD up to 20 terms: important topical concepts for "${primaryKeyword}" that are clearly ` +
+    `missing from the candidate list. Examples: specific therapy modalities, helpline names, ` +
+    `industry-standard methods, clinical assessments, key organizations. Prefer specific multi-word phrases.\n\n` +
     `Candidate terms:\n${termList}\n\n` +
-    `Respond ONLY with this JSON:\n` +
+    `Respond ONLY with this JSON (no preamble):\n` +
     `{"keep":["term1","term2",...],"add":["new_term1","new_term2",...]}`;
 
   try {
@@ -608,7 +629,7 @@ async function curateTermsWithAI(
       model: "haiku",
       systemPrompt,
       userPrompt,
-      maxTokens: 1500,
+      maxTokens: 3000,
       temperature: 0.1,
       expectJson: true,
     });
@@ -616,19 +637,19 @@ async function curateTermsWithAI(
     const { keep, add } = result.data.data;
     const keepSet = new Set((keep ?? []).map((t: string) => t.toLowerCase().trim()));
 
-    // Filter candidates: keep those the AI approved + always keep primary kw.
+    // Filter reviewed candidates by AI keep list; always preserve primary kw.
     const pkLower = primaryKeyword.toLowerCase();
     const curated = topN.filter(
       (c) => keepSet.has(c.term.toLowerCase()) || c.term.toLowerCase() === pkLower,
     );
 
-    // Also carry through any candidates ranked below topN that weren't
-    // reviewed — they stay, AI only pruned the reviewed set.
+    // Carry through any candidates ranked below the reviewed window unchanged.
     const rest = candidates.slice(topN.length);
 
     const added = (add ?? [])
       .map((t: string) => t.toLowerCase().trim())
-      .filter((t: string) => t.length >= 3);
+      .filter((t: string) => t.length >= 3)
+      .slice(0, 20);
 
     return { curated: [...curated, ...rest], added, cost_usd: result.cost_usd };
   } catch (err) {
@@ -674,9 +695,10 @@ function mergeEntitiesAndNgrams(
   // entity isn't already in the map, add it with a synthetic relevance.
   for (const [key, e] of entities.entries()) {
     const coverage = totalDocs > 0 ? e.appearedInDocs / totalDocs : 0;
-    // Require entities to appear in at least 50% of competitors (was 30%) so we
-    // surface things that ALL top-ranking pages cover — not one-off mentions.
-    if (coverage < 0.5) continue;
+    // Match n-gram threshold (25%) so we surface entities consistent across
+    // 3+ of top 10 competitors — broader Surfer-style pool, AI curation
+    // does topical pruning.
+    if (coverage < 0.25) continue;
     // Skip generic, non-actionable entity types unless they're extremely
     // salient (a journalist name with salience > 0.05 is exceptionally
     // central to the topic and should remain).
