@@ -279,19 +279,32 @@ export default function AdminContentEditorPage() {
                           {wordRangeText(row)}
                         </td>
                         <td className="px-3 py-3 text-right">
-                          {row.current_content_score != null ? (
-                            <span className="inline-flex items-center gap-1 font-mono text-[12px]">
-                              <span className={`font-bold ${scoreClass(row.current_content_score)}`}>
-                                {Math.round(row.current_content_score)}
+                          {(() => {
+                            // Page Mode editors show the LIVE page score (not the
+                            // AI-generated draft's recommendation score). The recs
+                            // are aspirational until manually ported.
+                            const isPageMode = !!row.linked_tracked_page_id;
+                            const score = isPageMode
+                              ? (row.live_page_score ?? null)
+                              : (row.current_content_score ?? null);
+                            const targetLabel = row.target_score != null ? Math.round(row.target_score) : "—";
+                            return score != null ? (
+                              <span className="inline-flex items-center gap-1 font-mono text-[12px]" title={isPageMode ? "Live page score" : "Current draft score"}>
+                                <span className={`font-bold ${scoreClass(score)}`}>
+                                  {Math.round(score)}
+                                </span>
+                                <span className="text-neutral-300">/</span>
+                                <span className="text-neutral-400">{targetLabel}</span>
+                                {isPageMode ? (
+                                  <span className="ml-1 px-1 py-0.5 rounded bg-[#3d6f7f]/10 text-[#3d6f7f] text-[9px] font-bold tracking-wider">LIVE</span>
+                                ) : null}
                               </span>
-                              <span className="text-neutral-300">/</span>
-                              <span className="text-neutral-400">{row.target_score != null ? Math.round(row.target_score) : "—"}</span>
-                            </span>
-                          ) : (
-                            <span className={`font-mono text-[13px] font-semibold ${scoreClass(row.target_score)}`}>
-                              {row.target_score != null ? <>— <span className="text-neutral-400 text-[11px]">/ {Math.round(row.target_score)}</span></> : "—"}
-                            </span>
-                          )}
+                            ) : (
+                              <span className={`font-mono text-[13px] font-semibold ${scoreClass(row.target_score)}`}>
+                                {row.target_score != null ? <>— <span className="text-neutral-400 text-[11px]">/ {targetLabel}</span></> : "—"}
+                              </span>
+                            );
+                          })()}
                         </td>
                         <td className="px-3 py-3 text-right font-mono text-[11px] text-neutral-500">
                           ${Number(row.total_cost_usd ?? 0).toFixed(3)}

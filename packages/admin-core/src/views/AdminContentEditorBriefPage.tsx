@@ -339,6 +339,8 @@ function PageModeRecommendations({
   draft,
   linkedSeoTitle,
   linkedMetaDescription,
+  liveScore,
+  targetScore,
   onApply,
   applying,
 }: {
@@ -347,9 +349,12 @@ function PageModeRecommendations({
     meta_description: string | null;
     h1_text: string | null;
     body_markdown: string | null;
+    computed_content_score: number | null;
   };
   linkedSeoTitle: string | null;
   linkedMetaDescription: string | null;
+  liveScore: number | null;
+  targetScore: number | null;
   onApply: () => void;
   applying: boolean;
 }) {
@@ -365,6 +370,8 @@ function PageModeRecommendations({
 
   const titleChanged = !!draft.title_tag && draft.title_tag.trim() !== (linkedSeoTitle ?? "").trim();
   const metaChanged = !!draft.meta_description && draft.meta_description.trim() !== (linkedMetaDescription ?? "").trim();
+  const recScore = draft.computed_content_score;
+  const lift = recScore != null && liveScore != null ? Math.round(recScore - liveScore) : null;
 
   return (
     <div className="rounded-2xl border border-[#3d6f7f]/30 bg-[#f9fbfc] shadow-sm overflow-hidden">
@@ -389,6 +396,37 @@ function PageModeRecommendations({
           {applying ? <><i className="ri-loader-4-line animate-spin" /> Applying…</> : <><i className="ri-check-line" /> Apply SEO Meta</>}
         </button>
       </div>
+
+      {/* Score comparison: current live vs projected if recommendations were fully applied */}
+      {recScore != null || liveScore != null ? (
+        <div className="px-5 py-3 border-b border-[#3d6f7f]/15 bg-white/60 grid grid-cols-3 gap-3 text-center">
+          <div>
+            <p className="text-[10px] font-bold uppercase tracking-[0.12em] text-neutral-400 mb-0.5">Live page</p>
+            <p className={`font-mono text-[18px] font-bold ${scoreColor(liveScore ?? 0)}`} style={{ color: liveScore != null ? scoreColor(liveScore) : "#a3a3a3" }}>
+              {liveScore != null ? Math.round(liveScore) : "—"}
+            </p>
+          </div>
+          <div className="flex items-center justify-center">
+            <div>
+              {lift != null ? (
+                <p className={`font-mono text-[14px] font-bold ${lift > 0 ? "text-emerald-600" : "text-neutral-400"}`}>
+                  {lift > 0 ? "+" : ""}{lift}
+                </p>
+              ) : (
+                <p className="font-mono text-[14px] text-neutral-300">—</p>
+              )}
+              <p className="text-[9px] uppercase tracking-wider text-neutral-400 mt-0.5">Projected lift</p>
+            </div>
+          </div>
+          <div>
+            <p className="text-[10px] font-bold uppercase tracking-[0.12em] text-neutral-400 mb-0.5">If applied</p>
+            <p className="font-mono text-[18px] font-bold" style={{ color: recScore != null ? scoreColor(recScore) : "#a3a3a3" }}>
+              {recScore != null ? Math.round(recScore) : "—"}
+            </p>
+            <p className="text-[9px] text-neutral-400 mt-0.5">target {targetScore != null ? Math.round(targetScore) : "—"}</p>
+          </div>
+        </div>
+      ) : null}
 
       <div className="px-5 py-4 space-y-3 text-[12px]">
         {draft.title_tag ? (
@@ -1565,6 +1603,8 @@ Body copy here. Use markdown — \`#\` headings, \`![alt](url)\` images, \`-\` b
                 draft={state.currentDraft}
                 linkedSeoTitle={state.linkedPage?.seo_title ?? null}
                 linkedMetaDescription={state.linkedPage?.meta_description ?? null}
+                liveScore={state.linkedPage?.liveSnapshot?.computed_content_score ?? null}
+                targetScore={editor.target_score}
                 onApply={() => void handleApplySeoMeta()}
                 applying={applyingSeoMeta}
               />

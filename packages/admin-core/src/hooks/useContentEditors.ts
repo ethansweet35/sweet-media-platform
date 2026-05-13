@@ -23,7 +23,8 @@ interface UseContentEditorsState {
 const LIST_SELECT =
   "id, primary_keyword, status, status_message, error, total_cost_usd, " +
   "recommended_word_count_min, recommended_word_count_max, recommended_word_count_target, " +
-  "competitor_avg_score, target_score, blog_post_id, created_at, updated_at, completed_at, " +
+  "competitor_avg_score, target_score, blog_post_id, linked_tracked_page_id, " +
+  "created_at, updated_at, completed_at, " +
   "content_editor_drafts(computed_content_score, is_current)";
 
 export function useContentEditors(): UseContentEditorsState & {
@@ -49,17 +50,49 @@ export function useContentEditors(): UseContentEditorsState & {
       return;
     }
     // Flatten the joined draft array into a single current_content_score field.
-    const rows: ContentEditorListRow[] = ((data as unknown[]) ?? []).map((raw) => {
+    const rowsRaw = (data as unknown[]) ?? [];
+    const pageModeIds: string[] = [];
+    const rowsTmp = rowsRaw.map((raw) => {
       const r = raw as Record<string, unknown>;
       const drafts = Array.isArray(r.content_editor_drafts) ? r.content_editor_drafts : [];
       const currentDraft = drafts.find((d: Record<string, unknown>) => d.is_current);
       const current_content_score =
         (currentDraft as Record<string, unknown> | undefined)?.computed_content_score as number | null ?? null;
+      const linkedTrackedPageId = (r.linked_tracked_page_id as string | null) ?? null;
+      const editorId = r.id as string;
+      if (linkedTrackedPageId) pageModeIds.push(editorId);
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const { content_editor_drafts: _drafts, ...rest } = r;
-      return { ...rest, current_content_score } as ContentEditorListRow;
+      return {
+        ...rest,
+        current_content_score,
+        linked_tracked_page_id: linkedTrackedPageId,
+        live_page_score: null as number | null,
+      } as ContentEditorListRow;
     });
-    setState({ rows, loading: false, error: null });
+
+    // Page Mode editors: pull the latest live-page snapshot score for each.
+    if (pageModeIds.length > 0) {
+      const { data: snaps } = await supabase
+        .from("tracked_page_live_snapshots")
+        .select("scored_against_editor_id, computed_content_score, fetched_at")
+        .in("scored_against_editor_id", pageModeIds)
+        .order("fetched_at", { ascending: false });
+      // Keep the most recent snapshot per editor.
+      const byEditor = new Map<string, number | null>();
+      for (const snap of (snaps as Array<{ scored_against_editor_id: string; computed_content_score: number | null }>) ?? []) {
+        if (!byEditor.has(snap.scored_against_editor_id)) {
+          byEditor.set(snap.scored_against_editor_id, snap.computed_content_score);
+        }
+      }
+      for (const row of rowsTmp) {
+        if (row.linked_tracked_page_id) {
+          row.live_page_score = byEditor.get(row.id) ?? null;
+        }
+      }
+    }
+
+    setState({ rows: rowsTmp, loading: false, error: null });
   }, []);
 
   useEffect(() => {

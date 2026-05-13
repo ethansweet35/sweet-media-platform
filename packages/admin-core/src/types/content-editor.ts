@@ -32,9 +32,9 @@ export interface ContentEditorListRow {
   current_content_score: number | null;
   blog_post_id: string | null;
   /** When set, the editor is in Page Mode (linked to a tracked_pages row). */
-  linked_tracked_page_id?: string | null;
-  /** Live-page score for the linked tracked page (only present in Page Mode). */
-  live_page_score?: number | null;
+  linked_tracked_page_id: string | null;
+  /** Live-page score for the linked tracked page (only populated in Page Mode). */
+  live_page_score: number | null;
   created_at: string;
   updated_at: string;
   completed_at: string | null;
