@@ -8,7 +8,7 @@ import { AutoLinkedText } from "@sweetmedia/blog-core";
  *
  * Layout:
  *   - Full-bleed photo (nbt_hero_bg01.jpg) sits behind everything.
- *   - Left half: deep espresso→navy gradient overlay so white text is legible.
+ *   - Left half: navy gradient overlay (moderate strength) so white text stays legible.
  *   - Right half: subtler dark overlay so the photo remains visible behind the form.
  *   - Form card: frosted dark panel so form fields stand out cleanly.
  */
@@ -26,11 +26,11 @@ export default function Hero() {
         sizes="100vw"
       />
 
-      {/* ── Primary overlay: deep navy left → lighter navy right ────────── */}
-      <div className="absolute inset-0 bg-gradient-to-r from-navy/95 via-navy/80 to-navy/40" />
+      {/* ── Primary overlay: navy left → lighter right (opacity tuned for text + photo balance) ─ */}
+      <div className="absolute inset-0 bg-gradient-to-r from-navy/85 via-navy/65 to-navy/30" />
 
-      {/* ── Bottom dark band so the section has a grounded feel ──────────── */}
-      <div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-navy/60 to-transparent" />
+      {/* ── Bottom band — lighter vignette so the image reads through more ─ */}
+      <div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-navy/42 to-transparent" />
 
       {/* ── Terracotta warm glow — top-right, echoes the sunset sky ─────── */}
       <div className="pointer-events-none absolute -right-20 -top-20 h-[480px] w-[480px] rounded-full bg-terracotta/25 blur-[140px]" />
