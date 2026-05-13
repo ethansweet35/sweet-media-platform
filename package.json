@@ -19,7 +19,8 @@
     "migrate-wp-images": "node scripts/migrate-wp-site-images.mjs",
     "dev-setup": "node scripts/dev-setup.mjs",
     "sync-env": "node scripts/sync-env-to-1password.mjs",
-    "smoke-test-content-editor": "pnpm --filter @sweetmedia/sweet-media exec tsx ../../scripts/smoke-test-content-editor-vendors.ts"
+    "smoke-test-content-editor": "pnpm --filter @sweetmedia/sweet-media exec tsx ../../scripts/smoke-test-content-editor-vendors.ts",
+    "smoke-test-pipeline": "pnpm --filter @sweetmedia/sweet-media exec tsx ../../scripts/smoke-test-content-editor-pipeline.ts"
   },
   "devDependencies": {
     "@types/turndown": "^5.0.6",

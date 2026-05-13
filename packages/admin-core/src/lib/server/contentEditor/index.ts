@@ -37,3 +37,64 @@ export {
 } from "./pricing";
 
 export { withRetry } from "./retry";
+
+// ─── Pipeline + supporting modules ─────────────────────────────────────
+export {
+  runContentEditorPipeline,
+  type RunPipelineOptions,
+} from "./pipeline";
+
+export {
+  getAdminClient,
+  loadEditor,
+  loadCompetitors,
+  loadBlacklistedDomains,
+  setStatus,
+  addCost,
+  type ContentEditorStatus,
+  type ContentEditorRow,
+  type CompetitorRow,
+} from "./db";
+
+export {
+  scoreDocument,
+  computeTargetScore,
+  type ScoringTerm,
+  type DraftDocument,
+  type TermStatus,
+  type TermUsage,
+  type ScoreBreakdown,
+} from "./scoring";
+
+export {
+  extractNgrams,
+  termAppearsInHeadings,
+  type NgramTerm,
+  type NgramExtractionOptions,
+} from "./ngrams";
+
+export {
+  ENGLISH_STOPWORDS,
+  tokenize,
+  splitSentences,
+  percentile,
+  mean,
+  median,
+  countTermOccurrences,
+  getFirstNWords,
+  looksLikeQuestion,
+  extractDomain,
+  sha256,
+} from "./textUtils";
+
+export {
+  buildOutlinePrompt,
+  buildQuestionSynthesisPrompt,
+  buildFactExtractionPrompt,
+  approximateMetricsFromText,
+  type OutlineSection,
+  type OutlineResponse,
+  type QuestionResponse,
+  type ExtractedFact,
+  type FactsResponse,
+} from "./prompts";

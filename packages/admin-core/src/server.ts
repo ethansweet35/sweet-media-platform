@@ -33,21 +33,36 @@ export {
   deleteBrief,
 } from "./lib/server/sweetSeoBrief";
 
-// ─── Content Editor vendor wrappers ─────────────────────────────────────
-// Used by the new Surfer/Rankability-style content optimization pipeline.
-// Each wrapper returns `{ data, cost_usd }` so the pipeline orchestrator
-// can update `content_editors.total_cost_usd` as it runs.
+// ─── Content Editor — full pipeline + vendor wrappers ──────────────────
+// Surfer/Rankability-style content optimization. Each vendor wrapper
+// returns `{ data, cost_usd }`. The pipeline orchestrator is idempotent
+// and persists state after every phase, so it can be safely retried.
 export {
+  // Errors
   ContentEditorError,
+  // Vendor wrappers
   fetchSerpResults,
   scrapePage,
   analyzeEntities,
   callClaude,
   embedTexts,
   cosineSimilarity,
+  // Pipeline
+  runContentEditorPipeline,
+  // DB helpers
+  getAdminClient as getContentEditorAdminClient,
+  loadEditor as loadContentEditor,
+  loadCompetitors as loadContentEditorCompetitors,
+  setStatus as setContentEditorStatus,
+  addCost as addContentEditorCost,
+  // Scoring
+  scoreDocument,
+  computeTargetScore,
+  // Pricing constants
   CLAUDE_MODELS,
   claudeCallCost,
   OPENAI_EMBEDDING_DIMENSIONS,
+  // Types
   type VendorCallResult,
   type SerpFetchResult,
   type SerpOrganicResult,
@@ -62,4 +77,13 @@ export {
   type EmbeddingResult,
   type FetchSerpOptions,
   type ScrapeOptions,
+  type RunPipelineOptions,
+  type ContentEditorStatus,
+  type ContentEditorRow,
+  type CompetitorRow,
+  type ScoringTerm,
+  type DraftDocument,
+  type TermStatus,
+  type TermUsage,
+  type ScoreBreakdown,
 } from "./lib/server/contentEditor";
