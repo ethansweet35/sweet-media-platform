@@ -23,21 +23,20 @@ export default function PostMoreFromCategory({ currentPost, allPosts }: PostMore
   if (posts.length === 0) return null;
 
   return (
-    <section className="w-full bg-[#f4f6f9] py-16 md:py-20 px-4 md:px-6">
-      <div className="max-w-screen-xl mx-auto">
+    <section className="w-full bg-white border-t border-warm py-16 md:py-20">
+      <div className="mx-auto w-full max-w-[1300px] px-6 lg:px-10">
         <div className="flex items-center justify-between mb-10">
           <div className="flex items-center gap-3">
-            <div className="w-8 h-px bg-neutral-300" />
-            <span className="text-[10px] tracking-[0.3em] uppercase text-neutral-400 font-semibold">
-              More from {currentPost.category}
+            <span className="w-5 h-[2px] bg-accent shrink-0" />
+            <span className="text-[9px] tracking-[0.32em] uppercase text-ink/40 font-semibold">
+              More from {currentPost.category ?? "the Blog"}
             </span>
           </div>
           <Link
             href="/blog"
-            className="text-[11px] tracking-[0.15em] uppercase font-medium text-[#1F2937] hover:text-[#2563EB] transition-colors cursor-pointer whitespace-nowrap flex items-center gap-1"
+            className="flex items-center gap-1.5 text-[10px] tracking-[0.18em] uppercase font-semibold text-muted hover:text-accent transition-colors whitespace-nowrap"
           >
-            View All
-            <i className="ri-arrow-right-line text-xs"></i>
+            View All <i className="ri-arrow-right-line text-xs" />
           </Link>
         </div>
 
@@ -46,10 +45,10 @@ export default function PostMoreFromCategory({ currentPost, allPosts }: PostMore
             <Link
               key={post.id}
               href={`/blog/${post.slug}`}
-              className="group bg-white rounded-xl overflow-hidden border border-neutral-100 hover:border-neutral-200 transition-all duration-300 block"
+              className="group bg-cream-tile border border-warm hover:border-accent/40 transition-colors overflow-hidden block"
             >
               <article>
-                <div className="relative aspect-[16/9] overflow-hidden bg-neutral-100">
+                <div className="relative aspect-[16/10] overflow-hidden bg-soft">
                   {post.image ? (
                     <Image
                       src={post.image}
@@ -60,24 +59,30 @@ export default function PostMoreFromCategory({ currentPost, allPosts }: PostMore
                       className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500"
                     />
                   ) : (
-                    <div className="w-full h-full flex items-center justify-center text-neutral-300">
+                    <div className="w-full h-full flex items-center justify-center text-muted">
                       <i className="ri-article-line text-3xl" />
                     </div>
                   )}
+                  {post.category && (
+                    <div className="absolute top-3 left-3">
+                      <span className="inline-block bg-ink/70 text-white text-[8px] tracking-[0.18em] uppercase font-semibold px-2 py-1">
+                        {post.category}
+                      </span>
+                    </div>
+                  )}
                 </div>
-                <div className="p-4">
-                  <span className="text-[9px] tracking-[0.2em] uppercase font-semibold text-[#1F2937]/60 mb-1.5 block">
-                    {post.category}
-                  </span>
+                <div className="p-4 border-t border-warm">
+                  <div className="flex items-center gap-2 mb-2 text-[10px] text-muted">
+                    <span>{post.date}</span>
+                    <span className="w-[3px] h-[3px] rotate-45 bg-warm shrink-0" />
+                    <span>{post.readTime}</span>
+                  </div>
                   <h4
-                    className="text-sm font-medium text-neutral-800 leading-snug group-hover:text-[#1F2937] transition-colors line-clamp-2"
-                    style={{ fontFamily: "'Inter', serif" }}
+                    className="font-[family-name:var(--font-display)] font-normal text-ink leading-snug line-clamp-2 group-hover:text-accent transition-colors"
+                    style={{ fontSize: "clamp(15px, 1.2vw, 17px)" }}
                   >
                     {post.title}
                   </h4>
-                  <div className="flex items-center gap-2 mt-2">
-                    <span className="text-[11px] text-neutral-400">{post.readTime}</span>
-                  </div>
                 </div>
               </article>
             </Link>

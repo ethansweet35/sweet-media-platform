@@ -33,49 +33,54 @@ export default function PostInlineRelated({ currentPost, allPosts }: PostInlineR
   if (related.length === 0) return null;
 
   return (
-    <div className="my-10 bg-[#f4f6f9] rounded-2xl p-6 md:p-8 border border-black/5">
-      <div className="flex items-center gap-3 mb-5">
-        <div className="w-6 h-px bg-neutral-300" />
-        <span className="text-[10px] tracking-[0.3em] uppercase text-neutral-400 font-semibold">
+    <div className="my-12 bg-cream border border-warm px-6 py-7">
+      <div className="flex items-center gap-3 mb-6">
+        <span className="w-5 h-[2px] bg-accent shrink-0" />
+        <span className="text-[9px] tracking-[0.32em] uppercase text-ink/40 font-semibold">
           Related Reading
         </span>
       </div>
 
-      <div className="flex flex-col gap-4">
+      <div className="flex flex-col divide-y divide-soft">
         {related.map((post) => (
           <Link
             key={post.id}
             href={`/blog/${post.slug}`}
-            className="group flex items-start gap-4 p-3 -mx-3 rounded-xl hover:bg-white transition-all duration-200"
+            className="group flex items-start gap-5 py-4 first:pt-0 last:pb-0 hover:bg-cream-alt transition-colors -mx-6 px-6"
           >
-            <div className="relative w-16 h-16 md:w-20 md:h-20 rounded-lg overflow-hidden flex-shrink-0 bg-neutral-100">
+            <div className="relative w-16 h-16 overflow-hidden flex-shrink-0 bg-soft">
               {post.image ? (
                 <Image
                   src={post.image}
                   alt={post.title}
                   fill
                   loading="lazy"
-                  sizes="80px"
-                  className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-300"
+                  sizes="64px"
+                  className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500"
                 />
               ) : (
-                <div className="w-full h-full flex items-center justify-center text-neutral-300">
-                  <i className="ri-article-line text-xl" />
+                <div className="w-full h-full flex items-center justify-center text-muted">
+                  <i className="ri-article-line text-lg" />
                 </div>
               )}
             </div>
             <div className="flex-1 min-w-0">
-              <span className="text-[9px] tracking-[0.2em] uppercase font-semibold text-[#1F2937]/60 mb-1 block">
-                {post.category}
-              </span>
-              <h4 className="text-sm font-medium text-neutral-800 leading-snug group-hover:text-[#1F2937] transition-colors line-clamp-2">
+              {post.category && (
+                <span className="text-[8.5px] tracking-[0.2em] uppercase font-semibold text-accent mb-1 block">
+                  {post.category}
+                </span>
+              )}
+              <h4
+                className="font-[family-name:var(--font-display)] font-normal text-ink leading-snug line-clamp-2 group-hover:text-accent transition-colors"
+                style={{ fontSize: "15px" }}
+              >
                 {post.title}
               </h4>
-              <div className="flex items-center gap-2 mt-1.5">
-                <span className="text-[11px] text-neutral-400">{post.readTime}</span>
-                <span className="flex items-center gap-1 text-[11px] text-[#1F2937] group-hover:text-[#2563EB] transition-colors">
-                  Read article
-                  <i className="ri-arrow-right-line text-xs group-hover:translate-x-0.5 transition-transform"></i>
+              <div className="flex items-center gap-1.5 mt-1.5 text-muted text-[10.5px]">
+                <span>{post.readTime}</span>
+                <span>·</span>
+                <span className="flex items-center gap-0.5 font-medium group-hover:text-accent transition-colors">
+                  Read <i className="ri-arrow-right-line text-xs group-hover:translate-x-0.5 transition-transform" />
                 </span>
               </div>
             </div>
