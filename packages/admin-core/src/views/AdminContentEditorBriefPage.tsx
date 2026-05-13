@@ -101,7 +101,7 @@ function ScoreRing({ score, label, size = 80 }: { score: number; label?: string;
         />
       </svg>
       <div className="absolute inset-0 flex flex-col items-center justify-center">
-        <span className="text-[18px] font-bold leading-none" style={{ color }}>
+        <span className="font-bold leading-none" style={{ color, fontSize: Math.round(size * 0.175) }}>
           {Math.round(score)}
         </span>
         {label ? (

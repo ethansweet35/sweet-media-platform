@@ -28,6 +28,8 @@ export interface ContentEditorListRow {
   recommended_word_count_target: number | null;
   competitor_avg_score: number | null;
   target_score: number | null;
+  /** Populated via join with content_editor_drafts; null if no draft has been scored yet. */
+  current_content_score: number | null;
   blog_post_id: string | null;
   created_at: string;
   updated_at: string;

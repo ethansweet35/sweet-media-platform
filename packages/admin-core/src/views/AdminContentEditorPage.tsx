@@ -195,7 +195,7 @@ export default function AdminContentEditorPage() {
                     <th className="px-5 py-2.5">Keyword</th>
                     <th className="px-3 py-2.5">Status</th>
                     <th className="px-3 py-2.5 text-right whitespace-nowrap">Word target</th>
-                    <th className="px-3 py-2.5 text-right whitespace-nowrap">Target score</th>
+                    <th className="px-3 py-2.5 text-right whitespace-nowrap">Score</th>
                     <th className="px-3 py-2.5 text-right whitespace-nowrap">Cost</th>
                     <th className="px-3 py-2.5 whitespace-nowrap">Updated</th>
                     <th className="px-3 py-2.5 text-right whitespace-nowrap">Actions</th>
@@ -235,9 +235,19 @@ export default function AdminContentEditorPage() {
                           {wordRangeText(row)}
                         </td>
                         <td className="px-3 py-3 text-right">
-                          <span className={`font-mono text-[13px] font-semibold ${scoreClass(row.target_score)}`}>
-                            {row.target_score ?? "—"}
-                          </span>
+                          {row.current_content_score != null ? (
+                            <span className="inline-flex items-center gap-1 font-mono text-[12px]">
+                              <span className={`font-bold ${scoreClass(row.current_content_score)}`}>
+                                {Math.round(row.current_content_score)}
+                              </span>
+                              <span className="text-neutral-300">/</span>
+                              <span className="text-neutral-400">{row.target_score ?? "—"}</span>
+                            </span>
+                          ) : (
+                            <span className={`font-mono text-[13px] font-semibold ${scoreClass(row.target_score)}`}>
+                              {row.target_score != null ? <>— <span className="text-neutral-400 text-[11px]">/ {row.target_score}</span></> : "—"}
+                            </span>
+                          )}
                         </td>
                         <td className="px-3 py-3 text-right font-mono text-[11px] text-neutral-500">
                           ${Number(row.total_cost_usd ?? 0).toFixed(3)}

@@ -97,6 +97,7 @@ interface JoinedEditor {
   target_score: number | null;
   competitor_avg_score: number | null;
   updated_at: string;
+  current_content_score: number | null;
 }
 
 function relativeAge(iso: string | null): string {
@@ -148,10 +149,19 @@ export default function ContentEditorCell({
     void (async () => {
       const { data } = await supabase
         .from("content_editors")
-        .select("id, status, status_message, error, target_score, competitor_avg_score, updated_at")
+        .select("id, status, status_message, error, target_score, competitor_avg_score, updated_at, content_editor_drafts(computed_content_score, is_current)")
         .eq("id", editorId)
         .maybeSingle();
-      setEditor((data as JoinedEditor | null) ?? null);
+      if (data) {
+        const raw = data as Record<string, unknown>;
+        const drafts = Array.isArray(raw.content_editor_drafts) ? raw.content_editor_drafts : [];
+        const cur = drafts.find((d: Record<string, unknown>) => d.is_current);
+        const current_content_score = (cur as Record<string, unknown> | undefined)?.computed_content_score as number | null ?? null;
+        const { content_editor_drafts: _d, ...rest } = raw;
+        setEditor({ ...rest, current_content_score } as JoinedEditor);
+      } else {
+        setEditor(null);
+      }
       setEditorLoading(false);
     })();
   }, [editorId]);
@@ -162,10 +172,18 @@ export default function ContentEditorCell({
     const t = setInterval(async () => {
       const { data } = await supabase
         .from("content_editors")
-        .select("id, status, status_message, error, target_score, competitor_avg_score, updated_at")
+        .select("id, status, status_message, error, target_score, competitor_avg_score, updated_at, content_editor_drafts(computed_content_score, is_current)")
         .eq("id", editorId)
         .maybeSingle();
-      const next = (data as JoinedEditor | null) ?? null;
+      let next: JoinedEditor | null = null;
+      if (data) {
+        const raw = data as Record<string, unknown>;
+        const drafts = Array.isArray(raw.content_editor_drafts) ? raw.content_editor_drafts : [];
+        const cur = drafts.find((d: Record<string, unknown>) => d.is_current);
+        const current_content_score = (cur as Record<string, unknown> | undefined)?.computed_content_score as number | null ?? null;
+        const { content_editor_drafts: _d, ...rest } = raw;
+        next = { ...rest, current_content_score } as JoinedEditor;
+      }
       setEditor(next);
       if (next && !STATUS_IS_PROCESSING[next.status]) {
         await onChange?.();
@@ -175,10 +193,13 @@ export default function ContentEditorCell({
   }, [editorId, editor?.status, onChange, editor]);
 
   const noKeyword = !row.primary_keyword?.trim();
-  const score = editor?.target_score ?? null;
+  // Show the actual scored content score if available; fall back to target for context.
+  const currentScore = editor?.current_content_score ?? null;
+  const targetScore = editor?.target_score ?? null;
+  const displayScore = currentScore ?? targetScore;
 
   const statusTitle = hasEditor && editor
-    ? `Status: ${STATUS_LABELS[editor.status]} · Target ${score ?? "—"} · Updated ${relativeAge(editor.updated_at)}`
+    ? `Score: ${currentScore != null ? Math.round(currentScore) : "—"} / Target: ${targetScore ?? "—"} · ${STATUS_LABELS[editor.status]} · Updated ${relativeAge(editor.updated_at)}`
     : noKeyword
       ? "Set a primary keyword to generate a content editor"
       : "Generate a Content Editor brief for this keyword";
@@ -206,7 +227,7 @@ export default function ContentEditorCell({
           title={statusTitle}
           className="cursor-pointer"
         >
-          <CircleRing score={score} spinning={isProcessing || editorLoading} />
+          <CircleRing score={displayScore} spinning={isProcessing || editorLoading} />
         </Link>
       ) : (
         <div title={statusTitle}>

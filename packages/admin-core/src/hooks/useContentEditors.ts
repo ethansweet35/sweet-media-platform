@@ -23,7 +23,8 @@ interface UseContentEditorsState {
 const LIST_SELECT =
   "id, primary_keyword, status, status_message, error, total_cost_usd, " +
   "recommended_word_count_min, recommended_word_count_max, recommended_word_count_target, " +
-  "competitor_avg_score, target_score, blog_post_id, created_at, updated_at, completed_at";
+  "competitor_avg_score, target_score, blog_post_id, created_at, updated_at, completed_at, " +
+  "content_editor_drafts(computed_content_score, is_current)";
 
 export function useContentEditors(): UseContentEditorsState & {
   refresh: () => Promise<void>;
@@ -47,11 +48,18 @@ export function useContentEditors(): UseContentEditorsState & {
       setState({ rows: [], loading: false, error: error.message });
       return;
     }
-    setState({
-      rows: (data as unknown as ContentEditorListRow[]) ?? [],
-      loading: false,
-      error: null,
+    // Flatten the joined draft array into a single current_content_score field.
+    const rows: ContentEditorListRow[] = ((data as unknown[]) ?? []).map((raw) => {
+      const r = raw as Record<string, unknown>;
+      const drafts = Array.isArray(r.content_editor_drafts) ? r.content_editor_drafts : [];
+      const currentDraft = drafts.find((d: Record<string, unknown>) => d.is_current);
+      const current_content_score =
+        (currentDraft as Record<string, unknown> | undefined)?.computed_content_score as number | null ?? null;
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      const { content_editor_drafts: _drafts, ...rest } = r;
+      return { ...rest, current_content_score } as ContentEditorListRow;
     });
+    setState({ rows, loading: false, error: null });
   }, []);
 
   useEffect(() => {
