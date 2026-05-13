@@ -57,7 +57,7 @@ export default function HeroSection() {
 
           <p className="max-w-md text-base font-light leading-relaxed text-ink/70">
             A profound sanctuary for recovery. We blend elite clinical methodology
-            with the quiet, restorative power of the Northern California coast.
+            with the quiet, restorative power of the Southern California coast.
           </p>
 
           <div className="mt-7 flex flex-wrap gap-x-6 gap-y-3">

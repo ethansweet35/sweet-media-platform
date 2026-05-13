@@ -46,9 +46,11 @@ export default function Navbar() {
   const [addOpen, setAddOpen] = useState(false);
   const [mhOpen, setMhOpen] = useState(false);
   const [aboutOpen, setAboutOpen] = useState(false);
+  const [resourcesOpen, setResourcesOpen] = useState(false);
   const addTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const mhTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const aboutTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const resourcesTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   // Mobile accordion states
   const [mobileLocOpen, setMobileLocOpen] = useState(false);
@@ -56,6 +58,7 @@ export default function Navbar() {
   const [mobileAddOpen, setMobileAddOpen] = useState(false);
   const [mobileMhOpen, setMobileMhOpen] = useState(false);
   const [mobileAboutOpen, setMobileAboutOpen] = useState(false);
+  const [mobileResourcesOpen, setMobileResourcesOpen] = useState(false);
 
   const isLOCActive = [
     "/drug-alcohol-detox", "/partial-hospitalization-program-orange-county",
@@ -85,6 +88,13 @@ export default function Navbar() {
   };
   const handleAboutLeave = () => {
     aboutTimer.current = setTimeout(() => setAboutOpen(false), 120);
+  };
+  const handleResourcesEnter = () => {
+    if (resourcesTimer.current) clearTimeout(resourcesTimer.current);
+    setResourcesOpen(true);
+  };
+  const handleResourcesLeave = () => {
+    resourcesTimer.current = setTimeout(() => setResourcesOpen(false), 120);
   };
 
   return (
@@ -257,7 +267,7 @@ export default function Navbar() {
           >
             <button
               className={`flex items-center gap-1 text-[11px] font-medium uppercase tracking-[0.18em] transition-colors ${
-                pathname.startsWith("/about") || pathname === "/telehealth-schedule" || pathname === "/in-person-schedule"
+                pathname.startsWith("/about") || pathname === "/telehealth-schedule" || pathname === "/in-person-schedule" || pathname === "/our-team"
                   ? "text-accent"
                   : "text-ink hover:text-accent"
               }`}
@@ -275,6 +285,7 @@ export default function Navbar() {
                 <div className="h-[2px] bg-accent w-full mb-1" />
                 {[
                   { label: "About Rize",          path: "/about" },
+                  { label: "Our Team",            path: "/our-team" },
                   { label: "Telehealth Schedule", path: "/telehealth-schedule" },
                   { label: "In-Person Schedule",  path: "/in-person-schedule" },
                 ].map(({ label, path }) => (
@@ -292,15 +303,48 @@ export default function Navbar() {
             </div>
           </div>
 
-          {/* Resources */}
-          <Link
-            href="/resources"
-            className={`text-[11px] font-medium uppercase tracking-[0.18em] transition-colors ${
-              pathname === "/resources" ? "text-accent" : "text-ink hover:text-accent"
-            }`}
+          {/* Resources dropdown */}
+          <div
+            className="relative"
+            onMouseEnter={handleResourcesEnter}
+            onMouseLeave={handleResourcesLeave}
           >
-            Resources
-          </Link>
+            <button
+              className={`flex items-center gap-1 text-[11px] font-medium uppercase tracking-[0.18em] transition-colors ${
+                pathname.startsWith("/resources") || pathname === "/verify-insurance" || pathname.startsWith("/service-areas") || pathname === "/employee-assistance-program"
+                  ? "text-accent"
+                  : "text-ink hover:text-accent"
+              }`}
+            >
+              Resources
+              <i className={`ri-arrow-down-s-line text-sm transition-transform duration-200 ${resourcesOpen ? "rotate-180" : ""}`} />
+            </button>
+
+            <div
+              className={`absolute top-full left-1/2 -translate-x-1/2 pt-3 transition-all duration-200 ${
+                resourcesOpen ? "opacity-100 translate-y-0 pointer-events-auto" : "opacity-0 -translate-y-1 pointer-events-none"
+              }`}
+            >
+              <div className="bg-cream-nav border border-soft shadow-lg w-[290px] py-2">
+                <div className="h-[2px] bg-accent w-full mb-1" />
+                {[
+                  { label: "Verify Insurance",            path: "/verify-insurance" },
+                  { label: "Service Areas",               path: "/service-areas" },
+                  { label: "Employee Assistance (EAP)",   path: "/employee-assistance-program" },
+                ].map(({ label, path }) => (
+                  <Link
+                    key={path}
+                    href={path}
+                    className={`block px-6 py-3.5 text-[11px] font-medium uppercase tracking-[0.15em] border-b border-soft/50 last:border-0 transition-colors ${
+                      pathname === path ? "text-accent bg-accent/5" : "text-ink hover:text-accent hover:bg-accent/5"
+                    }`}
+                  >
+                    {label}
+                  </Link>
+                ))}
+              </div>
+            </div>
+          </div>
 
           <a
             href="tel:9494612620"
@@ -437,6 +481,7 @@ export default function Navbar() {
                 <div className="mb-2 border-l-2 border-accent pl-4 flex flex-col gap-1">
                   {[
                   { label: "About Rize",          path: "/about" },
+                  { label: "Our Team",            path: "/our-team" },
                   { label: "Telehealth Schedule", path: "/telehealth-schedule" },
                   { label: "In-Person Schedule",  path: "/in-person-schedule" },
                 ].map(({ label, path }) => (
@@ -455,13 +500,36 @@ export default function Navbar() {
               )}
             </div>
 
-            <Link
-              href="/resources"
-              onClick={() => setMenuOpen(false)}
-              className="py-3 text-sm font-medium uppercase tracking-[0.18em] text-ink hover:text-accent"
-            >
-              Resources
-            </Link>
+            {/* Resources — mobile accordion */}
+            <div>
+              <button
+                onClick={() => setMobileResourcesOpen(!mobileResourcesOpen)}
+                className="w-full flex items-center justify-between py-3 text-sm font-medium uppercase tracking-[0.18em] text-ink"
+              >
+                Resources
+                <i className={`ri-arrow-down-s-line text-lg transition-transform ${mobileResourcesOpen ? "rotate-180" : ""}`} />
+              </button>
+              {mobileResourcesOpen && (
+                <div className="mb-2 border-l-2 border-accent pl-4 flex flex-col gap-1">
+                  {[
+                    { label: "Verify Insurance",           path: "/verify-insurance" },
+                    { label: "Service Areas",              path: "/service-areas" },
+                    { label: "Employee Assistance (EAP)",  path: "/employee-assistance-program" },
+                  ].map(({ label, path }) => (
+                    <Link
+                      key={path}
+                      href={path}
+                      onClick={() => setMenuOpen(false)}
+                      className={`py-2.5 text-sm font-medium uppercase tracking-[0.15em] transition-colors ${
+                        pathname === path ? "text-accent" : "text-ink/70 hover:text-accent"
+                      }`}
+                    >
+                      {label}
+                    </Link>
+                  ))}
+                </div>
+              )}
+            </div>
 
             <a
               href="tel:9494612620"
