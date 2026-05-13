@@ -43,7 +43,7 @@ const demoSections: BlogSection[] = [
   ]},
   { type: "h2", text: "Insurance Coverage for IOP" },
   { type: "paragraph", text: "Most PPO insurance plans cover Intensive Outpatient Programs when they are deemed medically necessary. At Rize OC, our admissions team will verify your benefits before your first session — at no cost to you — and walk you through any out-of-pocket expectations so there are no surprises." },
-  { type: "callout", variant: "info", text: "Rize OC is in-network with most major PPO plans. Call us at (949) 461-2620 or use our secure online verification form to check your coverage in minutes." },
+  { type: "callout", variant: "insight", text: "Rize OC is in-network with most major PPO plans. Call us at (949) 461-2620 or use our secure online verification form to check your coverage in minutes." },
 ];
 
 const demoPost: BlogPost = {
@@ -63,6 +63,7 @@ const demoPost: BlogPost = {
   readTime: "6 min read",
   featured: false,
   publishedAt: "2026-05-13",
+  createdAt: "2026-05-13",
 };
 
 export default function BlogDemoPage() {

@@ -3,13 +3,16 @@ import { cn } from "@/lib/cn";
 type Variant = "accent-subtle" | "muted-subtle" | "ink" | "accent";
 
 type Size = "xs" | "sm" | "md" | "lg" | "xl";
+type SizeProp = Size | (string & {});
 
 interface IconCircleProps {
   icon: string;
   variant?: Variant;
-  size?: Size;
+  size?: SizeProp;
   /** Override the icon font-size class (e.g. "text-base", "text-lg", "text-xl"). */
   iconSize?: string;
+  /** Legacy API: combined background + text color classes. */
+  colorClass?: string;
   className?: string;
 }
 
@@ -45,21 +48,28 @@ export default function IconCircle({
   variant = "accent-subtle",
   size = "md",
   iconSize,
+  colorClass,
   className,
 }: IconCircleProps) {
   const { bg, icon: iconColor } = variantMap[variant];
-  const resolvedIconSize = iconSize ?? defaultIconSizeMap[size];
+  const isPresetSize = (value: SizeProp): value is Size =>
+    value === "xs" || value === "sm" || value === "md" || value === "lg" || value === "xl";
+
+  const resolvedSizeClass = isPresetSize(size) ? sizeMap[size] : size;
+  const resolvedIconSize = iconSize ?? (isPresetSize(size) ? defaultIconSizeMap[size] : undefined);
+  const resolvedContainerColor = colorClass ?? bg;
+  const resolvedIconColor = colorClass ? "text-current" : iconColor;
 
   return (
     <div
       className={cn(
         "rounded-full flex items-center justify-center shrink-0",
-        sizeMap[size],
-        bg,
+        resolvedSizeClass,
+        resolvedContainerColor,
         className
       )}
     >
-      <i className={cn(icon, resolvedIconSize, iconColor)} />
+      <i className={cn(icon, resolvedIconSize, resolvedIconColor)} />
     </div>
   );
 }

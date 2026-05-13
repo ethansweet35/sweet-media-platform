@@ -7,15 +7,17 @@ interface SectionWrapperProps {
   className?: string;
   /** Override the default py-[100px] vertical rhythm (e.g. AccreditationsBar uses py-[56px]). */
   py?: string;
+  /** Optional background class for wrapper compatibility in existing views. */
+  bg?: string;
 }
 
 /**
  * Constrains content to the 1300px brand grid with standard padding.
  * Wrap the inner content div of every section with this component.
  */
-export default function SectionWrapper({ children, className, py = "py-[100px]" }: SectionWrapperProps) {
+export default function SectionWrapper({ children, className, py = "py-[100px]", bg }: SectionWrapperProps) {
   return (
-    <div className={cn("mx-auto max-w-[1300px] w-full px-6", py, className)}>
+    <div className={cn("mx-auto max-w-[1300px] w-full px-6", py, bg, className)}>
       {children}
     </div>
   );

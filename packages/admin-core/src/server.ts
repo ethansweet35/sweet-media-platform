@@ -120,20 +120,53 @@ export {
 } from "./lib/server/contentEditor";
 
 // ─── AI Optimize Runs (Cursor cloud agent PRs) ────────────────────────
-// Each row in `ai_optimize_runs` is a Cursor cloud-agent invocation that
-// opens a PR with code-level edits to a tracked page's hand-coded React
-// layout. The agent reads the page's tsx + the brand design system rules
-// + the content brief, then commits + opens the PR via autoCreatePR.
-// See /lib/server/aiOptimizeRuns.ts for the full module.
-export {
-  triggerAiOptimizeRun,
-  refreshAiOptimizeRunFromCursor,
-  refreshAllActiveRunsForEditor,
-  cancelAiOptimizeRun,
-  getAiOptimizeRun,
-  listAiOptimizeRuns,
-  getRevalidationPathsForEditor,
-  type AiOptimizeRunRow,
-  type AiOptimizeRunStatus as AiOptimizeRunStatusServer,
-  type TriggerAiOptimizeRunInput,
+// Keep @cursor/sdk behind a lazy import so non-optimize routes (like
+// content editor polling/status routes) can compile/build without eagerly
+// loading native SDK dependencies.
+import type {
+  AiOptimizeRunRow,
+  AiOptimizeRunStatus,
+  TriggerAiOptimizeRunInput,
 } from "./lib/server/aiOptimizeRuns";
+
+export type { AiOptimizeRunRow, TriggerAiOptimizeRunInput };
+export type AiOptimizeRunStatusServer = AiOptimizeRunStatus;
+
+async function loadAiOptimizeRuns() {
+  return import("./lib/server/aiOptimizeRuns");
+}
+
+export async function triggerAiOptimizeRun(input: TriggerAiOptimizeRunInput) {
+  const mod = await loadAiOptimizeRuns();
+  return mod.triggerAiOptimizeRun(input);
+}
+
+export async function refreshAiOptimizeRunFromCursor(id: string) {
+  const mod = await loadAiOptimizeRuns();
+  return mod.refreshAiOptimizeRunFromCursor(id);
+}
+
+export async function refreshAllActiveRunsForEditor(editorId: string) {
+  const mod = await loadAiOptimizeRuns();
+  return mod.refreshAllActiveRunsForEditor(editorId);
+}
+
+export async function cancelAiOptimizeRun(id: string) {
+  const mod = await loadAiOptimizeRuns();
+  return mod.cancelAiOptimizeRun(id);
+}
+
+export async function getAiOptimizeRun(id: string) {
+  const mod = await loadAiOptimizeRuns();
+  return mod.getAiOptimizeRun(id);
+}
+
+export async function listAiOptimizeRuns(opts: { editorId: string; limit?: number }) {
+  const mod = await loadAiOptimizeRuns();
+  return mod.listAiOptimizeRuns(opts);
+}
+
+export async function getRevalidationPathsForEditor(editorId: string) {
+  const mod = await loadAiOptimizeRuns();
+  return mod.getRevalidationPathsForEditor(editorId);
+}

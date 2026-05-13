@@ -2,9 +2,9 @@ import { cn } from "@/lib/cn";
 import Eyebrow from "./Eyebrow";
 
 interface SectionHeaderProps {
-  eyebrow: string;
+  eyebrow?: string;
   /** Heading content — can include JSX (e.g. <em> for italic accents). */
-  heading: React.ReactNode;
+  heading?: React.ReactNode;
   body?: string;
   /** "center" renders a centered, max-w-2xl constrained layout (default).
    *  "left" renders left-aligned with no max-width constraint on the heading. */
@@ -15,6 +15,10 @@ interface SectionHeaderProps {
   eyebrowColorClass?: string;
   /** Additional bottom margin after the entire header block */
   mb?: string;
+  /** Legacy mode: semantic heading tag. */
+  as?: "h1" | "h2" | "h3" | "h4";
+  /** Legacy mode: heading content passed as children. */
+  children?: React.ReactNode;
 }
 
 /**
@@ -31,20 +35,39 @@ export default function SectionHeader({
   headingStyle,
   eyebrowColorClass,
   mb = "mb-12",
+  as = "h2",
+  children,
 }: SectionHeaderProps) {
+  // Backward-compat: older pages use <SectionHeader as="h2">...</SectionHeader>
+  // while newer sections use eyebrow/heading/body props.
+  if (!eyebrow && !heading && !body && children) {
+    const HeadingTag = as;
+    return (
+      <HeadingTag
+        className={cn("font-[family-name:var(--font-display)] font-normal text-ink", className)}
+        style={headingStyle}
+      >
+        {children}
+      </HeadingTag>
+    );
+  }
+
   const isCenter = align === "center";
+  const resolvedHeading = heading ?? children;
 
   return (
     <div className={cn(isCenter && "text-center", mb, className)}>
-      <Eyebrow colorClass={eyebrowColorClass} className="mb-4">
-        {eyebrow}
-      </Eyebrow>
+      {eyebrow && (
+        <Eyebrow colorClass={eyebrowColorClass} className="mb-4">
+          {eyebrow}
+        </Eyebrow>
+      )}
 
       <h2
         className="font-[family-name:var(--font-display)] font-normal text-ink mb-5"
         style={headingStyle}
       >
-        {heading}
+        {resolvedHeading}
       </h2>
 
       {body && (
