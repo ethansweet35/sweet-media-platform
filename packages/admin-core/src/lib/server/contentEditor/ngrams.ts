@@ -131,12 +131,37 @@ const GENERIC_UNIGRAM_BLOCKLIST = new Set<string>([
   "find", "finds", "found", "finding",
   "work", "works", "working", "worked",
   "feel", "feels", "felt", "feeling", "feelings",
+  "show", "shows", "shown", "showing",
+  "take", "takes", "taken", "taking", "took",
+  "give", "gives", "given", "giving", "gave",
+  "look", "looks", "looked", "looking",
+  "come", "comes", "came", "coming",
+  "follow", "follows", "followed", "following",
+  "change", "changes", "changed", "changing",
+  "help", "helped", "helping",
+  "place", "placed", "places",
+  "part", "parts",
+  "put", "puts", "putting",
+  "call", "calls", "called", "calling",
+  "turn", "turns", "turned", "turning",
+  "keep", "keeps", "kept", "keeping",
+  "let", "lets", "letting",
+  "try", "tries", "tried", "trying",
+  "ask", "asks", "asked", "asking",
+  "seem", "seems", "seemed", "seeming",
+  "leave", "leaves", "left", "leaving",
+  "move", "moves", "moved", "moving",
+  "live", "lives", "lived", "living",
+  "lead", "leads", "led", "leading",
+  "build", "builds", "built", "building",
   // Connectors / fillers
   "important", "different", "various", "many", "several",
   "may", "might", "must", "often", "always", "never",
   "well", "good", "best", "better", "great", "right",
   "new", "old", "first", "last", "long", "short",
   "high", "low", "large", "small", "real", "true",
+  "able", "around", "every", "even", "still", "just",
+  "rather", "quite", "simply", "already", "though",
 ]);
 
 /**
@@ -149,10 +174,18 @@ function isUsefulTerm(term: string): boolean {
   if (/^[\d\s.,$%-]+$/.test(term)) return false;
   // Reject single-char tokens that snuck through
   if (term.length < 3) return false;
-  // For multi-word phrases: require at least one non-stopword token.
-  // (Stopwords already removed from unigrams, but bigrams like "and the"
-  // can sneak through if our token list ever changes.)
+  // Reject URL artifacts that survived tokenization
+  if (/^https?$/.test(term) || /^www$/.test(term)) return false;
+
   const tokens = term.split(" ");
+
+  // Reject n-grams where the same content word appears more than once —
+  // these are artifacts of adjacent repetitions in scraped text
+  // ("gambling gambling", "addiction gambling" adjacent to another "gambling").
+  const contentTokens = tokens.filter((t) => !ENGLISH_STOPWORDS.has(t));
+  if (contentTokens.length !== new Set(contentTokens).size) return false;
+
+  // For multi-word phrases: require at least one non-stopword token.
   const allStop = tokens.every((t) => ENGLISH_STOPWORDS.has(t));
   if (allStop) return false;
   // Reject standalone generic unigrams that aren't actionable SEO terms.

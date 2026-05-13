@@ -430,7 +430,11 @@ async function phase3_nlpAndNgrams(
   } => {
     const scale = (targetWordCount / Math.max(1, avgWordCount));
     const minUses = Math.max(1, Math.round(m.avgFreq * scale));
-    const maxUses = Math.max(minUses + 1, Math.round(m.maxFreq * scale));
+    // Cap maxFreq at 2.5× avgFreq to prevent a single high-volume outlier
+    // page from exploding the recommended range (e.g. "gambling /63–289"
+    // when most competitors use it ~63 times — Surfer gives "56–76").
+    const cappedMaxFreq = Math.min(m.maxFreq, Math.ceil(m.avgFreq * 2.5));
+    const maxUses = Math.max(minUses + 1, Math.round(cappedMaxFreq * scale));
     const targetUses = Math.round((minUses + maxUses) / 2);
 
     return {

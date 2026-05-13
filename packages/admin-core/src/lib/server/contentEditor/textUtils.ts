@@ -30,6 +30,10 @@ export const ENGLISH_STOPWORDS = new Set<string>([
   "skip", "back", "next", "previous", "share", "tweet", "post", "posts",
   "tag", "tags", "category", "categories", "comment", "comments", "reply",
   "subscribe", "newsletter", "email", "login", "signup", "sign",
+  // URL artifacts (appear in scraped text as bare tokens)
+  "https", "http", "www",
+  // Common words missed from standard stopword lists
+  "like", "one", "ones",
   // Generic web verbs
   "us", "uses", "use", "using", "used", "make", "makes", "making", "made",
   "get", "gets", "getting", "got", "go", "goes", "going", "gone",
