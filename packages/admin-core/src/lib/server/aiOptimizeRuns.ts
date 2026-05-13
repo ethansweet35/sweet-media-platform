@@ -341,15 +341,14 @@ function buildAgentPrompt(opts: {
 2. **Read the brand design system.** Open every relevant file in \`.cursor/rules/*.mdc\` — especially the brand-specific design system rule for this app. Match the tone, components, Tailwind tokens, icon set, and section rhythm documented there.
 3. **Read shared components.** Before adding any new section, search \`${page.app_dir}/src/components/sections/\`, \`${page.app_dir}/src/components/templates/\`, and the brand's view files for existing reusable section components. Reuse them. Do NOT invent generic Tailwind layouts when a brand component already exists.
 4. **Inventory the current page's slot lengths.** This step is mandatory. Before writing any edit, run \`wc -w\` (or count manually) on the current text in each slot of the data file: hero headline, hero body, each H2, each section intro paragraph, each card body, each FAQ answer. Write this inventory out as a comment block in your scratch notes. You will use it in step 6.
-5. **FLOW AUDIT — write the page sequence to a scratchpad.** Before designing any new section, list the page's current sections in render order with: section name, layout pattern (see SECTION COMPOSITION PALETTE below), background color, and the content cluster it covers. Then identify (a) which content clusters from the brief are already addressed, (b) which can be absorbed by extending an existing section, and (c) only what truly needs a brand-new section. Reference the FLOW + RHYTHM AUDIT rules below — the flow you propose must read like one cohesive page, not a stack of disconnected SEO blocks.
-6. **Plan your edits with the LAYOUT BUDGET, FLOW + RHYTHM, and SECTION VARIETY rules below.** Decide which existing sections to tighten with phrase swaps (NOT to make longer), which to extend with one extra card / bullet / FAQ, and which NEW sections to add. Every new section must use a layout pattern from the SECTION COMPOSITION PALETTE that contrasts with its neighbors — never two of the same pattern back-to-back, never a clone of an existing section's component with a new color.
-7. **Make the edits.** Edit \`.tsx\` files (and the corresponding data files when a template uses one). Use existing components. Do not introduce new dependencies. Do not modify shared template internals for one-off needs — extend the template's props if necessary, but prefer working through existing props. When a brand template lacks a fitting layout, build the new section from brand primitives (tokens, icons, typography) — DO NOT clone an existing section component and toggle its background.
-8. **Verify before opening the PR.**
-   - Run \`pnpm --filter @sweetmedia/${page.app_dir.replace("apps/", "")} typecheck\` and ensure it passes.
-   - Run \`pnpm --filter @sweetmedia/${page.app_dir.replace("apps/", "")} lint\` (if defined).
-   - Grep for EVERY term in the brief against your edited files. Count how many are covered. If coverage is below 95%, prefer adding new bullets / FAQ entries / paragraph sentences to existing sections before adding a brand-new H2. Do not open the PR below 95%.
-   - Re-count the word count of EVERY slot you edited and verify it satisfies the LAYOUT BUDGET below. If any slot is over budget, trim before opening the PR.
-   - Run the FLOW + RHYTHM checklist below. If any item fails, fix it before opening the PR.
+5. **Plan your edits.** For each missing brief item pick the SINGLE BEST option in this priority order: (A) extend in place — add a card/bullet/FAQ to an existing section, (B) replace stale content, (C) add a new H2 — last resort, only when the missing content is its own coherent cluster. New sections must follow FLOW + SECTION VARIETY rules below.
+6. **Make the edits.** Edit \`.tsx\` files (and data files when a template uses one). Reuse existing components. No new dependencies. Do not modify shared template internals for one-off needs — extend the template's props if necessary. When the template lacks a fitting layout, build the new section inline from brand design-system tokens — DO NOT clone an existing section component and toggle its background.
+7. **Verify before opening the PR.**
+   - \`pnpm --filter @sweetmedia/${page.app_dir.replace("apps/", "")} typecheck\` passes.
+   - \`pnpm --filter @sweetmedia/${page.app_dir.replace("apps/", "")} lint\` passes (if defined).
+   - Grep every brief term against your edited files; coverage ≥95%.
+   - Re-count word counts in every edited slot vs LAYOUT BUDGET.
+   - Run the FLOW + SECTION VARIETY checklist.
 
 # LAYOUT BUDGET — non-negotiable
 
@@ -419,103 +418,57 @@ The brief's facts, questions, and term coverage almost always belong in **new H2
 - **FAQ accordion**: great for question coverage and secondary terms. Add as many new FAQ entries as needed.
 - **New bullet items in checklist/grid sections**: efficient for short terms that fit naturally as a feature or benefit.
 
-**Coverage goal: ≥95% of all NLP terms must be present in the final page.** If you finish your planned edits and coverage is still below 95%, prefer extending existing sections (more cards, more FAQ entries, more bullets) BEFORE adding a brand-new H2. Only add brand-new H2 sections when the missing content clearly belongs to a new content cluster the page does not yet cover.
+**Coverage goal: ≥95% of all NLP terms must be present in the final page.** If coverage is below 95% after planned edits, prefer extending existing sections (more cards, FAQ entries, bullets) BEFORE adding a brand-new H2.
 
-# FLOW + RHYTHM AUDIT — required before any new section
+# FLOW + SECTION VARIETY — non-negotiable
 
-A page is not a list of SEO blocks. It is a guided argument that takes the reader from "I'm not sure what this is" to "I want to call." Every new section you propose must justify its placement against this rule.
+A page is a guided argument, not a stack of SEO blocks. The single worst failure mode is cloning an existing brand section component (e.g. \`<ExtraCardsSection>\`), flipping its background, and adding a second instance with new content — the page reads as repetitive. These rules block that.
 
-## Required scratchpad: flow inventory
+## Hard rules
+1. **No two adjacent sections may use the same layout pattern OR the same background.** Pick patterns from the palette below.
+2. **No clone-and-rebackground.** Do NOT instantiate an existing brand section component a second time with a different background prop. Extend the original instance instead.
+3. **Max 2 tile-grid sections per page. Max 1 full-bleed image-overlay section per page.**
+4. **Never insert between an image-overlay band and the section that follows it.** That visual breath into the FAQ is intentional.
+5. **Never append after the FAQ + closing CTA** — those must remain the last narrative beats.
+6. **Never repeat a content cluster.** If "treatment levels of care" exists as a 4-card grid, do not add a second one. Extend the original.
+7. **FAQ accordion is exempt from variety rules** — always prefer adding FAQ entries before adding a brand-new H2.
 
-Before deciding what to add, write out a table (in your scratch notes, not the PR description yet) of the CURRENT page in render order:
+## Section composition palette
+When you must add a new H2 (last resort — see "Don't bloat" priority above), pick the pattern that contrasts with BOTH neighbors:
 
-| # | Section name | Layout pattern | Background | Content cluster |
-|---|---|---|---|---|
-| 1 | Hero | hero-with-form | image-overlay | Brand promise + first CTA |
-| 2 | Stats strip | stat-band | dark sage | Credibility / scale |
-| 3 | Why families choose us | tile-grid (4 cards) | white + cream tiles | Differentiators |
-| ... | | | | |
+- \`tile-grid\` — equal cards in a 2/3/4-col grid
+- \`split-image-text\` — image one side, prose + small list opposite
+- \`alternating-strips\` — stacked split-image rows, image side alternates
+- \`timeline\` — numbered/dated steps with a connector line
+- \`comparison-table\` — real \`<table>\`, 2–4 cols (X vs Y, insurance, options)
+- \`stat-band\` — row of large numbers + short labels on accent bg
+- \`accordion-stack\` — expandable items (same as FAQ component, different topic)
+- \`pull-quote-block\` — one oversized quote on contrasting bg
+- \`callout-stack\` — 2–3 warning/tip/insight callouts stacked
+- \`feature-row\` — horizontal icon + 1-line title + 1-sentence body, no card chrome
+- \`directory-list\` — compact 2-col list of name + 1-line description
+- \`numbered-list-section\` — single H2 + rich \`<ol>\`, no card chrome
+- \`single-image-overlay\` — full-bleed image + overlaid headline + paragraph (max 1 per page)
 
-Then identify, for each missing content cluster from the brief, the SINGLE BEST option:
-
-- (A) **Extend in place** — add a card / bullet / FAQ entry / sentence to an existing section. (Default: prefer this.)
-- (B) **Replace stale content** — swap a card body or paragraph that's currently weak for one that addresses the brief.
-- (C) **New section** — last resort, only when the missing content is its own coherent cluster that doesn't fit anywhere existing.
-
-If you choose (C), record the proposed insertion point + WHY the page reads better with it inserted there than at the end.
-
-## Flow rules — non-negotiable
-
-1. **Never append to the end.** New sections go before the FAQ + closing CTA. The closing CTA must remain the last narrative beat.
-2. **Never insert between an image-overlay band and the section that follows it.** The Recovery Band (or any full-bleed image section) is designed to transition into the FAQ as a visual breath. Do not stuff a tile-grid between them.
-3. **Never put two adjacent sections that share the same layout pattern.** See SECTION VARIETY below.
-4. **Never repeat the same content cluster in two sections.** If "treatment levels of care" already appears as a 4-card grid, do not add a second "treatment options" 4-card grid further down. Extend the existing one instead.
-5. **Background rhythm must alternate.** The brand design system specifies an alternation (e.g. white → cream → dark sage → repeat). Never put two same-background sections back-to-back.
+If the brand template already implements your chosen pattern (e.g. \`<ProcessTimeline>\`), use it. If not, build it inline using brand design-system tokens (colors, type, spacing, icons from the \`.cursor/rules/*.mdc\` for this app).
 
 ## Required FLOW AUDIT in the PR description
-
-Include this exact table in the PR description, with one row per FINAL section in render order — current AND new:
+Include this table — one row per FINAL section in render order, current AND new:
 
 | # | Section name | Layout pattern | Background | Status |
 |---|---|---|---|---|
 | 1 | Hero | hero-with-form | image-overlay | unchanged |
-| 2 | Stats strip | stat-band | dark sage | unchanged |
-| 3 | Why families choose us | tile-grid (4 cards) | white | extended (1 card added) |
 | ... | | | | |
 | N | New: Aftercare pathway | timeline | cream | NEW (cluster: continuing care) |
-| N+1 | FAQ accordion | accordion | white | extended (3 entries added) |
 
-Status values: \`unchanged\` | \`tightened\` | \`extended\` | \`replaced\` | \`NEW\`.
+Status: \`unchanged\` | \`tightened\` | \`extended\` | \`replaced\` | \`NEW\`. If two adjacent rows share Layout pattern OR Background, the PR is NOT ready.
 
-If two adjacent rows share the same Layout pattern OR the same Background, the PR is NOT ready — change one of them.
+For every \`NEW\` row, add a one-line rationale beneath the table: e.g. \`"Aftercare pathway → timeline (contrasts with adjacent tile-grid + accordion)"\`.
 
-# SECTION VARIETY — no copy-paste layouts
-
-The single biggest failure mode of automated SEO edits is that the AI clones an existing brand section component, flips its background color, and adds a second instance with new content. Visually, the page reads as repetitive. Editorially, it tells the reader "you've seen this before."
-
-## Hard rules
-
-1. **No two adjacent sections may use the same Layout pattern.** A 4-card tile grid cannot follow another 4-card tile grid. A stat band cannot follow another stat band. (The SECTION COMPOSITION PALETTE below lists the patterns.)
-2. **No clone-and-rebackground.** When a brand component (e.g. \`<ExtraCardsSection>\`) already exists for one section, you may NOT instantiate the same component a second time with a different background prop to host new content. If the new cluster genuinely needs a tile-grid presentation, extend the existing instance with more cards (within the layout budget) instead of adding a second instance.
-3. **Maximum two tile-grid sections per page.** If the page already has 2 grid-of-cards sections, the next new section MUST use a different pattern (see palette).
-4. **Maximum one full-bleed image-overlay section per page.** Do not add a second hero-style or recovery-band-style image section.
-5. **The FAQ accordion is exempt from variety rules** — it's the cheapest place to grow coverage and accordions tolerate length variance well. Always prefer adding FAQ entries before adding new sections.
-
-# SECTION COMPOSITION PALETTE — pick a fresh pattern for each new H2
-
-When you must add a new H2 section (option C in the flow audit), pick the pattern from this palette that BEST fits the content AND CONTRASTS with both neighboring sections.
-
-| Pattern key | Best for | Visual signature |
-|---|---|---|
-| \`tile-grid\` | 3–6 parallel options, services, or differentiators | Equal-size cards in a 2/3/4-col grid |
-| \`split-image-text\` | A single concept that benefits from one strong visual + 1–2 paragraphs | Image left or right, prose + small bullet list opposite |
-| \`alternating-strips\` | 2–4 sub-topics each deserving image + prose | Vertical stack of split-image-text rows, image side alternating |
-| \`timeline\` | A sequence (process, recovery roadmap, what-to-expect) | Numbered steps or dated milestones in a vertical or horizontal line with a connector |
-| \`comparison-table\` | "X vs Y", "what we do vs what others do", insurance comparisons | Real \`<table>\` with 2–4 columns, sticky first column |
-| \`stat-band\` | Pure credibility / market sizing / outcome metrics | Row of large numbers + short labels on a dark or accent background |
-| \`accordion-stack\` | Many sub-topics (8+) where the reader scans then expands | List of expandable items — same component as the FAQ accordion |
-| \`pull-quote-block\` | One emotionally resonant quote from a counselor / family member | Oversized quote on a contrasting background, attribution beneath |
-| \`callout-stack\` | 2–3 distinct warnings, tips, or insights | Vertical stack of callout cards (warning / tip / insight variants), each with a short body |
-| \`feature-row\` | 3–5 short feature points that don't need full cards | Horizontal row of icon + 1-line title + 1-sentence body, no card chrome |
-| \`directory-list\` | A long list of locations / programs / resources | Compact 2-col list with name + 1-line description per row |
-| \`numbered-list-section\` | Steps to take, things to bring, questions to ask | A single H2 + an \`<ol>\` with rich \`<li>\` content (no card chrome) |
-| \`single-image-overlay\` | Strong emotional moment between dense sections (use sparingly) | Full-bleed image with overlaid headline + 1-paragraph body |
-
-## Rules for picking a pattern
-
-1. **Look at the section above and the section below.** Pick a pattern from the palette whose Visual signature is genuinely different from both.
-2. **Never pick \`tile-grid\` if either neighbor is also a tile-grid.** This is the most common mistake.
-3. **Never pick \`single-image-overlay\` if there is already a full-bleed image section on the page.**
-4. **If the brand template already implements the chosen pattern as a reusable section component, use it.** (E.g. an existing \`<ProcessTimeline>\` or \`<ComparisonTable>\` in \`${page.app_dir}/src/components/sections/\`.) If not, build the new pattern inline using brand tokens — the design-system rule for the brand specifies the colors, type, spacing, and icon set you must use.
-5. **Document your choice in the PR description.** For every NEW row in the FLOW AUDIT table, include a one-line rationale: e.g. \`"Aftercare pathway → timeline pattern (contrasts with adjacent tile-grid + accordion)"\`.
-
-## Concrete examples of what NOT to do
-
-- ❌ Page already has an "Why families choose us" 4-card grid → adding a "Treatment options" 4-card grid two sections later (variety rule).
-- ❌ Page already has an "Extra cards" cream-background 4-card grid → adding an "Evidence-based treatment" white-background 4-card grid using the same component (clone-and-rebackground rule).
-- ❌ Page already has a "Recovery band" full-bleed image → adding a "Hope band" full-bleed image two sections later (max one image-overlay rule).
-- ❌ Inserting a new tile-grid between the Recovery Band and the FAQ (flow rule #2).
-- ❌ Putting "FAQ" before a new H2 section (FAQ must remain near the end).
+## Anti-patterns — DO NOT DO THIS
+- ❌ Existing cream-bg \`<ExtraCardsSection>\` → adding a white-bg \`<ExtraCardsSection>\` for new content (clone-and-rebackground)
+- ❌ Two 4-card tile-grids back-to-back (variety rule #1)
+- ❌ Inserting a new tile-grid between the Recovery Band and the FAQ (flow rule #4)
 
 # Content brief (mandatory coverage)
 
@@ -571,16 +524,11 @@ When you finish, the PR title should be:
 The PR description must include:
 
 - **Coverage count** — "X of Y NLP terms covered (Z%)". The PR is NOT ready if Z < 95%.
-- **Flow audit table** — a markdown table with one row per FINAL section in render order (current AND new), showing #, Section name, Layout pattern, Background, Status. The PR is NOT ready if any two adjacent rows share the same Layout pattern OR the same Background. (See "FLOW + RHYTHM AUDIT" rule above.)
-- **Section variety check** — confirm: max two \`tile-grid\` sections on the page, max one \`single-image-overlay\`, no clone-and-rebackground of an existing brand section component. The PR is NOT ready if any of these are violated.
-- **Pattern rationale for each NEW section** — one line per new section: which palette pattern was chosen and which neighboring patterns it contrasts with (e.g. \`"Aftercare pathway → timeline pattern (contrasts with adjacent tile-grid + accordion)"\`).
-- **Layout-budget audit** — a markdown table with one row per slot you edited, showing was / now / budget / OK. The PR is NOT ready until every row is ✅. (See "Section comparison check" rule above.)
-- Which existing sections you tightened (phrase swaps only — no length expansion past budget)
-- Which existing sections you EXTENDED (added a card / FAQ entry / bullet — preferred over adding a brand-new section)
-- Which new sections you added — for each, name the palette pattern used and confirm it does not duplicate any existing brand section component
-- A checklist showing which brief terms / questions / facts are now covered, and where each appears (which section / FAQ entry).
-- Any terms that remain uncovered after the PR (should be ≤5% of the total list), with a brief note on why they were excluded (e.g. irrelevant to this page's audience).
-- The typecheck + lint output (must be green).
+- **Flow audit table** — see "Required FLOW AUDIT" above. PR not ready if any two adjacent rows share Layout pattern or Background.
+- **Layout-budget audit** — table with one row per edited slot showing was / now / budget / OK. PR not ready until every row is ✅.
+- **Sections summary** — short bullets for tightened / extended / replaced / new sections. For each new section: palette pattern used + confirm no clone-and-rebackground.
+- **Coverage checklist** — which brief terms / questions / facts are now covered + where (section / FAQ entry). Note any uncovered terms (≤5%) with reason.
+- **Typecheck + lint output** — must be green.
 
 ${opts.customInstructions ? `\n# Additional instructions from the operator\n\n${opts.customInstructions}\n` : ""}`;
 }
