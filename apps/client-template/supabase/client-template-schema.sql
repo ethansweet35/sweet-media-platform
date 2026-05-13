@@ -661,63 +661,56 @@ create index if not exists tracked_page_live_snapshots_editor_idx
   on public.tracked_page_live_snapshots(scored_against_editor_id, fetched_at desc);
 
 -- =========================================================
--- tracked_page_content_blocks — DB-backed body content for tracked pages
+-- ai_optimize_runs — Cursor cloud agent runs that open AI-authored PRs
 --
--- Renders via <TrackedPageBody trackedPagePath="/some-route" /> server
--- component. AI Auto-Optimize writes 'pending' blocks here for review;
--- admin applies them to status='active' and the page revalidates immediately.
+-- An admin clicks "Optimize Page (Open PR)" in the Content Editor brief
+-- workspace. The server-side handler fires a Cursor cloud agent via
+-- @cursor/sdk that clones this repo, reads the page's tsx + the brand
+-- design system rules + the content brief (terms/questions/facts), and
+-- opens a PR with code-level edits. We record the agent id, run id, and
+-- (when finished) the PR URL so the admin UI can surface the diff.
 -- =========================================================
-create table if not exists public.tracked_page_content_blocks (
+create table if not exists public.ai_optimize_runs (
   id uuid primary key default gen_random_uuid(),
-  tracked_page_id uuid not null references public.tracked_pages(id) on delete cascade,
-  -- Editor that authored this block (when AI-generated). NULL for manually
-  -- authored or imported blocks.
-  editor_id uuid references public.content_editors(id) on delete set null,
+  editor_id uuid references public.content_editors(id) on delete cascade,
+  tracked_page_id uuid references public.tracked_pages(id) on delete cascade,
 
-  -- Ordering within the page body. Lower = earlier. Active blocks render in
-  -- ascending position order via the <TrackedPageBody/> server component.
-  position int not null default 0,
-
-  -- Block shape — mirrors the BlockShape union used by content_editor draft
-  -- markdown (h1/h2/h3/h4, paragraph, list, numbered, pullquote, callout,
-  -- stat-row, table, divider). h1/h4 typically unused inside a page body.
-  block_type text not null,
-  heading text,
-  body_markdown text,
-  list_items jsonb,
-  callout_variant text,            -- 'tip' | 'warning' | 'insight' (when block_type='callout')
-  stats jsonb,                     -- [{value, label}] (when block_type='stat-row')
-  table_headers jsonb,             -- string[] (when block_type='table')
-  table_rows jsonb,                -- string[][] (when block_type='table')
+  -- Cursor SDK identifiers (cloud agents are prefixed `bc-`).
+  cursor_agent_id text,
+  cursor_run_id text,
 
   -- Lifecycle
-  --   pending  — AI-generated, awaiting admin Apply
-  --   active   — live on the page (rendered)
-  --   archived — previously-applied content that was later replaced
-  --   rejected — pending block that admin rejected (kept for history)
-  status text not null default 'pending',
+  --   queued     — row inserted; not yet dispatched to Cursor
+  --   running    — Cursor accepted the run
+  --   pr_opened  — agent finished and PR is open
+  --   merged     — admin merged the PR
+  --   failed     — Cursor reported error or backend rejected
+  --   cancelled  — admin cancelled the agent
+  status text not null default 'queued',
+  status_message text,
 
-  -- Provenance + rationale (helpful UX when reviewing AI suggestions).
-  source text not null default 'manual',   -- 'manual' | 'ai-generated' | 'imported'
-  ai_rationale text,
-  -- Optional H2 from the live page that this block "edits". When set, admin
-  -- UI can group the block under that section in the review panel.
-  ai_target_heading text,
+  -- Output
+  pr_url text,
+  pr_number int,
+  branch_name text,
+  diff_summary text,
+
+  -- Provenance
+  triggered_by_email text,
+  model_id text,
+  prompt text,
+  error text,
 
   created_at timestamptz not null default now(),
   updated_at timestamptz not null default now(),
-  applied_at timestamptz
+  completed_at timestamptz
 );
 
-create index if not exists tracked_page_content_blocks_page_idx
-  on public.tracked_page_content_blocks(tracked_page_id, status, position);
-create index if not exists tracked_page_content_blocks_editor_idx
-  on public.tracked_page_content_blocks(editor_id);
-create index if not exists tracked_page_content_blocks_status_idx
-  on public.tracked_page_content_blocks(status);
+create index if not exists ai_optimize_runs_editor_idx on public.ai_optimize_runs(editor_id, created_at desc);
+create index if not exists ai_optimize_runs_page_idx on public.ai_optimize_runs(tracked_page_id, created_at desc);
+create index if not exists ai_optimize_runs_status_idx on public.ai_optimize_runs(status);
 
--- updated_at trigger reuses the same generic function pattern used elsewhere.
-create or replace function public.tg_tracked_page_content_blocks_updated_at()
+create or replace function public.tg_ai_optimize_runs_updated_at()
 returns trigger language plpgsql as $fn$
 begin
   new.updated_at = now();
@@ -725,10 +718,10 @@ begin
 end;
 $fn$;
 
-drop trigger if exists tracked_page_content_blocks_updated_at on public.tracked_page_content_blocks;
-create trigger tracked_page_content_blocks_updated_at
-  before update on public.tracked_page_content_blocks
-  for each row execute function public.tg_tracked_page_content_blocks_updated_at();
+drop trigger if exists ai_optimize_runs_updated_at on public.ai_optimize_runs;
+create trigger ai_optimize_runs_updated_at
+  before update on public.ai_optimize_runs
+  for each row execute function public.tg_ai_optimize_runs_updated_at();
 
 alter table public.content_editors                  enable row level security;
 alter table public.content_editor_competitors       enable row level security;
@@ -741,14 +734,7 @@ alter table public.content_editor_draft_term_usage  enable row level security;
 alter table public.content_editor_serp_cache        enable row level security;
 alter table public.content_editor_domain_blacklist  enable row level security;
 alter table public.tracked_page_live_snapshots      enable row level security;
-alter table public.tracked_page_content_blocks      enable row level security;
-
--- Anon SELECT for active blocks so the public <TrackedPageBody/> server
--- component can render via the anon key during SSR. Pending/archived/rejected
--- blocks remain admin-only.
-drop policy if exists "Anon can read active page content blocks" on public.tracked_page_content_blocks;
-create policy "Anon can read active page content blocks" on public.tracked_page_content_blocks
-  for select to anon using (status = 'active');
+alter table public.ai_optimize_runs                 enable row level security;
 
 do $$
 declare tbl text; pname text;
@@ -757,7 +743,7 @@ begin
     'content_editors','content_editor_competitors','content_editor_terms','content_editor_questions',
     'content_editor_facts','content_editor_outlines','content_editor_drafts','content_editor_draft_term_usage',
     'content_editor_serp_cache','content_editor_domain_blacklist','tracked_page_live_snapshots',
-    'tracked_page_content_blocks'
+    'ai_optimize_runs'
   ]) loop
     pname := 'Admins can manage ' || tbl;
     execute format('drop policy if exists %I on public.%I', pname, tbl);

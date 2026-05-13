@@ -11,10 +11,7 @@ import {
   useLiveScore,
   type DraftInputs,
 } from "../hooks/useContentEditors";
-import {
-  useTrackedPageBlocks,
-  type TrackedPageBlock,
-} from "../hooks/useTrackedPageBlocks";
+import { useAiOptimizeRuns, type AiOptimizeRun } from "../hooks/useAiOptimizeRuns";
 import {
   EEAT_CHECK_LABELS,
   STATUS_IS_PROCESSING,
@@ -339,541 +336,203 @@ function PageModeBanner({
   );
 }
 
-/* ─── Block preview renderer ─────────────────────────────────────────── */
+/* ─── AI Optimize Runs panel ─────────────────────────────────────────── */
 
-/**
- * Minimal preview rendering of a single tracked-page content block. Mirrors
- * the public <TrackedPageBody/> renderer in admin-core but uses muted
- * neutral styling so admins can scan it quickly without it competing with
- * the chrome.
- */
-function BlockPreview({ block }: { block: TrackedPageBlock }) {
-  switch (block.block_type) {
-    case "h1":
-      return block.heading ? (
-        <p className="text-[18px] font-bold text-neutral-900">{block.heading}</p>
-      ) : null;
-    case "h2":
-      return block.heading ? (
-        <p className="text-[16px] font-bold text-neutral-900">{block.heading}</p>
-      ) : null;
-    case "h3":
-      return block.heading ? (
-        <p className="text-[14px] font-bold text-neutral-800">{block.heading}</p>
-      ) : null;
-    case "h4":
-      return block.heading ? (
-        <p className="text-[13px] font-bold text-neutral-800">{block.heading}</p>
-      ) : null;
-    case "paragraph":
-      return block.body_markdown ? (
-        <p className="text-[12px] text-neutral-700 leading-relaxed whitespace-pre-wrap">
-          {block.body_markdown}
-        </p>
-      ) : null;
-    case "list":
-      return block.list_items?.length ? (
-        <ul className="list-disc pl-5 space-y-0.5 text-[12px] text-neutral-700">
-          {block.list_items.map((item, i) => (
-            <li key={i}>{item}</li>
-          ))}
-        </ul>
-      ) : null;
-    case "numbered":
-      return block.list_items?.length ? (
-        <ol className="list-decimal pl-5 space-y-0.5 text-[12px] text-neutral-700">
-          {block.list_items.map((item, i) => (
-            <li key={i}>{item}</li>
-          ))}
-        </ol>
-      ) : null;
-    case "pullquote":
-      return block.body_markdown ? (
-        <p className="border-l-2 border-neutral-300 pl-3 italic text-[12px] text-neutral-600">
-          {block.body_markdown}
-        </p>
-      ) : null;
-    case "callout":
-      return block.body_markdown ? (
-        <p className="rounded-md bg-amber-50 border-l-2 border-amber-300 px-2 py-1 text-[12px] text-amber-900">
-          <span className="font-bold uppercase text-[9px] tracking-[0.12em] mr-1">
-            {block.callout_variant ?? "tip"}
-          </span>
-          {block.body_markdown}
-        </p>
-      ) : null;
-    case "stat-row":
-      return block.stats?.length ? (
-        <div className="flex gap-3 text-[12px] text-neutral-700">
-          {block.stats.map((s, i) => (
-            <span key={i}>
-              <span className="font-bold">{s.value}</span> — {s.label}
-            </span>
-          ))}
-        </div>
-      ) : null;
-    case "divider":
-      return <hr className="border-neutral-200" />;
+function statusBadgeClasses(status: AiOptimizeRun["status"]): string {
+  switch (status) {
+    case "queued":
+      return "bg-neutral-100 text-neutral-700";
+    case "running":
+      return "bg-amber-100 text-amber-800";
+    case "pr_opened":
+      return "bg-emerald-100 text-emerald-800";
+    case "merged":
+      return "bg-emerald-700 text-white";
+    case "failed":
+      return "bg-rose-100 text-rose-800";
+    case "cancelled":
+      return "bg-neutral-200 text-neutral-600";
     default:
-      return block.body_markdown || block.heading ? (
-        <p className="text-[12px] text-neutral-500 italic">
-          [{block.block_type}] {block.heading ?? block.body_markdown ?? ""}
-        </p>
-      ) : null;
+      return "bg-neutral-100 text-neutral-700";
   }
 }
 
-/* ─── Pending blocks panel ───────────────────────────────────────────── */
-
-interface BlocksPanelHandle {
-  applying: Record<string, boolean>;
-  applyBlock: (id: string) => Promise<boolean>;
-  rejectBlock: (id: string) => Promise<boolean>;
-  archiveBlock: (id: string) => Promise<boolean>;
-  applyAllPending: (editorId: string) => Promise<number>;
+function statusLabel(status: AiOptimizeRun["status"]): string {
+  switch (status) {
+    case "queued":
+      return "Queued";
+    case "running":
+      return "Running";
+    case "pr_opened":
+      return "PR open";
+    case "merged":
+      return "Merged";
+    case "failed":
+      return "Failed";
+    case "cancelled":
+      return "Cancelled";
+    default:
+      return status;
+  }
 }
 
-function PendingBlocksPanel({
-  pendingBlocks,
-  editorId,
-  handle,
+function relativeAgo(iso: string | null): string {
+  if (!iso) return "never";
+  const ms = Date.now() - Date.parse(iso);
+  if (Number.isNaN(ms)) return "never";
+  const mins = Math.round(ms / 60000);
+  if (mins < 1) return "just now";
+  if (mins < 60) return `${mins}m ago`;
+  const hours = Math.round(mins / 60);
+  if (hours < 24) return `${hours}h ago`;
+  const days = Math.round(hours / 24);
+  return `${days}d ago`;
+}
+
+function AiOptimizeRunsPanel({
+  runs,
+  triggering,
+  onTrigger,
+  onCancel,
+  cancellingId,
 }: {
-  pendingBlocks: TrackedPageBlock[];
-  editorId: string;
-  handle: BlocksPanelHandle;
+  runs: AiOptimizeRun[];
+  triggering: boolean;
+  onTrigger: () => void | Promise<void>;
+  onCancel: (id: string) => void | Promise<void>;
+  cancellingId: string | null;
 }) {
-  const [bulkApplying, setBulkApplying] = useState(false);
-
-  if (pendingBlocks.length === 0) {
-    return (
-      <div className="rounded-2xl border border-neutral-200 bg-white p-5 shadow-sm">
-        <div className="flex items-center gap-2 mb-1.5">
-          <i className="ri-inbox-line text-neutral-400" />
-          <p className="text-[12px] font-bold uppercase tracking-[0.12em] text-neutral-500">
-            Pending AI blocks
-          </p>
-        </div>
-        <p className="text-[12px] text-neutral-500 leading-relaxed">
-          No pending blocks yet. Click <strong>Auto-Optimize</strong> above to
-          generate AI-authored content the system can publish to this page.
-        </p>
-      </div>
-    );
-  }
-
-  // Group blocks by ai_target_heading so admins can see context per "edit".
-  // Blocks without a target heading are treated as standalone new sections.
-  const grouped = useMemo(() => {
-    const map = new Map<string, TrackedPageBlock[]>();
-    for (const b of pendingBlocks) {
-      const key = b.ai_target_heading?.trim() || "__new_section__";
-      const arr = map.get(key);
-      if (arr) arr.push(b);
-      else map.set(key, [b]);
-    }
-    return map;
-  }, [pendingBlocks]);
-
   return (
     <div className="rounded-2xl border border-[#3d6f7f]/30 bg-[#f9fbfc] shadow-sm overflow-hidden">
       <div className="px-5 py-3 border-b border-[#3d6f7f]/15 bg-[#3d6f7f]/[0.06] flex items-center justify-between flex-wrap gap-3">
         <div className="flex items-center gap-2">
-          <i className="ri-magic-line text-[#3d6f7f]" />
+          <i className="ri-git-pull-request-line text-[#3d6f7f]" />
           <p className="text-[12px] font-bold uppercase tracking-[0.12em] text-[#1f4452]">
-            Pending AI blocks
+            AI optimization PRs
             <span className="ml-1.5 text-neutral-400 normal-case font-normal tracking-normal">
-              ({pendingBlocks.length})
+              ({runs.length})
             </span>
           </p>
         </div>
         <button
           type="button"
-          onClick={async () => {
-            if (bulkApplying) return;
-            setBulkApplying(true);
-            try {
-              const n = await handle.applyAllPending(editorId);
-              if (n === 0) {
-                console.warn("[PendingBlocksPanel] apply-all returned 0");
-              }
-            } finally {
-              setBulkApplying(false);
-            }
-          }}
-          disabled={bulkApplying}
-          className="px-3 py-1.5 rounded-lg text-[10px] font-bold uppercase tracking-[0.1em] bg-emerald-700 text-white hover:bg-emerald-800 disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-1.5"
+          onClick={() => void onTrigger()}
+          disabled={triggering}
+          className="px-3 py-1.5 rounded-lg text-[10px] font-bold uppercase tracking-[0.1em] bg-[#3d6f7f] text-white hover:bg-[#2f5a6b] disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-1.5"
+          title="Fire a Cursor cloud agent that reads this page's .tsx + the brief, and opens a PR with code-level edits matching the brand design system"
         >
-          {bulkApplying ? (
+          {triggering ? (
             <>
-              <i className="ri-loader-4-line animate-spin" /> Applying…
+              <i className="ri-loader-4-line animate-spin" /> Dispatching…
             </>
           ) : (
             <>
-              <i className="ri-check-double-line" /> Apply all
+              <i className="ri-magic-line" /> Open new optimization PR
             </>
           )}
         </button>
-      </div>
-
-      <div className="px-5 py-4 space-y-4 text-[12px]">
-        <p className="text-[11px] text-neutral-500 leading-relaxed">
-          Each card below is a ready-to-publish piece of content. Click{" "}
-          <strong>Apply</strong> to push it live (the page revalidates immediately
-          via <code className="px-1 py-0.5 rounded bg-neutral-100 font-mono">revalidatePath()</code>
-          ), or <strong>Reject</strong> to discard.
-        </p>
-
-        {[...grouped.entries()].map(([key, group]) => {
-          const isNewSection = key === "__new_section__";
-          return (
-            <div
-              key={key}
-              className={`rounded-xl border ${
-                isNewSection
-                  ? "border-emerald-200/70 bg-emerald-50/30"
-                  : "border-amber-200/70 bg-amber-50/30"
-              } px-4 py-3`}
-            >
-              <div className="flex items-center justify-between gap-3 mb-2">
-                <div className="flex items-center gap-2 min-w-0">
-                  <span
-                    className={`px-1.5 py-0.5 rounded text-[9px] font-bold tracking-wider uppercase flex-shrink-0 ${
-                      isNewSection
-                        ? "bg-emerald-700 text-white"
-                        : "bg-amber-700 text-white"
-                    }`}
-                  >
-                    {isNewSection ? "New section" : "Supplement"}
-                  </span>
-                  <p className="font-semibold text-neutral-800 text-[12px] truncate">
-                    {isNewSection
-                      ? group.find((b) => b.block_type.startsWith("h"))
-                          ?.heading ?? "Untitled section"
-                      : key}
-                  </p>
-                </div>
-              </div>
-              {group[0]?.ai_rationale ? (
-                <p className="text-[10px] text-neutral-500 italic mb-2">
-                  {group[0].ai_rationale}
-                </p>
-              ) : null}
-              <div className="space-y-2 bg-white/60 rounded-lg border border-neutral-100 px-3 py-3">
-                {group.map((block) => (
-                  <BlockPreview key={block.id} block={block} />
-                ))}
-              </div>
-              <div className="mt-2 flex items-center gap-1.5 flex-wrap">
-                <button
-                  type="button"
-                  onClick={() => void handle.applyBlock(group[0].id)}
-                  disabled={!!handle.applying[group[0].id]}
-                  className="px-2.5 py-1 rounded-md text-[10px] font-bold uppercase tracking-[0.1em] bg-emerald-700 text-white hover:bg-emerald-800 disabled:opacity-50 flex items-center gap-1"
-                  title="Apply just the first block of this group"
-                >
-                  <i className="ri-check-line" /> Apply
-                </button>
-                {group.length > 1 ? (
-                  <button
-                    type="button"
-                    onClick={async () => {
-                      for (const b of group) await handle.applyBlock(b.id);
-                    }}
-                    className="px-2.5 py-1 rounded-md text-[10px] font-bold uppercase tracking-[0.1em] bg-emerald-700/80 text-white hover:bg-emerald-800 flex items-center gap-1"
-                    title={`Apply all ${group.length} blocks in this group`}
-                  >
-                    <i className="ri-stack-line" /> Apply group ({group.length})
-                  </button>
-                ) : null}
-                <button
-                  type="button"
-                  onClick={async () => {
-                    for (const b of group) await handle.rejectBlock(b.id);
-                  }}
-                  className="px-2.5 py-1 rounded-md text-[10px] font-bold uppercase tracking-[0.1em] border border-neutral-300 text-neutral-600 hover:bg-neutral-50 flex items-center gap-1"
-                  title="Discard this group"
-                >
-                  <i className="ri-close-line" /> Reject
-                </button>
-              </div>
-            </div>
-          );
-        })}
-      </div>
-    </div>
-  );
-}
-
-/* ─── Live blocks panel ──────────────────────────────────────────────── */
-
-function LiveBlocksPanel({
-  activeBlocks,
-  archivedBlocks,
-  handle,
-}: {
-  activeBlocks: TrackedPageBlock[];
-  archivedBlocks: TrackedPageBlock[];
-  handle: BlocksPanelHandle;
-}) {
-  const [showArchived, setShowArchived] = useState(false);
-  if (activeBlocks.length === 0 && archivedBlocks.length === 0) return null;
-
-  return (
-    <div className="rounded-2xl border border-emerald-200 bg-emerald-50/30 shadow-sm overflow-hidden">
-      <div className="px-5 py-3 border-b border-emerald-200 bg-emerald-100/40 flex items-center justify-between flex-wrap gap-3">
-        <div className="flex items-center gap-2">
-          <i className="ri-checkbox-circle-line text-emerald-700" />
-          <p className="text-[12px] font-bold uppercase tracking-[0.12em] text-emerald-900">
-            Live AI blocks
-            <span className="ml-1.5 text-emerald-600/70 normal-case font-normal tracking-normal">
-              ({activeBlocks.length})
-            </span>
-          </p>
-        </div>
-        {archivedBlocks.length > 0 ? (
-          <button
-            type="button"
-            onClick={() => setShowArchived((v) => !v)}
-            className="text-[10px] font-semibold text-emerald-800 hover:text-emerald-900 underline-offset-2 hover:underline"
-          >
-            {showArchived ? "Hide" : "Show"} archived ({archivedBlocks.length})
-          </button>
-        ) : null}
       </div>
 
       <div className="px-5 py-4 space-y-2 text-[12px]">
-        {activeBlocks.length === 0 ? (
-          <p className="text-[11px] text-neutral-500 italic">
-            No live AI blocks yet.
+        <p className="text-[11px] text-neutral-500 leading-relaxed">
+          Each run fires a Cursor cloud agent that clones the repo, reads this
+          page&apos;s <code className="px-1 py-0.5 rounded bg-neutral-100 font-mono">.tsx</code> files
+          + the brand design system rules + the content brief, and opens a real
+          GitHub PR with the edits. You review the diff, then merge for Vercel
+          to deploy.
+        </p>
+
+        {runs.length === 0 ? (
+          <p className="rounded-xl border border-neutral-200 bg-white px-4 py-6 text-center text-[12px] text-neutral-500">
+            No runs yet. Click <strong>Open new optimization PR</strong> above
+            to fire the first one.
           </p>
         ) : (
-          activeBlocks.map((block) => (
-            <div
-              key={block.id}
-              className="rounded-lg border border-neutral-100 bg-white px-3 py-2 flex items-start gap-3"
-            >
-              <div className="flex-1 min-w-0 space-y-1">
-                {block.ai_target_heading ? (
-                  <p className="text-[10px] uppercase tracking-wider text-neutral-400">
-                    Under: <span className="text-neutral-600">{block.ai_target_heading}</span>
+          <ul className="space-y-2">
+            {runs.map((run) => (
+              <li
+                key={run.id}
+                className="rounded-xl border border-neutral-200 bg-white px-4 py-3 flex flex-col gap-1.5"
+              >
+                <div className="flex items-center justify-between gap-2 flex-wrap">
+                  <div className="flex items-center gap-2 min-w-0">
+                    <span
+                      className={`px-1.5 py-0.5 rounded text-[9px] font-bold tracking-wider uppercase flex-shrink-0 ${statusBadgeClasses(run.status)}`}
+                    >
+                      {statusLabel(run.status)}
+                    </span>
+                    {run.pr_url ? (
+                      <a
+                        href={run.pr_url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="font-mono text-[12px] text-[#3d6f7f] hover:underline truncate"
+                      >
+                        #{run.pr_number ?? "?"} ·{" "}
+                        {run.branch_name ?? run.pr_url.split("/").pop()}
+                        <i className="ri-external-link-line ml-1 text-[10px]" />
+                      </a>
+                    ) : run.cursor_agent_id ? (
+                      <span className="font-mono text-[11px] text-neutral-500 truncate">
+                        agent {run.cursor_agent_id}
+                      </span>
+                    ) : (
+                      <span className="text-[11px] text-neutral-400 italic">
+                        Awaiting agent…
+                      </span>
+                    )}
+                  </div>
+                  <div className="flex items-center gap-2 text-[10px] text-neutral-400">
+                    <span>{relativeAgo(run.created_at)}</span>
+                    {run.status === "running" || run.status === "queued" ? (
+                      <button
+                        type="button"
+                        onClick={() => void onCancel(run.id)}
+                        disabled={cancellingId === run.id}
+                        className="text-rose-600 hover:text-rose-800 disabled:opacity-50"
+                        title="Cancel this run"
+                      >
+                        {cancellingId === run.id ? (
+                          <i className="ri-loader-4-line animate-spin" />
+                        ) : (
+                          <i className="ri-close-line" />
+                        )}
+                      </button>
+                    ) : null}
+                  </div>
+                </div>
+
+                {run.status_message ? (
+                  <p className="text-[10px] text-neutral-500">{run.status_message}</p>
+                ) : null}
+
+                {run.diff_summary ? (
+                  <p className="text-[11px] text-neutral-600 leading-relaxed line-clamp-3">
+                    {run.diff_summary}
                   </p>
                 ) : null}
-                <BlockPreview block={block} />
-              </div>
-              <button
-                type="button"
-                onClick={() => void handle.archiveBlock(block.id)}
-                className="text-neutral-300 hover:text-rose-600 transition-colors flex-shrink-0"
-                title="Archive (hides from live page)"
-              >
-                <i className="ri-archive-line text-base" />
-              </button>
-            </div>
-          ))
-        )}
 
-        {showArchived && archivedBlocks.length > 0 ? (
-          <div className="pt-3 mt-3 border-t border-emerald-200 space-y-2">
-            <p className="text-[10px] font-bold uppercase tracking-[0.12em] text-neutral-400">
-              Archived
-            </p>
-            {archivedBlocks.map((block) => (
-              <div
-                key={block.id}
-                className="rounded-lg border border-neutral-100 bg-neutral-50/60 px-3 py-2 opacity-60"
-              >
-                <BlockPreview block={block} />
-              </div>
+                {run.error ? (
+                  <p className="text-[10px] text-rose-700">
+                    <i className="ri-error-warning-line mr-1" />
+                    {run.error}
+                  </p>
+                ) : null}
+
+                <div className="flex items-center gap-3 text-[10px] text-neutral-400 mt-0.5">
+                  {run.model_id ? <span>{run.model_id}</span> : null}
+                  {run.triggered_by_email ? (
+                    <span>by {run.triggered_by_email}</span>
+                  ) : null}
+                </div>
+              </li>
             ))}
-          </div>
-        ) : null}
+          </ul>
+        )}
       </div>
     </div>
   );
 }
-
-function PageModeRecommendations({
-  draft,
-  linkedSeoTitle,
-  linkedMetaDescription,
-  liveScore,
-  targetScore,
-  onApply,
-  applying,
-}: {
-  draft: {
-    title_tag: string | null;
-    meta_description: string | null;
-    h1_text: string | null;
-    body_markdown: string | null;
-    computed_content_score: number | null;
-  };
-  linkedSeoTitle: string | null;
-  linkedMetaDescription: string | null;
-  liveScore: number | null;
-  targetScore: number | null;
-  onApply: () => void;
-  applying: boolean;
-}) {
-  const [copiedKey, setCopiedKey] = useState<string | null>(null);
-
-  function copy(key: string, text: string) {
-    if (typeof navigator === "undefined" || !navigator.clipboard) return;
-    void navigator.clipboard.writeText(text).then(() => {
-      setCopiedKey(key);
-      setTimeout(() => setCopiedKey(null), 2000);
-    });
-  }
-
-  const titleChanged = !!draft.title_tag && draft.title_tag.trim() !== (linkedSeoTitle ?? "").trim();
-  const metaChanged = !!draft.meta_description && draft.meta_description.trim() !== (linkedMetaDescription ?? "").trim();
-  const recScore = draft.computed_content_score;
-  const lift = recScore != null && liveScore != null ? Math.round(recScore - liveScore) : null;
-
-  return (
-    <div className="rounded-2xl border border-[#3d6f7f]/30 bg-[#f9fbfc] shadow-sm overflow-hidden">
-      <div className="px-5 py-3 border-b border-[#3d6f7f]/15 bg-[#3d6f7f]/[0.06] flex items-center justify-between flex-wrap gap-3">
-        <div className="flex items-center gap-2">
-          <i className="ri-magic-line text-[#3d6f7f]" />
-          <p className="text-[12px] font-bold uppercase tracking-[0.12em] text-[#1f4452]">
-            AI recommendations
-          </p>
-        </div>
-        <button
-          type="button"
-          onClick={onApply}
-          disabled={applying || (!titleChanged && !metaChanged)}
-          className="px-3 py-1.5 rounded-lg text-[10px] font-bold uppercase tracking-[0.1em] bg-emerald-700 text-white hover:bg-emerald-800 disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-1.5"
-          title={
-            !titleChanged && !metaChanged
-              ? "No changes to apply — recommendations match live page"
-              : "Apply AI-recommended SEO meta to the live page (prompts confirmation)"
-          }
-        >
-          {applying ? <><i className="ri-loader-4-line animate-spin" /> Applying…</> : <><i className="ri-check-line" /> Apply SEO Meta</>}
-        </button>
-      </div>
-
-      {/* Score comparison: current live vs projected if recommendations were fully applied */}
-      {recScore != null || liveScore != null ? (
-        <div className="px-5 py-3 border-b border-[#3d6f7f]/15 bg-white/60 grid grid-cols-3 gap-3 text-center">
-          <div>
-            <p className="text-[10px] font-bold uppercase tracking-[0.12em] text-neutral-400 mb-0.5">Live page</p>
-            <p className={`font-mono text-[18px] font-bold ${scoreColor(liveScore ?? 0)}`} style={{ color: liveScore != null ? scoreColor(liveScore) : "#a3a3a3" }}>
-              {liveScore != null ? Math.round(liveScore) : "—"}
-            </p>
-          </div>
-          <div className="flex items-center justify-center">
-            <div>
-              {lift != null ? (
-                <p className={`font-mono text-[14px] font-bold ${lift > 0 ? "text-emerald-600" : "text-neutral-400"}`}>
-                  {lift > 0 ? "+" : ""}{lift}
-                </p>
-              ) : (
-                <p className="font-mono text-[14px] text-neutral-300">—</p>
-              )}
-              <p className="text-[9px] uppercase tracking-wider text-neutral-400 mt-0.5">Projected lift</p>
-            </div>
-          </div>
-          <div>
-            <p className="text-[10px] font-bold uppercase tracking-[0.12em] text-neutral-400 mb-0.5">If applied</p>
-            <p className="font-mono text-[18px] font-bold" style={{ color: recScore != null ? scoreColor(recScore) : "#a3a3a3" }}>
-              {recScore != null ? Math.round(recScore) : "—"}
-            </p>
-            <p className="text-[9px] text-neutral-400 mt-0.5">target {targetScore != null ? Math.round(targetScore) : "—"}</p>
-          </div>
-        </div>
-      ) : null}
-
-      <div className="px-5 py-4 space-y-3 text-[12px]">
-        {draft.title_tag ? (
-          <RecRow
-            label="SEO Title"
-            current={linkedSeoTitle}
-            recommended={draft.title_tag}
-            changed={titleChanged}
-            copied={copiedKey === "title"}
-            onCopy={() => copy("title", draft.title_tag ?? "")}
-          />
-        ) : null}
-        {draft.meta_description ? (
-          <RecRow
-            label="Meta description"
-            current={linkedMetaDescription}
-            recommended={draft.meta_description}
-            changed={metaChanged}
-            copied={copiedKey === "meta"}
-            onCopy={() => copy("meta", draft.meta_description ?? "")}
-          />
-        ) : null}
-        {draft.h1_text ? (
-          <RecRow
-            label="Recommended H1"
-            current={null}
-            recommended={draft.h1_text}
-            changed={true}
-            copied={copiedKey === "h1"}
-            onCopy={() => copy("h1", draft.h1_text ?? "")}
-          />
-        ) : null}
-      </div>
-    </div>
-  );
-}
-
-function RecRow({
-  label,
-  current,
-  recommended,
-  changed,
-  copied,
-  onCopy,
-}: {
-  label: string;
-  current: string | null;
-  recommended: string;
-  changed: boolean;
-  copied: boolean;
-  onCopy: () => void;
-}) {
-  return (
-    <div>
-      <div className="flex items-center justify-between mb-1">
-        <p className="text-[10px] font-bold uppercase tracking-[0.12em] text-neutral-500 flex items-center gap-1.5">
-          {label}
-          {changed ? (
-            <span className="px-1.5 py-0.5 rounded bg-amber-100 text-amber-800 text-[9px] font-bold tracking-normal">
-              changed
-            </span>
-          ) : (
-            <span className="px-1.5 py-0.5 rounded bg-neutral-100 text-neutral-500 text-[9px] font-bold tracking-normal">
-              unchanged
-            </span>
-          )}
-        </p>
-        <button
-          type="button"
-          onClick={onCopy}
-          className="px-2 py-0.5 rounded text-[10px] font-semibold border border-neutral-200 text-neutral-600 hover:border-neutral-400"
-        >
-          <i className={`mr-1 ${copied ? "ri-check-line" : "ri-clipboard-line"}`} />
-          {copied ? "Copied" : "Copy"}
-        </button>
-      </div>
-      {current ? (
-        <p className="text-[11px] text-neutral-400 line-through mb-1">
-          <span className="text-neutral-300 mr-1">Current:</span>
-          {current}
-        </p>
-      ) : null}
-      <p className="text-[13px] text-neutral-800 bg-emerald-50/50 border border-emerald-200/40 rounded px-2 py-1.5">
-        <span className="text-emerald-700 font-semibold text-[10px] uppercase tracking-wider mr-1.5">AI</span>
-        {recommended}
-      </p>
-    </div>
-  );
-}
-
 function OptimizingBanner({
   startedAt,
   onReset,
@@ -1356,35 +1015,15 @@ export default function AdminContentEditorBriefPage({ briefId: briefIdProp }: Pr
 
   // Page Mode state — when the editor is linked to a tracked page.
   const isPageMode = !!state?.linkedPage;
-  const trackedPageIdForBlocks = state?.linkedPage?.id ?? null;
+  const trackedPageIdForRuns = state?.linkedPage?.id ?? null;
   const {
-    pendingBlocks,
-    activeBlocks,
-    archivedBlocks,
-    actions: blockActions,
-    applyBlock,
-    rejectBlock,
-    archiveBlock,
-    applyAllPending,
-    refetch: refetchBlocks,
-  } = useTrackedPageBlocks(trackedPageIdForBlocks);
-  const blockApplyingMap = useMemo(() => {
-    const map: Record<string, boolean> = {};
-    for (const [id, s] of Object.entries(blockActions)) {
-      map[id] = s.loading;
-    }
-    return map;
-  }, [blockActions]);
-  const blocksHandle = useMemo(
-    () => ({
-      applying: blockApplyingMap,
-      applyBlock,
-      rejectBlock,
-      archiveBlock,
-      applyAllPending,
-    }),
-    [blockApplyingMap, applyBlock, rejectBlock, archiveBlock, applyAllPending],
-  );
+    runs: aiOptimizeRuns,
+    refetch: refetchAiRuns,
+    triggerRun,
+    cancelRun,
+    triggering: triggeringAiRun,
+    cancellingId,
+  } = useAiOptimizeRuns({ editorId, trackedPageId: trackedPageIdForRuns });
   const [livePageScanning, setLivePageScanning] = useState(false);
   const [livePageScanError, setLivePageScanError] = useState<string | null>(null);
   const [applyingSeoMeta, setApplyingSeoMeta] = useState(false);
@@ -1571,14 +1210,8 @@ export default function AdminContentEditorBriefPage({ briefId: briefIdProp }: Pr
         window.sessionStorage.removeItem(`content-editor-optimize-start:${editorId}`);
         window.sessionStorage.removeItem(`content-editor-optimize-baseline:${editorId}`);
       }
-      // Pull fresh pending blocks so the queue updates as soon as the AI
-      // run finishes. In Page Mode the autoOptimize pipeline inserts new
-      // rows into tracked_page_content_blocks alongside the draft.
-      if (isPageMode) {
-        void refetchBlocks();
-      }
     }
-  }, [optimizing, state?.currentDraft?.updated_at, optimizeBaselineUpdatedAt, optimizeStartedAt, editorId, isPageMode, refetchBlocks]);
+  }, [optimizing, state?.currentDraft?.updated_at, optimizeBaselineUpdatedAt, optimizeStartedAt, editorId]);
 
   // While optimizing, poll the server every 4s so we pick up the new draft.
   useEffect(() => {
@@ -1711,23 +1344,25 @@ export default function AdminContentEditorBriefPage({ briefId: briefIdProp }: Pr
                 )}
               </button>
             ) : null}
-            <button
-              type="button"
-              onClick={() => void handleAutoOptimize()}
-              disabled={optimizing || processing}
-              className="px-4 py-2 rounded-lg text-[11px] font-bold uppercase tracking-[0.1em] bg-[#3d6f7f] text-white hover:bg-[#2f5a6b] disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-1.5"
-              title={
-                isPageMode
-                  ? "Generate AI-recommended SEO title, meta description, and content for this page"
-                  : "Generate a fully-optimized draft from this brief using AI"
-              }
-            >
-              {optimizing ? (
-                <><i className="ri-loader-4-line animate-spin" /> Optimizing…</>
-              ) : (
-                <><i className="ri-magic-line" /> Auto-Optimize</>
-              )}
-            </button>
+            {/* Blog Mode: Auto-Optimize generates a full AI draft directly.
+                Page Mode: handled by the AiOptimizeRunsPanel below, which fires
+                a Cursor cloud agent to open a real PR against the page's tsx
+                — preserves the brand design system. */}
+            {!isPageMode ? (
+              <button
+                type="button"
+                onClick={() => void handleAutoOptimize()}
+                disabled={optimizing || processing}
+                className="px-4 py-2 rounded-lg text-[11px] font-bold uppercase tracking-[0.1em] bg-[#3d6f7f] text-white hover:bg-[#2f5a6b] disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-1.5"
+                title="Generate a fully-optimized draft from this brief using AI"
+              >
+                {optimizing ? (
+                  <><i className="ri-loader-4-line animate-spin" /> Optimizing…</>
+                ) : (
+                  <><i className="ri-magic-line" /> Auto-Optimize</>
+                )}
+              </button>
+            ) : null}
             {isPageMode ? (
               <button
                 type="button"
@@ -2043,32 +1678,21 @@ Body copy here. Use markdown — \`#\` headings, \`![alt](url)\` images, \`-\` b
               )}
             </div>
 
-            {/* AI Recommendations panel (Page Mode only, when a draft exists) */}
-            {isPageMode && state.currentDraft ? (
-              <PageModeRecommendations
-                draft={state.currentDraft}
-                linkedSeoTitle={state.linkedPage?.seo_title ?? null}
-                linkedMetaDescription={state.linkedPage?.meta_description ?? null}
-                liveScore={state.linkedPage?.liveSnapshot?.computed_content_score ?? null}
-                targetScore={editor.target_score}
-                onApply={() => void handleApplySeoMeta()}
-                applying={applyingSeoMeta}
-              />
-            ) : null}
-
-            {/* Pending + live AI body blocks (Page Mode only) */}
+            {/* AI Optimization PRs — Cursor cloud agent opens real PRs
+                against the tracked page's tsx + brand design system. */}
             {isPageMode && editorId ? (
-              <PendingBlocksPanel
-                pendingBlocks={pendingBlocks}
-                editorId={editorId}
-                handle={blocksHandle}
-              />
-            ) : null}
-            {isPageMode ? (
-              <LiveBlocksPanel
-                activeBlocks={activeBlocks}
-                archivedBlocks={archivedBlocks}
-                handle={blocksHandle}
+              <AiOptimizeRunsPanel
+                runs={aiOptimizeRuns}
+                triggering={triggeringAiRun}
+                onTrigger={async () => {
+                  await triggerRun();
+                  await refetchAiRuns();
+                }}
+                onCancel={async (id) => {
+                  await cancelRun(id);
+                  await refetchAiRuns();
+                }}
+                cancellingId={cancellingId}
               />
             ) : null}
 

@@ -1,28 +1,34 @@
 import { NextResponse } from "next/server";
 import {
   ContentEditorError,
-  rejectTrackedPageBlock,
+  cancelAiOptimizeRun,
 } from "@sweetmedia/admin-core/server";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
 interface RouteContext {
-  params: Promise<{ id: string; blockId: string }>;
+  params: Promise<{ id: string; runId: string }>;
 }
 
-/** POST /api/admin/tracked-pages/[id]/blocks/[blockId]/reject */
+/**
+ * POST /api/admin/content-editor/[id]/optimize-pr/[runId]/cancel
+ *
+ * Best-effort cancellation: asks the Cursor SDK to cancel the run, then
+ * marks the row as cancelled locally regardless of SDK response (so the
+ * UI doesn't get stuck if Cursor is unavailable).
+ */
 export async function POST(_request: Request, ctx: RouteContext) {
-  const { blockId } = await ctx.params;
-  if (!blockId) {
+  const { runId } = await ctx.params;
+  if (!runId) {
     return NextResponse.json(
-      { ok: false, error: "blockId is required." },
+      { ok: false, error: "runId is required." },
       { status: 400 },
     );
   }
   try {
-    const block = await rejectTrackedPageBlock(blockId);
-    return NextResponse.json({ ok: true, block });
+    const run = await cancelAiOptimizeRun(runId);
+    return NextResponse.json({ ok: true, run });
   } catch (err) {
     if (err instanceof ContentEditorError) {
       return NextResponse.json(

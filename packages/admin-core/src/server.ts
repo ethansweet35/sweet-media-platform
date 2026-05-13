@@ -117,28 +117,20 @@ export {
   type ScoreDraftResult,
 } from "./lib/server/contentEditor";
 
-// ─── Tracked Page Content Blocks (Page Mode body) ─────────────────────
-// DB-backed body content for tracked pages. AI Auto-Optimize writes
-// 'pending' blocks; admin applies them to 'active'; <TrackedPageBody/>
-// server component renders the active blocks at the chosen slot on each
-// page. See /lib/server/trackedPageBlocks.ts for full docs.
+// ─── AI Optimize Runs (Cursor cloud agent PRs) ────────────────────────
+// Each row in `ai_optimize_runs` is a Cursor cloud-agent invocation that
+// opens a PR with code-level edits to a tracked page's hand-coded React
+// layout. The agent reads the page's tsx + the brand design system rules
+// + the content brief, then commits + opens the PR via autoCreatePR.
+// See /lib/server/aiOptimizeRuns.ts for the full module.
 export {
-  listBlocksForPage as listTrackedPageBlocks,
-  listPendingBlocksForEditor as listPendingTrackedPageBlocksForEditor,
-  listActiveBlocksByRoutePath as listActiveTrackedPageBlocksByRoutePath,
-  replaceAiPendingBlocks as replaceAiTrackedPagePendingBlocks,
-  applyBlock as applyTrackedPageBlock,
-  applyAllPendingForEditor as applyAllPendingTrackedPageBlocksForEditor,
-  rejectBlock as rejectTrackedPageBlock,
-  archiveBlock as archiveTrackedPageBlock,
-  deleteBlock as deleteTrackedPageBlock,
-  updateBlock as updateTrackedPageBlock,
-  getRoutePathForTrackedPage,
-  getRoutePathForBlock,
-  type TrackedPageBlockRow,
-  type TrackedPageBlockType,
-  type TrackedPageBlockStatus,
-  type TrackedPageBlockSource,
-  type AiBlockInput,
-  type UpdateBlockInput as UpdateTrackedPageBlockInput,
-} from "./lib/server/trackedPageBlocks";
+  triggerAiOptimizeRun,
+  refreshAiOptimizeRunFromCursor,
+  refreshAllActiveRunsForEditor,
+  cancelAiOptimizeRun,
+  getAiOptimizeRun,
+  listAiOptimizeRuns,
+  type AiOptimizeRunRow,
+  type AiOptimizeRunStatus as AiOptimizeRunStatusServer,
+  type TriggerAiOptimizeRunInput,
+} from "./lib/server/aiOptimizeRuns";

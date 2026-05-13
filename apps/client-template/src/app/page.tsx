@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { resolveTrackedPageMetadata, TrackedPageBody } from "@sweetmedia/admin-core";
+import { resolveTrackedPageMetadata } from "@sweetmedia/admin-core";
 
 const fallbackMetadata: Metadata = {
   title: "Client Brand Homepage | Client Brand",
@@ -30,15 +30,6 @@ export default function Page() {
           </p>
         </div>
       </section>
-
-      {/* AI-managed content blocks slot.
-          Renders any content blocks the admin has applied via the Content
-          Editor brief workspace (DB-backed, ISR-revalidated). Safe to
-          leave on every tracked page — renders nothing if no active blocks. */}
-      <TrackedPageBody
-        trackedPagePath="/"
-        className="mx-auto w-full max-w-3xl px-6 lg:px-10 py-12"
-      />
     </main>
   );
 }

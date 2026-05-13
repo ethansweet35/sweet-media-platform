@@ -13,6 +13,7 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
+    "@cursor/sdk": "^1.0.13",
     "@supabase/supabase-js": "^2.105.1",
     "@sweetmedia/blog-core": "workspace:*"
   },
