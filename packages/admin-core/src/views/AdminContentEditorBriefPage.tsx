@@ -55,6 +55,188 @@ function statusIcon(status: TermUsage["status"]): string {
   }
 }
 
+// ─── Pipeline timeline ────────────────────────────────────────────────
+
+const PIPELINE_PHASES = [
+  { id: "pending", label: "Queued", desc: "Waiting for worker to pick up the job", eta: 2 },
+  { id: "fetching_serp", label: "Fetching SERP", desc: "Pulling top-ranking pages from Google", eta: 8 },
+  { id: "extracting_content", label: "Scraping competitors", desc: "Reading and cleaning competitor pages with Firecrawl", eta: 45 },
+  { id: "analyzing_nlp", label: "Analyzing topics", desc: "Google NLP entity extraction + TF-IDF n-gram analysis + AI term curation", eta: 35 },
+  { id: "extracting_facts", label: "Extracting facts", desc: "Claude Haiku reads each competitor for citable facts", eta: 40 },
+  { id: "computing_guidelines", label: "Building guidelines", desc: "Synthesizing outline, questions, structural targets", eta: 25 },
+  { id: "ready", label: "Ready", desc: "All phases complete", eta: 0 },
+] as const;
+
+type PhaseState = "done" | "active" | "upcoming";
+
+function formatDuration(seconds: number): string {
+  if (seconds < 60) return `${Math.max(0, Math.round(seconds))}s`;
+  const m = Math.floor(seconds / 60);
+  const s = Math.round(seconds % 60);
+  return s === 0 ? `${m}m` : `${m}m ${s}s`;
+}
+
+function PipelineTimeline({
+  editorId,
+  status,
+  statusMessage,
+  fallbackStart,
+  error,
+}: {
+  editorId: string;
+  status: string;
+  statusMessage: string | null;
+  fallbackStart: number;
+  error: string | null;
+}) {
+  const [now, setNow] = useState(() => Date.now());
+
+  useEffect(() => {
+    const id = setInterval(() => setNow(Date.now()), 1000);
+    return () => clearInterval(id);
+  }, []);
+
+  // Persist run start to sessionStorage so it survives reloads but resets
+  // when status leaves the processing set. updated_at is unsuitable because
+  // it bumps on every phase change.
+  const startedAt = useMemo(() => {
+    if (typeof window === "undefined") return fallbackStart;
+    const key = `content-editor-run-start:${editorId}`;
+    const existing = window.sessionStorage.getItem(key);
+    if (existing) {
+      const parsed = Number(existing);
+      if (Number.isFinite(parsed) && parsed > 0) return parsed;
+    }
+    const t = Date.now();
+    window.sessionStorage.setItem(key, String(t));
+    return t;
+  }, [editorId, fallbackStart]);
+
+  // Clear stored start when not processing (next run starts fresh).
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    if (status === "ready" || status === "failed") {
+      window.sessionStorage.removeItem(`content-editor-run-start:${editorId}`);
+    }
+  }, [status, editorId]);
+
+  const elapsed = Math.max(0, (now - startedAt) / 1000);
+  const activeIdx = PIPELINE_PHASES.findIndex((p) => p.id === status);
+
+  // Cumulative ETA up to the END of each phase (running total of estimates).
+  const cumulativeEta = useMemo(() => {
+    let total = 0;
+    return PIPELINE_PHASES.map((p) => (total += p.eta));
+  }, []);
+  const totalEta = cumulativeEta[cumulativeEta.length - 1];
+  const etaRemaining =
+    activeIdx >= 0 && activeIdx < cumulativeEta.length
+      ? Math.max(2, cumulativeEta[activeIdx] - Math.min(elapsed, cumulativeEta[activeIdx] - 1))
+      : Math.max(0, totalEta - elapsed);
+
+  return (
+    <div className="rounded-2xl border border-amber-200 bg-amber-50 p-6">
+      {/* Header */}
+      <div className="flex items-start gap-4 mb-5">
+        <div className="relative flex-shrink-0">
+          <i className="ri-loader-4-line animate-spin text-2xl text-amber-700" />
+        </div>
+        <div className="flex-1 min-w-0">
+          <div className="flex items-baseline justify-between gap-3 flex-wrap">
+            <p className="text-sm font-semibold text-amber-900">
+              {PIPELINE_PHASES[activeIdx]?.label ?? "Processing"}…
+            </p>
+            <div className="text-[11px] font-mono text-amber-800 tabular-nums">
+              <span className="opacity-70">elapsed</span>{" "}
+              <span className="font-semibold">{formatDuration(elapsed)}</span>
+              {etaRemaining > 0 ? (
+                <>
+                  <span className="opacity-50 mx-1.5">·</span>
+                  <span className="opacity-70">est. remaining</span>{" "}
+                  <span className="font-semibold">~{formatDuration(etaRemaining)}</span>
+                </>
+              ) : null}
+            </div>
+          </div>
+          <p className="mt-1 text-[12px] text-amber-800">
+            {statusMessage ?? PIPELINE_PHASES[activeIdx]?.desc ?? "Working…"}
+          </p>
+        </div>
+      </div>
+
+      {/* Inline error banner — pipeline can keep going on soft errors but
+          we surface anything non-fatal that bubbled up. */}
+      {error ? (
+        <div className="mb-4 rounded-lg border border-rose-300 bg-rose-50 px-3 py-2 flex items-start gap-2">
+          <i className="ri-alert-line text-rose-600 mt-0.5 text-sm" />
+          <p className="text-[11px] text-rose-900 leading-snug">
+            <span className="font-semibold">Warning: </span>
+            {error}
+          </p>
+        </div>
+      ) : null}
+
+      {/* Phase timeline */}
+      <ol className="space-y-2.5">
+        {PIPELINE_PHASES.map((phase, idx) => {
+          if (phase.id === "ready") return null;
+          let state: PhaseState;
+          if (activeIdx === -1) state = "upcoming";
+          else if (idx < activeIdx) state = "done";
+          else if (idx === activeIdx) state = "active";
+          else state = "upcoming";
+
+          const iconClass =
+            state === "done"
+              ? "ri-checkbox-circle-fill text-emerald-600"
+              : state === "active"
+                ? "ri-loader-4-line animate-spin text-amber-600"
+                : "ri-circle-line text-neutral-300";
+
+          const textColor =
+            state === "done"
+              ? "text-neutral-700"
+              : state === "active"
+                ? "text-amber-900"
+                : "text-neutral-400";
+
+          const descColor =
+            state === "done"
+              ? "text-neutral-500"
+              : state === "active"
+                ? "text-amber-700"
+                : "text-neutral-400";
+
+          return (
+            <li key={phase.id} className="flex items-start gap-3">
+              <i className={`${iconClass} mt-0.5 text-base flex-shrink-0`} />
+              <div className="flex-1 min-w-0">
+                <div className="flex items-baseline justify-between gap-2">
+                  <p className={`text-[12px] font-semibold ${textColor}`}>{phase.label}</p>
+                  {state === "done" ? (
+                    <span className="text-[10px] font-mono text-emerald-700 opacity-70">done</span>
+                  ) : state === "active" ? (
+                    <span className="text-[10px] font-mono text-amber-700">in progress</span>
+                  ) : (
+                    <span className="text-[10px] font-mono text-neutral-400">
+                      ~{formatDuration(phase.eta)}
+                    </span>
+                  )}
+                </div>
+                <p className={`text-[11px] leading-snug ${descColor}`}>{phase.desc}</p>
+              </div>
+            </li>
+          );
+        })}
+      </ol>
+
+      <p className="mt-5 pt-4 border-t border-amber-200 text-[10px] text-amber-700 opacity-75">
+        Estimates are based on typical runs. Live page refreshes every few seconds.
+      </p>
+    </div>
+  );
+}
+
 function structuralColor(status: StructuralCheck["status"]): string {
   switch (status) {
     case "good": return "text-emerald-600";
@@ -734,17 +916,13 @@ export default function AdminContentEditorBriefPage({ briefId: briefIdProp }: Pr
       ) : null}
 
       {processing ? (
-        <div className="rounded-2xl border border-amber-200 bg-amber-50 p-6 flex items-center gap-4">
-          <i className="ri-loader-4-line animate-spin text-2xl text-amber-700" />
-          <div className="flex-1">
-            <p className="text-sm font-semibold text-amber-900">
-              {STATUS_LABELS[editor.status]}…
-            </p>
-            <p className="mt-0.5 text-[12px] text-amber-700">
-              {editor.status_message ?? "This usually takes 90–180 seconds. The page auto-refreshes."}
-            </p>
-          </div>
-        </div>
+        <PipelineTimeline
+          editorId={editor.id}
+          status={editor.status}
+          statusMessage={editor.status_message}
+          fallbackStart={new Date(editor.created_at).getTime()}
+          error={editor.error}
+        />
       ) : editor.status === "failed" ? (
         <div className="rounded-2xl border border-red-200 bg-red-50 p-6">
           <p className="text-sm font-semibold text-red-900">Pipeline failed.</p>
