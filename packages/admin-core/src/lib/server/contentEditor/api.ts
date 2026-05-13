@@ -294,9 +294,16 @@ export interface SaveDraftInput {
 }
 
 /**
- * Save a draft snapshot for the editor. Sets is_current=true on the new
- * snapshot and false on the previous one. Uses an upsert against the
- * `content_editor_drafts_one_current_per_editor` unique index.
+ * Save the user's draft for an editor.
+ *
+ * Updates the current draft row in place when one exists; only inserts a
+ * new row when there's no current draft yet. This preserves any
+ * previously-computed score columns (computed_content_score, etc.) until
+ * the next live scoring pass updates them with the new content's score.
+ *
+ * Previously this function inserted a new row on every save and demoted
+ * the old one, which caused the score to disappear between the moment a
+ * new row was inserted and the moment useLiveScore re-scored it.
  */
 export async function saveDraft(
   input: SaveDraftInput,
@@ -311,29 +318,48 @@ export async function saveDraft(
   const body = input.bodyPlaintext ?? input.bodyMarkdown ?? "";
   const wordCount = body.trim() ? body.trim().split(/\s+/).filter(Boolean).length : 0;
 
-  // Demote any previous current draft.
-  await client
+  // Find existing current draft (if any).
+  const { data: existing } = await client
     .from("content_editor_drafts")
-    .update({ is_current: false })
+    .select("id")
     .eq("editor_id", input.editorId)
-    .eq("is_current", true);
+    .eq("is_current", true)
+    .maybeSingle();
 
+  const draftFields = {
+    title_tag: input.titleTag ?? null,
+    meta_description: input.metaDescription ?? null,
+    h1_text: input.h1Text ?? null,
+    body_html: input.bodyHtml ?? null,
+    body_plaintext: input.bodyPlaintext ?? null,
+    body_markdown: input.bodyMarkdown ?? null,
+    word_count: wordCount,
+  };
+
+  if (existing && typeof (existing as { id?: string }).id === "string") {
+    // UPDATE in place — preserves any computed_* score columns.
+    const id = (existing as { id: string }).id;
+    const { data, error } = await client
+      .from("content_editor_drafts")
+      .update(draftFields)
+      .eq("id", id)
+      .select("*")
+      .single();
+    if (error || !data) {
+      throw new ContentEditorError(
+        `Failed to save draft: ${error?.message ?? "no data"}`,
+        { source: "api", status: 500 },
+      );
+    }
+    return data as ContentEditorDraftRow;
+  }
+
+  // No current draft yet — insert a fresh one.
   const { data, error } = await client
     .from("content_editor_drafts")
-    .insert({
-      editor_id: input.editorId,
-      title_tag: input.titleTag ?? null,
-      meta_description: input.metaDescription ?? null,
-      h1_text: input.h1Text ?? null,
-      body_html: input.bodyHtml ?? null,
-      body_plaintext: input.bodyPlaintext ?? null,
-      body_markdown: input.bodyMarkdown ?? null,
-      word_count: wordCount,
-      is_current: true,
-    })
+    .insert({ editor_id: input.editorId, ...draftFields, is_current: true })
     .select("*")
     .single();
-
   if (error || !data) {
     throw new ContentEditorError(
       `Failed to save draft: ${error?.message ?? "no data"}`,

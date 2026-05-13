@@ -19,7 +19,7 @@
  */
 import { ContentEditorError } from "./errors";
 import { getAdminClient, loadEditor } from "./db";
-import { saveDraft } from "./api";
+import { saveDraft, scoreDraft } from "./api";
 import type {
   ContentEditorTermRow,
   ContentEditorQuestionRow,
@@ -524,7 +524,8 @@ export async function runAutoOptimize(opts: AutoOptimizeOptions): Promise<void> 
   }
   const bodyMarkdown = blocksToMarkdown(blocks);
 
-  // Persist as a new current draft (saveDraft demotes any prior current row).
+  // Persist as the current draft (in-place update preserves draft history
+  // semantics; saveDraft does upsert by is_current flag).
   await saveDraft({
     editorId,
     titleTag: title,
@@ -533,4 +534,29 @@ export async function runAutoOptimize(opts: AutoOptimizeOptions): Promise<void> 
     bodyMarkdown,
     bodyPlaintext: bodyMarkdown,
   });
+
+  // Immediately score the new draft so the list view shows a current score
+  // without waiting for the user to open the brief page (which triggers
+  // useLiveScore). Errors here are non-fatal — the user can score on open.
+  try {
+    const headings: string[] = [];
+    for (const line of bodyMarkdown.split("\n")) {
+      const m = line.match(/^#{1,6}\s+(.+?)\s*$/);
+      if (m) headings.push(m[1].trim());
+    }
+    await scoreDraft({
+      editorId,
+      titleTag: title,
+      metaDescription,
+      h1Text: title,
+      bodyPlaintext: bodyMarkdown,
+      bodyMarkdown,
+      earlyHeadings: headings.slice(0, 3),
+      allHeadings: headings,
+      includeFactCoverage: false,
+      persist: true,
+    });
+  } catch (err) {
+    console.warn("[content-editor] post-optimize scoring failed (non-fatal):", err);
+  }
 }
