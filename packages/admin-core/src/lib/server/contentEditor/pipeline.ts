@@ -592,10 +592,9 @@ async function curateTermsWithAI(
     .join("\n");
 
   const systemPrompt =
-    "You are an expert SEO content strategist analyzing competitor-validated terms (Surfer-style). " +
-    "Be PERMISSIVE: keep any term that real top-ranking competitor pages consistently use, " +
-    "because that's evidence of what comprehensive coverage of the topic actually looks like. " +
-    "Only drop terms that are pure noise (junk text, malformed fragments, or completely off-topic). " +
+    "You are an expert SEO content strategist curating term lists like Surfer SEO. " +
+    "Your job is to keep terms that build topical authority and drop generic filler. " +
+    "Be RIGOROUS, not permissive — quality over quantity. " +
     "Always respond with only a valid JSON object — no markdown, no commentary.";
 
   const userPrompt =
@@ -603,30 +602,38 @@ async function curateTermsWithAI(
     (headingSample
       ? `Competitor headings sample: ${headingSample}\n\n`
       : "") +
-    `Below are ${topN.length} candidate terms extracted from the top-ranking competitor pages ` +
-    `using TF-IDF and Google NLP. Each shows the share of competitors that use it and average ` +
-    `frequency per page.\n\n` +
-    `KEEP a term if ANY of these are true:\n` +
-    `- It's a specific clinical, technical, or named concept (treatments, methods, conditions, organizations, resources)\n` +
-    `- It's a multi-word phrase competitors agree on (even if it sounds generic in isolation)\n` +
-    `- It's a unigram with topical relevance to "${primaryKeyword}" — even commonly-used words ` +
-    `like "support", "recovery", "family", "behavior", "urge", "stress" if they recur in this topic\n` +
-    `- It appears in ≥40% of competitors OR is used frequently (≥3x average) on the pages where it does appear\n\n` +
-    `DROP a term ONLY if:\n` +
-    `- It is text encoding noise or a malformed fragment\n` +
-    `- It is wholly unrelated to the topic\n` +
-    `- It is a navigation/UI artifact ("subscribe", "newsletter", "cookies") that escaped filtering\n\n` +
-    `Default to KEEP when uncertain — competitors' consistent usage is itself a signal.\n\n` +
-    `ADD up to 20 terms: important topical concepts for "${primaryKeyword}" that are clearly ` +
-    `missing from the candidate list. Examples: specific therapy modalities, helpline names, ` +
-    `industry-standard methods, clinical assessments, key organizations. Prefer specific multi-word phrases.\n\n` +
+    `Below are ${topN.length} candidate terms extracted from top-ranking competitor pages. ` +
+    `Each shows the share of competitors that use it and average frequency per page.\n\n` +
+    `═══ KEEP a term if it is ═══\n` +
+    `1. A specific clinical/technical concept (e.g. "cognitive behavioral therapy", "motivational interviewing")\n` +
+    `2. A named treatment modality, therapy type, method, or assessment\n` +
+    `3. A named organization, resource, or helpline (e.g. "gamblers anonymous", "national problem gambling helpline")\n` +
+    `4. A topical multi-word phrase competitors agree on (e.g. "treatment plan", "family therapy", "relapse prevention")\n` +
+    `5. A topical unigram with clear domain meaning in this context (e.g. "addiction", "recovery", "urge", "compulsive", "therapy")\n\n` +
+    `═══ DROP a term if it is ═══\n` +
+    `1. A generic verb regardless of topic ("ask", "feel", "find", "work", "change", "use", "make", "take", "give")\n` +
+    `2. A modal/auxiliary word ("may", "might", "must", "even", "though")\n` +
+    `3. A vague modifier ("specific", "comprehensive", "available", "associated", "different", "important")\n` +
+    `4. Scientific-paper metadata ("studies", "article", "review", "research", "randomized", "trial", "results", "findings")\n` +
+    `5. Abstract noun filler ("approach", "method", "step", "process", "information", "tools", "issues")\n` +
+    `6. Time/sequence words ("month", "year", "weeks", "first step")\n` +
+    `7. A malformed fragment or text-encoding artifact\n` +
+    `8. Off-topic noise\n` +
+    `9. A duplicate of another candidate (plural form, or shorter form of a kept phrase)\n\n` +
+    `═══ ADD up to 15 missing terms ═══\n` +
+    `Important topical concepts NOT in the candidate list. Rules:\n` +
+    `- Write each as a natural-sounding phrase a clinician or expert would say\n` +
+    `- DO NOT append "${primaryKeyword.split(" ").pop()}" or "gambling" or "addiction" to make phrases — write them naturally\n` +
+    `- Examples of GOOD adds: "motivational interviewing", "12-step program", "family therapy", "screen for gambling disorder"\n` +
+    `- Examples of BAD adds: "pharmacological treatment gambling", "naltrexone gambling disorder", "cognitive restructuring gambling"\n` +
+    `- Prefer specific 2-3 word noun phrases over single words\n\n` +
     `Candidate terms:\n${termList}\n\n` +
     `Respond ONLY with this JSON (no preamble):\n` +
     `{"keep":["term1","term2",...],"add":["new_term1","new_term2",...]}`;
 
   try {
     const result = await callClaude<{ keep: string[]; add: string[] }>({
-      model: "haiku",
+      model: "sonnet",
       systemPrompt,
       userPrompt,
       maxTokens: 3000,
@@ -649,7 +656,7 @@ async function curateTermsWithAI(
     const added = (add ?? [])
       .map((t: string) => t.toLowerCase().trim())
       .filter((t: string) => t.length >= 3)
-      .slice(0, 20);
+      .slice(0, 15);
 
     return { curated: [...curated, ...rest], added, cost_usd: result.cost_usd };
   } catch (err) {

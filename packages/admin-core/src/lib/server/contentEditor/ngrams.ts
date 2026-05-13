@@ -109,14 +109,23 @@ const GENERIC_UNIGRAM_BLOCKLIST = new Set<string>([
   "anyone", "someone", "everyone", "nothing", "something", "anything",
   // Vague quantifiers / fillers
   "lot", "lots", "bit", "bits", "much", "more", "less", "fewer",
-  "various", "several", "many", "few",
+  "various", "several", "many", "few", "some", "any", "all",
   // Vague time / sequence
   "today", "tomorrow", "yesterday", "soon", "later", "earlier",
   "always", "never", "often", "sometimes", "usually",
+  "month", "months", "week", "weeks", "year", "years", "day", "days",
+  "time", "times",
   // Generic positive / negative modifiers
   "well", "good", "best", "better", "great", "right", "wrong", "bad",
-  "important", "different", "similar", "same",
+  "important", "different", "similar", "same", "specific", "general",
+  "comprehensive", "available", "associated", "related", "particular",
+  "common", "typical", "regular", "normal", "average",
+  "new", "old", "high", "low", "large", "small", "first", "last",
+  "even", "though", "rather", "quite", "very", "really",
+  // Modal / auxiliary verbs that escaped stopword removal
+  "may", "might", "must", "shall", "ought",
   // Generic verbs of state / speech that add no topical info
+  "ask", "asks", "asked", "asking",
   "say", "says", "said", "saying", "tell", "tells", "told", "telling",
   "think", "thinks", "thought", "thinking",
   "make", "makes", "made", "making",
@@ -130,6 +139,36 @@ const GENERIC_UNIGRAM_BLOCKLIST = new Set<string>([
   "ensure", "ensures", "ensuring", "ensured",
   "seem", "seems", "seemed", "seeming",
   "appear", "appears", "appeared", "appearing",
+  "find", "finds", "found", "finding",
+  "feel", "feels", "felt", "feeling",
+  "work", "works", "worked", "working",
+  "change", "changes", "changed", "changing",
+  "use", "uses", "used", "using",
+  "want", "wants", "wanted", "wanting",
+  "need", "needs", "needed",
+  "try", "tries", "tried", "trying",
+  "keep", "keeps", "kept", "keeping",
+  "let", "lets", "letting",
+  "put", "puts", "putting",
+  "go", "goes", "went", "going",
+  "do", "does", "did", "doing",
+  "get", "gets", "got", "getting",
+  "have", "has", "had", "having",
+  // Scientific-paper / journal metadata that escapes Firecrawl cleaning
+  "article", "articles", "review", "reviews", "study", "studies",
+  "research", "researcher", "researchers", "trial", "trials",
+  "randomized", "controlled", "experiment", "experiments",
+  "result", "results", "outcome", "outcomes", "finding", "findings",
+  "data", "evidence", "literature", "publication", "publications",
+  // Generic abstract nouns
+  "approach", "approaches", "method", "methods", "way", "ways",
+  "thing", "things", "stuff",
+  "information", "info", "detail", "details",
+  "issue", "issues", "matter", "matters",
+  "type", "types", "kind", "kinds", "sort", "sorts",
+  "tool", "tools",
+  "step", "steps", "stage", "stages", "phase", "phases",
+  "process", "processes",
 ]);
 
 /**
@@ -309,9 +348,51 @@ export function extractNgrams(
 
   // Containment-aware dedup: drop unigrams that are mostly absorbed by
   // higher-ranked multi-word phrases containing them.
-  const deduped = containmentDedup(results);
+  const containmentDeduped = containmentDedup(results);
 
-  return deduped.slice(0, limit);
+  // Singular/plural dedup: drop the plural form when its singular is
+  // already in the list (keep whichever ranked higher).
+  const pluralDeduped = pluralDedup(containmentDeduped);
+
+  return pluralDeduped.slice(0, limit);
+}
+
+/**
+ * Drop the plural variant when the singular form exists in the list with
+ * comparable coverage — e.g. "gambling problem" + "gambling problems" →
+ * keep only "gambling problem" (the more canonical form).
+ *
+ * Operates on the already-ranked list, so order is preserved and the
+ * higher-ranked variant is kept regardless of singular/plural form.
+ */
+function pluralDedup(ranked: NgramTerm[]): NgramTerm[] {
+  const kept: NgramTerm[] = [];
+  const seenStems = new Set<string>();
+  for (const term of ranked) {
+    const stem = stemPlural(term.term);
+    if (seenStems.has(stem)) continue;
+    seenStems.add(stem);
+    kept.push(term);
+  }
+  return kept;
+}
+
+/**
+ * Crude plural stripper for dedup. Lowercases and strips trailing 's',
+ * 'es', or 'ies' from each token. Not perfect English morphology but
+ * good enough to collapse common content-editor duplicates.
+ */
+function stemPlural(term: string): string {
+  return term
+    .split(" ")
+    .map((t) => {
+      if (t.length <= 3) return t;
+      if (t.endsWith("ies") && t.length > 4) return t.slice(0, -3) + "y";
+      if (t.endsWith("es") && t.length > 4 && /[xs]es$|ches$|shes$/.test(t)) return t.slice(0, -2);
+      if (t.endsWith("s") && !t.endsWith("ss") && !t.endsWith("us") && !t.endsWith("is")) return t.slice(0, -1);
+      return t;
+    })
+    .join(" ");
 }
 
 /**
