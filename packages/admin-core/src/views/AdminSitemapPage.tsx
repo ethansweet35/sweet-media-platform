@@ -9,6 +9,7 @@ import { useSystemSettings } from "../hooks/useSystemSettings";
 import {
   buildSitemapPartitions,
   discoverSitemapGroups,
+  getChildSitemapUrl,
   toSitemapIndexXml,
   toSitemapXml,
   type SitemapConfig,
@@ -23,6 +24,7 @@ export default function AdminSitemapPage() {
   const { getSetting } = useSystemSettings();
   const [loading, setLoading] = useState(false);
   const [copied, setCopied] = useState(false);
+  const [urlCopied, setUrlCopied] = useState<"search-console" | "current" | null>(null);
   const [postCount, setPostCount] = useState(0);
   const [pageCount, setPageCount] = useState(0);
   const [groupCount, setGroupCount] = useState(0);
@@ -33,6 +35,12 @@ export default function AdminSitemapPage() {
   const [partitionXml, setPartitionXml] = useState<Record<string, string>>({});
 
   const origin = getPublicSiteOrigin();
+  const searchConsoleSitemapUrl = useMemo(() => `${origin}/sitemap.xml`, [origin]);
+  const currentViewPublicUrl = useMemo(
+    () =>
+      selectedView === "index" ? searchConsoleSitemapUrl : getChildSitemapUrl(origin, selectedView),
+    [origin, searchConsoleSitemapUrl, selectedView],
+  );
   const activeXml = selectedView === "index" ? indexXml : (partitionXml[selectedView] ?? "");
 
   const generateSitemap = async () => {
@@ -99,22 +107,38 @@ export default function AdminSitemapPage() {
     }
   };
 
-  const handleCopy = async () => {
-    if (!activeXml) return;
-
+  const copyTextToClipboard = async (text: string): Promise<void> => {
     try {
-      await navigator.clipboard.writeText(activeXml);
-      setCopied(true);
-      setTimeout(() => setCopied(false), 2500);
+      await navigator.clipboard.writeText(text);
     } catch {
       const el = document.createElement("textarea");
-      el.value = activeXml;
+      el.value = text;
       document.body.appendChild(el);
       el.select();
       document.execCommand("copy");
       document.body.removeChild(el);
+    }
+  };
+
+  const handleCopyUrl = async (kind: "search-console" | "current", href: string) => {
+    try {
+      await copyTextToClipboard(href);
+      setUrlCopied(kind);
+      setTimeout(() => setUrlCopied(null), 2500);
+    } catch {
+      // ignore
+    }
+  };
+
+  const handleCopy = async () => {
+    if (!activeXml) return;
+
+    try {
+      await copyTextToClipboard(activeXml);
       setCopied(true);
       setTimeout(() => setCopied(false), 2500);
+    } catch {
+      setCopied(false);
     }
   };
 
@@ -160,6 +184,43 @@ export default function AdminSitemapPage() {
                 sections such as <code className="bg-neutral-100 px-1 py-0.5 rounded text-[10px]">/service-areas</code>{" "}
                 when a brand has enough URLs under the same parent folder.
               </p>
+            </div>
+          </div>
+        </div>
+
+        <div className="bg-white rounded-2xl border border-neutral-100 p-6 space-y-5">
+          <div className="flex items-start gap-4">
+            <div className="w-10 h-10 flex items-center justify-center rounded-xl bg-emerald-50 flex-shrink-0">
+              <i className="ri-google-line text-lg text-emerald-700"></i>
+            </div>
+            <div className="min-w-0 flex-1 space-y-2">
+              <h2 className="text-sm font-semibold text-neutral-800">Search Console URL</h2>
+              <p className="text-xs text-neutral-500 leading-relaxed">
+                Paste this URL into <span className="font-medium text-neutral-600">Sitemaps</span> in Google Search
+                Console. It is the live sitemap index (
+                <code className="bg-neutral-100 px-1 py-0.5 rounded text-[10px]">/sitemap.xml</code>).
+              </p>
+              <div className="flex flex-col gap-2 sm:flex-row sm:items-center">
+                <input
+                  type="text"
+                  readOnly
+                  value={searchConsoleSitemapUrl}
+                  className="w-full rounded-xl border border-neutral-200 bg-neutral-50 px-3 py-2.5 font-mono text-xs text-neutral-800 focus:outline-none"
+                  aria-label="Sitemap URL for Google Search Console"
+                />
+                <button
+                  type="button"
+                  onClick={() => void handleCopyUrl("search-console", searchConsoleSitemapUrl)}
+                  className={`flex shrink-0 items-center justify-center gap-2 rounded-xl px-4 py-2.5 text-[11px] font-bold uppercase tracking-[0.1em] transition-colors whitespace-nowrap ${
+                    urlCopied === "search-console"
+                      ? "bg-emerald-50 text-emerald-700 ring-1 ring-emerald-200"
+                      : "border border-neutral-200 bg-white text-neutral-700 hover:border-neutral-300"
+                  }`}
+                >
+                  <i className={`text-sm ${urlCopied === "search-console" ? "ri-check-line" : "ri-links-line"}`} />
+                  {urlCopied === "search-console" ? "Copied" : "Copy URL"}
+                </button>
+              </div>
             </div>
           </div>
         </div>
@@ -235,11 +296,33 @@ export default function AdminSitemapPage() {
 
         {activeXml && (
           <div className="bg-white rounded-2xl border border-neutral-100 overflow-hidden">
-            <div className="px-5 py-3 border-b border-neutral-100 flex items-center justify-between">
-              <p className="text-[10px] tracking-wider uppercase font-semibold text-neutral-500">
-                {selectedView === "index" ? "Generated sitemap index" : `Generated /sitemaps/${selectedView}`}
-              </p>
-              <p className="text-[10px] text-neutral-400">{activeXml.length.toLocaleString()} chars</p>
+            <div className="px-5 py-3 border-b border-neutral-100 flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+              <div className="min-w-0 space-y-2">
+                <p className="text-[10px] tracking-wider uppercase font-semibold text-neutral-500">
+                  {selectedView === "index" ? "Generated sitemap index" : `Generated /sitemaps/${selectedView}`}
+                </p>
+                {selectedView !== "index" && (
+                  <div className="flex flex-wrap items-center gap-2">
+                    <span className="text-[10px] text-neutral-400">Live URL:</span>
+                    <code className="max-w-full truncate rounded-lg bg-neutral-100 px-2 py-1 text-[10px] text-neutral-700">
+                      {currentViewPublicUrl}
+                    </code>
+                    <button
+                      type="button"
+                      onClick={() => void handleCopyUrl("current", currentViewPublicUrl)}
+                      className={`inline-flex items-center gap-1 rounded-lg px-2 py-1 text-[10px] font-bold uppercase tracking-[0.08em] transition-colors ${
+                        urlCopied === "current"
+                          ? "bg-emerald-50 text-emerald-700 ring-1 ring-emerald-200"
+                          : "text-[#3d6f7f] hover:bg-[#3d6f7f]/10"
+                      }`}
+                    >
+                      <i className={`text-xs ${urlCopied === "current" ? "ri-check-line" : "ri-file-copy-line"}`} />
+                      {urlCopied === "current" ? "Copied" : "Copy"}
+                    </button>
+                  </div>
+                )}
+              </div>
+              <p className="text-[10px] text-neutral-400 sm:shrink-0">{activeXml.length.toLocaleString()} chars</p>
             </div>
             <textarea
               value={activeXml}
