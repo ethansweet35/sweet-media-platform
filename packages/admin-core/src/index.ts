@@ -9,6 +9,7 @@ export * from "./types/semrush";
 export * from "./types/seo-brief";
 
 export { default as AdminPageHeader } from "./components/AdminPageHeader";
+export { default as TrackedPageBody, type TrackedPageBodyBlock } from "./components/TrackedPageBody";
 export { default as SweetSeoCell, type SweetSeoCellRow } from "./components/SweetSeoCell";
 export { default as ContentEditorCell, type ContentEditorCellRow } from "./components/ContentEditorCell";
 export { useContentEditorRowActions, type ContentEditorRowRef } from "./hooks/useContentEditorRowActions";
@@ -24,6 +25,10 @@ export { useBlogQueue } from "./hooks/useBlogQueue";
 export { useSystemSettings, useAutoPublishEnabled } from "./hooks/useSystemSettings";
 export { useKnowledgeBase, type KbEntryUpdates } from "./hooks/useKnowledgeBase";
 export { useTrackedPages } from "./hooks/useTrackedPages";
+export {
+  useTrackedPageBlocks,
+  type TrackedPageBlock,
+} from "./hooks/useTrackedPageBlocks";
 export { useInternalLinks, type InternalLink } from "./hooks/useInternalLinks";
 export { useDashboardData, formatDashboardDate, relativeTimeSince } from "./hooks/useDashboardData";
 export { useAdminBlogPosts } from "./hooks/useAdminBlogPosts";

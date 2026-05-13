@@ -12,6 +12,10 @@ import {
   type DraftInputs,
 } from "../hooks/useContentEditors";
 import {
+  useTrackedPageBlocks,
+  type TrackedPageBlock,
+} from "../hooks/useTrackedPageBlocks";
+import {
   EEAT_CHECK_LABELS,
   STATUS_IS_PROCESSING,
   STATUS_LABELS,
@@ -335,6 +339,359 @@ function PageModeBanner({
   );
 }
 
+/* ─── Block preview renderer ─────────────────────────────────────────── */
+
+/**
+ * Minimal preview rendering of a single tracked-page content block. Mirrors
+ * the public <TrackedPageBody/> renderer in admin-core but uses muted
+ * neutral styling so admins can scan it quickly without it competing with
+ * the chrome.
+ */
+function BlockPreview({ block }: { block: TrackedPageBlock }) {
+  switch (block.block_type) {
+    case "h1":
+      return block.heading ? (
+        <p className="text-[18px] font-bold text-neutral-900">{block.heading}</p>
+      ) : null;
+    case "h2":
+      return block.heading ? (
+        <p className="text-[16px] font-bold text-neutral-900">{block.heading}</p>
+      ) : null;
+    case "h3":
+      return block.heading ? (
+        <p className="text-[14px] font-bold text-neutral-800">{block.heading}</p>
+      ) : null;
+    case "h4":
+      return block.heading ? (
+        <p className="text-[13px] font-bold text-neutral-800">{block.heading}</p>
+      ) : null;
+    case "paragraph":
+      return block.body_markdown ? (
+        <p className="text-[12px] text-neutral-700 leading-relaxed whitespace-pre-wrap">
+          {block.body_markdown}
+        </p>
+      ) : null;
+    case "list":
+      return block.list_items?.length ? (
+        <ul className="list-disc pl-5 space-y-0.5 text-[12px] text-neutral-700">
+          {block.list_items.map((item, i) => (
+            <li key={i}>{item}</li>
+          ))}
+        </ul>
+      ) : null;
+    case "numbered":
+      return block.list_items?.length ? (
+        <ol className="list-decimal pl-5 space-y-0.5 text-[12px] text-neutral-700">
+          {block.list_items.map((item, i) => (
+            <li key={i}>{item}</li>
+          ))}
+        </ol>
+      ) : null;
+    case "pullquote":
+      return block.body_markdown ? (
+        <p className="border-l-2 border-neutral-300 pl-3 italic text-[12px] text-neutral-600">
+          {block.body_markdown}
+        </p>
+      ) : null;
+    case "callout":
+      return block.body_markdown ? (
+        <p className="rounded-md bg-amber-50 border-l-2 border-amber-300 px-2 py-1 text-[12px] text-amber-900">
+          <span className="font-bold uppercase text-[9px] tracking-[0.12em] mr-1">
+            {block.callout_variant ?? "tip"}
+          </span>
+          {block.body_markdown}
+        </p>
+      ) : null;
+    case "stat-row":
+      return block.stats?.length ? (
+        <div className="flex gap-3 text-[12px] text-neutral-700">
+          {block.stats.map((s, i) => (
+            <span key={i}>
+              <span className="font-bold">{s.value}</span> — {s.label}
+            </span>
+          ))}
+        </div>
+      ) : null;
+    case "divider":
+      return <hr className="border-neutral-200" />;
+    default:
+      return block.body_markdown || block.heading ? (
+        <p className="text-[12px] text-neutral-500 italic">
+          [{block.block_type}] {block.heading ?? block.body_markdown ?? ""}
+        </p>
+      ) : null;
+  }
+}
+
+/* ─── Pending blocks panel ───────────────────────────────────────────── */
+
+interface BlocksPanelHandle {
+  applying: Record<string, boolean>;
+  applyBlock: (id: string) => Promise<boolean>;
+  rejectBlock: (id: string) => Promise<boolean>;
+  archiveBlock: (id: string) => Promise<boolean>;
+  applyAllPending: (editorId: string) => Promise<number>;
+}
+
+function PendingBlocksPanel({
+  pendingBlocks,
+  editorId,
+  handle,
+}: {
+  pendingBlocks: TrackedPageBlock[];
+  editorId: string;
+  handle: BlocksPanelHandle;
+}) {
+  const [bulkApplying, setBulkApplying] = useState(false);
+
+  if (pendingBlocks.length === 0) {
+    return (
+      <div className="rounded-2xl border border-neutral-200 bg-white p-5 shadow-sm">
+        <div className="flex items-center gap-2 mb-1.5">
+          <i className="ri-inbox-line text-neutral-400" />
+          <p className="text-[12px] font-bold uppercase tracking-[0.12em] text-neutral-500">
+            Pending AI blocks
+          </p>
+        </div>
+        <p className="text-[12px] text-neutral-500 leading-relaxed">
+          No pending blocks yet. Click <strong>Auto-Optimize</strong> above to
+          generate AI-authored content the system can publish to this page.
+        </p>
+      </div>
+    );
+  }
+
+  // Group blocks by ai_target_heading so admins can see context per "edit".
+  // Blocks without a target heading are treated as standalone new sections.
+  const grouped = useMemo(() => {
+    const map = new Map<string, TrackedPageBlock[]>();
+    for (const b of pendingBlocks) {
+      const key = b.ai_target_heading?.trim() || "__new_section__";
+      const arr = map.get(key);
+      if (arr) arr.push(b);
+      else map.set(key, [b]);
+    }
+    return map;
+  }, [pendingBlocks]);
+
+  return (
+    <div className="rounded-2xl border border-[#3d6f7f]/30 bg-[#f9fbfc] shadow-sm overflow-hidden">
+      <div className="px-5 py-3 border-b border-[#3d6f7f]/15 bg-[#3d6f7f]/[0.06] flex items-center justify-between flex-wrap gap-3">
+        <div className="flex items-center gap-2">
+          <i className="ri-magic-line text-[#3d6f7f]" />
+          <p className="text-[12px] font-bold uppercase tracking-[0.12em] text-[#1f4452]">
+            Pending AI blocks
+            <span className="ml-1.5 text-neutral-400 normal-case font-normal tracking-normal">
+              ({pendingBlocks.length})
+            </span>
+          </p>
+        </div>
+        <button
+          type="button"
+          onClick={async () => {
+            if (bulkApplying) return;
+            setBulkApplying(true);
+            try {
+              const n = await handle.applyAllPending(editorId);
+              if (n === 0) {
+                console.warn("[PendingBlocksPanel] apply-all returned 0");
+              }
+            } finally {
+              setBulkApplying(false);
+            }
+          }}
+          disabled={bulkApplying}
+          className="px-3 py-1.5 rounded-lg text-[10px] font-bold uppercase tracking-[0.1em] bg-emerald-700 text-white hover:bg-emerald-800 disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-1.5"
+        >
+          {bulkApplying ? (
+            <>
+              <i className="ri-loader-4-line animate-spin" /> Applying…
+            </>
+          ) : (
+            <>
+              <i className="ri-check-double-line" /> Apply all
+            </>
+          )}
+        </button>
+      </div>
+
+      <div className="px-5 py-4 space-y-4 text-[12px]">
+        <p className="text-[11px] text-neutral-500 leading-relaxed">
+          Each card below is a ready-to-publish piece of content. Click{" "}
+          <strong>Apply</strong> to push it live (the page revalidates immediately
+          via <code className="px-1 py-0.5 rounded bg-neutral-100 font-mono">revalidatePath()</code>
+          ), or <strong>Reject</strong> to discard.
+        </p>
+
+        {[...grouped.entries()].map(([key, group]) => {
+          const isNewSection = key === "__new_section__";
+          return (
+            <div
+              key={key}
+              className={`rounded-xl border ${
+                isNewSection
+                  ? "border-emerald-200/70 bg-emerald-50/30"
+                  : "border-amber-200/70 bg-amber-50/30"
+              } px-4 py-3`}
+            >
+              <div className="flex items-center justify-between gap-3 mb-2">
+                <div className="flex items-center gap-2 min-w-0">
+                  <span
+                    className={`px-1.5 py-0.5 rounded text-[9px] font-bold tracking-wider uppercase flex-shrink-0 ${
+                      isNewSection
+                        ? "bg-emerald-700 text-white"
+                        : "bg-amber-700 text-white"
+                    }`}
+                  >
+                    {isNewSection ? "New section" : "Supplement"}
+                  </span>
+                  <p className="font-semibold text-neutral-800 text-[12px] truncate">
+                    {isNewSection
+                      ? group.find((b) => b.block_type.startsWith("h"))
+                          ?.heading ?? "Untitled section"
+                      : key}
+                  </p>
+                </div>
+              </div>
+              {group[0]?.ai_rationale ? (
+                <p className="text-[10px] text-neutral-500 italic mb-2">
+                  {group[0].ai_rationale}
+                </p>
+              ) : null}
+              <div className="space-y-2 bg-white/60 rounded-lg border border-neutral-100 px-3 py-3">
+                {group.map((block) => (
+                  <BlockPreview key={block.id} block={block} />
+                ))}
+              </div>
+              <div className="mt-2 flex items-center gap-1.5 flex-wrap">
+                <button
+                  type="button"
+                  onClick={() => void handle.applyBlock(group[0].id)}
+                  disabled={!!handle.applying[group[0].id]}
+                  className="px-2.5 py-1 rounded-md text-[10px] font-bold uppercase tracking-[0.1em] bg-emerald-700 text-white hover:bg-emerald-800 disabled:opacity-50 flex items-center gap-1"
+                  title="Apply just the first block of this group"
+                >
+                  <i className="ri-check-line" /> Apply
+                </button>
+                {group.length > 1 ? (
+                  <button
+                    type="button"
+                    onClick={async () => {
+                      for (const b of group) await handle.applyBlock(b.id);
+                    }}
+                    className="px-2.5 py-1 rounded-md text-[10px] font-bold uppercase tracking-[0.1em] bg-emerald-700/80 text-white hover:bg-emerald-800 flex items-center gap-1"
+                    title={`Apply all ${group.length} blocks in this group`}
+                  >
+                    <i className="ri-stack-line" /> Apply group ({group.length})
+                  </button>
+                ) : null}
+                <button
+                  type="button"
+                  onClick={async () => {
+                    for (const b of group) await handle.rejectBlock(b.id);
+                  }}
+                  className="px-2.5 py-1 rounded-md text-[10px] font-bold uppercase tracking-[0.1em] border border-neutral-300 text-neutral-600 hover:bg-neutral-50 flex items-center gap-1"
+                  title="Discard this group"
+                >
+                  <i className="ri-close-line" /> Reject
+                </button>
+              </div>
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
+/* ─── Live blocks panel ──────────────────────────────────────────────── */
+
+function LiveBlocksPanel({
+  activeBlocks,
+  archivedBlocks,
+  handle,
+}: {
+  activeBlocks: TrackedPageBlock[];
+  archivedBlocks: TrackedPageBlock[];
+  handle: BlocksPanelHandle;
+}) {
+  const [showArchived, setShowArchived] = useState(false);
+  if (activeBlocks.length === 0 && archivedBlocks.length === 0) return null;
+
+  return (
+    <div className="rounded-2xl border border-emerald-200 bg-emerald-50/30 shadow-sm overflow-hidden">
+      <div className="px-5 py-3 border-b border-emerald-200 bg-emerald-100/40 flex items-center justify-between flex-wrap gap-3">
+        <div className="flex items-center gap-2">
+          <i className="ri-checkbox-circle-line text-emerald-700" />
+          <p className="text-[12px] font-bold uppercase tracking-[0.12em] text-emerald-900">
+            Live AI blocks
+            <span className="ml-1.5 text-emerald-600/70 normal-case font-normal tracking-normal">
+              ({activeBlocks.length})
+            </span>
+          </p>
+        </div>
+        {archivedBlocks.length > 0 ? (
+          <button
+            type="button"
+            onClick={() => setShowArchived((v) => !v)}
+            className="text-[10px] font-semibold text-emerald-800 hover:text-emerald-900 underline-offset-2 hover:underline"
+          >
+            {showArchived ? "Hide" : "Show"} archived ({archivedBlocks.length})
+          </button>
+        ) : null}
+      </div>
+
+      <div className="px-5 py-4 space-y-2 text-[12px]">
+        {activeBlocks.length === 0 ? (
+          <p className="text-[11px] text-neutral-500 italic">
+            No live AI blocks yet.
+          </p>
+        ) : (
+          activeBlocks.map((block) => (
+            <div
+              key={block.id}
+              className="rounded-lg border border-neutral-100 bg-white px-3 py-2 flex items-start gap-3"
+            >
+              <div className="flex-1 min-w-0 space-y-1">
+                {block.ai_target_heading ? (
+                  <p className="text-[10px] uppercase tracking-wider text-neutral-400">
+                    Under: <span className="text-neutral-600">{block.ai_target_heading}</span>
+                  </p>
+                ) : null}
+                <BlockPreview block={block} />
+              </div>
+              <button
+                type="button"
+                onClick={() => void handle.archiveBlock(block.id)}
+                className="text-neutral-300 hover:text-rose-600 transition-colors flex-shrink-0"
+                title="Archive (hides from live page)"
+              >
+                <i className="ri-archive-line text-base" />
+              </button>
+            </div>
+          ))
+        )}
+
+        {showArchived && archivedBlocks.length > 0 ? (
+          <div className="pt-3 mt-3 border-t border-emerald-200 space-y-2">
+            <p className="text-[10px] font-bold uppercase tracking-[0.12em] text-neutral-400">
+              Archived
+            </p>
+            {archivedBlocks.map((block) => (
+              <div
+                key={block.id}
+                className="rounded-lg border border-neutral-100 bg-neutral-50/60 px-3 py-2 opacity-60"
+              >
+                <BlockPreview block={block} />
+              </div>
+            ))}
+          </div>
+        ) : null}
+      </div>
+    </div>
+  );
+}
+
 function PageModeRecommendations({
   draft,
   linkedSeoTitle,
@@ -459,241 +816,8 @@ function PageModeRecommendations({
             onCopy={() => copy("h1", draft.h1_text ?? "")}
           />
         ) : null}
-        {draft.body_markdown ? (
-          <SurgicalEditsPanel
-            markdown={draft.body_markdown}
-            copiedKey={copiedKey}
-            onCopy={copy}
-          />
-        ) : null}
       </div>
     </div>
-  );
-}
-
-/**
- * Renders the AI-generated body markdown as a list of surgical edit cards.
- *
- * The AI emits sections shaped like:
- *
- *   ## Edit existing section: <H2 from live page>
- *   **ADD this sentence at the end of that section:** "..."
- *   *Why this helps:* covers ...
- *
- * or:
- *
- *   ## Suggest new section: <new H2>
- *   *Place it after:* ...
- *   *Suggested content:* ...
- *   *Why this helps:* ...
- *
- * We split by `## ` markers and group the lines into typed cards. Anything
- * that doesn't fit the pattern falls back to raw markdown in a code block.
- */
-function SurgicalEditsPanel({
-  markdown,
-  copiedKey,
-  onCopy,
-}: {
-  markdown: string;
-  copiedKey: string | null;
-  onCopy: (key: string, text: string) => void;
-}) {
-  const edits = useMemo(() => parseSurgicalEdits(markdown), [markdown]);
-  const editsCount = edits.filter((e) => e.kind !== "raw").length;
-
-  return (
-    <div className="pt-3 border-t border-[#3d6f7f]/15">
-      <div className="flex items-center justify-between mb-2">
-        <div>
-          <p className="font-semibold text-neutral-700">Suggested page edits</p>
-          <p className="text-[10px] text-neutral-500">
-            {editsCount > 0
-              ? `${editsCount} surgical edit${editsCount === 1 ? "" : "s"} — apply by hand to preserve your page's layout`
-              : "AI recommendations"}
-          </p>
-        </div>
-        <button
-          type="button"
-          onClick={() => onCopy("body", markdown)}
-          className="px-2 py-0.5 rounded text-[10px] font-semibold border border-neutral-200 text-neutral-600 hover:border-neutral-400"
-        >
-          <i className={`mr-1 ${copiedKey === "body" ? "ri-check-line" : "ri-clipboard-line"}`} />
-          {copiedKey === "body" ? "Copied" : "Copy all markdown"}
-        </button>
-      </div>
-
-      <div className="space-y-2.5 max-h-[55vh] overflow-y-auto pr-1">
-        {edits.map((e, idx) => {
-          if (e.kind === "raw") {
-            return (
-              <div
-                key={`raw-${idx}`}
-                className="rounded-lg border border-neutral-200 bg-white px-3 py-2 text-[12px] font-mono whitespace-pre-wrap text-neutral-700 leading-relaxed"
-              >
-                {e.text}
-              </div>
-            );
-          }
-          const isNew = e.kind === "new-section";
-          const copyKey = `edit-${idx}`;
-          return (
-            <div
-              key={copyKey}
-              className={`rounded-lg border px-3 py-2.5 ${
-                isNew
-                  ? "border-emerald-200/70 bg-emerald-50/40"
-                  : "border-amber-200/70 bg-amber-50/40"
-              }`}
-            >
-              <div className="flex items-center justify-between mb-1.5 gap-2">
-                <div className="flex items-center gap-1.5 min-w-0">
-                  <span
-                    className={`px-1.5 py-0.5 rounded text-[9px] font-bold tracking-wider uppercase flex-shrink-0 ${
-                      isNew ? "bg-emerald-700 text-white" : "bg-amber-700 text-white"
-                    }`}
-                  >
-                    {isNew ? "New section" : "Edit"}
-                  </span>
-                  <p className="text-[12px] font-semibold text-neutral-800 truncate" title={e.heading}>
-                    {e.heading}
-                  </p>
-                </div>
-                <button
-                  type="button"
-                  onClick={() => onCopy(copyKey, e.copyText)}
-                  className="px-2 py-0.5 rounded text-[10px] font-semibold border border-neutral-200 bg-white text-neutral-600 hover:border-neutral-400 flex-shrink-0"
-                >
-                  <i className={`mr-1 ${copiedKey === copyKey ? "ri-check-line" : "ri-clipboard-line"}`} />
-                  {copiedKey === copyKey ? "Copied" : "Copy"}
-                </button>
-              </div>
-              <div className="space-y-1.5 text-[12px] text-neutral-700">
-                {e.body.map((line, i) => (
-                  <SurgicalEditLine key={i} text={line} />
-                ))}
-              </div>
-            </div>
-          );
-        })}
-      </div>
-
-      <p className="mt-2 text-[10px] text-neutral-500 leading-snug">
-        These suggestions preserve your existing page layout. Copy each edit and apply by hand to the relevant section of <code className="px-1 py-0.5 rounded bg-neutral-100 font-mono text-[10px]">page.tsx</code>.
-      </p>
-    </div>
-  );
-}
-
-interface ParsedEdit {
-  kind: "existing-section" | "new-section" | "raw";
-  heading: string;
-  body: string[];
-  copyText: string;
-  text: string;
-}
-
-const EXISTING_PREFIX_RE = /^edit existing section:\s*/i;
-const NEW_PREFIX_RE = /^suggest new section:\s*/i;
-
-function parseSurgicalEdits(md: string): ParsedEdit[] {
-  if (!md.trim()) return [];
-
-  // Split on top-level `## ` headings while preserving the heading itself
-  // in each chunk. Use a regex-keep-split via map/zip.
-  const parts: string[] = [];
-  const lines = md.split("\n");
-  let buffer: string[] = [];
-  for (const line of lines) {
-    if (/^##\s/.test(line)) {
-      if (buffer.length) parts.push(buffer.join("\n"));
-      buffer = [line];
-    } else {
-      buffer.push(line);
-    }
-  }
-  if (buffer.length) parts.push(buffer.join("\n"));
-
-  const edits: ParsedEdit[] = [];
-  for (const part of parts) {
-    const trimmed = part.trim();
-    if (!trimmed) continue;
-    const headingMatch = trimmed.match(/^##\s+(.+?)$/m);
-    if (!headingMatch) {
-      // Body before any heading — treat as raw notes.
-      edits.push({
-        kind: "raw",
-        heading: "",
-        body: [trimmed],
-        copyText: trimmed,
-        text: trimmed,
-      });
-      continue;
-    }
-    const rawHeading = headingMatch[1].trim();
-    let kind: ParsedEdit["kind"] = "raw";
-    let heading = rawHeading;
-    if (EXISTING_PREFIX_RE.test(rawHeading)) {
-      kind = "existing-section";
-      heading = rawHeading.replace(EXISTING_PREFIX_RE, "").trim();
-    } else if (NEW_PREFIX_RE.test(rawHeading)) {
-      kind = "new-section";
-      heading = rawHeading.replace(NEW_PREFIX_RE, "").trim();
-    }
-    if (kind === "raw") {
-      edits.push({ kind, heading: rawHeading, body: [trimmed], copyText: trimmed, text: trimmed });
-      continue;
-    }
-    const body = trimmed
-      .split("\n")
-      .slice(1)
-      .map((l) => l.trim())
-      .filter((l) => l.length > 0);
-    edits.push({
-      kind,
-      heading,
-      body,
-      copyText: trimmed,
-      text: trimmed,
-    });
-  }
-  return edits;
-}
-
-/** Tiny inline renderer: bolds **...**, italicizes *...*, quotes "..." */
-function SurgicalEditLine({ text }: { text: string }) {
-  // Split into segments by markdown tokens. Keep simple — bold/italic/quote only.
-  const segments = text.split(/(\*\*[^*]+\*\*|\*[^*]+\*|"[^"]+")/g);
-  return (
-    <p className="leading-snug">
-      {segments.map((seg, i) => {
-        if (/^\*\*[^*]+\*\*$/.test(seg)) {
-          return (
-            <strong key={i} className="font-bold text-neutral-900">
-              {seg.slice(2, -2)}
-            </strong>
-          );
-        }
-        if (/^\*[^*]+\*$/.test(seg)) {
-          return (
-            <em key={i} className="text-neutral-500 italic">
-              {seg.slice(1, -1)}
-            </em>
-          );
-        }
-        if (/^"[^"]+"$/.test(seg)) {
-          return (
-            <span
-              key={i}
-              className="px-1 py-0.5 rounded bg-white border border-neutral-200 font-mono text-[11px] text-neutral-800"
-            >
-              {seg.slice(1, -1)}
-            </span>
-          );
-        }
-        return <span key={i}>{seg}</span>;
-      })}
-    </p>
   );
 }
 
@@ -1232,6 +1356,35 @@ export default function AdminContentEditorBriefPage({ briefId: briefIdProp }: Pr
 
   // Page Mode state — when the editor is linked to a tracked page.
   const isPageMode = !!state?.linkedPage;
+  const trackedPageIdForBlocks = state?.linkedPage?.id ?? null;
+  const {
+    pendingBlocks,
+    activeBlocks,
+    archivedBlocks,
+    actions: blockActions,
+    applyBlock,
+    rejectBlock,
+    archiveBlock,
+    applyAllPending,
+    refetch: refetchBlocks,
+  } = useTrackedPageBlocks(trackedPageIdForBlocks);
+  const blockApplyingMap = useMemo(() => {
+    const map: Record<string, boolean> = {};
+    for (const [id, s] of Object.entries(blockActions)) {
+      map[id] = s.loading;
+    }
+    return map;
+  }, [blockActions]);
+  const blocksHandle = useMemo(
+    () => ({
+      applying: blockApplyingMap,
+      applyBlock,
+      rejectBlock,
+      archiveBlock,
+      applyAllPending,
+    }),
+    [blockApplyingMap, applyBlock, rejectBlock, archiveBlock, applyAllPending],
+  );
   const [livePageScanning, setLivePageScanning] = useState(false);
   const [livePageScanError, setLivePageScanError] = useState<string | null>(null);
   const [applyingSeoMeta, setApplyingSeoMeta] = useState(false);
@@ -1418,8 +1571,14 @@ export default function AdminContentEditorBriefPage({ briefId: briefIdProp }: Pr
         window.sessionStorage.removeItem(`content-editor-optimize-start:${editorId}`);
         window.sessionStorage.removeItem(`content-editor-optimize-baseline:${editorId}`);
       }
+      // Pull fresh pending blocks so the queue updates as soon as the AI
+      // run finishes. In Page Mode the autoOptimize pipeline inserts new
+      // rows into tracked_page_content_blocks alongside the draft.
+      if (isPageMode) {
+        void refetchBlocks();
+      }
     }
-  }, [optimizing, state?.currentDraft?.updated_at, optimizeBaselineUpdatedAt, optimizeStartedAt, editorId]);
+  }, [optimizing, state?.currentDraft?.updated_at, optimizeBaselineUpdatedAt, optimizeStartedAt, editorId, isPageMode, refetchBlocks]);
 
   // While optimizing, poll the server every 4s so we pick up the new draft.
   useEffect(() => {
@@ -1894,6 +2053,22 @@ Body copy here. Use markdown — \`#\` headings, \`![alt](url)\` images, \`-\` b
                 targetScore={editor.target_score}
                 onApply={() => void handleApplySeoMeta()}
                 applying={applyingSeoMeta}
+              />
+            ) : null}
+
+            {/* Pending + live AI body blocks (Page Mode only) */}
+            {isPageMode && editorId ? (
+              <PendingBlocksPanel
+                pendingBlocks={pendingBlocks}
+                editorId={editorId}
+                handle={blocksHandle}
+              />
+            ) : null}
+            {isPageMode ? (
+              <LiveBlocksPanel
+                activeBlocks={activeBlocks}
+                archivedBlocks={archivedBlocks}
+                handle={blocksHandle}
               />
             ) : null}
 

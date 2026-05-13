@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import { TrackedPageBody } from "@sweetmedia/admin-core";
 import HeroContactForm from "@/components/feature/HeroContactForm";
 import FaqAccordion from "@/components/sections/FaqAccordion";
 import BottomCta from "@/components/sections/BottomCta";
@@ -103,6 +104,17 @@ export interface StatePageConfig {
   regionsSupportingText?: string;
 }
 
+interface StatePageTemplateProps {
+  config: StatePageConfig;
+  /**
+   * When set, renders a <TrackedPageBody/> slot just before the FAQ section
+   * for any AI-authored content blocks that have been applied via the admin
+   * Content Editor (status='active' rows in `tracked_page_content_blocks`).
+   * Pass the canonical route path, e.g. "/service-areas/alaska".
+   */
+  trackedPagePath?: string;
+}
+
 function makeProcess(stateName: string): StateProcessStep[] {
   return [
     {
@@ -138,7 +150,7 @@ function makeProcess(stateName: string): StateProcessStep[] {
   ];
 }
 
-export default function StatePageTemplate({ config }: { config: StatePageConfig }) {
+export default function StatePageTemplate({ config, trackedPagePath }: StatePageTemplateProps) {
   const { stateName } = config;
   const fullBleed = Boolean(config.fullBleedStateLayout);
   const process = config.processSteps ?? makeProcess(stateName);
@@ -538,6 +550,17 @@ export default function StatePageTemplate({ config }: { config: StatePageConfig 
           </div>
         </section>
       )}
+
+      {/* ── AI-managed content blocks ──────────────────────────────────────
+          Renders content blocks the team has approved via the admin
+          Content Editor brief workspace. Opt in by passing trackedPagePath.
+      */}
+      {trackedPagePath ? (
+        <TrackedPageBody
+          trackedPagePath={trackedPagePath}
+          className="mx-auto w-full max-w-3xl px-6 lg:px-10 py-12"
+        />
+      ) : null}
 
       {/* ── FAQs ────────────────────────────────────────────────────────── */}
       <FaqAccordion title={config.faqTitle} faqs={config.faqs} />

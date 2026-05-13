@@ -21,6 +21,7 @@ type DbTrackedPageRow = {
   seo_brief_id?: string | null;
   seo_guidance_applied?: boolean | null;
   published_url?: string | null;
+  content_editor_id?: string | null;
 };
 
 function rowToPage(row: DbTrackedPageRow): TrackedPage {
@@ -41,6 +42,7 @@ function rowToPage(row: DbTrackedPageRow): TrackedPage {
     seo_brief_id: row.seo_brief_id ?? null,
     seo_guidance_applied: row.seo_guidance_applied === true,
     published_url: row.published_url ?? null,
+    content_editor_id: row.content_editor_id ?? null,
   };
 }
 
@@ -144,6 +146,8 @@ export function useTrackedPages() {
             updates.published_url !== null && String(updates.published_url).trim()
               ? String(updates.published_url).trim()
               : null;
+        if (updates.content_editor_id !== undefined)
+          row.content_editor_id = updates.content_editor_id;
 
         const { error: updErr } = await supabase.from("tracked_pages").update(row).eq("id", id);
         if (updErr) throw updErr;

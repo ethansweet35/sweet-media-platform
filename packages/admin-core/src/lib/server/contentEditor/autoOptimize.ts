@@ -26,6 +26,11 @@ import type {
   ContentEditorFactRow,
 } from "./api";
 import { loadLatestSnapshotIgnoreTtl, type TrackedPageLiveSnapshot } from "./livePageAnalysis";
+import {
+  replaceAiPendingBlocks,
+  type AiBlockInput,
+  type TrackedPageBlockType,
+} from "../trackedPageBlocks";
 
 const DEFAULT_MODEL = "anthropic/claude-sonnet-4.6";
 const ALLOWED_MODELS = new Set([
@@ -119,6 +124,42 @@ function normalizeBlocks(content: unknown): BlockShape[] {
       return shape;
     })
     .filter((b): b is BlockShape => b !== null);
+}
+
+/**
+ * Convert a normalized AI BlockShape (the in-memory format from the
+ * LLM response) into the row shape consumed by `replaceAiPendingBlocks`.
+ * Returns a row with shared metadata (target_heading + rationale) attached.
+ */
+function blockShapeToAiInput(
+  block: BlockShape,
+  targetHeading: string | null,
+  rationale: string | null,
+): AiBlockInput {
+  const type = block.type as TrackedPageBlockType;
+  const heading =
+    type === "h1" || type === "h2" || type === "h3" || type === "h4"
+      ? block.text?.trim() ?? null
+      : null;
+  const bodyMarkdown =
+    type === "paragraph" ||
+    type === "pullquote" ||
+    type === "callout"
+      ? block.text?.trim() ?? null
+      : null;
+  return {
+    block_type: type,
+    heading,
+    body_markdown: bodyMarkdown,
+    list_items: type === "list" || type === "numbered" ? block.items ?? null : null,
+    callout_variant:
+      type === "callout" && block.variant ? String(block.variant) : null,
+    stats: type === "stat-row" && block.stats ? block.stats : null,
+    table_headers: type === "table" && block.tableHeaders ? block.tableHeaders : null,
+    table_rows: type === "table" && block.tableRows ? block.tableRows : null,
+    ai_rationale: rationale,
+    ai_target_heading: targetHeading,
+  };
 }
 
 function blocksToMarkdown(blocks: BlockShape[]): string {
@@ -276,57 +317,70 @@ function buildSeoGuidelines(
 }
 
 /**
- * Page Mode prompt — generates SURGICAL edits to an existing live page,
- * NOT a full rewrite. The AI sees the actual live page plaintext + the
- * brief's missing terms/questions/facts, and proposes small targeted
- * changes that preserve the page's voice, structure, and layout:
+ * Page Mode prompt — generates structured RENDERABLE blocks (not narrative
+ * "edit instructions") that get persisted to `tracked_page_content_blocks`
+ * with status='pending'. Once an admin clicks Apply, the block flips to
+ * 'active' and renders live on the page via the <TrackedPageBody/> server
+ * component.
  *
- *   - 1-sentence additions to existing sections
- *   - small phrase swaps that introduce missing keywords naturally
- *   - new short H2 sections ONLY when no existing section is a good fit
+ * Each edit is a small ready-to-publish chunk:
+ *   - A new H2 section with its own paragraphs / list / callout
+ *   - A supplementary paragraph that supplements an existing H2 section
+ *     (rendered alongside that section by sharing the `target_heading`)
  *
- * Output is ~500-1500 tokens, runs in ~30-60s. Vercel-safe.
+ * The `target_heading` field tells the admin which existing live-page H2
+ * this content is intended to supplement. NULL means a fully new section.
+ * The `rationale` field explains which brief items the edit covers.
  */
 function buildPageModeSystemPrompt(knowledgeBaseBlock: string): string {
-  return `You are an expert SEO content strategist. You're optimizing a LIVE PAGE that already exists in production with a hand-coded React layout. Your goal is to preserve the page's voice, format, and structure while suggesting small surgical improvements that close coverage gaps from the content brief.
+  return `You are an expert SEO content strategist. You are extending a LIVE PAGE that already exists in production with a hand-coded React layout. Your output will be persisted as DB-backed content blocks rendered immediately below the existing static body of the page.
 
 [KNOWLEDGE BASE]
 ${knowledgeBaseBlock || "(none provided — use authoritative best practices for the topic)"}
 [END KNOWLEDGE BASE]
 
 CRITICAL RULES:
-1. Do NOT rewrite the whole page. Propose SURGICAL EDITS only.
-2. Each edit must be small: 1-3 sentences, OR a short phrase swap.
-3. Prefer adding sentences to EXISTING sections over creating new ones.
-4. Suggest new H2 sections ONLY when a missing topic has no plausible home in any existing section.
-5. Preserve the page's tone and voice as you see it in the live content.
-6. Every edit must cite which brief items it addresses (terms, questions, facts).
-7. Aim for 4-8 total edits (existing section edits + at most 1-2 new sections).
+1. Output READY-TO-PUBLISH renderable content blocks. Do NOT output narrative "edit instructions" like "ADD this sentence:" or "REPLACE the phrase:". The blocks ship verbatim to the live page.
+2. Each "edit" is a top-level content section: either a new H2 with its own paragraphs/lists, or a supplementary paragraph/list/callout intended to extend an existing H2 from the live page.
+3. Use \`target_heading\` to tell the admin which existing live-page H2 a supplement is for (must match the verbatim H2 text). Set \`target_heading\` to null when the edit is a brand-new section.
+4. Use \`rationale\` to list the specific brief items the edit covers (e.g. "Covers terms: alcohol detox, withdrawal timeline. Answers: How long does alcohol withdrawal last?")
+5. Preserve the page's tone. Read the live page plaintext and match its voice.
+6. Aim for 4-10 total edits, weighted toward supplementing existing sections rather than creating brand-new ones.
+7. Every supplementary edit must reference an actual H2 from the "Current H2 sections" list. Do not invent target headings.
+8. Never include "Edit existing section:" / "Suggest new section:" prefixes in any heading — those are admin-only review concepts, not real content.
 
-EDIT TYPES:
-- ADD-SENTENCE: append a 1-2 sentence addition to a specific existing section
-- REPLACE-PHRASE: swap a specific short phrase from the live page with a tighter, keyword-rich variant
-- ADD-SECTION: propose a new short H2 section with 2-3 sentence intro (use sparingly)
+BLOCK TYPES YOU MAY USE inside \`blocks\`:
+- { "block_type": "h2", "heading": "Section heading" }
+- { "block_type": "h3", "heading": "Sub-heading" }
+- { "block_type": "paragraph", "body_markdown": "Plain prose. Markdown links [anchor](https://...) ok. No headings." }
+- { "block_type": "list", "list_items": ["item 1", "item 2", "item 3"] }
+- { "block_type": "numbered", "list_items": ["step 1", "step 2"] }
+- { "block_type": "callout", "callout_variant": "tip"|"warning"|"insight", "body_markdown": "Short callout text." }
+- { "block_type": "pullquote", "body_markdown": "Memorable single-sentence pullquote." }
 
 OUTPUT FORMAT (return ONLY this JSON object — no markdown fences, no preamble):
 {
   "title": "string — SEO-optimized, under 70 chars, includes primary keyword",
   "metaDescription": "string under 155 chars, includes primary keyword, has CTA",
-  "content": [
-    { "type": "h1", "text": "Recommended H1 (if changing)" },
-    { "type": "h2", "text": "Edit existing section: <verbatim H2 heading from the live page>" },
-    { "type": "paragraph", "text": "**ADD this sentence at the end of that section:** \\"...\\"" },
-    { "type": "paragraph", "text": "*Why this helps:* covers <comma-separated brief items, e.g. terms/questions/facts>" },
-
-    { "type": "h2", "text": "Edit existing section: <another existing H2>" },
-    { "type": "paragraph", "text": "**REPLACE the phrase:** \\"...verbatim from live page...\\"" },
-    { "type": "paragraph", "text": "**WITH:** \\"...new wording...\\"" },
-    { "type": "paragraph", "text": "*Why this helps:* covers <brief items>" },
-
-    { "type": "h2", "text": "Suggest new section: <new H2 heading>" },
-    { "type": "paragraph", "text": "*Place it after:* <existing H2 the new section should follow>" },
-    { "type": "paragraph", "text": "*Suggested content:* 2-3 sentence intro that flows naturally from the surrounding context..." },
-    { "type": "paragraph", "text": "*Why this helps:* covers <brief items>" }
+  "h1Recommendation": "string — recommended H1 if the current one should change, otherwise null",
+  "edits": [
+    {
+      "target_heading": "How to know when treatment is needed",
+      "rationale": "Covers terms: assessment criteria, DSM-5. Answers: When should I seek treatment?",
+      "blocks": [
+        { "block_type": "paragraph", "body_markdown": "..." },
+        { "block_type": "list", "list_items": ["..."] }
+      ]
+    },
+    {
+      "target_heading": null,
+      "rationale": "New section — covers fact: outpatient programs have a 60% completion rate.",
+      "blocks": [
+        { "block_type": "h2", "heading": "What outcomes can families expect?" },
+        { "block_type": "paragraph", "body_markdown": "..." },
+        { "block_type": "callout", "callout_variant": "insight", "body_markdown": "..." }
+      ]
+    }
   ]
 }
 
@@ -668,7 +722,45 @@ export async function runAutoOptimize(opts: AutoOptimizeOptions): Promise<void> 
   const metaDescription = String(
     parsed.metaDescription ?? parsed.meta_description ?? "",
   ).trim();
-  const blocks = normalizeBlocks(parsed.content);
+
+  let blocks: BlockShape[] = [];
+  let aiBlocksForPending: AiBlockInput[] = [];
+
+  if (isPageMode) {
+    // New Page Mode shape: { title, metaDescription, h1Recommendation, edits: [{target_heading, rationale, blocks: [...]}] }
+    // We flatten each edit's blocks into a single list while attaching
+    // ai_target_heading + ai_rationale so the admin can group them.
+    const editsRaw = Array.isArray(parsed.edits) ? (parsed.edits as unknown[]) : [];
+    for (const editRaw of editsRaw) {
+      if (!editRaw || typeof editRaw !== "object") continue;
+      const e = editRaw as Record<string, unknown>;
+      const targetHeading =
+        typeof e.target_heading === "string" && e.target_heading.trim()
+          ? e.target_heading.trim()
+          : null;
+      const rationale =
+        typeof e.rationale === "string" && e.rationale.trim()
+          ? e.rationale.trim()
+          : null;
+      const editBlocks = normalizeBlocks(e.blocks);
+      for (const b of editBlocks) {
+        blocks.push(b);
+        aiBlocksForPending.push(blockShapeToAiInput(b, targetHeading, rationale));
+      }
+    }
+    // Legacy fallback: if model still returned `content`, accept it but
+    // attach no target_heading / rationale.
+    if (blocks.length === 0 && Array.isArray(parsed.content)) {
+      const legacy = normalizeBlocks(parsed.content);
+      for (const b of legacy) {
+        blocks.push(b);
+        aiBlocksForPending.push(blockShapeToAiInput(b, null, null));
+      }
+    }
+  } else {
+    blocks = normalizeBlocks(parsed.content);
+  }
+
   if (!title || blocks.length === 0) {
     throw new ContentEditorError("AI response missing title or content blocks.", {
       source: "openrouter",
@@ -676,13 +768,21 @@ export async function runAutoOptimize(opts: AutoOptimizeOptions): Promise<void> 
     });
   }
 
-  // In Page Mode the AI emits a separate H1 block; use it as h1_text so the
+  // In Page Mode the AI emits a separate `h1Recommendation` field; fall
+  // back to a top-level h1 block in `content` for backwards compat. The
   // PageModeRecommendations panel shows the recommended H1 alongside the
   // title. In Blog Mode the title doubles as the H1.
   let recommendedH1 = title;
   if (isPageMode) {
-    const firstH1 = blocks.find((b) => b.type === "h1");
-    if (firstH1?.text) recommendedH1 = firstH1.text.trim();
+    const h1Reco = typeof parsed.h1Recommendation === "string"
+      ? parsed.h1Recommendation.trim()
+      : "";
+    if (h1Reco) {
+      recommendedH1 = h1Reco;
+    } else {
+      const firstH1 = blocks.find((b) => b.type === "h1");
+      if (firstH1?.text) recommendedH1 = firstH1.text.trim();
+    }
   }
 
   const bodyMarkdown = blocksToMarkdown(blocks);
@@ -697,6 +797,24 @@ export async function runAutoOptimize(opts: AutoOptimizeOptions): Promise<void> 
     bodyMarkdown,
     bodyPlaintext: bodyMarkdown,
   });
+
+  // Page Mode: persist structured pending blocks for in-place review/apply
+  // via <TrackedPageBody/>. Non-fatal — if this fails the markdown draft is
+  // still saved and the admin can copy-paste as before.
+  if (isPageMode && editor.linked_tracked_page_id && aiBlocksForPending.length > 0) {
+    try {
+      await replaceAiPendingBlocks({
+        trackedPageId: editor.linked_tracked_page_id,
+        editorId,
+        blocks: aiBlocksForPending,
+      });
+    } catch (err) {
+      console.warn(
+        "[content-editor] failed to persist pending blocks (non-fatal):",
+        err,
+      );
+    }
+  }
 
   // Immediately score the new draft so the list view shows a current score
   // without waiting for the user to open the brief page (which triggers
