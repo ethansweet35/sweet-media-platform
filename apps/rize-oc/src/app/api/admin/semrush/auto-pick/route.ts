@@ -27,7 +27,7 @@ async function refineSeedFromPage(seed: string, routePath: string): Promise<stri
   const { text, seedHint } = await fetchPageTextContent(`${siteUrl}${routePath}`, 4000);
 
   if (text && apiKey) {
-    const aiSeed = await deriveKeywordSeedWithAi(text, routePath, apiKey, "");
+    const aiSeed = await deriveKeywordSeedWithAi(text, routePath, apiKey, "", seed);
     if (aiSeed) return aiSeed;
   }
 

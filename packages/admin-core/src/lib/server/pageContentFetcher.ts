@@ -18,21 +18,43 @@ export interface PageContentResult {
  * Falls back to `fallbackSeed` on any error (network, timeout, bad response).
  * Never throws.
  */
+/**
+ * Use AI (OpenRouter) to derive a specific, brand-aware 3–5 word keyword phrase
+ * from crawled page content. This is far more accurate than relying on the H1
+ * alone — it understands that "Case Studies" on a behavioral health marketing
+ * site should produce "behavioral health marketing case studies", not generic results.
+ *
+ * @param originalSeed - The cleaned seed phrase before refinement (used as an anchor
+ *   to ensure the AI stays on-topic and as a relevance guard on the result).
+ *
+ * Falls back to `fallbackSeed` on any error (network, timeout, bad response) or
+ * when the result shares no words with the original seed.
+ * Never throws.
+ */
 export async function deriveKeywordSeedWithAi(
   pageText: string,
   routePath: string,
   openRouterApiKey: string,
   fallbackSeed: string,
+  originalSeed = "",
 ): Promise<string> {
   if (!pageText.trim() || !openRouterApiKey) return fallbackSeed;
   try {
-    const prompt = `You are an SEO keyword research expert. Given the following page content and URL path, suggest the single best 3–5 word keyword phrase that a prospective client or customer would search for to find this specific page. The phrase must be highly specific to the actual topic and industry shown in the content — not generic.
+    const seedContext = originalSeed.trim()
+      ? `The current search seed is "${originalSeed.trim()}". Build on this — make it more specific and industry-relevant, but keep it related to this same topic/service.`
+      : "";
+
+    const prompt = `You are an SEO keyword research expert. Given the following page content and URL path, suggest the single best 3–5 word keyword phrase for THIS PAGE.
+
+RULES:
+- Focus on what this page IS or OFFERS (the service, topic, or content type), NOT the industries or clients it mentions.
+- ${seedContext || "Keep the phrase relevant to the core topic of the page."}
+- Do NOT include brand names, company names, or proper nouns.
+- Return ONLY the keyword phrase. No explanation, no quotes, no punctuation.
 
 URL path: ${routePath}
 Page content:
-${pageText.slice(0, 600)}
-
-Return ONLY the keyword phrase itself, nothing else. No explanation, no quotes, no punctuation.`;
+${pageText.slice(0, 600)}`;
 
     const res = await fetch("https://openrouter.ai/api/v1/chat/completions", {
       method: "POST",
@@ -55,10 +77,22 @@ Return ONLY the keyword phrase itself, nothing else. No explanation, no quotes, 
     const cleaned = raw
       .replace(/^["'\s]+|["'\s]+$/g, "")
       .split("\n")[0]
-      .trim();
+      .trim()
+      .toLowerCase();
     const wordCount = cleaned.split(/\s+/).length;
-    if (cleaned && wordCount >= 2 && wordCount <= 6) return cleaned.toLowerCase();
-    return fallbackSeed;
+    if (!cleaned || wordCount < 2 || wordCount > 6) return fallbackSeed;
+
+    // Relevance guard: if the original seed has meaningful words and none of them
+    // appear in the AI result, reject it — the AI drifted off-topic.
+    if (originalSeed.trim()) {
+      const origWords = new Set(
+        originalSeed.toLowerCase().split(/\s+/).filter((w) => w.length > 2),
+      );
+      const hasOverlap = cleaned.split(/\s+/).some((w) => origWords.has(w));
+      if (origWords.size > 0 && !hasOverlap) return fallbackSeed;
+    }
+
+    return cleaned;
   } catch {
     return fallbackSeed;
   }

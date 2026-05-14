@@ -49,7 +49,7 @@ export default function BottomCta({
         <div className="grid gap-12 lg:grid-cols-[1fr_auto] lg:items-center">
           {/* Left: heading + CTAs */}
           <div>
-            <p className="brand-eyebrow mb-5 text-[#8FAC87]">You Don&rsquo;t Have to Do This Alone</p>
+            <p className="brand-eyebrow mb-5 text-[#8FAC87]">You Don't Have to Do This Alone</p>
             <h2 className="font-heading mb-6 text-4xl font-bold leading-tight text-white md:text-5xl">
               {titleNode}
             </h2>

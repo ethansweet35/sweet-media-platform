@@ -191,7 +191,7 @@ export default function AboutUsPage() {
                 <span className="italic text-[#507969]">25+ years</span>
               </h2>
               <p className="mb-4 leading-relaxed text-[#4B4B4B]">
-                <AutoLinkedText>{"You&rsquo;ve read the books. You&rsquo;ve tried tough love. You&rsquo;ve tried unconditional\n                support. You&rsquo;ve waited for rock bottom — and watched it move further out of reach.\n                We are here for the moment you decide you are done waiting."}</AutoLinkedText>
+                <AutoLinkedText>{"You've read the books. You've tried tough love. You've tried unconditional\n                support. You've waited for rock bottom — and watched it move further out of reach.\n                We are here for the moment you decide you are done waiting."}</AutoLinkedText>
               </p>
               <p className="leading-relaxed text-[#4B4B4B]">
                 <AutoLinkedText>{"Our job is not to fix your loved one. Our job is to give your family a clear path\n                forward — and to walk it with you, every step of the way."}</AutoLinkedText>
@@ -324,7 +324,7 @@ export default function AboutUsPage() {
                 <span className="italic text-[#8FAC87]">clinical care</span>
               </h2>
               <p className="max-w-2xl leading-relaxed text-white/75">
-                <AutoLinkedText>{"Addiction Interventions is accredited by The Joint Commission — the nation&rsquo;s oldest and most\n                prestigious healthcare accreditor. The Joint Commission Gold Seal is awarded only to organizations\n                that meet rigorous standards of safety, quality, and continuous improvement."}</AutoLinkedText>
+                <AutoLinkedText>{"Addiction Interventions is accredited by The Joint Commission — the nation's oldest and most\n                prestigious healthcare accreditor. The Joint Commission Gold Seal is awarded only to organizations\n                that meet rigorous standards of safety, quality, and continuous improvement."}</AutoLinkedText>
               </p>
             </div>
             <div className="flex flex-col items-center gap-4 rounded-2xl border border-white/10 bg-white/5 p-8">

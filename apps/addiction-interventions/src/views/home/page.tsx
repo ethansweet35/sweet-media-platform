@@ -216,7 +216,7 @@ export default async function HomePage() {
           </h1>
 
           <p className="mb-10 max-w-lg text-lg leading-relaxed text-white/85">
-            <AutoLinkedText>{"You&rsquo;ve tried everything to help your loved one, and nothing has worked.\n            We&rsquo;re here to help you break the cycle — with compassion, structure, and proven results."}</AutoLinkedText>
+            <AutoLinkedText>{"You've tried everything to help your loved one, and nothing has worked.\n            We're here to help you break the cycle — with compassion, structure, and proven results."}</AutoLinkedText>
           </p>
 
           <div className="flex flex-wrap gap-4">
@@ -257,7 +257,7 @@ export default async function HomePage() {
             <div className="relative">
               <span className="font-heading pointer-events-none absolute -top-8 -left-4 select-none text-[10rem] leading-none text-[#8FAC87]/20 md:text-[14rem]">&ldquo;</span>
               <blockquote className="relative font-heading text-2xl font-medium italic leading-relaxed text-[#3E5B50] md:text-3xl">
-                Waiting for someone you love to hit bottom is devastating. You don&rsquo;t have to wait any longer.
+                Waiting for someone you love to hit bottom is devastating. You don't have to wait any longer.
               </blockquote>
               <div className="mt-8 h-px w-16 bg-[#8FAC87]"></div>
               <p className="mt-4 text-sm font-semibold uppercase tracking-[0.15em] text-[#8FAC87]">
@@ -270,7 +270,7 @@ export default async function HomePage() {
                 Interventions For <span className="italic text-[#507969]">Any Situation</span>
               </h2>
               <p className="mb-8 leading-relaxed text-[#4B4B4B]">
-                <AutoLinkedText>{"No two situations are the same. Our trained specialists guide families through a structured\n                process designed to break through denial, encourage acceptance, and open the door to\n                treatment — whether it&rsquo;s alcohol, drugs, mental health, or dual diagnosis."}</AutoLinkedText>
+                <AutoLinkedText>{"No two situations are the same. Our trained specialists guide families through a structured\n                process designed to break through denial, encourage acceptance, and open the door to\n                treatment — whether it's alcohol, drugs, mental health, or dual diagnosis."}</AutoLinkedText>
               </p>
               <div className="flex flex-wrap items-center gap-6">
                 <a
@@ -361,7 +361,7 @@ export default async function HomePage() {
             <div>
               <p className="brand-eyebrow mb-3 text-[#8FAC87]">How We Help</p>
               <h2 className="font-heading text-4xl font-bold text-[#1A1A17] md:text-5xl">
-                Every Family&rsquo;s <span className="italic text-[#507969]">Situation</span> Is Different
+                Every Family's <span className="italic text-[#507969]">Situation</span> Is Different
               </h2>
             </div>
             <p className="max-w-xs text-sm leading-relaxed text-[#4B4B4B] lg:text-right">
@@ -459,7 +459,7 @@ export default async function HomePage() {
       <section className="bg-white py-24">
         <div className={CONTAINER}>
           <div className="mb-16 text-center">
-            <p className="brand-eyebrow mb-3 text-[#8FAC87]"><AutoLinkedText>{"Who You&rsquo;ll Work With"}</AutoLinkedText></p>
+            <p className="brand-eyebrow mb-3 text-[#8FAC87]"><AutoLinkedText>{"Who You'll Work With"}</AutoLinkedText></p>
             <h2 className="font-heading text-4xl font-bold text-[#1A1A17] md:text-5xl">
               Meet the{" "}
               <span className="italic text-[#507969]">Co-Founders</span>
@@ -509,7 +509,7 @@ export default async function HomePage() {
                     href="/david-gates"
                     className="mt-6 inline-flex items-center gap-1.5 text-sm font-semibold text-[#507969] underline-offset-4 hover:underline"
                   >
-                    Read David&rsquo;s full bio <i className="ri-arrow-right-line"></i>
+                    Read David's full bio <i className="ri-arrow-right-line"></i>
                   </a>
                 </div>
               </div>
@@ -554,7 +554,7 @@ export default async function HomePage() {
                     href="/about-us"
                     className="mt-6 inline-flex items-center gap-1.5 text-sm font-semibold text-[#507969] underline-offset-4 hover:underline"
                   >
-                    Read Jennifer&rsquo;s full bio <i className="ri-arrow-right-line"></i>
+                    Read Jennifer's full bio <i className="ri-arrow-right-line"></i>
                   </a>
                 </div>
               </div>
@@ -748,7 +748,7 @@ export default async function HomePage() {
           <div className="grid gap-16 lg:grid-cols-[1fr_auto] lg:items-center">
             {/* Left: text */}
             <div>
-              <p className="brand-eyebrow mb-5 text-[#8FAC87]"><AutoLinkedText>{"You Don&rsquo;t Have to Do This Alone"}</AutoLinkedText></p>
+              <p className="brand-eyebrow mb-5 text-[#8FAC87]"><AutoLinkedText>{"You Don't Have to Do This Alone"}</AutoLinkedText></p>
               <h2 className="font-heading mb-2 text-4xl font-bold text-white md:text-5xl lg:text-6xl">
                 Speak to a Certified
               </h2>
@@ -756,7 +756,7 @@ export default async function HomePage() {
                 Interventionist
               </h2>
               <p className="mb-10 max-w-lg text-lg leading-relaxed text-white/75">
-                <AutoLinkedText>{"Call us 24/7 — we&rsquo;re here to ensure you are fully informed and empowered to make\n                the best decisions for your family."}</AutoLinkedText>
+                <AutoLinkedText>{"Call us 24/7 — we're here to ensure you are fully informed and empowered to make\n                the best decisions for your family."}</AutoLinkedText>
               </p>
               <div className="flex flex-wrap gap-4">
                 <a
