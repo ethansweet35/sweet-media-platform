@@ -143,6 +143,7 @@ export default function LinkHealthPage() {
       const normalizedSite = siteUrl.trim().replace(/\/$/, "");
       const existing = replacementSuggestions[result.href];
       if (existing?.loading) return;
+      setScanExpandedId(result.href);
 
       setReplacementSuggestions((prev) => ({
         ...prev,
@@ -604,6 +605,13 @@ export default function LinkHealthPage() {
                           )}
                         </div>
                         <p className="text-xs font-mono text-neutral-700 mt-1 truncate">{result.href}</p>
+                        {isRedirectRow && result.finalUrl && (
+                          <p className="text-[11px] text-amber-700 mt-1">
+                            {result.status === "redirect-chain"
+                              ? "Chain detected: replace source links with final URL to remove extra hops."
+                              : "Single redirect: consider replacing source links with the destination URL."}
+                          </p>
+                        )}
                         {result.sources.length > 0 && (
                           <p className="text-[10px] text-neutral-400 mt-0.5 truncate">
                             Found on: {result.sources[0].sourcePage}
@@ -655,58 +663,87 @@ export default function LinkHealthPage() {
                       </div>
                     </div>
 
+                    {isRedirectRow && (
+                      <div className="border-t border-neutral-100 px-5 py-3 bg-amber-50/40 rounded-b-2xl">
+                        <div className="flex flex-wrap items-center gap-2">
+                          {(["replace-source", "keep-redirect", "review"] as RedirectDecision[]).map((option) => (
+                            <button
+                              key={option}
+                              onClick={() =>
+                                setRedirectDecisions((prev) => ({
+                                  ...prev,
+                                  [result.href]: option,
+                                }))
+                              }
+                              className={`text-[11px] font-semibold px-3 py-1.5 rounded-lg border transition-colors ${
+                                decision === option
+                                  ? "border-[#3d6f7f] bg-[#3d6f7f]/10 text-[#3d6f7f]"
+                                  : "border-neutral-200 bg-white text-neutral-600 hover:bg-neutral-100"
+                              }`}
+                            >
+                              {DECISION_LABELS[option]}
+                            </button>
+                          ))}
+                        </div>
+                        <p className="text-[11px] text-neutral-500 mt-2">
+                          Known internal references from this scan: {result.sources.length}. External backlinks are not known here.
+                        </p>
+                      </div>
+                    )}
+
+                    {is404Like && replacementState && (
+                      <div className="border-t border-neutral-100 px-5 py-4 bg-red-50/40 rounded-b-2xl">
+                        <div className="rounded-xl border border-red-200 bg-red-50/60 p-4 space-y-3">
+                          <p className="text-xs font-semibold text-red-800">404 Replacement Suggestions</p>
+                          {replacementState.internalSuggestion ? (
+                            <div className="text-xs text-red-800">
+                              <p className="font-semibold mb-1">Best internal replacement</p>
+                              <a
+                                href={replacementState.internalSuggestion.url}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="font-mono underline decoration-dotted"
+                              >
+                                {replacementState.internalSuggestion.url}
+                              </a>
+                              <p className="text-red-700 mt-1">{replacementState.internalSuggestion.reason}</p>
+                            </div>
+                          ) : (
+                            <p className="text-xs text-red-700">No confident internal replacement found from current crawl results.</p>
+                          )}
+
+                          <div className="text-xs text-red-800">
+                            <p className="font-semibold mb-1">External alternatives (top 3)</p>
+                            {replacementState.externalSuggestions.length > 0 ? (
+                              <ul className="space-y-1">
+                                {replacementState.externalSuggestions.map((external, externalIdx) => (
+                                  <li key={`${external.url}-${externalIdx}`}>
+                                    <a
+                                      href={external.url}
+                                      target="_blank"
+                                      rel="noopener noreferrer"
+                                      className="font-mono underline decoration-dotted"
+                                    >
+                                      {external.url}
+                                    </a>
+                                    {external.title && <span className="text-red-700"> - {external.title}</span>}
+                                  </li>
+                                ))}
+                              </ul>
+                            ) : (
+                              <p className="text-red-700">No external alternatives returned.</p>
+                            )}
+                          </div>
+
+                          {replacementState.error && (
+                            <p className="text-xs text-red-700 bg-white/70 rounded px-2 py-1">{replacementState.error}</p>
+                          )}
+                        </div>
+                      </div>
+                    )}
+
                     {isExpanded && hasDetail && (
                       <div className="border-t border-neutral-100 px-5 py-4 bg-neutral-50/50 rounded-b-2xl space-y-3">
-                        {isRedirectRow && result.finalUrl && (
-                          <div className="rounded-xl border border-amber-200 bg-amber-50 px-4 py-3">
-                            <p className="text-xs font-semibold text-amber-800 mb-1">
-                              {result.status === "redirect-chain"
-                                ? "Redirect chain explanation"
-                                : "Redirect explanation"}
-                            </p>
-                            <p className="text-xs text-amber-700 leading-relaxed">
-                              {result.status === "redirect-chain"
-                                ? "This URL hops through multiple redirects before loading. Replace source links with the final destination to remove latency and reduce crawl overhead."
-                                : "This URL redirects once. If this source link can be updated safely, replace it with the destination URL to avoid unnecessary redirect hops."}
-                            </p>
-                            <p className="text-xs text-amber-700 mt-2">
-                              Recommended destination:{" "}
-                              <span className="font-mono bg-white/80 px-1.5 py-0.5 rounded">{result.finalUrl}</span>
-                            </p>
-                          </div>
-                        )}
-
-                        {isRedirectRow && (
-                          <div>
-                            <p className="text-[10px] tracking-[0.15em] uppercase font-semibold text-neutral-400 mb-2">
-                              Line-by-line Decision
-                            </p>
-                            <div className="flex flex-wrap gap-2">
-                              {(["replace-source", "keep-redirect", "review"] as RedirectDecision[]).map((option) => (
-                                <button
-                                  key={option}
-                                  onClick={() =>
-                                    setRedirectDecisions((prev) => ({
-                                      ...prev,
-                                      [result.href]: option,
-                                    }))
-                                  }
-                                  className={`text-[11px] font-semibold px-3 py-1.5 rounded-lg border transition-colors ${
-                                    decision === option
-                                      ? "border-[#3d6f7f] bg-[#3d6f7f]/10 text-[#3d6f7f]"
-                                      : "border-neutral-200 text-neutral-600 hover:bg-neutral-100"
-                                  }`}
-                                >
-                                  {DECISION_LABELS[option]}
-                                </button>
-                              ))}
-                            </div>
-                            <p className="text-[11px] text-neutral-500 mt-2">
-                              Known internal references from this scan: {result.sources.length}. External backlinks are not known here, so keep redirects when unsure.
-                            </p>
-                          </div>
-                        )}
-
                         {chainSteps.length > 1 && (
                           <div>
                             <p className="text-[10px] tracking-[0.15em] uppercase font-semibold text-neutral-400 mb-2">
@@ -732,57 +769,6 @@ export default function LinkHealthPage() {
                                 </div>
                               ))}
                             </div>
-                          </div>
-                        )}
-
-                        {is404Like && replacementState && (
-                          <div className="rounded-xl border border-red-200 bg-red-50/60 p-4 space-y-3">
-                            <p className="text-xs font-semibold text-red-800">404 Replacement Suggestions</p>
-                            {replacementState.internalSuggestion ? (
-                              <div className="text-xs text-red-800">
-                                <p className="font-semibold mb-1">Best internal replacement</p>
-                                <a
-                                  href={replacementState.internalSuggestion.url}
-                                  target="_blank"
-                                  rel="noopener noreferrer"
-                                  className="font-mono underline decoration-dotted"
-                                >
-                                  {replacementState.internalSuggestion.url}
-                                </a>
-                                <p className="text-red-700 mt-1">{replacementState.internalSuggestion.reason}</p>
-                              </div>
-                            ) : (
-                              <p className="text-xs text-red-700">No confident internal replacement found from current crawl results.</p>
-                            )}
-
-                            <div className="text-xs text-red-800">
-                              <p className="font-semibold mb-1">External alternatives (top 3)</p>
-                              {replacementState.externalSuggestions.length > 0 ? (
-                                <ul className="space-y-1">
-                                  {replacementState.externalSuggestions.map((external, externalIdx) => (
-                                    <li key={`${external.url}-${externalIdx}`}>
-                                      <a
-                                        href={external.url}
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                        className="font-mono underline decoration-dotted"
-                                      >
-                                        {external.url}
-                                      </a>
-                                      {external.title && (
-                                        <span className="text-red-700"> - {external.title}</span>
-                                      )}
-                                    </li>
-                                  ))}
-                                </ul>
-                              ) : (
-                                <p className="text-red-700">No external alternatives returned.</p>
-                              )}
-                            </div>
-
-                            {replacementState.error && (
-                              <p className="text-xs text-red-700 bg-white/70 rounded px-2 py-1">{replacementState.error}</p>
-                            )}
                           </div>
                         )}
 
