@@ -8,7 +8,7 @@ import { useState, useEffect, useRef } from "react";
 // ── Brand tokens ──────────────────────────────────────────────────────────────
 const INK    = "#2C302E";
 const ACCENT = "#D98A53";
-const IMG    = "https://uivbbrwuaffqujzkqjvr.supabase.co/storage/v1/object/public/site-assets/images/wp-migrated";
+const IMG    = "https://nfjlvkxrbzytjefmcvhg.supabase.co/storage/v1/object/public/site-assets/images/wp-migrated";
 
 // ── Types ─────────────────────────────────────────────────────────────────────
 type SubItem = { icon: string; label: string; desc: string; path: string };

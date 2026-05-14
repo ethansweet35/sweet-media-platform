@@ -1,7 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 
-const IMG = "https://uivbbrwuaffqujzkqjvr.supabase.co/storage/v1/object/public/site-assets/images/wp-migrated";
+const IMG = "https://nfjlvkxrbzytjefmcvhg.supabase.co/storage/v1/object/public/site-assets/images/wp-migrated";
 
 const programs = [
   { label: "Drug & Alcohol Detox",    path: "/drug-alcohol-detox" },

@@ -5,7 +5,7 @@ import BlogPage from "@/views/blog/page";
 export const revalidate = 3600;
 
 const BLOG_OG_IMAGE =
-  "https://uivbbrwuaffqujzkqjvr.supabase.co/storage/v1/object/public/site-assets/images/og-blog.jpg";
+  "https://nfjlvkxrbzytjefmcvhg.supabase.co/storage/v1/object/public/site-assets/images/og-blog.jpg";
 
 const fallbackMetadata: Metadata = {
   title: "Blog | Mental Health & Recovery Resources | Rize OC",
