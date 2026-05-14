@@ -3,7 +3,8 @@
 import { useCallback, useMemo, useState } from "react";
 import AdminPageHeader from "../components/AdminPageHeader";
 import { supabase } from "../lib/supabase";
-import { applyToBlock, fetchPostContent, savePostContent } from "../lib/content-links-utils";
+import { applyToBlock } from "../lib/content-links-utils";
+import type { ContentBlock } from "../types/content-links";
 
 type SiteScanStatus = "pending" | "checking" | "ok" | "broken" | "redirect" | "redirect-chain" | "error";
 type ScanPhase = "idle" | "discovering" | "checking" | "done";
@@ -179,6 +180,52 @@ function toInternalHrefIfSameDomain(url: string, baseSiteUrl: string): string {
   } catch {
     return url;
   }
+}
+
+type LoadedPostContent =
+  | { kind: "blocks"; blocks: ContentBlock[] }
+  | { kind: "markdown"; markdown: string };
+
+async function loadBlogPostContent(slug: string): Promise<LoadedPostContent | null> {
+  const { data, error } = await supabase
+    .from("blog_posts")
+    .select("content")
+    .eq("slug", slug)
+    .maybeSingle();
+
+  if (error || !data) return null;
+  const raw = (data as { content: unknown }).content;
+
+  if (typeof raw === "string") {
+    const trimmed = raw.trim();
+    if (trimmed.startsWith("[") || trimmed.startsWith("{")) {
+      try {
+        const parsed = JSON.parse(trimmed);
+        if (Array.isArray(parsed)) {
+          return { kind: "blocks", blocks: parsed as ContentBlock[] };
+        }
+      } catch {
+        // fall through to markdown
+      }
+    }
+    return { kind: "markdown", markdown: raw };
+  }
+
+  if (Array.isArray(raw)) {
+    return { kind: "blocks", blocks: raw as ContentBlock[] };
+  }
+
+  return null;
+}
+
+async function saveBlogPostContent(slug: string, content: LoadedPostContent): Promise<void> {
+  const value =
+    content.kind === "blocks" ? JSON.stringify(content.blocks) : content.markdown;
+  const { error } = await supabase
+    .from("blog_posts")
+    .update({ content: value })
+    .eq("slug", slug);
+  if (error) throw error;
 }
 
 export default function LinkHealthPage() {
@@ -489,24 +536,43 @@ export default function LinkHealthPage() {
 
         for (const [slug, sources] of sourceGroups.entries()) {
           try {
-            let blocks = await fetchPostContent(slug);
-            const before = JSON.stringify(blocks);
+            const loaded = await loadBlogPostContent(slug);
+            if (!loaded) {
+              failedSlugs.add(slug);
+              continue;
+            }
 
-            blocks = blocks.map((block, blockIdx) =>
-              applyToBlock(block, blockIdx, blockIdx, (text) => {
-                const { nextText, replacements } = replaceMatchingMarkdownLinks(
-                  text,
-                  oldUrlVariants,
-                  normalizedReplacementUrl,
-                  normalizedSite
-                );
-                totalReplacements += replacements;
-                return nextText;
-              })
-            );
+            let perPostReplacements = 0;
+            let updatedContent: LoadedPostContent;
 
-            if (JSON.stringify(blocks) !== before) {
-              await savePostContent(slug, blocks);
+            if (loaded.kind === "markdown") {
+              const { nextText, replacements } = replaceMatchingMarkdownLinks(
+                loaded.markdown,
+                oldUrlVariants,
+                normalizedReplacementUrl,
+                normalizedSite
+              );
+              perPostReplacements = replacements;
+              updatedContent = { kind: "markdown", markdown: nextText };
+            } else {
+              const updatedBlocks = loaded.blocks.map((block, blockIdx) =>
+                applyToBlock(block, blockIdx, blockIdx, (text) => {
+                  const { nextText, replacements } = replaceMatchingMarkdownLinks(
+                    text,
+                    oldUrlVariants,
+                    normalizedReplacementUrl,
+                    normalizedSite
+                  );
+                  perPostReplacements += replacements;
+                  return nextText;
+                })
+              );
+              updatedContent = { kind: "blocks", blocks: updatedBlocks };
+            }
+
+            if (perPostReplacements > 0) {
+              await saveBlogPostContent(slug, updatedContent);
+              totalReplacements += perPostReplacements;
               updatedSources += sources.length;
             }
           } catch {
