@@ -40,21 +40,24 @@ export async function deriveKeywordSeedWithAi(
 ): Promise<string> {
   if (!pageText.trim() || !openRouterApiKey) return fallbackSeed;
   try {
+    // For 2+ word seeds we want "[original seed] + [1 qualifier word]".
+    // Keeping the original words at the FRONT means Semrush's fallback
+    // (which drops words from the left) degrades gracefully.
     const seedContext = originalSeed.trim()
-      ? `The current search seed is "${originalSeed.trim()}". Build on this — make it more specific and industry-relevant, but keep it related to this same topic/service.`
-      : "";
+      ? `Start your phrase with the exact words "${originalSeed.trim()}", then add exactly ONE qualifying word that makes it more specific to this site's industry or niche. The result must be exactly 3 words.`
+      : `Suggest a 3-word keyword phrase that captures the core service or topic of this page and the industry it serves.`;
 
-    const prompt = `You are an SEO keyword research expert. Given the following page content and URL path, suggest the single best 3–5 word keyword phrase for THIS PAGE.
+    const prompt = `You are an SEO keyword research expert. Given the following page content and URL path, generate a Semrush-friendly keyword seed phrase.
 
 RULES:
-- Focus on what this page IS or OFFERS (the service, topic, or content type), NOT the industries or clients it mentions.
-- ${seedContext || "Keep the phrase relevant to the core topic of the page."}
-- Do NOT include brand names, company names, or proper nouns.
-- Return ONLY the keyword phrase. No explanation, no quotes, no punctuation.
+- ${seedContext}
+- Focus on what this page OFFERS (the service/topic), informed by the industry mentioned in the content.
+- Do NOT use brand names, company names, or proper nouns.
+- Return ONLY the keyword phrase — no explanation, no quotes, no punctuation.
 
 URL path: ${routePath}
 Page content:
-${pageText.slice(0, 600)}`;
+${pageText.slice(0, 500)}`;
 
     const res = await fetch("https://openrouter.ai/api/v1/chat/completions", {
       method: "POST",
@@ -80,16 +83,21 @@ ${pageText.slice(0, 600)}`;
       .trim()
       .toLowerCase();
     const wordCount = cleaned.split(/\s+/).length;
-    if (!cleaned || wordCount < 2 || wordCount > 6) return fallbackSeed;
+    if (!cleaned || wordCount < 2 || wordCount > 4) return fallbackSeed;
 
-    // Relevance guard: if the original seed has meaningful words and none of them
-    // appear in the AI result, reject it — the AI drifted off-topic.
+    // Relevance guard for 2+ word original seeds:
+    // The result MUST start with the original seed words so that Semrush's
+    // truncation fallback (drop first word) keeps the meaning intact.
     if (originalSeed.trim()) {
-      const origWords = new Set(
-        originalSeed.toLowerCase().split(/\s+/).filter((w) => w.length > 2),
-      );
-      const hasOverlap = cleaned.split(/\s+/).some((w) => origWords.has(w));
-      if (origWords.size > 0 && !hasOverlap) return fallbackSeed;
+      const origWords = originalSeed.toLowerCase().split(/\s+/).filter((w) => w.length > 2);
+      if (origWords.length >= 2) {
+        // Result must start with the original seed (e.g. "paid media rehab", not "rehab paid media")
+        const startsWithSeed = cleaned.startsWith(origWords.join(" "));
+        if (!startsWithSeed) return fallbackSeed;
+      } else if (origWords.length === 1) {
+        // Single meaningful original word — just require it appears somewhere
+        if (!cleaned.includes(origWords[0])) return fallbackSeed;
+      }
     }
 
     return cleaned;
