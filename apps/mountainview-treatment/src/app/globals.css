@@ -1,0 +1,88 @@
+@import "tailwindcss";
+
+@source "../**/*.{js,ts,jsx,tsx,mdx}";
+@source "../../src/**/*.{js,ts,jsx,tsx,mdx}";
+@source "../../../../packages/admin-core/src/**/*.{js,ts,jsx,tsx}";
+
+:root {
+  --mvt-ink: #1A231E;
+  --mvt-forest: #2C4A3B;
+  --mvt-forest-deep: #213729;
+  --mvt-teal: #043341;
+  --mvt-teal-light: #7FB5B5;
+  --mvt-slate: #2B3630;
+  --mvt-cream: #F9F8F5;
+  --mvt-cream-2: #F1EDE3;
+  --mvt-stone: #C2C2C2;
+  --mvt-text: #2D3530;
+  --mvt-muted: #6B7570;
+
+  --color-primary: var(--mvt-ink);
+  --color-secondary: var(--mvt-forest);
+  --color-accent: var(--mvt-forest);
+  --color-background: #ffffff;
+  --color-surface: var(--mvt-cream);
+  --color-muted: var(--mvt-muted);
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    margin: 0;
+    background: #ffffff;
+    color: var(--mvt-text);
+    font-family: var(--font-body), Montserrat, system-ui, -apple-system, sans-serif;
+    font-size: 16px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-heading), "Cormorant Garamond", Georgia, serif;
+    font-weight: 400;
+    letter-spacing: -0.005em;
+    line-height: 1.12;
+    color: var(--mvt-ink);
+  }
+
+  button, a {
+    transition: all 220ms ease;
+  }
+
+  ::selection {
+    background: var(--mvt-forest);
+    color: #ffffff;
+  }
+}
+
+@layer utilities {
+  .font-heading {
+    font-family: var(--font-heading), "Cormorant Garamond", Georgia, serif;
+  }
+
+  .font-body {
+    font-family: var(--font-body), Montserrat, system-ui, sans-serif;
+  }
+
+  .mvt-eyebrow {
+    font-family: var(--font-body), Montserrat, sans-serif;
+    font-size: 0.6875rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.22em;
+    color: var(--mvt-forest);
+  }
+
+  .mvt-eyebrow-light {
+    font-family: var(--font-body), Montserrat, sans-serif;
+    font-size: 0.6875rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.22em;
+    color: rgba(255, 255, 255, 0.65);
+  }
+}
