@@ -455,6 +455,9 @@ async function main() {
     'generate-blog-image',
     'ping-google-indexing',
     'inspect-google-indexing',
+    'crawl-site-links',
+    'check-url-health',
+    'suggest-replacement-link',
   ];
   for (const fn of functions) {
     step(`Deploying edge function: ${fn}`);
