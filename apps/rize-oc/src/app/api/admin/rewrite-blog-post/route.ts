@@ -5,13 +5,13 @@ import { createClient } from "@supabase/supabase-js";
 export const maxDuration = 300;
 
 const MAX_KB_CHARS = 40_000;
-const DEFAULT_MODEL = "anthropic/claude-sonnet-4.6";
+const DEFAULT_MODEL = "anthropic/claude-sonnet-4-6";
 const ALLOWED_MODELS = new Set([
-  "anthropic/claude-sonnet-4.6",
-  "anthropic/claude-opus-4.7",
-  "openai/gpt-5.5-pro",
-  "openai/gpt-5.4-mini",
-  "google/gemini-pro-latest",
+  "anthropic/claude-sonnet-4-6",
+  "anthropic/claude-opus-4-7",
+  "openai/gpt-4.1",
+  "openai/gpt-4o-mini",
+  "google/gemini-flash-1.5",
 ]);
 
 function resolveModel(raw: unknown): string {
