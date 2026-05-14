@@ -4,6 +4,7 @@ import { builtInStatePages } from "./built-in";
 import { californiaStatePage } from "./california";
 import { georgiaStatePage } from "./georgia";
 import { hawaiiStatePage } from "./hawaii";
+import { illinoisStatePage } from "./illinois";
 
 export const STATE_PAGES: Record<string, StatePageConfig> = {
   ...builtInStatePages,
@@ -12,4 +13,6 @@ export const STATE_PAGES: Record<string, StatePageConfig> = {
   ...additionalUsStatePages,
   // Hawaii has a dedicated optimised file — must come after the spread to win
   hawaii: hawaiiStatePage,
+  // Illinois has a dedicated SEO-optimised file — overrides additional-us-states spread
+  illinois: illinoisStatePage,
 };
