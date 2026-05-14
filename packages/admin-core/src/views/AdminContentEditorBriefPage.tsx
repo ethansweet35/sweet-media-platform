@@ -1358,6 +1358,75 @@ export default function AdminContentEditorBriefPage({ briefId: briefIdProp }: Pr
   // No autosave in Page Mode — there is no editable draft.
   const { saving, saved } = useDraftAutosave(drafts, isPageMode ? null : editorId, 4000);
 
+  function handleDownloadGuidelines() {
+    if (!state) return;
+    const { editor, terms, questions, facts } = state;
+    const lines: string[] = [];
+
+    lines.push(`CONTENT BRIEF — ${editor.primary_keyword.toUpperCase()}`);
+    lines.push(`Generated: ${new Date().toLocaleString()}`);
+    lines.push("=".repeat(60));
+    lines.push("");
+
+    const wMin = editor.recommended_word_count_min;
+    const wMax = editor.recommended_word_count_max;
+    const wTarget = editor.recommended_word_count_target ??
+      (wMin && wMax ? Math.round((wMin + wMax) / 2) : null);
+
+    if (wTarget) {
+      lines.push("STRUCTURAL TARGETS");
+      lines.push("-".repeat(40));
+      lines.push(`Word count: ${wMin ?? "?"}–${wMax ?? "?"} words. Aim for ~${wTarget}.`);
+      if (editor.recommended_h2_min || editor.recommended_h2_max)
+        lines.push(`H2 headings: ${editor.recommended_h2_min ?? "?"}–${editor.recommended_h2_max ?? "?"}`);
+      if (editor.recommended_h3_min || editor.recommended_h3_max)
+        lines.push(`H3 headings: ${editor.recommended_h3_min ?? "?"}–${editor.recommended_h3_max ?? "?"}`);
+      lines.push(`Target content score: ${Math.round(editor.target_score ?? 0)}`);
+      lines.push(`Competitor avg score: ${Math.round(editor.competitor_avg_score ?? 0)}`);
+      lines.push("");
+    }
+
+    const activeTerms = terms.filter((t) => !t.user_blacklisted).sort(
+      (a, b) => (b.relevance_score ?? 0) - (a.relevance_score ?? 0),
+    );
+    if (activeTerms.length) {
+      lines.push(`NLP TERMS (${activeTerms.length} total — use every one)`);
+      lines.push("-".repeat(40));
+      activeTerms.forEach((t, i) => {
+        const headingNote = t.is_heading_recommended ? " — USE AS HEADING" : "";
+        lines.push(`${i + 1}. "${t.term}" → ${t.min_recommended_uses}–${t.max_recommended_uses} uses${headingNote}`);
+      });
+      lines.push("");
+    }
+
+    const activeQuestions = questions.filter((q) => !q.user_dismissed).slice(0, 20);
+    if (activeQuestions.length) {
+      lines.push(`QUESTIONS TO ANSWER (${activeQuestions.length})`);
+      lines.push("-".repeat(40));
+      activeQuestions.forEach((q, i) => lines.push(`${i + 1}. ${q.question}`));
+      lines.push("");
+    }
+
+    const activeFacts = facts.filter((f) => !f.user_dismissed).slice(0, 25);
+    if (activeFacts.length) {
+      lines.push(`FACTS TO INCORPORATE (${activeFacts.length})`);
+      lines.push("-".repeat(40));
+      activeFacts.forEach((f, i) => lines.push(`${i + 1}. [${f.source_domain}] ${f.fact_text}`));
+      lines.push("");
+    }
+
+    lines.push("=".repeat(60));
+    lines.push("COVERAGE REQUIREMENT: ≥95% of NLP terms must appear in the final content.");
+
+    const blob = new Blob([lines.join("\n")], { type: "text/plain;charset=utf-8" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `content-brief-${editor.primary_keyword.toLowerCase().replace(/[^a-z0-9]+/g, "-")}.txt`;
+    a.click();
+    URL.revokeObjectURL(url);
+  }
+
   function resetOptimizingState() {
     setOptimizing(false);
     setOptimizeStartedAt(null);
@@ -1510,6 +1579,16 @@ export default function AdminContentEditorBriefPage({ briefId: briefIdProp }: Pr
                 <i className="ri-refresh-line mr-1" /> Re-run
               </button>
             )}
+            {state && !processing ? (
+              <button
+                type="button"
+                onClick={handleDownloadGuidelines}
+                className="px-3 py-2 rounded-lg text-[11px] font-bold uppercase tracking-[0.1em] border border-neutral-200 text-neutral-700 hover:border-neutral-400 flex items-center gap-1.5"
+                title="Download this brief as a .txt file"
+              >
+                <i className="ri-download-2-line" /> Download brief
+              </button>
+            ) : null}
             <Link
               href="/admin/content-editor"
               className="px-3 py-2 rounded-lg text-[11px] font-bold uppercase tracking-[0.1em] border border-neutral-200 text-neutral-700 hover:border-neutral-400"
