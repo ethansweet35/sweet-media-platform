@@ -12,6 +12,8 @@ interface GenerateSeoMetaRequest {
   // shared
   primary_keyword?: string;
   keyword?: string;
+  /** Plain-text body snippet for richer context when title/excerpt are bland. */
+  content_snippet?: string;
 }
 
 function buildPrompt(body: GenerateSeoMetaRequest): string {

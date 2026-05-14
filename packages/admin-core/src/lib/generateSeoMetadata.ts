@@ -5,6 +5,8 @@ export interface SeoGenInput {
   excerpt?: string;
   category?: string;
   keyword?: string;
+  /** Plain-text snippet extracted from the post/page body, used for richer context when title/excerpt are bland. */
+  content_snippet?: string;
 }
 
 export interface SeoGenResult {
@@ -38,6 +40,7 @@ export async function callGenerateSeoMetadata(input: SeoGenInput): Promise<SeoGe
       category: input.category,
       // shared
       keyword: input.keyword,
+      content_snippet: input.content_snippet,
     }),
   });
 
