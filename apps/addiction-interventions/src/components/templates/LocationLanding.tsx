@@ -24,6 +24,8 @@ export default function LocationLanding({ config }: { config: LocationConfig }) 
           config.heroBody ??
           `Family-centered, on-site interventions in ${regionLabel}. We help families break the cycle of denial and guide loved ones into the right treatment.`
         }
+        image={config.heroImage}
+        imageAlt={config.heroImageAlt}
       />
 
       <TrustStrip />

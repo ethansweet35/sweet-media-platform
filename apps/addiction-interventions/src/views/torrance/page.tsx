@@ -1,0 +1,7 @@
+import LocationLanding from "@/components/templates/LocationLanding";
+import { LOCATION_BY_SLUG } from "@/data/locations";
+
+export default function TorrancePage() {
+  const config = LOCATION_BY_SLUG.get("ca-torrance")!;
+  return <LocationLanding config={config} />;
+}
