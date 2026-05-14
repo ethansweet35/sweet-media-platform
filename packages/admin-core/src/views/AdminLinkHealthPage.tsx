@@ -267,6 +267,7 @@ export default function LinkHealthPage() {
   const [redirectDecisions, setRedirectDecisions] = useState<Record<string, RedirectDecision>>({});
   const [dismissedHrefs, setDismissedHrefs] = useState<Set<string>>(new Set());
   const [flaggedHrefs, setFlaggedHrefs] = useState<Set<string>>(new Set());
+  const [codeFixHrefs, setCodeFixHrefs] = useState<Set<string>>(new Set());
   const [showDismissed, setShowDismissed] = useState(false);
   const [applyLoadingByHref, setApplyLoadingByHref] = useState<Record<string, boolean>>({});
   const [toast, setToast] = useState<{ message: string; type: "success" | "error" } | null>(null);
@@ -490,6 +491,7 @@ export default function LinkHealthPage() {
     setRedirectDecisions({});
     setDismissedHrefs(new Set());
     setFlaggedHrefs(new Set());
+    setCodeFixHrefs(new Set());
     setBaseDomain("");
 
     try {
@@ -715,24 +717,48 @@ export default function LinkHealthPage() {
             return {
               ...row,
               sources: remainingSources,
-              errorMessage: "Some sources still need manual updates (non-blog pages or failed saves).",
+              errorMessage: undefined,
             };
           })
         );
 
-        if (updatedSources > 0) {
+        const remainingAreAllStatic =
+          remainingSources.length > 0 &&
+          remainingSources.every((source) => !getBlogSlugFromSourcePage(source.sourcePage));
+
+        if (remainingAreAllStatic) {
+          setCodeFixHrefs((prev) => {
+            const next = new Set(prev);
+            next.add(key);
+            return next;
+          });
+        } else {
+          setCodeFixHrefs((prev) => {
+            if (!prev.has(key)) return prev;
+            const next = new Set(prev);
+            next.delete(key);
+            return next;
+          });
+        }
+
+        if (updatedSources > 0 && remainingSources.length === 0) {
           showToast(
-            remainingSources.length === 0
-              ? `Applied fix to ${updatedSources} source link${updatedSources !== 1 ? "s" : ""} (${totalReplacements} markdown update${totalReplacements !== 1 ? "s" : ""}${mappingUpdates ? `, ${mappingUpdates} mapping update${mappingUpdates !== 1 ? "s" : ""}` : ""}).`
-              : `Applied ${updatedSources} updates (${totalReplacements} markdown change${totalReplacements !== 1 ? "s" : ""}${mappingUpdates ? `, ${mappingUpdates} mapping update${mappingUpdates !== 1 ? "s" : ""}` : ""}), with ${remainingSources.length} source${remainingSources.length !== 1 ? "s" : ""} left for manual review.`,
-            remainingSources.length === 0 ? "success" : "error"
+            `Applied fix to ${updatedSources} source link${updatedSources !== 1 ? "s" : ""} (${totalReplacements} markdown update${totalReplacements !== 1 ? "s" : ""}${mappingUpdates ? `, ${mappingUpdates} mapping update${mappingUpdates !== 1 ? "s" : ""}` : ""}).`,
+            "success"
+          );
+        } else if (updatedSources > 0 && remainingSources.length > 0) {
+          showToast(
+            `Applied ${updatedSources} update${updatedSources !== 1 ? "s" : ""}. ${remainingSources.length} static page link${remainingSources.length !== 1 ? "s" : ""} still need a code edit — see "Code fix needed" below.`,
+            "success"
+          );
+        } else if (remainingAreAllStatic) {
+          showToast(
+            `${remainingSources.length} static page link${remainingSources.length !== 1 ? "s" : ""} need a code edit. Marked as "Code fix needed" — see source files below.`,
+            "success"
           );
         } else {
-          const onlyStatic = sourceGroups.size === 0 && skippedSources.length > 0;
           showToast(
-            onlyStatic
-              ? "This link is hardcoded in static page code and has no matching internal_links mapping. It needs to be updated in the page source file."
-              : "No matching links were updated in content or mappings. This source likely needs a manual page-level fix.",
+            "No matching links were updated in content or mappings. This source likely needs a manual page-level fix.",
             "error"
           );
         }
@@ -1105,6 +1131,12 @@ export default function LinkHealthPage() {
                               Dismissed
                             </span>
                           )}
+                          {codeFixHrefs.has(result.href) && (
+                            <span className="text-[10px] px-2 py-0.5 rounded-full bg-violet-100 text-violet-700 font-semibold">
+                              <i className="ri-code-line text-[10px] mr-1"></i>
+                              Code fix needed
+                            </span>
+                          )}
                         </div>
                         <p className="text-xs font-mono text-neutral-700 mt-1 truncate">{result.href}</p>
                         {isRedirectRow && result.finalUrl && (
@@ -1244,6 +1276,88 @@ export default function LinkHealthPage() {
                           <span className="font-semibold text-neutral-600"> Keep redirect</span> dismisses this row from the issue list, and
                           <span className="font-semibold text-neutral-600"> Needs review</span> flags it for follow-up.
                         </p>
+                      </div>
+                    )}
+
+                    {codeFixHrefs.has(result.href) && (
+                      <div className="border-t border-neutral-100 px-5 py-4 bg-violet-50/50 rounded-b-2xl">
+                        <div className="rounded-xl border border-violet-200 bg-white p-4 space-y-3">
+                          <div className="flex items-start gap-2">
+                            <i className="ri-code-line text-violet-700 text-base mt-0.5"></i>
+                            <div>
+                              <p className="text-xs font-semibold text-violet-800">Code fix needed</p>
+                              <p className="text-[11px] text-violet-700 mt-1 leading-relaxed">
+                                The remaining sources are static page code (not blog content or auto-link mappings).
+                                These references must be edited in source files and redeployed.
+                              </p>
+                            </div>
+                          </div>
+                          <div>
+                            <p className="text-[10px] uppercase font-semibold tracking-[0.12em] text-neutral-400 mb-1.5">
+                              Source pages to edit ({result.sources.length})
+                            </p>
+                            <ul className="space-y-1">
+                              {result.sources.slice(0, 12).map((source, sourceIdx) => (
+                                <li key={`code-fix-${result.href}-${sourceIdx}`} className="flex items-center gap-2">
+                                  <i className="ri-file-code-line text-violet-500 text-xs"></i>
+                                  <a
+                                    href={source.sourcePage}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="text-xs font-mono text-violet-800 underline decoration-dotted truncate"
+                                  >
+                                    {source.sourcePage}
+                                  </a>
+                                </li>
+                              ))}
+                              {result.sources.length > 12 && (
+                                <li className="text-[11px] text-neutral-500">
+                                  + {result.sources.length - 12} more
+                                </li>
+                              )}
+                            </ul>
+                          </div>
+                          <div className="rounded-lg bg-neutral-900/95 px-3 py-2 text-[11px] font-mono text-neutral-100">
+                            grep -RIn {`"${result.href}"`} apps/*/src
+                          </div>
+                          {result.finalUrl && (
+                            <p className="text-[11px] text-neutral-600">
+                              Replace occurrences with: <span className="font-mono bg-neutral-100 px-1.5 py-0.5 rounded">{result.finalUrl}</span>
+                            </p>
+                          )}
+                          <div className="flex flex-wrap gap-2">
+                            <button
+                              onClick={() => {
+                                setDismissedHrefs((prev) => {
+                                  const next = new Set(prev);
+                                  next.add(result.href);
+                                  return next;
+                                });
+                                showToast("Marked as code fix needed and dismissed from issue list.");
+                              }}
+                              className="inline-flex items-center gap-1 rounded-lg bg-violet-600 px-3 py-1.5 text-[11px] font-bold text-white hover:bg-violet-700"
+                            >
+                              <i className="ri-check-line text-xs"></i>
+                              Got it — dismiss
+                            </button>
+                            <button
+                              onClick={async () => {
+                                if (typeof navigator !== "undefined" && navigator.clipboard) {
+                                  try {
+                                    await navigator.clipboard.writeText(`grep -RIn "${result.href}" apps/*/src`);
+                                    showToast("Grep command copied to clipboard.");
+                                  } catch {
+                                    showToast("Could not copy to clipboard.", "error");
+                                  }
+                                }
+                              }}
+                              className="inline-flex items-center gap-1 rounded-lg border border-violet-200 bg-white px-3 py-1.5 text-[11px] font-semibold text-violet-700 hover:bg-violet-50"
+                            >
+                              <i className="ri-clipboard-line text-xs"></i>
+                              Copy grep command
+                            </button>
+                          </div>
+                        </div>
                       </div>
                     )}
 
