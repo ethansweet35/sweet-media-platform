@@ -298,6 +298,7 @@ export default function AdminBlogDashboard() {
         title: post.title,
         excerpt: post.excerpt,
         category: post.category,
+        keyword: post.focus_keyword ?? undefined,
       });
       setSeoStatuses((prev) => ({ ...prev, [post.id]: { status: "done", result } }));
     } catch (err) {
@@ -366,7 +367,7 @@ export default function AdminBlogDashboard() {
     for (const p of targets) {
       if (seoAbortRef.current) break;
       try {
-        const result = await callGenerateSeoMetadata({ type: "post", title: p.title, excerpt: p.excerpt, category: p.category });
+        const result = await callGenerateSeoMetadata({ type: "post", title: p.title, excerpt: p.excerpt, category: p.category, keyword: p.focus_keyword ?? undefined });
         setSeoStatuses((prev) => ({ ...prev, [p.id]: { status: "done", result } }));
       } catch (err) {
         setSeoStatuses((prev) => ({ ...prev, [p.id]: { status: "error", error: err instanceof Error ? err.message : "Failed" } }));

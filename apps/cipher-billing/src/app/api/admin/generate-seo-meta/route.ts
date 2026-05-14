@@ -15,50 +15,52 @@ interface GenerateSeoMetaRequest {
 }
 
 function buildPrompt(body: GenerateSeoMetaRequest): string {
-  const isPost = body.type === "post";
-  const title = isPost ? (body.title ?? "") : (body.page_title ?? "");
-  const keyword = (body.primary_keyword ?? body.keyword ?? "").trim();
+  const isPost = body.type === 'post';
+  const title = isPost ? (body.title ?? '') : (body.page_title ?? '');
+  const keyword = (body.primary_keyword ?? body.keyword ?? '').trim();
 
-  const keywordLine = keyword
-    ? `Primary keyword to include naturally: "${keyword}"`
-    : `No primary keyword is set — choose the most relevant keyword and include it naturally.`;
+  const keywordInstruction = keyword
+    ? `Primary keyword: "${keyword}"
+REQUIREMENT: The exact phrase "${keyword}" MUST appear verbatim in both seo_title and meta_description. Do not paraphrase or split it.`
+    : `No primary keyword is set. Choose the single most relevant keyword phrase for this content, use it verbatim in seo_title and meta_description, and note it via natural placement.`;
 
   if (isPost) {
     const excerptLine = body.excerpt?.trim()
       ? `Article summary: ${body.excerpt.trim().slice(0, 400)}`
-      : "";
-    const categoryLine = body.category?.trim() ? `Category: ${body.category.trim()}` : "";
+      : '';
+    const categoryLine = body.category?.trim() ? `Category: ${body.category.trim()}` : '';
 
-    return `You are an expert SEO copywriter for a behavioral health billing company (Cipher Billing). Generate optimized metadata for a blog post.
+    return `You are an expert SEO copywriter. Generate optimized metadata for a blog post.
 
 Current article title: ${title}
 ${categoryLine}
 ${excerptLine}
-${keywordLine}
+${keywordInstruction}
 
 Generate all THREE fields:
-- "page_title": The human-facing article title (50–80 chars). Improve the current title for clarity, search appeal, and keyword inclusion. Don't include brand name. Should read like a great blog headline.
-- "seo_title": The HTML <title> tag (50–60 chars). Front-load the keyword, include "Cipher Billing" if space allows.
-- "meta_description": 140–160 chars, compelling, includes the keyword naturally, ends with a soft CTA ("Learn more", "Get help today", etc.)
+- "page_title": Human-facing article title (50–80 chars). Compelling headline, keyword included naturally. No brand name.
+- "seo_title": HTML <title> tag (50–60 chars). Front-load the exact keyword phrase. No brand suffix. Descriptive and click-worthy.
+- "meta_description": 140–160 chars. Must contain the exact keyword phrase. Compelling, ends with a soft CTA ("Learn more", "Get started", etc.)
 
 Return ONLY valid JSON, no markdown fences:
 {"page_title":"...","seo_title":"...","meta_description":"..."}`;
   }
 
-  return `You are an expert SEO copywriter for a behavioral health billing company (Cipher Billing). Generate optimized metadata for the following page.
+  return `You are an expert SEO copywriter. Generate optimized metadata for a web page.
 
 Current page title: ${title}
-Route path: ${body.route_path ?? ""}
-${keywordLine}
+Route path: ${body.route_path ?? ''}
+${keywordInstruction}
 
 Generate all THREE fields:
-- "page_title": The human-facing page title shown as the <h1> / admin row label (3–7 words). Improve the current title for clarity and keyword inclusion. Don't include brand name. Should be specific to the page topic and location if applicable.
-- "seo_title": The HTML <title> tag (50–60 chars). Front-load the keyword, include "Cipher Billing" if space allows.
-- "meta_description": 140–160 chars, actionable, includes the keyword, ends with a subtle CTA ("Call now", "Get help today", "Learn more", etc.)
+- "page_title": Human-facing page title (3–7 words). Clear, specific to the page topic and location. No brand name.
+- "seo_title": HTML <title> tag (50–60 chars). Front-load the exact keyword phrase. No brand suffix. Descriptive and click-worthy.
+- "meta_description": 140–160 chars. Must contain the exact keyword phrase. Actionable, ends with a subtle CTA ("Call now", "Get help today", "Learn more", etc.)
 
 Return ONLY valid JSON, no markdown fences:
 {"page_title":"...","seo_title":"...","meta_description":"..."}`;
 }
+
 
 export async function POST(request: Request) {
   const apiKey = process.env.OPENROUTER_API_KEY;
