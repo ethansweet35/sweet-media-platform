@@ -32,6 +32,11 @@ interface BulkPickRow {
   seed: string;
   /** Existing keyword on the row, if any — shown to the user before picking. */
   currentKeyword?: string | null;
+  /**
+   * The page's route path (e.g. "/about"). When provided and the seed is ≤2 words,
+   * the server crawls the live page and uses its H1 for a better Semrush seed.
+   */
+  routePath?: string;
 }
 
 interface RowState {
@@ -116,7 +121,7 @@ export default function BulkPickKeywordModal({
         const res = await fetch("/api/admin/semrush/auto-pick", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ seed: cleanedSeed, mode }),
+          body: JSON.stringify({ seed: cleanedSeed, mode, route_path: row.routePath }),
         });
         const data = (await res.json()) as SemrushAutoPickResponse;
         if (!res.ok || !data.ok) {

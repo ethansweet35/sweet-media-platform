@@ -698,6 +698,7 @@ export default function AdminTrackedPagesPage() {
                                 <InlineKeywordCell
                                   value={p.primary_keyword ?? null}
                                   rowTitle={derivePageKeywordSeed(p)}
+                                  routePath={p.route_path}
                                   onSave={async (next) =>
                                     updatePage(p.id, { primary_keyword: next })
                                   }
@@ -916,6 +917,7 @@ export default function AdminTrackedPagesPage() {
               title: p.page_title || p.route_path,
               seed: p.page_title || p.route_path,
               currentKeyword: p.primary_keyword ?? null,
+              routePath: p.route_path,
             }))}
           onApplyRow={async (row, keyword) =>
             updatePage(row.id, { primary_keyword: keyword })

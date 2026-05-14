@@ -3,6 +3,8 @@ import {
   getKeywordOverview,
   getKeywordSuggestions,
   SemrushApiError,
+  fetchPageTextContent,
+  cleanSeedPhrase,
 } from "@sweetmedia/admin-core/server";
 
 export const runtime = "nodejs";
@@ -12,10 +14,29 @@ interface SuggestionsRequest {
   phrase?: string;
   limit?: number;
   database?: string;
+  /** Route path (e.g. "/about") — used to crawl the live page and derive a
+   * better seed when the phrase is too short/generic for Semrush. */
+  route_path?: string;
 }
 
 const MIN_LIMIT = 1;
 const MAX_LIMIT = 25;
+
+/**
+ * Attempt to derive a richer Semrush seed from the live page's H1 text.
+ * Only runs when the current seed is ≤2 words AND route_path is provided.
+ * Returns the original phrase unchanged when crawl fails or yields nothing better.
+ */
+async function refineSeedFromPage(phrase: string, routePath: string): Promise<string> {
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "");
+  if (!siteUrl) return phrase;
+  const { seedHint } = await fetchPageTextContent(`${siteUrl}${routePath}`, 4000);
+  if (!seedHint) return phrase;
+  const cleaned = cleanSeedPhrase(seedHint);
+  // Only upgrade the seed if it gives us more signal (more words)
+  if (cleaned && cleaned.split(/\s+/).length > phrase.split(/\s+/).length) return cleaned;
+  return phrase;
+}
 
 export async function POST(request: Request) {
   let body: SuggestionsRequest;
@@ -35,15 +56,19 @@ export async function POST(request: Request) {
     Math.min(MAX_LIMIT, Number.isFinite(body.limit) ? Number(body.limit) : 10),
   );
 
+  // Refine short/generic seeds using the live page's H1 before hitting Semrush.
+  const isTooGeneric = phrase.split(/\s+/).length <= 2;
+  const effectivePhrase =
+    isTooGeneric && body.route_path
+      ? await refineSeedFromPage(phrase, body.route_path)
+      : phrase;
+
   try {
-    // Run suggestions first — it returns the effective seed (post-fallback) which
-    // we then use for the overview lookup so the seed-row metrics match the
-    // suggestions actually shown.
-    const suggestionsResult = await getKeywordSuggestions(phrase, {
+    const suggestionsResult = await getKeywordSuggestions(effectivePhrase, {
       displayLimit: limit,
       database: body.database,
     });
-    const seedForOverview = suggestionsResult.effectiveSeed || phrase;
+    const seedForOverview = suggestionsResult.effectiveSeed || effectivePhrase;
     const seed = await getKeywordOverview(seedForOverview, { database: body.database }).catch(
       (err) => {
         if (err instanceof SemrushApiError) return null;
@@ -58,6 +83,7 @@ export async function POST(request: Request) {
       effectiveSeed: suggestionsResult.effectiveSeed,
       triedSeeds: suggestionsResult.triedSeeds,
       requestedSeed: phrase,
+      refinedSeed: effectivePhrase !== phrase ? effectivePhrase : undefined,
     });
   } catch (err) {
     if (err instanceof SemrushApiError) {

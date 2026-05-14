@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { fetchPageTextContent } from "@sweetmedia/admin-core/server";
 
 interface GenerateSeoMetaRequest {
   type?: "page" | "post";
@@ -52,10 +53,15 @@ Return ONLY valid JSON, no markdown fences:
 {"page_title":"...","seo_title":"...","meta_description":"..."}`;
   }
 
+  const crawledContent = body.content_snippet?.trim()
+    ? `Page content (crawled from live site):\n${body.content_snippet.trim().slice(0, 800)}`
+    : "";
+
   return `You are an expert SEO copywriter. Generate optimized metadata for a web page.
 
 Current page title: ${title}
 Route path: ${body.route_path ?? ""}
+${crawledContent}
 ${keywordInstruction}
 
 Generate all THREE fields:
@@ -87,6 +93,14 @@ export async function POST(request: Request) {
   const title = isPost ? body.title : body.page_title;
   if (!title?.trim()) {
     return NextResponse.json({ error: "title / page_title is required." }, { status: 400 });
+  }
+
+  // For page type: crawl the live site to extract content for richer AI context.
+  // Runs server-side; silently skips if the page isn't reachable.
+  if (!isPost && !body.content_snippet && body.route_path && process.env.NEXT_PUBLIC_SITE_URL) {
+    const siteUrl = process.env.NEXT_PUBLIC_SITE_URL.replace(/\/$/, "");
+    const { text } = await fetchPageTextContent(`${siteUrl}${body.route_path}`);
+    if (text) body = { ...body, content_snippet: text };
   }
 
   const prompt = buildPrompt(body);

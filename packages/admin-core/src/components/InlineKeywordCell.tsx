@@ -13,6 +13,11 @@ interface InlineKeywordCellProps {
    * can pull research without typing anything first.
    */
   rowTitle: string;
+  /**
+   * The page's route path (e.g. "/about"). Passed to the Suggest popover so the
+   * server can crawl the live page and derive a better seed when the title is generic.
+   */
+  routePath?: string;
   /** Persist a new value (or null to clear). Returns true on success. */
   onSave: (next: string | null) => Promise<boolean>;
   /** Disable interaction (e.g. while bulk operation is running). */
@@ -33,6 +38,7 @@ interface InlineKeywordCellProps {
 export default function InlineKeywordCell({
   value,
   rowTitle,
+  routePath,
   onSave,
   disabled,
 }: InlineKeywordCellProps) {
@@ -150,6 +156,7 @@ export default function InlineKeywordCell({
       <KeywordSuggestPopover
         currentKeyword={value ?? ""}
         seedFallback={rowTitle}
+        routePath={routePath}
         onSelect={handleSuggestionPick}
         disabled={disabled}
       />

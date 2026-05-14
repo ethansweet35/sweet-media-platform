@@ -3,6 +3,8 @@ import {
   getKeywordOverview,
   getKeywordSuggestions,
   SemrushApiError,
+  fetchPageTextContent,
+  cleanSeedPhrase,
 } from "@sweetmedia/admin-core/server";
 
 export const runtime = "nodejs";
@@ -12,10 +14,21 @@ interface SuggestionsRequest {
   phrase?: string;
   limit?: number;
   database?: string;
+  route_path?: string;
 }
 
 const MIN_LIMIT = 1;
 const MAX_LIMIT = 25;
+
+async function refineSeedFromPage(phrase: string, routePath: string): Promise<string> {
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "");
+  if (!siteUrl) return phrase;
+  const { seedHint } = await fetchPageTextContent(`${siteUrl}${routePath}`, 4000);
+  if (!seedHint) return phrase;
+  const cleaned = cleanSeedPhrase(seedHint);
+  if (cleaned && cleaned.split(/\s+/).length > phrase.split(/\s+/).length) return cleaned;
+  return phrase;
+}
 
 export async function POST(request: Request) {
   let body: SuggestionsRequest;
@@ -35,15 +48,18 @@ export async function POST(request: Request) {
     Math.min(MAX_LIMIT, Number.isFinite(body.limit) ? Number(body.limit) : 10),
   );
 
+  const isTooGeneric = phrase.split(/\s+/).length <= 2;
+  const effectivePhrase =
+    isTooGeneric && body.route_path
+      ? await refineSeedFromPage(phrase, body.route_path)
+      : phrase;
+
   try {
-    // Run suggestions first — it returns the effective seed (post-fallback) which
-    // we then use for the overview lookup so the seed-row metrics match the
-    // suggestions actually shown.
-    const suggestionsResult = await getKeywordSuggestions(phrase, {
+    const suggestionsResult = await getKeywordSuggestions(effectivePhrase, {
       displayLimit: limit,
       database: body.database,
     });
-    const seedForOverview = suggestionsResult.effectiveSeed || phrase;
+    const seedForOverview = suggestionsResult.effectiveSeed || effectivePhrase;
     const seed = await getKeywordOverview(seedForOverview, { database: body.database }).catch(
       (err) => {
         if (err instanceof SemrushApiError) return null;
@@ -58,6 +74,7 @@ export async function POST(request: Request) {
       effectiveSeed: suggestionsResult.effectiveSeed,
       triedSeeds: suggestionsResult.triedSeeds,
       requestedSeed: phrase,
+      refinedSeed: effectivePhrase !== phrase ? effectivePhrase : undefined,
     });
   } catch (err) {
     if (err instanceof SemrushApiError) {

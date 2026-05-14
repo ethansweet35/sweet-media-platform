@@ -20,6 +20,11 @@ interface KeywordSuggestPopoverProps {
    * "Parent Enabling Addiction: Signs & How to Stop" still return Semrush results.
    */
   seedFallback?: string;
+  /**
+   * The page's route path (e.g. "/about"). When provided and the seed is ≤2 words,
+   * the server crawls the live page and uses its H1 as a better Semrush seed.
+   */
+  routePath?: string;
   /** Called when the user clicks a suggestion (or the seed row itself). */
   onSelect: (phrase: string) => void;
   /** Optional className for the trigger button. */
@@ -69,6 +74,7 @@ function difficultyLabel(kd: number): string {
 export default function KeywordSuggestPopover({
   currentKeyword,
   seedFallback,
+  routePath,
   onSelect,
   className,
   disabled,
@@ -161,7 +167,7 @@ export default function KeywordSuggestPopover({
       const res = await fetch("/api/admin/semrush/suggestions", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ phrase: cleaned, limit: SUGGEST_LIMIT }),
+        body: JSON.stringify({ phrase: cleaned, limit: SUGGEST_LIMIT, route_path: routePath }),
       });
       const data = (await res.json()) as SemrushSuggestionsResponse;
       if (!res.ok || !data.ok) {

@@ -6,6 +6,13 @@
 export { scanAppRoutes, derivePageTitle, syncTrackedPages } from "./lib/scanAppRoutes";
 
 export {
+  fetchPageTextContent,
+  type PageContentResult,
+} from "./lib/server/pageContentFetcher";
+
+export { cleanSeedPhrase } from "./lib/seedCleaner";
+
+export {
   buildPublicSitemapGroupXml,
   buildPublicSitemapIndexXml,
   loadPublicSitemapSources,
