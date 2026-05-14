@@ -167,6 +167,20 @@ function replaceMatchingMarkdownLinks(
   return { nextText, replacements };
 }
 
+function toInternalHrefIfSameDomain(url: string, baseSiteUrl: string): string {
+  const normalizedBase = baseSiteUrl.replace(/\/$/, "");
+  try {
+    const parsed = new URL(url);
+    const base = new URL(normalizedBase);
+    if (parsed.hostname.toLowerCase() === base.hostname.toLowerCase()) {
+      return `${parsed.pathname || "/"}${parsed.search}${parsed.hash}`;
+    }
+    return url;
+  } catch {
+    return url;
+  }
+}
+
 export default function LinkHealthPage() {
   const [siteUrl, setSiteUrl] = useState("");
   const [baseDomain, setBaseDomain] = useState("");
@@ -470,6 +484,7 @@ export default function LinkHealthPage() {
         const oldUrlVariants = getLinkUrlVariants(result.href);
         let updatedSources = 0;
         let totalReplacements = 0;
+        let mappingUpdates = 0;
         const failedSlugs = new Set<string>();
 
         for (const [slug, sources] of sourceGroups.entries()) {
@@ -504,7 +519,34 @@ export default function LinkHealthPage() {
           return slug ? failedSlugs.has(slug) : false;
         });
 
-        const remainingSources = [...skippedSources, ...failedSources];
+        let remainingSources = [...skippedSources, ...failedSources];
+
+        if (totalReplacements === 0 && result.type === "internal") {
+          const oldKeys = new Set(oldUrlVariants.map((value) => normalizeUrlForCompare(value, normalizedSite)).filter(Boolean));
+          const { data: mappings, error: mappingReadError } = await supabase
+            .from("internal_links")
+            .select("id, href")
+            .eq("active", true);
+
+          if (!mappingReadError && Array.isArray(mappings)) {
+            const replacementHref = toInternalHrefIfSameDomain(normalizedReplacementUrl, normalizedSite);
+            const matching = mappings.filter((row) => oldKeys.has(normalizeUrlForCompare(String(row.href ?? ""), normalizedSite)));
+
+            for (const row of matching) {
+              const { error: mappingUpdateError } = await supabase
+                .from("internal_links")
+                .update({ href: replacementHref })
+                .eq("id", row.id);
+              if (!mappingUpdateError) mappingUpdates += 1;
+            }
+
+            if (mappingUpdates > 0) {
+              // Mapping updates are global and should resolve render-time autolink injections.
+              remainingSources = [];
+              updatedSources = Math.max(updatedSources, result.sources.length);
+            }
+          }
+        }
 
         setScanResults((prev) =>
           prev.map((row) => {
@@ -530,12 +572,12 @@ export default function LinkHealthPage() {
         if (updatedSources > 0) {
           showToast(
             remainingSources.length === 0
-              ? `Applied fix to ${updatedSources} source link${updatedSources !== 1 ? "s" : ""} (${totalReplacements} markdown link update${totalReplacements !== 1 ? "s" : ""}).`
-              : `Applied ${updatedSources} updates (${totalReplacements} link change${totalReplacements !== 1 ? "s" : ""}), with ${remainingSources.length} source${remainingSources.length !== 1 ? "s" : ""} left for manual review.`,
+              ? `Applied fix to ${updatedSources} source link${updatedSources !== 1 ? "s" : ""} (${totalReplacements} markdown update${totalReplacements !== 1 ? "s" : ""}${mappingUpdates ? `, ${mappingUpdates} mapping update${mappingUpdates !== 1 ? "s" : ""}` : ""}).`
+              : `Applied ${updatedSources} updates (${totalReplacements} markdown change${totalReplacements !== 1 ? "s" : ""}${mappingUpdates ? `, ${mappingUpdates} mapping update${mappingUpdates !== 1 ? "s" : ""}` : ""}), with ${remainingSources.length} source${remainingSources.length !== 1 ? "s" : ""} left for manual review.`,
             remainingSources.length === 0 ? "success" : "error"
           );
         } else {
-          showToast("No matching markdown links were updated. Please verify the source content format.", "error");
+          showToast("No matching links were updated in content or mappings. This source likely needs a manual page-level fix.", "error");
         }
 
         return { updatedSources, skippedSources: remainingSources.length };
