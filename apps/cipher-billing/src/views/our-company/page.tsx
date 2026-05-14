@@ -10,18 +10,52 @@ const IMG_HERO =
 const IMG_PARTNERSHIP =
   "https://nstzjqmtsqgeihkyvkqq.supabase.co/storage/v1/object/public/site-assets/images/Untitled-design-2026-04-09T165213.080.png";
 
+/** Five partnership pillars — verbatim from live cipherbilling.com/our-company/ */
+const partnershipPillars = [
+  {
+    icon: "ri-hand-heart-line",
+    title: "High-Touch",
+    body:
+      "Provide a high-touch partnership with full visibility into your data, regular touchpoints, and proactive compliance support that protects your facility and your revenue.",
+  },
+  {
+    icon: "ri-team-line",
+    title: "Our People",
+    body:
+      "Seasoned revenue cycle experts who take personal ownership of protecting and growing your revenue.",
+  },
+  {
+    icon: "ri-shake-hands-line",
+    title: "True Partnership",
+    body:
+      "We operate as an extension of your leadership team\u2014not an outsourced service.",
+  },
+  {
+    icon: "ri-shield-check-line",
+    title: "Compliance Confidence",
+    body:
+      "Proactive standards and oversight that help safeguard your organization through audits, payor changes, and denials.",
+  },
+  {
+    icon: "ri-line-chart-line",
+    title: "Measurable Financial Impact",
+    body:
+      "Consistent, transparent results that improve cash flow, reimbursement rates, and long-term stability.",
+  },
+];
+
 const leadership = [
   {
     name: "Simon Jozani",
     role: "Chief Visionary Officer",
     image:
-      "https://nstzjqmtsqgeihkyvkqq.supabase.co/storage/v1/object/public/site-assets/images/Untitled-design-2026-04-09T172559.159.png",
+      "https://nstzjqmtsqgeihkyvkqq.supabase.co/storage/v1/object/public/site-assets/images/team_simon.jpg",
   },
   {
     name: "Ian Roy",
     role: "Chief Strategy Officer",
     image:
-      "https://nstzjqmtsqgeihkyvkqq.supabase.co/storage/v1/object/public/site-assets/images/Untitled-design-2026-04-09T180045.019.png",
+      "https://nstzjqmtsqgeihkyvkqq.supabase.co/storage/v1/object/public/site-assets/images/team_ian.jpg",
   },
   {
     name: "Yasmine Elkady",
@@ -61,28 +95,6 @@ const companyFaqs = [
   },
 ];
 
-function IconTools({ className }: { className?: string }) {
-  return (
-    <svg className={className} viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg" aria-hidden>
-      <path
-        fill="currentColor"
-        d="M501.1 395.7L384 278.6c-23.1-23.1-57.6-27.6-85.4-13.9L192 158.1V96L64 0 0 64l96 128h62.1l106.6 106.6c-13.6 27.8-9.2 62.3 13.9 85.4l117.1 117.1c14.6 14.6 38.2 14.6 52.7 0l52.7-52.7c14.5-14.6 14.5-38.2 0-52.7zM331.7 225c28.3 0 54.9 11 74.9 31l19.4 19.4c15.8-6.9 30.8-16.5 43.8-29.5 37.1-37.1 49.7-89.3 37.9-136.7-2.2-9-13.5-12.1-20.1-5.5l-74.4 74.4-67.9-11.3L334 98.9l74.4-74.4c6.6-6.6 3.4-17.9-5.7-20.2-47.4-11.7-99.6.9-136.6 37.9-28.5 28.5-41.9 66.1-41.2 103.6l82.1 82.1c8.1-1.9 16.5-2.9 24.7-2.9zm-103.9 82l-56.7-56.7L18.7 402.8c-25 25-25 65.5 0 90.5s65.5 25 90.5 0l123.6-123.6c-7.6-19.9-9.9-41.6-5-62.7zM64 472c-13.2 0-24-10.8-24-24 0-13.3 10.7-24 24-24s24 10.7 24 24c0 13.2-10.7 24-24 24z"
-      />
-    </svg>
-  );
-}
-
-function IconCheckCircle({ className }: { className?: string }) {
-  return (
-    <svg className={className} viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg" aria-hidden>
-      <path
-        fill="currentColor"
-        d="M256 8C119.033 8 8 119.033 8 256s111.033 248 248 248 248-111.033 248-248S392.967 8 256 8zm0 48c110.532 0 200 89.451 200 200 0 110.532-89.451 200-200 200-110.532 0-200-89.451-200-200 0-110.532 89.451-200 200-200m140.204 130.267l-22.536-22.718c-4.667-4.705-12.265-4.736-16.97-.068L215.346 303.697l-59.792-60.277c-4.667-4.705-12.265-4.736-16.97-.069l-22.719 22.536c-4.705 4.667-4.736 12.265-.068 16.971l90.781 91.516c4.667 4.705 12.265 4.736 16.97.068l172.589-171.204c4.704-4.668 4.734-12.266.067-16.971z"
-      />
-    </svg>
-  );
-}
-
 export default function OurCompanyPage() {
   return (
     <main className="bg-[#101E3F] text-white">
@@ -118,7 +130,7 @@ export default function OurCompanyPage() {
               <p>
                 We take pride in having a seamless partnership with
                 <br />
-                our clients, working closely with you and your team to understand your business&apos;s unique needs and
+                our clients, working closely with you and your team to understand your business's unique needs and
                 goals. We operate with the end in mind, optimizing your billing process to increase revenue so you can
                 focus on your patients.
               </p>
@@ -127,55 +139,16 @@ export default function OurCompanyPage() {
         </div>
       </section>
 
-      {/* A Higher-Level Partnership — two columns (text + icon boxes | image) */}
+      {/* A Higher-Level Partnership — verbatim copy from live cipherbilling.com/our-company/ */}
       <section className="bg-[#101E3F]">
-        <div className="mx-auto grid max-w-[1140px] gap-12 px-5 py-[100px] md:grid-cols-2 md:items-center md:gap-[50px]">
+        <div className="mx-auto grid max-w-[1140px] gap-12 px-5 py-[100px] md:grid-cols-[1.05fr_0.95fr] md:items-center md:gap-[50px]">
           <div className="max-w-xl md:justify-self-start">
             <h2 className="font-[var(--font-heading)] text-3xl font-medium text-white md:text-[2.5rem] md:leading-tight">
               A Higher-Level Partnership
             </h2>
             <p className="mt-6 text-sm leading-[1.42] text-white/85 md:text-base">
-              Our job is to deliver an unparalleled experience to
-              <br />
-              our clients. A Higher-Level Partnership means we go above and beyond to ensure maximum reimbursement for
-              our clients and leave no stone unturned in pursuing successful claims. You can expect a simple, transparent
-              service when you choose Cipher as your billing partner.
+              <AutoLinkedText>{"Cipher Billing was founded in California with a mission to provide high-touch, compliant billing solutions that protect behavioral health providers and strengthen revenue. Over the years, we've grown into a knowledgeable team with deep expertise, yet our reputation has been built entirely through referrals and networking. This reflects the trust, results, and long-term satisfaction we continue to earn from every partner we serve."}</AutoLinkedText>
             </p>
-
-            <div className="mt-8 space-y-5">
-              <div className="flex gap-4">
-                <div
-                  className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border-2 border-white text-white"
-                  aria-hidden
-                >
-                  <IconTools className="h-5 w-5" />
-                </div>
-                <div>
-                  <h3 className="font-[var(--font-body)] text-base font-semibold text-white md:text-lg">
-                    Relentless Determination
-                  </h3>
-                  <p className="mt-2 text-sm leading-[1.42] text-white/80">
-                    <AutoLinkedText>{"Escalating to insurance commissioners when necessary to ensure you are fairly reimbursed."}</AutoLinkedText>
-                  </p>
-                </div>
-              </div>
-              <div className="flex gap-4">
-                <div
-                  className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border-2 border-white text-white"
-                  aria-hidden
-                >
-                  <IconCheckCircle className="h-5 w-5" />
-                </div>
-                <div>
-                  <h3 className="font-[var(--font-body)] text-base font-semibold text-white md:text-lg">
-                    Compliance-First Culture
-                  </h3>
-                  <p className="mt-2 text-sm leading-[1.42] text-white/80">
-                    <AutoLinkedText>{"Utilization review teams that ensure your documentation is audit-ready and protected."}</AutoLinkedText>
-                  </p>
-                </div>
-              </div>
-            </div>
           </div>
 
           <div className="relative mx-auto aspect-square w-full max-w-[500px] md:mx-0 md:justify-self-end">
@@ -186,6 +159,30 @@ export default function OurCompanyPage() {
               className="object-cover"
               sizes="(max-width: 768px) 100vw, 500px"
             />
+          </div>
+        </div>
+
+        <div className="mx-auto max-w-[1140px] px-5 pb-[100px]">
+          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-5 lg:gap-5">
+            {partnershipPillars.map((pillar) => (
+              <article
+                key={pillar.title}
+                className="flex h-full flex-col border border-white/15 bg-white/[0.04] p-6 backdrop-blur-sm"
+              >
+                <div
+                  className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border-2 border-white text-white"
+                  aria-hidden
+                >
+                  <i className={`${pillar.icon} text-lg leading-none`} />
+                </div>
+                <h3 className="mt-5 font-[var(--font-body)] text-base font-semibold text-white md:text-lg">
+                  {pillar.title}
+                </h3>
+                <p className="mt-3 text-sm leading-[1.42] text-white/80">
+                  <AutoLinkedText>{pillar.body}</AutoLinkedText>
+                </p>
+              </article>
+            ))}
           </div>
         </div>
       </section>

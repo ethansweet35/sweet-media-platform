@@ -21,12 +21,18 @@ export function loadCipherElementorBody(pathUnderViews: string): string {
   return normalizeCipherTelInHtml(html);
 }
 
+/**
+ * Normalizes legacy WP/Elementor phone numbers to Cipher Billing's CallRail
+ * target source number (949-676-2252). CallRail swap.js (loaded in
+ * src/app/layout.tsx) replaces this number with per-visitor tracking numbers
+ * at runtime, so every visible phone on the site must match this format.
+ */
 export function normalizeCipherTelInHtml(html: string): string {
   return html
-    .replace(/href="tel:9493680575"/g, 'href="tel:+17148671331"')
-    .replace(/href="tel:\(949\)%20368-0575"/g, 'href="tel:+17148671331"')
-    .replace(/Call Now \| \(949\) 368-0575/g, "Call Now | (714) 867-1331")
-    .replace(/\(\s*949\s*\)\s*368-0575/g, "(714) 867-1331");
+    .replace(/href="tel:9493680575"/g, 'href="tel:949-676-2252"')
+    .replace(/href="tel:\(949\)%20368-0575"/g, 'href="tel:949-676-2252"')
+    .replace(/Call Now \| \(949\) 368-0575/g, "Call Now | 949-676-2252")
+    .replace(/\(\s*949\s*\)\s*368-0575/g, "949-676-2252");
 }
 
 /** Full WP export HTML for a page (no slice), with phone numbers normalized to Cipher Billing. */

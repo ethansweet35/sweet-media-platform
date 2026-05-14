@@ -12,8 +12,8 @@ import OurCompanyLeadSection from "@/views/our-company/components/OurCompanyLead
 const IMG_HERO =
   "https://nstzjqmtsqgeihkyvkqq.supabase.co/storage/v1/object/public/site-assets/images/Untitled-design-2026-04-08T225512.331.png";
 
-const TEL_HREF = "tel:+17148671331";
-const TEL_DISPLAY = "(714) 867-1331";
+const TEL_HREF = "tel:949-676-2252";
+const TEL_DISPLAY = "949-676-2252";
 
 /** Live Elementor heading copy (including typo). */
 const EYEBROW_HERO = "Our PRocess";
@@ -71,19 +71,20 @@ export default function OurProcessPage() {
               <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-[#101E3F]">Philosophy</p>
             </div>
             <h2 className="mt-4 font-[var(--font-heading)] text-3xl font-medium leading-tight text-[#101E3F] md:text-[2.5rem]">
-              Revenue Cycle Management Shouldn&apos;t Be a{" "}
+              Revenue Cycle Management Shouldn't Be a{" "}
               <span className="text-[#166C96]">Black Box.</span>
             </h2>
-            <Link
+            <a
               href={TEL_HREF}
+              suppressHydrationWarning
               className="mt-8 inline-flex rounded-[3px] bg-[#101E3F] px-6 py-3 text-[11px] font-semibold uppercase tracking-[0.14em] text-white hover:bg-[#0d1833]"
             >
               {TEL_DISPLAY}
-            </Link>
+            </a>
           </div>
           <div>
             <p className="text-xl leading-relaxed text-slate-700">
-              <AutoLinkedText>{"At Cipher Billing, we believe revenue cycle management shouldn&apos;t be a black box. Because we focus\n              exclusively on behavioral health and addiction treatment, our step-by-step process is tailored specifically\n              to your industry."}</AutoLinkedText>
+              <AutoLinkedText>{"At Cipher Billing, we believe revenue cycle management shouldn't be a black box. Because we focus\n              exclusively on behavioral health and addiction treatment, our step-by-step process is tailored specifically\n              to your industry."}</AutoLinkedText>
             </p>
             <p className="mt-5 text-lg leading-relaxed text-slate-600">
               <AutoLinkedText>{"From rigorous compliance checks to relentless claims resolution, our approach is designed to be simple,\n              transparent, and highly effective."}</AutoLinkedText>

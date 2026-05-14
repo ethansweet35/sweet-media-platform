@@ -27,7 +27,7 @@ const faqItems: FaqItem[] = [
     q: "What makes Cipher Billing different from other billing companies?",
     a: (
       <>
-        <p><AutoLinkedText>{"Cipher Billing combines deep expertise with a personal touch. Here&apos;s how we stand apart:"}</AutoLinkedText></p>
+        <p><AutoLinkedText>{"Cipher Billing combines deep expertise with a personal touch. Here's how we stand apart:"}</AutoLinkedText></p>
         <ul>
           <li>
             <strong>Dedicated Experience Executive:</strong> Works directly with your admissions and clinical teams to
@@ -51,7 +51,7 @@ const faqItems: FaqItem[] = [
             finalized claims, sometimes resulting in up to <strong>70% additional reimbursement</strong>.
           </li>
         </ul>
-        <p><AutoLinkedText>{"We don&apos;t just manage your billing—we actively strengthen your practice&apos;s financial foundation."}</AutoLinkedText></p>
+        <p><AutoLinkedText>{"We don't just manage your billing—we actively strengthen your practice's financial foundation."}</AutoLinkedText></p>
       </>
     ),
   },
@@ -61,11 +61,11 @@ const faqItems: FaqItem[] = [
       <ul>
         <li>
           Cipher Billing is ideal for practices seeking more than just a vendor. If you value transparency, proactive
-          communication, and a hands-on partner who will actively optimize your revenue cycle, we&apos;re a strong fit.
+          communication, and a hands-on partner who will actively optimize your revenue cycle, we're a strong fit.
         </li>
         <li>
-          We&apos;ll evaluate your current billing processes during onboarding and give you a clear plan for improvement,
-          so you&apos;ll know exactly where we can add value before we begin.
+          We'll evaluate your current billing processes during onboarding and give you a clear plan for improvement,
+          so you'll know exactly where we can add value before we begin.
         </li>
       </ul>
     ),
@@ -104,7 +104,7 @@ const faqItems: FaqItem[] = [
     q: "How does Cipher Billing measure success for your clients?",
     a: (
       <>
-        <p><AutoLinkedText>{"We measure success by more than collections. It&apos;s about peace of mind and long-term stability. Our clients see:"}</AutoLinkedText></p>
+        <p><AutoLinkedText>{"We measure success by more than collections. It's about peace of mind and long-term stability. Our clients see:"}</AutoLinkedText></p>
         <ul>
           <li>Higher reimbursements (sometimes up to 70% more through post-negotiation).</li>
           <li>Days to first payment (30 day average turnaround).</li>

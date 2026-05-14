@@ -8,6 +8,15 @@ import Layout from "@/components/feature/Layout";
 const REMIXICON_CSS =
   "https://cdn.jsdelivr.net/npm/remixicon@4.6.0/fonts/remixicon.css";
 
+/**
+ * CallRail dynamic number swap script (matches live cipherbilling.com).
+ * Target source number on the site: 949-676-2252 — CallRail swaps this with
+ * per-visitor tracking numbers at runtime. Do not change the URL without
+ * coordinating with Cipher's CallRail account (company id 748580956).
+ */
+const CALLRAIL_SWAP_SRC =
+  "https://cdn.callrail.com/companies/748580956/05b5ff6b6ad49ee8f8ea/12/swap.js";
+
 const marcellus = Marcellus({
   variable: "--font-marcellus",
   subsets: ["latin"],
@@ -71,6 +80,12 @@ export default function RootLayout({
         <noscript>
           <link rel="stylesheet" href={REMIXICON_CSS} crossOrigin="anonymous" />
         </noscript>
+        <Script
+          id="callrail-swap"
+          src={CALLRAIL_SWAP_SRC}
+          strategy="afterInteractive"
+          async
+        />
       </head>
       <body className={`${marcellus.variable} ${montserrat.variable} antialiased`}>
         <Layout>{children}</Layout>

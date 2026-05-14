@@ -72,7 +72,7 @@ export default function BlogPostPreviewPage({ slug }: { slug: string }) {
           >
             Article Not Found
           </h1>
-          <p className="text-sm text-neutral-400 mb-8">This article doesn&apos;t exist or may have been moved.</p>
+          <p className="text-sm text-neutral-400 mb-8">This article doesn't exist or may have been moved.</p>
           <button
             type="button"
             onClick={() => router.push("/blog")}

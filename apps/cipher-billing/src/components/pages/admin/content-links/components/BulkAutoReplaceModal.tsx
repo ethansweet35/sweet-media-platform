@@ -100,7 +100,7 @@ export default function BulkAutoReplaceModal({ links, onClose, onComplete }: Bul
               <div>
                 <p className="text-xs font-semibold text-amber-800 mb-1">How this works</p>
                 <p className="text-xs text-amber-700 leading-relaxed">
-                  For each selected link, we&apos;ll search your blog posts and the web for the best replacement.
+                  For each selected link, we'll search your blog posts and the web for the best replacement.
                   Internal blog posts are preferred. If no match is found, that link will be skipped.
                 </p>
               </div>

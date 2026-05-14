@@ -2,6 +2,11 @@ import Image from "next/image";
 import Link from "next/link";
 import { AutoLinkedText } from "@sweetmedia/blog-core";
 
+import HomeLeadForm from "./components/HomeLeadForm";
+import HomeTestimonialRotator, {
+  type HomeTestimonial,
+} from "./components/HomeTestimonialRotator";
+
 const HERO_VIDEO =
   "https://nstzjqmtsqgeihkyvkqq.supabase.co/storage/v1/object/public/site-assets/images/video2-compressed.mp4";
 
@@ -65,32 +70,29 @@ const processIntro =
 const leadIntro =
   "Schedule a complimentary consultation with our billing experts to review your current revenue cycle and identify opportunities for improvement.";
 
-const leadTestimonial = {
-  quote:
-    "My business was nearly in jeopardy because of the lackluster service from our billing company. Then I switched to Cipher, and they helped turn around our revenue, allowing us to flourish. I am a clinician, not a business person. I needed a billing company that would handle everything billing-related so that I could focus on what mattered — providing exceptional clinical care to patients. Cipher has been that partner for me.",
-  attribution: "Dr. Matthew T.",
-};
+/** Verbatim from cipherbilling.com homepage rotator. */
+const leadTestimonials: readonly HomeTestimonial[] = [
+  {
+    quote:
+      "We needed a billing company that conducted business similarly to how we do, prompt and intentional. Cipher has exceeded our expectations. They've continued to be easily accessible & helpful with all our billing needs!",
+    attribution: "Tony H.",
+  },
+  {
+    quote:
+      "My business was nearly in jeopardy because of the lackluster service from our billing company. Then I switched to Cipher, and they helped turn around our revenue, allowing us to flourish. I am a clinician, not a business person. I needed a billing company that would handle everything billing-related so that I could focus on what mattered — providing exceptional clinical care to patients. Cipher has been that partner for me.",
+    attribution: "Dr. Matthew T.",
+  },
+];
 
-const contactPhoneDisplay = "714-867-1331";
-const contactPhoneHref = "tel:+17148671331";
+const contactPhoneDisplay = "949-676-2252";
+const contactPhoneHref = "tel:949-676-2252";
 const contactEmail = "info@cipherbilling.com";
-
-function formLabel(id: string, text: string) {
-  return (
-    <label
-      htmlFor={id}
-      className="block text-[10px] font-semibold uppercase tracking-[0.18em] text-[#AAB3B9]"
-    >
-      {text}
-    </label>
-  );
-}
 
 export default function HomePage() {
   return (
     <main className="bg-[#101E3F]">
       {/* Hero — video background (matches Elementor) */}
-      <section className="relative min-h-[min(70vh,560px)] overflow-hidden">
+      <section className="relative min-h-[min(88vh,820px)] overflow-hidden md:min-h-[min(90vh,880px)]">
         <div className="absolute inset-0">
           <video
             className="h-full w-full object-cover"
@@ -103,9 +105,15 @@ export default function HomePage() {
           >
             <source src={HERO_VIDEO} type="video/mp4" />
           </video>
-          <div className="absolute inset-0 bg-[#101E3F]/80" />
+          <div
+            className="absolute inset-0"
+            style={{
+              background:
+                "linear-gradient(to bottom, rgba(16, 30, 63, 0.45) 0%, rgba(16, 30, 63, 0.58) 45%, rgba(16, 30, 63, 0.68) 100%)",
+            }}
+          />
         </div>
-        <div className="relative mx-auto flex min-h-[min(70vh,560px)] max-w-[1140px] flex-col items-center justify-center px-6 py-20 text-center text-white">
+        <div className="relative mx-auto flex min-h-[min(88vh,820px)] max-w-[1140px] flex-col items-center justify-center px-6 py-24 text-center text-white md:min-h-[min(90vh,880px)] md:py-28">
           <h1 className="font-[var(--font-heading)] text-4xl font-medium tracking-[-0.02em] md:text-6xl md:leading-[1.05]">
             A Higher-Level Partnership
           </h1>
@@ -113,7 +121,7 @@ export default function HomePage() {
             <AutoLinkedText>{"Your Partner In Behavioral Health Billing"}</AutoLinkedText>
           </p>
           <p className="mt-4 max-w-2xl font-[var(--font-heading)] text-base italic leading-[1.42] text-white/90 md:text-lg">
-            <AutoLinkedText>{"Delivering Airtight Compliance &amp; Real Financial Results"}</AutoLinkedText>
+            <AutoLinkedText>{"Delivering Airtight Compliance & Real Financial Results"}</AutoLinkedText>
           </p>
         </div>
       </section>
@@ -221,7 +229,7 @@ export default function HomePage() {
               <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-[#166C96]">ABOUT US</p>
               <h2 className="mt-3 font-[var(--font-heading)] text-3xl font-medium md:text-5xl">Who We Are</h2>
               <p className="mt-6 text-sm leading-[1.42] text-white/85 md:text-base">
-                <AutoLinkedText>{"We are trusted experts in behavioral health billing. We take pride in having a seamless partnership with\n                our clients, working closely with you and your team to understand your business&apos;s unique needs and\n                goals. We operate with the end in mind, optimizing your billing process to increase revenue so you can\n                focus on your patients."}</AutoLinkedText>
+                <AutoLinkedText>{"We are trusted experts in behavioral health billing. We take pride in having a seamless partnership with\n                our clients, working closely with you and your team to understand your business's unique needs and\n                goals. We operate with the end in mind, optimizing your billing process to increase revenue so you can\n                focus on your patients."}</AutoLinkedText>
               </p>
               <Link
                 href="/our-company"
@@ -264,7 +272,7 @@ export default function HomePage() {
                 <AutoLinkedText>{"Our job is to deliver an unparalleled experience to our clients. A Higher-Level Partnership means we go\n                above and beyond to ensure maximum reimbursement for our clients and leave no stone unturned in pursuing\n                successful claims. You can expect a simple, transparent service when you choose Cipher as your billing\n                partner."}</AutoLinkedText>
               </p>
               <Link
-                href="/our-solution"
+                href="/behavioral-health-revenue-cycle-management"
                 className="mt-8 inline-flex items-center gap-2 rounded-[3px] bg-[#166C96] px-6 py-3 text-[11px] font-semibold uppercase tracking-[0.14em] text-white hover:bg-[#145a82]"
               >
                 <span aria-hidden className="text-sm">
@@ -281,7 +289,7 @@ export default function HomePage() {
           <div className="mx-auto max-w-[1140px] px-6 py-20 md:py-28">
             <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.1fr)] lg:items-end lg:gap-12">
               <div>
-                <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-[#166C96]"><AutoLinkedText>{"SIMPLE &amp; EFFECTIVE"}</AutoLinkedText></p>
+                <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-[#166C96]"><AutoLinkedText>{"SIMPLE & EFFECTIVE"}</AutoLinkedText></p>
                 <h2 className="mt-4 font-[var(--font-heading)] text-3xl font-medium md:text-5xl">
                   Our{" "}
                   <span className="text-[#166C96]">Process.</span>
@@ -321,19 +329,14 @@ export default function HomePage() {
                 <AutoLinkedText>{"READY TO TRANSFORM YOUR REVENUE CYCLE?"}</AutoLinkedText>
               </p>
               <h2 className="mt-4 font-[var(--font-heading)] text-3xl font-medium leading-[1.15] md:text-[2.65rem]">
-                Let&apos;s Discuss How We Can{" "}
+                Let's Discuss How We Can{" "}
                 <span className="text-[#166C96]">Maximize Your Revenue.</span>
               </h2>
               <p className="mt-6 text-sm leading-[1.42] text-white/90"><AutoLinkedText>{leadIntro}</AutoLinkedText></p>
 
-              <blockquote className="mt-10 border-none p-0">
-                <p className="font-[var(--font-body)] text-sm italic leading-[1.35] text-white/95 md:text-[15px]">
-                  &ldquo;{leadTestimonial.quote}&rdquo;
-                </p>
-                <footer className="mt-4 text-[11px] font-semibold uppercase tracking-[0.2em] text-[#166C96]">
-                  {leadTestimonial.attribution.toUpperCase()}
-                </footer>
-              </blockquote>
+              <div className="mt-10">
+                <HomeTestimonialRotator testimonials={leadTestimonials} />
+              </div>
 
               <div className="mt-12">
                 <h3 className="font-marcellus text-xl font-medium text-white md:text-2xl">Contact Information</h3>
@@ -347,7 +350,7 @@ export default function HomePage() {
                   </div>
                   <div className="min-w-0 pt-0.5">
                     <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-white/90">Phone</p>
-                    <a href={contactPhoneHref} className="mt-1 block text-sm font-medium text-white hover:text-[#166C96]">
+                    <a href={contactPhoneHref} suppressHydrationWarning className="mt-1 block text-sm font-medium text-white hover:text-[#166C96]">
                       {contactPhoneDisplay}
                     </a>
                     <p className="mt-1 text-xs leading-[1.35] text-white/75"><AutoLinkedText>{"Mon–Fri, 8AM–5:30PM PST"}</AutoLinkedText></p>
@@ -378,93 +381,10 @@ export default function HomePage() {
             <div className="rounded-lg border border-white/10 bg-[#0a1428]/80 backdrop-blur-md p-8 shadow-lg md:p-10">
               <h3 className="font-marcellus text-2xl font-medium text-white md:text-[1.75rem]">Get Started Today</h3>
               <p className="mt-3 max-w-md font-[var(--font-body)] text-sm leading-[1.42] text-white/85">
-                <AutoLinkedText>{"Fill out the form below and we&apos;ll contact you within 24 hours."}</AutoLinkedText>
+                <AutoLinkedText>{"Fill out the form below and we'll contact you within 24 hours."}</AutoLinkedText>
               </p>
 
-              <form className="mt-8 grid gap-5" action="/api/contact" method="post">
-                <div className="grid gap-5 sm:grid-cols-2">
-                  <div className="grid gap-2">
-                    {formLabel("lead-first-name", "First Name")}
-                    <input
-                      id="lead-first-name"
-                      name="firstName"
-                      autoComplete="given-name"
-                      required
-                      placeholder="First Name"
-                      className="rounded border border-[#166C96]/35 bg-black/40 px-3 py-2.5 text-sm text-white placeholder:text-[#AAB3B9]/55 outline-none focus:border-[#166C96]"
-                    />
-                  </div>
-                  <div className="grid gap-2">
-                    {formLabel("lead-last-name", "Last Name")}
-                    <input
-                      id="lead-last-name"
-                      name="lastName"
-                      autoComplete="family-name"
-                      required
-                      placeholder="Last Name"
-                      className="rounded border border-[#166C96]/35 bg-black/40 px-3 py-2.5 text-sm text-white placeholder:text-[#AAB3B9]/55 outline-none focus:border-[#166C96]"
-                    />
-                  </div>
-                </div>
-
-                <div className="grid gap-2">
-                  {formLabel("lead-email", "Email Address")}
-                  <input
-                    id="lead-email"
-                    name="email"
-                    type="email"
-                    autoComplete="email"
-                    required
-                    placeholder="Email Address"
-                    className="rounded border border-[#166C96]/35 bg-black/40 px-3 py-2.5 text-sm text-white placeholder:text-[#AAB3B9]/55 outline-none focus:border-[#166C96]"
-                  />
-                </div>
-
-                <div className="grid gap-2">
-                  {formLabel("lead-phone", "Phone Number")}
-                  <input
-                    id="lead-phone"
-                    name="phone"
-                    type="tel"
-                    autoComplete="tel"
-                    placeholder="Phone Number"
-                    className="rounded border border-[#166C96]/35 bg-black/40 px-3 py-2.5 text-sm text-white placeholder:text-[#AAB3B9]/55 outline-none focus:border-[#166C96]"
-                  />
-                </div>
-
-                <div className="grid gap-2">
-                  {formLabel("lead-service", "Practice / Facility Name")}
-                  <input
-                    id="lead-service"
-                    name="service"
-                    autoComplete="organization"
-                    placeholder="Practice / Facility Name"
-                    className="rounded border border-[#166C96]/35 bg-black/40 px-3 py-2.5 text-sm text-white placeholder:text-[#AAB3B9]/55 outline-none focus:border-[#166C96]"
-                  />
-                </div>
-
-                <div className="grid gap-2">
-                  {formLabel("lead-message", "How Can We Help?")}
-                  <textarea
-                    id="lead-message"
-                    name="message"
-                    rows={4}
-                    placeholder="Message"
-                    className="min-h-[120px] rounded border border-[#166C96]/35 bg-black/40 px-3 py-2.5 text-sm text-white placeholder:text-[#AAB3B9]/55 outline-none focus:border-[#166C96]"
-                  />
-                </div>
-
-                <button
-                  type="submit"
-                  className="w-full rounded bg-[#166C96] py-3.5 text-[11px] font-semibold uppercase tracking-[0.22em] text-white hover:bg-[#145a82]"
-                >
-                  Send
-                </button>
-
-                <p className="text-center text-[11px] leading-[1.35] text-[#AAB3B9]">
-                  <AutoLinkedText>{"By submitting this form, you agree to our privacy policy and consent to be contacted by Cipher Billing."}</AutoLinkedText>
-                </p>
-              </form>
+              <HomeLeadForm />
             </div>
           </div>
         </section>

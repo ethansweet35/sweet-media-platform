@@ -36,7 +36,7 @@ export default function AdminBlogDeleteModal({ post, onConfirm, onCancel }: Admi
           Delete this post?
         </h2>
         <p className="text-sm text-neutral-500 text-center mb-1 leading-relaxed">
-          You&apos;re about to permanently delete:
+          You're about to permanently delete:
         </p>
         <p className="text-sm font-medium text-neutral-800 text-center mb-6 px-4 line-clamp-2">
           &ldquo;{post.title}&rdquo;

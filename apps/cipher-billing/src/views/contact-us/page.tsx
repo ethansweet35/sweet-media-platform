@@ -7,8 +7,8 @@ import ContactUsForm from "./components/ContactUsForm";
 const IMG_HERO =
   "https://nstzjqmtsqgeihkyvkqq.supabase.co/storage/v1/object/public/site-assets/images/Untitled-design-2026-04-09T173830.974.png";
 
-const contactPhoneDisplay = "714-867-1331";
-const contactPhoneHref = "tel:+17148671331";
+const contactPhoneDisplay = "949-676-2252";
+const contactPhoneHref = "tel:949-676-2252";
 const contactEmail = "info@cipherbilling.com";
 
 const processSteps = [
@@ -65,7 +65,7 @@ export default function ContactUsPage() {
               Contact Us
             </h1>
             <p className="max-w-2xl text-sm leading-relaxed text-white/90 md:text-base">
-              <AutoLinkedText>{"Ready to eliminate billing complexity and maximize your clinic&apos;s revenue? Our team of behavioral health\n              billing specialists is standing by. Reach out and receive a free practice audit within 24 hours."}</AutoLinkedText>
+              <AutoLinkedText>{"Ready to eliminate billing complexity and maximize your clinic's revenue? Our team of behavioral health\n              billing specialists is standing by. Reach out and receive a free practice audit within 24 hours."}</AutoLinkedText>
             </p>
           </div>
         </div>
@@ -90,7 +90,7 @@ export default function ContactUsPage() {
                 <div className="min-w-0 pt-0.5">
                   <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-[#5a6570]">Phone</p>
                   <a
-                    href={contactPhoneHref}
+                    href={contactPhoneHref} suppressHydrationWarning
                     className="mt-1 block text-sm font-semibold text-[#0D1833] hover:text-[#166C96]"
                   >
                     {contactPhoneDisplay}
@@ -144,7 +144,7 @@ export default function ContactUsPage() {
                 Not Sure Where Your Revenue Is Leaking?
               </h4>
               <p className="mt-3 text-sm leading-relaxed text-white/90">
-                <AutoLinkedText>{"We&apos;ll audit your current billing workflow at no cost and show you exactly where you&apos;re losing revenue —\n                no strings attached."}</AutoLinkedText>
+                <AutoLinkedText>{"We'll audit your current billing workflow at no cost and show you exactly where you're losing revenue —\n                no strings attached."}</AutoLinkedText>
               </p>
               <Link
                 href="#contact-form"

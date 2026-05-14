@@ -22,7 +22,7 @@ export default function Error({ error, reset }: ErrorProps) {
           We hit an unexpected error
         </h1>
         <p className="mt-4 text-base text-[var(--color-muted)]">
-          The page couldn&apos;t finish loading. Please try again — if the issue
+          The page couldn't finish loading. Please try again — if the issue
           persists, refresh or come back in a moment.
         </p>
         <button

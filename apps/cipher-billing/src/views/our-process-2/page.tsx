@@ -90,7 +90,7 @@ export default function OurProcess2Page() {
               Our Proven Behavioral Health Billing Process
             </h2>
             <p className="mt-6 text-base leading-relaxed text-white/95">
-              <AutoLinkedText>{"From compliance audits to claims resolution, our step-by-step process protects your revenue and delivers\n              measurable financial results. Cipher Billing&apos;s process ensures compliance, maximizes reimbursements, and\n              provides peace of mind so you can focus on patient care."}</AutoLinkedText>
+              <AutoLinkedText>{"From compliance audits to claims resolution, our step-by-step process protects your revenue and delivers\n              measurable financial results. Cipher Billing's process ensures compliance, maximizes reimbursements, and\n              provides peace of mind so you can focus on patient care."}</AutoLinkedText>
             </p>
 
             <div className="mt-10 flex flex-col gap-8">

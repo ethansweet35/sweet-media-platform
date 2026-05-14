@@ -7,13 +7,13 @@ const team = [
     name: "Simon Jozani",
     role: "Chief Visionary Officer",
     image:
-      "https://nstzjqmtsqgeihkyvkqq.supabase.co/storage/v1/object/public/site-assets/images/Untitled-design-2026-04-09T172559.159.png",
+      "https://nstzjqmtsqgeihkyvkqq.supabase.co/storage/v1/object/public/site-assets/images/team_simon.jpg",
   },
   {
     name: "Ian Roy",
     role: "Chief Strategy Officer",
     image:
-      "https://nstzjqmtsqgeihkyvkqq.supabase.co/storage/v1/object/public/site-assets/images/Untitled-design-2026-04-09T180045.019.png",
+      "https://nstzjqmtsqgeihkyvkqq.supabase.co/storage/v1/object/public/site-assets/images/team_ian.jpg",
   },
   {
     name: "Yasmine Elkady",
@@ -31,10 +31,10 @@ const team = [
     name: "Elle Ervin",
     role: "Director Of Operations",
     image:
-      "https://nstzjqmtsqgeihkyvkqq.supabase.co/storage/v1/object/public/site-assets/images/Untitled-design-2026-04-09T180635.958.png",
+      "https://nstzjqmtsqgeihkyvkqq.supabase.co/storage/v1/object/public/site-assets/images/team_elle.jpg",
   },
   {
-    name: "Caressa",
+    name: "Caressa DeQuardo",
     role: "Director of Quality Assurance",
     image:
       "https://nstzjqmtsqgeihkyvkqq.supabase.co/storage/v1/object/public/site-assets/images/Untitled-design-2026-04-09T180708.948.png",
@@ -79,13 +79,13 @@ const team = [
     name: "Cassandra Johnson",
     role: "Experience Executive",
     image:
-      "https://nstzjqmtsqgeihkyvkqq.supabase.co/storage/v1/object/public/site-assets/images/Untitled-design-2026-04-09T181905.959.png",
+      "https://nstzjqmtsqgeihkyvkqq.supabase.co/storage/v1/object/public/site-assets/images/team_cassandra.jpg",
   },
   {
     name: "Andrew Ulloa",
     role: "Experience Executive",
     image:
-      "https://nstzjqmtsqgeihkyvkqq.supabase.co/storage/v1/object/public/site-assets/images/Untitled-design-2026-04-09T181943.962.png",
+      "https://nstzjqmtsqgeihkyvkqq.supabase.co/storage/v1/object/public/site-assets/images/team_andrew.png",
   },
   {
     name: "Runa",
@@ -98,6 +98,12 @@ const team = [
     role: "Director Of Pawsitivity",
     image:
       "https://nstzjqmtsqgeihkyvkqq.supabase.co/storage/v1/object/public/site-assets/images/Untitled-design-2026-04-09T182040.086.png",
+  },
+  {
+    name: "Hobbes Roy",
+    role: "Intern",
+    image:
+      "https://nstzjqmtsqgeihkyvkqq.supabase.co/storage/v1/object/public/site-assets/images/team_hobbes_roy.jpg",
   },
 ] as const;
 

@@ -8,8 +8,8 @@ const IMG_HERO =
 const IMG_CULTURE =
   "https://nstzjqmtsqgeihkyvkqq.supabase.co/storage/v1/object/public/site-assets/images/Untitled-design-2026-04-15T204741.066.png";
 
-const contactPhoneDisplay = "714-867-1331";
-const contactPhoneHref = "tel:+17148671331";
+const contactPhoneDisplay = "949-676-2252";
+const contactPhoneHref = "tel:949-676-2252";
 
 const linkedInCompanyUrl = "https://www.linkedin.com/company/cipher-billing";
 
@@ -95,10 +95,10 @@ export default function CareersPage() {
                 Build Your Career at <span className="text-[#5eb5e0]">Cipher Billing</span>
               </h1>
               <p className="mt-6 text-sm leading-relaxed text-white/90 md:text-base">
-                <AutoLinkedText>{"Join a team that&apos;s transforming behavioral health revenue cycle management. We&apos;re looking for\n                talented individuals who are passionate about making a difference."}</AutoLinkedText>
+                <AutoLinkedText>{"Join a team that's transforming behavioral health revenue cycle management. We're looking for\n                talented individuals who are passionate about making a difference."}</AutoLinkedText>
               </p>
               <a
-                href={contactPhoneHref}
+                href={contactPhoneHref} suppressHydrationWarning
                 className="mt-8 inline-flex items-center justify-center rounded border border-white/25 bg-[#050a14]/80 px-6 py-3 text-[11px] font-semibold uppercase tracking-[0.22em] text-white backdrop-blur-sm hover:bg-black/90"
               >
                 {contactPhoneDisplay}

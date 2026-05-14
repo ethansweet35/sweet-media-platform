@@ -8,11 +8,11 @@ export default function NotFound() {
           404 — Page not found
         </p>
         <h1 className="font-marcellus mt-4 text-5xl font-semibold md:text-6xl">
-          We can&apos;t find that page
+          We can't find that page
         </h1>
         <p className="mt-4 text-base text-[var(--color-muted)]">
           The link may be broken or the page may have moved. Head back to the
-          homepage and we&apos;ll get you on your way.
+          homepage and we'll get you on your way.
         </p>
         <Link
           href="/"

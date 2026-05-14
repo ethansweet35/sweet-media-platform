@@ -83,10 +83,10 @@ export default function ContactUsForm() {
           className="mt-8 rounded-lg border border-[#166C96]/40 bg-[#166C96]/10 px-4 py-3 text-sm font-medium text-[#0D1833]"
           role="status"
         >
-          <AutoLinkedTextClient>{"Thank you — your message was sent. We&apos;ll be in touch within 24 hours."}</AutoLinkedTextClient>
+          <AutoLinkedTextClient>{"Thank you — your message was sent. We'll be in touch within 24 hours."}</AutoLinkedTextClient>
         </p>
       ) : (
-        <form className="mt-8 grid gap-5" onSubmit={onSubmit} noValidate>
+        <form className="mt-8 grid gap-5" onSubmit={onSubmit} noValidate suppressHydrationWarning>
           <div className="grid gap-5 sm:grid-cols-2">
             <div className="grid gap-2">
               {formLabel("contact-first-name", "First Name")}
