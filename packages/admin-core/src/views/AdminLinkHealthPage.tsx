@@ -3,6 +3,7 @@
 import { useCallback, useMemo, useState } from "react";
 import AdminPageHeader from "../components/AdminPageHeader";
 import { supabase } from "../lib/supabase";
+import { applyToBlock, buildLinkRegex, fetchPostContent, savePostContent } from "../lib/content-links-utils";
 
 type SiteScanStatus = "pending" | "checking" | "ok" | "broken" | "redirect" | "redirect-chain" | "error";
 type ScanPhase = "idle" | "discovering" | "checking" | "done";
@@ -34,6 +35,11 @@ interface ReplacementState {
   internalSuggestion: { url: string; reason: string } | null;
   externalSuggestions: ReplacementSuggestion[];
   error?: string;
+}
+
+interface ApplyResultSummary {
+  updatedSources: number;
+  skippedSources: number;
 }
 
 const SCAN_STATUS_CONFIG: Record<SiteScanStatus, { label: string; color: string; bg: string; icon: string }> = {
@@ -75,6 +81,47 @@ function toAbsoluteUrl(candidate: string, baseSiteUrl: string): string {
   return `${baseSiteUrl.replace(/\/$/, "")}${candidate.startsWith("/") ? "" : "/"}${candidate}`;
 }
 
+function getBlogSlugFromSourcePage(sourcePage: string): string | null {
+  const raw = sourcePage.trim();
+  if (!raw) return null;
+
+  let path = raw;
+  try {
+    if (raw.startsWith("http://") || raw.startsWith("https://")) {
+      path = new URL(raw).pathname;
+    }
+  } catch {
+    path = raw;
+  }
+
+  const clean = path.split("?")[0].split("#")[0].replace(/\/$/, "");
+  const match = clean.match(/^\/blog\/([^/]+)$/);
+  return match ? match[1] : null;
+}
+
+function getLinkUrlVariants(url: string): string[] {
+  const cleaned = url.trim();
+  if (!cleaned) return [];
+  const variants = new Set<string>();
+  variants.add(cleaned);
+
+  const withoutSlash = cleaned.replace(/\/$/, "");
+  if (withoutSlash) variants.add(withoutSlash);
+
+  try {
+    const parsed = new URL(cleaned);
+    const noSlashPath = parsed.pathname.replace(/\/$/, "") || "/";
+    const withSlashPath = noSlashPath === "/" ? "/" : `${noSlashPath}/`;
+    variants.add(`${parsed.origin}${noSlashPath}${parsed.search}${parsed.hash}`);
+    variants.add(`${parsed.origin}${withSlashPath}${parsed.search}${parsed.hash}`);
+  } catch {
+    const withSlash = cleaned.endsWith("/") ? cleaned : `${cleaned}/`;
+    variants.add(withSlash);
+  }
+
+  return [...variants];
+}
+
 export default function LinkHealthPage() {
   const [siteUrl, setSiteUrl] = useState("");
   const [baseDomain, setBaseDomain] = useState("");
@@ -87,6 +134,13 @@ export default function LinkHealthPage() {
   const [scanError, setScanError] = useState<string | null>(null);
   const [replacementSuggestions, setReplacementSuggestions] = useState<Record<string, ReplacementState>>({});
   const [redirectDecisions, setRedirectDecisions] = useState<Record<string, RedirectDecision>>({});
+  const [applyLoadingByHref, setApplyLoadingByHref] = useState<Record<string, boolean>>({});
+  const [toast, setToast] = useState<{ message: string; type: "success" | "error" } | null>(null);
+
+  const showToast = useCallback((message: string, type: "success" | "error" = "success") => {
+    setToast({ message, type });
+    setTimeout(() => setToast(null), 3200);
+  }, []);
 
   const pickBestInternalSuggestion = useCallback(
     (target: SiteScanResult): { url: string; reason: string } | null => {
@@ -338,6 +392,109 @@ export default function LinkHealthPage() {
       setScanPhase("idle");
     }
   }, [siteUrl]);
+
+  const applyLinkFix = useCallback(
+    async (result: SiteScanResult, replacementUrl: string): Promise<ApplyResultSummary | null> => {
+      const key = result.href;
+      if (applyLoadingByHref[key]) return null;
+
+      const normalizedSite = siteUrl.trim().replace(/\/$/, "");
+      const normalizedReplacementUrl = toAbsoluteUrl(replacementUrl, normalizedSite);
+      const sourceGroups = new Map<string, Array<{ sourcePage: string; text: string }>>();
+      const skippedSources: Array<{ sourcePage: string; text: string }> = [];
+
+      for (const source of result.sources) {
+        const slug = getBlogSlugFromSourcePage(source.sourcePage);
+        if (!slug) {
+          skippedSources.push(source);
+          continue;
+        }
+        if (!sourceGroups.has(slug)) sourceGroups.set(slug, []);
+        sourceGroups.get(slug)!.push(source);
+      }
+
+      if (sourceGroups.size === 0) {
+        showToast("No editable blog sources found for this link. Static pages need manual updates.", "error");
+        return { updatedSources: 0, skippedSources: skippedSources.length };
+      }
+
+      setApplyLoadingByHref((prev) => ({ ...prev, [key]: true }));
+      setScanExpandedId(result.href);
+
+      try {
+        const oldUrlVariants = getLinkUrlVariants(result.href);
+        let updatedSources = 0;
+        const failedSlugs = new Set<string>();
+
+        for (const [slug, sources] of sourceGroups.entries()) {
+          try {
+            let blocks = await fetchPostContent(slug);
+            const before = JSON.stringify(blocks);
+
+            for (const oldUrl of oldUrlVariants) {
+              const regex = buildLinkRegex(oldUrl);
+              blocks = blocks.map((block, blockIdx) =>
+                applyToBlock(block, blockIdx, blockIdx, (text) =>
+                  text.replace(regex, `[$1](${normalizedReplacementUrl})`)
+                )
+              );
+            }
+
+            if (JSON.stringify(blocks) !== before) {
+              await savePostContent(slug, blocks);
+              updatedSources += sources.length;
+            }
+          } catch {
+            failedSlugs.add(slug);
+          }
+        }
+
+        const failedSources = result.sources.filter((source) => {
+          const slug = getBlogSlugFromSourcePage(source.sourcePage);
+          return slug ? failedSlugs.has(slug) : false;
+        });
+
+        const remainingSources = [...skippedSources, ...failedSources];
+
+        setScanResults((prev) =>
+          prev.map((row) => {
+            if (row.href !== key) return row;
+            if (remainingSources.length === 0) {
+              return {
+                ...row,
+                status: "ok" as SiteScanStatus,
+                sources: [],
+                errorMessage: undefined,
+                chain: undefined,
+                finalUrl: undefined,
+              };
+            }
+            return {
+              ...row,
+              sources: remainingSources,
+              errorMessage: "Some sources still need manual updates (non-blog pages or failed saves).",
+            };
+          })
+        );
+
+        if (updatedSources > 0) {
+          showToast(
+            remainingSources.length === 0
+              ? `Applied fix to ${updatedSources} source link${updatedSources !== 1 ? "s" : ""}.`
+              : `Applied ${updatedSources} updates, with ${remainingSources.length} source${remainingSources.length !== 1 ? "s" : ""} left for manual review.`,
+            remainingSources.length === 0 ? "success" : "error"
+          );
+        } else {
+          showToast("No matching markdown links were updated. Please verify the source content format.", "error");
+        }
+
+        return { updatedSources, skippedSources: remainingSources.length };
+      } finally {
+        setApplyLoadingByHref((prev) => ({ ...prev, [key]: false }));
+      }
+    },
+    [applyLoadingByHref, showToast, siteUrl]
+  );
 
   const scanSummary = useMemo(() => {
     if (scanResults.length === 0) return null;
@@ -652,6 +809,33 @@ export default function LinkHealthPage() {
                             Final URL
                           </a>
                         )}
+                        {isRedirectRow && result.finalUrl && (
+                          <button
+                            onClick={async () => {
+                              const summary = await applyLinkFix(result, result.finalUrl!);
+                              if (summary && summary.updatedSources > 0) {
+                                setRedirectDecisions((prev) => ({
+                                  ...prev,
+                                  [result.href]: "replace-source",
+                                }));
+                              }
+                            }}
+                            disabled={Boolean(applyLoadingByHref[result.href])}
+                            className="flex items-center gap-1 bg-[#3d6f7f] text-white text-[10px] tracking-wide font-bold px-3 py-1.5 rounded-lg hover:bg-[#35636f] transition-colors cursor-pointer whitespace-nowrap disabled:opacity-50"
+                          >
+                            {applyLoadingByHref[result.href] ? (
+                              <>
+                                <i className="ri-loader-4-line animate-spin text-xs"></i>
+                                Applying...
+                              </>
+                            ) : (
+                              <>
+                                <i className="ri-check-line text-xs"></i>
+                                Apply Final URL
+                              </>
+                            )}
+                          </button>
+                        )}
                         {hasDetail && (
                           <button
                             onClick={() => setScanExpandedId(isExpanded ? null : result.href)}
@@ -665,6 +849,33 @@ export default function LinkHealthPage() {
 
                     {isRedirectRow && (
                       <div className="border-t border-neutral-100 px-5 py-3 bg-amber-50/40 rounded-b-2xl">
+                        {chainSteps.length > 1 && (
+                          <div className="mb-2">
+                            <p className="text-[10px] tracking-[0.15em] uppercase font-semibold text-neutral-400 mb-1.5">
+                              Redirect Chain Path
+                            </p>
+                            <div className="flex items-center gap-2 flex-wrap">
+                              {chainSteps.map((step, chainIndex) => (
+                                <div key={`${result.href}-inline-chain-${chainIndex}`} className="flex items-center gap-2">
+                                  <span
+                                    className={`text-[10px] font-mono px-2 py-1 rounded-lg ${
+                                      chainIndex === 0
+                                        ? "bg-neutral-200 text-neutral-700"
+                                        : chainIndex === chainSteps.length - 1
+                                        ? "bg-emerald-100 text-emerald-700"
+                                        : "bg-amber-100 text-amber-700"
+                                    }`}
+                                  >
+                                    {step}
+                                  </span>
+                                  {chainIndex < chainSteps.length - 1 && (
+                                    <i className="ri-arrow-right-line text-neutral-400 text-xs flex-shrink-0"></i>
+                                  )}
+                                </div>
+                              ))}
+                            </div>
+                          </div>
+                        )}
                         <div className="flex flex-wrap items-center gap-2">
                           {(["replace-source", "keep-redirect", "review"] as RedirectDecision[]).map((option) => (
                             <button
@@ -706,6 +917,17 @@ export default function LinkHealthPage() {
                               >
                                 {replacementState.internalSuggestion.url}
                               </a>
+                              <button
+                                onClick={() => applyLinkFix(result, replacementState.internalSuggestion!.url)}
+                                disabled={Boolean(applyLoadingByHref[result.href])}
+                                className="ml-2 inline-flex items-center gap-1 rounded-lg bg-[#3d6f7f] px-2.5 py-1 text-[10px] font-bold tracking-wide text-white hover:bg-[#35636f] disabled:opacity-50"
+                              >
+                                {applyLoadingByHref[result.href] ? (
+                                  <><i className="ri-loader-4-line animate-spin text-xs"></i>Applying...</>
+                                ) : (
+                                  <><i className="ri-check-line text-xs"></i>Apply Fix</>
+                                )}
+                              </button>
                               <p className="text-red-700 mt-1">{replacementState.internalSuggestion.reason}</p>
                             </div>
                           ) : (
@@ -726,6 +948,17 @@ export default function LinkHealthPage() {
                                     >
                                       {external.url}
                                     </a>
+                                    <button
+                                      onClick={() => applyLinkFix(result, external.url)}
+                                      disabled={Boolean(applyLoadingByHref[result.href])}
+                                      className="ml-2 inline-flex items-center gap-1 rounded-lg border border-red-300 bg-white px-2 py-0.5 text-[10px] font-semibold text-red-700 hover:bg-red-100 disabled:opacity-50"
+                                    >
+                                      {applyLoadingByHref[result.href] ? (
+                                        <><i className="ri-loader-4-line animate-spin text-xs"></i>Applying...</>
+                                      ) : (
+                                        <><i className="ri-check-line text-xs"></i>Apply</>
+                                      )}
+                                    </button>
                                     {external.title && <span className="text-red-700"> - {external.title}</span>}
                                   </li>
                                 ))}
@@ -816,6 +1049,17 @@ export default function LinkHealthPage() {
           <p className="text-sm text-neutral-400 max-w-sm mx-auto">
             Enter your site URL and run a full scan. You will get 404 replacements, redirect guidance, and chain cleanup recommendations.
           </p>
+        </div>
+      )}
+
+      {toast && (
+        <div
+          className={`fixed bottom-6 right-6 z-50 flex items-center gap-3 px-5 py-3.5 rounded-2xl transition-all duration-300 ${
+            toast.type === "success" ? "bg-[#3d6f7f] text-white" : "bg-red-500 text-white"
+          }`}
+        >
+          <i className={`text-base ${toast.type === "success" ? "ri-check-line" : "ri-error-warning-line"}`}></i>
+          <span className="text-sm font-medium">{toast.message}</span>
         </div>
       )}
     </div>
