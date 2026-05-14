@@ -3,9 +3,9 @@ import { resolveTrackedPageMetadata } from "@sweetmedia/admin-core";
 import IllinoisPage from "@/views/illinois/page";
 
 const fallbackMetadata: Metadata = {
-  title: "Addiction & Mental Health Interventions in Illinois | Addiction Interventions",
+  title: "Mental Health & Addiction Interventionist In Illinois | Addiction Interventions",
   description:
-    "Certified interventionists serving Illinois. On-site addiction and mental health interventions — families helped within 24–48 hours. Free confidential consultation.",
+    "Find professional mental health & addiction intervention services in Illinois. We help families navigate the intervention process and guide loved ones toward recovery.",
   alternates: { canonical: "/service-areas/illinois" },
 };
 
