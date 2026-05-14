@@ -3,7 +3,7 @@
 import { useCallback, useMemo, useState } from "react";
 import AdminPageHeader from "../components/AdminPageHeader";
 import { supabase } from "../lib/supabase";
-import { applyToBlock, buildLinkRegex, fetchPostContent, savePostContent } from "../lib/content-links-utils";
+import { applyToBlock, fetchPostContent, savePostContent } from "../lib/content-links-utils";
 
 type SiteScanStatus = "pending" | "checking" | "ok" | "broken" | "redirect" | "redirect-chain" | "error";
 type ScanPhase = "idle" | "discovering" | "checking" | "done";
@@ -120,6 +120,51 @@ function getLinkUrlVariants(url: string): string[] {
   }
 
   return [...variants];
+}
+
+function normalizeUrlForCompare(url: string, baseSiteUrl: string): string {
+  const raw = url.trim();
+  if (!raw) return "";
+  const normalizedBase = baseSiteUrl.replace(/\/$/, "");
+
+  try {
+    const parsed = new URL(raw);
+    const path = parsed.pathname.replace(/\/$/, "") || "/";
+    return `${parsed.hostname.toLowerCase()}${path}${parsed.search}`;
+  } catch {
+    const candidate = raw.startsWith("/") ? raw : `/${raw}`;
+    try {
+      const parsed = new URL(`${normalizedBase}${candidate}`);
+      const path = parsed.pathname.replace(/\/$/, "") || "/";
+      return `${parsed.hostname.toLowerCase()}${path}${parsed.search}`;
+    } catch {
+      return raw.replace(/\/$/, "").toLowerCase();
+    }
+  }
+}
+
+function replaceMatchingMarkdownLinks(
+  text: string,
+  oldUrlVariants: string[],
+  replacementUrl: string,
+  baseSiteUrl: string
+): { nextText: string; replacements: number } {
+  const oldKeys = new Set(
+    oldUrlVariants
+      .map((value) => normalizeUrlForCompare(value, baseSiteUrl))
+      .filter(Boolean)
+  );
+  if (oldKeys.size === 0) return { nextText: text, replacements: 0 };
+
+  let replacements = 0;
+  const nextText = text.replace(/\[([^\]]+)\]\(([^)]+)\)/g, (match, anchor, href) => {
+    const key = normalizeUrlForCompare(String(href), baseSiteUrl);
+    if (!oldKeys.has(key)) return match;
+    replacements += 1;
+    return `[${anchor}](${replacementUrl})`;
+  });
+
+  return { nextText, replacements };
 }
 
 export default function LinkHealthPage() {
@@ -424,6 +469,7 @@ export default function LinkHealthPage() {
       try {
         const oldUrlVariants = getLinkUrlVariants(result.href);
         let updatedSources = 0;
+        let totalReplacements = 0;
         const failedSlugs = new Set<string>();
 
         for (const [slug, sources] of sourceGroups.entries()) {
@@ -431,14 +477,18 @@ export default function LinkHealthPage() {
             let blocks = await fetchPostContent(slug);
             const before = JSON.stringify(blocks);
 
-            for (const oldUrl of oldUrlVariants) {
-              const regex = buildLinkRegex(oldUrl);
-              blocks = blocks.map((block, blockIdx) =>
-                applyToBlock(block, blockIdx, blockIdx, (text) =>
-                  text.replace(regex, `[$1](${normalizedReplacementUrl})`)
-                )
-              );
-            }
+            blocks = blocks.map((block, blockIdx) =>
+              applyToBlock(block, blockIdx, blockIdx, (text) => {
+                const { nextText, replacements } = replaceMatchingMarkdownLinks(
+                  text,
+                  oldUrlVariants,
+                  normalizedReplacementUrl,
+                  normalizedSite
+                );
+                totalReplacements += replacements;
+                return nextText;
+              })
+            );
 
             if (JSON.stringify(blocks) !== before) {
               await savePostContent(slug, blocks);
@@ -480,8 +530,8 @@ export default function LinkHealthPage() {
         if (updatedSources > 0) {
           showToast(
             remainingSources.length === 0
-              ? `Applied fix to ${updatedSources} source link${updatedSources !== 1 ? "s" : ""}.`
-              : `Applied ${updatedSources} updates, with ${remainingSources.length} source${remainingSources.length !== 1 ? "s" : ""} left for manual review.`,
+              ? `Applied fix to ${updatedSources} source link${updatedSources !== 1 ? "s" : ""} (${totalReplacements} markdown link update${totalReplacements !== 1 ? "s" : ""}).`
+              : `Applied ${updatedSources} updates (${totalReplacements} link change${totalReplacements !== 1 ? "s" : ""}), with ${remainingSources.length} source${remainingSources.length !== 1 ? "s" : ""} left for manual review.`,
             remainingSources.length === 0 ? "success" : "error"
           );
         } else {
