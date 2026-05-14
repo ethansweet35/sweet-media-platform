@@ -3,6 +3,7 @@ import {
   pickKeyword,
   SemrushApiError,
   fetchPageTextContent,
+  deriveKeywordSeedWithAi,
   cleanSeedPhrase,
 } from "@sweetmedia/admin-core/server";
 
@@ -20,11 +21,21 @@ interface AutoPickRequest {
 
 async function refineSeedFromPage(seed: string, routePath: string): Promise<string> {
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "");
+  const apiKey = process.env.OPENROUTER_API_KEY;
   if (!siteUrl) return seed;
-  const { seedHint } = await fetchPageTextContent(`${siteUrl}${routePath}`, 4000);
-  if (!seedHint) return seed;
-  const cleaned = cleanSeedPhrase(seedHint);
-  if (cleaned && cleaned.split(/\s+/).length > seed.split(/\s+/).length) return cleaned;
+
+  const { text, seedHint } = await fetchPageTextContent(`${siteUrl}${routePath}`, 4000);
+
+  if (text && apiKey) {
+    const aiSeed = await deriveKeywordSeedWithAi(text, routePath, apiKey, "");
+    if (aiSeed) return aiSeed;
+  }
+
+  if (seedHint) {
+    const cleaned = cleanSeedPhrase(seedHint);
+    if (cleaned && cleaned.split(/\s+/).length > seed.split(/\s+/).length) return cleaned;
+  }
+
   return seed;
 }
 
@@ -48,8 +59,8 @@ export async function POST(request: Request) {
     );
   }
 
-  // Refine short/generic seeds using the live page's H1 before hitting Semrush.
-  const isTooGeneric = rawSeed.split(/\s+/).length <= 2;
+  // Refine seeds that are ≤3 words (generic page titles) using AI + live page crawl.
+  const isTooGeneric = rawSeed.split(/\s+/).length <= 3;
   const seed =
     isTooGeneric && body.route_path
       ? await refineSeedFromPage(rawSeed, body.route_path)

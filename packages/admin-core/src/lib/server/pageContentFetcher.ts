@@ -10,6 +10,61 @@ export interface PageContentResult {
 }
 
 /**
+ * Use AI (OpenRouter) to derive a specific, brand-aware 3–5 word keyword phrase
+ * from crawled page content. This is far more accurate than relying on the H1
+ * alone — it understands that "Case Studies" on a behavioral health marketing
+ * site should produce "behavioral health marketing case studies", not generic results.
+ *
+ * Falls back to `fallbackSeed` on any error (network, timeout, bad response).
+ * Never throws.
+ */
+export async function deriveKeywordSeedWithAi(
+  pageText: string,
+  routePath: string,
+  openRouterApiKey: string,
+  fallbackSeed: string,
+): Promise<string> {
+  if (!pageText.trim() || !openRouterApiKey) return fallbackSeed;
+  try {
+    const prompt = `You are an SEO keyword research expert. Given the following page content and URL path, suggest the single best 3–5 word keyword phrase that a prospective client or customer would search for to find this specific page. The phrase must be highly specific to the actual topic and industry shown in the content — not generic.
+
+URL path: ${routePath}
+Page content:
+${pageText.slice(0, 600)}
+
+Return ONLY the keyword phrase itself, nothing else. No explanation, no quotes, no punctuation.`;
+
+    const res = await fetch("https://openrouter.ai/api/v1/chat/completions", {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${openRouterApiKey}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        model: "google/gemini-2.0-flash-001",
+        messages: [{ role: "user", content: prompt }],
+        temperature: 0.2,
+        max_tokens: 20,
+      }),
+      signal: AbortSignal.timeout(5000),
+    });
+    if (!res.ok) return fallbackSeed;
+    const data = (await res.json()) as { choices?: { message?: { content?: string } }[] };
+    const raw = data?.choices?.[0]?.message?.content?.trim() ?? "";
+    // Sanitise: strip quotes, take first line, enforce 2–6 word cap
+    const cleaned = raw
+      .replace(/^["'\s]+|["'\s]+$/g, "")
+      .split("\n")[0]
+      .trim();
+    const wordCount = cleaned.split(/\s+/).length;
+    if (cleaned && wordCount >= 2 && wordCount <= 6) return cleaned.toLowerCase();
+    return fallbackSeed;
+  } catch {
+    return fallbackSeed;
+  }
+}
+
+/**
  * Fetch a live page URL and extract readable text content for AI context.
  *
  * Used server-side to enrich:

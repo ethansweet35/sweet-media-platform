@@ -4,6 +4,7 @@ import {
   getKeywordSuggestions,
   SemrushApiError,
   fetchPageTextContent,
+  deriveKeywordSeedWithAi,
   cleanSeedPhrase,
 } from "@sweetmedia/admin-core/server";
 
@@ -14,19 +15,38 @@ interface SuggestionsRequest {
   phrase?: string;
   limit?: number;
   database?: string;
+  /** Route path (e.g. "/about") — used to crawl the live page and derive a
+   * better seed when the phrase is too short/generic for Semrush. */
   route_path?: string;
 }
 
 const MIN_LIMIT = 1;
 const MAX_LIMIT = 25;
 
+/**
+ * Crawl the live page and use AI to derive a brand-aware, specific keyword seed.
+ * Triggered when the seed is ≤3 words (catches "Home", "About", "Case Studies",
+ * "SEO Services", etc.). Falls back gracefully to the original phrase.
+ */
 async function refineSeedFromPage(phrase: string, routePath: string): Promise<string> {
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "");
+  const apiKey = process.env.OPENROUTER_API_KEY;
   if (!siteUrl) return phrase;
-  const { seedHint } = await fetchPageTextContent(`${siteUrl}${routePath}`, 4000);
-  if (!seedHint) return phrase;
-  const cleaned = cleanSeedPhrase(seedHint);
-  if (cleaned && cleaned.split(/\s+/).length > phrase.split(/\s+/).length) return cleaned;
+
+  const { text, seedHint } = await fetchPageTextContent(`${siteUrl}${routePath}`, 4000);
+
+  // If we have substantial page content, use AI to derive a specific seed.
+  if (text && apiKey) {
+    const aiSeed = await deriveKeywordSeedWithAi(text, routePath, apiKey, "");
+    if (aiSeed) return aiSeed;
+  }
+
+  // Fallback: clean the H1 if AI wasn't available or returned nothing.
+  if (seedHint) {
+    const cleaned = cleanSeedPhrase(seedHint);
+    if (cleaned && cleaned.split(/\s+/).length > phrase.split(/\s+/).length) return cleaned;
+  }
+
   return phrase;
 }
 
@@ -48,7 +68,8 @@ export async function POST(request: Request) {
     Math.min(MAX_LIMIT, Number.isFinite(body.limit) ? Number(body.limit) : 10),
   );
 
-  const isTooGeneric = phrase.split(/\s+/).length <= 2;
+  // Refine seeds that are ≤3 words (generic page titles) using AI + live page crawl.
+  const isTooGeneric = phrase.split(/\s+/).length <= 3;
   const effectivePhrase =
     isTooGeneric && body.route_path
       ? await refineSeedFromPage(phrase, body.route_path)

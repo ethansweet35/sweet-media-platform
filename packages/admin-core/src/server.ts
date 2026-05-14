@@ -7,6 +7,7 @@ export { scanAppRoutes, derivePageTitle, syncTrackedPages } from "./lib/scanAppR
 
 export {
   fetchPageTextContent,
+  deriveKeywordSeedWithAi,
   type PageContentResult,
 } from "./lib/server/pageContentFetcher";
 
