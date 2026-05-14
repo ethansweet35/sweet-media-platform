@@ -1,5 +1,5 @@
-import IndexingStatusPage from "@/views/admin/indexing-status/page";
+import AdminIndexingStatusPage from "@/views/admin/indexing-status/page";
 
-export default function AdminIndexingStatusRoute() {
-  return <IndexingStatusPage />;
-}
+export const dynamic = "force-dynamic";
+
+export default AdminIndexingStatusPage;
