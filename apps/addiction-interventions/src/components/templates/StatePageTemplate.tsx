@@ -183,6 +183,55 @@ function ExtraCardsSection({ section, container, variant = "cream" }: ExtraCards
   );
 }
 
+interface EvidenceRowsSectionProps {
+  section: NonNullable<StatePageConfig["evidenceBasedSection"]>;
+  container: string;
+}
+
+function EvidenceRowsSection({ section, container }: EvidenceRowsSectionProps) {
+  const parts = section.italicWord ? section.headline.split(section.italicWord) : null;
+  return (
+    <section className="bg-white py-20 md:py-24">
+      <div className={container}>
+        <div className="mx-auto mb-12 max-w-3xl text-center">
+          <p className="brand-eyebrow mb-3 text-[#8FAC87]">{section.eyebrow}</p>
+          <h2 className="font-heading text-3xl font-bold text-[#1A1A17] md:text-4xl lg:text-5xl">
+            {parts ? (
+              <>
+                {parts[0]}
+                <span className="italic text-[#507969]">{section.italicWord}</span>
+                {parts[1]}
+              </>
+            ) : (
+              section.headline
+            )}
+          </h2>
+          <p className="mt-5 text-base leading-relaxed text-[#4B4B4B] md:text-lg">{section.body}</p>
+        </div>
+
+        {/* Horizontal feature rows keep this section visually distinct
+            from the tiled card grids used elsewhere on state pages. */}
+        <div className="grid gap-4 lg:grid-cols-2">
+          {section.cards.map((card) => (
+            <div
+              key={card.title}
+              className="flex h-full items-start gap-4 rounded-2xl border border-[#EFEFEF] bg-[#F5F3E7]/70 px-5 py-5"
+            >
+              <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[#8FAC87]/20 text-[#507969]">
+                <i className={`${card.icon} text-lg`} />
+              </span>
+              <div>
+                <h3 className="font-heading text-lg font-bold text-[#1A1A17]">{card.title}</h3>
+                <p className="mt-1 text-sm leading-relaxed text-[#4B4B4B]">{card.body}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
 function makeProcess(stateName: string): StateProcessStep[] {
   return [
     {
@@ -636,7 +685,7 @@ export default function StatePageTemplate({ config, trackedPagePath }: StatePage
 
       {/* ── EVIDENCE-BASED SECTION (state-specific, optional) ───────────── */}
       {config.evidenceBasedSection && (
-        <ExtraCardsSection section={config.evidenceBasedSection} container={CONTAINER} variant="white" />
+        <EvidenceRowsSection section={config.evidenceBasedSection} container={CONTAINER} />
       )}
 
       {/* ── FAQs ────────────────────────────────────────────────────────── */}

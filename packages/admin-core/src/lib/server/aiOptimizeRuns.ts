@@ -367,6 +367,13 @@ When adding any NEW section, infer the page's visual language from existing sect
 4. Preserve clean spacing rhythm; avoid cramped stacks, oversized gaps, and abrupt spacing jumps.
 5. If a proposed section feels repetitive, revise it before final output.
 
+## StatePageTemplate guardrails (critical when route uses state-page data config)
+- Many state pages are driven by config objects and shared section slots. Treat those slots as design constraints, not copy bins.
+- Never create two adjacent or nearby sections that resolve to the same tiled card-grid composition.
+- If the page already has one card-grid-heavy section, route additional coverage into FAQ entries, process steps, checklist rows, or split/image sections before adding another card grid.
+- Do not solve missing terms by stuffing long text into card bodies. Keep card copy tight and move depth into prose sections or FAQs.
+- Ensure optional state-page sections remain visually distinct in structure and density, not just different headings.
+
 ## Aesthetic quality bar
 - The page should feel intentionally art-directed, not template-stacked.
 - Keep hierarchy clear, whitespace balanced, and section transitions smooth.
