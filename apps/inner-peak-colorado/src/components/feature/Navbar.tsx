@@ -44,7 +44,7 @@ const navItems: NavItem[] = [
           icon: 'ri-team-line',
           label: 'Our Team',
           desc: 'Licensed clinicians specializing in women\'s mental health',
-          path: '/about/our-team',
+          path: '/team',
         },
       ],
     },
