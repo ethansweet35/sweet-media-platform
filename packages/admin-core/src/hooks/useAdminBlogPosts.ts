@@ -16,7 +16,8 @@ export function useAdminBlogPosts() {
       const { data, error: supaError } = await supabase
         .from("blog_posts")
         .select("*")
-        .order("published_at", { ascending: false, nullsFirst: false });
+        .order("published_at", { ascending: false, nullsFirst: false })
+        .limit(5000);
 
       if (supaError) throw supaError;
       setPosts((data as DbBlogPost[] || []).map(dbToBlogPost));
