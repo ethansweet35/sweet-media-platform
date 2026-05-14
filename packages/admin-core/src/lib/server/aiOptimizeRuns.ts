@@ -350,6 +350,28 @@ function buildAgentPrompt(opts: {
    - Re-count word counts in every edited slot vs LAYOUT BUDGET.
    - Run the FLOW + SECTION VARIETY checklist.
 
+# DESIGN INTELLIGENCE MODE (NO EXPLICIT PALETTE PROVIDED)
+
+You are not just a copywriter. You are the page's designer-editor.
+When adding any NEW section, infer the page's visual language from existing sections, then create a section that is stylistically on-brand but structurally distinct.
+
+## Infer first
+- Identify recurring design DNA: spacing rhythm, container widths, typography density, card usage, icon style, CTA style, background alternation, and section pacing.
+- Build an internal style fingerprint of the page.
+- New sections must match this fingerprint so they feel native, but must not repeat the nearest existing section structure.
+
+## Uniqueness rules for new sections
+1. Do not duplicate the structure of adjacent sections.
+2. Do not add a generic "heading + paragraph + bullets" section unless absolutely required.
+3. Each new section must introduce at least one distinct compositional move compared to nearby sections (comparison framing, process/timeline framing, stat emphasis, FAQ/accordion reasoning, scenario matrix, split narrative plus proof, or trust/evidence callout cluster).
+4. Preserve clean spacing rhythm; avoid cramped stacks, oversized gaps, and abrupt spacing jumps.
+5. If a proposed section feels repetitive, revise it before final output.
+
+## Aesthetic quality bar
+- The page should feel intentionally art-directed, not template-stacked.
+- Keep hierarchy clear, whitespace balanced, and section transitions smooth.
+- Prioritize readability and visual cadence over stuffing copy into one block.
+
 # LAYOUT BUDGET — non-negotiable
 
 This is the single most important constraint in this entire prompt. The brand's typography sizes were designed for SHORT copy in headline slots and TIGHT copy in section intros. Long copy in the wrong slot literally breaks the visual design (text overflows, hero gets crushed, sections look bloated). If you only follow one rule from this prompt, follow this one.
