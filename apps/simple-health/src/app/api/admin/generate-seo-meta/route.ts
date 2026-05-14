@@ -12,6 +12,8 @@ interface GenerateSeoMetaRequest {
   // shared
   primary_keyword?: string;
   keyword?: string;
+  /** Plain-text body snippet for richer context when title/excerpt are bland. */
+  content_snippet?: string;
 }
 
 function buildPrompt(body: GenerateSeoMetaRequest): string {
@@ -29,12 +31,16 @@ REQUIREMENT: The exact phrase "${keyword}" MUST appear verbatim in both seo_titl
       ? `Article summary: ${body.excerpt.trim().slice(0, 400)}`
       : '';
     const categoryLine = body.category?.trim() ? `Category: ${body.category.trim()}` : '';
+    const contentLine = body.content_snippet?.trim()
+      ? `Article content (first ~800 chars for context):\n${body.content_snippet.trim().slice(0, 800)}`
+      : '';
 
     return `You are an expert SEO copywriter. Generate optimized metadata for a blog post.
 
 Current article title: ${title}
 ${categoryLine}
 ${excerptLine}
+${contentLine}
 ${keywordInstruction}
 
 Generate all THREE fields:

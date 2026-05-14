@@ -13,6 +13,24 @@ import BulkPickKeywordModal from "../components/BulkPickKeywordModal";
 import { ADMIN_OCEAN } from "../lib/adminTheme";
 import { callGenerateSeoMetadata, type SeoGenResult } from "../lib/generateSeoMetadata";
 import { getPublicSiteOrigin } from "../lib/publicSiteUrl";
+import type { BlogSection } from "@sweetmedia/blog-core";
+
+/**
+ * Flatten a BlogSection[] into readable plain text, capped at ~800 chars.
+ * Used to give the SEO generator body context when the title/excerpt are bland.
+ */
+function extractContentSnippet(sections: BlogSection[]): string {
+  const parts: string[] = [];
+  for (const s of sections) {
+    if (s.type === "paragraph" || s.type === "h2" || s.type === "h3" || s.type === "pullquote" || s.type === "callout") {
+      if (s.text?.trim()) parts.push(s.text.trim());
+    } else if ((s.type === "list" || s.type === "numbered") && s.items?.length) {
+      parts.push(s.items.join("; "));
+    }
+    if (parts.join(" ").length >= 800) break;
+  }
+  return parts.join(" ").slice(0, 800);
+}
 
 type FilterStatus = "all" | "published" | "draft";
 
@@ -299,6 +317,7 @@ export default function AdminBlogDashboard() {
         excerpt: post.excerpt,
         category: post.category,
         keyword: post.focus_keyword ?? undefined,
+        content_snippet: post.content?.length ? extractContentSnippet(post.content) : undefined,
       });
       setSeoStatuses((prev) => ({ ...prev, [post.id]: { status: "done", result } }));
     } catch (err) {
@@ -367,7 +386,7 @@ export default function AdminBlogDashboard() {
     for (const p of targets) {
       if (seoAbortRef.current) break;
       try {
-        const result = await callGenerateSeoMetadata({ type: "post", title: p.title, excerpt: p.excerpt, category: p.category, keyword: p.focus_keyword ?? undefined });
+        const result = await callGenerateSeoMetadata({ type: "post", title: p.title, excerpt: p.excerpt, category: p.category, keyword: p.focus_keyword ?? undefined, content_snippet: p.content?.length ? extractContentSnippet(p.content) : undefined });
         setSeoStatuses((prev) => ({ ...prev, [p.id]: { status: "done", result } }));
       } catch (err) {
         setSeoStatuses((prev) => ({ ...prev, [p.id]: { status: "error", error: err instanceof Error ? err.message : "Failed" } }));
