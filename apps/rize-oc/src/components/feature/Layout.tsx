@@ -9,6 +9,7 @@ import Footer from './Footer';
 export default function Layout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const isAdmin = pathname?.startsWith('/admin');
+  const isLp = pathname?.startsWith('/lp');
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
@@ -21,7 +22,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
-  if (isAdmin) return <>{children}</>;
+  if (isAdmin || isLp) return <>{children}</>;
 
   return (
     <div className="min-h-screen flex flex-col bg-[#F8FAFC]">
