@@ -5,7 +5,7 @@ import ConditionsSection from "./ConditionsSection";
 import PacificNorthwestSection from "./PacificNorthwestSection";
 import MethodologiesSection from "./MethodologiesSection";
 import JourneySection from "./JourneySection";
-import VerificationSection from "./VerificationSection";
+import FinancialConcierge from "@/components/feature/FinancialConcierge";
 
 export default function HomePage() {
   return (
@@ -17,7 +17,7 @@ export default function HomePage() {
       <PacificNorthwestSection />
       <MethodologiesSection />
       <JourneySection />
-      <VerificationSection />
+      <FinancialConcierge />
     </>
   );
 }

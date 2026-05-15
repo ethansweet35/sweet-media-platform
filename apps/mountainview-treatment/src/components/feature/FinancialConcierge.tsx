@@ -1,12 +1,3 @@
-/**
- * Mountain View Treatment — Financial Concierge / Seamless Verification block.
- *
- * Used on the team page and other interior pages where insurance
- * verification + admissions CTA is desirable. Left column: copy +
- * 3-step process. Right column: dark "Confidential Inquiry" form
- * matching the hero panel.
- */
-
 const STEPS = [
   {
     n: "01",
@@ -32,67 +23,87 @@ export default function FinancialConcierge() {
   return (
     <section className="bg-[var(--mvt-cream)]">
       <div className="mx-auto max-w-[1280px] px-6 py-20 lg:px-12 lg:py-24">
-        {/* Eyebrow */}
-        <p className="flex items-center gap-3 text-[11px] font-semibold uppercase tracking-[0.28em] text-[var(--mvt-ink)]">
-          <span aria-hidden="true" className="inline-block h-px w-7 bg-[var(--mvt-ink)]" />
-          Financial Concierge
-        </p>
-
-        <div className="mt-6 grid gap-12 lg:grid-cols-[1fr_1fr] lg:gap-16">
-          {/* Left: Heading + steps */}
+        {/* Top row: eyebrow + headline (left)  |  body paragraph (right) */}
+        <div className="grid gap-10 lg:grid-cols-[1.15fr_1fr] lg:gap-16">
           <div>
-            <h2 className="font-heading text-[40px] leading-[1.06] tracking-tight text-[var(--mvt-ink)] sm:text-5xl lg:text-[52px]">
-              Seamless Verification. <br />
+            <p className="flex items-center gap-3 text-[11px] font-semibold uppercase tracking-[0.28em] text-[var(--mvt-ink)]">
+              <span
+                aria-hidden="true"
+                className="inline-block h-px w-7 bg-[var(--mvt-ink)]"
+              />
+              Financial Concierge
+            </p>
+            <h2 className="mt-8 font-heading text-[44px] leading-[1.05] tracking-tight text-[var(--mvt-ink)] sm:text-5xl lg:text-[60px]">
+              Seamless Verification.
+              <br />
               <span className="italic">Absolute Discretion.</span>
             </h2>
+          </div>
 
-            <p className="mt-6 max-w-xl text-base leading-7 text-[var(--mvt-text)]">
+          <div className="lg:pt-12">
+            <p className="max-w-md text-base leading-7 text-[var(--mvt-text)]">
               We believe that navigating the financial aspects of recovery
               should never be a barrier to care. We work intimately with most
               major PPO insurance providers to maximize your benefits and
               minimize out-of-pocket expenses.
             </p>
+          </div>
+        </div>
 
-            <div className="mt-12">
-              <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-[var(--mvt-ink)]">
-                How The Process Works
-              </p>
-              <ol className="mt-7 space-y-7">
-                {STEPS.map((s) => (
-                  <li
-                    key={s.n}
-                    className="grid grid-cols-[auto_1fr] gap-x-7 gap-y-1.5 border-t border-[var(--mvt-ink)]/10 pt-6 first:border-t-0 first:pt-0"
-                  >
-                    <span className="row-span-2 font-heading text-3xl font-light leading-none text-[var(--mvt-ink)] sm:text-4xl">
-                      {s.n}
-                    </span>
-                    <div className="text-[11px] font-semibold uppercase tracking-[0.24em] text-[var(--mvt-ink)]">
+        {/* Bottom row: process steps (left)  |  Confidential Inquiry form (right) */}
+        <div className="mt-16 grid gap-12 lg:grid-cols-[1fr_1.1fr] lg:gap-16">
+          <div className="lg:pl-2">
+            <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-[var(--mvt-ink)]">
+              How The Process Works
+            </p>
+            <div
+              aria-hidden="true"
+              className="mt-4 h-px w-12 bg-[var(--mvt-ink)]/40"
+            />
+
+            <ol className="mt-8 space-y-6">
+              {STEPS.map((s) => (
+                <li
+                  key={s.n}
+                  className="grid grid-cols-[auto_1fr] items-start gap-x-6"
+                >
+                  <span className="font-heading text-[32px] font-light leading-none text-[var(--mvt-teal)]">
+                    {s.n}
+                  </span>
+                  <div>
+                    <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-[var(--mvt-ink)]">
                       {s.title}
-                    </div>
-                    <div className="max-w-md text-sm leading-7 text-[var(--mvt-text)]">
+                    </p>
+                    <p className="mt-2 max-w-md text-[13px] leading-6 text-[var(--mvt-text)]">
                       {s.body}
-                    </div>
-                  </li>
-                ))}
-              </ol>
-            </div>
+                    </p>
+                  </div>
+                </li>
+              ))}
+            </ol>
           </div>
 
-          {/* Right: Confidential Inquiry form */}
-          <aside className="self-start bg-[#1B3540] p-8 text-white sm:p-10 lg:max-w-[480px] lg:justify-self-end">
+          {/* Confidential Inquiry */}
+          <aside className="self-start bg-[#0F1F1A] p-8 text-white sm:p-10">
             <h3 className="font-heading text-3xl font-light leading-tight text-white sm:text-4xl">
               Confidential Inquiry
             </h3>
             <p className="mt-3 text-sm leading-6 text-white/75">
-              Speak directly with our admissions team. Your privacy is our priority.
+              Speak directly with our admissions team. Your privacy is our
+              priority.
             </p>
 
             <form className="mt-7 space-y-6" action="/contact/" method="POST">
-              <div className="grid grid-cols-2 gap-5">
+              <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
                 <ConciergeField name="name" placeholder="Name" required />
-                <ConciergeField name="phone" placeholder="Phone Number" type="tel" required />
+                <ConciergeField
+                  name="phone"
+                  placeholder="Phone Number"
+                  type="tel"
+                  required
+                />
               </div>
-              <div className="grid grid-cols-2 gap-5">
+              <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
                 <ConciergeField name="insurance" placeholder="Insurance" />
                 <ConciergeField name="policy_id" placeholder="Policy ID" />
               </div>
@@ -118,7 +129,12 @@ type ConciergeFieldProps = {
   required?: boolean;
 };
 
-function ConciergeField({ name, placeholder, type = "text", required }: ConciergeFieldProps) {
+function ConciergeField({
+  name,
+  placeholder,
+  type = "text",
+  required,
+}: ConciergeFieldProps) {
   return (
     <input
       type={type}
