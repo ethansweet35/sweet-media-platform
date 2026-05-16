@@ -1,8 +1,11 @@
 import type { Metadata } from "next";
 import { Cormorant_Garamond, Outfit } from "next/font/google";
+import Script from "next/script";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { Analytics } from "@vercel/analytics/next";
 import "./globals.css";
+
+const GA_MEASUREMENT_ID = "G-PRMFZ8JSHE";
 
 const cormorant = Cormorant_Garamond({
   variable: "--font-cormorant-garamond",
@@ -45,6 +48,18 @@ export default function RootLayout({
           href="https://cdn.jsdelivr.net/npm/remixicon@4.6.0/fonts/remixicon.css"
           rel="stylesheet"
         />
+        <Script
+          src={`https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`}
+          strategy="afterInteractive"
+        />
+        <Script id="google-analytics" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', '${GA_MEASUREMENT_ID}');
+          `}
+        </Script>
       </head>
       <body className="min-h-full flex flex-col">
         {children}
