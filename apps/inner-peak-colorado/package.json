@@ -13,10 +13,11 @@
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.105.1",
-    "@vercel/speed-insights": "^1",
     "@sweetmedia/admin-core": "workspace:*",
     "@sweetmedia/blog-core": "workspace:*",
     "@sweetmedia/seo-schema": "workspace:*",
+    "@vercel/analytics": "^1.6.1",
+    "@vercel/speed-insights": "^1",
     "dotenv": "^17.4.2",
     "next": "16.2.4",
     "react": "19.2.4",
