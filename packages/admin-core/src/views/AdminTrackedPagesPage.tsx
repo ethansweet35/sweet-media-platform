@@ -6,6 +6,7 @@ import AdminPageHeader from "../components/AdminPageHeader";
 import { ADMIN_OCEAN } from "../lib/adminTheme";
 import { getPublicSiteOrigin } from "../lib/publicSiteUrl";
 import { useTrackedPages } from "../hooks/useTrackedPages";
+import { useSearchConsoleData } from "../hooks/useSearchConsoleData";
 import ContentEditorCell from "../components/ContentEditorCell";
 import PageEditModal from "../components/pages/PageEditModal";
 import PageDeleteModal from "../components/pages/PageDeleteModal";
@@ -77,6 +78,7 @@ function strVal(v: string | null | undefined) {
 export default function AdminTrackedPagesPage() {
   const { pages, loading, error, createPage, updatePage, deletePage, toggleActive, refetch } =
     useTrackedPages();
+  const { data: gscData, loading: gscLoading } = useSearchConsoleData();
 
   const [toast, setToast] = useState<{ message: string; type: "success" | "error" } | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
@@ -102,7 +104,7 @@ export default function AdminTrackedPagesPage() {
 
   // Column widths (px)
   const [colWidths, setColWidths] = useState({
-    check: 48, route: 200, title: 160, seo: 210, meta: 220, keyword: 260, contentEditor: 340, status: 120, date: 140, actions: 140,
+    check: 48, route: 200, title: 160, seo: 210, meta: 220, keyword: 260, gsc: 112, contentEditor: 340, status: 120, date: 140, actions: 140,
   });
   const resizeRef = useRef<{ col: keyof typeof colWidths; startX: number; startW: number } | null>(null);
 
@@ -579,7 +581,7 @@ export default function AdminTrackedPagesPage() {
                 <div className="overflow-x-auto">
                   <table className="text-left text-sm" style={{ tableLayout: "fixed", width: tableWidth + "px", minWidth: "100%" }}>
                     <colgroup>
-                      {(["check","route","title","seo","meta","keyword","contentEditor","status","date","actions"] as (keyof typeof colWidths)[]).map((c) => (
+                      {(["check","route","title","seo","meta","keyword","gsc","contentEditor","status","date","actions"] as (keyof typeof colWidths)[]).map((c) => (
                         <col key={c} style={{ width: colWidths[c] + "px" }} />
                       ))}
                     </colgroup>
@@ -597,6 +599,7 @@ export default function AdminTrackedPagesPage() {
                         <StaticTh label="SEO Title" rk="seo" />
                         <StaticTh label="Meta Desc." rk="meta" />
                         <SortTh col="keyword" label="Keyword" rk="keyword" />
+                        <StaticTh label="GSC (28d)" rk="gsc" />
                         <StaticTh label="Content Editor" rk="contentEditor" />
                         <SortTh col="status" label="Status" rk="status" />
                         <SortTh col="created_at" label="Added" rk="date" />
@@ -705,6 +708,29 @@ export default function AdminTrackedPagesPage() {
                                 />
                               </td>
 
+                              {/* GSC Metrics */}
+                              <td className="px-3 py-3 align-middle">
+                                {(() => {
+                                  const path = p.route_path.toLowerCase().replace(/\/$/, "") || "/";
+                                  const m = gscData[path];
+                                  if (gscLoading) return <span className="text-[11px] text-neutral-300">…</span>;
+                                  if (!m) return <span className="text-[11px] text-neutral-300">—</span>;
+                                  return (
+                                    <div className="flex flex-col gap-0.5">
+                                      <span className="text-[12px] font-semibold text-neutral-800" title="Clicks">
+                                        {m.clicks.toLocaleString()} <span className="text-[10px] font-normal text-neutral-400">clk</span>
+                                      </span>
+                                      <span className="text-[11px] text-neutral-500" title="Impressions">
+                                        {m.impressions.toLocaleString()} <span className="text-[10px] text-neutral-400">imp</span>
+                                      </span>
+                                      <span className="text-[10px] text-neutral-400" title={`Avg position: ${m.position.toFixed(1)}`}>
+                                        pos {m.position.toFixed(1)}
+                                      </span>
+                                    </div>
+                                  );
+                                })()}
+                              </td>
+
                               {/* Content Editor */}
                               <td className="px-3 py-3 align-middle" onClick={(e) => e.stopPropagation()}>
                                 <ContentEditorCell
@@ -778,7 +804,7 @@ export default function AdminTrackedPagesPage() {
                             {/* AI Generate Meta Data preview row */}
                             {seoStatus?.status === "done" && seoStatus.result && (
                               <tr key={`${p.id}-seo-preview`} className="bg-violet-50 border-b border-violet-100">
-                                <td colSpan={10} className="px-5 py-3">
+                                <td colSpan={11} className="px-5 py-3">
                                   <div className="flex items-start gap-4">
                                     <div className="flex items-center gap-1.5 flex-shrink-0 mt-0.5">
                                       <i className="ri-sparkling-2-line text-violet-500 text-sm" />
@@ -833,7 +859,7 @@ export default function AdminTrackedPagesPage() {
 
                             {seoStatus?.status === "error" && (
                               <tr key={`${p.id}-seo-error`} className="bg-red-50 border-b border-red-100">
-                                <td colSpan={10} className="px-5 py-2">
+                                <td colSpan={11} className="px-5 py-2">
                                   <div className="flex items-center gap-3">
                                     <i className="ri-error-warning-line text-red-400 text-sm flex-shrink-0" />
                                     <p className="text-[12px] text-red-600 flex-1">{seoStatus.error}</p>

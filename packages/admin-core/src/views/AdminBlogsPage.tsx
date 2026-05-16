@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useState, useMemo, useCallback, useRef } from "react";
 import AdminPageHeader from "../components/AdminPageHeader";
 import { useAdminBlogPosts } from "../hooks/useAdminBlogPosts";
+import { useSearchConsoleData } from "../hooks/useSearchConsoleData";
 import { supabase } from "../lib/supabase";
 import type { BlogPost } from "@sweetmedia/blog-core";
 import AdminBlogTable from "../components/pages/admin/blogs/components/AdminBlogTable";
@@ -107,6 +108,7 @@ export default function AdminBlogDashboard() {
     updatePost,
     refetch,
   } = useAdminBlogPosts();
+  const { data: gscData, loading: gscLoading } = useSearchConsoleData();
 
   const [searchQuery, setSearchQuery] = useState("");
   const [filterStatus, setFilterStatus] = useState<FilterStatus>("all");
@@ -805,6 +807,8 @@ export default function AdminBlogDashboard() {
             onUpdateFocusKeyword={async (post, keyword) =>
               updatePost(post.id, { focus_keyword: keyword })
             }
+            gscData={gscData}
+            gscLoading={gscLoading}
           />
             {/* Pagination */}
             {totalPages > 1 && (

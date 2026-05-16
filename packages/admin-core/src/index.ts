@@ -31,6 +31,7 @@ export {
 export { useInternalLinks, type InternalLink } from "./hooks/useInternalLinks";
 export { useDashboardData, formatDashboardDate, relativeTimeSince } from "./hooks/useDashboardData";
 export { useAdminBlogPosts } from "./hooks/useAdminBlogPosts";
+export { useSearchConsoleData, type GscMetrics } from "./hooks/useSearchConsoleData";
 export { useBlogPostBySlug } from "./hooks/useBlogPostBySlug";
 export { useLinkUtilization, type LinkUtilization, type UtilizationStatus } from "./hooks/useLinkUtilization";
 export { getPublicSiteOrigin, canonicalBlogPostUrl } from "./lib/publicSiteUrl";

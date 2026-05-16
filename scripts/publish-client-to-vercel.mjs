@@ -138,6 +138,8 @@ async function main() {
     'DATAFORSEO_PASSWORD',
     'FIRECRAWL_API_KEY',
     'GOOGLE_NLP_API_KEY',
+    'GOOGLE_INDEXING_CLIENT_EMAIL',
+    'GOOGLE_INDEXING_PRIVATE_KEY',
   ];
 
   // Shared platform secrets live in repo-root .env; per-brand values stay in apps/<slug>/.env.local.
@@ -149,6 +151,8 @@ async function main() {
     'DATAFORSEO_PASSWORD',
     'FIRECRAWL_API_KEY',
     'GOOGLE_NLP_API_KEY',
+    'GOOGLE_INDEXING_CLIENT_EMAIL',
+    'GOOGLE_INDEXING_PRIVATE_KEY',
   ]);
 
   const resolve = (key) => {

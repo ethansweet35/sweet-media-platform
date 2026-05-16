@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useState, useRef, useCallback } from "react";
 import { ADMIN_OCEAN } from "../../../../../lib/adminTheme";
 import type { BlogPost } from "@sweetmedia/blog-core";
+import type { GscMetrics } from "../../../../../hooks/useSearchConsoleData";
 import type { SeoGenResult } from "../../../../../lib/generateSeoMetadata";
 import ContentEditorCell from "../../../../ContentEditorCell";
 import InlineKeywordCell from "../../../../InlineKeywordCell";
@@ -52,6 +53,9 @@ interface AdminBlogTableProps {
   onSeoChange?: () => void | Promise<void>;
   /** Persist a focus_keyword change for the given post. */
   onUpdateFocusKeyword: (post: BlogPost, keyword: string | null) => Promise<boolean>;
+  /** GSC metrics keyed by page path (e.g. "/blog/some-slug"). */
+  gscData?: Record<string, GscMetrics>;
+  gscLoading?: boolean;
 }
 
 type SortField = "title" | "author" | "date" | "status";
@@ -77,6 +81,8 @@ export default function AdminBlogTable({
   onDismissSeo,
   onSeoChange,
   onUpdateFocusKeyword,
+  gscData = {},
+  gscLoading = false,
 }: AdminBlogTableProps) {
   const [sortField, setSortField] = useState<SortField>("date");
   const [sortDir, setSortDir] = useState<SortDir>("desc");
@@ -93,6 +99,7 @@ export default function AdminBlogTable({
     status: 130,      // "Published" pill button
     autopublish: 120, // header "Auto-publish" + toggle
     keyword: 280,     // inline-edit input + Suggest popover trigger
+    gsc: 112,         // clicks + impressions + position
     contentEditor: 340, // Content Editor chip + score badge + open-link
     actions: 290,     // edit + preview + star + gen-card button + meta-data + delete
   });
@@ -173,7 +180,7 @@ export default function AdminBlogTable({
       <div className="overflow-x-auto">
         <table style={{ width: tableWidth, minWidth: tableWidth }} className="table-fixed">
           <colgroup>
-            {(["check","title","seoTitle","metaDesc","author","date","status","autopublish","keyword","contentEditor","actions"] as (keyof typeof colWidths)[]).map((c) => (
+            {(["check","title","seoTitle","metaDesc","author","date","status","autopublish","keyword","gsc","contentEditor","actions"] as (keyof typeof colWidths)[]).map((c) => (
               <col key={c} style={{ width: colWidths[c] + "px" }} />
             ))}
           </colgroup>
@@ -200,6 +207,7 @@ export default function AdminBlogTable({
               <SortTh field="status" label="Status" rk="status" />
               <StaticTh label="Auto-publish" rk="autopublish" />
               <StaticTh label="Primary Keyword" rk="keyword" />
+              <StaticTh label="GSC (28d)" rk="gsc" />
               <StaticTh label="Content Editor" rk="contentEditor" />
               <StaticTh label="Actions" rk="actions" right />
             </tr>
@@ -438,6 +446,29 @@ export default function AdminBlogTable({
                     />
                   </td>
 
+                  {/* GSC Metrics */}
+                  <td className="px-4 py-4 align-middle">
+                    {(() => {
+                      const path = `/blog/${post.slug}`.toLowerCase();
+                      const m = gscData[path];
+                      if (gscLoading) return <span className="text-[11px] text-neutral-300">…</span>;
+                      if (!m) return <span className="text-[11px] text-neutral-300">—</span>;
+                      return (
+                        <div className="flex flex-col gap-0.5">
+                          <span className="text-[12px] font-semibold text-neutral-800" title="Clicks">
+                            {m.clicks.toLocaleString()} <span className="text-[10px] font-normal text-neutral-400">clk</span>
+                          </span>
+                          <span className="text-[11px] text-neutral-500" title="Impressions">
+                            {m.impressions.toLocaleString()} <span className="text-[10px] text-neutral-400">imp</span>
+                          </span>
+                          <span className="text-[10px] text-neutral-400" title={`Avg position: ${m.position.toFixed(1)}`}>
+                            pos {m.position.toFixed(1)}
+                          </span>
+                        </div>
+                      );
+                    })()}
+                  </td>
+
                   {/* Content Editor */}
                   <td className="px-4 py-4 align-middle" onClick={(e) => e.stopPropagation()}>
                     <ContentEditorCell
@@ -539,7 +570,7 @@ export default function AdminBlogTable({
                 {/* AI Generate Meta Data preview row */}
                 {seoStatus?.status === "done" && seoStatus.result && (
                   <tr key={`${post.id}-seo-preview`} className="bg-violet-50 border-b border-violet-100">
-                    <td colSpan={11} className="px-5 py-3">
+                    <td colSpan={12} className="px-5 py-3">
                       <div className="flex items-start gap-4">
                         <div className="flex items-center gap-1.5 flex-shrink-0 mt-0.5">
                           <i className="ri-sparkling-2-line text-violet-500 text-sm"></i>
@@ -594,7 +625,7 @@ export default function AdminBlogTable({
 
                 {seoStatus?.status === "error" && (
                   <tr key={`${post.id}-seo-error`} className="bg-red-50 border-b border-red-100">
-                    <td colSpan={11} className="px-5 py-2">
+                    <td colSpan={12} className="px-5 py-2">
                       <div className="flex items-center gap-3">
                         <i className="ri-error-warning-line text-red-400 text-sm flex-shrink-0"></i>
                         <p className="text-[12px] text-red-600 flex-1">{seoStatus.error}</p>
