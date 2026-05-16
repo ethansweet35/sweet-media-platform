@@ -8,6 +8,8 @@ import Layout from "@/components/feature/Layout";
 const REMIXICON_CSS =
   "https://cdn.jsdelivr.net/npm/remixicon@4.6.0/fonts/remixicon.css";
 
+const GA_MEASUREMENT_ID = "G-FZNMZLH54F";
+
 const playfair = Playfair_Display({
   variable: "--font-playfair",
   subsets: ["latin"],
@@ -75,6 +77,18 @@ export default function RootLayout({
         <noscript>
           <link rel="stylesheet" href={REMIXICON_CSS} crossOrigin="anonymous" />
         </noscript>
+        <Script
+          src={`https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`}
+          strategy="afterInteractive"
+        />
+        <Script id="google-analytics" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', '${GA_MEASUREMENT_ID}');
+          `}
+        </Script>
       </head>
       <body className={`${playfair.variable} ${montserrat.variable} antialiased`}>
         <Layout>{children}</Layout>
