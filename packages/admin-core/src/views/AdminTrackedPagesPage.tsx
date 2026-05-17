@@ -57,7 +57,7 @@ function derivePageKeywordSeed(p: {
   return lastSegment.replace(/[-_]+/g, " ").trim();
 }
 
-type SortCol = "route" | "title" | "keyword" | "created_at" | "status";
+type SortCol = "route" | "title" | "keyword" | "created_at" | "status" | "wordCount";
 type SortDir = "asc" | "desc";
 
 type SeoStatus = {
@@ -102,9 +102,14 @@ export default function AdminTrackedPagesPage() {
   const abortRef = useRef(false);
   const [bulkPickKeywordOpen, setBulkPickKeywordOpen] = useState(false);
 
+  // Word counts for tracked pages — fetched on demand
+  type WcEntry = { status: "idle" | "loading" | "done" | "error"; words?: number };
+  const [wordCounts, setWordCounts] = useState<Record<string, WcEntry>>({});
+  const [analyzingAll, setAnalyzingAll] = useState(false);
+
   // Column widths (px)
   const [colWidths, setColWidths] = useState({
-    check: 48, route: 200, title: 160, seo: 210, meta: 220, keyword: 260, gsc: 112, contentEditor: 340, status: 120, date: 140, actions: 140,
+    check: 48, route: 200, title: 160, seo: 210, meta: 220, keyword: 260, gsc: 112, contentEditor: 340, wordCount: 100, status: 120, date: 140, actions: 140,
   });
   const resizeRef = useRef<{ col: keyof typeof colWidths; startX: number; startW: number } | null>(null);
 
@@ -301,12 +306,13 @@ export default function AdminTrackedPagesPage() {
       else if (sortCol === "keyword") { av = strVal(a.primary_keyword); bv = strVal(b.primary_keyword); }
       else if (sortCol === "created_at") { av = a.created_at ?? ""; bv = b.created_at ?? ""; }
       else if (sortCol === "status") { av = a.is_active ? 1 : 0; bv = b.is_active ? 1 : 0; }
+      else if (sortCol === "wordCount") { av = wordCounts[a.id]?.words ?? -1; bv = wordCounts[b.id]?.words ?? -1; }
       if (av < bv) return sortDir === "asc" ? -1 : 1;
       if (av > bv) return sortDir === "asc" ? 1 : -1;
       return 0;
     });
     return filtered;
-  }, [pages, searchQuery, sortCol, sortDir]);
+  }, [pages, searchQuery, sortCol, sortDir, wordCounts]);
 
   const totalPaginatedPages = Math.max(1, Math.ceil(filteredSorted.length / pageSize));
   const safePage = Math.min(currentPage, totalPaginatedPages);
@@ -371,6 +377,40 @@ export default function AdminTrackedPagesPage() {
     const origin = getPublicSiteOrigin();
     const path = routePath.startsWith("/") ? routePath : `/${routePath}`;
     window.open(`${origin}${path}`, "_blank", "noopener,noreferrer");
+  };
+
+  // ── Page word count ────────────────────────────────────────────────────────
+
+  const fetchPageWordCount = async (p: TrackedPage) => {
+    setWordCounts((prev) => ({ ...prev, [p.id]: { status: "loading" } }));
+    try {
+      const origin = getPublicSiteOrigin();
+      const path = p.route_path.startsWith("/") ? p.route_path : `/${p.route_path}`;
+      const res = await fetch(`${origin}${path}`, { cache: "no-store" });
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      const html = await res.text();
+      const parser = new DOMParser();
+      const doc = parser.parseFromString(html, "text/html");
+      // Strip chrome and non-content elements
+      ["nav", "header", "footer", "script", "style", "noscript"].forEach((tag) => {
+        doc.querySelectorAll(tag).forEach((el) => el.remove());
+      });
+      doc.querySelectorAll("[aria-hidden='true']").forEach((el) => el.remove());
+      const text = doc.body?.textContent ?? "";
+      const words = text.trim().split(/\s+/).filter(Boolean).length;
+      setWordCounts((prev) => ({ ...prev, [p.id]: { status: "done", words } }));
+    } catch {
+      setWordCounts((prev) => ({ ...prev, [p.id]: { status: "error" } }));
+    }
+  };
+
+  const analyzeVisible = async () => {
+    setAnalyzingAll(true);
+    for (const p of paginatedPages) {
+      if (wordCounts[p.id]?.status === "done") continue;
+      await fetchPageWordCount(p);
+    }
+    setAnalyzingAll(false);
   };
 
   // ── Sort helpers ───────────────────────────────────────────────────────────
@@ -602,7 +642,7 @@ export default function AdminTrackedPagesPage() {
                 <div className="overflow-x-auto">
                   <table className="text-left text-sm" style={{ tableLayout: "fixed", width: tableWidth + "px", minWidth: "100%" }}>
                     <colgroup>
-                      {(["check","route","title","seo","meta","keyword","gsc","contentEditor","status","date","actions"] as (keyof typeof colWidths)[]).map((c) => (
+                      {(["check","route","title","seo","meta","keyword","gsc","contentEditor","wordCount","status","date","actions"] as (keyof typeof colWidths)[]).map((c) => (
                         <col key={c} style={{ width: colWidths[c] + "px" }} />
                       ))}
                     </colgroup>
@@ -622,6 +662,27 @@ export default function AdminTrackedPagesPage() {
                         <SortTh col="keyword" label="Keyword" rk="keyword" />
                         <StaticTh label="GSC (28d)" rk="gsc" />
                         <StaticTh label="Content Editor" rk="contentEditor" />
+                        {/* Word Count */}
+                        <th className="py-3 font-semibold text-neutral-500 text-[10px] uppercase tracking-[0.1em] relative select-none" style={{ paddingLeft: "12px", paddingRight: "10px" }}>
+                          <div className="flex items-center gap-1.5">
+                            <button type="button" onClick={() => handleSort("wordCount")} className="inline-flex items-center cursor-pointer hover:text-neutral-700 transition-colors">
+                              Words
+                              {sortCol !== "wordCount"
+                                ? <i className="ri-arrows-up-down-line text-neutral-300 text-[10px] ml-1" />
+                                : sortDir === "asc"
+                                ? <i className="ri-arrow-up-line text-[#3d6f7f] text-[10px] ml-1" />
+                                : <i className="ri-arrow-down-line text-[#3d6f7f] text-[10px] ml-1" />}
+                            </button>
+                            <button type="button" title="Analyze visible pages"
+                              onClick={() => void analyzeVisible()} disabled={analyzingAll}
+                              className="w-4 h-4 flex items-center justify-center rounded transition-colors text-neutral-300 hover:text-[#3d6f7f] disabled:opacity-40 disabled:cursor-wait cursor-pointer">
+                              <i className={`text-[10px] ${analyzingAll ? "ri-loader-4-line animate-spin" : "ri-scan-line"}`} />
+                            </button>
+                          </div>
+                          <div onMouseDown={(e) => startResize("wordCount", e)} className="absolute top-0 right-0 h-full w-2.5 cursor-col-resize z-10 group flex items-center justify-end">
+                            <div className="h-full w-[2px] transition-opacity group-hover:opacity-100 opacity-20" style={{ backgroundColor: "#3d6f7f" }} />
+                          </div>
+                        </th>
                         <SortTh col="status" label="Status" rk="status" />
                         <SortTh col="created_at" label="Added" rk="date" />
                         <StaticTh label="Actions" rk="actions" right />
@@ -766,6 +827,51 @@ export default function AdminTrackedPagesPage() {
                                 />
                               </td>
 
+                              {/* Word Count */}
+                              <td className="px-3 py-3 align-middle">
+                                {(() => {
+                                  const wc = wordCounts[p.id];
+                                  if (!wc || wc.status === "idle") {
+                                    return (
+                                      <button type="button" title="Analyze page word count"
+                                        onClick={() => void fetchPageWordCount(p)}
+                                        className="w-6 h-6 flex items-center justify-center rounded-lg text-neutral-300 hover:text-[#3d6f7f] hover:bg-[#3d6f7f]/6 transition-all cursor-pointer">
+                                        <i className="ri-scan-line text-sm" />
+                                      </button>
+                                    );
+                                  }
+                                  if (wc.status === "loading") {
+                                    return <i className="ri-loader-4-line animate-spin text-neutral-300 text-sm" />;
+                                  }
+                                  if (wc.status === "error") {
+                                    return (
+                                      <button type="button" title="Retry" onClick={() => void fetchPageWordCount(p)}
+                                        className="text-[10px] text-red-400 hover:underline cursor-pointer">Err</button>
+                                    );
+                                  }
+                                  const words = wc.words ?? 0;
+                                  const label = words.toLocaleString();
+                                  if (words < 300) return (
+                                    <div className="flex flex-col gap-0.5">
+                                      <span className="text-[13px] font-semibold text-red-600">{label}</span>
+                                      <span className="inline-flex items-center self-start px-1 py-0.5 rounded text-[8px] font-bold uppercase tracking-wider bg-red-50 text-red-500">Thin</span>
+                                    </div>
+                                  );
+                                  if (words < 700) return (
+                                    <div className="flex flex-col gap-0.5">
+                                      <span className="text-[13px] font-semibold text-amber-600">{label}</span>
+                                      <span className="inline-flex items-center self-start px-1 py-0.5 rounded text-[8px] font-bold uppercase tracking-wider bg-amber-50 text-amber-600">Short</span>
+                                    </div>
+                                  );
+                                  return (
+                                    <div className="flex flex-col gap-0.5">
+                                      <span className="text-[13px] font-semibold text-emerald-700">{label}</span>
+                                      <span className="inline-flex items-center self-start px-1 py-0.5 rounded text-[8px] font-bold uppercase tracking-wider bg-emerald-50 text-emerald-600">Good</span>
+                                    </div>
+                                  );
+                                })()}
+                              </td>
+
                               {/* Status */}
                               <td className="px-3 py-3 align-middle">
                                 <div className="flex items-center gap-2">
@@ -825,7 +931,7 @@ export default function AdminTrackedPagesPage() {
                             {/* AI Generate Meta Data preview row */}
                             {seoStatus?.status === "done" && seoStatus.result && (
                               <tr key={`${p.id}-seo-preview`} className="bg-violet-50 border-b border-violet-100">
-                                <td colSpan={11} className="px-5 py-3">
+                                <td colSpan={12} className="px-5 py-3">
                                   <div className="flex items-start gap-4">
                                     <div className="flex items-center gap-1.5 flex-shrink-0 mt-0.5">
                                       <i className="ri-sparkling-2-line text-violet-500 text-sm" />
@@ -880,7 +986,7 @@ export default function AdminTrackedPagesPage() {
 
                             {seoStatus?.status === "error" && (
                               <tr key={`${p.id}-seo-error`} className="bg-red-50 border-b border-red-100">
-                                <td colSpan={11} className="px-5 py-2">
+                                <td colSpan={12} className="px-5 py-2">
                                   <div className="flex items-center gap-3">
                                     <i className="ri-error-warning-line text-red-400 text-sm flex-shrink-0" />
                                     <p className="text-[12px] text-red-600 flex-1">{seoStatus.error}</p>

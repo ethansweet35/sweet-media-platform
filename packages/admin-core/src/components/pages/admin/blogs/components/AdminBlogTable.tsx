@@ -7,8 +7,53 @@ import { ADMIN_OCEAN } from "../../../../../lib/adminTheme";
 import type { BlogPost } from "@sweetmedia/blog-core";
 import type { GscMetrics } from "../../../../../hooks/useSearchConsoleData";
 import type { SeoGenResult } from "../../../../../lib/generateSeoMetadata";
+import type { BlogSection } from "@sweetmedia/blog-core";
 import ContentEditorCell from "../../../../ContentEditorCell";
 import InlineKeywordCell from "../../../../InlineKeywordCell";
+
+function countWords(text: string): number {
+  return text.trim().split(/\s+/).filter(Boolean).length;
+}
+
+function countBlogWords(sections: BlogSection[]): number {
+  let total = 0;
+  for (const s of sections) {
+    if (s.text) total += countWords(s.text);
+    if (s.items) s.items.forEach((item) => { total += countWords(item); });
+    if (s.stats) s.stats.forEach((stat) => { total += countWords(stat.value) + countWords(stat.label); });
+    if (s.tableHeaders) s.tableHeaders.forEach((h) => { total += countWords(h); });
+    if (s.tableRows) s.tableRows.forEach((row) => row.forEach((cell) => { total += countWords(cell); }));
+  }
+  return total;
+}
+
+function WordCountBadge({ words }: { words: number }) {
+  const label = words.toLocaleString();
+  if (words < 500) {
+    return (
+      <div className="flex flex-col gap-0.5">
+        <span className="text-[13px] font-semibold text-red-600">{label}</span>
+        <span className="inline-flex items-center self-start px-1 py-0.5 rounded text-[8px] font-bold uppercase tracking-wider bg-red-50 text-red-500">Thin</span>
+      </div>
+    );
+  }
+  if (words < 900) {
+    return (
+      <div className="flex flex-col gap-0.5">
+        <span className="text-[13px] font-semibold text-amber-600">{label}</span>
+        <span className="inline-flex items-center self-start px-1 py-0.5 rounded text-[8px] font-bold uppercase tracking-wider bg-amber-50 text-amber-600">Short</span>
+      </div>
+    );
+  }
+  return (
+    <div className="flex flex-col gap-0.5">
+      <span className="text-[13px] font-semibold text-emerald-700">{label}</span>
+      <span className="inline-flex items-center self-start px-1 py-0.5 rounded text-[8px] font-bold uppercase tracking-wider bg-emerald-50 text-emerald-600">
+        {words >= 1500 ? "Long" : "Good"}
+      </span>
+    </div>
+  );
+}
 
 function formatScheduledLine(iso: string): string {
   try {
@@ -58,7 +103,7 @@ interface AdminBlogTableProps {
   gscLoading?: boolean;
 }
 
-type SortField = "title" | "author" | "date" | "status";
+type SortField = "title" | "author" | "date" | "status" | "wordCount";
 type SortDir = "asc" | "desc";
 
 export default function AdminBlogTable({
@@ -91,6 +136,7 @@ export default function AdminBlogTable({
   const [colWidths, setColWidths] = useState({
     // Each value is sized to fit its longest realistic content without truncation
     check: 48,
+    wordCount: 90,    // word count badge
     title: 320,       // thumbnail + title + slug line
     seoTitle: 220,    // "Optimized SEO Title For Page" with truncation
     metaDesc: 280,    // longer column for description preview
@@ -160,6 +206,7 @@ export default function AdminBlogTable({
       case "author": cmp = a.author.localeCompare(b.author); break;
       case "date": cmp = new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime(); break;
       case "status": cmp = (a.status || "").localeCompare(b.status || ""); break;
+      case "wordCount": cmp = countBlogWords(a.content) - countBlogWords(b.content); break;
     }
     return sortDir === "asc" ? cmp : -cmp;
   });
@@ -180,7 +227,7 @@ export default function AdminBlogTable({
       <div className="overflow-x-auto">
         <table style={{ width: tableWidth, minWidth: tableWidth }} className="table-fixed">
           <colgroup>
-            {(["check","title","seoTitle","metaDesc","author","date","status","autopublish","keyword","gsc","contentEditor","actions"] as (keyof typeof colWidths)[]).map((c) => (
+            {(["check","wordCount","title","seoTitle","metaDesc","author","date","status","autopublish","keyword","gsc","contentEditor","actions"] as (keyof typeof colWidths)[]).map((c) => (
               <col key={c} style={{ width: colWidths[c] + "px" }} />
             ))}
           </colgroup>
@@ -199,6 +246,7 @@ export default function AdminBlogTable({
                   <div className="h-full w-[2px] transition-opacity group-hover:opacity-100 opacity-0" style={{ backgroundColor: "#3d6f7f" }} />
                 </div>
               </th>
+              <SortTh field="wordCount" label="Words" rk="wordCount" />
               <SortTh field="title" label="Title" rk="title" />
               <StaticTh label="SEO Title" rk="seoTitle" />
               <StaticTh label="Meta Description" rk="metaDesc" />
@@ -234,6 +282,14 @@ export default function AdminBlogTable({
                       onChange={(e) => onSelectId(post.id, e.target.checked)}
                       className="w-4 h-4 rounded border-neutral-300 accent-[#3d6f7f] cursor-pointer"
                     />
+                  </td>
+
+                  {/* Word Count */}
+                  <td className="px-3 py-4 align-middle">
+                    {post.content?.length
+                      ? <WordCountBadge words={countBlogWords(post.content)} />
+                      : <span className="text-neutral-300 text-[12px]">—</span>
+                    }
                   </td>
 
                   {/* Title */}
@@ -570,7 +626,7 @@ export default function AdminBlogTable({
                 {/* AI Generate Meta Data preview row */}
                 {seoStatus?.status === "done" && seoStatus.result && (
                   <tr key={`${post.id}-seo-preview`} className="bg-violet-50 border-b border-violet-100">
-                    <td colSpan={12} className="px-5 py-3">
+                    <td colSpan={13} className="px-5 py-3">
                       <div className="flex items-start gap-4">
                         <div className="flex items-center gap-1.5 flex-shrink-0 mt-0.5">
                           <i className="ri-sparkling-2-line text-violet-500 text-sm"></i>
@@ -625,7 +681,7 @@ export default function AdminBlogTable({
 
                 {seoStatus?.status === "error" && (
                   <tr key={`${post.id}-seo-error`} className="bg-red-50 border-b border-red-100">
-                    <td colSpan={12} className="px-5 py-2">
+                    <td colSpan={13} className="px-5 py-2">
                       <div className="flex items-center gap-3">
                         <i className="ri-error-warning-line text-red-400 text-sm flex-shrink-0"></i>
                         <p className="text-[12px] text-red-600 flex-1">{seoStatus.error}</p>
