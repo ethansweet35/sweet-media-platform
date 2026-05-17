@@ -65,6 +65,7 @@ export { default as AdminIndexingStatusPage } from "./views/AdminIndexingStatusP
 export { default as AdminTrackedPagesPage } from "./views/AdminTrackedPagesPage";
 export { default as AdminLoginPage } from "./views/AdminLoginPage";
 export { default as AdminDashboardPage } from "./views/AdminDashboardPage";
+export { default as AdminSearchConsolePage } from "./views/AdminSearchConsolePage";
 export { default as AdminBlogsPage } from "./views/AdminBlogsPage";
 export { default as AdminBlogWriterPage } from "./views/AdminBlogWriterPage";
 export { default as AdminBlogEditPage } from "./views/AdminBlogEditPage";

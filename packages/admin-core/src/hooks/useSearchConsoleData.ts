@@ -16,14 +16,18 @@ export type GscMetrics = {
  * Paths are normalised to lower-case route paths (e.g. "/about") by stripping
  * the site origin from the full URL returned by the GSC API.
  *
- * Requires the app to have `/api/admin/search-console` route which uses the
- * GOOGLE_INDEXING_CLIENT_EMAIL + GOOGLE_INDEXING_PRIVATE_KEY env vars and the
- * NEXT_PUBLIC_SITE_URL as the GSC property.
+ * Authentication priority:
+ *   1. OAuth refresh token stored in system_settings (connected via /admin/search-console)
+ *   2. GOOGLE_INDEXING_CLIENT_EMAIL service account (env var fallback)
+ *
+ * When neither is configured the API returns { needs_oauth: true } and this
+ * hook surfaces that as `needsOAuth: true` so the UI can show a connect CTA.
  */
 export function useSearchConsoleData(days = 28) {
   const [data, setData] = useState<Record<string, GscMetrics>>({});
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [needsOAuth, setNeedsOAuth] = useState(false);
   const fetchedRef = useRef(false);
 
   useEffect(() => {
@@ -35,20 +39,27 @@ export function useSearchConsoleData(days = 28) {
     async function load() {
       setLoading(true);
       setError(null);
+      setNeedsOAuth(false);
       try {
         const res = await fetch(`/api/admin/search-console?days=${days}`);
-        if (!res.ok) {
-          const json = (await res.json().catch(() => ({}))) as { error?: string };
-          throw new Error(json.error ?? `HTTP ${res.status}`);
-        }
 
-        const json = (await res.json()) as {
-          rows: { page: string; clicks: number; impressions: number; ctr: number; position: number }[];
+        const json = (await res.json().catch(() => ({}))) as {
+          rows?: { page: string; clicks: number; impressions: number; ctr: number; position: number }[];
+          needs_oauth?: boolean;
+          error?: string;
         };
 
         if (cancelled) return;
 
-        // Build path → metrics map, stripping origin prefix
+        if (json.needs_oauth) {
+          setNeedsOAuth(true);
+          return;
+        }
+
+        if (!res.ok) {
+          throw new Error(json.error ?? `HTTP ${res.status}`);
+        }
+
         const map: Record<string, GscMetrics> = {};
         for (const row of json.rows ?? []) {
           let path = row.page;
@@ -77,5 +88,5 @@ export function useSearchConsoleData(days = 28) {
     return () => { cancelled = true; };
   }, [days]);
 
-  return { data, loading, error };
+  return { data, loading, error, needsOAuth };
 }

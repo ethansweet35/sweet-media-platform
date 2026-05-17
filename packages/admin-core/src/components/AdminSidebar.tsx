@@ -36,6 +36,7 @@ const seoItems: NavItem[] = [
   { href: "/admin/link-health", label: "Link Health", icon: "ri-shield-check-line" },
   { href: "/admin/indexing-status", label: "Indexing Status", icon: "ri-radar-line" },
   { href: "/admin/sitemap", label: "Sitemap", icon: "ri-map-2-line" },
+  { href: "/admin/search-console", label: "Search Console", icon: "ri-google-line" },
 ];
 
 const settingsItems: NavItem[] = [

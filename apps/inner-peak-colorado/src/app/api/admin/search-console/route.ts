@@ -1,8 +1,7 @@
 import { NextResponse } from "next/server";
+import { createClient } from "@supabase/supabase-js";
 
-// ─── Google service-account JWT auth ─────────────────────────────────────────
-// Mirrors the approach used in the `inspect-google-indexing` Edge Function
-// (Web Crypto API — available in Node.js 18+).
+// ─── Google auth helpers ──────────────────────────────────────────────────────
 
 function base64url(buf: ArrayBuffer): string {
   const bytes = new Uint8Array(buf);
@@ -31,7 +30,8 @@ async function importPrivateKey(pem: string): Promise<CryptoKey> {
   );
 }
 
-async function getGoogleAccessToken(clientEmail: string, privateKey: string): Promise<string> {
+/** Returns an access token using a Google service account JWT. */
+async function getServiceAccountToken(clientEmail: string, privateKey: string): Promise<string> {
   const now = Math.floor(Date.now() / 1000);
   const header = encodeB64url(JSON.stringify({ alg: "RS256", typ: "JWT" }));
   const claim = encodeB64url(
@@ -59,14 +59,43 @@ async function getGoogleAccessToken(clientEmail: string, privateKey: string): Pr
 
   if (!tokenRes.ok) {
     const err = await tokenRes.text();
-    throw new Error(`Google token exchange failed (${tokenRes.status}): ${err}`);
+    throw new Error(`Service account token exchange failed (${tokenRes.status}): ${err}`);
   }
 
   const { access_token } = (await tokenRes.json()) as { access_token: string };
   return access_token;
 }
 
-// ─── Site URL candidates (URL-prefix and domain property) ────────────────────
+/** Returns an access token using a stored OAuth refresh token. */
+async function getOAuthAccessToken(refreshToken: string): Promise<string> {
+  const clientId = process.env.GOOGLE_OAUTH_CLIENT_ID;
+  const clientSecret = process.env.GOOGLE_OAUTH_CLIENT_SECRET;
+
+  if (!clientId || !clientSecret) {
+    throw new Error("GOOGLE_OAUTH_CLIENT_ID and GOOGLE_OAUTH_CLIENT_SECRET are not set.");
+  }
+
+  const tokenRes = await fetch("https://oauth2.googleapis.com/token", {
+    method: "POST",
+    headers: { "Content-Type": "application/x-www-form-urlencoded" },
+    body: new URLSearchParams({
+      client_id: clientId,
+      client_secret: clientSecret,
+      refresh_token: refreshToken,
+      grant_type: "refresh_token",
+    }),
+  });
+
+  if (!tokenRes.ok) {
+    const err = await tokenRes.text();
+    throw new Error(`OAuth token refresh failed (${tokenRes.status}): ${err}`);
+  }
+
+  const { access_token } = (await tokenRes.json()) as { access_token: string };
+  return access_token;
+}
+
+// ─── Site URL candidates ──────────────────────────────────────────────────────
 
 function buildSiteCandidates(siteUrl: string): string[] {
   const candidates: string[] = [];
@@ -98,26 +127,52 @@ type GscRow = {
 };
 
 type CacheEntry = { data: GscRow[]; fetchedAt: number };
-
 const cache = new Map<string, CacheEntry>();
-const CACHE_TTL_MS = 60 * 60 * 1000; // 1 hour
+const CACHE_TTL_MS = 60 * 60 * 1000;
+
+// ─── Core query ───────────────────────────────────────────────────────────────
+
+async function queryGsc(accessToken: string, siteUrl: string, startDate: string, endDate: string): Promise<GscRow[] | null> {
+  const candidates = buildSiteCandidates(siteUrl);
+  for (const candidate of candidates) {
+    const res = await fetch(
+      `https://searchconsole.googleapis.com/webmasters/v3/sites/${encodeURIComponent(candidate)}/searchAnalytics/query`,
+      {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          startDate,
+          endDate,
+          dimensions: ["page"],
+          rowLimit: 5000,
+          dataState: "final",
+        }),
+      },
+    );
+
+    if (!res.ok) continue;
+
+    const json = (await res.json()) as {
+      rows?: { keys: string[]; clicks: number; impressions: number; ctr: number; position: number }[];
+    };
+
+    return (json.rows ?? []).map((r) => ({
+      page: r.keys[0] ?? "",
+      clicks: r.clicks,
+      impressions: r.impressions,
+      ctr: r.ctr,
+      position: r.position,
+    }));
+  }
+  return null;
+}
 
 // ─── Route handler ────────────────────────────────────────────────────────────
 
 export async function GET(request: Request) {
-  const clientEmail = process.env.GOOGLE_INDEXING_CLIENT_EMAIL;
-  const privateKey = process.env.GOOGLE_INDEXING_PRIVATE_KEY;
-
-  if (!clientEmail || !privateKey) {
-    return NextResponse.json(
-      {
-        error:
-          "GOOGLE_INDEXING_CLIENT_EMAIL and GOOGLE_INDEXING_PRIVATE_KEY must be set as environment variables.",
-      },
-      { status: 500 },
-    );
-  }
-
   const rawSiteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "";
   if (!rawSiteUrl) {
     return NextResponse.json({ error: "NEXT_PUBLIC_SITE_URL is not set." }, { status: 500 });
@@ -132,72 +187,71 @@ export async function GET(request: Request) {
     return NextResponse.json({ rows: cached.data, cached: true });
   }
 
-  // Date range
   const endDate = new Date();
-  endDate.setDate(endDate.getDate() - 3); // GSC has ~3-day lag
+  endDate.setDate(endDate.getDate() - 3);
   const startDate = new Date(endDate);
   startDate.setDate(startDate.getDate() - days);
-
   const fmt = (d: Date) => d.toISOString().slice(0, 10);
 
-  try {
-    const accessToken = await getGoogleAccessToken(clientEmail, privateKey);
-    const candidates = buildSiteCandidates(rawSiteUrl);
+  // ── 1. Try OAuth refresh token from system_settings ────────────────────────
+  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
 
-    let rows: GscRow[] = [];
-    let succeeded = false;
+  if (supabaseUrl && serviceKey) {
+    try {
+      const admin = createClient(supabaseUrl, serviceKey, {
+        auth: { persistSession: false, autoRefreshToken: false },
+      });
+      const { data } = await admin
+        .from("system_settings")
+        .select("value")
+        .eq("key", "google_search_console_refresh_token")
+        .maybeSingle();
 
-    for (const candidate of candidates) {
-      const apiRes = await fetch(
-        `https://searchconsole.googleapis.com/webmasters/v3/sites/${encodeURIComponent(candidate)}/searchAnalytics/query`,
-        {
-          method: "POST",
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-            "Content-Type": "application/json",
+      const refreshToken = typeof data?.value === "string" ? data.value : null;
+
+      if (refreshToken) {
+        const accessToken = await getOAuthAccessToken(refreshToken);
+        const rows = await queryGsc(accessToken, rawSiteUrl, fmt(startDate), fmt(endDate));
+
+        if (rows !== null) {
+          cache.set(cacheKey, { data: rows, fetchedAt: Date.now() });
+          return NextResponse.json({ rows, auth_method: "oauth" });
+        }
+
+        return NextResponse.json(
+          {
+            error: "Search Console returned an error for all site URL variants.",
+            needs_oauth: false,
+            auth_method: "oauth",
           },
-          body: JSON.stringify({
-            startDate: fmt(startDate),
-            endDate: fmt(endDate),
-            dimensions: ["page"],
-            rowLimit: 5000,
-            dataState: "final",
-          }),
-        },
-      );
-
-      if (!apiRes.ok) continue;
-
-      const json = (await apiRes.json()) as {
-        rows?: { keys: string[]; clicks: number; impressions: number; ctr: number; position: number }[];
-      };
-
-      rows = (json.rows ?? []).map((r) => ({
-        page: r.keys[0] ?? "",
-        clicks: r.clicks,
-        impressions: r.impressions,
-        ctr: r.ctr,
-        position: r.position,
-      }));
-
-      succeeded = true;
-      break;
+          { status: 502 },
+        );
+      }
+    } catch (err) {
+      // OAuth token may be expired/revoked — fall through to service account
+      console.error("GSC OAuth attempt failed:", err);
     }
-
-    if (!succeeded) {
-      return NextResponse.json(
-        {
-          error:
-            "Search Console returned an error for all site URL variants. Make sure the service account has been granted access to the property in Google Search Console.",
-          triedSiteUrls: candidates,
-        },
-        { status: 502 },
-      );
-    }
-
-    cache.set(cacheKey, { data: rows, fetchedAt: Date.now() });
-    return NextResponse.json({ rows });
-  } catch (err) {
-    return NextResponse.json({ error: String(err) }, { status: 500 });
   }
+
+  // ── 2. Fall back to service account ───────────────────────────────────────
+  const clientEmail = process.env.GOOGLE_INDEXING_CLIENT_EMAIL;
+  const privateKey = process.env.GOOGLE_INDEXING_PRIVATE_KEY;
+
+  if (clientEmail && privateKey) {
+    try {
+      const accessToken = await getServiceAccountToken(clientEmail, privateKey);
+      const rows = await queryGsc(accessToken, rawSiteUrl, fmt(startDate), fmt(endDate));
+
+      if (rows !== null) {
+        cache.set(cacheKey, { data: rows, fetchedAt: Date.now() });
+        return NextResponse.json({ rows, auth_method: "service_account" });
+      }
+    } catch (err) {
+      console.error("GSC service account attempt failed:", err);
+    }
+  }
+
+  // ── 3. No auth configured ─────────────────────────────────────────────────
+  return NextResponse.json({ rows: [], needs_oauth: true }, { status: 200 });
 }

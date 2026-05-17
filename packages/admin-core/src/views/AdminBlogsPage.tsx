@@ -108,7 +108,7 @@ export default function AdminBlogDashboard() {
     updatePost,
     refetch,
   } = useAdminBlogPosts();
-  const { data: gscData, loading: gscLoading } = useSearchConsoleData();
+  const { data: gscData, loading: gscLoading, needsOAuth: gscNeedsOAuth } = useSearchConsoleData();
 
   const [searchQuery, setSearchQuery] = useState("");
   const [filterStatus, setFilterStatus] = useState<FilterStatus>("all");
@@ -779,6 +779,27 @@ export default function AdminBlogDashboard() {
           <div className="bg-red-50 border border-red-200 rounded-2xl p-6 text-center">
             <i className="ri-error-warning-line text-2xl text-red-400 mb-2 block"></i>
             <p className="text-sm text-red-600">{error}</p>
+          </div>
+        )}
+
+        {/* GSC connect CTA */}
+        {gscNeedsOAuth && !gscLoading && (
+          <div className="mb-4 flex items-center gap-4 rounded-2xl border border-neutral-200 bg-white px-5 py-4 shadow-[0_1px_8px_rgba(0,0,0,0.04)]">
+            <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-neutral-100">
+              <i className="ri-google-line text-base text-neutral-500" />
+            </div>
+            <div className="flex-1 min-w-0">
+              <p className="text-sm font-semibold text-neutral-800">Connect Google Search Console</p>
+              <p className="text-[12px] text-neutral-500">Show live clicks, impressions, and ranking for each post.</p>
+            </div>
+            <a
+              href="/admin/search-console"
+              className="shrink-0 inline-flex items-center gap-1.5 rounded-xl px-4 py-2 text-[12px] font-semibold text-white shadow-sm transition-opacity hover:opacity-90"
+              style={{ backgroundColor: ADMIN_OCEAN }}
+            >
+              <i className="ri-plug-line text-xs" />
+              Connect
+            </a>
           </div>
         )}
 
