@@ -3,8 +3,7 @@ import { Playfair_Display, Montserrat } from "next/font/google";
 import Script from "next/script";
 import "./globals.css";
 import Layout from "@/components/feature/Layout";
-import { SpeedInsights } from "@vercel/speed-insights/next";
-import { Analytics } from "@vercel/analytics/next";
+import { AnalyticsWrapper } from "@sweetmedia/admin-core";
 
 /** Platform standard: Remix Icon via CDN (same as inner-peak-colorado / sweet-media marketing patterns). */
 const REMIXICON_CSS =
@@ -85,6 +84,7 @@ export default function RootLayout({
         />
         <Script id="google-analytics" strategy="afterInteractive">
           {`
+            window['ga-disable-${GA_MEASUREMENT_ID}'] = document.cookie.split(';').some(function(c){ return c.trim() === 'sm_internal=1'; });
             window.dataLayer = window.dataLayer || [];
             function gtag(){dataLayer.push(arguments);}
             gtag('js', new Date());
@@ -94,8 +94,7 @@ export default function RootLayout({
       </head>
       <body className={`${playfair.variable} ${montserrat.variable} antialiased`}>
         <Layout>{children}</Layout>
-        <Analytics />
-        <SpeedInsights />
+        <AnalyticsWrapper />
       </body>
     </html>
   );

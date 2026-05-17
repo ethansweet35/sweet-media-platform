@@ -1,8 +1,7 @@
 import type { Metadata } from "next";
 import { Cormorant_Garamond, Outfit } from "next/font/google";
 import Script from "next/script";
-import { SpeedInsights } from "@vercel/speed-insights/next";
-import { Analytics } from "@vercel/analytics/next";
+import { AnalyticsWrapper } from "@sweetmedia/admin-core";
 import "./globals.css";
 
 const GA_MEASUREMENT_ID = "G-PRMFZ8JSHE";
@@ -54,6 +53,7 @@ export default function RootLayout({
         />
         <Script id="google-analytics" strategy="afterInteractive">
           {`
+            window['ga-disable-${GA_MEASUREMENT_ID}'] = document.cookie.split(';').some(function(c){ return c.trim() === 'sm_internal=1'; });
             window.dataLayer = window.dataLayer || [];
             function gtag(){dataLayer.push(arguments);}
             gtag('js', new Date());
@@ -63,8 +63,7 @@ export default function RootLayout({
       </head>
       <body className="min-h-full flex flex-col">
         {children}
-        <Analytics />
-        <SpeedInsights />
+        <AnalyticsWrapper />
       </body>
     </html>
   );

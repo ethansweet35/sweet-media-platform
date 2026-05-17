@@ -7,6 +7,7 @@ export * from "./types/knowledge-base";
 export * from "./types/tracked-page";
 export * from "./types/semrush";
 
+export { AnalyticsWrapper } from "./components/AnalyticsWrapper";
 export { default as AdminPageHeader } from "./components/AdminPageHeader";
 export { default as OptimizationStatusBanner } from "./components/OptimizationStatusBanner";
 export { default as ContentEditorCell, type ContentEditorCellRow } from "./components/ContentEditorCell";

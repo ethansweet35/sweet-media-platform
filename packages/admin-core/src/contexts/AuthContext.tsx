@@ -87,6 +87,16 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     };
   }, [checkAdmin]);
 
+  // Keep the sm_internal cookie in sync with admin status so analytics
+  // can suppress tracking for internal team members without a static IP.
+  useEffect(() => {
+    if (isAdmin) {
+      document.cookie = "sm_internal=1; max-age=31536000; path=/; SameSite=Strict";
+    } else if (!isLoading) {
+      document.cookie = "sm_internal=; max-age=0; path=/; SameSite=Strict";
+    }
+  }, [isAdmin, isLoading]);
+
   const signIn = async (email: string, password: string) => {
     const { error } = await supabase.auth.signInWithPassword({ email, password });
     if (error) return { error: error.message };

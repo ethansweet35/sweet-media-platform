@@ -3,8 +3,7 @@ import { Cormorant_Garamond, Montserrat } from "next/font/google";
 import Script from "next/script";
 import "./globals.css";
 import Layout from "@/components/feature/Layout";
-import { SpeedInsights } from "@vercel/speed-insights/next";
-import { Analytics } from "@vercel/analytics/next";
+import { AnalyticsWrapper } from "@sweetmedia/admin-core";
 
 /** Platform standard: Remix Icon via CDN */
 const REMIXICON_CSS =
@@ -80,8 +79,7 @@ export default function RootLayout({
       </head>
       <body className={`${cormorant.variable} ${montserrat.variable} antialiased`}>
         <Layout>{children}</Layout>
-        <Analytics />
-        <SpeedInsights />
+        <AnalyticsWrapper />
       </body>
     </html>
   );
