@@ -251,10 +251,10 @@ export default function AddictionPage() {
             </h2>
             <div className="flex flex-col gap-5">
               <p className="text-[15px] font-light leading-relaxed text-ink/65">
-                <AutoLinkedText>{"Addiction is a chronic brain disorder characterized by compulsive substance use despite harmful consequences. It is not a moral failing, a lack of willpower, or a character deficiency — it is a neurological condition that produces lasting changes in the brain&apos;s reward, motivation, and executive function circuits."}</AutoLinkedText>
+                <AutoLinkedText>{"Addiction is a chronic brain disorder characterized by compulsive substance use despite harmful consequences. It is not a moral failing, a lack of willpower, or a character deficiency — it is a neurological condition that produces lasting changes in the brain's reward, motivation, and executive function circuits."}</AutoLinkedText>
               </p>
               <p className="text-[15px] font-light leading-relaxed text-ink/65">
-                <AutoLinkedText>{"Repeated substance use progressively hijacks the brain&apos;s dopamine system — the same system responsible for motivation, pleasure, and decision-making. Over time, the brain reorganizes itself around the substance: natural rewards become less compelling, withdrawal becomes intensely aversive, and the neural circuits responsible for impulse control are progressively compromised."}</AutoLinkedText>
+                <AutoLinkedText>{"Repeated substance use progressively hijacks the brain's dopamine system — the same system responsible for motivation, pleasure, and decision-making. Over time, the brain reorganizes itself around the substance: natural rewards become less compelling, withdrawal becomes intensely aversive, and the neural circuits responsible for impulse control are progressively compromised."}</AutoLinkedText>
               </p>
               <p className="text-[15px] font-light leading-relaxed text-ink/65">
                 <AutoLinkedText>{"This is why willpower alone fails most people with addiction — the very brain systems responsible for self-regulation are the ones that have been most affected. Effective treatment works by providing clinical support during the neurological recovery process, building new behavioral patterns, and addressing the underlying drivers that predisposed someone to addiction in the first place."}</AutoLinkedText>
@@ -265,7 +265,7 @@ export default function AddictionPage() {
             </div>
             <blockquote className="mt-auto pt-8 border-l-2 border-accent pl-6">
               <p className="text-[17px] font-[family-name:var(--font-display)] font-normal text-ink/70 leading-snug italic">
-                <AutoLinkedText>{"&ldquo;Addiction is not a failure of character. It is a failure of neural circuitry — one that responds remarkably well to the right clinical intervention.&rdquo;"}</AutoLinkedText>
+                <AutoLinkedText>{"\"Addiction is not a failure of character. It is a failure of neural circuitry — one that responds remarkably well to the right clinical intervention.\""}</AutoLinkedText>
               </p>
               <p className="mt-3 text-[11px] font-medium uppercase tracking-[0.2em] text-ink/40"><AutoLinkedText>{"Rize OC Medical Director"}</AutoLinkedText></p>
             </blockquote>
@@ -320,7 +320,7 @@ export default function AddictionPage() {
               Substances We <em className="italic text-white/60">Treat</em>
             </h2>
             <p className="text-[15px] font-light text-white/65 max-w-2xl mx-auto">
-              <AutoLinkedText>{"Our clinical team is experienced in treating all major substance use disorders — including complex polysubstance presentations. If you don&apos;t see your substance listed, contact us."}</AutoLinkedText>
+              <AutoLinkedText>{"Our clinical team is experienced in treating all major substance use disorders — including complex polysubstance presentations. If you don't see your substance listed, contact us."}</AutoLinkedText>
             </p>
           </div>
 
@@ -387,7 +387,7 @@ export default function AddictionPage() {
             </h2>
             <div className="flex flex-col gap-5">
               <p className="text-[15px] font-light leading-relaxed text-ink/65">
-                <AutoLinkedText>{"The majority of treatment programs still separate addiction and mental health treatment — handling them sequentially or in different facilities. Rize OC&apos;s integrated model recognizes that substance use disorders and mental health conditions are almost always intertwined, and that treating them separately produces significantly worse outcomes."}</AutoLinkedText>
+                <AutoLinkedText>{"The majority of treatment programs still separate addiction and mental health treatment — handling them sequentially or in different facilities. Rize OC's integrated model recognizes that substance use disorders and mental health conditions are almost always intertwined, and that treating them separately produces significantly worse outcomes."}</AutoLinkedText>
               </p>
               <p className="text-[15px] font-light leading-relaxed text-ink/65">
                 <AutoLinkedText>{"Our embedded psychiatric team works alongside addiction specialists from day one — assessing, diagnosing, and treating co-occurring conditions in real time. Medication management, trauma therapy, and evidence-based addiction treatment are delivered as a unified clinical experience, not a series of uncoordinated appointments."}</AutoLinkedText>
@@ -483,7 +483,7 @@ export default function AddictionPage() {
               Frequently Asked Questions
             </h2>
             <p className="text-[15px] font-light leading-relaxed text-ink/60 mb-8">
-              <AutoLinkedText>{"Our admissions team is available 24/7 to answer anything you don&apos;t find here."}</AutoLinkedText>
+              <AutoLinkedText>{"Our admissions team is available 24/7 to answer anything you don't find here."}</AutoLinkedText>
             </p>
             <a href="tel:9494612620" className="flex items-center gap-2 text-accent text-[14px] font-medium hover:text-ink transition-colors">
               <i className="ri-phone-line" /> (949)-461-2620

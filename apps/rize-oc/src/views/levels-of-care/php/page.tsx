@@ -281,7 +281,7 @@ export default function PhpPage() {
 
             <blockquote className="mt-auto pt-8 border-l-2 border-accent pl-6">
               <p className="text-[17px] font-[family-name:var(--font-display)] font-normal text-ink/70 leading-snug italic">
-                <AutoLinkedText>{"&ldquo;PHP is not a step down from residential — for dual-diagnosis clients, it is often where the real work begins. The combination of intensive daytime programming and real-world evening application is uniquely powerful.&rdquo;"}</AutoLinkedText>
+                <AutoLinkedText>{"\"PHP is not a step down from residential — for dual-diagnosis clients, it is often where the real work begins. The combination of intensive daytime programming and real-world evening application is uniquely powerful.\""}</AutoLinkedText>
               </p>
               <p className="mt-3 text-[11px] font-medium uppercase tracking-[0.2em] text-ink/40">
                 <AutoLinkedText>{"Rize OC Clinical Director"}</AutoLinkedText>
@@ -481,7 +481,7 @@ export default function PhpPage() {
               Is PHP Right for You?
             </h2>
             <p className="text-[15px] font-light leading-relaxed text-ink/65 mb-8">
-              <AutoLinkedText>{"PHP is appropriate for individuals who are medically stable but require intensive daily clinical support. If you&apos;re unsure which level of care is right for you, our admissions team will conduct a thorough assessment and make an honest recommendation."}</AutoLinkedText>
+              <AutoLinkedText>{"PHP is appropriate for individuals who are medically stable but require intensive daily clinical support. If you're unsure which level of care is right for you, our admissions team will conduct a thorough assessment and make an honest recommendation."}</AutoLinkedText>
             </p>
             <Button href="tel:9494612620" variant="ink" size="sm">
               Speak With Admissions
@@ -562,7 +562,7 @@ export default function PhpPage() {
               Frequently Asked Questions
             </h2>
             <p className="text-[15px] font-light leading-relaxed text-ink/60 mb-8">
-              <AutoLinkedText>{"Questions are a natural part of this process. Our admissions team is available to answer anything you don&apos;t find here."}</AutoLinkedText>
+              <AutoLinkedText>{"Questions are a natural part of this process. Our admissions team is available to answer anything you don't find here."}</AutoLinkedText>
             </p>
             <a href="tel:9494612620" className="flex items-center gap-2 text-accent text-[14px] font-medium hover:text-ink transition-colors">
               <i className="ri-phone-line" /> (949)-461-2620

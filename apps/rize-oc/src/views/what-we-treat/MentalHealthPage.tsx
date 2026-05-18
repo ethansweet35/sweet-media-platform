@@ -271,7 +271,7 @@ export default function MentalHealthPage() {
             </div>
             <blockquote className="mt-auto pt-8 border-l-2 border-accent pl-6">
               <p className="text-[17px] font-[family-name:var(--font-display)] font-normal text-ink/70 leading-snug italic">
-                <AutoLinkedText>{"&ldquo;The most common reason people don&apos;t recover from mental health conditions is under-treatment — not enough intensity, not enough integration, not enough time. Our job is to provide what actually works.&rdquo;"}</AutoLinkedText>
+                <AutoLinkedText>{"\"The most common reason people don't recover from mental health conditions is under-treatment — not enough intensity, not enough integration, not enough time. Our job is to provide what actually works.\""}</AutoLinkedText>
               </p>
               <p className="mt-3 text-[11px] font-medium uppercase tracking-[0.2em] text-ink/40"><AutoLinkedText>{"Rize OC Clinical Director"}</AutoLinkedText></p>
             </blockquote>
@@ -397,7 +397,7 @@ export default function MentalHealthPage() {
             </h2>
             <div className="flex flex-col gap-5">
               <p className="text-[15px] font-light leading-relaxed text-ink/65">
-                <AutoLinkedText>{"The research on integrated dual-diagnosis treatment is unambiguous: treating co-occurring mental health and substance use disorders simultaneously produces dramatically better outcomes than treating them sequentially or in separate programs. The conditions are neurologically intertwined — addressing one while ignoring the other leaves the untreated condition as an ongoing driver of the other&apos;s recurrence."}</AutoLinkedText>
+                <AutoLinkedText>{"The research on integrated dual-diagnosis treatment is unambiguous: treating co-occurring mental health and substance use disorders simultaneously produces dramatically better outcomes than treating them sequentially or in separate programs. The conditions are neurologically intertwined — addressing one while ignoring the other leaves the untreated condition as an ongoing driver of the other's recurrence."}</AutoLinkedText>
               </p>
               <p className="text-[15px] font-light leading-relaxed text-ink/65">
                 <AutoLinkedText>{"Psychiatric intensity matters. Clients with significant mental health conditions — particularly those with mood disorders, trauma histories, or psychotic features — require daily psychiatric contact, not a weekly check-in. Our PHP level provides this intensity, with psychiatrists embedded in the clinical team and available throughout the programming day."}</AutoLinkedText>
@@ -493,7 +493,7 @@ export default function MentalHealthPage() {
               Frequently Asked Questions
             </h2>
             <p className="text-[15px] font-light leading-relaxed text-ink/60 mb-8">
-              <AutoLinkedText>{"Our admissions team is available 24/7 to answer anything you don&apos;t find here."}</AutoLinkedText>
+              <AutoLinkedText>{"Our admissions team is available 24/7 to answer anything you don't find here."}</AutoLinkedText>
             </p>
             <a href="tel:9494612620" className="flex items-center gap-2 text-accent text-[14px] font-medium hover:text-ink transition-colors">
               <i className="ri-phone-line" /> (949)-461-2620

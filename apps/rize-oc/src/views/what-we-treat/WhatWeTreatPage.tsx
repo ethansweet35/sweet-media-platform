@@ -272,10 +272,10 @@ export default function WhatWeTreatPage() {
             </h2>
             <div className="flex flex-col gap-5">
               <p className="text-[15px] font-light leading-relaxed text-ink/65">
-                <AutoLinkedText>{"More than 70% of individuals with a substance use disorder also have a diagnosable mental health condition. Depression, anxiety, trauma, bipolar disorder, ADHD — these conditions don&apos;t exist alongside addiction. They drive it, sustain it, and are worsened by it."}</AutoLinkedText>
+                <AutoLinkedText>{"More than 70% of individuals with a substance use disorder also have a diagnosable mental health condition. Depression, anxiety, trauma, bipolar disorder, ADHD — these conditions don't exist alongside addiction. They drive it, sustain it, and are worsened by it."}</AutoLinkedText>
               </p>
               <p className="text-[15px] font-light leading-relaxed text-ink/65">
-                <AutoLinkedText>{"Treating addiction without addressing mental health, or treating mental health without addressing substance use, is a clinically outdated approach that produces predictably poor outcomes. Rize OC&apos;s integrated dual-diagnosis model treats both conditions simultaneously — as the intertwined clinical picture they are."}</AutoLinkedText>
+                <AutoLinkedText>{"Treating addiction without addressing mental health, or treating mental health without addressing substance use, is a clinically outdated approach that produces predictably poor outcomes. Rize OC's integrated dual-diagnosis model treats both conditions simultaneously — as the intertwined clinical picture they are."}</AutoLinkedText>
               </p>
               <p className="text-[15px] font-light leading-relaxed text-ink/65">
                 <AutoLinkedText>{"Our board-certified psychiatrists, EMDR-certified therapists, and addiction medicine specialists work as a unified clinical team — not as separate consultants exchanging notes. The result is treatment that addresses the complete picture, not just its most visible surface."}</AutoLinkedText>

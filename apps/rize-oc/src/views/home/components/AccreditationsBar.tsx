@@ -13,7 +13,7 @@ const accreditations = [
 export default function AccreditationsBar() {
   return (
     <div className="bg-ink">
-      <SectionWrapper py="py-[56px]" className="flex flex-col items-center gap-6">
+      <SectionWrapper className="flex flex-col items-center gap-6">
         <Eyebrow colorClass="text-accent">Uncompromising Clinical Standards</Eyebrow>
         <div className="flex flex-wrap items-center justify-center gap-10 lg:gap-16">
           {accreditations.map(({ logo, label, width, height }) => (

@@ -137,7 +137,7 @@ export default function AboutPage() {
               <em className="italic text-white/60">Happens.</em>
             </h1>
             <p className="text-[17px] font-light leading-relaxed text-white/85 max-w-[520px] mb-10">
-              <AutoLinkedTextClient>{"Orange County&apos;s premier destination for evidence-based addiction and mental health treatment — where cutting-edge clinical care meets the serenity of California&apos;s coast."}</AutoLinkedTextClient>
+              <AutoLinkedTextClient>{"Orange County's premier destination for evidence-based addiction and mental health treatment — where cutting-edge clinical care meets the serenity of California's coast."}</AutoLinkedTextClient>
             </p>
             <div className="flex flex-wrap gap-3">
               <Button href="/admissions" variant="accent" size="md">
@@ -175,7 +175,7 @@ export default function AboutPage() {
                 className="font-[family-name:var(--font-display)] font-normal text-ink leading-snug"
                 style={{ fontSize: "clamp(26px, 2.8vw, 40px)" }}
               >
-                <AutoLinkedTextClient>{"&ldquo;A place where cutting-edge medical care meets the serenity of California&apos;s coast.&rdquo;"}</AutoLinkedTextClient>
+                <AutoLinkedTextClient>{"\"A place where cutting-edge medical care meets the serenity of California's coast.\""}</AutoLinkedTextClient>
               </p>
               <p className="mt-4 text-[11px] font-semibold uppercase tracking-[0.22em] text-accent">
                 <AutoLinkedTextClient>{"— Rize Recovery Founders"}</AutoLinkedTextClient>
@@ -217,10 +217,10 @@ export default function AboutPage() {
               <AutoLinkedTextClient>{"Rize Recovery was founded by a team of addiction medicine specialists and recovery advocates who recognized a critical gap in the treatment landscape: the absence of truly premium, evidence-based care that treats the whole person — mind, body, and spirit."}</AutoLinkedTextClient>
             </p>
             <p className="text-[15px] leading-[1.85] text-ink/70">
-              <AutoLinkedTextClient>{"Our founders drew from their own experiences in recovery and decades of clinical practice to create a treatment center that would offer more than traditional rehab. They envisioned a place where cutting-edge medical care meets the serenity of California&apos;s coast, where evidence-based therapies are delivered in an environment of genuine luxury and respect."}</AutoLinkedTextClient>
+              <AutoLinkedTextClient>{"Our founders drew from their own experiences in recovery and decades of clinical practice to create a treatment center that would offer more than traditional rehab. They envisioned a place where cutting-edge medical care meets the serenity of California's coast, where evidence-based therapies are delivered in an environment of genuine luxury and respect."}</AutoLinkedTextClient>
             </p>
             <p className="text-[15px] leading-[1.85] text-ink/70">
-              <AutoLinkedTextClient>{"Located in Orange County, California, Rize opened its doors with a singular mission: to provide treatment that honors the dignity of every individual while delivering measurable, lasting results. We understand that seeking help is an act of courage — and we&apos;ve created an environment where that courage is met with compassion, expertise, and unwavering support."}</AutoLinkedTextClient>
+              <AutoLinkedTextClient>{"Located in Orange County, California, Rize opened its doors with a singular mission: to provide treatment that honors the dignity of every individual while delivering measurable, lasting results. We understand that seeking help is an act of courage — and we've created an environment where that courage is met with compassion, expertise, and unwavering support."}</AutoLinkedTextClient>
             </p>
             <p className="text-[15px] leading-[1.85] text-ink/70">
               Today, Rize stands as Orange County&apos;s premier destination for individuals and families seeking transformative recovery care — a place where healing happens not despite luxury, but <em>because of it</em>.

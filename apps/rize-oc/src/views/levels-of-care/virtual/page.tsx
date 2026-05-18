@@ -218,7 +218,7 @@ export default function VirtualPage() {
             </h2>
             <div className="flex flex-col gap-5">
               <p className="text-[15px] font-light leading-relaxed text-ink/65">
-                <AutoLinkedText>{"Virtual care is not a compromise — it is an expansion of access. Rize OC&apos;s Virtual Outpatient Program brings our full clinical team, evidence-based curriculum, and community-oriented approach directly to your home, office, or wherever life takes you in California."}</AutoLinkedText>
+                <AutoLinkedText>{"Virtual care is not a compromise — it is an expansion of access. Rize OC's Virtual Outpatient Program brings our full clinical team, evidence-based curriculum, and community-oriented approach directly to your home, office, or wherever life takes you in California."}</AutoLinkedText>
               </p>
               <p className="text-[15px] font-light leading-relaxed text-ink/65">
                 <AutoLinkedText>{"Via our secure, HIPAA-compliant telehealth platform, clients participate in live individual therapy, structured group sessions, and psychiatric check-ins with the same licensed clinicians who serve our in-person clients — with no reduction in clinical quality, engagement, or depth."}</AutoLinkedText>
@@ -233,7 +233,7 @@ export default function VirtualPage() {
 
             <blockquote className="mt-auto pt-8 border-l-2 border-accent pl-6">
               <p className="text-[17px] font-[family-name:var(--font-display)] font-normal text-ink/70 leading-snug italic">
-                <AutoLinkedText>{"&ldquo;The research on virtual behavioral health outcomes has been decisive. Distance is no longer a barrier to exceptional care — and for many clients, the comfort and privacy of home actually facilitates deeper therapeutic engagement.&rdquo;"}</AutoLinkedText>
+                <AutoLinkedText>{"\"The research on virtual behavioral health outcomes has been decisive. Distance is no longer a barrier to exceptional care — and for many clients, the comfort and privacy of home actually facilitates deeper therapeutic engagement.\""}</AutoLinkedText>
               </p>
               <p className="mt-3 text-[11px] font-medium uppercase tracking-[0.2em] text-ink/40">
                 <AutoLinkedText>{"Rize OC Clinical Director"}</AutoLinkedText>
@@ -378,7 +378,7 @@ export default function VirtualPage() {
                 <AutoLinkedText>{"For many clients, virtual care produces superior engagement — the elimination of transportation burden, the privacy of a home environment, and the scheduling flexibility that prevents the treatment dropout that frequently occurs with in-person-only programs all contribute to measurably better completion rates."}</AutoLinkedText>
               </p>
               <p className="text-[15px] font-light leading-relaxed text-ink/65">
-                <AutoLinkedText>{"Rize OC&apos;s virtual programming was not retrofitted from in-person programming after 2020 — it was purpose-designed for the virtual environment, with attention to the specific facilitation techniques, platform features, and clinical adaptations that maximize engagement and therapeutic depth via video."}</AutoLinkedText>
+                <AutoLinkedText>{"Rize OC's virtual programming was not retrofitted from in-person programming after 2020 — it was purpose-designed for the virtual environment, with attention to the specific facilitation techniques, platform features, and clinical adaptations that maximize engagement and therapeutic depth via video."}</AutoLinkedText>
               </p>
             </div>
 
@@ -530,7 +530,7 @@ export default function VirtualPage() {
               Frequently Asked Questions
             </h2>
             <p className="text-[15px] font-light leading-relaxed text-ink/60 mb-8">
-              <AutoLinkedText>{"Our admissions team is available to answer anything you don&apos;t find here."}</AutoLinkedText>
+              <AutoLinkedText>{"Our admissions team is available to answer anything you don't find here."}</AutoLinkedText>
             </p>
             <a href="tel:9494612620" className="flex items-center gap-2 text-accent text-[14px] font-medium hover:text-ink transition-colors">
               <i className="ri-phone-line" /> (949)-461-2620

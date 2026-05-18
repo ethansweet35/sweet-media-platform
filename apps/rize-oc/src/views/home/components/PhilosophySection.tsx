@@ -4,50 +4,69 @@ import IconCircle from "@/components/ui/IconCircle";
 import { AutoLinkedText } from "@sweetmedia/blog-core";
 
 const cards = [
-  { icon: "ri-group-line",      title: "Dual-\nDiagnosis",   desc: "Expert treatment for co-occurring disorders" },
-  { icon: "ri-briefcase-2-line",title: "Executive\nPrivacy", desc: "Discreet, premium care for professionals" },
-  { icon: "ri-sun-line",        title: "Holistic\nCare",     desc: "Mind, body, and spirit integration" },
+  { icon: "ri-group-line",      title: "Dual-Diagnosis",   desc: "Expert, integrated treatment for co-occurring mental health and substance use disorders." },
+  { icon: "ri-briefcase-2-line",title: "Executive Privacy", desc: "Discreet, premium care designed to accommodate the needs of working professionals." },
+  { icon: "ri-sun-line",        title: "Holistic Care",     desc: "A comprehensive approach that integrates mind, body, and spirit into your recovery." },
 ];
 
 export default function PhilosophySection() {
   return (
-    <section className="bg-white">
-      <SectionWrapper className="grid lg:grid-cols-[1fr_1fr] gap-14 items-start">
-        {/* Left — heading + text + blockquote */}
-        <div>
-          <Eyebrow className="mb-5">Philosophy</Eyebrow>
+    <section className="bg-cream">
+      <SectionWrapper>
+        <div className="grid lg:grid-cols-[1fr_1.2fr] gap-16 lg:gap-24 items-center">
+          
+          {/* Left — heading + text + blockquote */}
+          <div className="max-w-xl">
+            <Eyebrow className="mb-5">Our Philosophy</Eyebrow>
 
-          <h2
-            className="font-[family-name:var(--font-display)] font-normal text-ink"
-            style={{ fontSize: "clamp(36px, 4vw, 56px)", lineHeight: 1.1 }}
-          >
-            Healing Is A <em className="italic text-ink/70">Return To Yourself</em>
-          </h2>
+            <h2
+              className="font-[family-name:var(--font-display)] font-normal text-ink"
+              style={{ fontSize: "clamp(40px, 5vw, 56px)", lineHeight: 1.05 }}
+            >
+              Healing Is A <br/>
+              <em className="italic text-ink/70">Return To Yourself</em>
+            </h2>
 
-          <p className="mt-6 text-[15px] font-light leading-relaxed text-ink/65">
-            <AutoLinkedText>{"At Rize, we understand that seeking mental health &amp; addiction treatment can be a significant step. That&apos;s why we&apos;ve created a welcoming and supportive environment where you can feel comfortable on your journey to healing and self-discovery. We are proud to be an established part of the Orange County community, offering both outpatient and virtual services designed to fit your lifestyle and preferences."}</AutoLinkedText>
-          </p>
+            <div className="mt-6 mb-8 w-12 h-[2px] bg-accent/40" />
 
-          <blockquote className="mt-7 border-l-2 border-accent pl-5">
-            <p className="text-sm font-light leading-relaxed text-ink/55 italic">
-              <AutoLinkedText>{"We&apos;ve created a sanctuary where evidence-based treatment meets the timeless healing power of the coast—a place where transformation isn&apos;t rushed, but gently nurtured."}</AutoLinkedText>
+            <p className="text-base font-light leading-relaxed text-ink/70">
+              <AutoLinkedText>{"At Rize, we understand that seeking mental health and addiction treatment can be a significant step. That's why we've created a welcoming and supportive environment where you can feel comfortable on your journey to healing and self-discovery."}</AutoLinkedText>
             </p>
-          </blockquote>
-        </div>
+            
+            <p className="mt-4 text-base font-light leading-relaxed text-ink/70">
+              <AutoLinkedText>{"We are proud to be an established part of the Orange County community, offering both outpatient and virtual services designed to fit your lifestyle and preferences."}</AutoLinkedText>
+            </p>
 
-        {/* Right — 3 horizontal cards */}
-        <div className="grid grid-cols-3 gap-3">
-          {cards.map(({ icon, title, desc }) => (
-            <div key={title} className="border border-warm p-8 flex flex-col items-center text-center gap-5">
-              <IconCircle icon={icon} variant="accent" size="xl" iconSize="text-3xl" />
-              <div>
-                <h3 className="font-[family-name:var(--font-display)] text-xl font-normal text-ink whitespace-pre-line leading-snug">
-                  {title}
-                </h3>
-                <p className="mt-2 text-sm font-light leading-relaxed text-ink/60"><AutoLinkedText>{desc}</AutoLinkedText></p>
+            <blockquote className="mt-8 relative">
+              <i className="ri-double-quotes-l absolute -top-3 -left-2 text-4xl text-accent/20" />
+              <p className="relative z-10 text-[17px] font-[family-name:var(--font-display)] leading-relaxed text-ink/80 italic pl-6 border-l-2 border-accent/40">
+                <AutoLinkedText>{"We've created a sanctuary where evidence-based treatment meets the timeless healing power of the coast—a place where transformation isn't rushed, but gently nurtured."}</AutoLinkedText>
+              </p>
+            </blockquote>
+          </div>
+
+          {/* Right — Stacked Feature Cards */}
+          <div className="flex flex-col gap-5">
+            {cards.map(({ icon, title, desc }) => (
+              <div 
+                key={title} 
+                className="group bg-white border border-warm/50 p-8 rounded-xl flex sm:flex-row flex-col items-start sm:items-center gap-6 shadow-sm hover:shadow-md transition-shadow"
+              >
+                <div className="shrink-0">
+                  <IconCircle icon={icon} variant="accent" size="lg" iconSize="text-2xl" />
+                </div>
+                <div>
+                  <h3 className="font-[family-name:var(--font-display)] text-2xl font-normal text-ink mb-2">
+                    {title}
+                  </h3>
+                  <p className="text-[15px] font-light leading-relaxed text-ink/60">
+                    <AutoLinkedText>{desc}</AutoLinkedText>
+                  </p>
+                </div>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
+          
         </div>
       </SectionWrapper>
     </section>

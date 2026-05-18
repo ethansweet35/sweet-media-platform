@@ -283,7 +283,7 @@ export default function LevelsOfCarePage() {
               </div>
             </div>
             <p className="text-[15px] font-light text-ink/65 mb-6">
-              <AutoLinkedText>{"Speak with our admissions team today. We&apos;ll help you understand your options and determine the level of care that gives you the best foundation for lasting recovery."}</AutoLinkedText>
+              <AutoLinkedText>{"Speak with our admissions team today. We'll help you understand your options and determine the level of care that gives you the best foundation for lasting recovery."}</AutoLinkedText>
             </p>
             <div className="flex flex-col gap-3">
               <a

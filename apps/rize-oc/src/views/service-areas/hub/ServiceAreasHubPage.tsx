@@ -236,9 +236,9 @@ export default function ServiceAreasHubPage() {
             <div className="flex items-start gap-4 flex-1">
               <IconCircle icon="ri-map-pin-add-line" colorClass="bg-accent/10 text-accent" size="w-10 h-10 text-lg shrink-0" />
               <div>
-                <p className="font-semibold text-ink text-[15px]"><AutoLinkedTextClient>{"Don&apos;t see your city?"}</AutoLinkedTextClient></p>
+                <p className="font-semibold text-ink text-[15px]"><AutoLinkedTextClient>{"Don't see your city?"}</AutoLinkedTextClient></p>
                 <p className="text-[14px] font-light text-ink/60 mt-1 leading-relaxed">
-                  <AutoLinkedTextClient>{"Rize OC serves patients from across all of Orange County and beyond. If your city isn&apos;t listed, we still welcome your call — our admissions team serves the entire region."}</AutoLinkedTextClient>
+                  <AutoLinkedTextClient>{"Rize OC serves patients from across all of Orange County and beyond. If your city isn't listed, we still welcome your call — our admissions team serves the entire region."}</AutoLinkedTextClient>
                 </p>
               </div>
             </div>

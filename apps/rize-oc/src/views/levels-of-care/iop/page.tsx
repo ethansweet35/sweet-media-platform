@@ -269,7 +269,7 @@ export default function IopPage() {
 
             <blockquote className="mt-auto pt-8 border-l-2 border-accent pl-6">
               <p className="text-[17px] font-[family-name:var(--font-display)] font-normal text-ink/70 leading-snug italic">
-                <AutoLinkedText>{"&ldquo;IOP is where recovery stops being something that happens to you and starts being something you do. The peer community that forms in these groups often becomes the most important recovery resource our clients have.&rdquo;"}</AutoLinkedText>
+                <AutoLinkedText>{"\"IOP is where recovery stops being something that happens to you and starts being something you do. The peer community that forms in these groups often becomes the most important recovery resource our clients have.\""}</AutoLinkedText>
               </p>
               <p className="mt-3 text-[11px] font-medium uppercase tracking-[0.2em] text-ink/40">
                 <AutoLinkedText>{"Rize OC Clinical Director"}</AutoLinkedText>
@@ -368,7 +368,7 @@ export default function IopPage() {
               What IOP <em className="italic text-white/60">Addresses</em>
             </h2>
             <p className="text-[15px] font-light text-white/65 max-w-2xl mx-auto">
-              <AutoLinkedText>{"IOP at Rize covers the full clinical range — relapse prevention, trauma, relationships, skills, and reintegration — with a curriculum adapted to each client&apos;s specific needs."}</AutoLinkedText>
+              <AutoLinkedText>{"IOP at Rize covers the full clinical range — relapse prevention, trauma, relationships, skills, and reintegration — with a curriculum adapted to each client's specific needs."}</AutoLinkedText>
             </p>
           </div>
 
@@ -534,7 +534,7 @@ export default function IopPage() {
               Frequently Asked Questions
             </h2>
             <p className="text-[15px] font-light leading-relaxed text-ink/60 mb-8">
-              <AutoLinkedText>{"Our admissions team is available to answer anything you don&apos;t find here."}</AutoLinkedText>
+              <AutoLinkedText>{"Our admissions team is available to answer anything you don't find here."}</AutoLinkedText>
             </p>
             <a href="tel:9494612620" className="flex items-center gap-2 text-accent text-[14px] font-medium hover:text-ink transition-colors">
               <i className="ri-phone-line" /> (949)-461-2620

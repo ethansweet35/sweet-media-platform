@@ -235,7 +235,7 @@ export default function OpPage() {
 
             <blockquote className="mt-auto pt-8 border-l-2 border-accent pl-6">
               <p className="text-[17px] font-[family-name:var(--font-display)] font-normal text-ink/70 leading-snug italic">
-                <AutoLinkedText>{"&ldquo;The clients I&apos;m most proud of are the ones who stayed. Not in PHP, not in IOP — in relationship. Outpatient is where the real identity work happens, away from the scaffolding.&rdquo;"}</AutoLinkedText>
+                <AutoLinkedText>{"\"The clients I'm most proud of are the ones who stayed. Not in PHP, not in IOP — in relationship. Outpatient is where the real identity work happens, away from the scaffolding.\""}</AutoLinkedText>
               </p>
               <p className="mt-3 text-[11px] font-medium uppercase tracking-[0.2em] text-ink/40">
                 <AutoLinkedText>{"Rize OC Primary Therapist"}</AutoLinkedText>
@@ -378,7 +378,7 @@ export default function OpPage() {
                 <AutoLinkedText>{"Ongoing outpatient support during this critical window is not a crutch — it is the single most evidence-supported intervention for preventing long-term relapse among individuals who have completed higher levels of care. The therapeutic relationship provides both the ongoing processing of challenges and the early warning system that allows the clinical team to respond before a crisis develops."}</AutoLinkedText>
               </p>
               <p className="text-[15px] font-light leading-relaxed text-ink/65">
-                <AutoLinkedText>{"The alumni community is equally important. Human connection — belonging to a community of people with shared experience and shared commitment — is what the research consistently identifies as recovery&apos;s most powerful protective factor over time."}</AutoLinkedText>
+                <AutoLinkedText>{"The alumni community is equally important. Human connection — belonging to a community of people with shared experience and shared commitment — is what the research consistently identifies as recovery's most powerful protective factor over time."}</AutoLinkedText>
               </p>
             </div>
 
@@ -520,7 +520,7 @@ export default function OpPage() {
               Frequently Asked Questions
             </h2>
             <p className="text-[15px] font-light leading-relaxed text-ink/60 mb-8">
-              <AutoLinkedText>{"Our admissions team is available to answer anything you don&apos;t find here."}</AutoLinkedText>
+              <AutoLinkedText>{"Our admissions team is available to answer anything you don't find here."}</AutoLinkedText>
             </p>
             <a href="tel:9494612620" className="flex items-center gap-2 text-accent text-[14px] font-medium hover:text-ink transition-colors">
               <i className="ri-phone-line" /> (949)-461-2620

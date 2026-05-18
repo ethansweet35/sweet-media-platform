@@ -176,8 +176,9 @@ export default function Navbar() {
             />
           </Link>
 
-          {/* Desktop nav items */}
-          <div className="hidden lg:flex items-center gap-1">
+          {/* Desktop nav + CTA — right-aligned */}
+          <div className="hidden lg:flex items-center gap-5 ml-auto">
+            <div className="flex items-center gap-1">
             {navItems.map((item) => (
               <div
                 key={item.label}
@@ -198,26 +199,36 @@ export default function Navbar() {
                 </Link>
               </div>
             ))}
+            </div>
+
+            <a
+              href="tel:9494612620"
+              className="inline-flex items-center gap-2 px-6 py-2.5 text-[11px] uppercase tracking-[0.15em] font-medium text-white transition-colors duration-300 hover:opacity-85 shrink-0"
+              style={{ backgroundColor: INK }}
+            >
+              <i className="ri-phone-fill text-xs" style={{ color: ACCENT }} />
+              Call Now
+            </a>
           </div>
 
-          {/* Desktop CTA */}
-          <a
-            href="tel:9494612620"
-            className="hidden lg:inline-flex items-center gap-2 px-6 py-2.5 text-[11px] uppercase tracking-[0.15em] font-medium text-white transition-colors duration-300 hover:opacity-85"
-            style={{ backgroundColor: INK }}
-          >
-            <i className="ri-phone-fill text-xs" style={{ color: ACCENT }} />
-            Call Now
-          </a>
-
-          {/* Mobile hamburger */}
-          <button
-            className="lg:hidden w-8 h-8 flex items-center justify-center text-ink"
-            onClick={() => setMobileOpen(!mobileOpen)}
-            aria-label="Toggle menu"
-          >
-            <i className={`text-xl ${mobileOpen ? "ri-close-line" : "ri-menu-3-line"}`} />
-          </button>
+          {/* Mobile: Call Now + hamburger */}
+          <div className="lg:hidden flex items-center gap-2">
+            <a
+              href="tel:9494612620"
+              className="flex items-center gap-1.5 px-4 py-2 text-[11px] font-medium text-white uppercase tracking-[0.14em]"
+              style={{ backgroundColor: INK }}
+            >
+              <i className="ri-phone-fill text-xs" style={{ color: ACCENT }} />
+              Call Now
+            </a>
+            <button
+              className="w-8 h-8 flex items-center justify-center text-ink"
+              onClick={() => setMobileOpen(!mobileOpen)}
+              aria-label="Toggle menu"
+            >
+              <i className={`text-xl ${mobileOpen ? "ri-close-line" : "ri-menu-3-line"}`} />
+            </button>
+          </div>
         </div>
       </div>
 

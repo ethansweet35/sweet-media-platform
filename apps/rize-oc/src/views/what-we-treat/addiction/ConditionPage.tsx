@@ -175,7 +175,7 @@ export default function ConditionPage({ data }: { data: ConditionData }) {
             />
 
             <div>
-              <p className="text-[10px] font-semibold uppercase tracking-[0.35em] text-white/45 mb-2"><AutoLinkedText>{"Free &amp; Confidential"}</AutoLinkedText></p>
+              <p className="text-[10px] font-semibold uppercase tracking-[0.35em] text-white/45 mb-2"><AutoLinkedText>{"Free & Confidential"}</AutoLinkedText></p>
               <h2 className="font-[family-name:var(--font-display)] text-[26px] font-normal text-white leading-snug">
                 Request a Free Consultation
               </h2>

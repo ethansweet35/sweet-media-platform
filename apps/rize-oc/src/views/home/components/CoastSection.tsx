@@ -1,81 +1,139 @@
-import SectionWrapper from "@/components/ui/SectionWrapper";
-import Eyebrow from "@/components/ui/Eyebrow";
-import Button from "@/components/ui/Button";
-import { AutoLinkedText } from "@sweetmedia/blog-core";
+import Image from "next/image";
+import Link from "next/link";
 
-const nature = [
-  "Zuma Beach Access (2 miles)",
-  "Santa Monica Mountains Hiking",
-  "Local Surfing & Paddleboarding",
+const BASE =
+  "https://uivbbrwuaffqujzkqjvr.supabase.co/storage/v1/object/public/site-assets/images";
+
+const features = [
+  {
+    icon: "ri-water-flash-line",
+    label: "Nature & Outdoors",
+    items: [
+      "Zuma Beach Access (2 miles)",
+      "Santa Monica Mountains Hiking",
+      "Surfing & Paddleboarding",
+    ],
+  },
+  {
+    icon: "ri-group-line",
+    label: "Recovery Community",
+    items: [
+      "Malibu Recovery Fellowships",
+      "Rize Active Alumni Network",
+      "Local Volunteer Opportunities",
+    ],
+  },
+  {
+    icon: "ri-flight-takeoff-line",
+    label: "Travel & Logistics",
+    items: [
+      "45 minutes from LAX",
+      "60 minutes from Burbank (BUR)",
+      "Private car service for all arrivals",
+    ],
+  },
 ];
 
-const community = [
-  "Malibu Recovery Fellowships",
-  "Rize Active Alumni Network",
-  "Local Volunteer Opportunities",
+const stats = [
+  { value: "2 mi", label: "To nearest beach" },
+  { value: "360°", label: "Ocean views" },
+  { value: "45 min", label: "From LAX" },
 ];
 
 export default function CoastSection() {
   return (
-    <section className="bg-cream">
-      <SectionWrapper className="grid lg:grid-cols-[400px_1fr] gap-20 items-start">
-        {/* Left */}
-        <div>
-          <Eyebrow colorClass="text-ink/50" className="mb-5">The Environment</Eyebrow>
-          <h2 className="font-[family-name:var(--font-display)] font-normal text-ink leading-[1.05]" style={{ fontSize: "clamp(42px, 4vw, 56px)" }}>
-            Connected To{" "}
+    <section className="bg-[#F5F0E8] overflow-hidden">
+      <div className="grid lg:grid-cols-[1fr_1fr] min-h-[560px]">
+        {/* Left: content panel */}
+        <div className="flex flex-col justify-center px-[30px] py-[75px] lg:px-14 xl:px-20 lg:py-16">
+          <span className="text-[10px] font-semibold uppercase tracking-[0.32em] text-accent mb-5 block">
+            Connected to the Coast
+          </span>
+
+          <h2
+            className="font-[family-name:var(--font-display)] font-normal text-ink leading-[1.04] mb-5"
+            style={{ fontSize: "clamp(34px, 3.4vw, 48px)" }}
+          >
+            Where Recovery
             <br />
-            <em className="italic text-ink/55">The Coast</em>
+            <em className="italic text-ink/40">Meets the Ocean</em>
           </h2>
-          <p className="mt-6 text-[15px] font-light leading-relaxed text-ink/60 max-w-sm">
-            <AutoLinkedText>{"Recovery does not happen in a vacuum. We utilize the rich, recovery-focused culture of Southern California to build a vibrant foundation for your life after treatment."}</AutoLinkedText>
+
+          <p className="text-[14px] font-light leading-relaxed text-ink/60 max-w-[340px] mb-8">
+            Recovery does not happen in a vacuum. We harness the rich,
+            recovery-focused culture of Southern California to build a vibrant
+            foundation for your life after treatment.
           </p>
-          <div className="mt-8">
-            <Button href="/location" variant="ink">
-              Get Directions <i className="ri-arrow-right-line ml-2" />
-            </Button>
-          </div>
-        </div>
 
-        {/* Right — 2 columns + Travel */}
-        <div className="flex flex-col gap-10">
-          <div className="grid grid-cols-2 gap-12">
-            <div>
-              <div className="flex items-center gap-2.5 mb-5">
-                <span className="w-2.5 h-2.5 rounded-full bg-accent" />
-                <Eyebrow colorClass="text-ink/50" tracking="wide">Nature</Eyebrow>
+          {/* Feature groups — stacked on mobile, 3-column on larger screens */}
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-5 sm:gap-5 mb-8">
+            {features.map((f) => (
+              <div key={f.label}>
+                <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-ink/6 border border-ink/10 text-accent mb-3">
+                  <i className={`${f.icon} text-sm`} />
+                </span>
+                <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-ink/60 mb-2">
+                  {f.label}
+                </p>
+                <ul className="flex flex-col gap-1.5">
+                  {f.items.map((item) => (
+                    <li
+                      key={item}
+                      className="text-[12.5px] font-light text-ink/50 flex items-start gap-1.5"
+                    >
+                      <span className="w-1 h-1 rounded-full bg-accent/60 shrink-0 mt-[5px]" />
+                      {item}
+                    </li>
+                  ))}
+                </ul>
               </div>
-              <ul className="flex flex-col gap-3">
-                {nature.map((item) => (
-                  <li key={item} className="text-[15px] font-light text-ink/70">{item}</li>
-                ))}
-              </ul>
-            </div>
-            <div>
-              <div className="flex items-center gap-2.5 mb-5">
-                <span className="w-2.5 h-2.5 rounded-full bg-accent" />
-                <Eyebrow colorClass="text-ink/50" tracking="wide">Community</Eyebrow>
-              </div>
-              <ul className="flex flex-col gap-3">
-                {community.map((item) => (
-                  <li key={item} className="text-[15px] font-light text-ink/70">{item}</li>
-                ))}
-              </ul>
-            </div>
+            ))}
           </div>
 
-          {/* Travel & Logistics */}
-          <div className="border-t border-ink/15 pt-8">
-            <div className="flex items-center gap-2.5 mb-4">
-              <span className="w-2.5 h-2.5 rounded-full bg-accent" />
-              <Eyebrow colorClass="text-ink/50" tracking="wide">Travel &amp; Logistics</Eyebrow>
-            </div>
-            <p className="text-[15px] font-light text-ink/65 max-w-lg">
-              <AutoLinkedText>{"Conveniently located 45 minutes from LAX and 60 minutes from Burbank (BUR). We provide private, discreet car service for all incoming admissions."}</AutoLinkedText>
-            </p>
+          <Link
+            href="/location"
+            className="inline-flex items-center gap-2.5 bg-ink px-6 py-3 text-[11px] font-semibold uppercase tracking-[0.18em] text-white hover:bg-ink/80 transition-colors duration-300 self-start"
+          >
+            View Location <i className="ri-map-pin-2-line" />
+          </Link>
+        </div>
+
+        {/* Right: coastal image */}
+        <div className="relative min-h-[480px] lg:min-h-0">
+          <Image
+            src={`${BASE}/rize_coast_hero.jpg`}
+            alt="Aerial view of the Southern California coastline near Orange County at golden hour"
+            fill
+            className="object-cover"
+            sizes="(max-width: 1024px) 100vw, 50vw"
+          />
+
+          {/* Left-edge fade into cream panel */}
+          <div className="absolute inset-0 bg-gradient-to-r from-[#F5F0E8] via-[#F5F0E8]/10 to-transparent pointer-events-none" />
+          {/* Bottom vignette */}
+          <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent pointer-events-none" />
+
+          {/* Floating stat cards */}
+          <div className="absolute bottom-8 right-8 flex flex-col gap-3">
+            {stats.map((s) => (
+              <div
+                key={s.label}
+                className="bg-white/90 backdrop-blur-sm px-5 py-3 text-right shadow-lg"
+              >
+                <p
+                  className="font-[family-name:var(--font-display)] text-ink leading-none mb-0.5"
+                  style={{ fontSize: "clamp(22px, 2.5vw, 28px)" }}
+                >
+                  {s.value}
+                </p>
+                <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-accent">
+                  {s.label}
+                </p>
+              </div>
+            ))}
           </div>
         </div>
-      </SectionWrapper>
+      </div>
     </section>
   );
 }

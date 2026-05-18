@@ -75,7 +75,7 @@ export default function InsuranceSection() {
                 ))}
               </div>
               <p className="text-[13px] font-light text-ink/50">
-                <AutoLinkedText>{"We Don&apos;t Accept Medicaid Or Medical"}</AutoLinkedText>
+                <AutoLinkedText>{"We Don't Accept Medicaid Or Medical"}</AutoLinkedText>
               </p>
             </div>
           </div>

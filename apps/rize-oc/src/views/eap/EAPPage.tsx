@@ -250,7 +250,7 @@ export default function EAPPage() {
               <em className="italic text-white/55">Step by Step</em>
             </h2>
             <p className="mt-5 text-[15px] font-light text-white/70 leading-relaxed">
-              <AutoLinkedTextClient>{"We coordinate with your EAP from first call to first day of treatment — so you don&apos;t have to navigate the system alone."}</AutoLinkedTextClient>
+              <AutoLinkedTextClient>{"We coordinate with your EAP from first call to first day of treatment — so you don't have to navigate the system alone."}</AutoLinkedTextClient>
             </p>
           </div>
 
@@ -346,7 +346,7 @@ export default function EAPPage() {
               </div>
 
               <div className="mt-6 bg-ink p-6">
-                <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-accent mb-2"><AutoLinkedTextClient>{"HR &amp; EAP Coordinators"}</AutoLinkedTextClient></p>
+                <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-accent mb-2"><AutoLinkedTextClient>{"HR & EAP Coordinators"}</AutoLinkedTextClient></p>
                 <p className="text-[14px] font-light text-white/75 leading-relaxed mb-4">
                   <AutoLinkedTextClient>{"Rize OC works directly with EAP case managers and HR on referrals, return-to-work plans, and compliance monitoring — with employee consent."}</AutoLinkedTextClient>
                 </p>
@@ -374,7 +374,7 @@ export default function EAPPage() {
               EAP Providers We Work With
             </h2>
             <p className="mt-4 text-[14px] font-light text-ink/55 max-w-xl mx-auto">
-              <AutoLinkedTextClient>{"Rize OC coordinates with all major EAP networks. Don&apos;t see yours? Contact us — we work with most providers."}</AutoLinkedTextClient>
+              <AutoLinkedTextClient>{"Rize OC coordinates with all major EAP networks. Don't see yours? Contact us — we work with most providers."}</AutoLinkedTextClient>
             </p>
           </div>
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3">
@@ -425,7 +425,7 @@ export default function EAPPage() {
               <div className="flex items-center gap-3 mb-6">
                 <IconCircle icon="ri-briefcase-4-line" variant="ink" size="sm" />
                 <div>
-                  <p className="text-[10px] font-semibold uppercase tracking-[0.22em] text-ink"><AutoLinkedTextClient>{"EAP &amp; Insurance Verification"}</AutoLinkedTextClient></p>
+                  <p className="text-[10px] font-semibold uppercase tracking-[0.22em] text-ink"><AutoLinkedTextClient>{"EAP & Insurance Verification"}</AutoLinkedTextClient></p>
                   <p className="text-xs text-ink/45 mt-0.5"><AutoLinkedTextClient>{"Confidential · No cost · No obligation"}</AutoLinkedTextClient></p>
                 </div>
               </div>
@@ -488,7 +488,7 @@ export default function EAPPage() {
             <em className="italic text-white/60">Coverage You Don&apos;t Know About</em>
           </h2>
           <p className="mt-6 text-[16px] font-light text-white/75 leading-relaxed max-w-[500px] mx-auto">
-            <AutoLinkedTextClient>{"Most employees never use their EAP benefit — often because they don&apos;t know it exists. One call to our team is all it takes to find out what you have."}</AutoLinkedTextClient>
+            <AutoLinkedTextClient>{"Most employees never use their EAP benefit — often because they don't know it exists. One call to our team is all it takes to find out what you have."}</AutoLinkedTextClient>
           </p>
           <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
             <Button href="tel:9494612620" variant="accent" size="lg">

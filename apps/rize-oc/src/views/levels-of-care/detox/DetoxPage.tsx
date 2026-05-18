@@ -289,7 +289,7 @@ export default function DetoxPage() {
 
             <blockquote className="mt-auto pt-8 border-l-2 border-accent pl-6">
               <p className="text-[17px] font-[family-name:var(--font-display)] font-normal text-ink/70 leading-snug italic">
-                <AutoLinkedText>{"&ldquo;Detox without medical supervision is not bravery — it is unnecessary risk. Science has given us the tools to make this process significantly safer and more humane.&rdquo;"}</AutoLinkedText>
+                <AutoLinkedText>{"\"Detox without medical supervision is not bravery — it is unnecessary risk. Science has given us the tools to make this process significantly safer and more humane.\""}</AutoLinkedText>
               </p>
               <p className="mt-3 text-[11px] font-medium uppercase tracking-[0.2em] text-ink/40">
                 <AutoLinkedText>{"Rize OC Medical Director"}</AutoLinkedText>
@@ -499,7 +499,7 @@ export default function DetoxPage() {
               Who Is Medical Detox For?
             </h2>
             <p className="text-[15px] font-light leading-relaxed text-ink/65 mb-8">
-              <AutoLinkedText>{"Medical detox is indicated for any individual with significant physical dependence on a substance. If you&apos;re unsure whether you need detox, our admissions team will assess your situation and give you an honest recommendation."}</AutoLinkedText>
+              <AutoLinkedText>{"Medical detox is indicated for any individual with significant physical dependence on a substance. If you're unsure whether you need detox, our admissions team will assess your situation and give you an honest recommendation."}</AutoLinkedText>
             </p>
             <Button href="tel:9494612620" variant="ink" size="sm">
               Speak With Admissions
@@ -591,7 +591,7 @@ export default function DetoxPage() {
               Frequently Asked Questions
             </h2>
             <p className="text-[15px] font-light leading-relaxed text-ink/60 mb-8">
-              <AutoLinkedText>{"Questions are a natural part of this process. Our admissions team is also available to answer anything you don&apos;t find here."}</AutoLinkedText>
+              <AutoLinkedText>{"Questions are a natural part of this process. Our admissions team is also available to answer anything you don't find here."}</AutoLinkedText>
             </p>
             <a
               href="tel:9494612620"
