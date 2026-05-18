@@ -11,8 +11,8 @@ export const SITE = {
   tagline: "Top Addiction Treatment Center",
 
   phone: {
-    display: "(253)-252-5564",
-    href: "tel:2532525564",
+    display: "(253)-252-5875",
+    href: "tel:2532525875",
   },
   intakePhone: {
     display: "(253)-670-5993",
