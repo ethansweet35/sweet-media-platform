@@ -16,6 +16,8 @@ const nextConfig: NextConfig = {
         destination: "/behavioral-health-revenue-cycle-management",
         permanent: true,
       },
+      /** Blog posts moved from /blog/:slug to /:slug — catch any inbound /blog/* links */
+      { source: "/blog/:slug", destination: "/:slug", permanent: true },
     ];
   },
   images: {

@@ -47,7 +47,7 @@ export default function BlogFeatured() {
         {/* Card — image left, navy content right */}
         <div
           className="grid grid-cols-1 lg:grid-cols-[1fr_440px] overflow-hidden border border-[#101E3F]/10 cursor-pointer group"
-          onClick={() => router.push(`/blog/${post.slug}`)}
+          onClick={() => router.push(`/${post.slug}`)}
         >
           {/* Image panel */}
           <div className="relative overflow-hidden" style={{ minHeight: "340px" }}>

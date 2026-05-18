@@ -99,7 +99,7 @@ export default function BlogGrid({ searchQuery }: BlogGridProps) {
             {filtered.map((post) => (
               <article
                 key={post.id}
-                onClick={() => router.push(`/blog/${post.slug}`)}
+                onClick={() => router.push(`/${post.slug}`)}
                 className="group bg-white cursor-pointer flex flex-col overflow-hidden hover:z-10 hover:shadow-[0_8px_32px_rgba(16,30,63,0.12)] transition-all duration-300 relative"
               >
                 {/* Image */}
