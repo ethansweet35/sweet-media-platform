@@ -3,6 +3,26 @@ import { parseInlineLinks, type InlineSegment } from "@/lib/markdownToBlog";
 import { autoLinkText, type LinkSegment, type AutoLinkMapping } from "@sweetmedia/blog-core";
 import Link from "next/link";
 
+/** Decode HTML numeric entities (e.g. &#8220; → " ) and common named entities. */
+function decodeEntities(str: string): string {
+  return str
+    .replace(/&#(\d+);/g, (_, code) => String.fromCharCode(Number(code)))
+    .replace(/&#x([0-9a-f]+);/gi, (_, hex) => String.fromCharCode(parseInt(hex, 16)))
+    .replace(/&amp;/g, "&")
+    .replace(/&lt;/g, "<")
+    .replace(/&gt;/g, ">")
+    .replace(/&quot;/g, '"')
+    .replace(/&apos;/g, "'")
+    .replace(/&nbsp;/g, "\u00a0")
+    .replace(/&mdash;/g, "—")
+    .replace(/&ndash;/g, "–")
+    .replace(/&hellip;/g, "…")
+    .replace(/&ldquo;/g, "\u201C")
+    .replace(/&rdquo;/g, "\u201D")
+    .replace(/&lsquo;/g, "\u2018")
+    .replace(/&rsquo;/g, "\u2019");
+}
+
 function isExternal(href: string | undefined): boolean {
   if (!href) return false;
   return href.startsWith("http://") || href.startsWith("https://") || href.startsWith("//");
@@ -40,7 +60,7 @@ function InlineText({
   usedHrefs: Set<string>;
   enableAutoLink?: boolean;
 }) {
-  const inlineSegments: InlineSegment[] = parseInlineLinks(text);
+  const inlineSegments: InlineSegment[] = parseInlineLinks(decodeEntities(text));
 
   return (
     <>
