@@ -2,6 +2,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { AutoLinkedText } from "@sweetmedia/blog-core";
 
+import CareersApplyForm from "./components/CareersApplyForm";
+
 /** Hero + openings imagery from Elementor post-229 */
 const IMG_HERO =
   "https://nstzjqmtsqgeihkyvkqq.supabase.co/storage/v1/object/public/site-assets/images/Untitled-design-2026-04-09T102429.826.png";
@@ -223,25 +225,21 @@ export default function CareersPage() {
         </div>
       </section>
 
-      {/* JotForm */}
+      {/* Application form — native (replaces former Jotform embed) */}
       <section className="border-t border-white/10 bg-[#F5F7FA] py-[100px] text-[#0D1833]">
-        <div className="mx-auto max-w-[900px] px-5 text-center">
-          <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-[#166C96]">Submit Information</p>
-          <h2 className="mt-4 font-[var(--font-heading)] text-3xl font-medium md:text-[2.25rem]">
-            Interested in working at Cipher Billing?
-          </h2>
-          <p className="mx-auto mt-4 max-w-2xl text-sm leading-relaxed text-[#4a5565]">
-            <AutoLinkedText>{"Complete the secure form below. Our hiring team reviews every submission."}</AutoLinkedText>
-          </p>
-        </div>
-        <div className="mx-auto mt-12 max-w-[840px] px-5">
-          <div className="overflow-hidden rounded-xl border border-[#166C96]/20 bg-white shadow-md">
-            <iframe
-              title="Cipher Billing Careers Inquiry Submission"
-              src="https://form.jotform.com/260627286727163"
-              className="h-[min(720px,85vh)] w-full border-0"
-              loading="lazy"
-            />
+        <div className="mx-auto max-w-[740px] px-5">
+          <div className="text-center">
+            <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-[#166C96]">Submit Information</p>
+            <h2 className="mt-4 font-[var(--font-heading)] text-3xl font-medium md:text-[2.25rem]">
+              Interested in working at Cipher Billing?
+            </h2>
+            <p className="mx-auto mt-4 max-w-2xl text-sm leading-relaxed text-[#4a5565]">
+              Complete the form below and attach your resume. Our hiring team reviews every submission.
+            </p>
+          </div>
+
+          <div className="mt-10 rounded-xl border border-[#166C96]/20 bg-white p-8 shadow-md md:p-10">
+            <CareersApplyForm />
           </div>
         </div>
       </section>
