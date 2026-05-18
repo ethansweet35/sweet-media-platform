@@ -16,6 +16,16 @@ const nextConfig: NextConfig = {
   },
   async redirects() {
     return [
+      // ── Blog slug URL normalization ───────────────────────────────────
+      // WP posts live at /{slug}. Any /blog/{slug} link 301s to /{slug}.
+      { source: "/blog/:slug([^/]+)", destination: "/:slug", permanent: true },
+
+      // ── Stub page redirects ───────────────────────────────────────────
+      { source: "/contact",    destination: "/verify-insurance", permanent: true },
+      { source: "/admissions", destination: "/verify-insurance", permanent: true },
+      { source: "/services",   destination: "/levels-of-care",   permanent: true },
+      { source: "/resources",  destination: "/blog",              permanent: true },
+
       // ── WordPress misc slugs ──────────────────────────────────────────
       { source: "/about-us",  destination: "/about",    permanent: true },
       { source: "/team",      destination: "/our-team", permanent: true },

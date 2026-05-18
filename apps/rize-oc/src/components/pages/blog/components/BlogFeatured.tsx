@@ -41,7 +41,7 @@ export default function BlogFeatured() {
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
           {/* Image */}
-          <Link href={`/blog/${post.slug}`} className="group block overflow-hidden">
+          <Link href={`/${post.slug}`} className="group block overflow-hidden">
             <div className="relative aspect-[4/3] overflow-hidden">
               <Image
                 src={post.image}
@@ -68,7 +68,7 @@ export default function BlogFeatured() {
               <span>{post.readTime}</span>
             </div>
 
-            <Link href={`/blog/${post.slug}`} className="group block">
+            <Link href={`/${post.slug}`} className="group block">
               <h2
                 className="font-[family-name:var(--font-display)] font-normal text-ink leading-[1.0] group-hover:opacity-75 transition-opacity"
                 style={{ fontSize: "clamp(30px, 3vw, 46px)" }}
@@ -96,7 +96,7 @@ export default function BlogFeatured() {
               </div>
 
               <Link
-                href={`/blog/${post.slug}`}
+                href={`/${post.slug}`}
                 className="group flex items-center gap-1.5 text-[10px] tracking-[0.2em] uppercase font-semibold text-accent hover:gap-3 transition-all"
               >
                 Read Article

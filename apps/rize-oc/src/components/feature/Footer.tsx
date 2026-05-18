@@ -12,10 +12,10 @@ const programs = [
 ];
 
 const conditions = [
-  { label: "Anxiety", path: "/orange-county-anxiety-treatment" },
-  { label: "Depression", path: "/orange-county-depression-treatment" },
-  { label: "PTSD / Trauma", path: "/ptsd-treatment-orange-county" },
-  { label: "Alcohol Rehab", path: "/alcohol-rehab-orange-county" },
+  { label: "Anxiety", path: "/mental-health/anxiety" },
+  { label: "Depression", path: "/mental-health/depression" },
+  { label: "PTSD / Trauma", path: "/mental-health/ptsd" },
+  { label: "Alcohol Rehab", path: "/addiction/alcohol" },
   { label: "Dual Diagnosis", path: "/dual-diagnosis" },
 ];
 
@@ -77,7 +77,7 @@ export default function Footer() {
             <div className="flex flex-col gap-3 text-sm font-light text-white/60">
               <p>22792 Centre Dr Suite 104<br />Lake Forest, CA 92630</p>
               <a href="tel:9494612620" className="hover:text-white transition-colors">(949) 461-2620</a>
-              <Link href="/about-us" className="hover:text-white transition-colors">About Us</Link>
+              <Link href="/about" className="hover:text-white transition-colors">About Us</Link>
               <Link href="/blog" className="hover:text-white transition-colors">Blog</Link>
             </div>
             <a

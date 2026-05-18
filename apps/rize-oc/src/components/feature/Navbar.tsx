@@ -90,9 +90,9 @@ const navItems: NavItem[] = [
         ctaLabel: "Learn About Us",
       },
       items: [
-        { icon: "ri-team-line",        label: "Our Team",    desc: "Meet our clinical staff and leadership",  path: "/our-team" },
-        { icon: "ri-file-list-3-line", label: "Admissions",  desc: "Start your intake process today",         path: "/admissions" },
-        { icon: "ri-phone-line",       label: "Contact Us",  desc: "Reach our team directly",                 path: "/contact" },
+        { icon: "ri-team-line",           label: "Our Team",         desc: "Meet our clinical staff and leadership",  path: "/our-team" },
+        { icon: "ri-file-list-3-line",    label: "Admissions",       desc: "Start your intake process today",         path: "/verify-insurance" },
+        { icon: "ri-shield-check-line",   label: "Verify Insurance", desc: "Check your coverage in minutes",          path: "/verify-insurance" },
       ],
     },
   },

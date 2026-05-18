@@ -18,7 +18,7 @@ import { canonicalBlogPostUrl } from "@/lib/publicSiteUrl";
 
 /**
  * Admin draft preview (`?preview=admin`). Public published posts render via SSR
- * in `src/views/blog/post/BlogPostViewServer.tsx` from `app/blog/[slug]/page.tsx`.
+ * in `src/views/blog/post/BlogPostViewServer.tsx` from `app/[slug]/page.tsx`.
  */
 export default function BlogPostPreviewPage({ slug }: { slug: string }) {
   const router = useRouter();

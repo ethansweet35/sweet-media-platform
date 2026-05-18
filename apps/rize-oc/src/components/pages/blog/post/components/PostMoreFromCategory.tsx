@@ -44,7 +44,7 @@ export default function PostMoreFromCategory({ currentPost, allPosts }: PostMore
           {posts.map((post) => (
             <Link
               key={post.id}
-              href={`/blog/${post.slug}`}
+              href={`/${post.slug}`}
               className="group bg-cream-tile border border-warm hover:border-accent/40 transition-colors overflow-hidden block"
             >
               <article>

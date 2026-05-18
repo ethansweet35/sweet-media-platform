@@ -1,3 +1,9 @@
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  robots: { index: false, follow: false },
+};
+
 /**
  * Static design preview — no DB required.
  * Visit /blog/demo to see the full article template.

@@ -111,7 +111,7 @@ export async function POST(request: Request) {
       Authorization: `Bearer ${apiKey}`,
       "Content-Type": "application/json",
       "HTTP-Referer": process.env.NEXT_PUBLIC_SITE_URL ?? "https://rizeoc.com",
-      "X-Title": " Admin",
+      "X-Title": "Rize OC Admin",
     },
     body: JSON.stringify({
       model: "google/gemini-2.0-flash-001",

@@ -170,7 +170,7 @@ export default function QueueTable({
                   <div className="flex flex-wrap justify-end gap-2">
                     {item.generated_post_id && (
                       <Link
-                        href={`/blog/${item.url_slug}?preview=admin`}
+                        href={`/${item.url_slug}?preview=admin`}
                         target="_blank"
                         rel="noreferrer"
                         className="rounded-lg px-3 py-1.5 text-[10px] font-bold uppercase tracking-[0.08em] text-black/65 ring-1 ring-black/10 hover:bg-black/[0.03]"

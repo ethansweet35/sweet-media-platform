@@ -13,7 +13,7 @@ const levels = [
     desc: "The foundation. A highly supervised, medically assisted period of physical stabilization. Prioritizing your comfort and safety above all.",
     time: "24/7 Medical Care",
     accent: true,
-    href: "/medical-detox",
+    href: "/drug-alcohol-detox",
   },
   {
     num: "2.",
@@ -24,7 +24,7 @@ const levels = [
     desc: "Deep, immersive therapy in our coastal sanctuary. Stepping away from daily life to rewrite the neural pathways of habit and trauma.",
     time: "24/7 Structured Care",
     accent: true,
-    href: "/residential-treatment",
+    href: "/levels-of-care",
   },
   {
     num: "3.",
@@ -35,7 +35,7 @@ const levels = [
     desc: "Robust daytime clinical programming providing structure and support, while allowing you to practice emotional regulation in the evenings.",
     time: "6 Hours Daily, 5-7 Days/Week",
     accent: false,
-    href: "/partial-hospitalization-program",
+    href: "/partial-hospitalization-program-orange-county",
   },
   {
     num: "4.",
@@ -46,7 +46,7 @@ const levels = [
     desc: "The gentle return. Flexible, targeted therapeutic check-ins that support your integration back into career, family, and community.",
     time: "3-9 Hours Weekly",
     accent: false,
-    href: "/intensive-outpatient-program",
+    href: "/iop-program-orange-county",
   },
 ];
 
