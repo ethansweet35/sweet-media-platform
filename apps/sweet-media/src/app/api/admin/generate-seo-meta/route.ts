@@ -109,7 +109,7 @@ export async function POST(request: Request) {
     headers: {
       Authorization: `Bearer ${apiKey}`,
       "Content-Type": "application/json",
-      "HTTP-Referer": process.env.NEXT_PUBLIC_SITE_URL ?? "",
+      "HTTP-Referer": process.env.NEXT_PUBLIC_SITE_URL ?? "https://sweetmediaservices.com",
       "X-Title": " Admin",
     },
     body: JSON.stringify({
