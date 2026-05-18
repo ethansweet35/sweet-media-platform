@@ -109,25 +109,47 @@ function loadEnvFile() {
 const OP_VAULT = 'sweet media platform';
 const OP_ITEM  = 'platform \u2014 root .env'; // em dash
 
-/** Cached 1Password fields — fetched once on first use. */
+/** Cached 1Password env map — fetched once on first use. */
 let _opCache = null;
+
+function parseEnvText(text) {
+  const out = {};
+  const lines = text.replace(/\\n/g, '\n').split('\n');
+  for (const line of lines) {
+    const trimmed = line.trim();
+    if (!trimmed || trimmed.startsWith('#')) continue;
+    const eq = trimmed.indexOf('=');
+    if (eq < 0) continue;
+    const k = trimmed.slice(0, eq).trim();
+    let v = trimmed.slice(eq + 1);
+    if ((v.startsWith('"') && v.endsWith('"')) || (v.startsWith("'") && v.endsWith("'"))) {
+      v = v.slice(1, -1);
+    }
+    if (k) out[k] = v;
+  }
+  return out;
+}
 
 function getOpFields() {
   if (_opCache !== null) return _opCache;
+  _opCache = {};
   try {
     const raw = execSync(
       `op item get "${OP_ITEM}" --vault "${OP_VAULT}" --format json`,
       { stdio: ['pipe', 'pipe', 'pipe'] }
     ).toString();
     const parsed = JSON.parse(raw);
-    _opCache = {};
     for (const field of parsed.fields || []) {
-      if (field.label && field.value !== undefined) {
-        _opCache[field.label] = field.value;
+      const val = field.value;
+      if (!val) continue;
+      if (/^[A-Z_]+=.+/m.test(val)) {
+        Object.assign(_opCache, parseEnvText(val));
+      } else if (field.label) {
+        _opCache[field.label] = val;
       }
     }
   } catch {
-    _opCache = {};
+    // op not available or not authenticated — silently fall back
   }
   return _opCache;
 }
