@@ -22,4 +22,17 @@ export const wpRedirects: WpRedirect[] = [
   { source: "/op", destination: "/what-we-treat/addiction/opioids/", permanent: true },
   { source: "/seattle", destination: "/guide/seattle-sober-living-and-aftercare-guide/", permanent: true },
   { source: "/levels", destination: "/levels-of-care/", permanent: true },
+  // WP blog posts lived at the root — redirect to /blog/[slug]/
+  { source: "/adult-addiction-treatment-in-seattle-wa", destination: "/blog/adult-addiction-treatment-in-seattle-wa/", permanent: true },
+  { source: "/does-outpatient-drug-rehab-work-effectiveness-limits-and-what-to-expect", destination: "/blog/does-outpatient-drug-rehab-work-effectiveness-limits-and-what-to-expect/", permanent: true },
+  { source: "/how-does-drug-treatment-work", destination: "/blog/how-does-drug-treatment-work/", permanent: true },
+  { source: "/mental-health-and-addiction-rehab-how-integrated-outpatient-care-supports-long-term-recovery-in-seattle", destination: "/blog/mental-health-and-addiction-rehab-how-integrated-outpatient-care-supports-long-term-recovery-in-seattle/", permanent: true },
+  { source: "/outpatient-recovery-program-in-seattle-a-practical-guide", destination: "/blog/outpatient-recovery-program-in-seattle-a-practical-guide/", permanent: true },
+  { source: "/what-are-rehab-centers-a-practical-guide-to-modern-addiction-mental-health-treatment", destination: "/blog/what-are-rehab-centers-a-practical-guide-to-modern-addiction-mental-health-treatment/", permanent: true },
+  { source: "/what-is-a-substance-abuse-program", destination: "/blog/what-is-a-substance-abuse-program/", permanent: true },
+  { source: "/what-is-drug-rehab-like-a-day-to-day-look-at-treatment-with-an-outpatient-focus-in-seattle", destination: "/blog/what-is-drug-rehab-like-a-day-to-day-look-at-treatment-with-an-outpatient-focus-in-seattle/", permanent: true },
+  { source: "/what-is-outpatient-rehab-seattle-guide-by-mountain-view-health", destination: "/blog/what-is-outpatient-rehab-seattle-guide-by-mountain-view-health/", permanent: true },
+  // Template stubs not present on live WP site
+  { source: "/resources", destination: "/guide/", permanent: true },
+  { source: "/services", destination: "/levels-of-care/", permanent: true },
 ];
