@@ -107,19 +107,37 @@ function loadEnvFile() {
 }
 
 const OP_VAULT = 'sweet media platform';
-const OP_ITEM  = 'platform — root .env';
+const OP_ITEM  = 'platform \u2014 root .env'; // em dash
+
+/** Cached 1Password fields — fetched once on first use. */
+let _opCache = null;
+
+function getOpFields() {
+  if (_opCache !== null) return _opCache;
+  try {
+    const raw = execSync(
+      `op item get "${OP_ITEM}" --vault "${OP_VAULT}" --format json`,
+      { stdio: ['pipe', 'pipe', 'pipe'] }
+    ).toString();
+    const parsed = JSON.parse(raw);
+    _opCache = {};
+    for (const field of parsed.fields || []) {
+      if (field.label && field.value !== undefined) {
+        _opCache[field.label] = field.value;
+      }
+    }
+  } catch {
+    _opCache = {};
+  }
+  return _opCache;
+}
 
 /**
  * Try to read a single field from 1Password.
  * Returns null if `op` is unavailable, the user isn't signed in, or the field doesn't exist.
  */
 function opRead(fieldLabel) {
-  try {
-    const uri = `op://${OP_VAULT}/${OP_ITEM}/${fieldLabel}`;
-    return execSync(`op read "${uri}"`, { stdio: ['pipe', 'pipe', 'pipe'] }).toString().trim() || null;
-  } catch {
-    return null;
-  }
+  return getOpFields()[fieldLabel] || null;
 }
 
 // ─── Main ─────────────────────────────────────────────────────────────────────
