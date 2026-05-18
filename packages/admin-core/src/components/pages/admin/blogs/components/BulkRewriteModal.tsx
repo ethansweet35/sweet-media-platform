@@ -6,11 +6,67 @@ import { AI_MODELS, DEFAULT_MODEL_ID } from "../../../../../lib/aiModels";
 import type { BlogPost } from "@sweetmedia/blog-core";
 import type { BlogSection } from "@sweetmedia/blog-core";
 
+// ─── Types ───────────────────────────────────────────────────────────────────
+
+type RowStatus =
+  | "pending"
+  | "creating_brief"
+  | "brief_running"
+  | "brief_failed"
+  | "writing"
+  | "done"
+  | "error";
+
 interface RowState {
   keyword: string;
-  guidelines: string;
-  guidelineFileName: string;
-  status: "pending" | "generating" | "done" | "error";
+  // Manual brief override — if the user uploads a file, we skip auto-brief.
+  manualBrief: string;
+  manualBriefFileName: string;
+  status: RowStatus;
+  /** Human-readable pipeline status message polled from the editor row. */
+  briefStatusMsg?: string;
+  editorId?: string;
+  error?: string;
+}
+
+interface ContentEditorTermRow {
+  term: string;
+  min_recommended_uses: number;
+  max_recommended_uses: number;
+  user_blacklisted: boolean;
+  user_included: boolean;
+}
+interface ContentEditorQuestionRow {
+  question: string;
+  user_dismissed: boolean;
+}
+interface ContentEditorFactRow {
+  fact_text: string;
+  user_dismissed: boolean;
+}
+interface ContentEditorOutlineRow {
+  heading_level: number;
+  heading_text: string;
+  position: number;
+}
+interface ContentEditorEditorRow {
+  id: string;
+  status: string;
+  status_message?: string | null;
+  error?: string | null;
+  primary_keyword: string;
+  recommended_word_count_min?: number | null;
+  recommended_word_count_max?: number | null;
+  recommended_h2_min?: number | null;
+  recommended_h2_max?: number | null;
+}
+interface ContentEditorStateResponse {
+  ok: boolean;
+  editor: ContentEditorEditorRow;
+  terms: ContentEditorTermRow[];
+  questions: ContentEditorQuestionRow[];
+  facts: ContentEditorFactRow[];
+  outline: ContentEditorOutlineRow[];
   error?: string;
 }
 
@@ -20,6 +76,8 @@ interface BulkRewriteModalProps {
   onComplete: () => void;
 }
 
+// ─── Helpers ─────────────────────────────────────────────────────────────────
+
 const inputCls =
   "w-full px-3 py-2 text-sm border border-neutral-200 rounded-lg bg-white text-neutral-900 placeholder-neutral-400 focus:outline-none focus:ring-2 focus:ring-[#3d6f7f]/20 focus:border-[#3d6f7f] transition-all";
 
@@ -27,6 +85,77 @@ function estimateReadTime(content: unknown[]): string {
   const words = JSON.stringify(content).split(/\s+/).filter(Boolean).length;
   return `${Math.max(1, Math.ceil(words / 200))} min read`;
 }
+
+/**
+ * Formats a Content Editor state into a plaintext SEO brief that the
+ * rewrite-blog-post AI writer understands and strictly follows.
+ */
+function formatBriefAsText(state: ContentEditorStateResponse): string {
+  const parts: string[] = [];
+  const editor = state.editor;
+
+  // Structural targets
+  if (editor.recommended_word_count_min != null && editor.recommended_word_count_max != null) {
+    parts.push("=== STRUCTURAL TARGETS ===");
+    parts.push(
+      `Target word count: ${editor.recommended_word_count_min}–${editor.recommended_word_count_max} words`,
+    );
+    if (editor.recommended_h2_min != null) {
+      parts.push(`H2 sections: ${editor.recommended_h2_min}–${editor.recommended_h2_max}`);
+    }
+    parts.push("");
+  }
+
+  // Recommended outline
+  const outline = [...(state.outline ?? [])].sort((a, b) => a.position - b.position);
+  if (outline.length > 0) {
+    parts.push("=== RECOMMENDED OUTLINE ===");
+    for (const s of outline) {
+      const prefix = s.heading_level === 3 ? "  H3: " : "H2: ";
+      parts.push(`${prefix}${s.heading_text}`);
+    }
+    parts.push("");
+  }
+
+  // NLP terms
+  const activeTerms = (state.terms ?? []).filter(
+    (t) => !t.user_blacklisted && t.user_included !== false,
+  );
+  if (activeTerms.length > 0) {
+    parts.push("=== NLP TERMS (you MUST use each term at the specified frequency) ===");
+    for (const t of activeTerms.slice(0, 60)) {
+      parts.push(`- ${t.term}: ${t.min_recommended_uses}–${t.max_recommended_uses} uses`);
+    }
+    parts.push("");
+  }
+
+  // Questions to answer
+  const activeQuestions = (state.questions ?? []).filter((q) => !q.user_dismissed);
+  if (activeQuestions.length > 0) {
+    parts.push(
+      "=== QUESTIONS TO ANSWER (address every one in the body or FAQ section) ===",
+    );
+    for (const q of activeQuestions.slice(0, 15)) {
+      parts.push(`- ${q.question}`);
+    }
+    parts.push("");
+  }
+
+  // Key facts
+  const activeFacts = (state.facts ?? []).filter((f) => !f.user_dismissed);
+  if (activeFacts.length > 0) {
+    parts.push(
+      "=== KEY FACTS TO COVER (paraphrase naturally — do NOT copy verbatim) ===",
+    );
+    for (const f of activeFacts.slice(0, 20)) {
+      parts.push(`- ${f.fact_text}`);
+    }
+  }
+
+  return parts.join("\n");
+}
+
+// ─── Component ───────────────────────────────────────────────────────────────
 
 export default function BulkRewriteModal({ posts, onClose, onComplete }: BulkRewriteModalProps) {
   const [model, setModel] = useState(DEFAULT_MODEL_ID);
@@ -37,9 +166,9 @@ export default function BulkRewriteModal({ posts, onClose, onComplete }: BulkRew
         p.id,
         {
           keyword: p.focus_keyword ?? "",
-          guidelines: "",
-          guidelineFileName: "",
-          status: "pending" as const,
+          manualBrief: "",
+          manualBriefFileName: "",
+          status: "pending" as RowStatus,
         },
       ]),
     ),
@@ -57,81 +186,203 @@ export default function BulkRewriteModal({ posts, onClose, onComplete }: BulkRew
     const reader = new FileReader();
     reader.onload = (ev) => {
       updateRow(postId, {
-        guidelines: (ev.target?.result as string) ?? "",
-        guidelineFileName: file.name,
+        manualBrief: (ev.target?.result as string) ?? "",
+        manualBriefFileName: file.name,
       });
     };
     reader.readAsText(file);
   };
 
   const completedCount = Object.values(rows).filter((r) => r.status === "done").length;
-  const errorCount = Object.values(rows).filter((r) => r.status === "error").length;
+  const errorCount = Object.values(rows).filter(
+    (r) => r.status === "error" || r.status === "brief_failed",
+  ).length;
 
-  const handleRunAll = async () => {
-    setRunning(true);
+  // ── Per-post pipeline ──────────────────────────────────────────────────────
 
-    for (const post of posts) {
-      const row = rows[post.id];
-      if (!row.keyword.trim()) {
-        updateRow(post.id, { status: "error", error: "No keyword set — add one to this post first." });
-        continue;
-      }
+  /**
+   * Polls /api/admin/content-editor/{id} every 5 s until status=ready or failed.
+   * Updates the row's briefStatusMsg on each tick. Returns the final state.
+   */
+  async function pollUntilReady(
+    postId: string,
+    editorId: string,
+  ): Promise<ContentEditorStateResponse> {
+    const MAX_POLLS = 72; // 72 × 5s = 6 min max
+    for (let i = 0; i < MAX_POLLS; i++) {
+      await new Promise((r) => setTimeout(r, 5000));
+      const res = await fetch(`/api/admin/content-editor/${editorId}`);
+      const json = (await res.json()) as ContentEditorStateResponse;
+      if (!json.ok) throw new Error(json.error ?? "Failed to fetch brief status");
+      const status = json.editor.status;
+      if (status === "ready") return json;
+      if (status === "failed")
+        throw new Error(json.editor.error ?? "Brief pipeline failed.");
+      updateRow(postId, {
+        briefStatusMsg: json.editor.status_message ?? status,
+      });
+    }
+    throw new Error("Brief pipeline timed out after 6 minutes.");
+  }
 
-      updateRow(post.id, { status: "generating" });
+  async function processPost(post: BlogPost): Promise<void> {
+    const row = rows[post.id];
+    if (!row.keyword.trim()) {
+      updateRow(post.id, { status: "error", error: "No keyword — add one to this post first." });
+      return;
+    }
 
+    let seoGuidelines: string | undefined;
+
+    // ── Step 1: Auto-generate brief (skip if user uploaded one manually) ──
+    if (row.manualBrief.trim()) {
+      seoGuidelines = row.manualBrief.trim();
+    } else {
       try {
-        const res = await fetch("/api/admin/rewrite-blog-post", {
+        // Create the content editor
+        updateRow(post.id, { status: "creating_brief", briefStatusMsg: "Creating brief…" });
+        const createRes = await fetch("/api/admin/content-editor/create", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
-            topic: post.title,
             primaryKeyword: row.keyword.trim(),
-            category: post.category || undefined,
-            targetWordCount: wordCount,
-            seoGuidelines: row.guidelines.trim() || undefined,
-            model,
+            blogPostId: post.id,
           }),
         });
-
-        let json: Record<string, unknown>;
-        try {
-          json = await res.json() as Record<string, unknown>;
-        } catch {
-          throw new Error(
-            res.status === 504
-              ? "Request timed out — try a shorter word count."
-              : `Server returned an empty response (HTTP ${res.status}).`,
-          );
+        const createJson = (await createRes.json()) as {
+          ok: boolean;
+          editor?: { id: string };
+          error?: string;
+        };
+        if (!createRes.ok || !createJson.ok || !createJson.editor?.id) {
+          throw new Error(createJson.error ?? "Failed to create brief.");
         }
-        if (!res.ok || !json.ok) {
-          throw new Error(typeof json.error === "string" ? json.error : "Generation failed.");
-        }
+        const editorId = createJson.editor.id;
+        updateRow(post.id, {
+          status: "brief_running",
+          editorId,
+          briefStatusMsg: "Analyzing competitors…",
+        });
 
-        const content = json.content as BlogSection[];
-        const { error: saveErr } = await supabase
-          .from("blog_posts")
-          .update({
-            title: String(json.title ?? post.title),
-            excerpt: String(json.excerpt ?? post.excerpt),
-            meta_description: String(json.metaDescription ?? post.metaDescription ?? ""),
-            content: JSON.stringify(content),
-            read_time: estimateReadTime(content as unknown[]),
-          })
-          .eq("id", post.id);
-
-        if (saveErr) throw new Error(saveErr.message);
-        updateRow(post.id, { status: "done" });
+        // Poll until ready
+        const state = await pollUntilReady(post.id, editorId);
+        seoGuidelines = formatBriefAsText(state);
       } catch (err) {
         updateRow(post.id, {
-          status: "error",
-          error: err instanceof Error ? err.message : "Unknown error.",
+          status: "brief_failed",
+          error: err instanceof Error ? err.message : "Brief generation failed.",
         });
+        return;
       }
     }
 
+    // ── Step 2: Rewrite the post using the brief ──────────────────────────
+    try {
+      updateRow(post.id, { status: "writing", briefStatusMsg: undefined });
+
+      const res = await fetch("/api/admin/rewrite-blog-post", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          topic: post.title,
+          primaryKeyword: row.keyword.trim(),
+          category: post.category || undefined,
+          targetWordCount: wordCount,
+          seoGuidelines,
+          model,
+        }),
+      });
+
+      let json: Record<string, unknown>;
+      try {
+        json = (await res.json()) as Record<string, unknown>;
+      } catch {
+        throw new Error(
+          res.status === 504
+            ? "Request timed out — try a shorter word count."
+            : `Server returned an empty response (HTTP ${res.status}).`,
+        );
+      }
+      if (!res.ok || !json.ok) {
+        throw new Error(typeof json.error === "string" ? json.error : "Generation failed.");
+      }
+
+      const content = json.content as BlogSection[];
+      const { error: saveErr } = await supabase
+        .from("blog_posts")
+        .update({
+          title: String(json.title ?? post.title),
+          excerpt: String(json.excerpt ?? post.excerpt),
+          meta_description: String(json.metaDescription ?? post.metaDescription ?? ""),
+          content: JSON.stringify(content),
+          read_time: estimateReadTime(content as unknown[]),
+        })
+        .eq("id", post.id);
+
+      if (saveErr) throw new Error(saveErr.message);
+      updateRow(post.id, { status: "done" });
+    } catch (err) {
+      updateRow(post.id, {
+        status: "error",
+        error: err instanceof Error ? err.message : "Unknown error.",
+      });
+    }
+  }
+
+  const handleRunAll = async () => {
+    setRunning(true);
+    for (const post of posts) {
+      await processPost(post);
+    }
     setRunning(false);
     setDone(true);
   };
+
+  // ── Status label helpers ───────────────────────────────────────────────────
+
+  function statusLabel(row: RowState): string {
+    switch (row.status) {
+      case "creating_brief": return "Creating brief…";
+      case "brief_running": return row.briefStatusMsg ?? "Analyzing…";
+      case "brief_failed": return row.error ?? "Brief failed";
+      case "writing": return "Writing content…";
+      case "done": return "Done";
+      case "error": return row.error ?? "Error";
+      default: return "Pending";
+    }
+  }
+
+  function statusIcon(row: RowState) {
+    if (row.status === "creating_brief" || row.status === "brief_running" || row.status === "writing") {
+      return <i className="ri-loader-4-line animate-spin text-violet-500 text-base"></i>;
+    }
+    if (row.status === "done") {
+      return <i className="ri-check-circle-fill text-emerald-500 text-base"></i>;
+    }
+    if (row.status === "error" || row.status === "brief_failed") {
+      return <i className="ri-error-warning-fill text-red-400 text-base"></i>;
+    }
+    return <span className="w-2 h-2 rounded-full bg-neutral-300 mt-1 block"></span>;
+  }
+
+  function rowBg(row: RowState): string {
+    if (row.status === "creating_brief" || row.status === "brief_running" || row.status === "writing") return "bg-violet-50/40";
+    if (row.status === "done") return "bg-emerald-50/30";
+    if (row.status === "error" || row.status === "brief_failed") return "bg-red-50/30";
+    return "";
+  }
+
+  // Phase label shown during run
+  function phaseLabel(): string {
+    const briefPhases: RowStatus[] = ["creating_brief", "brief_running"];
+    if (posts.some((p) => briefPhases.includes(rows[p.id].status))) {
+      const done = posts.filter((p) => !briefPhases.includes(rows[p.id].status) && rows[p.id].status !== "pending").length;
+      return `Building briefs — ${done} of ${posts.length} complete…`;
+    }
+    return `Writing content — ${completedCount + errorCount} of ${posts.length} complete…`;
+  }
+
+  // ── Render ─────────────────────────────────────────────────────────────────
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
@@ -146,7 +397,7 @@ export default function BulkRewriteModal({ posts, onClose, onComplete }: BulkRew
           <div className="flex-1">
             <h2 className="text-base font-semibold text-neutral-900">Bulk AI Rewrite</h2>
             <p className="text-[12px] text-neutral-400">
-              Rewrite {posts.length} post{posts.length !== 1 ? "s" : ""} with AI — optionally import a SEO brief per post
+              Rewrites {posts.length} post{posts.length !== 1 ? "s" : ""} — auto-generates an SEO brief per post, then writes the content
             </p>
           </div>
           {!running && (
@@ -187,8 +438,13 @@ export default function BulkRewriteModal({ posts, onClose, onComplete }: BulkRew
               ))}
             </select>
           </div>
+          {/* Info chip */}
+          <div className="ml-auto flex items-center gap-1.5 text-[11px] text-neutral-400">
+            <i className="ri-information-line text-xs"></i>
+            <span>Brief auto-generated per post · ~2–3 min each</span>
+          </div>
           {done && (
-            <span className="ml-auto text-[12px] font-medium text-emerald-600">
+            <span className="text-[12px] font-medium text-emerald-600">
               {completedCount} done{errorCount > 0 ? `, ${errorCount} failed` : ""}
             </span>
           )}
@@ -198,24 +454,18 @@ export default function BulkRewriteModal({ posts, onClose, onComplete }: BulkRew
         <div className="flex-1 overflow-y-auto divide-y divide-neutral-50">
           {posts.map((post) => {
             const row = rows[post.id];
+            const isActive = ["creating_brief", "brief_running", "writing"].includes(row.status);
+            const isTerminal = row.status === "done" || row.status === "error" || row.status === "brief_failed";
+            const isPending = row.status === "pending";
             return (
-              <div key={post.id} className={`px-7 py-4 transition-colors ${
-                row.status === "generating" ? "bg-violet-50/40" :
-                row.status === "done" ? "bg-emerald-50/30" :
-                row.status === "error" ? "bg-red-50/30" : ""
-              }`}>
+              <div
+                key={post.id}
+                className={`px-7 py-4 transition-colors ${rowBg(row)}`}
+              >
                 <div className="flex items-start gap-4">
                   {/* Status icon */}
                   <div className="mt-1 w-6 h-6 flex items-center justify-center flex-shrink-0">
-                    {row.status === "generating" ? (
-                      <i className="ri-loader-4-line animate-spin text-violet-500 text-base"></i>
-                    ) : row.status === "done" ? (
-                      <i className="ri-check-circle-fill text-emerald-500 text-base"></i>
-                    ) : row.status === "error" ? (
-                      <i className="ri-error-warning-fill text-red-400 text-base"></i>
-                    ) : (
-                      <span className="w-2 h-2 rounded-full bg-neutral-300 mt-1"></span>
-                    )}
+                    {statusIcon(row)}
                   </div>
 
                   <div className="flex-1 min-w-0 space-y-2">
@@ -223,23 +473,30 @@ export default function BulkRewriteModal({ posts, onClose, onComplete }: BulkRew
                       {post.title}
                     </p>
 
-                    {row.status === "error" && row.error && (
-                      <p className="text-[11px] text-red-500">{row.error}</p>
+                    {/* Active / terminal status message */}
+                    {(isActive || isTerminal) && (
+                      <p className={`text-[11px] font-medium ${
+                        row.status === "done" ? "text-emerald-600" :
+                        row.status === "error" || row.status === "brief_failed" ? "text-red-500" :
+                        "text-violet-600"
+                      }`}>
+                        {statusLabel(row)}
+                      </p>
                     )}
 
-                    {row.status !== "done" && row.status !== "generating" && (
+                    {/* Editable controls — shown only when not yet started */}
+                    {isPending && (
                       <div className="flex items-center gap-2 flex-wrap">
-                        {/* Keyword */}
                         <input
                           type="text"
                           value={row.keyword}
                           onChange={(e) => updateRow(post.id, { keyword: e.target.value })}
-                          placeholder="Focus keyword..."
+                          placeholder="Focus keyword…"
                           className={`${inputCls} max-w-[240px]`}
                           disabled={running}
                         />
 
-                        {/* SEO brief file */}
+                        {/* Optional manual brief override */}
                         <button
                           type="button"
                           onClick={() => fileRefs.current[post.id]?.click()}
@@ -247,7 +504,7 @@ export default function BulkRewriteModal({ posts, onClose, onComplete }: BulkRew
                           className="flex items-center gap-1.5 px-3 py-2 rounded-lg border border-dashed border-neutral-300 hover:border-[#3d6f7f]/50 hover:bg-[#3d6f7f]/4 text-[11px] font-medium text-neutral-500 hover:text-[#3d6f7f] transition-all cursor-pointer disabled:opacity-50 whitespace-nowrap"
                         >
                           <i className="ri-file-upload-line text-xs"></i>
-                          {row.guidelineFileName || "Import SEO brief"}
+                          {row.manualBriefFileName || "Override brief"}
                         </button>
                         <input
                           ref={(el) => { fileRefs.current[post.id] = el; }}
@@ -257,10 +514,10 @@ export default function BulkRewriteModal({ posts, onClose, onComplete }: BulkRew
                           onChange={(e) => handleFileUpload(post.id, e)}
                         />
 
-                        {row.guidelines && (
-                          <span className="flex items-center gap-1 text-[10px] text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full font-bold">
-                            <i className="ri-check-line text-[9px]"></i>
-                            Guidelines loaded
+                        {row.manualBrief && (
+                          <span className="flex items-center gap-1 text-[10px] text-amber-700 bg-amber-50 px-2 py-0.5 rounded-full font-bold">
+                            <i className="ri-file-text-line text-[9px]"></i>
+                            Manual brief (auto-gen skipped)
                           </span>
                         )}
                       </div>
@@ -277,7 +534,7 @@ export default function BulkRewriteModal({ posts, onClose, onComplete }: BulkRew
           {done ? (
             <>
               <p className="flex-1 text-sm text-neutral-500">
-                Rewrites saved as drafts. Reload the posts list to see the updated content.
+                Rewrites saved as drafts. Reload the posts list to see updated content.
               </p>
               <button
                 onClick={onComplete}
@@ -290,9 +547,7 @@ export default function BulkRewriteModal({ posts, onClose, onComplete }: BulkRew
           ) : running ? (
             <div className="flex-1 flex items-center gap-3">
               <i className="ri-loader-4-line animate-spin text-violet-500 text-base"></i>
-              <span className="text-sm text-violet-700 font-medium">
-                Rewriting {completedCount + errorCount + 1} of {posts.length}...
-              </span>
+              <span className="text-sm text-violet-700 font-medium">{phaseLabel()}</span>
             </div>
           ) : (
             <>
@@ -303,7 +558,7 @@ export default function BulkRewriteModal({ posts, onClose, onComplete }: BulkRew
                 Cancel
               </button>
               <div className="flex-1 text-[12px] text-neutral-400">
-                Posts will be saved automatically as drafts after rewriting.
+                Each post: auto-generate SEO brief → write content → save as draft.
               </div>
               <button
                 onClick={handleRunAll}
