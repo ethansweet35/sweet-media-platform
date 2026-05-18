@@ -135,6 +135,45 @@ body {
 }
 
 /**
+ * Desktop: slightly larger body copy + airier line-height (native + Elementor pages under `main`).
+ */
+@media (min-width: 768px) {
+  .cipher-site main p.text-sm,
+  .cipher-site main li.text-sm {
+    font-size: 0.9375rem !important; /* 15px — was 14 */
+    line-height: 1.66 !important;
+  }
+
+  .cipher-site main p.text-base,
+  .cipher-site main li.text-base {
+    font-size: 1.0625rem !important; /* 17px — was 16 */
+    line-height: 1.72 !important;
+  }
+
+  .cipher-site main p.text-lg,
+  .cipher-site main li.text-lg {
+    font-size: 1.1875rem !important; /* ~19px */
+    line-height: 1.66 !important;
+  }
+
+  /* Elementor full-page routes (e.g. reimbursement guide, coding guide) */
+  .cipher-site main .elementor-widget-text-editor :where(p, li) {
+    font-size: 1rem !important;
+    line-height: 1.72 !important;
+  }
+
+  .cipher-site main .elementor-icon-box-description {
+    font-size: 0.9375rem !important;
+    line-height: 1.68 !important;
+  }
+
+  .cipher-site main .elementor-icon-list-item {
+    font-size: 0.9375rem !important;
+    line-height: 1.68 !important;
+  }
+}
+
+/**
  * Paragraphs inherit Montserrat from body; headings get serif via h1–h6 rule below.
  * Use this class on non-heading elements (e.g. stat figures) that must match Marcellus titles.
  */

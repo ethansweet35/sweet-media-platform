@@ -3,6 +3,7 @@ import Link from "next/link";
 import { AutoLinkedText } from "@sweetmedia/blog-core";
 
 import HomeLeadForm from "./components/HomeLeadForm";
+import HomeMetricsGrid from "./components/HomeMetricsGrid";
 import HomeTestimonialRotator, {
   type HomeTestimonial,
 } from "./components/HomeTestimonialRotator";
@@ -10,12 +11,12 @@ import HomeTestimonialRotator, {
 const HERO_VIDEO =
   "https://nstzjqmtsqgeihkyvkqq.supabase.co/storage/v1/object/public/site-assets/images/video2-compressed.mp4";
 
-const metrics = [
-  { value: "$1,821", label: "Inpatient Day Rate" },
-  { value: "$1,149", label: "Outpatient Day Rate" },
-  { value: "100%", label: "Pre-Payment Review Passing Rate" },
-  { value: "30 Days", label: "To Received First Payment" },
-];
+const homeMetricSpecs = [
+  { end: 1821, prefix: "$", useGrouping: true, label: "Inpatient Day Rate" },
+  { end: 1149, prefix: "$", useGrouping: true, label: "Outpatient Day Rate" },
+  { end: 100, suffix: "%", label: "Pre-Payment Review Passing Rate" },
+  { end: 30, suffix: " Days", label: "To Received First Payment" },
+] as const;
 
 /** Remix Icon classes (`ri-*`) — platform standard; stylesheet loaded in `src/app/layout.tsx`. */
 const differentiators = [
@@ -172,17 +173,7 @@ export default function HomePage() {
                 </Link>
               </div>
 
-              <div className="grid grid-cols-2 gap-4">
-                {metrics.map((metric) => (
-                  <div
-                    key={metric.label}
-                    className="flex flex-col items-center justify-center border border-white/15 bg-white/5 backdrop-blur-sm px-4 py-8 text-center"
-                  >
-                    <p className="font-marcellus text-3xl font-medium tracking-[-0.02em] text-white md:text-4xl md:leading-[1.1]"><AutoLinkedText>{metric.value}</AutoLinkedText></p>
-                    <p className="mt-3 max-w-[11rem] text-center font-[var(--font-body)] text-[11px] font-normal uppercase leading-snug tracking-[0.12em] text-white/95"><AutoLinkedText>{metric.label}</AutoLinkedText></p>
-                  </div>
-                ))}
-              </div>
+              <HomeMetricsGrid metrics={homeMetricSpecs} />
             </div>
           </div>
         </section>
