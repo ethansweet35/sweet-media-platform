@@ -110,8 +110,8 @@ export async function POST(request: Request) {
     headers: {
       Authorization: `Bearer ${apiKey}`,
       "Content-Type": "application/json",
-      "HTTP-Referer": process.env.NEXT_PUBLIC_SITE_URL ?? "https://northboundtreatment.com",
-      "X-Title": " Admin",
+      "HTTP-Referer": process.env.NEXT_PUBLIC_SITE_URL ?? "https://mountainviewtreatment.com",
+      "X-Title": "Mountain View Treatment Admin",
     },
     body: JSON.stringify({
       model: "google/gemini-2.0-flash-001",

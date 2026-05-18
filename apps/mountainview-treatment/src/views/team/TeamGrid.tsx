@@ -16,7 +16,7 @@ const TEAM: Member[] = [
     title: "Founder / CEO",
     photo: `${SUPABASE_BASE}/2026/03/Tanner-Monstad.webp`,
     bio:
-      "I've learned firsthand how a change of view can change a life. This is what drives me to give back and help others in this community. I came back to my hometown here in Washington to create a place for all to recover that truly feels like home. I believe Mountain View Health is that place.",
+      "I've learned firsthand how a change of view can change a life. This is what drives me to give back and help others in this community. I came back to my hometown here in Washington to create a place for all to recover that truly feels like home. I believe Mountain View Treatment is that place.",
   },
   {
     name: "Tara",

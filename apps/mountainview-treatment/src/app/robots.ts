@@ -1,6 +1,6 @@
 import type { MetadataRoute } from "next";
 
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL!;
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://mountainviewtreatment.com";
 
 export default function robots(): MetadataRoute.Robots {
   return {
@@ -10,14 +10,14 @@ export default function robots(): MetadataRoute.Robots {
         disallow: ["/admin/", "/api/"],
         allow: [
           "/",
-          "/about",
-          "/what-we-treat",
-          "/virtual-outpatient",
-          "/therapy",
-          "/admissions",
-          "/contact",
-          "/resources",
-          "/locations",
+          "/about-us/",
+          "/what-we-treat/",
+          "/therapies/",
+          "/levels-of-care/",
+          "/admissions/",
+          "/guide/",
+          "/blog/",
+          "/contact/",
         ],
       },
     ],

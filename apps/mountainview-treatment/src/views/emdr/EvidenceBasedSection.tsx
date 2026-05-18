@@ -68,7 +68,7 @@ export default function EvidenceBasedSection() {
           </p>
           <div className="flex flex-wrap gap-3">
             <Link
-              href="/therapies/cbt-dbt/"
+              href="/therapies/cognitive-dialectical/"
               className="inline-flex items-center gap-2 border border-white/30 px-6 py-3 text-[12px] font-semibold uppercase tracking-[0.18em] text-white/90 transition hover:border-white hover:text-white"
             >
               Compare CBT &amp; DBT

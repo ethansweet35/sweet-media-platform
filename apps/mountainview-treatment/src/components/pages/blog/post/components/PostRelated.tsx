@@ -46,7 +46,7 @@ export default function PostRelated({ currentPost, allPosts }: PostRelatedProps)
           {related.map((post) => (
             <Link
               key={post.id}
-              href={`/blog/${post.slug}`}
+              href={`/${post.slug}`}
               className="group bg-white rounded-2xl overflow-hidden border border-neutral-100 hover:border-neutral-200 transition-all duration-300 block"
             >
               <article>

@@ -8,5 +8,5 @@ export function getPublicSiteOrigin(): string {
 }
 
 export function canonicalBlogPostUrl(slug: string): string {
-  return `${getPublicSiteOrigin()}/blog/${slug}`;
+  return `${getPublicSiteOrigin()}/${slug}`;
 }

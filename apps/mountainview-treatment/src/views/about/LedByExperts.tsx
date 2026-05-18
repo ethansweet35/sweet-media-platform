@@ -59,7 +59,7 @@ export default function LedByExperts() {
         <div className="relative aspect-[4/5] w-full overflow-hidden bg-[var(--mvt-ink)] lg:max-w-[440px] lg:justify-self-end">
           <Image
             src={TANNER_IMG}
-            alt="Tanner Monstad, Founder and CEO of Mountainview Health"
+            alt="Tanner Monstad, Founder and CEO of Mountain View Treatment"
             fill
             className="object-cover"
             sizes="(min-width: 1024px) 440px, 100vw"

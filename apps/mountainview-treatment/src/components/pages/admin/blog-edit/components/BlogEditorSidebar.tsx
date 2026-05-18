@@ -89,7 +89,7 @@ export default function BlogEditorSidebar({ form, onChange, postDate, slugError 
               ? "border-red-300 ring-1 ring-red-100"
               : "border-neutral-200 focus-within:border-[#3d6f7f] focus-within:ring-1 focus-within:ring-[#3d6f7f]/10"
           }`}>
-            <span className="text-xs text-neutral-400 whitespace-nowrap">/blog/</span>
+            <span className="text-xs text-neutral-400 whitespace-nowrap">/</span>
             <input
               type="text"
               value={form.slug}
@@ -170,9 +170,8 @@ export default function BlogEditorSidebar({ form, onChange, postDate, slugError 
               fill
               loading="lazy"
               sizes="280px"
-              unoptimized={
-                !form.image.includes("ynmldknprfusujudvutq.supabase.co") &&
-                !form.image.includes("grbxnkgzhquwdqxlscv.supabase.co") &&
+                unoptimized={
+                !form.image.includes("gueqxorkktfcwiakepcp.supabase.co") &&
                 !form.image.includes("lh3.googleusercontent.com")
               }
               className="w-full h-full object-cover"
@@ -205,8 +204,7 @@ export default function BlogEditorSidebar({ form, onChange, postDate, slugError 
                 loading="lazy"
                 sizes="40px"
                 unoptimized={
-                  !form.authorPhoto.includes("ynmldknprfusujudvutq.supabase.co") &&
-                  !form.authorPhoto.includes("grbxnkgzhquwdqxlscv.supabase.co") &&
+                  !form.authorPhoto.includes("gueqxorkktfcwiakepcp.supabase.co") &&
                   !form.authorPhoto.includes("lh3.googleusercontent.com")
                 }
                 className="w-full h-full object-cover"
@@ -275,7 +273,7 @@ export default function BlogEditorSidebar({ form, onChange, postDate, slugError 
           <p className="text-sm font-medium leading-snug line-clamp-1" style={{ color: "#1a0dab" }}>
             {form.excerpt ? form.excerpt.slice(0, 60) + "..." : "Post title here"} | Mountain View Treatment
           </p>
-          <p className="text-xs mt-0.5" style={{ color: "#006621" }}>mountainviewtreatment.com/blog/{form.slug || "post-slug"}</p>
+          <p className="text-xs mt-0.5" style={{ color: "#006621" }}>mountainviewtreatment.com/{form.slug || "post-slug"}</p>
           <p className="text-xs text-neutral-500 mt-0.5 line-clamp-2">
             {form.metaDescription || form.excerpt || "No description set."}
           </p>

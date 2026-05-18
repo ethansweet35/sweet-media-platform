@@ -33,7 +33,7 @@ export default function AboutSection() {
         <div className="relative overflow-hidden rounded-md">
           <Image
             src={STOREFRONT_IMG}
-            alt="Mountain View Health office in Seattle, Washington"
+            alt="Mountain View Treatment office in Seattle, Washington"
             width={1100}
             height={1320}
             className="h-full w-full object-cover"

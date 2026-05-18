@@ -39,7 +39,7 @@ export default function PostInlineRelated({ currentPost, allPosts }: PostInlineR
         {related.map((post) => (
           <Link
             key={post.id}
-            href={`/blog/${post.slug}/`}
+            href={`/${post.slug}/`}
             className="group flex items-center gap-5 px-7 py-5 transition hover:bg-white"
           >
             {/* Thumbnail */}

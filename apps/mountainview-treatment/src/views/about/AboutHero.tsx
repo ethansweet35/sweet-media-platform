@@ -29,7 +29,7 @@ export default function AboutHero() {
             <p>
               Born and raised in Washington, the founder has been determined to
               help the recovery community in this state by creating a place
-              that feels like home for all to get sober. Mountainview Health is
+              that feels like home for all to get sober. Mountain View Treatment is
               that place.
             </p>
           </div>
@@ -54,7 +54,7 @@ export default function AboutHero() {
         <div className="relative aspect-[4/5] w-full overflow-hidden rounded-sm lg:max-w-[460px] lg:justify-self-end">
           <Image
             src={STOREFRONT_IMG}
-            alt="Mountain View Health office in Seattle, Washington"
+            alt="Mountain View Treatment office in Seattle, Washington"
             fill
             priority
             className="object-cover"

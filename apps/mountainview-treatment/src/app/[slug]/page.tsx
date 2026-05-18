@@ -64,10 +64,10 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   return {
     title,
     description,
-    alternates: { canonical: `/blog/${slug}` },
+    alternates: { canonical: `/${slug}` },
     openGraph: {
       type: "article",
-      url: `/blog/${slug}`,
+      url: `/${slug}`,
       title,
       description,
       siteName: "Mountain View Treatment",
@@ -132,8 +132,6 @@ export default async function Page({ params, searchParams }: PageProps) {
 
   return (
     <>
-      {/* Show a subtle banner while a Cursor agent is rewriting this
-          blog post's tsx — auto-hides via ISR once the run completes. */}
       {post.content_editor_id ? (
         <OptimizationStatusBanner
           contentEditorId={post.content_editor_id}

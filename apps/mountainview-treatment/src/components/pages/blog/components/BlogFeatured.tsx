@@ -92,7 +92,7 @@ export default function BlogFeatured() {
               </div>
 
               <button
-                onClick={() => router.push(`/blog/${post.slug}`)}
+                onClick={() => router.push(`/${post.slug}`)}
                 className="group flex items-center gap-2 text-[11px] tracking-[0.15em] uppercase font-bold text-[#1F2937] hover:text-[#2563EB] transition-colors cursor-pointer whitespace-nowrap"
               >
                 Read Article

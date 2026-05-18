@@ -27,7 +27,7 @@ export default function Navbar() {
     <header className="sticky top-0 z-50">
       {/* Utility top bar — matches live site: address LEFT, intake + phone RIGHT */}
       <div className="hidden bg-[var(--mvt-ink)] py-2.5 text-[11px] font-semibold tracking-[0.18em] text-white lg:block">
-        <div className="mx-auto flex max-w-[1280px] items-center justify-between gap-6 px-8">
+        <div className="mx-auto flex max-w-[1280px] items-center justify-between gap-6 px-6 lg:px-12">
           <span className="uppercase text-white/90">{SITE.address.full}</span>
           <div className="flex items-center gap-8">
             <Link

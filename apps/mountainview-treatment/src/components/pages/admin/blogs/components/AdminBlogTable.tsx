@@ -198,8 +198,7 @@ export default function AdminBlogTable({
                             loading="lazy"
                             sizes="48px"
                             unoptimized={
-                              !imgStatus.url.includes("ynmldknprfusujudvutq.supabase.co") &&
-                              !imgStatus.url.includes("grbxnkgzhquwdqxlscv.supabase.co") &&
+                              !imgStatus.url.includes("gueqxorkktfcwiakepcp.supabase.co") &&
                               !imgStatus.url.includes("lh3.googleusercontent.com")
                             }
                             className="w-full h-full object-cover"
@@ -216,8 +215,7 @@ export default function AdminBlogTable({
                             loading="lazy"
                             sizes="48px"
                             unoptimized={
-                              !post.image.includes("ynmldknprfusujudvutq.supabase.co") &&
-                              !post.image.includes("grbxnkgzhquwdqxlscv.supabase.co") &&
+                              !post.image.includes("gueqxorkktfcwiakepcp.supabase.co") &&
                               !post.image.includes("lh3.googleusercontent.com")
                             }
                             className="w-full h-full object-cover"

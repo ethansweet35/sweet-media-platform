@@ -7,7 +7,7 @@
 
 export const SITE = {
   brand: "Mountain View Treatment",
-  brandLong: "Mountain View Health",
+  brandLong: "Mountain View Treatment",
   tagline: "Top Addiction Treatment Center",
 
   phone: {
