@@ -173,44 +173,73 @@ export default function BehavioralHealthRevenueCycleManagementPage() {
       </section>
 
       {/* Precision Management — white */}
-      <section className="bg-white px-[30px] py-[50px] md:px-5 md:py-[100px]">
-        <div className="mx-auto grid max-w-[1140px] gap-12 lg:grid-cols-2 lg:items-start lg:gap-[50px]">
-          <div>
-            <div className="flex items-center gap-4">
-              <span className="h-px w-[8%] min-w-[48px] bg-[#166C96]" aria-hidden />
-              <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-[#166C96]"><AutoLinkedText>{"Precision Management"}</AutoLinkedText></p>
+      <section className="bg-white py-16 md:py-24">
+        <div className="mx-auto max-w-[1140px] px-6 md:px-8">
+          <div className="grid gap-12 lg:grid-cols-[1fr_460px] lg:items-center lg:gap-16 xl:grid-cols-[1fr_500px]">
+
+            {/* Left column */}
+            <div>
+              <div className="flex items-center gap-3">
+                <span className="h-px w-12 shrink-0 bg-[#166C96]" aria-hidden />
+                <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-[#166C96]">
+                  Precision Management
+                </p>
+              </div>
+
+              <h2 className="mt-5 font-[var(--font-heading)] text-4xl font-medium leading-[1.08] text-[#101E3F] md:text-[2.75rem]">
+                From Intake To Payment{" "}
+                <span className="text-[#166C96]">We Handle It All</span>
+              </h2>
+
+              <p className="mt-6 text-[15px] leading-[1.7] text-slate-600">
+                <AutoLinkedText>{precisionIntro[0]}</AutoLinkedText>
+              </p>
+              <p className="mt-4 text-[15px] leading-[1.7] text-slate-600">
+                <AutoLinkedText>{precisionIntro[1]}</AutoLinkedText>
+              </p>
+
+              {/* Feature strip */}
+              <div className="mt-10 grid grid-cols-2 gap-x-6 gap-y-5 border-t border-slate-100 pt-8">
+                {precisionHighlights.map((item) => (
+                  <div key={item.label} className="flex items-center gap-3">
+                    <span
+                      className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-[#166C96]/10 text-[#166C96]"
+                      aria-hidden
+                    >
+                      <i className={`${item.icon} text-[17px] leading-none`} />
+                    </span>
+                    <span className="text-[12.5px] font-semibold text-[#101E3F]">{item.label}</span>
+                  </div>
+                ))}
+              </div>
+
+              <a
+                href={TEL_HREF}
+                suppressHydrationWarning
+                className="mt-8 inline-flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.18em] text-[#166C96] transition hover:text-[#101E3F]"
+              >
+                Speak with a Specialist <i className="ri-arrow-right-line" />
+              </a>
             </div>
-            <h2 className="mt-4 font-[var(--font-heading)] text-3xl font-medium text-[#101E3F] md:text-[2.5rem] md:leading-tight">
-              From Intake To Payment{" "}
-              <span className="text-[#166C96]">We Handle It All</span>
-            </h2>
-            <div className="mt-6 space-y-5 text-base leading-relaxed text-slate-700">
-              {precisionIntro.map((p, i) => (
-                <p key={i}><AutoLinkedText>{p}</AutoLinkedText></p>
-              ))}
+
+            {/* Right column — image with floating stat */}
+            <div className="relative mx-auto w-full max-w-lg lg:mx-0">
+              <div className="relative aspect-[4/5] overflow-hidden rounded-2xl">
+                <Image
+                  src={IMG_PRECISION}
+                  alt="Behavioral health revenue cycle specialists collaborating"
+                  fill
+                  className="object-cover"
+                  sizes="(max-width: 1024px) 100vw, 500px"
+                />
+              </div>
+              {/* Floating stat card */}
+              <div className="absolute -bottom-4 -left-4 rounded-xl bg-[#101E3F] px-6 py-5 shadow-2xl md:-bottom-5 md:-left-5">
+                <p className="font-[var(--font-heading)] text-[2rem] font-medium leading-none text-white">97%</p>
+                <p className="mt-1 text-[10.5px] font-semibold uppercase tracking-[0.14em] text-[#166C96]">Medical Appeal Success</p>
+              </div>
             </div>
-            <div className="mt-8 grid grid-cols-1 gap-5 border-t border-slate-200 pt-8 sm:grid-cols-2">
-              {precisionHighlights.map((item) => (
-                <div key={item.label} className="flex items-start gap-3">
-                  <span
-                    className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border-2 border-[#166C96] text-[#166C96]"
-                    aria-hidden
-                  >
-                    <i className={`${item.icon} text-lg leading-none`} />
-                  </span>
-                  <span className="pt-1.5 text-sm font-semibold text-[#101E3F]">{item.label}</span>
-                </div>
-              ))}
-            </div>
-          </div>
-          <div className="relative mx-auto aspect-[675/905] w-full max-w-lg lg:mx-0 lg:justify-self-end">
-            <Image
-              src={IMG_PRECISION}
-              alt="Behavioral health revenue cycle specialists collaborating"
-              fill
-              className="object-cover"
-              sizes="(max-width: 1024px) 100vw, 480px"
-            />
+
           </div>
         </div>
       </section>

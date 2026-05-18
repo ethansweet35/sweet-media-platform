@@ -24,59 +24,6 @@ const companyItems = [
   },
 ];
 
-const solutionItems = [
-  {
-    label: "Verification of Benefits",
-    path: "/behavioral-health-revenue-cycle-management",
-    icon: "ri-shield-check-line",
-    desc: "Accurate VOB & prior authorization support",
-  },
-  {
-    label: "Claims Submission",
-    path: "/behavioral-health-revenue-cycle-management",
-    icon: "ri-file-upload-line",
-    desc: "Clean claim filing with pre-billing audits",
-  },
-  {
-    label: "Denial Management",
-    path: "/behavioral-health-revenue-cycle-management",
-    icon: "ri-error-warning-line",
-    desc: "Aggressive appeals & follow-up on denials",
-  },
-  {
-    label: "Compliance & Reporting",
-    path: "/behavioral-health-revenue-cycle-management",
-    icon: "ri-bar-chart-2-line",
-    desc: "Audit-ready documentation & revenue reporting",
-  },
-];
-
-const processItems = [
-  {
-    label: "Credentialing & Setup",
-    path: "/our-process-2",
-    icon: "ri-settings-3-line",
-    desc: "Insurance credentialing and billing setup",
-  },
-  {
-    label: "Utilization Review",
-    path: "/our-process-2",
-    icon: "ri-stethoscope-line",
-    desc: "Clinical documentation & UR advocacy",
-  },
-  {
-    label: "Claims & Follow-Up",
-    path: "/our-process-2",
-    icon: "ri-refresh-line",
-    desc: "Clean claim filing with proactive follow-up",
-  },
-  {
-    label: "Reconciliation & Reporting",
-    path: "/our-process-2",
-    icon: "ri-bar-chart-line",
-    desc: "Monthly reconciliation & revenue reporting",
-  },
-];
 
 const resourceItems = [
   {
@@ -133,87 +80,31 @@ function ChevronIcon({ open }: { open: boolean }) {
   );
 }
 
-function MegaLinkCard({
-  item,
-  onClick,
+/** Simple white dropdown card used for Our Company and Resources. */
+function SimpleDropdown({
+  items,
+  onClose,
 }: {
-  item: { label: string; path: string; icon: string; desc: string };
-  onClick: () => void;
+  items: { label: string; path: string }[];
+  onClose: () => void;
 }) {
+  const pathname = usePathname() ?? "";
   return (
-    <Link
-      href={item.path}
-      onClick={onClick}
-      className="group flex items-center gap-3 rounded-lg border border-white/[0.08] bg-white/[0.04] px-4 py-3.5 transition-all duration-150 hover:border-[#166C96]/50 hover:bg-[#166C96]/10"
-    >
-      <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-[#166C96]/20 text-[#5BA3C9] transition-colors duration-150 group-hover:bg-[#166C96]/35">
-        <i className={`${item.icon} text-sm`} />
-      </span>
-      <span className="flex min-w-0 flex-col gap-0.5">
-        <span className="text-[10.5px] font-bold uppercase leading-snug tracking-[0.12em] text-white">
+    <div className="w-56 overflow-hidden rounded-lg border border-slate-100 bg-white py-1.5 shadow-xl">
+      {items.map((item) => (
+        <Link
+          key={item.path}
+          href={item.path}
+          onClick={onClose}
+          className={`block px-4 py-2.5 text-[11px] font-semibold uppercase tracking-[0.12em] transition hover:bg-[#F5F7FA] ${
+            pathMatches(pathname, item.path)
+              ? "text-[#101E3F]"
+              : "text-[#166C96] hover:text-[#101E3F]"
+          }`}
+        >
           {item.label}
-        </span>
-        <span className="text-[10.5px] leading-snug text-white/45">{item.desc}</span>
-      </span>
-    </Link>
-  );
-}
-
-function MegaFeatureCard({
-  icon,
-  label,
-  desc,
-}: {
-  icon: string;
-  label: string;
-  desc: string;
-}) {
-  return (
-    <div className="flex items-start gap-3 rounded-lg border border-white/[0.06] bg-white/[0.03] px-4 py-3.5">
-      <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-[#166C96]/20 text-[#5BA3C9]">
-        <i className={`${icon} text-sm`} />
-      </span>
-      <span className="flex flex-col gap-0.5">
-        <span className="text-[10.5px] font-bold uppercase leading-snug tracking-[0.12em] text-white">
-          {label}
-        </span>
-        <span className="text-[10.5px] leading-snug text-white/45">{desc}</span>
-      </span>
-    </div>
-  );
-}
-
-function MegaCta({
-  eyebrow,
-  heading,
-  body,
-  cta,
-  ctaHref,
-  onClick,
-}: {
-  eyebrow: string;
-  heading: string;
-  body: string;
-  cta: string;
-  ctaHref: string;
-  onClick: () => void;
-}) {
-  return (
-    <div className="flex h-full flex-col rounded-lg border border-white/[0.1] bg-gradient-to-br from-[#166C96]/25 to-transparent p-5">
-      <p className="text-[9.5px] font-semibold uppercase tracking-[0.22em] text-[#5BA3C9]">
-        {eyebrow}
-      </p>
-      <h3 className="mt-1.5 font-[var(--font-heading)] text-lg font-medium leading-snug text-white">
-        {heading}
-      </h3>
-      <p className="mt-1.5 text-[11.5px] leading-relaxed text-white/55">{body}</p>
-      <Link
-        href={ctaHref}
-        onClick={onClick}
-        className="mt-4 inline-flex items-center justify-center gap-2 rounded-sm bg-[#166C96] px-4 py-2 text-[10.5px] font-bold uppercase tracking-[0.12em] text-white transition-colors hover:bg-[#1a7eb0]"
-      >
-        {cta} <i className="ri-arrow-right-line text-sm" />
-      </Link>
+        </Link>
+      ))}
     </div>
   );
 }
@@ -293,10 +184,7 @@ export default function Navbar() {
         ref={navRef}
         className="relative w-full border-b border-slate-200 bg-white"
       >
-        <div
-          className="relative"
-          onMouseLeave={() => setOpenMenu(null)}
-        >
+        <div className="relative">
         <div className="px-4 md:px-8">
           <div className="mx-auto flex max-w-[1140px] items-center justify-between gap-4 py-3">
           {/* Logo */}
@@ -317,73 +205,73 @@ export default function Navbar() {
 
           {/* Desktop links */}
           <div className="hidden items-center gap-6 xl:flex">
-            {/* Our Company trigger */}
-            <button
-              type="button"
-              onMouseEnter={() => setOpenMenu("company")}
-              onClick={() => toggle("company")}
-              aria-expanded={openMenu === "company"}
-              aria-haspopup="true"
-              className={`flex items-center gap-1 ${linkBase} ${
-                openMenu === "company" ||
-                companyItems.some((c) => pathMatches(pathname, c.path))
-                  ? linkActive
-                  : linkIdle
-              }`}
-            >
-              Our Company
-              <ChevronIcon open={openMenu === "company"} />
-            </button>
+            {/* Our Company — dropdown */}
+            <div className="relative">
+              <button
+                type="button"
+                onMouseEnter={() => setOpenMenu("company")}
+                onClick={() => toggle("company")}
+                aria-expanded={openMenu === "company"}
+                aria-haspopup="true"
+                className={`flex items-center gap-1 ${linkBase} ${
+                  openMenu === "company" ||
+                  companyItems.some((c) => pathMatches(pathname, c.path))
+                    ? linkActive
+                    : linkIdle
+                }`}
+              >
+                Our Company
+                <ChevronIcon open={openMenu === "company"} />
+              </button>
+              {openMenu === "company" && (
+                <div className="absolute left-0 top-full pt-2">
+                  <SimpleDropdown items={companyItems} onClose={() => setOpenMenu(null)} />
+                </div>
+              )}
+            </div>
 
-            <button
-              type="button"
-              onMouseEnter={() => setOpenMenu("solution")}
-              onClick={() => toggle("solution")}
-              aria-expanded={openMenu === "solution"}
-              aria-haspopup="true"
-              className={`flex items-center gap-1 ${linkBase} ${
-                openMenu === "solution" || pathMatches(pathname, "/behavioral-health-revenue-cycle-management")
-                  ? linkActive
-                  : linkIdle
-              }`}
+            {/* Our Solution — direct link */}
+            <Link
+              href="/behavioral-health-revenue-cycle-management"
+              className={`${linkBase} ${pathMatches(pathname, "/behavioral-health-revenue-cycle-management") ? linkActive : linkIdle}`}
+              onMouseEnter={() => setOpenMenu(null)}
             >
               Our Solution
-              <ChevronIcon open={openMenu === "solution"} />
-            </button>
+            </Link>
 
-            <button
-              type="button"
-              onMouseEnter={() => setOpenMenu("process")}
-              onClick={() => toggle("process")}
-              aria-expanded={openMenu === "process"}
-              aria-haspopup="true"
-              className={`flex items-center gap-1 ${linkBase} ${
-                openMenu === "process" || pathMatches(pathname, "/our-process-2")
-                  ? linkActive
-                  : linkIdle
-              }`}
+            {/* Our Process — direct link */}
+            <Link
+              href="/our-process-2"
+              className={`${linkBase} ${pathMatches(pathname, "/our-process-2") ? linkActive : linkIdle}`}
+              onMouseEnter={() => setOpenMenu(null)}
             >
               Our Process
-              <ChevronIcon open={openMenu === "process"} />
-            </button>
+            </Link>
 
-            {/* Resources trigger */}
-            <button
-              type="button"
-              onMouseEnter={() => setOpenMenu("resources")}
-              onClick={() => toggle("resources")}
-              aria-expanded={openMenu === "resources"}
-              aria-haspopup="true"
-              className={`flex items-center gap-1 ${linkBase} ${
-                openMenu === "resources" ||
-                resourceItems.some((c) => pathMatches(pathname, c.path))
-                  ? linkActive
-                  : linkIdle
-              }`}
-            >
-              Resources
-              <ChevronIcon open={openMenu === "resources"} />
-            </button>
+            {/* Resources — dropdown */}
+            <div className="relative">
+              <button
+                type="button"
+                onMouseEnter={() => setOpenMenu("resources")}
+                onClick={() => toggle("resources")}
+                aria-expanded={openMenu === "resources"}
+                aria-haspopup="true"
+                className={`flex items-center gap-1 ${linkBase} ${
+                  openMenu === "resources" ||
+                  resourceItems.some((c) => pathMatches(pathname, c.path))
+                    ? linkActive
+                    : linkIdle
+                }`}
+              >
+                Resources
+                <ChevronIcon open={openMenu === "resources"} />
+              </button>
+              {openMenu === "resources" && (
+                <div className="absolute right-0 top-full pt-2">
+                  <SimpleDropdown items={resourceItems} onClose={() => setOpenMenu(null)} />
+                </div>
+              )}
+            </div>
 
             <Link
               href="/careers"
@@ -418,209 +306,6 @@ export default function Navbar() {
           </div>
         </div>
 
-        {/* ── Mega menu: Our Company ───────────────────────────────────── */}
-        {openMenu === "company" && (
-          <div className="absolute inset-x-0 top-full z-50 border-t-2 border-[#166C96] bg-[#0A1628] shadow-2xl">
-            <div className="mx-auto max-w-[1140px] px-8 py-4">
-              <div className="grid grid-cols-[1fr_1px_230px_1px_230px] gap-6 items-stretch">
-
-                {/* Col 1 — Brand statement */}
-                <div className="flex flex-col justify-center gap-4 pr-2">
-                  <div>
-                    <p className="text-[9.5px] font-semibold uppercase tracking-[0.22em] text-[#5BA3C9]">
-                      About Cipher Billing
-                    </p>
-                    <p className="mt-2 font-[var(--font-heading)] text-lg font-medium leading-snug text-white">
-                      Behavioral health billing<br />specialists since day one.
-                    </p>
-                    <p className="mt-2 text-[11.5px] leading-relaxed text-white/50">
-                      We work exclusively with behavioral health providers — RTC, PHP, IOP, and private practice — delivering airtight compliance and maximized revenue.
-                    </p>
-                  </div>
-                </div>
-
-                {/* Divider */}
-                <div className="self-stretch bg-white/[0.07]" aria-hidden />
-
-                {/* Col 2 — Nav links */}
-                <div className="flex flex-col gap-2 justify-center">
-                  {companyItems.map((item) => (
-                    <MegaLinkCard
-                      key={item.path}
-                      item={item}
-                      onClick={() => setOpenMenu(null)}
-                    />
-                  ))}
-                </div>
-
-                {/* Divider */}
-                <div className="self-stretch bg-white/[0.07]" aria-hidden />
-
-                {/* Col 3 — CTA */}
-                <MegaCta
-                  eyebrow="Ready to grow?"
-                  heading="Get a free practice audit"
-                  body="See exactly where you're losing revenue — no strings attached."
-                  cta="Request Audit"
-                  ctaHref="/contact-us"
-                  onClick={() => setOpenMenu(null)}
-                />
-              </div>
-            </div>
-          </div>
-        )}
-
-        {/* ── Mega menu: Resources ─────────────────────────────────────── */}
-        {openMenu === "resources" && (
-          <div className="absolute inset-x-0 top-full z-50 border-t-2 border-[#166C96] bg-[#0A1628] shadow-2xl">
-            <div className="mx-auto max-w-[1140px] px-8 py-4">
-              <div className="grid grid-cols-[220px_1px_1fr_1px_230px] gap-6 items-stretch">
-
-                {/* Col 1 — Brand statement */}
-                <div className="flex flex-col justify-center gap-4 pr-2">
-                  <div>
-                    <p className="text-[9.5px] font-semibold uppercase tracking-[0.22em] text-[#5BA3C9]">
-                      Billing Resources
-                    </p>
-                    <p className="mt-2 font-[var(--font-heading)] text-lg font-medium leading-snug text-white">
-                      Free tools & references<br />for behavioral health providers.
-                    </p>
-                    <p className="mt-2 text-[11.5px] leading-relaxed text-white/50">
-                      From state-by-state reimbursement data to complete CPT code libraries — everything you need to protect and maximize revenue.
-                    </p>
-                  </div>
-                </div>
-
-                {/* Divider */}
-                <div className="self-stretch bg-white/[0.07]" aria-hidden />
-
-                {/* Col 2 — Nav links 2×2 */}
-                <div className="grid grid-cols-2 gap-2 content-center">
-                  {resourceItems.map((item) => (
-                    <MegaLinkCard
-                      key={item.path}
-                      item={item}
-                      onClick={() => setOpenMenu(null)}
-                    />
-                  ))}
-                </div>
-
-                {/* Divider */}
-                <div className="self-stretch bg-white/[0.07]" aria-hidden />
-
-                {/* Col 3 — CTA */}
-                <MegaCta
-                  eyebrow="Free resource"
-                  heading="Rates & codes in one place"
-                  body="Access our complete library of behavioral health billing references."
-                  cta="View Rates"
-                  ctaHref="/behavioral-health-reimbursement-rates-by-state"
-                  onClick={() => setOpenMenu(null)}
-                />
-              </div>
-            </div>
-          </div>
-        )}
-
-        {/* ── Mega menu: Our Solution ──────────────────────────────────── */}
-        {openMenu === "solution" && (
-          <div className="absolute inset-x-0 top-full z-50 border-t-2 border-[#166C96] bg-[#0A1628] shadow-2xl">
-            <div className="mx-auto max-w-[1140px] px-8 py-4">
-              <div className="grid grid-cols-[220px_1px_1fr_1px_230px] gap-6 items-stretch">
-                {/* Left — overview */}
-                <div className="flex flex-col justify-center pr-2">
-                  <p className="text-[9.5px] font-semibold uppercase tracking-[0.22em] text-[#5BA3C9]">
-                    Our Solution
-                  </p>
-                  <p className="mt-2 font-[var(--font-heading)] text-lg font-medium leading-snug text-white">
-                    Full-cycle behavioral health revenue management.
-                  </p>
-                  <p className="mt-2 text-[11.5px] leading-relaxed text-white/50">
-                    From VOB through final payment, we handle every step of the revenue cycle so your team can focus entirely on patient care.
-                  </p>
-                  <Link
-                    href="/behavioral-health-revenue-cycle-management"
-                    onClick={() => setOpenMenu(null)}
-                    className="mt-4 inline-flex items-center gap-1.5 text-[10.5px] font-bold uppercase tracking-[0.12em] text-[#5BA3C9] transition hover:text-white"
-                  >
-                    View full overview <i className="ri-arrow-right-line" />
-                  </Link>
-                </div>
-                <div className="self-stretch bg-white/[0.07]" aria-hidden />
-                {/* Middle — service highlights (informational, not sub-pages) */}
-                <div className="grid grid-cols-2 gap-2 content-center">
-                  {solutionItems.map((item) => (
-                    <MegaFeatureCard
-                      key={item.label}
-                      icon={item.icon}
-                      label={item.label}
-                      desc={item.desc}
-                    />
-                  ))}
-                </div>
-                <div className="self-stretch bg-white/[0.07]" aria-hidden />
-                <MegaCta
-                  eyebrow="Maximize revenue"
-                  heading="Protect your organization's cash flow"
-                  body="Get a complimentary billing audit and see where you're leaving money on the table."
-                  cta="Get Free Audit"
-                  ctaHref="/contact-us"
-                  onClick={() => setOpenMenu(null)}
-                />
-              </div>
-            </div>
-          </div>
-        )}
-
-        {/* ── Mega menu: Our Process ───────────────────────────────────── */}
-        {openMenu === "process" && (
-          <div className="absolute inset-x-0 top-full z-50 border-t-2 border-[#166C96] bg-[#0A1628] shadow-2xl">
-            <div className="mx-auto max-w-[1140px] px-8 py-4">
-              <div className="grid grid-cols-[220px_1px_1fr_1px_230px] gap-6 items-stretch">
-                {/* Left — overview */}
-                <div className="flex flex-col justify-center pr-2">
-                  <p className="text-[9.5px] font-semibold uppercase tracking-[0.22em] text-[#5BA3C9]">
-                    Our Process
-                  </p>
-                  <p className="mt-2 font-[var(--font-heading)] text-lg font-medium leading-snug text-white">
-                    A transparent, step-by-step billing process.
-                  </p>
-                  <p className="mt-2 text-[11.5px] leading-relaxed text-white/50">
-                    Revenue cycle management shouldn't be a black box. Our proven process is purpose-built for behavioral health and addiction treatment.
-                  </p>
-                  <Link
-                    href="/our-process-2"
-                    onClick={() => setOpenMenu(null)}
-                    className="mt-4 inline-flex items-center gap-1.5 text-[10.5px] font-bold uppercase tracking-[0.12em] text-[#5BA3C9] transition hover:text-white"
-                  >
-                    See the full process <i className="ri-arrow-right-line" />
-                  </Link>
-                </div>
-                <div className="self-stretch bg-white/[0.07]" aria-hidden />
-                {/* Middle — process step highlights (informational) */}
-                <div className="grid grid-cols-2 gap-2 content-center">
-                  {processItems.map((item) => (
-                    <MegaFeatureCard
-                      key={item.label}
-                      icon={item.icon}
-                      label={item.label}
-                      desc={item.desc}
-                    />
-                  ))}
-                </div>
-                <div className="self-stretch bg-white/[0.07]" aria-hidden />
-                <MegaCta
-                  eyebrow="No black boxes"
-                  heading="See exactly how we work"
-                  body="Our step-by-step process is designed for full transparency and measurable results."
-                  cta="View Our Process"
-                  ctaHref="/our-process-2"
-                  onClick={() => setOpenMenu(null)}
-                />
-              </div>
-            </div>
-          </div>
-        )}
         </div>
       </nav>
 
@@ -700,57 +385,23 @@ export default function Navbar() {
               )}
             </div>
 
-            {/* Our Solution accordion */}
-            <div>
-              <button
-                type="button"
-                onClick={() => setMobileExpanded(mobileExpanded === "solution" ? null : "solution")}
-                className="flex w-full items-center justify-between rounded-lg px-4 py-3 text-left text-[11px] font-bold uppercase tracking-[0.14em] text-white/65 transition hover:bg-white/[0.05] hover:text-white"
-              >
-                Our Solution
-                <i className={`ri-arrow-down-s-line text-base transition-transform duration-200 ${mobileExpanded === "solution" ? "rotate-180" : ""}`} />
-              </button>
-              {mobileExpanded === "solution" && (
-                <div className="ml-3 mt-1 border-l-2 border-[#166C96]/40 pl-3">
-                  <p className="px-3 py-2 text-[11px] leading-relaxed text-white/50">
-                    Full-cycle RCM for behavioral health — VOB, claims, denials, and compliance handled end-to-end.
-                  </p>
-                  <Link
-                    href="/behavioral-health-revenue-cycle-management"
-                    onClick={() => setMobileOpen(false)}
-                    className="flex items-center gap-2 rounded-lg px-3 py-2.5 text-[11px] font-bold uppercase tracking-[0.12em] text-[#5BA3C9] transition hover:bg-white/[0.05] hover:text-white"
-                  >
-                    View Our Solution <i className="ri-arrow-right-line" />
-                  </Link>
-                </div>
-              )}
-            </div>
+            {/* Our Solution — direct link */}
+            <Link
+              href="/behavioral-health-revenue-cycle-management"
+              onClick={() => setMobileOpen(false)}
+              className="flex items-center rounded-lg px-4 py-3 text-[11px] font-bold uppercase tracking-[0.14em] text-white/65 transition hover:bg-white/[0.05] hover:text-white"
+            >
+              Our Solution
+            </Link>
 
-            {/* Our Process accordion */}
-            <div>
-              <button
-                type="button"
-                onClick={() => setMobileExpanded(mobileExpanded === "process" ? null : "process")}
-                className="flex w-full items-center justify-between rounded-lg px-4 py-3 text-left text-[11px] font-bold uppercase tracking-[0.14em] text-white/65 transition hover:bg-white/[0.05] hover:text-white"
-              >
-                Our Process
-                <i className={`ri-arrow-down-s-line text-base transition-transform duration-200 ${mobileExpanded === "process" ? "rotate-180" : ""}`} />
-              </button>
-              {mobileExpanded === "process" && (
-                <div className="ml-3 mt-1 border-l-2 border-[#166C96]/40 pl-3">
-                  <p className="px-3 py-2 text-[11px] leading-relaxed text-white/50">
-                    A proven, transparent step-by-step billing process purpose-built for behavioral health and addiction treatment.
-                  </p>
-                  <Link
-                    href="/our-process-2"
-                    onClick={() => setMobileOpen(false)}
-                    className="flex items-center gap-2 rounded-lg px-3 py-2.5 text-[11px] font-bold uppercase tracking-[0.12em] text-[#5BA3C9] transition hover:bg-white/[0.05] hover:text-white"
-                  >
-                    View Our Process <i className="ri-arrow-right-line" />
-                  </Link>
-                </div>
-              )}
-            </div>
+            {/* Our Process — direct link */}
+            <Link
+              href="/our-process-2"
+              onClick={() => setMobileOpen(false)}
+              className="flex items-center rounded-lg px-4 py-3 text-[11px] font-bold uppercase tracking-[0.14em] text-white/65 transition hover:bg-white/[0.05] hover:text-white"
+            >
+              Our Process
+            </Link>
 
             {/* Resources accordion */}
             <div>
