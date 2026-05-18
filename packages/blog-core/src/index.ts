@@ -4,6 +4,7 @@ export { useBlogPosts, useBlogPost, useBlogCategories, useSearchBlogPosts, usePa
 export * from "./lib/autoInternalLinks";
 export { getInternalLinkMappings, getPageAutoLinkRegistry } from "./lib/getInternalLinkMappings";
 export { AutoLinkedText, initPageAutoLinks } from "./components/AutoLinkedText";
+export { AutoLinkedTextSync } from "./components/AutoLinkedTextSync";
 export { AutoLinkedTextClient } from "./components/AutoLinkedTextClient";
 
 export * from "./types/brandSettings";

@@ -15,15 +15,22 @@
  *      Set (via React.cache) prevents the same destination from being linked
  *      more than once across all <AutoLinkedText> blocks on the same page.
  *   3. Per-block link cap defaults to 2.  Pass `maxLinks` to override.
+ *
+ * For pages with many text blocks (e.g. homepage), prefer fetching mappings once
+ * and using <AutoLinkedTextSync> to avoid dozens of async boundaries.
  */
 
 import type { ReactNode } from "react";
-import Link from "next/link";
-import { autoLinkText } from "../lib/autoInternalLinks";
 import {
   getInternalLinkMappings,
   getPageAutoLinkRegistry,
 } from "../lib/getInternalLinkMappings";
+import {
+  filterMappingsForPage,
+  renderAutoLinkedText,
+  resolveAutoLinkedPlainText,
+  DEFAULT_LINK_CLASS,
+} from "./renderAutoLinkedText";
 
 interface AutoLinkedTextProps {
   /**
@@ -44,16 +51,13 @@ interface AutoLinkedTextProps {
   linkClassName?: string;
 }
 
-const DEFAULT_LINK_CLASS =
-  "underline underline-offset-2 decoration-current/40 hover:decoration-current transition-colors";
-
 export async function AutoLinkedText({
   children,
   currentPath,
   maxLinks = 2,
   linkClassName = DEFAULT_LINK_CLASS,
 }: AutoLinkedTextProps) {
-  const text = typeof children === "string" ? children : "";
+  const text = resolveAutoLinkedPlainText(children);
 
   if (!text || text.trim().length === 0) {
     return <>{children}</>;
@@ -64,48 +68,16 @@ export async function AutoLinkedText({
     Promise.resolve(getPageAutoLinkRegistry()),
   ]);
 
-  // Resolve the effective current path — priority order:
-  //   1. Explicit `currentPath` prop passed to this instance
-  //   2. Path set in the per-request registry by resolveTrackedPageMetadata()
-  //      (called automatically by every page's generateMetadata function)
-  //   3. Path set via initPageAutoLinks() in the page root (manual opt-in)
   const effectivePath = currentPath ?? registry.currentPath;
-
-  // Drop any mapping that points to the current page so we never self-link.
-  // Normalize trailing slashes on both sides — DB rows and hardcoded hrefs
-  // commonly include a trailing "/" while route paths from generateMetadata
-  // do not. Without normalization the self-link filter never matches.
-  const normalizedSelf = effectivePath ? normalizePath(effectivePath) : null;
-  const mappings = normalizedSelf
-    ? allMappings.filter((m) => normalizePath(m.href) !== normalizedSelf)
-    : allMappings;
+  const mappings = filterMappingsForPage(allMappings, effectivePath);
 
   if (mappings.length === 0) {
     return <>{text}</>;
   }
 
-  // Pass the shared registry usedHrefs so every <AutoLinkedText> on this page
-  // contributes to — and respects — the same "one link per destination" set.
-  const segments = autoLinkText(
-    text,
-    mappings,
-    undefined,
-    registry.usedHrefs,
-    maxLinks
-  );
-
   return (
     <>
-      {segments.map((seg, i) => {
-        if (seg.type === "text") {
-          return <span key={i}>{seg.content}</span>;
-        }
-        return (
-          <Link key={i} href={seg.href ?? "/"} className={linkClassName}>
-            {seg.content}
-          </Link>
-        );
-      })}
+      {renderAutoLinkedText(text, mappings, registry, maxLinks, linkClassName)}
     </>
   );
 }
@@ -123,12 +95,6 @@ export async function AutoLinkedText({
 export function initPageAutoLinks(path: string): void {
   const registry = getPageAutoLinkRegistry();
   registry.currentPath = path;
-}
-
-/** Strip a single trailing slash so "/foo/" and "/foo" compare equal. */
-function normalizePath(path: string): string {
-  if (!path || path === "/") return path;
-  return path.endsWith("/") ? path.slice(0, -1) : path;
 }
 
 export default AutoLinkedText;

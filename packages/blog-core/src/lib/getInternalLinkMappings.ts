@@ -74,8 +74,13 @@ export const getInternalLinkMappings = cache(
  *
  * The registry is fresh for every new request — no cross-request leakage.
  */
+export type PageAutoLinkRegistry = {
+  usedHrefs: Set<string>;
+  currentPath: string | null;
+};
+
 export const getPageAutoLinkRegistry = cache(
-  (): { usedHrefs: Set<string>; currentPath: string | null } => ({
+  (): PageAutoLinkRegistry => ({
     usedHrefs: new Set<string>(),
     currentPath: null,
   })

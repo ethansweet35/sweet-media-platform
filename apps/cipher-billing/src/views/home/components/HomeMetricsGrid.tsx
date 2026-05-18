@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { AutoLinkedText } from "@sweetmedia/blog-core";
 
 export type HomeMetricSpec = {
   /** Numeric value to count up to */
@@ -86,7 +85,7 @@ export default function HomeMetricsGrid({ metrics }: { metrics: readonly HomeMet
             {metric.suffix}
           </p>
           <p className="mt-3 max-w-[11rem] text-center font-[var(--font-body)] text-[11px] font-normal uppercase leading-snug tracking-[0.12em] text-white/95" aria-hidden="true">
-            <AutoLinkedText>{metric.label}</AutoLinkedText>
+            {metric.label}
           </p>
         </div>
       ))}
