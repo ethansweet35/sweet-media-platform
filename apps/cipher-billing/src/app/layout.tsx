@@ -18,6 +18,8 @@ const REMIXICON_CSS =
 const CALLRAIL_SWAP_SRC =
   "https://cdn.callrail.com/companies/748580956/05b5ff6b6ad49ee8f8ea/12/swap.js";
 
+const GA_ID = "G-BB7CVDE86Q";
+
 const marcellus = Marcellus({
   variable: "--font-marcellus",
   subsets: ["latin"],
@@ -87,6 +89,19 @@ export default function RootLayout({
           strategy="afterInteractive"
           async
         />
+        {/* Google Analytics */}
+        <Script
+          id="ga-load"
+          src={`https://www.googletagmanager.com/gtag/js?id=${GA_ID}`}
+          strategy="afterInteractive"
+          async
+        />
+        <Script id="ga-init" strategy="afterInteractive">{`
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', '${GA_ID}');
+        `}</Script>
       </head>
       <body className={`${marcellus.variable} ${montserrat.variable} antialiased`}>
         <Layout>{children}</Layout>
