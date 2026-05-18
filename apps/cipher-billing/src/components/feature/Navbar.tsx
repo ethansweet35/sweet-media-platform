@@ -241,8 +241,8 @@ export default function Navbar() {
 
             {/* Our Process — direct link */}
             <Link
-              href="/our-process-2"
-              className={`${linkBase} ${pathMatches(pathname, "/our-process-2") ? linkActive : linkIdle}`}
+              href="/our-process"
+              className={`${linkBase} ${pathMatches(pathname, "/our-process") ? linkActive : linkIdle}`}
               onMouseEnter={() => setOpenMenu(null)}
             >
               Our Process
@@ -396,7 +396,7 @@ export default function Navbar() {
 
             {/* Our Process — direct link */}
             <Link
-              href="/our-process-2"
+              href="/our-process"
               onClick={() => setMobileOpen(false)}
               className="flex items-center rounded-lg px-4 py-3 text-[11px] font-bold uppercase tracking-[0.14em] text-white/65 transition hover:bg-white/[0.05] hover:text-white"
             >

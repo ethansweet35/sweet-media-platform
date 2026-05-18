@@ -6,7 +6,7 @@ const navLinks = [
   { label: "Our Company", path: "/our-company" },
   { label: "Our Team", path: "/our-team" },
   { label: "Our Solution", path: "/behavioral-health-revenue-cycle-management" },
-  { label: "Our Process", path: "/our-process-2" },
+  { label: "Our Process", path: "/our-process" },
   { label: "Behavioral Health Reimbursements By State", path: "/behavioral-health-reimbursement-rates-by-state" },
   { label: "Behavioral Health Billing Codes", path: "/behavioral-health-coding-guide" },
   { label: "Blogs", path: "/blog" },

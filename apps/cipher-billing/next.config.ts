@@ -8,14 +8,14 @@ const nextConfig: NextConfig = {
   serverExternalPackages: ["@cursor/sdk"],
   async redirects() {
     return [
-      /** WP nav targets post-651 "Our Process"; post-168 lives at /our-process for deep links only */
-      { source: "/our-process", destination: "/our-process-2", permanent: true },
       /** WP nav "Our Solution" points to the RCM page; preserve deep-link compatibility */
       {
         source: "/our-solution",
         destination: "/behavioral-health-revenue-cycle-management",
         permanent: true,
       },
+      /** /our-process-2 was the old duplicate URL — redirect to canonical */
+      { source: "/our-process-2", destination: "/our-process", permanent: true },
       /** Blog posts moved from /blog/:slug to /:slug — catch any inbound /blog/* links */
       { source: "/blog/:slug", destination: "/:slug", permanent: true },
     ];

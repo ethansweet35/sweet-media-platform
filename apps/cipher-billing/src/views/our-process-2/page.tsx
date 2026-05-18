@@ -83,7 +83,7 @@ export default function OurProcess2Page() {
 
       {/* Process + image — e6a9fe2 */}
       <section className="bg-[#101E3F] px-5 py-[50px] text-white md:py-[100px]">
-        <div className="mx-auto grid max-w-[1140px] gap-12 md:grid-cols-2 md:items-start md:gap-[50px]">
+        <div className="mx-auto grid max-w-[1140px] gap-12 md:grid-cols-2 md:items-stretch md:gap-[50px]">
           <div>
             <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-[#166C96]">Our Company</p>
             <h2 className="mt-4 font-[var(--font-heading)] text-3xl font-medium leading-tight md:text-[2rem] md:leading-snug">
@@ -118,7 +118,7 @@ export default function OurProcess2Page() {
             </div>
           </div>
 
-          <div className="relative mx-auto aspect-[765/1024] w-full max-w-lg md:mx-0">
+          <div className="relative mx-auto aspect-[765/1024] w-full max-w-lg self-stretch md:mx-0 md:aspect-auto md:min-h-[500px]">
             <Image
               src={IMG_PROCESS}
               alt="Medical billing statement review on a tablet"
@@ -158,10 +158,10 @@ export default function OurProcess2Page() {
               {stats.map((s) => (
                 <div
                   key={s.label}
-                  className="flex flex-col justify-center rounded-sm bg-[#101E3F] px-6 py-8 text-center md:px-8"
+                  className="flex flex-col items-center justify-center border border-white/15 bg-white/5 px-4 py-8 text-center backdrop-blur-sm"
                 >
-                  <p className="font-[var(--font-heading)] text-3xl font-medium text-white md:text-4xl"><AutoLinkedText>{s.value}</AutoLinkedText></p>
-                  <p className="mt-2 text-sm leading-snug text-white/85"><AutoLinkedText>{s.label}</AutoLinkedText></p>
+                  <p className="font-marcellus text-3xl font-medium tracking-[-0.02em] text-white md:text-4xl md:leading-[1.1]"><AutoLinkedText>{s.value}</AutoLinkedText></p>
+                  <p className="mt-3 max-w-[11rem] text-center font-[var(--font-body)] text-[11px] font-normal uppercase leading-snug tracking-[0.12em] text-white/95"><AutoLinkedText>{s.label}</AutoLinkedText></p>
                 </div>
               ))}
             </div>
