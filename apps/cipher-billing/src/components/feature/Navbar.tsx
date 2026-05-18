@@ -103,6 +103,8 @@ const resourceItems = [
     icon: "ri-question-answer-line",
     desc: "Answers to your top billing questions",
   },
+  // Draft — pending client approval; remove comment to re-enable in menu
+  // { label: "Billing Cost Calculator", path: "/resources/in-house-vs-outsourced-calculator", icon: "ri-calculator-line", desc: "In-house vs. outsourced — true cost comparison" },
 ];
 
 function pathMatches(pathname: string, path: string) {
@@ -267,7 +269,7 @@ export default function Navbar() {
     setOpenMenu((prev) => (prev === key ? null : key));
 
   return (
-    <header className="sticky top-0 z-50">
+    <header className="sticky top-0 z-50 w-full min-w-0">
       {/* Top bar */}
       <div className="bg-[#101E3F] px-4 py-2.5 text-[10px] font-medium tracking-[0.12em] text-white md:px-8">
         <div className="mx-auto flex max-w-[1140px] items-center justify-between gap-4">
@@ -286,11 +288,23 @@ export default function Navbar() {
         </div>
       </div>
 
-      {/* Main nav bar */}
-      <nav ref={navRef} className="relative border-b border-slate-200 bg-white">
-        <div className="mx-auto flex max-w-[1140px] items-center justify-between gap-4 px-4 py-3 md:px-8">
+      {/* Main nav: full-width white (sticky-safe); inner row aligns with top bar */}
+      <nav
+        ref={navRef}
+        className="relative w-full border-b border-slate-200 bg-white"
+      >
+        <div
+          className="relative"
+          onMouseLeave={() => setOpenMenu(null)}
+        >
+        <div className="px-4 md:px-8">
+          <div className="mx-auto flex max-w-[1140px] items-center justify-between gap-4 py-3">
           {/* Logo */}
-          <Link href="/" className="flex shrink-0 items-center">
+          <Link
+            href="/"
+            className="flex shrink-0 items-center"
+            onMouseEnter={() => setOpenMenu(null)}
+          >
             <Image
               src="https://nstzjqmtsqgeihkyvkqq.supabase.co/storage/v1/object/public/site-assets/images/HORIZONTAL-LOGO_CIPHER-BLACK_TRANSPARENT-BG-1024x262.png"
               alt="Cipher Billing"
@@ -306,8 +320,10 @@ export default function Navbar() {
             {/* Our Company trigger */}
             <button
               type="button"
+              onMouseEnter={() => setOpenMenu("company")}
               onClick={() => toggle("company")}
               aria-expanded={openMenu === "company"}
+              aria-haspopup="true"
               className={`flex items-center gap-1 ${linkBase} ${
                 openMenu === "company" ||
                 companyItems.some((c) => pathMatches(pathname, c.path))
@@ -321,8 +337,10 @@ export default function Navbar() {
 
             <button
               type="button"
+              onMouseEnter={() => setOpenMenu("solution")}
               onClick={() => toggle("solution")}
               aria-expanded={openMenu === "solution"}
+              aria-haspopup="true"
               className={`flex items-center gap-1 ${linkBase} ${
                 openMenu === "solution" || pathMatches(pathname, "/behavioral-health-revenue-cycle-management")
                   ? linkActive
@@ -335,8 +353,10 @@ export default function Navbar() {
 
             <button
               type="button"
+              onMouseEnter={() => setOpenMenu("process")}
               onClick={() => toggle("process")}
               aria-expanded={openMenu === "process"}
+              aria-haspopup="true"
               className={`flex items-center gap-1 ${linkBase} ${
                 openMenu === "process" || pathMatches(pathname, "/our-process-2")
                   ? linkActive
@@ -350,8 +370,10 @@ export default function Navbar() {
             {/* Resources trigger */}
             <button
               type="button"
+              onMouseEnter={() => setOpenMenu("resources")}
               onClick={() => toggle("resources")}
               aria-expanded={openMenu === "resources"}
+              aria-haspopup="true"
               className={`flex items-center gap-1 ${linkBase} ${
                 openMenu === "resources" ||
                 resourceItems.some((c) => pathMatches(pathname, c.path))
@@ -366,16 +388,9 @@ export default function Navbar() {
             <Link
               href="/careers"
               className={`${linkBase} ${pathMatches(pathname, "/careers") ? linkActive : linkIdle}`}
+              onMouseEnter={() => setOpenMenu(null)}
             >
               Careers
-            </Link>
-
-            {/* Contact CTA pill */}
-            <Link
-              href="/contact-us"
-              className={`inline-flex items-center gap-1.5 rounded-sm bg-[#101E3F] px-4 py-2 ${linkBase} text-white transition-colors hover:bg-[#166C96]`}
-            >
-              Contact Us
             </Link>
           </div>
 
@@ -400,6 +415,7 @@ export default function Navbar() {
               />
             </span>
           </button>
+          </div>
         </div>
 
         {/* ── Mega menu: Our Company ───────────────────────────────────── */}
@@ -605,6 +621,7 @@ export default function Navbar() {
             </div>
           </div>
         )}
+        </div>
       </nav>
 
       {/* ── Mobile backdrop ──────────────────────────────────────────────── */}
@@ -776,14 +793,6 @@ export default function Navbar() {
               className="flex items-center rounded-lg px-4 py-3 text-[11px] font-bold uppercase tracking-[0.14em] text-white/65 transition hover:bg-white/[0.05] hover:text-white"
             >
               Careers
-            </Link>
-
-            <Link
-              href="/contact-us"
-              onClick={() => setMobileOpen(false)}
-              className="flex items-center rounded-lg px-4 py-3 text-[11px] font-bold uppercase tracking-[0.14em] text-white/65 transition hover:bg-white/[0.05] hover:text-white"
-            >
-              Contact Us
             </Link>
           </div>
         </div>
