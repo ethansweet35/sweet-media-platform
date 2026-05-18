@@ -42,6 +42,17 @@ export const metadata: Metadata = {
   },
   description:
     "Behavioral health billing services focused on airtight compliance, transparent service, and measurable revenue growth.",
+  icons: {
+    icon: [
+      { url: "/favicon.ico", sizes: "any" },
+      { url: "/favicon-96x96.png", type: "image/png", sizes: "96x96" },
+      { url: "/favicon.svg", type: "image/svg+xml" },
+    ],
+    apple: [{ url: "/apple-touch-icon.png", sizes: "180x180" }],
+    other: [
+      { rel: "manifest", url: "/site.webmanifest" },
+    ],
+  },
   openGraph: {
     type: "website",
     siteName: "Cipher Billing",
@@ -75,13 +86,6 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
-        {/* Favicon */}
-        <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
-        <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-        <link rel="shortcut icon" href="/favicon.ico" />
-        <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
-        <meta name="apple-mobile-web-app-title" content="Cipher Billing" />
-        <link rel="manifest" href="/site.webmanifest" />
         <link rel="preconnect" href="https://cdn.jsdelivr.net" crossOrigin="anonymous" />
         <link rel="preload" as="style" href={REMIXICON_CSS} crossOrigin="anonymous" />
         <Script id="load-remixicon-styles" strategy="afterInteractive">{`
