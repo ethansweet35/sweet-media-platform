@@ -101,7 +101,6 @@ export default function HomePage() {
             playsInline
             loop
             preload="auto"
-            poster="https://nstzjqmtsqgeihkyvkqq.supabase.co/storage/v1/object/public/site-assets/images/Untitled-design-2026-04-15T202355.948.png"
           >
             <source src={HERO_VIDEO} type="video/mp4" />
           </video>
