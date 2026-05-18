@@ -9,7 +9,7 @@ import Button from "@/components/ui/Button";
 import AccreditationsBar from "@/views/home/components/AccreditationsBar";
 import { AutoLinkedTextClient } from "@sweetmedia/blog-core";
 
-const WP = "https://rizeoc.com/wp-content/uploads";
+const SB = "https://nfjlvkxrbzytjefmcvhg.supabase.co/storage/v1/object/public/site-assets/images/staff";
 
 /* ─── Team data ──────────────────────────────────────────────────────────── */
 
@@ -29,33 +29,33 @@ const team: TeamMember[] = [
     name: "Levi Sweet",
     title: "COO",
     department: "Leadership",
-    photo: `${WP}/2026/04/Screenshot-2026-04-28-at-1.13.24-PM.png`,
+    photo: `${SB}/rize_team_levi-sweet.png`,
   },
   {
     name: "Chandra Medina",
     title: "Clinical Director, LMFT",
     department: "Leadership",
-    photo: `${WP}/2025/07/Chandra.png`,
+    photo: `${SB}/rize_team_chandra-medina.png`,
     bio: "Chandra is passionate about helping individuals overcome their deepest battles and break the self-destructive cycles that come with mental health struggles and addiction. She brings over 10 years in the mental health and SUD treatment field, specializing in trauma, addiction, and brain health. Her approach includes inner child work, DBT skills coaching, neuroscience-based interventions, and CBT.",
   },
   {
     name: "Karynne Witkin",
     title: "Director of Community Outreach",
     department: "Leadership",
-    photo: `${WP}/2024/04/karynne-rize.png`,
+    photo: `${SB}/rize_team_karynne-witkin.png`,
     bio: "Karynne has worked in the behavioral healthcare field for over six years. A Florida State University alumna and master's degree candidate at Harvard Extension School in I/O Psychology, she comes from a family with personal experience of addiction and is driven to help individuals find the treatment that best fits their needs.",
   },
   {
     name: "Robert Howey",
     title: "Director of Operations",
     department: "Leadership",
-    photo: `${WP}/2026/04/IMG_2432-scaled-e1777407330821.jpg`,
+    photo: `${SB}/rize_team_robert-howey.jpg`,
   },
   {
     name: "Patrick Smith",
     title: "Program Director",
     department: "Leadership",
-    photo: `${WP}/2026/04/IMG_2444-scaled-e1775666120932.jpg`,
+    photo: `${SB}/rize_team_patrick-smith.jpg`,
   },
 
   /* ── Clinical ───────────────────────────────────────────────────────── */
@@ -63,53 +63,53 @@ const team: TeamMember[] = [
     name: "Annalise Poe",
     title: "Lead Therapist, LMFT",
     department: "Clinical",
-    photo: `${WP}/2026/04/IMG_2451-scaled-e1775665226303.jpg`,
+    photo: `${SB}/rize_team_annalise-poe.jpg`,
   },
   {
     name: "Kate Hendrix",
     title: "Therapist, MS, LMFT",
     department: "Clinical",
-    photo: `${WP}/2023/08/Kate-Hendrix.jpg`,
+    photo: `${SB}/rize_team_kate-hendrix.jpg`,
     bio: "Kate is a trauma-informed therapist who works from an integrative approach. She specializes in helping individuals develop greater confidence and overcome experiences of anxiety, self-doubt, and trauma — often working with students, professionals, and ambitious individuals seeking to unlock their fullest potential.",
   },
   {
     name: "Taylor Ramsey",
     title: "Therapist, MS, LMFT",
     department: "Clinical",
-    photo: `${WP}/2023/08/Taylor-Ramsey.jpg`,
+    photo: `${SB}/rize_team_taylor-ramsey.jpg`,
     bio: "Taylor works from an integrative, humanistic approach — utilizing a nonjudgmental and empathetic stance. Trained in multiple trauma-informed modalities, she specializes in trauma survivors, interpersonal relationship issues, anxiety disorders, and substance misuse.",
   },
   {
     name: "Helen Riccobono",
     title: "Therapist, LMFT",
     department: "Clinical",
-    photo: `${WP}/2025/07/Helen.png`,
+    photo: `${SB}/rize_team_helen-riccobono.png`,
   },
   {
     name: "Cat Shaw (Schueler)",
     title: "Therapist, MS, LMFT",
     department: "Clinical",
-    photo: `${WP}/2023/08/cat.jpg`,
+    photo: `${SB}/rize_team_cat-shaw.jpg`,
     bio: "Cat is a Licensed Marriage and Family Therapist with over 10 years of group facilitation experience. She leads process-oriented groups at Rize OC covering healthy communication, boundaries, codependency, values, CBT, DBT, self-esteem, and relationships.",
   },
   {
     name: "Tina Sammadi",
     title: "Therapist, MS, LMFT",
     department: "Clinical",
-    photo: `${WP}/2023/08/Tina-Sammadi.jpg`,
+    photo: `${SB}/rize_team_tina-sammadi.jpg`,
     bio: "Tina is a licensed therapist with over a decade of experience in addiction, substance abuse, and mood disorders. She draws from multiple theoretical frameworks to create a safe, non-judgmental space — helping clients uncover unhealthy patterns, work through unresolved trauma, and build skills for lasting emotional wellbeing.",
   },
   {
     name: "Christine Little",
     title: "Therapist, AMFT",
     department: "Clinical",
-    photo: `${WP}/2026/04/IMG_2461-scaled-e1777407425555.jpg`,
+    photo: `${SB}/rize_team_christine-little.jpg`,
   },
   {
     name: "Wesley Tameifona",
     title: "Therapist, AMFT",
     department: "Clinical",
-    photo: `${WP}/2026/04/IMG_2498-scaled-e1777407441659.jpg`,
+    photo: `${SB}/rize_team_wesley-tameifona.jpg`,
   },
 
   /* ── Admissions ─────────────────────────────────────────────────────── */
@@ -117,25 +117,25 @@ const team: TeamMember[] = [
     name: "Brandon Payne",
     title: "Director of Admissions",
     department: "Admissions",
-    photo: `${WP}/2025/07/Brandon.png`,
+    photo: `${SB}/rize_team_brandon-payne.png`,
   },
   {
     name: "Gino Buffardi",
     title: "Admissions Coordinator",
     department: "Admissions",
-    photo: `${WP}/2026/04/IMG_2486-scaled-e1777407373703.jpg`,
+    photo: `${SB}/rize_team_gino-buffardi.jpg`,
   },
   {
     name: "Shawna Phillips",
     title: "Admissions",
     department: "Admissions",
-    photo: `${WP}/2026/04/IMG_2473-scaled-e1775666685187.jpg`,
+    photo: `${SB}/rize_team_shawna-phillips.jpg`,
   },
   {
     name: "Marisa Clifton",
     title: "Admissions Specialist",
     department: "Admissions",
-    photo: `${WP}/2024/05/Untitled-design-42.png`,
+    photo: `${SB}/rize_team_marisa-clifton.png`,
   },
 
   /* ── Operations ─────────────────────────────────────────────────────── */
@@ -143,43 +143,43 @@ const team: TeamMember[] = [
     name: "Christopher Elliott",
     title: "Operations Manager",
     department: "Operations",
-    photo: `${WP}/2026/04/IMG_2443-scaled-e1775667084919.jpg`,
+    photo: `${SB}/rize_team_christopher-elliott.jpg`,
   },
   {
     name: "James Dorsey",
     title: "Virtual Operations Manager",
     department: "Operations",
-    photo: `${WP}/2026/04/IMG_2494-scaled-e1777407354915.jpg`,
+    photo: `${SB}/rize_team_james-dorsey.jpg`,
   },
   {
     name: "Ashley Becker",
     title: "Human Resources",
     department: "Operations",
-    photo: `${WP}/2026/04/IMG_2448-scaled-e1775666762241.jpg`,
+    photo: `${SB}/rize_team_ashley-becker.jpg`,
   },
   {
     name: "Sable Rivera",
     title: "Lead Case Manager",
     department: "Operations",
-    photo: `${WP}/2026/04/IMG_2470-scaled-e1777407389362.jpg`,
+    photo: `${SB}/rize_team_sable-rivera.jpg`,
   },
   {
     name: "Chris Williams",
     title: "Case Manager",
     department: "Operations",
-    photo: `${WP}/2026/04/IMG_2436-scaled-e1775665807682.jpg`,
+    photo: `${SB}/rize_team_chris-williams.jpg`,
   },
   {
     name: "Louis Odom",
     title: "Case Manager",
     department: "Operations",
-    photo: `${WP}/2026/04/IMG_2491-scaled-e1775667052554.jpg`,
+    photo: `${SB}/rize_team_louis-odom.jpg`,
   },
   {
     name: "Sara Higgins",
     title: "Case Manager",
     department: "Operations",
-    photo: `${WP}/2026/04/IMG_2467-scaled-e1777407403820.jpg`,
+    photo: `${SB}/rize_team_sara-higgins.jpg`,
   },
 ];
 

@@ -57,7 +57,7 @@ const demoPost: BlogPost = {
   author: "Chandra Medina",
   authorRole: "Clinical Director, LMFT",
   authorBio: "Chandra brings over 10 years of experience in the mental health and SUD treatment field, specializing in trauma, addiction, and brain health. She leads the clinical team at Rize OC.",
-  authorPhoto: "https://rizeoc.com/wp-content/uploads/2025/07/Chandra.png",
+  authorPhoto: "https://nfjlvkxrbzytjefmcvhg.supabase.co/storage/v1/object/public/site-assets/images/staff/rize_team_chandra-medina.png",
   image: HERO_IMAGE,
   date: "May 13, 2026",
   readTime: "6 min read",
