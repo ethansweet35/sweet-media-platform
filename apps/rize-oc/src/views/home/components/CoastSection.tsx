@@ -44,8 +44,9 @@ export default function CoastSection() {
   return (
     <section className="bg-[#F5F0E8] overflow-hidden">
       <div className="grid lg:grid-cols-[1fr_1fr] min-h-[560px]">
-        {/* Left: content panel */}
-        <div className="flex flex-col justify-center px-[30px] py-[75px] lg:px-14 xl:px-20 lg:py-16">
+        {/* Left: content panel — flex justify-end so inner max-w tracks the 1300px container boundary */}
+        <div className="flex lg:justify-end">
+        <div className="w-full lg:max-w-[650px] flex flex-col justify-center px-[30px] py-[75px] lg:pl-6 lg:pr-14 lg:py-16">
           <span className="text-[10px] font-semibold uppercase tracking-[0.32em] text-accent mb-5 block">
             Connected to the Coast
           </span>
@@ -96,6 +97,7 @@ export default function CoastSection() {
           >
             View Location <i className="ri-map-pin-2-line" />
           </Link>
+        </div>
         </div>
 
         {/* Right: coastal image */}
