@@ -1,0 +1,52 @@
+@import "tailwindcss";
+
+@source "../**/*.{js,ts,jsx,tsx,mdx}";
+@source "../../src/**/*.{js,ts,jsx,tsx,mdx}";
+@source "../../../../packages/admin-core/src/**/*.{js,ts,jsx,tsx}";
+
+:root {
+  /* Brand palette */
+  --color-bg:          #FFFFFF;
+  --color-bg-light:    #F4F9FC;
+  --color-bg-dark:     #000000;
+  --color-surface:     #FFFFFF;
+  --color-border:      #CBE6EC;
+
+  /* Text */
+  --color-ink:         #1F2124;
+  --color-body:        #7C848B;
+  --color-muted:       #A0A8B0;
+
+  /* Brand blue + warm orange CTA */
+  --color-brand:       #83B3DC;
+  --color-brand-dark:  #5B93C4;
+  --color-cta:         #000000;
+  --color-cta-hover:   #111111;
+
+  /* Typography */
+  --font-heading: "Heebo", system-ui, sans-serif;
+  --font-body:    "Montserrat", system-ui, sans-serif;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    margin: 0;
+    background: var(--color-bg);
+    color: var(--color-ink);
+    font-family: var(--font-body);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-heading);
+    color: var(--color-ink);
+  }
+
+  button, a {
+    transition: all 180ms ease;
+  }
+}
