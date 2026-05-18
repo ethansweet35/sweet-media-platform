@@ -60,7 +60,7 @@ body {
  * Marketing site mobile polish (`.cipher-site` on `Layout` — excludes /admin and the LP).
  * - Section vertical padding (`py-16`, `py-20`) → 50px top + bottom so stacked sections read as ~100px apart.
  * - Section gutters → 40px horizontal on phones (narrower canvas than Tailwind px-5/6 alone).
- * - Slightly larger H2 + body where Tailwind uses `text-3xl` / `text-sm` for main copy.
+ * - Slightly larger H2/H3 + body where Tailwind uses common heading / `text-sm` utilities.
  */
 @media (max-width: 767px) {
   /* Primary section horizontal padding layer (avoid targeting buttons with bare `px-*`). */
@@ -82,8 +82,42 @@ body {
     padding-bottom: 70px !important;
   }
 
+  .cipher-site main h2.text-2xl {
+    font-size: 1.625rem !important;
+    line-height: 1.25 !important;
+  }
+
   .cipher-site main h2.text-3xl {
-    font-size: 2rem !important;
+    font-size: 2.1875rem !important;
+    line-height: 1.2 !important;
+  }
+
+  .cipher-site main h2.text-4xl {
+    font-size: 2.4375rem !important;
+    line-height: 1.1 !important;
+  }
+
+  .cipher-site main h3.text-base {
+    font-size: 1.0625rem !important;
+  }
+
+  .cipher-site main h3.text-lg {
+    font-size: 1.1875rem !important;
+    line-height: 1.35 !important;
+  }
+
+  .cipher-site main h3.text-xl {
+    font-size: 1.375rem !important;
+    line-height: 1.3 !important;
+  }
+
+  .cipher-site main h3.text-2xl {
+    font-size: 1.6875rem !important;
+    line-height: 1.25 !important;
+  }
+
+  .cipher-site main h3.text-3xl {
+    font-size: 2.0625rem !important;
     line-height: 1.2 !important;
   }
 
