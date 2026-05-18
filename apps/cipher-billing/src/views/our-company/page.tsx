@@ -201,22 +201,25 @@ export default function OurCompanyPage() {
             {leadership.map((person) => (
               <div
                 key={person.name}
-                className="relative flex min-h-[454px] flex-col justify-end overflow-hidden rounded-sm p-6 text-white"
+                className="relative flex aspect-[3/4] flex-col justify-end overflow-hidden rounded-sm"
               >
-                <div
-                  className="absolute inset-0 bg-cover bg-center"
-                  style={{ backgroundImage: `url(${person.image})` }}
+                <Image
+                  src={person.image}
+                  alt={`${person.name} — Cipher Billing`}
+                  fill
+                  sizes="(max-width: 639px) 100vw, (max-width: 1023px) 50vw, 280px"
+                  className="object-cover object-top"
                 />
                 <div
-                  className="absolute inset-0"
+                  className="pointer-events-none absolute inset-0"
                   style={{
                     backgroundImage:
-                      "linear-gradient(180deg, rgba(255,255,255,0) 23%, #101E3F 100%)",
+                      "linear-gradient(180deg, transparent 40%, rgba(16,30,63,0.7) 70%, #101E3F 100%)",
                   }}
                 />
-                <div className="relative">
+                <div className="relative p-5 text-white">
                   <p className="font-marcellus text-xl font-medium text-white md:text-2xl"><AutoLinkedText>{person.name}</AutoLinkedText></p>
-                  <p className="mt-2 text-[11px] font-semibold uppercase tracking-[0.14em] text-white/95"><AutoLinkedText>{person.role}</AutoLinkedText></p>
+                  <p className="mt-1.5 text-[11px] font-semibold uppercase tracking-[0.14em] text-white/95"><AutoLinkedText>{person.role}</AutoLinkedText></p>
                 </div>
               </div>
             ))}
