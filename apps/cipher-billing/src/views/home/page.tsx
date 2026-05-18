@@ -113,13 +113,13 @@ export default function HomePage() {
           />
         </div>
         <div className="relative mx-auto flex min-h-[min(88vh,820px)] max-w-[1140px] flex-col items-center justify-center px-6 py-24 text-center text-white md:min-h-[min(90vh,880px)] md:py-28">
-          <h1 className="font-[var(--font-heading)] text-4xl font-medium tracking-[-0.02em] md:text-6xl md:leading-[1.05]">
+          <h1 className="font-[var(--font-heading)] text-5xl font-medium leading-[1.08] tracking-[-0.02em] md:text-6xl md:leading-[1.05]">
             A Higher-Level Partnership
           </h1>
           <p className="mt-4 text-xs font-semibold uppercase leading-normal tracking-[0.28em] text-white/95 md:text-sm">
             <AutoLinkedText>{"Your Partner In Behavioral Health Billing"}</AutoLinkedText>
           </p>
-          <p className="mt-4 max-w-2xl font-[var(--font-heading)] text-base italic leading-[1.42] text-white/90 md:text-lg">
+          <p className="mt-4 max-w-2xl font-[var(--font-heading)] text-xs italic leading-[1.42] text-white/90 md:text-lg">
             <AutoLinkedText>{"Delivering Airtight Compliance & Real Financial Results"}</AutoLinkedText>
           </p>
         </div>
@@ -134,7 +134,7 @@ export default function HomePage() {
 
         {/* Welcome + By the numbers — two-column stats (matches WP) */}
         <section className="relative z-10 overflow-hidden text-white">
-          <div className="mx-auto max-w-[1140px] px-6 py-20 md:py-28">
+          <div className="cipher-home-welcome-band mx-auto max-w-[1140px] px-6 py-20 md:py-32">
             <div className="mx-auto max-w-3xl text-center">
               <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-[#166C96]">
                 <AutoLinkedText>{"WELCOME TO CIPHER BILLING"}</AutoLinkedText>

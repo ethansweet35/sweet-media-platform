@@ -17,7 +17,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   if (isAdmin || isLandingPage) return <>{children}</>;
 
   return (
-    <div className="min-h-screen flex flex-col bg-white">
+    <div className="cipher-site min-h-screen flex flex-col bg-white">
       <Navbar />
       <div className="flex-1">{children}</div>
       <Footer />

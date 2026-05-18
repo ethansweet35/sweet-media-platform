@@ -32,6 +32,68 @@ body {
 }
 
 /**
+ * Marketing accent type — slightly airier tracking on uppercase eyebrow / label utilities.
+ */
+.cipher-site [class*="tracking-[0.28em]"] {
+  letter-spacing: 0.33em !important;
+}
+.cipher-site [class*="tracking-[0.25em]"] {
+  letter-spacing: 0.31em !important;
+}
+.cipher-site [class*="tracking-[0.24em]"] {
+  letter-spacing: 0.3em !important;
+}
+.cipher-site [class*="tracking-[0.22em]"] {
+  letter-spacing: 0.27em !important;
+}
+.cipher-site [class*="tracking-[0.2em]"] {
+  letter-spacing: 0.24em !important;
+}
+.cipher-site [class*="tracking-[0.18em]"] {
+  letter-spacing: 0.23em !important;
+}
+.cipher-site [class*="tracking-[0.16em]"] {
+  letter-spacing: 0.21em !important;
+}
+
+/**
+ * Marketing site mobile polish (`.cipher-site` on `Layout` — excludes /admin and the LP).
+ * - Section vertical padding (`py-16`, `py-20`) → 50px top + bottom so stacked sections read as ~100px apart.
+ * - Section gutters → 40px horizontal on phones (narrower canvas than Tailwind px-5/6 alone).
+ * - Slightly larger H2 + body where Tailwind uses `text-3xl` / `text-sm` for main copy.
+ */
+@media (max-width: 767px) {
+  /* Primary section horizontal padding layer (avoid targeting buttons with bare `px-*`). */
+  .cipher-site main section:is(.px-5, .px-6),
+  .cipher-site main section .mx-auto:is(.px-5, .px-6) {
+    padding-left: 40px !important;
+    padding-right: 40px !important;
+  }
+
+  .cipher-site main section.py-16,
+  .cipher-site main .py-20 {
+    padding-top: 50px !important;
+    padding-bottom: 50px !important;
+  }
+
+  /* Homepage: “Welcome to Cipher Billing” band — slightly roomier vertically */
+  .cipher-site main .cipher-home-welcome-band.py-20 {
+    padding-top: 70px !important;
+    padding-bottom: 70px !important;
+  }
+
+  .cipher-site main h2.text-3xl {
+    font-size: 2rem !important;
+    line-height: 1.2 !important;
+  }
+
+  .cipher-site main p.text-sm,
+  .cipher-site main li.text-sm {
+    font-size: 0.9375rem !important;
+  }
+}
+
+/**
  * Paragraphs inherit Montserrat from body; headings get serif via h1–h6 rule below.
  * Use this class on non-heading elements (e.g. stat figures) that must match Marcellus titles.
  */
