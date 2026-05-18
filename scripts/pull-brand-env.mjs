@@ -39,6 +39,10 @@ function getArg(flag) {
   return i >= 0 ? process.argv[i + 1] : null;
 }
 
+function hasFlag(flag) {
+  return process.argv.includes(flag);
+}
+
 function parseEnvText(text) {
   const out = {};
   const lines = text.replace(/\\n/g, '\n').split('\n');
@@ -101,6 +105,11 @@ async function main() {
   const outPath = join(appDir, '.env.local');
 
   if (!existsSync(appDir)) die(`apps/${slug} does not exist. Check the slug and try again.`);
+
+  // --if-missing: skip silently if .env.local already exists (used by predev hook)
+  if (hasFlag('--if-missing') && existsSync(outPath)) {
+    process.exit(0);
+  }
 
   // ── Check op is available ────────────────────────────────────────────────
   try {

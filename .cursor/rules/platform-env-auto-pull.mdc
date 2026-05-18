@@ -1,0 +1,35 @@
+# Platform — Automatic .env.local Resolution
+
+## Rule: Always resolve brand env vars automatically — never ask the developer to do it manually
+
+When working on any task that involves a client brand app (`apps/<slug>/`), and the task requires knowledge of or access to that brand's environment variables (Supabase URL, API keys, service role key, etc.):
+
+1. **Check if `apps/<slug>/.env.local` exists** before doing anything else.
+2. **If it does not exist**, immediately run the pull script to fetch it from 1Password:
+   ```bash
+   node scripts/pull-brand-env.mjs --slug <slug>
+   ```
+3. **Never ask the developer to pull the env manually.** Never instruct them to create or copy a `.env.local` file. Handle it silently as a prerequisite step.
+
+## When this applies
+
+- Any time you need to read a Supabase URL, anon key, service role key, or other brand-specific secret
+- Any time you're debugging a dev server issue that could be caused by missing env vars
+- Any time you're provisioning, deploying, or configuring a brand
+- Any time a script or command will fail without the brand's env vars present
+
+## The 1Password vault structure
+
+- Vault: `sweet media platform`
+- Per-brand items: `<slug> — .env.local` (e.g. `cipher-billing — .env.local`)
+- Root platform secrets: `platform — root .env`
+
+The pull script handles authentication automatically via the 1Password desktop app integration. No tokens or passwords needed — just run it.
+
+## Dev server auto-pull
+
+Every app's `package.json` has a `predev` hook:
+```
+"predev": "node ../../scripts/pull-brand-env.mjs --slug <slug> --if-missing"
+```
+This means `pnpm dev` automatically pulls the brand env on first run. You do not need to trigger this manually for dev server workflows.

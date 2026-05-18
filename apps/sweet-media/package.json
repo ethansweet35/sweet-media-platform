@@ -11,6 +11,7 @@
   ],
   "scripts": {
     "dev": "next dev",
+    "predev": "node ../../scripts/pull-brand-env.mjs --slug sweet-media --if-missing",
     "build": "next build",
     "postbuild": "tsx scripts/sync-tracked-pages.ts",
     "start": "next start",

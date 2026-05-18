@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
+    "predev": "node ../../scripts/pull-brand-env.mjs --slug inner-peak-colorado --if-missing",
     "build": "next build",
     "postbuild": "tsx scripts/sync-tracked-pages.ts",
     "start": "next start",
