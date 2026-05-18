@@ -23,7 +23,7 @@ const carriers = ["AETNA", "CIGNA", "ANTHEM", "UHC", "BLUE CROSS", "+ MORE"];
 
 export default function InsuranceSection() {
   return (
-    <section className="bg-white">
+    <section id="insurance" className="bg-white">
       <SectionWrapper>
         <SectionHeader
           eyebrow="Financial Options"
