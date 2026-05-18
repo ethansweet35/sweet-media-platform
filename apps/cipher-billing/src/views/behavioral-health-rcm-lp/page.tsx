@@ -432,20 +432,18 @@ export default function BehavioralHealthRcmLpPage() {
                 <i className="ri-phone-fill text-sm text-[#166C96]" aria-hidden />
                 {TEL_DISPLAY}
               </a>
-              <a
-                href="#get-started"
-                className="rounded-sm bg-[#101E3F] px-4 py-2.5 text-[10.5px] font-bold uppercase tracking-[0.14em] text-white transition hover:bg-[#166C96]"
-              >
-                Get Free Audit
-              </a>
             </div>
           </div>
         </nav>
       </header>
 
       {/* ── Hero ─────────────────────────────────────────────────────────── */}
-      <section className="bg-[#0A1628]">
-        <div className="mx-auto grid max-w-[1200px] gap-10 px-5 py-16 md:grid-cols-[1.15fr_0.85fr] md:items-center md:py-24 md:px-8 lg:gap-16">
+      <section
+        className="relative bg-[#0A1628] bg-cover bg-center bg-no-repeat"
+        style={{ backgroundImage: "url('https://nstzjqmtsqgeihkyvkqq.supabase.co/storage/v1/object/public/site-assets/images/cb_rcm-lp_hero_bg.jpg')" }}
+      >
+        <div className="absolute inset-0 bg-[#0A1628]/70" aria-hidden />
+        <div className="relative mx-auto grid max-w-[1200px] gap-10 px-5 py-16 md:grid-cols-[1.15fr_0.85fr] md:items-center md:py-24 md:px-8 lg:gap-16">
 
           {/* Left */}
           <div>
