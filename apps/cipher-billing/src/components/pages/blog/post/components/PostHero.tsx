@@ -69,36 +69,21 @@ export default function PostHero({ post }: PostHeroProps) {
             <div className="flex flex-wrap items-center gap-x-8 gap-y-3 border-t border-white/10 pt-6">
               {/* Author */}
               <div className="flex items-center gap-3">
-                <div className="w-9 h-9 bg-[#166C96] flex items-center justify-center flex-shrink-0">
-                  {post.authorPhoto && !post.authorPhoto.includes("ynmldknprfu") ? (
-                    <Image
-                      src={post.authorPhoto}
-                      alt={post.author}
-                      width={36}
-                      height={36}
-                      className="w-full h-full object-cover"
-                    />
-                  ) : (
-                    <span
-                      className="text-white text-[10px] font-bold"
-                      style={{ fontFamily: "'Montserrat', sans-serif" }}
-                    >
-                      {post.author ? post.author.split(" ").map((n) => n[0]).join("").slice(0, 2) : "CB"}
-                    </span>
-                  )}
+                <div className="flex h-9 w-9 shrink-0 items-center justify-center bg-[#166C96]">
+                  <i className="ri-shield-check-line text-base leading-none text-white" />
                 </div>
                 <div>
                   <p
                     className="text-[12px] text-white/80 font-medium leading-tight"
                     style={{ fontFamily: "'Montserrat', sans-serif" }}
                   >
-                    {post.author || "Cipher Billing"}
+                    {post.author || "Cipher Admin"}
                   </p>
                   <p
                     className="text-[10px] text-white/35"
                     style={{ fontFamily: "'Montserrat', sans-serif" }}
                   >
-                    {post.authorRole || "Behavioral Health Billing Team"}
+                    {post.authorRole || "Cipher Billing Team"}
                   </p>
                 </div>
               </div>
