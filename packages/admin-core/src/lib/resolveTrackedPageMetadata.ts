@@ -1,6 +1,4 @@
-import { createClient, type SupabaseClient } from "@supabase/supabase-js";
 import type { Metadata } from "next";
-import { unstable_cache } from "next/cache";
 import { getPageAutoLinkRegistry } from "@sweetmedia/blog-core";
 
 type TrackedPageMetadataRow = {
@@ -8,36 +6,7 @@ type TrackedPageMetadataRow = {
   meta_description: string | null;
 };
 
-let trackedPagesClient: SupabaseClient | null = null;
-let trackedPagesClientKey: string | null = null;
 const DEFAULT_CACHE_TTL_SECONDS = 15;
-
-function getTrackedPagesClient(): SupabaseClient | null {
-  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
-  // Prefer service role key (bypasses RLS) since this runs server-side only.
-  // Falls back to anon key if service role is not available.
-  const supabaseKey =
-    process.env.SUPABASE_SERVICE_ROLE_KEY ??
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
-
-  if (!supabaseUrl || !supabaseKey) {
-    return null;
-  }
-
-  if (trackedPagesClient && trackedPagesClientKey === supabaseKey) {
-    return trackedPagesClient;
-  }
-
-  trackedPagesClient = createClient(supabaseUrl, supabaseKey, {
-    auth: {
-      persistSession: false,
-      autoRefreshToken: false,
-    },
-  });
-  trackedPagesClientKey = supabaseKey;
-
-  return trackedPagesClient;
-}
 
 function getCacheTtlSeconds(): number {
   const raw = process.env.TRACKED_PAGE_METADATA_CACHE_SECONDS;
@@ -88,35 +57,53 @@ function mergeTrackedMetadata(
   return metadata;
 }
 
-async function fetchTrackedPageMetadata(routePath: string): Promise<TrackedPageMetadataRow | null> {
-  const client = getTrackedPagesClient();
-  if (!client) {
+/**
+ * Fetches SEO metadata from the Supabase REST API using Next.js native fetch
+ * caching. Using native fetch (rather than unstable_cache) ensures the cache
+ * is tagged correctly for revalidateTag() to work in Next.js 16.
+ */
+async function fetchTrackedPageMetadata(
+  routePath: string
+): Promise<TrackedPageMetadataRow | null> {
+  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  // Prefer service role key (bypasses RLS) since this runs server-side only.
+  // Falls back to anon key if service role is not available.
+  const supabaseKey =
+    process.env.SUPABASE_SERVICE_ROLE_KEY ??
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+
+  if (!supabaseUrl || !supabaseKey) {
     return null;
   }
 
   try {
-    const { data, error } = await client
-      .from("tracked_pages")
-      .select("seo_title, meta_description")
-      .eq("route_path", routePath)
-      .eq("is_active", true)
-      .maybeSingle<TrackedPageMetadataRow>();
+    const url = new URL(`${supabaseUrl}/rest/v1/tracked_pages`);
+    url.searchParams.set("select", "seo_title,meta_description");
+    url.searchParams.set("route_path", `eq.${routePath}`);
+    url.searchParams.set("is_active", "eq.true");
+    url.searchParams.set("limit", "1");
 
-    if (error || !data) {
-      return null;
-    }
+    const response = await fetch(url.toString(), {
+      headers: {
+        apikey: supabaseKey,
+        Authorization: `Bearer ${supabaseKey}`,
+      },
+      next: {
+        tags: ["tracked-page-metadata"],
+        revalidate: getCacheTtlSeconds(),
+      },
+    });
 
-    return data;
+    if (!response.ok) return null;
+
+    const rows = (await response.json()) as unknown[];
+    if (!Array.isArray(rows) || rows.length === 0) return null;
+
+    return rows[0] as TrackedPageMetadataRow;
   } catch {
     return null;
   }
 }
-
-const fetchTrackedPageMetadataCached = unstable_cache(
-  async (routePath: string) => fetchTrackedPageMetadata(routePath),
-  ["tracked-page-metadata"],
-  { revalidate: getCacheTtlSeconds(), tags: ["tracked-page-metadata"] }
-);
 
 export async function resolveTrackedPageMetadata(
   routePath: string,
@@ -138,7 +125,7 @@ export async function resolveTrackedPageMetadata(
         },
       };
 
-  const data = await fetchTrackedPageMetadataCached(routePath);
+  const data = await fetchTrackedPageMetadata(routePath);
   if (!data) {
     return baseMetadata;
   }
