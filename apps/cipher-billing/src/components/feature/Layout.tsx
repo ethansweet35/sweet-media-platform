@@ -48,6 +48,8 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const isAdmin = pathname?.startsWith("/admin");
   const isLandingPage = pathname === "/behavioral-health-rcm-lp";
+  const hideFloatingButton =
+    pathname === "/resources/in-house-vs-outsourced-calculator";
 
   useEffect(() => {
     if (!isAdmin) window.scrollTo({ top: 0, behavior: "smooth" });
@@ -60,7 +62,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       <Navbar />
       <div className="flex-1">{children}</div>
       <Footer />
-      <FloatingCallButton />
+      {!hideFloatingButton && <FloatingCallButton />}
     </div>
   );
 }
