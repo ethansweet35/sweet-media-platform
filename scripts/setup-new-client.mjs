@@ -106,6 +106,22 @@ function loadEnvFile() {
   return out;
 }
 
+const OP_VAULT = 'sweet media platform';
+const OP_ITEM  = 'platform — root .env';
+
+/**
+ * Try to read a single field from 1Password.
+ * Returns null if `op` is unavailable, the user isn't signed in, or the field doesn't exist.
+ */
+function opRead(fieldLabel) {
+  try {
+    const uri = `op://${OP_VAULT}/${OP_ITEM}/${fieldLabel}`;
+    return execSync(`op read "${uri}"`, { stdio: ['pipe', 'pipe', 'pipe'] }).toString().trim() || null;
+  } catch {
+    return null;
+  }
+}
+
 // ─── Main ─────────────────────────────────────────────────────────────────────
 
 async function main() {
@@ -114,7 +130,7 @@ async function main() {
   // ── 1. Access token ──────────────────────────────────────────────────────
   // Try multiple locations: env var → file (old CLI) → macOS keychain (new CLI)
   const envVarsEarly = loadEnvFile();
-  let token = process.env.SUPABASE_ACCESS_TOKEN || envVarsEarly.SUPABASE_ACCESS_TOKEN || null;
+  let token = process.env.SUPABASE_ACCESS_TOKEN || envVarsEarly.SUPABASE_ACCESS_TOKEN || opRead('SUPABASE_ACCESS_TOKEN') || null;
 
   if (!token) {
     const tokenPath = join(process.env.HOME, '.supabase', 'access-token');
@@ -164,11 +180,11 @@ async function main() {
 
   // ── 3. Env keys ──────────────────────────────────────────────────────────
   const envVars = loadEnvFile();
-  const openrouterKey    = envVars.OPENROUTER_API_KEY    || process.env.OPENROUTER_API_KEY    || null;
-  const openaiKey        = envVars.OPENAI_API_KEY        || process.env.OPENAI_API_KEY        || null;
-  let   webhookSecret    = envVars.BLOG_WEBHOOK_SECRET   || process.env.BLOG_WEBHOOK_SECRET   || null;
-  const googleClientEmail = envVars.GOOGLE_INDEXING_CLIENT_EMAIL || process.env.GOOGLE_INDEXING_CLIENT_EMAIL || null;
-  const googlePrivateKey  = envVars.GOOGLE_INDEXING_PRIVATE_KEY  || process.env.GOOGLE_INDEXING_PRIVATE_KEY  || null;
+  const openrouterKey    = envVars.OPENROUTER_API_KEY    || process.env.OPENROUTER_API_KEY    || opRead('OPENROUTER_API_KEY')            || null;
+  const openaiKey        = envVars.OPENAI_API_KEY        || process.env.OPENAI_API_KEY        || opRead('OPENAI_API_KEY')                || null;
+  let   webhookSecret    = envVars.BLOG_WEBHOOK_SECRET   || process.env.BLOG_WEBHOOK_SECRET   || opRead('BLOG_WEBHOOK_SECRET')           || null;
+  const googleClientEmail = envVars.GOOGLE_INDEXING_CLIENT_EMAIL || process.env.GOOGLE_INDEXING_CLIENT_EMAIL || opRead('GOOGLE_INDEXING_CLIENT_EMAIL') || null;
+  const googlePrivateKey  = envVars.GOOGLE_INDEXING_PRIVATE_KEY  || process.env.GOOGLE_INDEXING_PRIVATE_KEY  || opRead('GOOGLE_INDEXING_PRIVATE_KEY')  || null;
 
   if (!openrouterKey) warn('OPENROUTER_API_KEY not found in .env — add it for edge function secrets.');
   if (!openaiKey)     warn('OPENAI_API_KEY not found in .env — add it for edge function secrets.');

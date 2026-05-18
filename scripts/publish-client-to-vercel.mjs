@@ -30,10 +30,27 @@
 import { readFileSync, existsSync } from 'fs';
 import { join, dirname } from 'path';
 import { fileURLToPath } from 'url';
+import { execSync } from 'child_process';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const REPO_ROOT = join(__dirname, '..');
 const VERCEL_API = 'https://api.vercel.com';
+
+const OP_VAULT = 'sweet media platform';
+const OP_ITEM  = 'platform — root .env';
+
+/**
+ * Try to read a single field from 1Password.
+ * Returns null if `op` is unavailable, the user isn't signed in, or the field doesn't exist.
+ */
+function opRead(fieldLabel) {
+  try {
+    const uri = `op://${OP_VAULT}/${OP_ITEM}/${fieldLabel}`;
+    return execSync(`op read "${uri}"`, { stdio: ['pipe', 'pipe', 'pipe'] }).toString().trim() || null;
+  } catch {
+    return null;
+  }
+}
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 
@@ -94,12 +111,14 @@ async function main() {
   console.log('\n🚀  Sweet Media — Publish Client to Vercel\n');
 
   const rootEnv  = loadEnvFile(join(REPO_ROOT, '.env'));
-  const token    = process.env.VERCEL_TOKEN || rootEnv.VERCEL_TOKEN;
-  const teamId   = process.env.VERCEL_TEAM_ID || rootEnv.VERCEL_TEAM_ID || null;
-  const ghRepo   = process.env.GITHUB_REPO || rootEnv.GITHUB_REPO;
 
-  if (!token)  die('VERCEL_TOKEN not found in .env. Create one at vercel.com/account/tokens');
-  if (!ghRepo) die('GITHUB_REPO not found in .env. Format: owner/repo (e.g. ethansweet/sweet-media-platform)');
+  // Resolution order: process.env → .env file → 1Password
+  const token  = process.env.VERCEL_TOKEN  || rootEnv.VERCEL_TOKEN  || (() => { step('VERCEL_TOKEN not in .env — fetching from 1Password'); return opRead('VERCEL_TOKEN'); })();
+  const teamId = process.env.VERCEL_TEAM_ID || rootEnv.VERCEL_TEAM_ID || opRead('VERCEL_TEAM_ID') || null;
+  const ghRepo = process.env.GITHUB_REPO   || rootEnv.GITHUB_REPO   || (() => { step('GITHUB_REPO not in .env — fetching from 1Password'); return opRead('GITHUB_REPO'); })();
+
+  if (!token)  die('VERCEL_TOKEN not found. Add it to .env or store it in 1Password vault "sweet media platform" → "platform — root .env".');
+  if (!ghRepo) die('GITHUB_REPO not found. Add it to .env or store it in 1Password vault "sweet media platform" → "platform — root .env".');
 
   const slug   = getArg('--slug')   || die('--slug required');
   const name   = getArg('--name')   || die('--name required');
@@ -161,9 +180,9 @@ async function main() {
 
   const resolve = (key) => {
     if (ROOT_SHARED_SECRETS.has(key)) {
-      return rootEnv[key] || process.env[key] || localEnv[key];
+      return rootEnv[key] || process.env[key] || localEnv[key] || opRead(key);
     }
-    return localEnv[key] || rootEnv[key] || process.env[key];
+    return localEnv[key] || rootEnv[key] || process.env[key] || opRead(key);
   };
 
   const envPayload = [];
