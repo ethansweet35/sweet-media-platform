@@ -1,3 +1,5 @@
+import InlineInquiryForm from "@/components/feature/InlineInquiryForm";
+
 const STEPS = [
   {
     n: "01",
@@ -93,28 +95,7 @@ export default function FinancialConcierge() {
               priority.
             </p>
 
-            <form className="mt-7 space-y-6" action="/contact/" method="POST">
-              <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
-                <ConciergeField name="name" placeholder="Name" required />
-                <ConciergeField
-                  name="phone"
-                  placeholder="Phone Number"
-                  type="tel"
-                  required
-                />
-              </div>
-              <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
-                <ConciergeField name="insurance" placeholder="Insurance" />
-                <ConciergeField name="policy_id" placeholder="Policy ID" />
-              </div>
-
-              <button
-                type="submit"
-                className="mt-2 w-full bg-white py-4 text-[12px] font-semibold uppercase tracking-[0.28em] text-[var(--mvt-ink)] hover:bg-[var(--mvt-cream)]"
-              >
-                Send
-              </button>
-            </form>
+            <InlineInquiryForm variant="concierge" />
           </aside>
         </div>
       </div>
@@ -122,26 +103,3 @@ export default function FinancialConcierge() {
   );
 }
 
-type ConciergeFieldProps = {
-  name: string;
-  placeholder: string;
-  type?: "text" | "tel" | "email";
-  required?: boolean;
-};
-
-function ConciergeField({
-  name,
-  placeholder,
-  type = "text",
-  required,
-}: ConciergeFieldProps) {
-  return (
-    <input
-      type={type}
-      name={name}
-      placeholder={placeholder}
-      required={required}
-      className="block w-full border-0 border-b border-white/30 bg-transparent px-0 pb-2 pt-1 text-base font-light text-white placeholder:text-white/65 focus:border-white focus:outline-none focus:ring-0"
-    />
-  );
-}

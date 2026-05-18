@@ -1,4 +1,5 @@
 import { SITE } from "@/lib/site";
+import InlineInquiryForm from "@/components/feature/InlineInquiryForm";
 
 export type LocHeroProps = {
   eyebrow: string;
@@ -75,40 +76,10 @@ export default function LocHero({
           <p className="mt-3 text-sm leading-6 text-white/75">
             Speak directly with our admissions team. Your privacy is our priority.
           </p>
-          <form className="mt-7 space-y-6" action="/contact/" method="POST">
-            <InquiryField name="name" type="text" placeholder="Name" required />
-            <InquiryField name="email" type="email" placeholder="Email" required />
-            <InquiryField name="insurance" type="text" placeholder="Insurance" />
-            <InquiryField name="policy_id" type="text" placeholder="Policy ID" />
-
-            <button
-              type="submit"
-              className="mt-3 w-full bg-white py-4 text-[12px] font-semibold uppercase tracking-[0.28em] text-[var(--mvt-ink)] hover:bg-[var(--mvt-cream)]"
-            >
-              Send
-            </button>
-          </form>
+          <InlineInquiryForm />
         </aside>
       </div>
     </section>
   );
 }
 
-type InquiryFieldProps = {
-  name: string;
-  type: "text" | "email" | "tel";
-  placeholder: string;
-  required?: boolean;
-};
-
-function InquiryField({ name, type, placeholder, required }: InquiryFieldProps) {
-  return (
-    <input
-      type={type}
-      name={name}
-      placeholder={placeholder}
-      required={required}
-      className="block w-full border-0 border-b border-white/30 bg-transparent px-0 pb-2 pt-1 text-base font-light text-white placeholder:text-white/65 focus:border-white focus:outline-none focus:ring-0"
-    />
-  );
-}
