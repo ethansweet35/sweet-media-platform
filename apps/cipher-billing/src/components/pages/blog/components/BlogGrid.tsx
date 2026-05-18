@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { decodeEntities } from "@/lib/decodeEntities";
 import { useBlogPosts, useSearchBlogPosts, useBlogCategories } from "@sweetmedia/blog-core";
 
 interface BlogGridProps {
@@ -146,14 +147,14 @@ export default function BlogGrid({ searchQuery }: BlogGridProps) {
                       fontSize: "clamp(16px, 1.5vw, 20px)",
                     }}
                   >
-                    {post.title}
+                    {decodeEntities(post.title)}
                   </h3>
 
                   <p
                     className="text-[#101E3F]/55 text-[13px] leading-relaxed mb-5 line-clamp-2"
                     style={{ fontFamily: "'Montserrat', sans-serif" }}
                   >
-                    {post.excerpt}
+                    {decodeEntities(post.excerpt)}
                   </p>
 
                   {/* Footer */}

@@ -3,6 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import type { BlogPost } from "@sweetmedia/blog-core";
+import { decodeEntities } from "@/lib/decodeEntities";
 
 interface PostHeroProps {
   post: BlogPost;
@@ -52,7 +53,7 @@ export default function PostHero({ post }: PostHeroProps) {
                 fontSize: "clamp(28px, 4vw, 56px)",
               }}
             >
-              {post.title}
+              {decodeEntities(post.title)}
             </h1>
 
             {post.excerpt && (
@@ -60,7 +61,7 @@ export default function PostHero({ post }: PostHeroProps) {
                 className="text-white/55 text-base leading-[1.85] mb-10 max-w-2xl"
                 style={{ fontFamily: "'Montserrat', sans-serif" }}
               >
-                {post.excerpt}
+                {decodeEntities(post.excerpt)}
               </p>
             )}
 

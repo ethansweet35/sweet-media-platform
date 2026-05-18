@@ -2,26 +2,7 @@ import type { BlogSection } from "@sweetmedia/blog-core";
 import { parseInlineLinks, type InlineSegment } from "@/lib/markdownToBlog";
 import { autoLinkText, type LinkSegment, type AutoLinkMapping } from "@sweetmedia/blog-core";
 import Link from "next/link";
-
-/** Decode HTML numeric entities (e.g. &#8220; → " ) and common named entities. */
-function decodeEntities(str: string): string {
-  return str
-    .replace(/&#(\d+);/g, (_, code) => String.fromCharCode(Number(code)))
-    .replace(/&#x([0-9a-f]+);/gi, (_, hex) => String.fromCharCode(parseInt(hex, 16)))
-    .replace(/&amp;/g, "&")
-    .replace(/&lt;/g, "<")
-    .replace(/&gt;/g, ">")
-    .replace(/&quot;/g, '"')
-    .replace(/&apos;/g, "'")
-    .replace(/&nbsp;/g, "\u00a0")
-    .replace(/&mdash;/g, "—")
-    .replace(/&ndash;/g, "–")
-    .replace(/&hellip;/g, "…")
-    .replace(/&ldquo;/g, "\u201C")
-    .replace(/&rdquo;/g, "\u201D")
-    .replace(/&lsquo;/g, "\u2018")
-    .replace(/&rsquo;/g, "\u2019");
-}
+import { decodeEntities } from "@/lib/decodeEntities";
 
 function isExternal(href: string | undefined): boolean {
   if (!href) return false;
@@ -189,7 +170,7 @@ export default function PostBody({ sections, autoLinkMap, currentSlug, usedHrefs
                   className="text-white text-lg leading-relaxed"
                   style={{ fontFamily: "'Marcellus', serif" }}
                 >
-                  &ldquo;{section.text}&rdquo;
+                  &ldquo;{decodeEntities(section.text ?? "")}&rdquo;
                 </p>
               </blockquote>
             );
@@ -235,7 +216,7 @@ export default function PostBody({ sections, autoLinkMap, currentSlug, usedHrefs
                   }`}
                   style={{ fontFamily: "'Montserrat', sans-serif" }}
                 >
-                  {section.text}
+                  {decodeEntities(section.text ?? "")}
                 </p>
               </div>
             );

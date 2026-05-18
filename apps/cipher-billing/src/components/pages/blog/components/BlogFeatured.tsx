@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useBlogPosts } from "@sweetmedia/blog-core";
+import { decodeEntities } from "@/lib/decodeEntities";
 
 export default function BlogFeatured() {
   const { posts, loading } = useBlogPosts();
@@ -92,14 +93,14 @@ export default function BlogFeatured() {
                   fontSize: "clamp(22px, 2.5vw, 34px)",
                 }}
               >
-                {post.title}
+                {decodeEntities(post.title)}
               </h2>
 
               <p
                 className="text-white/55 text-sm leading-[1.85] mb-8"
                 style={{ fontFamily: "'Montserrat', sans-serif" }}
               >
-                {post.excerpt}
+                {decodeEntities(post.excerpt)}
               </p>
             </div>
 

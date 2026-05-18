@@ -5,6 +5,7 @@ import PostShare from "@/components/pages/blog/post/components/PostShare";
 import PostBlogMobileShareRow from "@/components/pages/blog/post/components/PostBlogMobileShareRow";
 import type { BlogPost } from "@sweetmedia/blog-core";
 import type { AutoLinkMapping } from "@sweetmedia/blog-core";
+import { decodeEntities } from "@/lib/decodeEntities";
 
 interface BlogPostArticleProps {
   post: BlogPost;
@@ -47,7 +48,7 @@ export default function BlogPostArticle({
                   className="text-[#101E3F]/65 text-base md:text-lg leading-[1.9] font-medium"
                   style={{ fontFamily: "'Montserrat', sans-serif" }}
                 >
-                  {post.excerpt}
+                  {decodeEntities(post.excerpt)}
                 </p>
               </div>
             )}
