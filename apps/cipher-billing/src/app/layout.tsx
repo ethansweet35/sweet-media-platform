@@ -31,6 +31,9 @@ const montserrat = Montserrat({
   subsets: ["latin"],
 });
 
+const OG_IMAGE_URL =
+  "https://nstzjqmtsqgeihkyvkqq.supabase.co/storage/v1/object/public/site-assets/og/cipher-billing-og.png";
+
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000"),
   title: {
@@ -39,6 +42,29 @@ export const metadata: Metadata = {
   },
   description:
     "Behavioral health billing services focused on airtight compliance, transparent service, and measurable revenue growth.",
+  openGraph: {
+    type: "website",
+    siteName: "Cipher Billing",
+    title: "Cipher Billing | Behavioral Health Billing Services",
+    description:
+      "Behavioral health billing services focused on airtight compliance, transparent service, and measurable revenue growth.",
+    url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://cipherbilling.com",
+    images: [
+      {
+        url: OG_IMAGE_URL,
+        width: 1200,
+        height: 628,
+        alt: "Cipher Billing — A Higher-Level Partnership",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Cipher Billing | Behavioral Health Billing Services",
+    description:
+      "Behavioral health billing services focused on airtight compliance, transparent service, and measurable revenue growth.",
+    images: [OG_IMAGE_URL],
+  },
 };
 
 export default function RootLayout({
