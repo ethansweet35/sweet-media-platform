@@ -353,10 +353,10 @@ export default function AdminBlogTable({
                           <RankingKeywordsPopover
                             pageUrl={`${getPublicSiteOrigin()}/blog/${post.slug}`}
                           >
-                            <button
+                              <button
                               type="button"
                               title="See ranking keywords for this post"
-                              className="shrink-0 w-4 h-4 flex items-center justify-center rounded text-neutral-300 hover:text-[#3d6f7f] hover:bg-[#3d6f7f]/8 transition-all cursor-default"
+                              className="shrink-0 w-4 h-4 flex items-center justify-center rounded text-neutral-400 hover:text-[#3d6f7f] hover:bg-[#3d6f7f]/10 transition-all cursor-pointer"
                             >
                               <i className="ri-bar-chart-grouped-line text-[10px]" />
                             </button>

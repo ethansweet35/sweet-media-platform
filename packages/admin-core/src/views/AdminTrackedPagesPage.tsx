@@ -721,9 +721,9 @@ export default function AdminTrackedPagesPage() {
                                     <button
                                       type="button"
                                       title="See ranking keywords for this page"
-                                      className="shrink-0 w-5 h-5 flex items-center justify-center rounded text-neutral-300 hover:text-[#3d6f7f] hover:bg-[#3d6f7f]/8 transition-all cursor-default"
+                                      className="shrink-0 w-5 h-5 flex items-center justify-center rounded text-neutral-400 hover:text-[#3d6f7f] hover:bg-[#3d6f7f]/10 transition-all cursor-pointer"
                                     >
-                                      <i className="ri-bar-chart-grouped-line text-[11px]" />
+                                      <i className="ri-bar-chart-grouped-line text-[12px]" />
                                     </button>
                                   </RankingKeywordsPopover>
                                 </div>
