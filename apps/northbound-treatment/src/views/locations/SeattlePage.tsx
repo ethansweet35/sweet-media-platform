@@ -13,7 +13,7 @@ const BASE = "https://ahufsygjwpbymomfdazb.supabase.co/storage/v1/object/public/
 const IMAGES = {
   hero: `${BASE}/facility/seattle/1.webp`,
   neighborhood: `${BASE}/facility/seattle/3.webp`,
-  nature: `${BASE}/facility/seattle/5.webp`,
+  nature: `${BASE}/nbt_sea_nature01.jpg`,
 };
 
 const services = [

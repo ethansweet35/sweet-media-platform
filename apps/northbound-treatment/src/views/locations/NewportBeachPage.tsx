@@ -13,7 +13,7 @@ const BASE = "https://ahufsygjwpbymomfdazb.supabase.co/storage/v1/object/public/
 const IMAGES = {
   hero: `${BASE}/facility/newport/1.webp`,
   interior: `${BASE}/facility/newport/4.webp`,
-  beach: `${BASE}/facility/newport/7.webp`,
+  beach: `${BASE}/nbt_nb_beach01.jpg`,
   garden: `${BASE}/facility/newport/9.webp`,
 };
 
