@@ -16,8 +16,8 @@
  *   --force-scaffold   Replace existing apps/<slug> when scaffolding (destructive)
  *   --no-brand-replace Pass through to scaffold (skip Client Brand → --name replacements)
  *   --skip-pnpm        Skip `pnpm install` at repo root after scaffold
- *   --save-to-1password  Save .env.local and .upload.env to 1Password vault "Sweet Media Platform"
- *                        Requires 1Password CLI (brew install 1password-cli) and `op signin`
+ *   --no-save-to-1password  Skip saving credentials to 1Password (default: always saves)
+ *                           Requires 1Password CLI (brew install 1password-cli) and `op signin`
  *
  * Prerequisites:
  *   - Run `supabase login` once before using this script
@@ -601,8 +601,8 @@ async function main() {
     log('Skipping scaffold (--no-scaffold)');
   }
 
-  // ── 15. Save to 1Password (optional --save-to-1password) ─────────────────
-  if (hasFlag('--save-to-1password')) {
+  // ── 15. Save to 1Password (default ON; skip with --no-save-to-1password) ───
+  if (!hasFlag('--no-save-to-1password')) {
     const OP_VAULT = 'Sweet Media Platform';
     const envLocalPath  = join(REPO_ROOT, 'apps', slug, '.env.local');
     const uploadEnvPath = join(REPO_ROOT, 'apps', slug, '.upload.env');
