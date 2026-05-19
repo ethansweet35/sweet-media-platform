@@ -3,7 +3,7 @@ import { resolveTrackedPageMetadata } from "@sweetmedia/admin-core";
 import AftercarePage from "@/views/programs/aftercare/AftercarePage";
 
 const fallback: Metadata = {
-  title: "Aftercare & Continuing Support | Northbound Treatment Services",
+  title: "Aftercare & Continuing Support Services",
   description:
     "Northbound's aftercare program provides personalized discharge planning, ongoing therapy referrals, 12-step integration, alumni community connection, and the unique Work Exchange Program for clients in Orange County, CA.",
   alternates: { canonical: '/programs/aftercare' },

@@ -3,7 +3,7 @@ import { resolveTrackedPageMetadata } from "@sweetmedia/admin-core";
 import FinancialAssistancePage from "@/views/admissions/FinancialAssistancePage";
 
 const fallback: Metadata = {
-  title: "Financial Assistance for Rehab | Northbound Treatment",
+  title: "Financial Assistance for Rehab",
   description: "Money should never prevent anyone from getting help. Northbound offers insurance coverage, third-party financing, scholarships, and payment plans to make addiction treatment accessible to everyone.",
   alternates: { canonical: "/financial-assistance" },
 };

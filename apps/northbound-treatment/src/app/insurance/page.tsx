@@ -4,7 +4,7 @@ import { resolveTrackedPageMetadata } from "@sweetmedia/admin-core";
 import Link from "next/link";
 
 const fallback: Metadata = {
-  title: "Insurance Coverage for Addiction Treatment | Northbound Treatment",
+  title: "Insurance Coverage for Addiction Treatment",
   description:
     "Northbound Treatment is in-network with Aetna, Anthem, Cigna, BlueCross BlueShield, and 15+ other major insurance plans. Verify your addiction treatment benefits for free — no obligation.",
   alternates: { canonical: "/insurance" },

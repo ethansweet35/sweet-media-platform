@@ -3,7 +3,7 @@ import { resolveTrackedPageMetadata } from "@sweetmedia/admin-core";
 import TelehealthPage from "@/views/programs/telehealth/TelehealthPage";
 
 const fallback: Metadata = {
-  title: "Online IOP & Virtual Substance Abuse Treatment | Northbound Treatment Services",
+  title: "Online IOP & Virtual Substance Abuse Treatment Services",
   description:
     "Northbound's HomeBound virtual IOP program delivers evidence-based individual therapy, group counseling, psychiatry, and case management online — available in California and Washington. Most insurance accepted.",
   alternates: { canonical: '/telehealth-iop-services' },

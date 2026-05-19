@@ -3,7 +3,7 @@ import { resolveTrackedPageMetadata } from "@sweetmedia/admin-core";
 import CodependencyPage from "@/views/dualdiagnosis/codependency/CodependencyPage";
 
 const fallback: Metadata = {
-  title: "Codependency & Addiction Treatment | Northbound Treatment Services",
+  title: "Codependency & Addiction Treatment Services",
   description:
     "Northbound treats codependency alongside addiction through integrated dual diagnosis care, family therapy, CBT, and boundary-building programs in Orange County, California.",
   alternates: { canonical: '/treatment/mental-health-disorders/codependency' },

@@ -3,7 +3,7 @@ import { resolveTrackedPageMetadata } from "@sweetmedia/admin-core";
 import HydrocodonePage from "@/views/substance/hydrocodone/HydrocodonePage";
 
 const fallback: Metadata = {
-  title: "Hydrocodone Addiction Treatment | Northbound Treatment",
+  title: "Hydrocodone Addiction Treatment",
   description:
     "Northbound Treatment offers medically supervised Vicodin and hydrocodone addiction treatment — safe detox, residential care, and dual-diagnosis expertise. Call (866) 311-0003.",
   alternates: { canonical: "/treatment/hydrocodone-addiction" },

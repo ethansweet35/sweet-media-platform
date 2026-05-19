@@ -3,7 +3,7 @@ import { resolveTrackedPageMetadata } from "@sweetmedia/admin-core";
 import MATPage from "@/views/substance/mat/MATPage";
 
 const fallback: Metadata = {
-  title: "Medication-Assisted Treatment (MAT) | Northbound Treatment",
+  title: "Medication-Assisted Treatment (MAT)",
   description:
     "Northbound Treatment integrates FDA-approved MAT — Suboxone, Vivitrol, methadone — with behavioral therapy for opioid and alcohol use disorder. Evidence-based, physician-supervised. Call (866) 311-0003.",
   alternates: { canonical: "/treatment/medication-assisted-treatment" },

@@ -3,7 +3,7 @@ import { resolveTrackedPageMetadata } from "@sweetmedia/admin-core";
 import AnthemPage from "@/views/insurance/anthem/AnthemPage";
 
 const fallback: Metadata = {
-  title: "Anthem Insurance Coverage for Addiction Treatment | Northbound Treatment",
+  title: "Anthem Insurance Coverage for Addiction Treatment",
   description:
     "Northbound is an in-network preferred provider with Anthem Blue Cross Blue Shield. Verify your Anthem coverage for detox, residential, PHP, and IOP addiction treatment today.",
   alternates: { canonical: '/insurance/anthem-blue-cross' },

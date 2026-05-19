@@ -3,7 +3,7 @@ import { resolveTrackedPageMetadata } from "@sweetmedia/admin-core";
 import DualDiagnosisPage from "@/views/signature/dual-diagnosis/DualDiagnosisPage";
 
 const fallback: Metadata = {
-  title: "Dual Diagnosis Treatment Centers | Northbound Treatment",
+  title: "Dual Diagnosis Treatment Centers",
   description:
     "Northbound's integrated dual diagnosis treatment program addresses substance use and co-occurring mental health disorders simultaneously — because treating one without the other isn't enough. Orange County, CA.",
   alternates: { canonical: '/treatment/dual-diagnosis' },

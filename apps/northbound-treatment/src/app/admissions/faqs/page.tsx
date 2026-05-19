@@ -3,7 +3,7 @@ import { resolveTrackedPageMetadata } from "@sweetmedia/admin-core";
 import FaqsPage from "@/views/faqs/FaqsPage";
 
 const fallbackMetadata: Metadata = {
-  title: "Frequently Asked Questions | Northbound Treatment Services",
+  title: "Frequently Asked Questions Services",
   description:
     "Get answers to the most common questions about Northbound's admissions process, treatment programs, insurance coverage, and what to expect during rehab in Orange County, CA.",
   alternates: { canonical: "/admissions/faqs" },

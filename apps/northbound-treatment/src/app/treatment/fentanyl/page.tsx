@@ -3,7 +3,7 @@ import { resolveTrackedPageMetadata } from "@sweetmedia/admin-core";
 import FentanylPage from "@/views/substance/fentanyl/FentanylPage";
 
 const fallback: Metadata = {
-  title: "Fentanyl Addiction Treatment | Northbound Treatment",
+  title: "Fentanyl Addiction Treatment",
   description:
     "Northbound Treatment offers medically supervised fentanyl detox, medication-assisted treatment, and residential care for opioid addiction. 24/7 admissions — call (866) 311-0003.",
   alternates: { canonical: "/treatment/fentanyl" },

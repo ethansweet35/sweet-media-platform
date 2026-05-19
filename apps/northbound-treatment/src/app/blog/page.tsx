@@ -8,7 +8,7 @@ const BLOG_OG_IMAGE =
   "https://ahufsygjwpbymomfdazb.supabase.co/storage/v1/object/public/site-assets/images/nbt_hero_bg01.jpg";
 
 const fallbackMetadata: Metadata = {
-  title: "Blog | Mental Health & Recovery Resources | Northbound Treatment",
+  title: "Blog | Mental Health & Recovery Resources",
   description:
     "Mental health, addiction recovery, trauma-informed care, and wellness resources from Northbound Treatment.",
   keywords:
@@ -16,7 +16,7 @@ const fallbackMetadata: Metadata = {
   alternates: { canonical: "/blog" },
   openGraph: {
     type: "website",
-    title: "Blog | Mental Health & Recovery Resources | Northbound Treatment",
+    title: "Blog | Mental Health & Recovery Resources",
     description:
       "Mental health, addiction recovery, trauma-informed care, and wellness resources from Northbound Treatment.",
     url: "/blog",

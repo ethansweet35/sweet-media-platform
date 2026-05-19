@@ -3,7 +3,7 @@ import { resolveTrackedPageMetadata } from "@sweetmedia/admin-core";
 import MethadonePage from "@/views/substance/methadone/MethadonePage";
 
 const fallback: Metadata = {
-  title: "Methadone Addiction Treatment | Northbound Treatment",
+  title: "Methadone Addiction Treatment",
   description:
     "Northbound Treatment offers medically supervised methadone dependency treatment including gradual taper protocols, dual-diagnosis care, and comprehensive aftercare. Call (866) 311-0003.",
   alternates: { canonical: "/treatment/methadone" },

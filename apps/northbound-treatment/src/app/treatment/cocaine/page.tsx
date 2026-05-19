@@ -3,7 +3,7 @@ import { resolveTrackedPageMetadata } from "@sweetmedia/admin-core";
 import CocainePage from "@/views/substance/cocaine/CocainePage";
 
 const fallback: Metadata = {
-  title: "Cocaine Addiction Treatment | Northbound Treatment",
+  title: "Cocaine Addiction Treatment",
   description:
     "Northbound Treatment offers residential and outpatient cocaine and crack cocaine addiction treatment in Orange County, CA. Evidence-based care, dual-diagnosis expertise. Call (866) 311-0003.",
   alternates: { canonical: "/treatment/cocaine" },

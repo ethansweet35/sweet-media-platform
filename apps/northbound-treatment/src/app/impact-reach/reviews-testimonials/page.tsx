@@ -3,7 +3,7 @@ import { resolveTrackedPageMetadata } from "@sweetmedia/admin-core";
 import ReviewsPage from "@/views/about/ReviewsPage";
 
 const fallback: Metadata = {
-  title: "Reviews & Testimonials | Northbound Treatment",
+  title: "Reviews & Testimonials",
   description: "Read real client and family testimonials about Northbound Treatment. Rated 4.6/5 stars on Google. Hear firsthand accounts of recovery from detox through residential and sober living.",
   alternates: { canonical: "/impact-reach/reviews-testimonials" },
 };

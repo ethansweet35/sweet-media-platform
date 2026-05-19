@@ -3,7 +3,7 @@ import { resolveTrackedPageMetadata } from "@sweetmedia/admin-core";
 import IopPage from "@/views/programs/iop/IopPage";
 
 const fallback: Metadata = {
-  title: "Intensive Outpatient Program (IOP) | Northbound Treatment Services",
+  title: "Intensive Outpatient Program (IOP) Services",
   description:
     "Northbound's IOP in Orange County offers flexible 6–12 hour weekly schedules with individual therapy, group counseling, DBT, trauma care, and signature programs like Collegebound® and Careerbound®. Most insurance accepted.",
   alternates: { canonical: '/programs/intensive-outpatient-treatment' },

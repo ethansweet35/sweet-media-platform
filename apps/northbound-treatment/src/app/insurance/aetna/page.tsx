@@ -3,7 +3,7 @@ import { resolveTrackedPageMetadata } from "@sweetmedia/admin-core";
 import AetnaPage from "@/views/insurance/aetna/AetnaPage";
 
 const fallback: Metadata = {
-  title: "Aetna Insurance for Drug & Alcohol Treatment | Northbound Treatment",
+  title: "Aetna Insurance for Drug & Alcohol Treatment",
   description:
     "Northbound Treatment is an in-network preferred provider with Aetna. Aetna covers detox, residential, PHP, and IOP for most members — verify your benefits for free today at (866) 311-0003.",
   alternates: { canonical: '/insurance/aetna' },

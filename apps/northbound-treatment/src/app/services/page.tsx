@@ -3,7 +3,7 @@ import { resolveTrackedPageMetadata } from "@sweetmedia/admin-core";
 import ServicesHubPage from "@/views/services/ServicesHubPage";
 
 const fallbackMetadata: Metadata = {
-  title: "Drug & Alcohol Treatment Services | Northbound Treatment",
+  title: "Drug & Alcohol Treatment Services",
   description:
     "Northbound Treatment offers a full continuum of addiction care — medical detox, residential treatment, PHP, IOP, and telehealth in Orange County, CA. 38+ years of evidence-based recovery programs.",
   alternates: { canonical: "/services" },

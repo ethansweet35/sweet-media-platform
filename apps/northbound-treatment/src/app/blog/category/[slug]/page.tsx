@@ -20,12 +20,12 @@ export async function generateMetadata(
   const { slug } = await params;
   const label = humanizeSlug(slug);
   const fallback: Metadata = {
-    title: `${label} | Northbound Treatment Journal`,
+    title: `${label} Journal`,
     description: `Articles and resources from Northbound Treatment in the ${label} category.`,
     alternates: { canonical: `/blog/category/${slug}` },
     openGraph: {
       type: "website",
-      title: `${label} | Northbound Treatment Journal`,
+      title: `${label} Journal`,
       description: `Articles and resources from Northbound Treatment in the ${label} category.`,
       url: `/blog/category/${slug}`,
       images: [{ url: BLOG_OG_IMAGE, width: 1200, height: 630 }],

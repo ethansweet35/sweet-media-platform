@@ -3,7 +3,7 @@ import { resolveTrackedPageMetadata } from "@sweetmedia/admin-core";
 import EatingDisordersPage from "@/views/dualdiagnosis/eating/EatingDisordersPage";
 
 const fallback: Metadata = {
-  title: "Eating Disorder & Addiction Treatment | Northbound Treatment",
+  title: "Eating Disorder & Addiction Treatment",
   description:
     "Northbound Treatment offers integrated eating disorder and addiction treatment — anorexia, bulimia, binge eating, dual diagnosis, and nutritional recovery support. Call (866) 311-0003.",
   alternates: { canonical: "/treatment/mental-health-disorders/eating-disorders" },

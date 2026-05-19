@@ -3,7 +3,7 @@ import { resolveTrackedPageMetadata } from "@sweetmedia/admin-core";
 import BpdPage from "@/views/dualdiagnosis/bpd/BpdPage";
 
 const fallback: Metadata = {
-  title: "Borderline Personality Disorder & Addiction Treatment | Northbound Treatment Services",
+  title: "Borderline Personality Disorder & Addiction Treatment Services",
   description:
     "Northbound treats BPD and co-occurring addiction with DBT, trauma-informed care, and integrated dual diagnosis programming in Orange County, California.",
   alternates: { canonical: '/treatment/mental-health-disorders/borderline-personality-disorder' },
