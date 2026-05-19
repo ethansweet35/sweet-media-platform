@@ -37,7 +37,7 @@ export default function PageHero({
     : [headline];
 
   return (
-    <section className="relative flex min-h-[min(440px,calc(100dvh-10rem))] max-h-[600px] items-center overflow-hidden">
+    <section className="relative flex min-h-[min(440px,calc(100dvh-10rem))] items-start overflow-hidden lg:max-h-[600px] lg:items-center">
       {/* Background image */}
       <Image
         src={image}
