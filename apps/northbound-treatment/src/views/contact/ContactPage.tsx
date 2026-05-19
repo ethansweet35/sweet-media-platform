@@ -1,63 +1,70 @@
 import Link from "next/link";
-import CtmFormReactor from "@/components/feature/CtmFormReactor";
+import CtmLeadFormCard from "@/components/feature/CtmLeadFormCard";
+import CtaBanner from "@/views/shared/CtaBanner";
 import { AutoLinkedTextClient } from "@sweetmedia/blog-core";
 
 const locations = [
   {
     name: "Garden Grove — The Grove (Flagship)",
     address: "12832 Garden Grove Blvd, Garden Grove, CA 92843",
-    phone: "(866) 311-0003",
     href: "/locations/california/garden-grove/",
-    icon: "ri-map-pin-2-line",
+    blurb: "Residential treatment & medically supervised detox",
   },
   {
     name: "Newport Beach",
-    address: "Newport Beach, CA",
-    phone: "(866) 311-0003",
+    address: "3822 Campus Dr, Suite 200, Newport Beach, CA 92660",
     href: "/locations/california/newport-beach/",
-    icon: "ri-map-pin-2-line",
+    blurb: "Outpatient programs & administrative offices",
   },
   {
-    name: "San Diego",
-    address: "San Diego, CA",
-    phone: "(866) 311-0003",
+    name: "San Diego (La Jolla)",
+    address: "7924 Ivanhoe Ave, Suite 7, La Jolla, CA 92037",
     href: "/locations/california/san-diego/",
-    icon: "ri-map-pin-2-line",
+    blurb: "Outpatient & boutique transitional programming",
   },
   {
     name: "Seattle, WA",
-    address: "Seattle, WA",
-    phone: "(866) 311-0003",
+    address: "2120 1st Ave N, Unit 313, Seattle, WA 98109",
     href: "/locations/washington/seattle/",
-    icon: "ri-map-pin-2-line",
+    blurb: "Pacific Northwest outpatient & telehealth hub",
   },
 ];
 
 const trust = [
-  { icon: "ri-award-2-line", label: "JCAHO Accredited" },
-  { icon: "ri-shield-check-line", label: "15+ Insurance Plans Accepted" },
   { icon: "ri-time-line", label: "24/7 Admissions" },
+  { icon: "ri-shield-check-line", label: "15+ Insurance Plans" },
+  { icon: "ri-award-line", label: "DHCS Licensed" },
   { icon: "ri-lock-line", label: "100% Confidential" },
 ];
 
 export default function ContactPage() {
   return (
-    <div className="min-h-screen bg-white">
+    <>
+      {/* ── Hero ──────────────────────────────────────────────────── */}
+      <section className="relative overflow-hidden bg-navy py-20 lg:py-24">
+        <div className="pointer-events-none absolute -right-24 -top-24 h-80 w-80 rounded-full bg-navy-light/40" />
+        <div className="pointer-events-none absolute -bottom-16 -left-16 h-64 w-64 rounded-full bg-terracotta/10" />
 
-      {/* Hero */}
-      <section className="bg-[#3a6697] py-20">
-        <div className="mx-auto max-w-7xl px-6 lg:px-10">
-          <p className="mb-4 text-xs font-semibold uppercase tracking-[0.2em] text-[#e97a52]"><AutoLinkedTextClient>{"We&apos;re Here to Help"}</AutoLinkedTextClient></p>
-          <h1 className="font-heading text-5xl font-bold text-white md:text-6xl">
-            Contact <span className="italic text-[#e97a52]">Northbound</span>
-          </h1>
-          <p className="mt-5 max-w-2xl text-lg leading-8 text-white/70">
-            <AutoLinkedTextClient>{"We know how difficult it can be to take that first step toward recovery. At Northbound,\n            you will never be alone on this path. Our admissions team is available 24 hours a day,\n            7 days a week."}</AutoLinkedTextClient>
+        <div className="relative z-10 mx-auto max-w-7xl px-6 lg:px-10">
+          <nav className="mb-6 flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.1em] text-white/40">
+            <Link href="/" className="transition hover:text-terracotta">Home</Link>
+            <i className="ri-arrow-right-s-line text-white/20" />
+            <span className="text-white/70">Contact</span>
+          </nav>
+          <p className="mb-3 text-xs font-semibold uppercase tracking-[0.16em] text-terracotta">
+            We&rsquo;re Here to Help
           </p>
-          <div className="mt-8 flex flex-wrap gap-6">
+          <h1 className="font-heading text-4xl font-bold leading-tight text-white md:text-5xl lg:text-6xl">
+            Contact <span className="italic text-terracotta">Northbound</span>
+          </h1>
+          <p className="mt-5 max-w-2xl text-lg leading-relaxed text-white/70">
+            <AutoLinkedTextClient>{"Taking the first step toward recovery is hard — and you don't have to do it alone. Our admissions team is available 24/7 to answer questions, verify insurance, and help you build a plan."}</AutoLinkedTextClient>
+          </p>
+
+          <div className="mt-10 flex flex-wrap items-center gap-x-8 gap-y-4 border-t border-white/10 pt-8">
             {trust.map((t) => (
-              <div key={t.label} className="flex items-center gap-2 text-sm text-white/80">
-                <i className={`${t.icon} text-[#e97a52]`} />
+              <div key={t.label} className="flex items-center gap-2 text-sm text-white/60">
+                <i className={`${t.icon} text-terracotta`} />
                 {t.label}
               </div>
             ))}
@@ -65,102 +72,140 @@ export default function ContactPage() {
         </div>
       </section>
 
-      {/* Form + Sidebar */}
-      <section className="py-20 bg-white">
+      {/* ── Form + Sidebar ────────────────────────────────────────── */}
+      <section className="bg-sand py-20 lg:py-24">
         <div className="mx-auto max-w-7xl px-6 lg:px-10">
-          <div className="grid gap-12 lg:grid-cols-[1fr_380px]">
+          <div className="grid gap-10 lg:grid-cols-[minmax(0,1fr)_360px]">
 
-            {/* CTM FormReactor */}
+            {/* Form column */}
             <div>
-              <p className="mb-3 text-xs font-semibold uppercase tracking-[0.2em] text-[#e97a52]">Start Your Journey</p>
-              <h2 className="font-heading text-3xl font-bold text-[#3a6697] mb-8">
-                Tell Us About Yourself
+              <p className="mb-3 text-xs font-semibold uppercase tracking-[0.16em] text-terracotta">
+                Start Your Journey
+              </p>
+              <h2 className="font-heading mb-3 text-3xl font-bold text-navy md:text-4xl">
+                Tell Us About <span className="italic text-terracotta">Yourself</span>
               </h2>
-              <CtmFormReactor height={520} title="Contact Northbound Treatment" />
-              <p className="mt-4 text-xs text-[#94a3b8] text-center">
-                <AutoLinkedTextClient>{"Your information is 100% confidential and never shared."}</AutoLinkedTextClient>
+              <p className="mb-8 max-w-xl text-base leading-relaxed text-espresso/70">
+                Fill out the form and an admissions counselor will reach out within minutes.
+                All information is completely confidential.
+              </p>
+
+              <CtmLeadFormCard
+                className="max-w-[560px]"
+                eyebrow="Available 24/7"
+                title="Confidential Contact Form"
+                subtitle="A counselor will respond within minutes."
+                height={290}
+              />
+
+              <p className="mt-6 flex items-center justify-center gap-2 text-xs text-espresso/50">
+                <i className="ri-lock-line" />
+                Your information is 100% confidential and never shared.
               </p>
             </div>
 
             {/* Sidebar */}
-            <div className="space-y-8">
-
+            <div className="space-y-6">
               {/* Phone CTA */}
-              <div className="bg-[#3a6697] p-8">
-                <p className="text-xs font-semibold uppercase tracking-[0.15em] text-[#e97a52] mb-3">
-                  Immediate Help
-                </p>
-                <p className="text-white/80 text-sm leading-6 mb-5">
-                  <AutoLinkedTextClient>{"For immediate assistance, call our 24/7 admissions hotline. We answer every call."}</AutoLinkedTextClient>
-                </p>
-                <a
-                  href="tel:8663110003"
-                  className="flex items-center gap-3 bg-[#e97a52] px-6 py-4 text-white font-semibold hover:bg-[#f09068] transition-colors"
-                >
-                  <i className="ri-phone-fill text-xl" />
-                  <span>
-                    <span className="block text-xs font-normal opacity-80">Call us anytime</span>
+              <div className="relative overflow-hidden bg-navy p-7">
+                <div className="pointer-events-none absolute -right-8 -top-8 h-32 w-32 rounded-full bg-navy-light/50" />
+                <div className="pointer-events-none absolute -bottom-6 -left-6 h-24 w-24 rounded-full bg-terracotta/15" />
+                <div className="relative z-10">
+                  <div className="mb-3 flex items-center gap-2">
+                    <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-terracotta" />
+                    <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-terracotta">
+                      Immediate Help
+                    </span>
+                  </div>
+                  <h3 className="font-heading text-lg font-bold text-white">
+                    Call us anytime — day or night.
+                  </h3>
+                  <p className="mt-2 text-sm leading-relaxed text-white/55">
+                    Our admissions team answers every call. No automated menus.
+                  </p>
+                  <a
+                    href="tel:8663110003"
+                    className="mt-5 flex items-center justify-center gap-2 bg-terracotta px-6 py-4 text-sm font-bold uppercase tracking-[0.12em] text-white transition hover:bg-terracotta-light"
+                  >
+                    <i className="ri-phone-fill text-base" />
                     (866) 311-0003
-                  </span>
-                </a>
+                  </a>
+                </div>
               </div>
 
               {/* Insurance */}
-              <div className="border border-[#cdd8e8] p-6">
-                <p className="text-xs font-semibold uppercase tracking-[0.15em] text-[#e97a52] mb-3">Insurance</p>
-                <p className="text-sm text-[#64748b] leading-6 mb-4">
-                  <AutoLinkedTextClient>{"We&apos;re in-network with 15+ major insurance plans. Verify your coverage at no cost — in minutes."}</AutoLinkedTextClient>
+              <div className="border border-sand-dark bg-white p-6">
+                <p className="mb-2 text-xs font-semibold uppercase tracking-[0.16em] text-terracotta">
+                  Insurance
                 </p>
-                <Link href="/insurance/" className="inline-flex items-center gap-1.5 text-sm font-semibold text-[#3a6697] hover:text-[#e97a52] transition-colors">
-                  Verify Insurance <i className="ri-arrow-right-line" />
+                <h3 className="font-heading mb-3 text-base font-bold text-navy">
+                  We&rsquo;re in-network with 15+ major plans.
+                </h3>
+                <p className="mb-4 text-sm leading-relaxed text-espresso/70">
+                  Verify your coverage at no cost — most clients are approved in minutes.
+                </p>
+                <Link
+                  href="/insurance/"
+                  className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-[0.12em] text-navy transition hover:text-terracotta"
+                >
+                  Verify Insurance
+                  <i className="ri-arrow-right-line" />
                 </Link>
               </div>
 
-              {/* Locations */}
-              <div className="border border-[#cdd8e8] p-6">
-                <p className="text-xs font-semibold uppercase tracking-[0.15em] text-[#e97a52] mb-4">Our Locations</p>
-                <div className="space-y-4">
-                  {locations.map((loc) => (
-                    <Link key={loc.name} href={loc.href} className="group flex items-start gap-3 hover:text-[#e97a52] transition-colors">
-                      <i className={`${loc.icon} text-[#e97a52] mt-0.5 shrink-0`} />
-                      <div>
-                        <p className="text-sm font-semibold text-[#3a6697] group-hover:text-[#e97a52] transition-colors"><AutoLinkedTextClient>{loc.name}</AutoLinkedTextClient></p>
-                        <p className="text-xs text-[#64748b]"><AutoLinkedTextClient>{loc.address}</AutoLinkedTextClient></p>
-                      </div>
-                    </Link>
+              {/* Trust card */}
+              <div className="border border-sand-dark bg-white p-6">
+                <p className="mb-4 text-xs font-semibold uppercase tracking-[0.16em] text-terracotta">
+                  Why Northbound
+                </p>
+                <ul className="space-y-3">
+                  {[
+                    "38+ years of clinical experience (since 1988)",
+                    "10,000+ lives transformed",
+                    ">97% drug abstinence in our 2015 outcomes study",
+                    "DHCS Licensed #300661CP · NAATP Member",
+                    "4.6/5 Google rating from 224+ reviews",
+                  ].map((item) => (
+                    <li key={item} className="flex items-start gap-2.5 text-sm leading-snug text-espresso/75">
+                      <i className="ri-check-line mt-0.5 text-terracotta" />
+                      <span>{item}</span>
+                    </li>
                   ))}
-                </div>
+                </ul>
               </div>
-
-              {/* Accreditation badges */}
-              <div className="bg-[#eef2f7] p-6">
-                <div className="flex items-center gap-3 mb-3">
-                  <i className="ri-award-2-line text-[#e97a52] text-xl" />
-                  <p className="text-sm font-semibold text-[#3a6697]">JCAHO Accredited</p>
-                </div>
-                <div className="flex items-center gap-3">
-                  <i className="ri-star-fill text-[#e97a52]" />
-                  <p className="text-sm text-[#64748b]"><AutoLinkedTextClient>{"4.6★ on Google — 224+ reviews"}</AutoLinkedTextClient></p>
-                </div>
-              </div>
-
             </div>
           </div>
         </div>
       </section>
 
-      {/* Locations strip */}
-      <section className="py-16 bg-[#eef2f7] border-t border-[#cdd8e8]">
+      {/* ── Locations strip ───────────────────────────────────────── */}
+      <section className="border-t border-sand-dark bg-white py-20">
         <div className="mx-auto max-w-7xl px-6 lg:px-10">
-          <p className="mb-3 text-xs font-semibold uppercase tracking-[0.2em] text-[#e97a52]">Find Us</p>
-          <h2 className="font-heading text-3xl font-bold text-[#3a6697] mb-10">Our Treatment Centers</h2>
-          <div className="grid gap-px bg-[#cdd8e8] sm:grid-cols-2 lg:grid-cols-4">
+          <p className="mb-3 text-xs font-semibold uppercase tracking-[0.16em] text-terracotta">
+            Find Us
+          </p>
+          <h2 className="font-heading mb-12 text-3xl font-bold text-navy md:text-4xl">
+            Our <span className="italic text-terracotta">Treatment Centers</span>
+          </h2>
+
+          <div className="grid gap-px overflow-hidden border border-sand-dark bg-sand-dark sm:grid-cols-2 lg:grid-cols-4">
             {locations.map((loc) => (
-              <Link key={loc.name} href={loc.href} className="group bg-white p-6 flex flex-col gap-3 hover:bg-[#3a6697] transition-colors">
-                <i className={`${loc.icon} text-2xl text-[#e97a52]`} />
-                <p className="font-heading text-base font-bold text-[#3a6697] group-hover:text-white transition-colors"><AutoLinkedTextClient>{loc.name}</AutoLinkedTextClient></p>
-                <p className="text-xs text-[#64748b] group-hover:text-white/70 transition-colors"><AutoLinkedTextClient>{loc.address}</AutoLinkedTextClient></p>
-                <span className="mt-auto text-xs font-semibold text-[#e97a52] flex items-center gap-1">
+              <Link
+                key={loc.name}
+                href={loc.href}
+                className="group flex flex-col gap-3 bg-white p-7 transition-colors hover:bg-navy"
+              >
+                <i className="ri-map-pin-2-line text-2xl text-terracotta" />
+                <p className="font-heading text-base font-bold leading-snug text-navy transition-colors group-hover:text-white">
+                  {loc.name}
+                </p>
+                <p className="text-xs leading-relaxed text-espresso/60 transition-colors group-hover:text-white/60">
+                  {loc.address}
+                </p>
+                <p className="text-xs italic leading-relaxed text-espresso/50 transition-colors group-hover:text-white/50">
+                  {loc.blurb}
+                </p>
+                <span className="mt-auto flex items-center gap-1 text-xs font-bold uppercase tracking-[0.12em] text-terracotta">
                   View location <i className="ri-arrow-right-line" />
                 </span>
               </Link>
@@ -169,6 +214,14 @@ export default function ContactPage() {
         </div>
       </section>
 
-    </div>
+      {/* ── Bottom CTA ────────────────────────────────────────────── */}
+      <CtaBanner
+        eyebrow="Ready When You Are"
+        headline="Recovery starts with a single conversation."
+        body="Our admissions counselors are standing by 24/7 — there's no wrong time to call."
+        primaryCta={{ label: "Verify Insurance", href: "/insurance/" }}
+        secondaryCta={{ label: "(866) 311-0003", href: "tel:8663110003" }}
+      />
+    </>
   );
 }
