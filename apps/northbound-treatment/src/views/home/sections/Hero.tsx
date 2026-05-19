@@ -165,7 +165,7 @@ export default function Hero() {
           </div>
 
           {/* Right — CTM FormReactor (matches live northboundtreatment.com) */}
-          <div className="relative z-30 mt-12 lg:col-span-6 lg:mt-0 lg:flex lg:justify-end">
+          <div className="relative z-30 mt-12 lg:col-span-6 lg:mt-0 lg:flex lg:items-start lg:justify-end">
             <CtmLeadFormCard
               className="max-w-[400px]"
               eyebrow="Available 24/7"
