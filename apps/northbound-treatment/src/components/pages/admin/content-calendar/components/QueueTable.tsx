@@ -55,9 +55,14 @@ export default function QueueTable({
   useEffect(() => {
     if (!highlightedId) return;
     rowRefs.current[highlightedId]?.scrollIntoView({ behavior: "smooth", block: "center" });
-    setExpanded((prev) => new Set(prev).add(highlightedId));
+    const expandTimer = window.setTimeout(() => {
+      setExpanded((prev) => new Set(prev).add(highlightedId));
+    }, 0);
     const t = setTimeout(() => onHighlightedConsumed?.(), 1200);
-    return () => clearTimeout(t);
+    return () => {
+      window.clearTimeout(expandTimer);
+      clearTimeout(t);
+    };
   }, [highlightedId, onHighlightedConsumed]);
 
   const toggleRow = (id: string) => {

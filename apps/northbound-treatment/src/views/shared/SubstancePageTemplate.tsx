@@ -376,7 +376,7 @@ export default function SubstancePageTemplate({ data }: { data: SubstancePageDat
           ))}
           <div className="mx-auto mt-8 max-w-lg border border-white/20 px-6 py-5">
             <p className="font-heading text-base italic text-white/85">
-              "{data.closingQuote}"
+              &ldquo;{data.closingQuote}&rdquo;
             </p>
             <p className="mt-2 text-xs font-semibold uppercase tracking-[0.1em] text-terracotta">
               <AutoLinkedTextClient>{"— Northbound Treatment Services"}</AutoLinkedTextClient>

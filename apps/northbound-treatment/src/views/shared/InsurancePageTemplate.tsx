@@ -66,7 +66,7 @@ function VerifyForm({ carrierName }: { carrierName: string }) {
       <span className="mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-terracotta/20">
         <i className="ri-check-line text-3xl text-terracotta" />
       </span>
-      <h3 className="font-heading text-xl font-bold text-white">We'll Be in Touch Shortly</h3>
+      <h3 className="font-heading text-xl font-bold text-white">We&apos;ll Be in Touch Shortly</h3>
       <p className="mt-2 text-sm text-white/60">
         A Northbound admissions specialist will call you within one business day to review your {carrierName} benefits.
       </p>
@@ -383,7 +383,7 @@ export default function InsurancePageTemplate({ data }: { data: InsurancePageDat
                 We Verify Benefits for Free
               </h3>
               <p className="mt-3 text-sm leading-relaxed text-white/60">
-                Understanding your {data.carrierName} coverage can be confusing. Northbound's admissions team handles benefits verification — usually within one business day.
+                Understanding your {data.carrierName} coverage can be confusing. Northbound&apos;s admissions team handles benefits verification — usually within one business day.
               </p>
               <a
                 href="tel:8663110003"
@@ -447,7 +447,7 @@ export default function InsurancePageTemplate({ data }: { data: InsurancePageDat
             <span className="italic text-terracotta-light">Most or All</span> of Treatment
           </h2>
           <p className="mx-auto mt-5 max-w-xl text-base leading-relaxed text-white/65">
-            Northbound's admissions team verifies your benefits at no cost and works directly with {data.carrierName} to maximize your coverage. Most patients pay little to nothing out-of-pocket.
+            Northbound&apos;s admissions team verifies your benefits at no cost and works directly with {data.carrierName} to maximize your coverage. Most patients pay little to nothing out-of-pocket.
           </p>
           <div className="mt-8 flex flex-wrap justify-center gap-4">
             <a

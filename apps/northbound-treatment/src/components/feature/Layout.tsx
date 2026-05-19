@@ -22,8 +22,11 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
-    if (!isAdmin) window.scrollTo({ top: 0, behavior: "smooth" });
-  }, [pathname, isAdmin]);
+    // Skip homepage (chrome is owned by page.tsx) and avoid smooth scroll — it fights
+    // fixed header compositing and causes visible flicker on route changes in dev.
+    if (isAdmin || isHome) return;
+    window.scrollTo({ top: 0, left: 0 });
+  }, [pathname, isAdmin, isHome]);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 300);

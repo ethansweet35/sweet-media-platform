@@ -5,7 +5,7 @@ import BlogPage from "@/views/blog/page";
 export const revalidate = 3600;
 
 const BLOG_OG_IMAGE =
-  "https://ynmldknprfusujudvutq.supabase.co/storage/v1/object/public/public_bucket/og-blog.jpg";
+  "https://ahufsygjwpbymomfdazb.supabase.co/storage/v1/object/public/site-assets/images/nbt_hero_bg01.jpg";
 
 const fallbackMetadata: Metadata = {
   title: "Blog | Mental Health & Recovery Resources | Northbound Treatment",

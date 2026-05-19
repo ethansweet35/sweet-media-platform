@@ -1,4 +1,3 @@
-import Image from "next/image";
 import Link from "next/link";
 import CtaBanner from "@/views/shared/CtaBanner";
 import PageHero from "@/views/shared/PageHero";

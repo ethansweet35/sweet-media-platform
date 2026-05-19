@@ -42,27 +42,27 @@ export default function HomeFooter() {
               </h4>
               <ul className="space-y-4 text-sm font-light text-white/70">
                 <li>
-                  <a href="#" className="transition-colors hover:text-white">
+                  <a href="/programs/detox/" className="transition-colors hover:text-white">
                     Drug & Alcohol Detox
                   </a>
                 </li>
                 <li>
-                  <a href="#" className="transition-colors hover:text-white">
+                  <a href="/programs/residential-treatment-center/" className="transition-colors hover:text-white">
                     Residential Treatment
                   </a>
                 </li>
                 <li>
-                  <a href="#" className="transition-colors hover:text-white">
+                  <a href="/programs/partial-hospitalization-program/" className="transition-colors hover:text-white">
                     PHP & IOP Programs
                   </a>
                 </li>
                 <li>
-                  <a href="#" className="transition-colors hover:text-white">
+                  <a href="/telehealth-iop-services/" className="transition-colors hover:text-white">
                     Virtual / Telehealth
                   </a>
                 </li>
                 <li>
-                  <a href="#" className="transition-colors hover:text-white">
+                  <a href="/treatment/transitional-living-programs/sober-living/" className="transition-colors hover:text-white">
                     Sober Living Support
                   </a>
                 </li>
@@ -74,27 +74,27 @@ export default function HomeFooter() {
               </h4>
               <ul className="space-y-4 text-sm font-light text-white/70">
                 <li>
-                  <a href="#" className="transition-colors hover:text-white">
+                  <a href="/insurance/" className="transition-colors hover:text-white">
                     Verify Insurance
                   </a>
                 </li>
                 <li>
-                  <a href="#" className="transition-colors hover:text-white">
+                  <a href="/admissions/" className="transition-colors hover:text-white">
                     Admissions Process
                   </a>
                 </li>
                 <li>
-                  <a href="#" className="transition-colors hover:text-white">
+                  <a href="/programs/family-therapy/" className="transition-colors hover:text-white">
                     Family Support
                   </a>
                 </li>
                 <li>
-                  <a href="#" className="transition-colors hover:text-white">
+                  <a href="/referring-professionals/" className="transition-colors hover:text-white">
                     Careers
                   </a>
                 </li>
                 <li>
-                  <a href="#" className="transition-colors hover:text-white">
+                  <a href="/contact-us/" className="transition-colors hover:text-white">
                     Contact Us
                   </a>
                 </li>

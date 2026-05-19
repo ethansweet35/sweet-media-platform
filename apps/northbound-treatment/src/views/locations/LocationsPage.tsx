@@ -130,7 +130,7 @@ export default function LocationsPage() {
         imageAlt="Aerial view of Newport Beach Southern California coastline at golden hour — Northbound Treatment location"
         breadcrumbs={[{ label: "Locations" }]}
         primaryCta={{ label: "Call (866) 311-0003", href: "tel:8663110003" }}
-        secondaryCta={{ label: "Verify My Insurance", href: "/admissions/insurance-coverage/" }}
+        secondaryCta={{ label: "Verify My Insurance", href: "/insurance/" }}
       />
 
       {/* Intro Philosophy */}
@@ -356,7 +356,7 @@ export default function LocationsPage() {
         headline="Recovery Is Possible — Wherever You Start"
         body="Contact our admissions team today to learn which Northbound campus is the right fit for you or your loved one. We verify insurance, answer every question, and guide you through every step."
         primaryCta={{ label: "Call (866) 311-0003", href: "tel:8663110003" }}
-        secondaryCta={{ label: "Verify My Insurance", href: "/admissions/insurance-coverage/" }}
+        secondaryCta={{ label: "Verify My Insurance", href: "/insurance/" }}
       />
     </>
   );

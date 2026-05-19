@@ -193,7 +193,7 @@ export const PRIMARY_NAV: TopLevelItem[] = [
           { label: "Garden Grove, CA", href: "/locations/california/garden-grove/", icon: "ri-map-pin-2-line" },
           { label: "San Diego, CA", href: "/locations/california/san-diego/", icon: "ri-map-pin-2-line" },
           { label: "Seattle, WA", href: "/locations/washington/seattle/", icon: "ri-map-pin-2-line" },
-          { label: "Photo Gallery", href: "/virtual-tour/", icon: "ri-image-2-line" },
+          { label: "Photo Gallery", href: "/locations/", icon: "ri-image-2-line" },
         ],
       },
       {

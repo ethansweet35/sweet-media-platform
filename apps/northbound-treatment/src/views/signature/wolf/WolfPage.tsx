@@ -147,7 +147,7 @@ const data: SignaturePageData = {
   closingImage: `${BASE}/nbt_wolf_touch01.jpg`,
   closingImageAlt: "The intimate moment of connection between client and wolf ambassador at Northbound",
   closingPrimaryCta: { label: "Start the Admissions Process", href: "/admissions/" },
-  closingSecondaryCta: { label: "View Gallery", href: "/virtual-tour/" },
+  closingSecondaryCta: { label: "View Gallery", href: "/locations/" },
 
   relatedServices: [
     { name: "Adventure Therapy", href: "/adventure-therapy-program/", tag: "Signature Service", icon: "ri-compass-3-line" },

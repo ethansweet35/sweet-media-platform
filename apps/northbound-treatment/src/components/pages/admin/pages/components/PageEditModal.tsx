@@ -25,24 +25,27 @@ export default function PageEditModal({ page, isOpen, onClose, onSubmit }: PageE
 
   useEffect(() => {
     if (!isOpen) return;
-    setFieldError(null);
-    if (page) {
-      setRoutePath(page.route_path);
-      setPageTitle(page.page_title);
-      setSeoTitle(page.seo_title ?? "");
-      setMetaDescription(page.meta_description ?? "");
-      setPrimaryKeyword(page.primary_keyword ?? "");
-      setNotes(page.notes ?? "");
-      setIsActive(page.is_active);
-    } else {
-      setRoutePath("");
-      setPageTitle("");
-      setSeoTitle("");
-      setMetaDescription("");
-      setPrimaryKeyword("");
-      setNotes("");
-      setIsActive(true);
-    }
+    const timer = window.setTimeout(() => {
+      setFieldError(null);
+      if (page) {
+        setRoutePath(page.route_path);
+        setPageTitle(page.page_title);
+        setSeoTitle(page.seo_title ?? "");
+        setMetaDescription(page.meta_description ?? "");
+        setPrimaryKeyword(page.primary_keyword ?? "");
+        setNotes(page.notes ?? "");
+        setIsActive(page.is_active);
+      } else {
+        setRoutePath("");
+        setPageTitle("");
+        setSeoTitle("");
+        setMetaDescription("");
+        setPrimaryKeyword("");
+        setNotes("");
+        setIsActive(true);
+      }
+    }, 0);
+    return () => window.clearTimeout(timer);
   }, [page, isOpen]);
 
   if (!isOpen) return null;

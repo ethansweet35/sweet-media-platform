@@ -46,20 +46,6 @@ export default function PostAuthor({ post }: PostAuthorProps) {
             </span>
           </div>
           <p className="text-sm leading-relaxed text-[#64748b]">{post.authorBio}</p>
-          <div className="mt-4 flex items-center gap-2">
-            <a
-              href="#"
-              className="flex h-8 w-8 items-center justify-center border border-[#cdd8e8] text-[#94a3b8] transition-all hover:border-[#3a6697] hover:bg-[#3a6697] hover:text-white"
-            >
-              <i className="ri-linkedin-fill text-sm" />
-            </a>
-            <a
-              href="#"
-              className="flex h-8 w-8 items-center justify-center border border-[#cdd8e8] text-[#94a3b8] transition-all hover:border-[#3a6697] hover:bg-[#3a6697] hover:text-white"
-            >
-              <i className="ri-twitter-x-line text-sm" />
-            </a>
-          </div>
         </div>
       </div>
     </div>

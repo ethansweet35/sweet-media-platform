@@ -147,7 +147,7 @@ const data: SignaturePageData = {
   closingImage: `${BASE}/nbt_music_lyrics01.jpg`,
   closingImageAlt: "Client writing song lyrics as an act of creative recovery at Northbound",
   closingPrimaryCta: { label: "Start the Admissions Process", href: "/admissions/" },
-  closingSecondaryCta: { label: "View Gallery", href: "/virtual-tour/" },
+  closingSecondaryCta: { label: "View Gallery", href: "/locations/" },
 
   relatedServices: [
     { name: "Adventure Therapy", href: "/adventure-therapy-program/", tag: "Signature Service", icon: "ri-compass-3-line" },

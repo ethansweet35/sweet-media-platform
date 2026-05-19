@@ -35,7 +35,7 @@ interface FacilityGalleryProps {
   initialCount?: number;
   /** Background variant — "white" (default) or "navy" for dark sections */
   variant?: "white" | "navy";
-  /** Override accent color (defaults to terracotta-style #E8622A used across location pages) */
+  /** Override accent color (defaults to brand terracotta) */
   accentColor?: string;
   /** Override navy color (used for dark text / dark variant background) */
   navyColor?: string;
@@ -57,8 +57,8 @@ export default function FacilityGallery({
   intro,
   initialCount,
   variant = "white",
-  accentColor = "#E8622A",
-  navyColor = "#0B1F3A",
+  accentColor = "#e97a52",
+  navyColor = "#3a6697",
 }: FacilityGalleryProps) {
   const all = getFacilityImages(facility);
   const [expanded, setExpanded] = useState(false);
@@ -93,7 +93,7 @@ export default function FacilityGallery({
 
   const isDark = variant === "navy";
   const headingColor = isDark ? "text-white" : "";
-  const introColor = isDark ? "text-white/70" : "text-[#4B5563]";
+  const introColor = isDark ? "text-white/70" : "text-espresso/80";
 
   return (
     <section
@@ -133,7 +133,7 @@ export default function FacilityGallery({
               <button
                 key={src}
                 onClick={() => setActive(i)}
-                className={`group relative overflow-hidden rounded-2xl bg-[#0B1F3A]/5 shadow-sm transition-shadow hover:shadow-xl ${
+                className={`group relative overflow-hidden rounded-2xl bg-navy/5 shadow-sm transition-shadow hover:shadow-xl ${
                   featured ? "lg:col-span-2 lg:row-span-2" : ""
                 } aspect-[4/3]`}
                 aria-label={`View larger photo ${i + 1} of ${locationLabel} facility`}

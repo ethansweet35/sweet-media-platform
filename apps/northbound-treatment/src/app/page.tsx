@@ -64,6 +64,7 @@ const fallbackMetadata: Metadata = {
   title: "Northbound Treatment | Addiction Treatment Center in Orange County",
   description:
     "For 30+ years, Northbound Treatment Services has provided lifesaving, evidence-based addiction and mental-health treatment across Southern California and the Pacific Northwest. Drug & alcohol detox, residential, PHP, IOP, and aftercare.",
+  alternates: { canonical: "/" },
 };
 
 export async function generateMetadata(): Promise<Metadata> {

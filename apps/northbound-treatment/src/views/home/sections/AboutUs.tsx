@@ -11,14 +11,6 @@ const STATS = [
   { value: "97%+", label: "Abstinence Outcomes" },
 ];
 
-const PROGRAM_TAGS = [
-  "InVivo® Model",
-  "Collegebound®",
-  "Careerbound®",
-  "DHCS Licensed",
-  "NAATP Member",
-];
-
 export default function AboutUs() {
   return (
     <section id="about" className="relative overflow-hidden bg-sand py-24 lg:py-32">
@@ -52,7 +44,7 @@ export default function AboutUs() {
           {/* Left — copy column */}
           <div className="flex flex-col items-start gap-6 lg:pr-6">
             <p className="text-lg font-light leading-relaxed text-espresso/80">
-              Our leadership team brings <span className="font-medium text-navy">200+ years of combined behavioral healthcare experience</span> — and one third of our staff are alumni themselves, so when you walk through our door, you're met with people who have stood exactly where you stand.
+              Our leadership team brings <span className="font-medium text-navy">200+ years of combined behavioral healthcare experience</span> — and one third of our staff are alumni themselves, so when you walk through our door, you&apos;re met with people who have stood exactly where you stand.
             </p>
             <p className="font-light leading-relaxed text-espresso/70">
               <AutoLinkedText>{"Trauma-informed and evidence-based, we combine medical expertise\n              with holistic healing to create individualized plans that address the\n              whole person: mind, body, and spirit."}</AutoLinkedText>

@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
+import Image from "next/image";
 import { createClient } from "@supabase/supabase-js";
 
 interface RelatedPost {
@@ -145,27 +146,23 @@ export default function RelatedPostsSection() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    setPosts([]);
-    setLoading(true);
-
     const skip =
       SKIP_EXACT.has(pathname) ||
       SKIP_PREFIXES.some((p) => pathname.startsWith(p));
 
-    if (skip) {
-      setLoading(false);
-      return;
-    }
-
     const keywords = deriveKeywords(pathname);
-    if (keywords.length === 0) {
-      setLoading(false);
-      return;
-    }
-
     let cancelled = false;
 
     async function fetch() {
+      if (skip || keywords.length === 0) {
+        if (!cancelled) {
+          setPosts([]);
+          setLoading(false);
+        }
+        return;
+      }
+
+      setLoading(true);
       const filter = buildOrFilter(keywords);
       const { data } = await getClient()
         .from("blog_posts")
@@ -212,11 +209,12 @@ export default function RelatedPostsSection() {
             >
               {post.hero_image_url && (
                 <div className="aspect-[16/9] overflow-hidden">
-                  <img
+                  <Image
                     src={post.hero_image_url}
                     alt={post.title}
+                    width={640}
+                    height={360}
                     className="h-full w-full object-cover transition duration-500 group-hover:scale-105"
-                    loading="lazy"
                   />
                 </div>
               )}

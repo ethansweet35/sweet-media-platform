@@ -2,8 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useState } from "react";
-import { usePathname } from "next/navigation";
+import { useState } from "react";
 import { NB_LOGO } from "../assets";
 import { PRIMARY_NAV, type MegaSection, type TopLevelItem } from "./menuData";
 
@@ -15,25 +14,11 @@ import { PRIMARY_NAV, type MegaSection, type TopLevelItem } from "./menuData";
  * Menu structure mirrored from northboundtreatment.com (live WP site).
  */
 export default function HomeNavigation() {
-  const pathname = usePathname();
   const [activeMenu, setActiveMenu] = useState<string | null>(null);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [openMobileSection, setOpenMobileSection] = useState<string | null>(
     null,
   );
-
-  // Close all menus on route change so the mega-menu never stays open
-  // after a client-side navigation (which leaves activeMenu stale and
-  // overlays the nav, blocking pointer events on the new page).
-  useEffect(() => {
-    setActiveMenu(null);
-    setMobileOpen(false);
-    setOpenMobileSection(null);
-  }, [pathname]);
-
-  useEffect(() => {
-    if (!mobileOpen) setOpenMobileSection(null);
-  }, [mobileOpen]);
 
   const closeMobile = () => {
     setMobileOpen(false);
@@ -42,7 +27,7 @@ export default function HomeNavigation() {
 
   return (
     <nav
-      className="architectural-border-bottom fixed left-0 right-0 top-10 z-50 bg-sand-light/95 backdrop-blur-md transition-all duration-300"
+      className="architectural-border-bottom fixed left-0 right-0 top-10 z-50 border-b border-sand-dark/40 bg-sand-light shadow-sm"
       onMouseLeave={() => setActiveMenu(null)}
     >
       <div className="mx-auto max-w-7xl px-6 lg:px-12">
@@ -106,13 +91,12 @@ export default function HomeNavigation() {
         </div>
       </div>
 
-      {/* Mega-menu panel — single absolutely-positioned container that swaps content based on activeMenu */}
+      {/* Mega-menu — only mount the open panel (avoids hidden panels repainting under fixed header) */}
       {PRIMARY_NAV.map((item) =>
-        item.sections ? (
+        item.sections && activeMenu === item.label ? (
           <MegaMenuPanel
             key={item.label}
             item={item}
-            visible={activeMenu === item.label}
             onClose={() => setActiveMenu(null)}
           />
         ) : null,
@@ -209,15 +193,12 @@ function hasCta(label: string) {
 
 function MegaMenuPanel({
   item,
-  visible,
   onClose,
 }: {
   item: TopLevelItem;
-  visible: boolean;
   onClose: () => void;
 }) {
   if (!item.sections) return null;
-  const cols = item.sections.length;
   const showCta = hasCta(item.label);
 
   // New layout: sections stack vertically as horizontal rows. Optional CTA
@@ -228,14 +209,7 @@ function MegaMenuPanel({
     : "lg:grid-cols-1";
 
   return (
-    <div
-      aria-hidden={!visible}
-      className={`absolute left-0 right-0 top-full hidden shadow-2xl transition-all duration-300 lg:block ${
-        visible
-          ? "visible translate-y-0 opacity-100"
-          : "invisible -translate-y-2 opacity-0"
-      }`}
-    >
+    <div className="absolute left-0 right-0 top-full hidden shadow-2xl lg:block">
       {/* Terracotta → navy gradient accent bar */}
       <div className="h-[3px] w-full bg-gradient-to-r from-terracotta via-navy to-espresso" />
 

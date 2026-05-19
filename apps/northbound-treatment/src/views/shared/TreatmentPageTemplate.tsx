@@ -314,7 +314,7 @@ export default function TreatmentPageTemplate({ data }: { data: TreatmentPageDat
             <div className="absolute left-[2.375rem] top-0 hidden h-full w-px bg-white/10 lg:block" />
 
             <div className="flex flex-col divide-y divide-white/10">
-              {data.steps.map((step, i) => (
+              {data.steps.map((step) => (
                 <div
                   key={step.number}
                   className="group relative grid gap-6 py-7 transition hover:bg-white/3 lg:grid-cols-[auto_1fr_2fr] lg:items-start lg:gap-10"
@@ -430,7 +430,7 @@ export default function TreatmentPageTemplate({ data }: { data: TreatmentPageDat
         <div className="mx-auto w-full max-w-7xl px-6 lg:px-10">
           <p className="mb-8 text-center text-xs font-semibold uppercase tracking-[0.14em] text-terracotta"><AutoLinkedTextClient>{"Your Recovery Journey"}</AutoLinkedTextClient></p>
           <div className="relative flex flex-wrap items-stretch justify-center gap-px overflow-hidden border border-white/10">
-            {data.continuum.map((step, i) => (
+            {data.continuum.map((step) => (
               <Link
                 key={step.label}
                 href={step.href}

@@ -85,7 +85,7 @@ export default function AdminBlogTable({
   const allSelected = posts.length > 0 && posts.every((p) => selectedIds.has(p.id));
   const someSelected = posts.some((p) => selectedIds.has(p.id)) && !allSelected;
 
-  const SortIcon = ({ field }: { field: SortField }) => (
+  const renderSortIcon = (field: SortField) => (
     <i className={`text-[10px] ml-1 ${
       sortField === field
         ? sortDir === "asc" ? "ri-arrow-up-line text-[#3d6f7f]" : "ri-arrow-down-line text-[#3d6f7f]"
@@ -114,7 +114,7 @@ export default function AdminBlogTable({
                   onClick={() => handleSort("title")}
                   className="flex items-center text-[10px] tracking-[0.15em] uppercase font-semibold text-neutral-400 hover:text-neutral-600 transition-colors cursor-pointer whitespace-nowrap"
                 >
-                  Title <SortIcon field="title" />
+                  Title {renderSortIcon("title")}
                 </button>
               </th>
               <th className="text-left px-4 py-3.5">
@@ -122,7 +122,7 @@ export default function AdminBlogTable({
                   onClick={() => handleSort("category")}
                   className="flex items-center text-[10px] tracking-[0.15em] uppercase font-semibold text-neutral-400 hover:text-neutral-600 transition-colors cursor-pointer whitespace-nowrap"
                 >
-                  Category <SortIcon field="category" />
+                  Category {renderSortIcon("category")}
                 </button>
               </th>
               <th className="text-left px-4 py-3.5">
@@ -130,7 +130,7 @@ export default function AdminBlogTable({
                   onClick={() => handleSort("author")}
                   className="flex items-center text-[10px] tracking-[0.15em] uppercase font-semibold text-neutral-400 hover:text-neutral-600 transition-colors cursor-pointer whitespace-nowrap"
                 >
-                  Author <SortIcon field="author" />
+                  Author {renderSortIcon("author")}
                 </button>
               </th>
               <th className="text-left px-4 py-3.5">
@@ -138,7 +138,7 @@ export default function AdminBlogTable({
                   onClick={() => handleSort("date")}
                   className="flex items-center text-[10px] tracking-[0.15em] uppercase font-semibold text-neutral-400 hover:text-neutral-600 transition-colors cursor-pointer whitespace-nowrap"
                 >
-                  Published <SortIcon field="date" />
+                  Published {renderSortIcon("date")}
                 </button>
               </th>
               <th className="text-left px-4 py-3.5">
@@ -146,7 +146,7 @@ export default function AdminBlogTable({
                   onClick={() => handleSort("status")}
                   className="flex items-center text-[10px] tracking-[0.15em] uppercase font-semibold text-neutral-400 hover:text-neutral-600 transition-colors cursor-pointer whitespace-nowrap"
                 >
-                  Status <SortIcon field="status" />
+                  Status {renderSortIcon("status")}
                 </button>
               </th>
               <th className="text-left px-4 py-3.5 whitespace-nowrap">
@@ -198,8 +198,7 @@ export default function AdminBlogTable({
                             loading="lazy"
                             sizes="48px"
                             unoptimized={
-                              !imgStatus.url.includes("ynmldknprfusujudvutq.supabase.co") &&
-                              !imgStatus.url.includes("grbxnkgzhquwdqxlscv.supabase.co") &&
+                              !imgStatus.url.includes("ahufsygjwpbymomfdazb.supabase.co") &&
                               !imgStatus.url.includes("lh3.googleusercontent.com")
                             }
                             className="w-full h-full object-cover"
@@ -216,8 +215,7 @@ export default function AdminBlogTable({
                             loading="lazy"
                             sizes="48px"
                             unoptimized={
-                              !post.image.includes("ynmldknprfusujudvutq.supabase.co") &&
-                              !post.image.includes("grbxnkgzhquwdqxlscv.supabase.co") &&
+                              !post.image.includes("ahufsygjwpbymomfdazb.supabase.co") &&
                               !post.image.includes("lh3.googleusercontent.com")
                             }
                             className="w-full h-full object-cover"

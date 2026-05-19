@@ -105,7 +105,7 @@ export default function AlumniPage() {
           <nav className="mb-6 flex items-center gap-2 text-xs font-semibold text-white/50">
             <Link href="/" className="hover:text-white transition">Home</Link>
             <span>/</span>
-            <Link href="/community/" className="hover:text-white transition">Community</Link>
+            <Link href="/community/alumni/" className="hover:text-white transition">Community</Link>
             <span>/</span>
             <span className="text-white/80">Alumni Programs</span>
           </nav>
@@ -158,7 +158,7 @@ export default function AlumniPage() {
             </span>
           </div>
           <blockquote className="font-heading text-2xl font-bold italic leading-relaxed text-white md:text-3xl">
-            "What Northbound offers is a long-term solution. There is a huge difference between physical abstinence and living in recovery. The Northbound alumni are made up of people in recovery who are emotionally balanced and spiritually fit. We help people find that enlightened state."
+            &ldquo;What Northbound offers is a long-term solution. There is a huge difference between physical abstinence and living in recovery. The Northbound alumni are made up of people in recovery who are emotionally balanced and spiritually fit. We help people find that enlightened state.&rdquo;
           </blockquote>
           <p className="mt-6 text-sm font-semibold text-terracotta">
             <AutoLinkedTextClient>{"Paul Alexander — CEO & Founder, Northbound Treatment Services"}</AutoLinkedTextClient>

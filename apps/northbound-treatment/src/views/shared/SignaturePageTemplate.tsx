@@ -311,7 +311,7 @@ export default function SignaturePageTemplate({ data }: { data: SignaturePageDat
               ))}
               <div className="mt-8 border-l-2 border-terracotta pl-5">
                 <p className="font-heading text-lg font-bold italic text-navy">
-                  "{data.closingQuote}"
+                  &ldquo;{data.closingQuote}&rdquo;
                 </p>
                 <p className="mt-2 text-xs font-semibold uppercase tracking-[0.1em] text-espresso/50">
                   — {data.closingQuoteAttribution}

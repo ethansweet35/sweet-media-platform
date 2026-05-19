@@ -8,8 +8,8 @@ import { AutoLinkedText } from "@sweetmedia/blog-core";
  *
  * Layout:
  *   - Full-bleed photo (nbt_hero_bg01.jpg) sits behind everything.
- *   - Left half: black gradient overlay (moderate strength) so white text stays legible.
- *   - Right half: subtler dark overlay so the photo remains visible behind the form.
+ *   - Left half: navy gradient overlay so white text stays legible.
+ *   - Right half: lighter navy-light overlay so the photo remains visible behind the form.
  *   - Form card: frosted dark panel so form fields stand out cleanly.
  */
 export default function Hero() {
@@ -26,11 +26,11 @@ export default function Hero() {
         sizes="100vw"
       />
 
-      {/* ── Primary overlay: black left → lighter right (opacity tuned for text + photo balance) ─ */}
-      <div className="absolute inset-0 bg-gradient-to-r from-black/85 via-black/65 to-black/30" />
+      {/* ── Primary overlay: dark navy anchored on the left, fades toward the right ─ */}
+      <div className="absolute inset-0 bg-gradient-to-r from-navy/95 from-0% via-navy/90 via-[38%] to-transparent to-[68%]" />
 
-      {/* ── Bottom band — lighter vignette so the image reads through more ─ */}
-      <div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-black/42 to-transparent" />
+      {/* ── Bottom band — subtle left-anchored navy vignette ─ */}
+      <div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-navy/50 via-navy/20 to-transparent" />
 
       {/* ── Terracotta warm glow — top-right, echoes the sunset sky ─────── */}
       <div className="pointer-events-none absolute -right-20 -top-20 h-[480px] w-[480px] rounded-full bg-terracotta/25 blur-[140px]" />
@@ -163,8 +163,8 @@ export default function Hero() {
           </div>
 
           {/* Right — contact + insurance form (dark frosted card) */}
-          <div className="relative z-30 mt-12 lg:col-span-6 lg:mt-0">
-            <div className="relative overflow-hidden border border-white/10 bg-navy-light/60 p-6 shadow-2xl backdrop-blur-md lg:p-8">
+          <div className="relative z-30 mt-12 lg:col-span-6 lg:mt-0 lg:flex lg:justify-end">
+            <div className="relative w-full max-w-[400px] overflow-hidden border border-white/10 bg-navy-light/60 p-6 shadow-2xl backdrop-blur-md lg:p-8">
               {/* Top gradient accent bar */}
               <div className="absolute left-0 top-0 h-1 w-full bg-gradient-to-r from-terracotta via-navy to-espresso" />
 

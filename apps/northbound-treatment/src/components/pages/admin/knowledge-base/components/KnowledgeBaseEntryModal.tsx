@@ -36,20 +36,23 @@ export default function KnowledgeBaseEntryModal({
 
   useEffect(() => {
     if (!isOpen) return;
-    setFieldError(null);
-    if (entry) {
-      setTitle(entry.title);
-      setCategory(entry.category ?? "");
-      setContent(entry.content);
-      setTagsInput(entry.tags.join(", "));
-      setIsActive(entry.is_active);
-    } else {
-      setTitle("");
-      setCategory("");
-      setContent("");
-      setTagsInput("");
-      setIsActive(true);
-    }
+    const timer = window.setTimeout(() => {
+      setFieldError(null);
+      if (entry) {
+        setTitle(entry.title);
+        setCategory(entry.category ?? "");
+        setContent(entry.content);
+        setTagsInput(entry.tags.join(", "));
+        setIsActive(entry.is_active);
+      } else {
+        setTitle("");
+        setCategory("");
+        setContent("");
+        setTagsInput("");
+        setIsActive(true);
+      }
+    }, 0);
+    return () => window.clearTimeout(timer);
   }, [entry, isOpen]);
 
   if (!isOpen) return null;

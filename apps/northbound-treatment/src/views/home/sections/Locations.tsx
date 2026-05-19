@@ -49,6 +49,7 @@ const LOCATIONS = [
       "Private On-Site Chef",
       "Oceanview Meditation Spaces",
     ],
+    href: "/locations/california/newport-beach/",
     badge: TONES.terracotta,
   },
   {
@@ -63,6 +64,7 @@ const LOCATIONS = [
       "State-of-the-Art Fitness Center",
       "Expansive Recreation Grounds",
     ],
+    href: "/locations/california/garden-grove/",
     badge: TONES.navy,
   },
   {
@@ -77,6 +79,7 @@ const LOCATIONS = [
       "Outdoor Therapy Lounges",
       "Careerbound® Resource Center",
     ],
+    href: "/locations/california/san-diego/",
     badge: TONES.terracotta,
   },
   {
@@ -91,6 +94,7 @@ const LOCATIONS = [
       "Family Support & Education Hub",
       "Modern Therapeutic Interiors",
     ],
+    href: "/locations/washington/seattle/",
     badge: TONES.navy,
   },
 ];
@@ -156,7 +160,7 @@ export default function Locations() {
                   ))}
                 </ul>
                 <a
-                  href="#"
+                  href={loc.href}
                   className={`flex items-center gap-2 text-xs font-bold uppercase tracking-[0.22em] transition-colors group-hover:text-espresso ${loc.badge.link}`}
                 >
                   Tour Campus <span className="text-lg">&rarr;</span>

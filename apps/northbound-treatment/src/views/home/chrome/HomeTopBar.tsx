@@ -8,7 +8,7 @@ export default function HomeTopBar() {
       <div className="mx-auto flex h-full max-w-7xl items-center justify-between px-6 lg:px-12">
         <div className="flex items-center gap-4">
           <a
-            href="https://facebook.com"
+            href="https://www.facebook.com/p/Northbound-Treatment-Services-100083423317277/"
             target="_blank"
             rel="noopener noreferrer"
             aria-label="Facebook"
@@ -17,7 +17,7 @@ export default function HomeTopBar() {
             <i className="ri-facebook-fill text-base leading-none"></i>
           </a>
           <a
-            href="https://instagram.com"
+            href="https://www.instagram.com/northbound_treatment/"
             target="_blank"
             rel="noopener noreferrer"
             aria-label="Instagram"
@@ -26,22 +26,13 @@ export default function HomeTopBar() {
             <i className="ri-instagram-line text-base leading-none"></i>
           </a>
           <a
-            href="https://linkedin.com"
+            href="https://www.linkedin.com/company/northbound-treatment/"
             target="_blank"
             rel="noopener noreferrer"
             aria-label="LinkedIn"
             className="text-sand-light/70 transition-colors duration-300 hover:text-terracotta"
           >
             <i className="ri-linkedin-fill text-base leading-none"></i>
-          </a>
-          <a
-            href="https://twitter.com"
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="Twitter / X"
-            className="text-sand-light/70 transition-colors duration-300 hover:text-terracotta"
-          >
-            <i className="ri-twitter-x-line text-base leading-none"></i>
           </a>
         </div>
 

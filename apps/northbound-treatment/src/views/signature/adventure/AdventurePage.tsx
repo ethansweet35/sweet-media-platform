@@ -227,9 +227,9 @@ export default function AdventurePage() {
         <div className="mx-auto w-full max-w-5xl px-6 text-center lg:px-10">
           <div className="mx-auto mb-6 h-px w-12 bg-terracotta" />
           <blockquote className="font-heading text-3xl font-bold leading-snug text-navy md:text-4xl lg:text-5xl">
-            "Adventure is not an escape from life.
+            &ldquo;Adventure is not an escape from life.
             <br />
-            <span className="italic text-terracotta">It's how you return to it.</span>"
+            <span className="italic text-terracotta">It&apos;s how you return to it.</span>&rdquo;
           </blockquote>
           <p className="mx-auto mt-8 max-w-2xl text-base leading-relaxed text-espresso/70">
             <AutoLinkedText>{"At Northbound, our Adventure Therapy Program is not recreation — it is precision-designed\n            experiential treatment. Each outing is mapped to specific therapeutic goals: resilience,\n            mindfulness, identity, community, and purpose. What feels like adventure is, in fact,\n            profound clinical work."}</AutoLinkedText>
@@ -430,7 +430,7 @@ export default function AdventurePage() {
                   <i className="ri-arrow-right-line" />
                 </Link>
                 <Link
-                  href="/virtual-tour/"
+                  href="/locations/"
                   className="inline-flex items-center gap-2 border border-terracotta/30 px-7 py-3.5 text-sm font-semibold text-terracotta transition hover:border-terracotta hover:bg-terracotta/5"
                 >
                   <i className="ri-image-2-line" />

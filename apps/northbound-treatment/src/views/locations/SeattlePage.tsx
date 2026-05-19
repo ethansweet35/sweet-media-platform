@@ -107,12 +107,12 @@ function FaqItem({ q, a }: { q: string; a: string }) {
   return (
     <div className="border-b border-navy/10 last:border-0">
       <button onClick={() => setOpen(!open)} className="flex w-full items-start justify-between gap-4 py-5 text-left">
-        <span className="font-semibold text-[#0B1F3A] leading-snug">{q}</span>
-        <span className={`mt-0.5 shrink-0 text-[#E8622A] transition-transform duration-200 ${open ? "rotate-45" : ""}`}>
+        <span className="font-semibold text-navy leading-snug">{q}</span>
+        <span className={`mt-0.5 shrink-0 text-terracotta transition-transform duration-200 ${open ? "rotate-45" : ""}`}>
           <i className="ri-add-line text-xl"></i>
         </span>
       </button>
-      {open && <p className="pb-5 text-sm leading-relaxed text-[#4B5563]"><AutoLinkedTextClient>{a}</AutoLinkedTextClient></p>}
+      {open && <p className="pb-5 text-sm leading-relaxed text-espresso/80"><AutoLinkedTextClient>{a}</AutoLinkedTextClient></p>}
     </div>
   );
 }
@@ -121,7 +121,7 @@ export default function SeattlePage() {
   return (
     <>
       {/* ─── HERO ─── */}
-      <section className="relative min-h-[90vh] flex items-end overflow-hidden bg-[#0B1F3A]">
+      <section className="relative min-h-[90vh] flex items-end overflow-hidden bg-navy">
         <Image
           src={IMAGES.hero}
           alt="Seattle cityscape at dawn — Space Needle, Puget Sound, and Mount Rainier — Northbound Treatment Seattle location"
@@ -129,7 +129,7 @@ export default function SeattlePage() {
           className="object-cover object-center opacity-40"
           priority
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-[#0B1F3A] via-[#0B1F3A]/45 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-navy via-navy/45 to-transparent" />
 
         <div className="relative z-10 mx-auto w-full max-w-7xl px-6 pb-20 pt-32 lg:px-10">
           <nav className="mb-6 flex items-center gap-2 text-xs text-white/50">
@@ -141,12 +141,12 @@ export default function SeattlePage() {
           </nav>
 
           <div className="max-w-3xl">
-            <p className="mb-4 text-sm font-semibold uppercase tracking-[0.18em] text-[#E8622A]">
+            <p className="mb-4 text-sm font-semibold uppercase tracking-[0.18em] text-terracotta">
               <AutoLinkedTextClient>{"Seattle, Washington — Lower Queen Anne / Uptown"}</AutoLinkedTextClient>
             </p>
             <h1 className="font-heading text-5xl font-bold leading-tight text-white md:text-6xl lg:text-7xl">
               Addiction Treatment{" "}
-              <span className="italic text-[#E8622A]">in Seattle</span>
+              <span className="italic text-terracotta">in Seattle</span>
             </h1>
             <p className="mt-6 max-w-2xl text-lg leading-relaxed text-white/80">
               <AutoLinkedTextClient>{"Northbound's Seattle hub serves Washington state residents with clinical assessments, IOP, family support, alumni programming, and alternative sentencing services — connecting Pacific Northwest clients to Northbound's full treatment continuum."}</AutoLinkedTextClient>
@@ -160,17 +160,17 @@ export default function SeattlePage() {
                 { icon: "ri-computer-line", label: "Telehealth Available Across WA" },
               ].map((f) => (
                 <div key={f.label} className="flex items-center gap-2 text-sm text-white/75">
-                  <i className={`${f.icon} text-[#E8622A]`}></i>
+                  <i className={`${f.icon} text-terracotta`}></i>
                   <span>{f.label}</span>
                 </div>
               ))}
             </div>
 
             <div className="mt-8 flex flex-wrap gap-4">
-              <Link href="tel:8663110003" className="inline-flex items-center gap-2 rounded-full bg-[#E8622A] px-7 py-3.5 text-sm font-semibold text-white shadow-lg transition hover:bg-[#d4531d]">
+              <Link href="tel:8663110003" className="inline-flex items-center gap-2 rounded-full bg-terracotta px-7 py-3.5 text-sm font-semibold text-white shadow-lg transition hover:bg-terracotta-light">
                 <i className="ri-phone-fill"></i> Call (866) 311-0003
               </Link>
-              <Link href="/admissions/insurance-coverage/" className="inline-flex items-center gap-2 rounded-full border border-white/30 px-7 py-3.5 text-sm font-semibold text-white transition hover:border-white/60 hover:bg-white/10">
+              <Link href="/insurance/" className="inline-flex items-center gap-2 rounded-full border border-white/30 px-7 py-3.5 text-sm font-semibold text-white transition hover:border-white/60 hover:bg-white/10">
                 Verify My Insurance
               </Link>
             </div>
@@ -183,21 +183,21 @@ export default function SeattlePage() {
         <div className="mx-auto max-w-7xl px-6 lg:px-10">
           <div className="grid gap-16 lg:grid-cols-2 lg:items-center">
             <div>
-              <p className="mb-3 text-sm font-semibold uppercase tracking-[0.16em] text-[#E8622A]"><AutoLinkedTextClient>{"Seattle Assessment & Support Hub"}</AutoLinkedTextClient></p>
-              <h2 className="font-heading text-4xl font-bold text-[#0B1F3A] md:text-5xl">
+              <p className="mb-3 text-sm font-semibold uppercase tracking-[0.16em] text-terracotta"><AutoLinkedTextClient>{"Seattle Assessment & Support Hub"}</AutoLinkedTextClient></p>
+              <h2 className="font-heading text-4xl font-bold text-navy md:text-5xl">
                 Your Gateway to{" "}
-                <span className="italic text-[#E8622A]">Recovery</span>
+                <span className="italic text-terracotta">Recovery</span>
               </h2>
-              <p className="mt-5 text-base leading-relaxed text-[#4B5563]">
+              <p className="mt-5 text-base leading-relaxed text-espresso/80">
                 <AutoLinkedTextClient>{"Our Seattle services center is located in the vibrant Lower Queen Anne (Uptown) neighborhood — a walkable community of historic houses and boutique shops, right on Puget Sound and steps from the Space Needle. It's an inspiring, community-rooted setting for taking the first steps toward recovery."}</AutoLinkedTextClient>
               </p>
-              <p className="mt-4 text-base leading-relaxed text-[#4B5563]">
+              <p className="mt-4 text-base leading-relaxed text-espresso/80">
                 <AutoLinkedTextClient>{"Seattle clients begin with a comprehensive clinical assessment at our local office. For those requiring medically supervised detox or residential treatment, we facilitate a smooth transition to our fully licensed Orange County facilities — where the Southern California environment becomes part of the healing. Clients then step down back to Seattle-based IOP or telehealth to complete their continuum of care."}</AutoLinkedTextClient>
               </p>
 
-              <div className="mt-8 rounded-2xl border border-[#E5E7EB] bg-[#F5F7FF] p-6">
-                <p className="text-sm font-semibold text-[#0B1F3A]">The Seattle Crisis</p>
-                <p className="mt-2 text-sm leading-relaxed text-[#4B5563]">
+              <div className="mt-8 rounded-2xl border border-sand-dark bg-sand p-6">
+                <p className="text-sm font-semibold text-navy">The Seattle Crisis</p>
+                <p className="mt-2 text-sm leading-relaxed text-espresso/80">
                   <AutoLinkedTextClient>{"King County saw 1,312 suspected and confirmed overdose deaths in 2023 — a 16% increase from 2022, and more than double the 2019 figure. Washington state's overdose rate of 32.6 per 100,000 is more than double what it was a decade ago. Northbound is here to help."}</AutoLinkedTextClient>
                 </p>
               </div>
@@ -207,9 +207,9 @@ export default function SeattlePage() {
               <div className="aspect-[4/3] overflow-hidden rounded-3xl shadow-2xl">
                 <Image src={IMAGES.neighborhood} alt="Lower Queen Anne neighborhood in Seattle — historic brownstones, tree-lined streets near Northbound's Seattle office" fill className="object-cover" />
               </div>
-              <div className="absolute -bottom-6 -left-6 rounded-2xl bg-[#0B1F3A] px-6 py-5 shadow-xl">
+              <div className="absolute -bottom-6 -left-6 rounded-2xl bg-navy px-6 py-5 shadow-xl">
                 <p className="font-heading text-2xl font-bold text-white">WA & CA</p>
-                <p className="mt-0.5 text-xs font-semibold uppercase tracking-widest text-[#E8622A]">Serving Both States</p>
+                <p className="mt-0.5 text-xs font-semibold uppercase tracking-widest text-terracotta">Serving Both States</p>
               </div>
             </div>
           </div>
@@ -217,27 +217,27 @@ export default function SeattlePage() {
       </section>
 
       {/* ─── TREATMENT PATHWAY ─── */}
-      <section className="bg-[#F5F7FF] py-20 lg:py-28">
+      <section className="bg-sand py-20 lg:py-28">
         <div className="mx-auto max-w-7xl px-6 lg:px-10">
           <div className="mx-auto mb-14 max-w-2xl text-center">
-            <p className="mb-3 text-sm font-semibold uppercase tracking-[0.16em] text-[#E8622A]">The Seattle Pathway</p>
-            <h2 className="font-heading text-4xl font-bold text-[#0B1F3A] md:text-5xl">Full Continuum for Washington Clients</h2>
-            <p className="mt-4 text-[#4B5563]">
+            <p className="mb-3 text-sm font-semibold uppercase tracking-[0.16em] text-terracotta">The Seattle Pathway</p>
+            <h2 className="font-heading text-4xl font-bold text-navy md:text-5xl">Full Continuum for Washington Clients</h2>
+            <p className="mt-4 text-espresso/80">
               <AutoLinkedTextClient>{"Seattle residents access Northbound's full treatment continuum — from local assessment to California residential care and back again."}</AutoLinkedTextClient>
             </p>
           </div>
 
           <div className="grid gap-5 sm:grid-cols-2">
             {treatmentPrograms.map((p, i) => (
-              <div key={p.name} className={`rounded-3xl p-8 ${i === 0 ? "bg-[#0B1F3A]" : "bg-white ring-1 ring-[#E5E7EB]"}`}>
-                <div className={`mb-4 flex h-12 w-12 items-center justify-center rounded-2xl ${i === 0 ? "bg-[#E8622A]/20" : "bg-[#F5F7FF]"}`}>
-                  <i className={`${p.icon} text-xl ${i === 0 ? "text-[#E8622A]" : "text-[#0B1F3A]"}`}></i>
+              <div key={p.name} className={`rounded-3xl p-8 ${i === 0 ? "bg-navy" : "bg-white ring-1 ring-sand-dark"}`}>
+                <div className={`mb-4 flex h-12 w-12 items-center justify-center rounded-2xl ${i === 0 ? "bg-terracotta/20" : "bg-sand"}`}>
+                  <i className={`${p.icon} text-xl ${i === 0 ? "text-terracotta" : "text-navy"}`}></i>
                 </div>
-                <div className={`mb-2 inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-semibold ${i === 0 ? "bg-white/10 text-white/80" : "bg-[#F5F7FF] text-[#6B7280]"}`}>
+                <div className={`mb-2 inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-semibold ${i === 0 ? "bg-white/10 text-white/80" : "bg-sand text-muted"}`}>
                   <i className="ri-map-pin-line text-[10px]"></i> {p.location}
                 </div>
-                <h3 className={`mt-3 font-heading text-xl font-bold ${i === 0 ? "text-white" : "text-[#0B1F3A]"}`}>{p.name}</h3>
-                <p className={`mt-2 text-sm leading-relaxed ${i === 0 ? "text-white/75" : "text-[#4B5563]"}`}><AutoLinkedTextClient>{p.desc}</AutoLinkedTextClient></p>
+                <h3 className={`mt-3 font-heading text-xl font-bold ${i === 0 ? "text-white" : "text-navy"}`}>{p.name}</h3>
+                <p className={`mt-2 text-sm leading-relaxed ${i === 0 ? "text-white/75" : "text-espresso/80"}`}><AutoLinkedTextClient>{p.desc}</AutoLinkedTextClient></p>
               </div>
             ))}
           </div>
@@ -245,16 +245,16 @@ export default function SeattlePage() {
       </section>
 
       {/* ─── SERVICES ─── */}
-      <section className="bg-[#0B1F3A] py-20 lg:py-28">
+      <section className="bg-navy py-20 lg:py-28">
         <div className="mx-auto max-w-7xl px-6 lg:px-10">
           <div className="mb-12 text-center">
-            <p className="mb-3 text-sm font-semibold uppercase tracking-[0.16em] text-[#E8622A]">Seattle Services</p>
+            <p className="mb-3 text-sm font-semibold uppercase tracking-[0.16em] text-terracotta">Seattle Services</p>
             <h2 className="font-heading text-4xl font-bold text-white md:text-5xl">What We Offer in Seattle</h2>
           </div>
           <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
             {services.map((s) => (
               <div key={s.name} className="rounded-2xl border border-white/10 bg-white/5 p-6">
-                <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#E8622A]/20 text-[#E8622A] mb-3">
+                <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-terracotta/20 text-terracotta mb-3">
                   <i className={`${s.icon} text-lg`}></i>
                 </span>
                 <h3 className="font-semibold text-white mb-2">{s.name}</h3>
@@ -270,31 +270,31 @@ export default function SeattlePage() {
         <div className="mx-auto max-w-7xl px-6 lg:px-10">
           <div className="grid gap-16 lg:grid-cols-2 lg:items-center">
             <div>
-              <p className="mb-3 text-sm font-semibold uppercase tracking-[0.16em] text-[#E8622A]">Clinical Modalities</p>
-              <h2 className="font-heading text-4xl font-bold text-[#0B1F3A] md:text-5xl">
+              <p className="mb-3 text-sm font-semibold uppercase tracking-[0.16em] text-terracotta">Clinical Modalities</p>
+              <h2 className="font-heading text-4xl font-bold text-navy md:text-5xl">
                 Therapies Proven to{" "}
-                <span className="italic text-[#E8622A]">Work</span>
+                <span className="italic text-terracotta">Work</span>
               </h2>
-              <p className="mt-4 text-base leading-relaxed text-[#4B5563]">
+              <p className="mt-4 text-base leading-relaxed text-espresso/80">
                 <AutoLinkedTextClient>{"Whether you receive care in Seattle or at one of our California campuses, the same evidence-based clinical approach applies — personalized to your specific history, substance, and co-occurring conditions."}</AutoLinkedTextClient>
               </p>
               <div className="mt-6 grid grid-cols-1 gap-3 sm:grid-cols-2">
                 {therapies.map((t) => (
                   <div key={t} className="flex items-center gap-3">
-                    <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-[#E8622A]/10 text-[#E8622A]">
+                    <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-terracotta/10 text-terracotta">
                       <i className="ri-check-line text-xs"></i>
                     </span>
-                    <span className="text-sm text-[#374151]">{t}</span>
+                    <span className="text-sm text-espresso">{t}</span>
                   </div>
                 ))}
               </div>
 
-              <div className="mt-8 rounded-2xl bg-[#F5F7FF] p-6">
-                <p className="text-sm font-semibold text-[#0B1F3A] mb-2"><AutoLinkedTextClient>{"Alumni Association — Seattle Chapter"}</AutoLinkedTextClient></p>
+              <div className="mt-8 rounded-2xl bg-sand p-6">
+                <p className="text-sm font-semibold text-navy mb-2"><AutoLinkedTextClient>{"Alumni Association — Seattle Chapter"}</AutoLinkedTextClient></p>
                 <div className="space-y-2">
                   {alumniActivities.map((a) => (
-                    <div key={a} className="flex items-center gap-2 text-sm text-[#4B5563]">
-                      <i className="ri-checkbox-circle-line text-[#E8622A] text-sm"></i>
+                    <div key={a} className="flex items-center gap-2 text-sm text-espresso/80">
+                      <i className="ri-checkbox-circle-line text-terracotta text-sm"></i>
                       <span>{a}</span>
                     </div>
                   ))}
@@ -306,7 +306,7 @@ export default function SeattlePage() {
               <div className="aspect-[4/3] overflow-hidden rounded-3xl shadow-xl">
                 <Image src={IMAGES.nature} alt="Group walking through Pacific Northwest old-growth forest — nature therapy in recovery at Northbound Seattle" fill className="object-cover" />
               </div>
-              <div className="absolute -top-5 -right-5 rounded-2xl bg-[#E8622A] px-5 py-4 shadow-xl">
+              <div className="absolute -top-5 -right-5 rounded-2xl bg-terracotta px-5 py-4 shadow-xl">
                 <p className="text-xs font-bold uppercase tracking-wider text-white"><AutoLinkedTextClient>{"Pacific Northwest Recovery"}</AutoLinkedTextClient></p>
               </div>
             </div>
@@ -315,13 +315,13 @@ export default function SeattlePage() {
       </section>
 
       {/* ─── FAQ ─── */}
-      <section className="bg-[#F5F7FF] py-20 lg:py-28">
+      <section className="bg-sand py-20 lg:py-28">
         <div className="mx-auto max-w-4xl px-6 lg:px-10">
           <div className="mb-10 text-center">
-            <p className="mb-3 text-sm font-semibold uppercase tracking-[0.16em] text-[#E8622A]">Common Questions</p>
-            <h2 className="font-heading text-4xl font-bold text-[#0B1F3A] md:text-5xl">Frequently Asked Questions</h2>
+            <p className="mb-3 text-sm font-semibold uppercase tracking-[0.16em] text-terracotta">Common Questions</p>
+            <h2 className="font-heading text-4xl font-bold text-navy md:text-5xl">Frequently Asked Questions</h2>
           </div>
-          <div className="divide-y divide-[#E5E7EB] rounded-3xl bg-white ring-1 ring-[#E5E7EB] px-8">
+          <div className="divide-y divide-[#E5E7EB] rounded-3xl bg-white ring-1 ring-sand-dark px-8">
             {faqs.map((f) => <FaqItem key={f.q} q={f.q} a={f.a} />)}
           </div>
         </div>
@@ -330,19 +330,19 @@ export default function SeattlePage() {
       {/* ─── INSURANCE ─── */}
       <section className="bg-white py-16">
         <div className="mx-auto max-w-7xl px-6 lg:px-10 text-center">
-          <p className="mb-2 text-sm font-semibold uppercase tracking-[0.16em] text-[#E8622A]">Insurance</p>
-          <h2 className="font-heading text-3xl font-bold text-[#0B1F3A] md:text-4xl">We Verify Your Benefits — Free & Confidential</h2>
-          <p className="mx-auto mt-4 max-w-xl text-sm leading-relaxed text-[#4B5563]"><AutoLinkedTextClient>{"In-network with 15+ major carriers. Washington clients are covered for treatment at our California campuses under most PPO plans."}</AutoLinkedTextClient></p>
-          <div className="mt-6 flex flex-wrap justify-center gap-3 text-xs font-semibold text-[#6B7280]">
+          <p className="mb-2 text-sm font-semibold uppercase tracking-[0.16em] text-terracotta">Insurance</p>
+          <h2 className="font-heading text-3xl font-bold text-navy md:text-4xl">We Verify Your Benefits — Free & Confidential</h2>
+          <p className="mx-auto mt-4 max-w-xl text-sm leading-relaxed text-espresso/80"><AutoLinkedTextClient>{"In-network with 15+ major carriers. Washington clients are covered for treatment at our California campuses under most PPO plans."}</AutoLinkedTextClient></p>
+          <div className="mt-6 flex flex-wrap justify-center gap-3 text-xs font-semibold text-muted">
             {["Aetna", "Anthem BCBS", "Cigna", "Tricare", "MHN", "Multiplan", "Beacon", "ComPsych", "First Health"].map((ins) => (
-              <span key={ins} className="rounded-full bg-[#F5F7FF] px-4 py-2 ring-1 ring-[#E5E7EB]">{ins}</span>
+              <span key={ins} className="rounded-full bg-sand px-4 py-2 ring-1 ring-sand-dark">{ins}</span>
             ))}
           </div>
           <div className="mt-8 flex flex-wrap justify-center gap-4">
-            <Link href="/admissions/insurance-coverage/" className="inline-flex items-center gap-2 rounded-full bg-[#0B1F3A] px-7 py-3.5 text-sm font-semibold text-white transition hover:bg-[#16305e]">
+            <Link href="/insurance/" className="inline-flex items-center gap-2 rounded-full bg-navy px-7 py-3.5 text-sm font-semibold text-white transition hover:bg-navy-light">
               Verify My Insurance
             </Link>
-            <Link href="tel:8663110003" className="inline-flex items-center gap-2 rounded-full border border-[#0B1F3A]/20 px-7 py-3.5 text-sm font-semibold text-[#0B1F3A] transition hover:border-[#0B1F3A]/50">
+            <Link href="tel:8663110003" className="inline-flex items-center gap-2 rounded-full border border-navy/20 px-7 py-3.5 text-sm font-semibold text-navy transition hover:border-navy/50">
               <i className="ri-phone-line"></i> (866) 311-0003
             </Link>
           </div>
@@ -363,7 +363,7 @@ export default function SeattlePage() {
         headline="Washington Residents: Help Is Available Now"
         body="Our admissions team is available 24/7. We'll assess your needs, verify your insurance, and connect you with the right level of care — whether that's our Seattle hub, California campuses, or telehealth."
         primaryCta={{ label: "Call (866) 311-0003", href: "tel:8663110003" }}
-        secondaryCta={{ label: "Verify Insurance", href: "/admissions/insurance-coverage/" }}
+        secondaryCta={{ label: "Verify Insurance", href: "/insurance/" }}
       />
     </>
   );
