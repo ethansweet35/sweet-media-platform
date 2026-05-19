@@ -15,18 +15,24 @@ export default function CtmFormReactor({
   className = "",
   title = "Northbound Treatment — contact form",
 }: CtmFormReactorProps) {
+  /*
+   * The iframe is absolutely positioned and pinned to all four edges of a
+   * fixed-height wrapper. Even when CTM's formreactor.js or its own resize
+   * postMessage handler tries to set iframe.style.height, the inset:0
+   * anchoring overrides it — the rendered size is dictated by the wrapper.
+   * The "ctm-call-widget" class is intentionally omitted so CTM's own
+   * querySelector lookups skip this iframe entirely.
+   */
   return (
-    /*
-     * Note: intentionally omitting the "ctm-call-widget" class.
-     * formreactor.js queries for that class and directly sets
-     * iframe.style.height, causing the card to stretch inconsistently.
-     * The form still submits and tracks correctly via the iframe src.
-     */
-    <iframe
-      className={`w-full border-none ${className}`.trim()}
-      src={CTM_FORM_REACTOR_IFRAME_SRC}
+    <div
+      className={`relative w-full overflow-hidden ${className}`.trim()}
       style={{ height: `${height}px` }}
-      title={title}
-    />
+    >
+      <iframe
+        src={CTM_FORM_REACTOR_IFRAME_SRC}
+        title={title}
+        className="absolute inset-0 h-full w-full border-none"
+      />
+    </div>
   );
 }
