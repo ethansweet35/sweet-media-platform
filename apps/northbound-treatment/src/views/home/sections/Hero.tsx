@@ -1,5 +1,7 @@
 import Image from "next/image";
+import { heroHomeSection } from "@/lib/heroSpacing";
 import Link from "next/link";
+import CtmLeadFormCard from "@/components/feature/CtmLeadFormCard";
 import { HERO_BG } from "../assets";
 import { AutoLinkedText } from "@sweetmedia/blog-core";
 
@@ -14,7 +16,7 @@ import { AutoLinkedText } from "@sweetmedia/blog-core";
  */
 export default function Hero() {
   return (
-    <section className="relative flex min-h-screen items-center overflow-hidden pb-20 pt-40 lg:pb-32 lg:pt-48">
+    <section className={heroHomeSection}>
 
       {/* ── Full-bleed background photo ───────────────────────────────── */}
       <Image
@@ -36,7 +38,7 @@ export default function Hero() {
       <div className="pointer-events-none absolute -right-20 -top-20 h-[480px] w-[480px] rounded-full bg-terracotta/25 blur-[140px]" />
 
       {/* ── Content ───────────────────────────────────────────────────── */}
-      <div className="relative z-10 mx-auto w-full max-w-7xl px-6 lg:px-12">
+      <div className="relative z-10 mx-auto w-full max-w-7xl px-6 py-4 lg:px-12 lg:py-6">
         <div className="grid grid-cols-1 items-center gap-12 lg:grid-cols-12 lg:gap-16">
 
           {/* Left — editorial copy (white on dark) */}
@@ -162,154 +164,18 @@ export default function Hero() {
             </div>
           </div>
 
-          {/* Right — contact + insurance form (dark frosted card) */}
+          {/* Right — CTM FormReactor (matches live northboundtreatment.com) */}
           <div className="relative z-30 mt-12 lg:col-span-6 lg:mt-0 lg:flex lg:justify-end">
-            <div className="relative w-full max-w-[400px] overflow-hidden border border-white/10 bg-navy-light/60 p-6 shadow-2xl backdrop-blur-md lg:p-8">
-              {/* Top gradient accent bar */}
-              <div className="absolute left-0 top-0 h-1 w-full bg-gradient-to-r from-terracotta via-navy to-espresso" />
-
-              <div className="relative z-10">
-                <div className="mb-6">
-                  <div className="mb-3 flex items-center gap-2">
-                    <div className="h-1.5 w-1.5 animate-pulse rounded-full bg-terracotta" />
-                    <span className="text-[9px] font-bold uppercase tracking-[0.22em] text-terracotta">
-                      Available 24/7
-                    </span>
-                  </div>
-                  <h3 className="mb-1 font-serif text-2xl text-white lg:text-3xl">
-                    Start Your Recovery
-                  </h3>
-                  <p className="text-xs font-light leading-relaxed text-white/50">
-                    <AutoLinkedText>{"Fill out the form and we&rsquo;ll call you immediately."}</AutoLinkedText>
-                  </p>
-                </div>
-
-                <form className="space-y-4">
-                  {/* First / Last name */}
-                  <div className="grid grid-cols-2 gap-4">
-                    <FloatingInput id="firstName" label="First Name" type="text" placeholder="John" />
-                    <FloatingInput id="lastName" label="Last Name" type="text" placeholder="Doe" />
-                  </div>
-
-                  {/* Phone */}
-                  <FloatingInput id="phone" label="Phone Number" type="tel" placeholder="(555) 000-0000" />
-
-                  {/* Program interest */}
-                  <div className="relative">
-                    <select className="w-full cursor-pointer appearance-none border-b border-white/20 bg-transparent px-0 py-3 text-xs text-white/70 transition-all focus:border-terracotta focus:outline-none">
-                      <option value="" className="bg-espresso">Program Interest</option>
-                      <option className="bg-espresso">Drug or Alcohol Detox</option>
-                      <option className="bg-espresso">Residential Treatment</option>
-                      <option className="bg-espresso">Outpatient (PHP/IOP)</option>
-                      <option className="bg-espresso">Just exploring options</option>
-                    </select>
-                    <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-0 text-white/30">
-                      <i className="ri-arrow-down-s-line text-base leading-none" />
-                    </div>
-                  </div>
-
-                  {/* Insurance divider */}
-                  <div className="flex items-center gap-3 pt-1">
-                    <div className="h-px flex-1 bg-white/10" />
-                    <span className="text-[9px] font-bold uppercase tracking-[0.2em] text-white/30">
-                      Insurance (optional)
-                    </span>
-                    <div className="h-px flex-1 bg-white/10" />
-                  </div>
-
-                  {/* Insurance provider */}
-                  <div className="relative">
-                    <select className="w-full cursor-pointer appearance-none border-b border-white/20 bg-transparent px-0 py-3 text-xs text-white/70 transition-all focus:border-terracotta focus:outline-none">
-                      <option value="" className="bg-espresso">Insurance Provider</option>
-                      <option className="bg-espresso">Aetna</option>
-                      <option className="bg-espresso">Anthem</option>
-                      <option className="bg-espresso">Beacon Health</option>
-                      <option className="bg-espresso">BlueCross BlueShield</option>
-                      <option className="bg-espresso">Cigna</option>
-                      <option className="bg-espresso">Compsych</option>
-                      <option className="bg-espresso">First Health Network</option>
-                      <option className="bg-espresso">GEHA</option>
-                      <option className="bg-espresso">Health Net</option>
-                      <option className="bg-espresso">Magellan</option>
-                      <option className="bg-espresso">MHN Insurance</option>
-                      <option className="bg-espresso">Premera Blue Cross</option>
-                      <option className="bg-espresso">TriCare</option>
-                      <option className="bg-espresso">USAMCA</option>
-                      <option className="bg-espresso">Other</option>
-                      <option className="bg-espresso">No insurance / self-pay</option>
-                    </select>
-                    <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-0 text-white/30">
-                      <i className="ri-arrow-down-s-line text-base leading-none" />
-                    </div>
-                  </div>
-
-                  {/* Policy ID */}
-                  <FloatingInput id="policyId" label="Policy / Member ID" type="text" placeholder="ABC123456789" />
-
-                  {/* Submit */}
-                  <button
-                    type="button"
-                    className="group/btn w-full bg-terracotta py-3.5 text-xs font-bold uppercase tracking-[0.22em] text-white shadow-md transition-all duration-300 hover:-translate-y-0.5 hover:bg-terracotta-light hover:shadow-xl"
-                  >
-                    <span className="flex items-center justify-center gap-2">
-                      Request Call Now
-                      <i className="ri-arrow-right-s-line text-sm leading-none transition-transform duration-300 group-hover/btn:translate-x-1" />
-                    </span>
-                  </button>
-
-                  {/* Trust line */}
-                  <div className="flex items-center justify-center gap-4 pt-2 text-[9px] uppercase tracking-[0.18em] text-white/40">
-                    <div className="flex items-center gap-1.5">
-                      <i className="ri-lock-line text-xs leading-none" />
-                      <span className="font-semibold">Confidential</span>
-                    </div>
-                    <div className="h-3 w-px bg-white/20" />
-                    <div className="flex items-center gap-1.5">
-                      <i className="ri-shield-check-line text-xs leading-none" />
-                      <span className="font-semibold">HIPAA Secure</span>
-                    </div>
-                    <div className="h-3 w-px bg-white/20" />
-                    <div className="flex items-center gap-1.5">
-                      <i className="ri-time-line text-xs leading-none" />
-                      <span className="font-semibold">Instant Response</span>
-                    </div>
-                  </div>
-                </form>
-              </div>
-            </div>
+            <CtmLeadFormCard
+              className="max-w-[400px]"
+              eyebrow="Available 24/7"
+              title="Start Your Recovery"
+              subtitle="Fill out the form and we'll call you immediately."
+              height={460}
+            />
           </div>
         </div>
       </div>
     </section>
-  );
-}
-
-/** Floating-label input — dark variant for use on espresso/dark backgrounds. */
-function FloatingInput({
-  id,
-  label,
-  type,
-  placeholder,
-}: {
-  id: string;
-  label: string;
-  type: string;
-  placeholder: string;
-}) {
-  return (
-    <div className="relative">
-      <input
-        type={type}
-        id={id}
-        placeholder={placeholder}
-        className="peer w-full border-b border-white/20 bg-transparent px-0 pb-2 pt-4 text-sm text-white transition-all placeholder:text-transparent focus:border-terracotta focus:outline-none"
-      />
-      <label
-        htmlFor={id}
-        className="absolute left-0 top-4 text-xs font-semibold text-white/40 transition-all duration-200 peer-focus:top-0 peer-focus:text-[9px] peer-focus:text-terracotta peer-[:not(:placeholder-shown)]:top-0 peer-[:not(:placeholder-shown)]:text-[9px] peer-[:not(:placeholder-shown)]:text-white/60"
-      >
-        {label}
-      </label>
-    </div>
   );
 }

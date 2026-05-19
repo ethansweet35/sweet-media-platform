@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { heroViewportSection } from "@/lib/heroSpacing";
 import CtaBanner from "@/views/shared/CtaBanner";
 import { AutoLinkedTextClient } from "@sweetmedia/blog-core";
 
@@ -133,7 +134,7 @@ export default function FaqsPage() {
   return (
     <>
       {/* 1 — Hero */}
-      <section className="relative flex min-h-[60vh] items-center overflow-hidden pb-16 pt-36 lg:pb-24 lg:pt-44">
+      <section className={heroViewportSection}>
         <Image src={HERO} alt="Northbound Treatment welcoming common area" fill priority className="object-cover object-center" sizes="100vw" />
         <div className="absolute inset-0 bg-gradient-to-r from-navy/95 via-navy/85 to-navy/50" />
         <div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-navy/70 to-transparent" />

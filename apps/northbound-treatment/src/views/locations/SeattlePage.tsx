@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import { heroLocationSection, heroTopPad } from "@/lib/heroSpacing";
 import Link from "next/link";
 import { useState } from "react";
 import CtaBanner from "@/views/shared/CtaBanner";
@@ -121,7 +122,7 @@ export default function SeattlePage() {
   return (
     <>
       {/* ─── HERO ─── */}
-      <section className="relative min-h-[90vh] flex items-end overflow-hidden bg-navy">
+      <section className={`${heroLocationSection} bg-navy`}>
         <Image
           src={IMAGES.hero}
           alt="Seattle cityscape at dawn — Space Needle, Puget Sound, and Mount Rainier — Northbound Treatment Seattle location"
@@ -131,7 +132,7 @@ export default function SeattlePage() {
         />
         <div className="absolute inset-0 bg-gradient-to-t from-navy via-navy/45 to-transparent" />
 
-        <div className="relative z-10 mx-auto w-full max-w-7xl px-6 pb-20 pt-32 lg:px-10">
+        <div className={`relative z-10 mx-auto w-full max-w-7xl px-6 pb-16 lg:px-10 ${heroTopPad}`}>
           <nav className="mb-6 flex items-center gap-2 text-xs text-white/50">
             <Link href="/" className="hover:text-white/80 transition">Home</Link>
             <i className="ri-arrow-right-s-line"></i>

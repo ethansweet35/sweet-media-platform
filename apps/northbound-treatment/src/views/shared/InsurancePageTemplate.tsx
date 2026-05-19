@@ -3,6 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
+import CtmFormReactor from "@/components/feature/CtmFormReactor";
 import { AutoLinkedTextClient } from "@sweetmedia/blog-core";
 
 /* ─── Types ──────────────────────────────────────────────────────── */
@@ -58,87 +59,12 @@ const CONTAINER = "mx-auto w-full max-w-7xl px-6 lg:px-10";
 
 /* ─── Sub-components ──────────────────────────────────────────────── */
 
-function VerifyForm({ carrierName }: { carrierName: string }) {
-  const [submitted, setSubmitted] = useState(false);
-
-  return submitted ? (
-    <div className="flex flex-col items-center justify-center py-10 text-center">
-      <span className="mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-terracotta/20">
-        <i className="ri-check-line text-3xl text-terracotta" />
-      </span>
-      <h3 className="font-heading text-xl font-bold text-white">We&apos;ll Be in Touch Shortly</h3>
-      <p className="mt-2 text-sm text-white/60">
-        A Northbound admissions specialist will call you within one business day to review your {carrierName} benefits.
-      </p>
-    </div>
-  ) : (
-    <form
-      onSubmit={(e) => {
-        e.preventDefault();
-        setSubmitted(true);
-      }}
-      className="space-y-4"
-    >
-      <div className="grid gap-4 sm:grid-cols-2">
-        <div className="flex flex-col gap-1">
-          <label className="text-[10px] font-bold uppercase tracking-widest text-white/40">First Name</label>
-          <input
-            required
-            type="text"
-            placeholder="Jane"
-            className="rounded-none border border-white/10 bg-white/5 px-4 py-3 text-sm text-white placeholder-white/30 outline-none focus:border-terracotta/50 focus:ring-0 transition"
-          />
-        </div>
-        <div className="flex flex-col gap-1">
-          <label className="text-[10px] font-bold uppercase tracking-widest text-white/40">Last Name</label>
-          <input
-            required
-            type="text"
-            placeholder="Smith"
-            className="rounded-none border border-white/10 bg-white/5 px-4 py-3 text-sm text-white placeholder-white/30 outline-none focus:border-terracotta/50 transition"
-          />
-        </div>
-      </div>
-
-      <div className="flex flex-col gap-1">
-        <label className="text-[10px] font-bold uppercase tracking-widest text-white/40">Phone Number</label>
-        <input
-          required
-          type="tel"
-          placeholder="(949) 000-0000"
-          className="rounded-none border border-white/10 bg-white/5 px-4 py-3 text-sm text-white placeholder-white/30 outline-none focus:border-terracotta/50 transition"
-        />
-      </div>
-
-      <div className="flex flex-col gap-1">
-        <label className="text-[10px] font-bold uppercase tracking-widest text-white/40">Insurance Provider</label>
-        <input
-          readOnly
-          value={carrierName}
-          className="rounded-none border border-white/10 bg-white/5 px-4 py-3 text-sm text-white/60 outline-none cursor-default"
-        />
-      </div>
-
-      <div className="flex flex-col gap-1">
-        <label className="text-[10px] font-bold uppercase tracking-widest text-white/40">Member ID / Policy Number</label>
-        <input
-          type="text"
-          placeholder="Found on your insurance card"
-          className="rounded-none border border-white/10 bg-white/5 px-4 py-3 text-sm text-white placeholder-white/30 outline-none focus:border-terracotta/50 transition"
-        />
-      </div>
-
-      <button
-        type="submit"
-        className="w-full bg-terracotta py-4 text-sm font-bold uppercase tracking-widest text-white transition hover:bg-terracotta-light"
-      >
-        Verify My Benefits — Free
-      </button>
-
-      <p className="text-center text-[10px] text-white/30">
-        <AutoLinkedTextClient>{"Confidential · No obligation · Results within 1 business day"}</AutoLinkedTextClient>
-      </p>
-    </form>
+function VerifyForm() {
+  return (
+    <CtmFormReactor
+      height={420}
+      title="Verify insurance benefits — Northbound Treatment"
+    />
   );
 }
 
@@ -173,7 +99,7 @@ export default function InsurancePageTemplate({ data }: { data: InsurancePageDat
       <section className="relative overflow-hidden bg-navy">
         <div className="grid lg:grid-cols-[1fr_480px]">
           {/* Left: image + content */}
-          <div className="relative min-h-[560px]">
+          <div className="relative min-h-[min(480px,calc(100dvh-10rem))] max-h-[620px]">
             <Image
               src={data.heroImage}
               alt={data.heroImageAlt}
@@ -184,7 +110,7 @@ export default function InsurancePageTemplate({ data }: { data: InsurancePageDat
             <div className="absolute inset-0 bg-gradient-to-r from-navy/85 via-navy/60 to-navy/40" />
             <div className="absolute inset-0 bg-gradient-to-t from-navy/70 via-transparent to-transparent" />
 
-            <div className="relative z-10 flex h-full flex-col justify-center px-8 py-20 lg:px-12">
+            <div className="relative z-10 flex h-full flex-col justify-center px-8 py-10 lg:px-12 lg:py-14">
               {/* Breadcrumb */}
               <nav className="mb-5 flex items-center gap-2 text-xs font-semibold text-white/40">
                 <Link href="/" className="hover:text-white transition">Home</Link>
@@ -233,7 +159,7 @@ export default function InsurancePageTemplate({ data }: { data: InsurancePageDat
             <h2 className="font-heading mb-6 text-2xl font-bold text-white">
               Check Your {data.carrierName} Benefits
             </h2>
-            <VerifyForm carrierName={data.carrierName} />
+            <VerifyForm />
           </div>
         </div>
       </section>

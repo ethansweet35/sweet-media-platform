@@ -37,7 +37,7 @@ export default function PageHero({
     : [headline];
 
   return (
-    <section className="relative min-h-[520px] lg:min-h-[600px] flex items-center overflow-hidden">
+    <section className="relative flex min-h-[min(440px,calc(100dvh-10rem))] max-h-[600px] items-center overflow-hidden">
       {/* Background image */}
       <Image
         src={image}
@@ -54,7 +54,7 @@ export default function PageHero({
       {/* Terracotta glow accent */}
       <div className="pointer-events-none absolute -left-20 top-1/2 h-72 w-72 -translate-y-1/2 rounded-full bg-terracotta/20 blur-3xl" />
 
-      <div className="relative z-10 mx-auto w-full max-w-7xl px-6 py-20 lg:px-10 lg:py-28">
+      <div className="relative z-10 mx-auto w-full max-w-7xl px-6 py-10 lg:px-10 lg:py-14">
         {/* Breadcrumbs */}
         {breadcrumbs && breadcrumbs.length > 0 && (
           <nav className="mb-6 flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.1em] text-white/50">

@@ -24,6 +24,7 @@
 
 import { useState } from "react";
 import Image from "next/image";
+import { heroContentPad } from "@/lib/heroSpacing";
 import Link from "next/link";
 import { AutoLinkedTextClient } from "@sweetmedia/blog-core";
 
@@ -97,7 +98,7 @@ export default function SubstancePageTemplate({ data }: { data: SubstancePageDat
           <div className="absolute inset-0 bg-gradient-to-r from-navy/95 via-navy/85 to-navy/50" />
         </div>
 
-        <div className="relative z-10 mx-auto w-full max-w-7xl px-6 pt-28 pb-16 lg:px-10 lg:pt-36 lg:pb-20">
+        <div className={`relative z-10 mx-auto w-full max-w-7xl ${heroContentPad}`}>
           <div className="grid items-stretch gap-10 lg:grid-cols-[1fr_380px]">
 
             {/* Left — headline + CTAs */}

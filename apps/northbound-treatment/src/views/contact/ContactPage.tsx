@@ -1,7 +1,5 @@
-"use client";
-
 import Link from "next/link";
-import { useState } from "react";
+import CtmFormReactor from "@/components/feature/CtmFormReactor";
 import { AutoLinkedTextClient } from "@sweetmedia/blog-core";
 
 const locations = [
@@ -42,45 +40,7 @@ const trust = [
   { icon: "ri-lock-line", label: "100% Confidential" },
 ];
 
-type FormState = "idle" | "submitting" | "success" | "error";
-
-function Label({ children }: { children: React.ReactNode }) {
-  return (
-    <label className="block text-xs font-semibold uppercase tracking-[0.12em] text-[#3a6697] mb-1.5">
-      {children}
-    </label>
-  );
-}
-
-const inputCls =
-  "w-full border border-[#cdd8e8] bg-white px-4 py-3 text-sm text-[#3a6697] placeholder:text-[#94a3b8] focus:border-[#e97a52] focus:outline-none transition-colors";
-
 export default function ContactPage() {
-  const [formState, setFormState] = useState<FormState>("idle");
-  const [seekingFor, setSeekingFor] = useState<"Myself" | "A Loved One">("Myself");
-
-  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
-    e.preventDefault();
-    setFormState("submitting");
-    const fd = new FormData(e.currentTarget);
-    fd.set("seeking_for", seekingFor);
-
-    const firstName = fd.get("first_name") as string;
-    const lastName = fd.get("last_name") as string;
-    fd.set("name", `${firstName} ${lastName}`.trim());
-
-    try {
-      const res = await fetch("/api/contact", {
-        method: "POST",
-        body: JSON.stringify(Object.fromEntries(fd)),
-        headers: { "Content-Type": "application/json" },
-      });
-      setFormState(res.ok ? "success" : "error");
-    } catch {
-      setFormState("error");
-    }
-  }
-
   return (
     <div className="min-h-screen bg-white">
 
@@ -110,132 +70,16 @@ export default function ContactPage() {
         <div className="mx-auto max-w-7xl px-6 lg:px-10">
           <div className="grid gap-12 lg:grid-cols-[1fr_380px]">
 
-            {/* Form */}
+            {/* CTM FormReactor */}
             <div>
               <p className="mb-3 text-xs font-semibold uppercase tracking-[0.2em] text-[#e97a52]">Start Your Journey</p>
               <h2 className="font-heading text-3xl font-bold text-[#3a6697] mb-8">
                 Tell Us About Yourself
               </h2>
-
-              {formState === "success" ? (
-                <div className="border border-[#cdd8e8] bg-[#eef2f7] p-10 text-center">
-                  <i className="ri-checkbox-circle-line text-4xl text-[#e97a52]" />
-                  <h3 className="font-heading text-2xl font-bold text-[#3a6697] mt-4">Thank you — we&apos;ll be in touch shortly.</h3>
-                  <p className="mt-3 text-sm text-[#64748b] max-w-md mx-auto">
-                    One of our admissions specialists will reach out to you within 24 hours.
-                    For immediate help, call us at <a href="tel:8663110003" className="font-semibold text-[#e97a52]">(866) 311-0003</a>.
-                  </p>
-                </div>
-              ) : (
-                <form onSubmit={handleSubmit} className="space-y-6">
-
-                  {/* Seeking for */}
-                  <div>
-                    <Label>I Need Help For</Label>
-                    <div className="flex gap-0">
-                      {(["Myself", "A Loved One"] as const).map((opt) => (
-                        <button
-                          key={opt}
-                          type="button"
-                          onClick={() => setSeekingFor(opt)}
-                          className={`flex-1 py-3 text-sm font-semibold border transition-colors ${
-                            seekingFor === opt
-                              ? "bg-[#3a6697] text-white border-[#3a6697]"
-                              : "bg-white text-[#64748b] border-[#cdd8e8] hover:border-[#3a6697]"
-                          }`}
-                        >
-                          {opt}
-                        </button>
-                      ))}
-                    </div>
-                  </div>
-
-                  {/* Name row */}
-                  <div className="grid gap-4 sm:grid-cols-2">
-                    <div>
-                      <Label>First Name *</Label>
-                      <input name="first_name" required placeholder="First name" className={inputCls} />
-                    </div>
-                    <div>
-                      <Label>Last Name *</Label>
-                      <input name="last_name" required placeholder="Last name" className={inputCls} />
-                    </div>
-                  </div>
-
-                  {/* Contact row */}
-                  <div className="grid gap-4 sm:grid-cols-2">
-                    <div>
-                      <Label>Email Address *</Label>
-                      <input name="email" type="email" required placeholder="you@email.com" className={inputCls} />
-                    </div>
-                    <div>
-                      <Label>Phone Number</Label>
-                      <input name="phone" type="tel" placeholder="(000) 000-0000" className={inputCls} />
-                    </div>
-                  </div>
-
-                  {/* How heard */}
-                  <div>
-                    <Label>How Did You Hear About Us?</Label>
-                    <select name="how_heard" className={inputCls}>
-                      <option value="">Select one…</option>
-                      <option>Google Search</option>
-                      <option>Google Ads</option>
-                      <option>Facebook</option>
-                      <option>Instagram</option>
-                      <option>Referring Professional</option>
-                      <option>Friend or Family</option>
-                      <option>Other</option>
-                    </select>
-                  </div>
-
-                  {/* Paying with */}
-                  <div>
-                    <Label>Paying With</Label>
-                    <select name="paying_with" className={inputCls}>
-                      <option value="">Select one…</option>
-                      <option>Private Insurance &amp; Can Spend $10,000+</option>
-                      <option>No Private Insurance, But Can Spend $10,000+</option>
-                      <option>Have Private Insurance, But No Money to Spend</option>
-                      <option>Medicaid / Medicare &amp; No Money to Spend</option>
-                      <option>Unsure</option>
-                    </select>
-                  </div>
-
-                  {/* Message */}
-                  <div>
-                    <Label>Tell Us Your Story</Label>
-                    <textarea
-                      name="message"
-                      rows={5}
-                      placeholder="Share anything that will help us understand your situation and how we can best help you or your loved one…"
-                      className={`${inputCls} resize-none`}
-                    />
-                  </div>
-
-                  {formState === "error" && (
-                    <p className="text-sm text-red-600 font-medium">
-                      <AutoLinkedTextClient>{"Something went wrong. Please try again or call us at (866) 311-0003."}</AutoLinkedTextClient>
-                    </p>
-                  )}
-
-                  <button
-                    type="submit"
-                    disabled={formState === "submitting"}
-                    className="w-full bg-[#e97a52] py-4 text-sm font-semibold text-white transition hover:bg-[#f09068] disabled:opacity-60 disabled:cursor-not-allowed flex items-center justify-center gap-2"
-                  >
-                    {formState === "submitting" ? (
-                      <><i className="ri-loader-4-line animate-spin" /> Sending…</>
-                    ) : (
-                      <><i className="ri-send-plane-line" /> Send Message</>
-                    )}
-                  </button>
-
-                  <p className="text-xs text-[#94a3b8] text-center">
-                    <AutoLinkedTextClient>{"Your information is 100% confidential and never shared."}</AutoLinkedTextClient>
-                  </p>
-                </form>
-              )}
+              <CtmFormReactor height={520} title="Contact Northbound Treatment" />
+              <p className="mt-4 text-xs text-[#94a3b8] text-center">
+                <AutoLinkedTextClient>{"Your information is 100% confidential and never shared."}</AutoLinkedTextClient>
+              </p>
             </div>
 
             {/* Sidebar */}

@@ -90,7 +90,7 @@ export default function AlumniPage() {
   return (
     <>
       {/* ── Hero ──────────────────────────────────────────────── */}
-      <section className="relative min-h-[70vh] overflow-hidden">
+      <section className="relative min-h-[min(520px,calc(100dvh-9rem))] max-h-[680px] overflow-hidden">
         <Image
           src={HERO}
           alt="Northbound alumni celebrating together at an outdoor event in Southern California"
@@ -101,7 +101,7 @@ export default function AlumniPage() {
         <div className="absolute inset-0 bg-gradient-to-r from-navy/90 via-navy/70 to-transparent" />
         <div className="absolute inset-0 bg-gradient-to-t from-navy/60 via-transparent to-transparent" />
 
-        <div className={`${CONTAINER} relative z-10 flex min-h-[70vh] flex-col justify-center py-24`}>
+        <div className={`${CONTAINER} relative z-10 flex min-h-full flex-col justify-center py-12 lg:py-16`}>
           <nav className="mb-6 flex items-center gap-2 text-xs font-semibold text-white/50">
             <Link href="/" className="hover:text-white transition">Home</Link>
             <span>/</span>

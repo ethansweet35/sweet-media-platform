@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { heroContentPad } from "@/lib/heroSpacing";
 import Link from "next/link";
 import { AutoLinkedText } from "@sweetmedia/blog-core";
 
@@ -119,7 +120,7 @@ export default function MentalHealthHubPage() {
           />
           <div className="absolute inset-0 bg-gradient-to-r from-[#3a6697]/95 via-[#3a6697]/85 to-[#3a6697]/50" />
         </div>
-        <div className="relative z-10 mx-auto w-full max-w-7xl px-6 pb-16 pt-28 lg:px-10 lg:pb-20 lg:pt-36">
+        <div className={`relative z-10 mx-auto w-full max-w-7xl ${heroContentPad}`}>
           <div className="max-w-3xl">
             <p className="text-xs font-semibold uppercase tracking-[0.18em] text-[#e97a52]">
               <AutoLinkedText>{"Dual Diagnosis Treatment — Northbound Treatment Services"}</AutoLinkedText>

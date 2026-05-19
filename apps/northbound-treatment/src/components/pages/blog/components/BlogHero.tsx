@@ -1,5 +1,6 @@
 "use client";
 
+import { heroSectionPad } from "@/lib/heroSpacing";
 import { useState } from "react";
 import Link from "next/link";
 
@@ -12,7 +13,7 @@ export default function BlogHero({ searchQuery, onSearchChange }: BlogHeroProps)
   const [isFocused, setIsFocused] = useState(false);
 
   return (
-    <section className="relative overflow-hidden bg-[#3a6697] pt-28 pb-16 lg:pt-36 lg:pb-20">
+    <section className={`relative overflow-hidden bg-[#3a6697] ${heroSectionPad}`}>
       {/* Architectural corner accents */}
       <div className="pointer-events-none absolute left-8 top-8 h-16 w-16 border-l-2 border-t-2 border-white/10" />
       <div className="pointer-events-none absolute right-8 top-8 h-16 w-16 border-r-2 border-t-2 border-white/10" />

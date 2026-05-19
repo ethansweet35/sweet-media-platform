@@ -6,6 +6,7 @@
  * experience/feature grid → dark evidence strip → editorial split → related services → CTA.
  */
 import Image from "next/image";
+import { heroTopPad } from "@/lib/heroSpacing";
 import Link from "next/link";
 import CtaBanner from "@/views/shared/CtaBanner";
 import { AutoLinkedText } from "@sweetmedia/blog-core";
@@ -109,7 +110,7 @@ export default function SignaturePageTemplate({ data }: { data: SignaturePageDat
   return (
     <>
       {/* ══ 1. CINEMATIC HERO ══════════════════════════════════════════════ */}
-      <section className="relative flex min-h-[82vh] flex-col overflow-hidden">
+      <section className="relative flex min-h-[min(640px,calc(100dvh-7.5rem))] max-h-[780px] flex-col overflow-hidden">
         <div className="absolute inset-0">
           <Image
             src={data.heroImage}
@@ -124,7 +125,7 @@ export default function SignaturePageTemplate({ data }: { data: SignaturePageDat
         </div>
 
         {/* Eyebrow */}
-        <div className="relative z-10 pt-28 lg:pt-32">
+        <div className={`relative z-10 ${heroTopPad}`}>
           <div className="mx-auto w-full max-w-7xl px-6 lg:px-10">
             <p className="text-xs font-semibold uppercase tracking-[0.18em] text-terracotta">
               <AutoLinkedText>{"Signature Services — Northbound Treatment"}</AutoLinkedText>

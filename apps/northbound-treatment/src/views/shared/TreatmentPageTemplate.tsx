@@ -1,8 +1,10 @@
 "use client";
 
 import Image from "next/image";
+import { heroViewportSection } from "@/lib/heroSpacing";
 import Link from "next/link";
 import { useState } from "react";
+import CtmLeadFormCard from "@/components/feature/CtmLeadFormCard";
 import CtaBanner from "./CtaBanner";
 import { AutoLinkedTextClient } from "@sweetmedia/blog-core";
 
@@ -87,7 +89,7 @@ function TreatmentHero({ data }: { data: TreatmentPageData }) {
     : [data.programName];
 
   return (
-    <section className="relative flex min-h-[90vh] items-center overflow-hidden pb-20 pt-36 lg:pb-28 lg:pt-44">
+    <section className={heroViewportSection}>
       <Image src={data.heroImage} alt={data.heroImageAlt} fill priority className="object-cover object-center" sizes="100vw" />
       <div className="absolute inset-0 bg-gradient-to-r from-navy/95 via-navy/85 to-navy/50" />
       <div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-navy/70 to-transparent" />
@@ -148,76 +150,14 @@ function TreatmentHero({ data }: { data: TreatmentPageData }) {
               <span className="text-xs text-white/35">Available 24/7 · Confidential</span>
             </div>
           </div>
-
-          {/* Right: form card */}
+          {/* Right: CTM FormReactor */}
           <div className="relative">
-            <div className="relative overflow-hidden border border-white/10 bg-navy-light/60 p-6 shadow-2xl backdrop-blur-md lg:p-8">
-              <div className="absolute left-0 top-0 h-1 w-full bg-gradient-to-r from-terracotta via-navy to-espresso" />
-              <div className="relative z-10">
-                <div className="mb-5">
-                  <div className="mb-2 flex items-center gap-2">
-                    <div className="h-1.5 w-1.5 animate-pulse rounded-full bg-terracotta" />
-                    <span className="text-[9px] font-bold uppercase tracking-[0.22em] text-terracotta">Free · No Obligation · Confidential</span>
-                  </div>
-                  <h2 className="font-heading text-2xl font-bold text-white">Verify Your Coverage</h2>
-                  <p className="mt-1 text-xs text-white/50"><AutoLinkedTextClient>{"Fill out the form — we'll call you right away."}</AutoLinkedTextClient></p>
-                </div>
-
-                <form className="space-y-4">
-                  <div className="grid grid-cols-2 gap-4">
-                    <FloatingInput id="tx-first" label="First Name" type="text" placeholder="John" />
-                    <FloatingInput id="tx-last" label="Last Name" type="text" placeholder="Doe" />
-                  </div>
-                  <FloatingInput id="tx-phone" label="Phone Number" type="tel" placeholder="(555) 000-0000" />
-
-                  <SelectField label="Program Interest">
-                    <option className="bg-espresso">Drug or Alcohol Detox</option>
-                    <option className="bg-espresso">Residential Treatment</option>
-                    <option className="bg-espresso">Partial Hospitalization (PHP)</option>
-                    <option className="bg-espresso">Intensive Outpatient (IOP)</option>
-                    <option className="bg-espresso">Sober Living</option>
-                    <option className="bg-espresso">Just exploring options</option>
-                  </SelectField>
-
-                  <div className="flex items-center gap-3 pt-1">
-                    <div className="h-px flex-1 bg-white/10" />
-                    <span className="text-[9px] font-bold uppercase tracking-[0.2em] text-white/30">Insurance (optional)</span>
-                    <div className="h-px flex-1 bg-white/10" />
-                  </div>
-
-                  <SelectField label="Insurance Provider">
-                    <option className="bg-espresso">Aetna</option>
-                    <option className="bg-espresso">Anthem</option>
-                    <option className="bg-espresso">BlueCross BlueShield</option>
-                    <option className="bg-espresso">Cigna</option>
-                    <option className="bg-espresso">Health Net</option>
-                    <option className="bg-espresso">Magellan</option>
-                    <option className="bg-espresso">MHN Insurance</option>
-                    <option className="bg-espresso">Premera Blue Cross</option>
-                    <option className="bg-espresso">TriCare</option>
-                    <option className="bg-espresso">Other / Not Listed</option>
-                    <option className="bg-espresso">No insurance / self-pay</option>
-                  </SelectField>
-
-                  <FloatingInput id="tx-policy" label="Policy / Member ID" type="text" placeholder="Optional" />
-
-                  <button type="submit" className="group/btn w-full bg-terracotta py-3.5 text-xs font-bold uppercase tracking-[0.22em] text-white shadow-md transition hover:bg-terracotta-light">
-                    <span className="flex items-center justify-center gap-2">
-                      Get Free Assessment
-                      <i className="ri-arrow-right-s-line text-sm transition-transform duration-300 group-hover/btn:translate-x-1" />
-                    </span>
-                  </button>
-
-                  <div className="flex items-center justify-center gap-4 pt-1 text-[9px] uppercase tracking-[0.18em] text-white/35">
-                    <span className="flex items-center gap-1"><i className="ri-lock-line" />Confidential</span>
-                    <div className="h-3 w-px bg-white/20" />
-                    <span className="flex items-center gap-1"><i className="ri-shield-check-line" />HIPAA Secure</span>
-                    <div className="h-3 w-px bg-white/20" />
-                    <span className="flex items-center gap-1"><i className="ri-time-line" />Instant Response</span>
-                  </div>
-                </form>
-              </div>
-            </div>
+            <CtmLeadFormCard
+              eyebrow="Free · No Obligation · Confidential"
+              title="Verify Your Coverage"
+              subtitle="Fill out the form — we'll call you right away."
+              height={460}
+            />
           </div>
         </div>
       </div>
@@ -509,29 +449,3 @@ export default function TreatmentPageTemplate({ data }: { data: TreatmentPageDat
 
 /* ─── Sub-components ─────────────────────────────────────────── */
 
-function FloatingInput({ id, label, type, placeholder }: { id: string; label: string; type: string; placeholder: string }) {
-  return (
-    <div className="relative">
-      <input type={type} id={id} placeholder={placeholder}
-        className="peer w-full border-b border-white/20 bg-transparent px-0 pb-2 pt-4 text-sm text-white transition-all placeholder:text-transparent focus:border-terracotta focus:outline-none" />
-      <label htmlFor={id}
-        className="absolute left-0 top-4 text-xs font-semibold text-white/40 transition-all duration-200 peer-focus:top-0 peer-focus:text-[9px] peer-focus:text-terracotta peer-[:not(:placeholder-shown)]:top-0 peer-[:not(:placeholder-shown)]:text-[9px] peer-[:not(:placeholder-shown)]:text-white/60">
-        {label}
-      </label>
-    </div>
-  );
-}
-
-function SelectField({ label, children }: { label: string; children: React.ReactNode }) {
-  return (
-    <div className="relative">
-      <select className="w-full cursor-pointer appearance-none border-b border-white/20 bg-transparent px-0 py-3 text-xs text-white/70 transition-all focus:border-terracotta focus:outline-none">
-        <option value="" className="bg-espresso">{label}</option>
-        {children}
-      </select>
-      <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center text-white/30">
-        <i className="ri-arrow-down-s-line text-base" />
-      </div>
-    </div>
-  );
-}

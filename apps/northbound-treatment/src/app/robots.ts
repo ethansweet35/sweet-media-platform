@@ -7,17 +7,8 @@ export default function robots(): MetadataRoute.Robots {
     rules: [
       {
         userAgent: "*",
-        allow: [
-          "/",
-          "/about",
-          "/what-we-treat",
-          "/virtual-outpatient",
-          "/therapy",
-          "/admissions",
-          "/contact",
-          "/resources",
-          "/locations",
-        ],
+        allow: "/",
+        disallow: ["/admin/", "/api/"],
       },
     ],
     sitemap: `${SITE_URL}/sitemap.xml`,
