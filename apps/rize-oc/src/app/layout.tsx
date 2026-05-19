@@ -9,6 +9,13 @@ import { AnalyticsWrapper } from "@sweetmedia/admin-core";
 const REMIXICON_CSS =
   "https://cdn.jsdelivr.net/npm/remixicon@4.6.0/fonts/remixicon.css";
 
+/**
+ * CallRail dynamic number swap. Target source number on the site: (949) 461-2620.
+ * Do not change the URL without coordinating with Rize OC's CallRail account.
+ */
+const CALLRAIL_SWAP_SRC =
+  "https://cdn.callrail.com/companies/528779673/f50c97607bfc1eea98c2/12/swap.js";
+
 const cormorant = Cormorant_Garamond({
   variable: "--font-cormorant",
   subsets: ["latin"],
@@ -76,6 +83,12 @@ export default function RootLayout({
         <noscript>
           <link rel="stylesheet" href={REMIXICON_CSS} crossOrigin="anonymous" />
         </noscript>
+        <Script
+          id="callrail-swap"
+          src={CALLRAIL_SWAP_SRC}
+          strategy="afterInteractive"
+          async
+        />
       </head>
       <body className={`${cormorant.variable} ${montserrat.variable} antialiased`}>
         <Layout>{children}</Layout>
