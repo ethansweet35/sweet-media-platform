@@ -11,10 +11,10 @@ import { AutoLinkedTextClient } from "@sweetmedia/blog-core";
 const BASE = "https://ahufsygjwpbymomfdazb.supabase.co/storage/v1/object/public/site-assets/images";
 
 const IMAGES = {
-  hero: `${BASE}/nbt_nb_hero01.jpg`,
-  interior: `${BASE}/nbt_nb_interior01.jpg`,
-  beach: `${BASE}/nbt_nb_beach01.jpg`,
-  garden: `${BASE}/nbt_nb_garden01.jpg`,
+  hero: `${BASE}/facility/newport/1.webp`,
+  interior: `${BASE}/facility/newport/4.webp`,
+  beach: `${BASE}/facility/newport/7.webp`,
+  garden: `${BASE}/facility/newport/9.webp`,
 };
 
 const programs = [

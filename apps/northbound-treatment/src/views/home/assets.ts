@@ -90,27 +90,27 @@ export const LOCATION_IMAGES = {
 } as const;
 
 export const NEWPORT_BEACH_IMAGES = {
-  hero: `${SUPABASE_BASE}/images/nbt_nb_hero01.jpg`,
-  interior: `${SUPABASE_BASE}/images/nbt_nb_interior01.jpg`,
-  beach: `${SUPABASE_BASE}/images/nbt_nb_beach01.jpg`,
-  garden: `${SUPABASE_BASE}/images/nbt_nb_garden01.jpg`,
+  hero: `${SUPABASE_BASE}/images/facility/newport/1.webp`,
+  interior: `${SUPABASE_BASE}/images/facility/newport/4.webp`,
+  beach: `${SUPABASE_BASE}/images/facility/newport/7.webp`,
+  garden: `${SUPABASE_BASE}/images/facility/newport/9.webp`,
 } as const;
 
 export const SAN_DIEGO_IMAGES = {
-  hero: `${SUPABASE_BASE}/images/nbt_sd_hero01.jpg`,
-  office: `${SUPABASE_BASE}/images/nbt_sd_office01.jpg`,
-  group: `${SUPABASE_BASE}/images/nbt_sd_group01.jpg`,
+  hero: `${SUPABASE_BASE}/images/facility/sandiego/1.webp`,
+  office: `${SUPABASE_BASE}/images/facility/sandiego/3.webp`,
+  group: `${SUPABASE_BASE}/images/facility/sandiego/6.webp`,
 } as const;
 
 export const SEATTLE_IMAGES = {
-  hero: `${SUPABASE_BASE}/images/nbt_sea_hero01.jpg`,
-  neighborhood: `${SUPABASE_BASE}/images/nbt_sea_neighborhood01.jpg`,
-  nature: `${SUPABASE_BASE}/images/nbt_sea_nature01.jpg`,
+  hero: `${SUPABASE_BASE}/images/facility/seattle/1.webp`,
+  neighborhood: `${SUPABASE_BASE}/images/facility/seattle/3.webp`,
+  nature: `${SUPABASE_BASE}/images/facility/seattle/5.webp`,
 } as const;
 
 export const GARDEN_GROVE_IMAGES = {
-  exterior: `${SUPABASE_BASE}/images/nbt_gg_exterior01.jpg`,
-  interior: `${SUPABASE_BASE}/images/nbt_gg_interior01.jpg`,
-  activities: `${SUPABASE_BASE}/images/nbt_gg_activities01_v2.jpg`,
-  community: `${SUPABASE_BASE}/images/nbt_gg_community01.jpg`,
+  exterior: `${SUPABASE_BASE}/images/facility/grove/1.webp`,
+  interior: `${SUPABASE_BASE}/images/facility/grove/4.webp`,
+  activities: `${SUPABASE_BASE}/images/facility/grove/8.webp`,
+  community: `${SUPABASE_BASE}/images/facility/grove/12.webp`,
 } as const;

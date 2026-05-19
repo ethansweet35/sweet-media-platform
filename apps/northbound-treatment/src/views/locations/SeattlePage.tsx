@@ -11,9 +11,9 @@ import { AutoLinkedTextClient } from "@sweetmedia/blog-core";
 const BASE = "https://ahufsygjwpbymomfdazb.supabase.co/storage/v1/object/public/site-assets/images";
 
 const IMAGES = {
-  hero: `${BASE}/nbt_sea_hero01.jpg`,
-  neighborhood: `${BASE}/nbt_sea_neighborhood01.jpg`,
-  nature: `${BASE}/nbt_sea_nature01.jpg`,
+  hero: `${BASE}/facility/seattle/1.webp`,
+  neighborhood: `${BASE}/facility/seattle/3.webp`,
+  nature: `${BASE}/facility/seattle/5.webp`,
 };
 
 const services = [
