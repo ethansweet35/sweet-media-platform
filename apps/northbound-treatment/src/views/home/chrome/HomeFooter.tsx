@@ -123,7 +123,15 @@ export default function HomeFooter() {
               disclaimer applies.
             </p>
           </div>
-          <p>&copy; 2026 Northbound Addiction Treatment.</p>
+          <div className="flex flex-col items-center gap-2 md:items-end">
+            <p>&copy; 2026 Northbound Addiction Treatment.</p>
+            <a
+              href="/privacy-policy/"
+              className="underline underline-offset-4 transition-colors hover:text-white/70"
+            >
+              Privacy Policy
+            </a>
+          </div>
         </div>
       </div>
     </footer>
