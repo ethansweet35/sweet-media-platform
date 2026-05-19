@@ -102,6 +102,27 @@ async function getOAuthAccessToken(refreshToken: string): Promise<string> {
   return access_token;
 }
 
+// ─── URL helpers ─────────────────────────────────────────────────────────────
+
+/**
+ * Build www / non-www variants of a page URL so we can try both when filtering.
+ * GSC may store pages under either form depending on the verified property type.
+ */
+export function buildPageUrlVariants(pageUrl: string): string[] {
+  const variants = new Set<string>([pageUrl]);
+  try {
+    const u = new URL(pageUrl);
+    if (u.hostname.startsWith("www.")) {
+      variants.add(`${u.protocol}//${u.hostname.slice(4)}${u.pathname}${u.search}${u.hash}`);
+    } else {
+      variants.add(`${u.protocol}//www.${u.hostname}${u.pathname}${u.search}${u.hash}`);
+    }
+  } catch {
+    // not a valid URL — return as-is
+  }
+  return Array.from(variants);
+}
+
 // ─── Site URL resolution ──────────────────────────────────────────────────────
 
 export function buildSiteCandidates(siteUrl: string): string[] {
@@ -251,6 +272,10 @@ export async function queryGscByPage(
  * Fetch all queries (keywords) a specific page is receiving impressions for.
  * Dimensions: ["query"], filtered by exact page URL.
  *
+ * Tries every combination of site property candidate × page URL variant
+ * (www / non-www) so results are found regardless of how the property is
+ * verified in Search Console or which canonical the site uses.
+ *
  * @param accessToken  Google access token
  * @param siteUrl      Verified site URL (e.g. "https://example.com")
  * @param pageUrl      Full URL of the page to look up (e.g. "https://example.com/about")
@@ -266,53 +291,62 @@ export async function queryGscPageKeywords(
   endDate: string,
   rowLimit = 1000,
 ): Promise<GscQueryRow[] | null> {
-  const candidates = buildSiteCandidates(siteUrl);
+  const siteCandidates = buildSiteCandidates(siteUrl);
+  const pageVariants = buildPageUrlVariants(pageUrl);
 
-  for (const candidate of candidates) {
-    const res = await fetch(
-      `https://searchconsole.googleapis.com/webmasters/v3/sites/${encodeURIComponent(candidate)}/searchAnalytics/query`,
-      {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-          "Content-Type": "application/json",
+  for (const candidate of siteCandidates) {
+    for (const page of pageVariants) {
+      const res = await fetch(
+        `https://searchconsole.googleapis.com/webmasters/v3/sites/${encodeURIComponent(candidate)}/searchAnalytics/query`,
+        {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            startDate,
+            endDate,
+            dimensions: ["query"],
+            dimensionFilterGroups: [
+              {
+                filters: [
+                  {
+                    dimension: "page",
+                    operator: "equals",
+                    expression: page,
+                  },
+                ],
+              },
+            ],
+            rowLimit,
+            orderBy: [{ fieldName: "impressions", sortOrder: "DESCENDING" }],
+            dataState: "final",
+          }),
         },
-        body: JSON.stringify({
-          startDate,
-          endDate,
-          dimensions: ["query"],
-          dimensionFilterGroups: [
-            {
-              filters: [
-                {
-                  dimension: "page",
-                  operator: "equals",
-                  expression: pageUrl,
-                },
-              ],
-            },
-          ],
-          rowLimit,
-          orderBy: [{ fieldName: "impressions", sortOrder: "DESCENDING" }],
-          dataState: "final",
-        }),
-      },
-    );
+      );
 
-    if (!res.ok) continue;
+      if (!res.ok) continue;
 
-    const json = (await res.json()) as {
-      rows?: { keys: string[]; clicks: number; impressions: number; ctr: number; position: number }[];
-    };
+      const json = (await res.json()) as {
+        rows?: { keys: string[]; clicks: number; impressions: number; ctr: number; position: number }[];
+      };
 
-    return (json.rows ?? []).map((r) => ({
-      query: r.keys[0] ?? "",
-      clicks: r.clicks,
-      impressions: r.impressions,
-      ctr: r.ctr,
-      position: r.position,
-    }));
+      const rows = (json.rows ?? []).map((r) => ({
+        query: r.keys[0] ?? "",
+        clicks: r.clicks,
+        impressions: r.impressions,
+        ctr: r.ctr,
+        position: r.position,
+      }));
+
+      // Return the first attempt that actually has data.
+      // If a candidate/variant pair responded OK but returned 0 rows,
+      // keep trying — another variant may hold the data.
+      if (rows.length > 0) return rows;
+    }
   }
 
-  return null;
+  // All candidates returned 0 rows (not an error — page genuinely has no data).
+  return [];
 }

@@ -10,6 +10,7 @@ export {
   queryGscByPage,
   queryGscPageKeywords,
   buildSiteCandidates,
+  buildPageUrlVariants,
   type GscAuthResult,
   type GscPageRow,
   type GscQueryRow,

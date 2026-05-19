@@ -74,6 +74,7 @@ export async function GET(request: Request) {
       { status: 502 },
     );
   }
+  // rows === [] means the property responded but no data for this page/date range
 
   cache.set(cacheKey, { rows, fetchedAt: Date.now() });
 
