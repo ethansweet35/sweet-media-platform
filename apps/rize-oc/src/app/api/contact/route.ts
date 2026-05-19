@@ -93,18 +93,18 @@ export async function POST(req: NextRequest) {
     fields = await req.json().catch(() => ({}));
   }
 
-  if (!fields.email) {
-    return NextResponse.json({ error: 'Email is required.' }, { status: 400 });
+  if (!fields.email && !fields.phone && !fields.name) {
+    return NextResponse.json({ error: 'At least one contact field is required.' }, { status: 400 });
   }
 
-  const replyTo = fields.name
-    ? `${fields.name} <${fields.email}>`
-    : fields.email;
+  const replyTo = fields.email
+    ? (fields.name ? `${fields.name} <${fields.email}>` : fields.email)
+    : undefined;
 
   const { error } = await resend.emails.send({
     from: FROM,
     to: [TO],
-    replyTo,
+    ...(replyTo ? { replyTo } : {}),
     subject: SUBJECT,
     html: buildHtml(fields),
     text: buildText(fields),
