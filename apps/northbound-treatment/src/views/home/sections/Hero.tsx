@@ -173,7 +173,7 @@ export default function Hero() {
               eyebrow="Available 24/7"
               title="Start Your Recovery"
               subtitle="Fill out the form and we'll call you immediately."
-              height={500}
+              height={400}
             />
           </div>
         </div>
