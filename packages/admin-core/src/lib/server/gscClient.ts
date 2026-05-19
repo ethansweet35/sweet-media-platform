@@ -294,6 +294,8 @@ export async function queryGscPageKeywords(
   const siteCandidates = buildSiteCandidates(siteUrl);
   const pageVariants = buildPageUrlVariants(pageUrl);
 
+  let anySucceeded = false;
+
   for (const candidate of siteCandidates) {
     for (const page of pageVariants) {
       const res = await fetch(
@@ -320,13 +322,13 @@ export async function queryGscPageKeywords(
               },
             ],
             rowLimit,
-            orderBy: [{ fieldName: "impressions", sortOrder: "DESCENDING" }],
             dataState: "final",
           }),
         },
       );
 
       if (!res.ok) continue;
+      anySucceeded = true;
 
       const json = (await res.json()) as {
         rows?: { keys: string[]; clicks: number; impressions: number; ctr: number; position: number }[];
@@ -340,13 +342,13 @@ export async function queryGscPageKeywords(
         position: r.position,
       }));
 
-      // Return the first attempt that actually has data.
-      // If a candidate/variant pair responded OK but returned 0 rows,
-      // keep trying — another variant may hold the data.
+      // Return first combination that yields actual rows.
+      // If a candidate+variant pair responded 200 but had 0 rows,
+      // keep trying — another URL variant may hold the data.
       if (rows.length > 0) return rows;
     }
   }
 
-  // All candidates returned 0 rows (not an error — page genuinely has no data).
-  return [];
+  // Distinguish "API responded but page has no data" from "every request failed".
+  return anySucceeded ? [] : null;
 }
