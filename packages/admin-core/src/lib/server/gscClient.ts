@@ -270,11 +270,19 @@ export async function queryGscByPage(
 
 /**
  * Fetch all queries (keywords) a specific page is receiving impressions for.
- * Dimensions: ["query"], filtered by exact page URL.
  *
- * Tries every combination of site property candidate × page URL variant
- * (www / non-www) so results are found regardless of how the property is
- * verified in Search Console or which canonical the site uses.
+ * Two-step approach to guarantee URL accuracy:
+ *
+ *   Step 1 — Discover canonical URL:
+ *     Fetch all pages from GSC (same call the existing working route makes).
+ *     Find which exact URL in the response matches our target page
+ *     (handles www/non-www, trailing slash, and any other URL variation).
+ *
+ *   Step 2 — Query keywords:
+ *     Filter by that exact canonical URL to get the queries for that page.
+ *
+ * This mirrors what the working page-level route does and is therefore
+ * guaranteed to use the same URL format GSC actually stores.
  *
  * @param accessToken  Google access token
  * @param siteUrl      Verified site URL (e.g. "https://example.com")
@@ -294,61 +302,93 @@ export async function queryGscPageKeywords(
   const siteCandidates = buildSiteCandidates(siteUrl);
   const pageVariants = buildPageUrlVariants(pageUrl);
 
-  let anySucceeded = false;
-
-  for (const candidate of siteCandidates) {
-    for (const page of pageVariants) {
-      const res = await fetch(
-        `https://searchconsole.googleapis.com/webmasters/v3/sites/${encodeURIComponent(candidate)}/searchAnalytics/query`,
-        {
-          method: "POST",
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            startDate,
-            endDate,
-            dimensions: ["query"],
-            dimensionFilterGroups: [
-              {
-                filters: [
-                  {
-                    dimension: "page",
-                    operator: "equals",
-                    expression: page,
-                  },
-                ],
-              },
-            ],
-            rowLimit,
-            dataState: "final",
-          }),
-        },
-      );
-
-      if (!res.ok) continue;
-      anySucceeded = true;
-
-      const json = (await res.json()) as {
-        rows?: { keys: string[]; clicks: number; impressions: number; ctr: number; position: number }[];
-      };
-
-      const rows = (json.rows ?? []).map((r) => ({
-        query: r.keys[0] ?? "",
-        clicks: r.clicks,
-        impressions: r.impressions,
-        ctr: r.ctr,
-        position: r.position,
-      }));
-
-      // Return first combination that yields actual rows.
-      // If a candidate+variant pair responded 200 but had 0 rows,
-      // keep trying — another URL variant may hold the data.
-      if (rows.length > 0) return rows;
-    }
+  // Extract just the pathname for loose matching (resilient to scheme/host differences).
+  let targetPath: string;
+  try {
+    targetPath = new URL(pageUrl).pathname.replace(/\/$/, "").toLowerCase();
+  } catch {
+    targetPath = pageUrl.toLowerCase();
   }
 
-  // Distinguish "API responded but page has no data" from "every request failed".
-  return anySucceeded ? [] : null;
+  // ── Step 1: Find the working site candidate + exact canonical URL ───────────
+  let workingCandidate: string | null = null;
+  let canonicalUrl: string | null = null;
+
+  for (const candidate of siteCandidates) {
+    const res = await fetch(
+      `https://searchconsole.googleapis.com/webmasters/v3/sites/${encodeURIComponent(candidate)}/searchAnalytics/query`,
+      {
+        method: "POST",
+        headers: { Authorization: `Bearer ${accessToken}`, "Content-Type": "application/json" },
+        body: JSON.stringify({
+          startDate,
+          endDate,
+          dimensions: ["page"],
+          rowLimit: 25000,
+          dataState: "final",
+        }),
+      },
+    );
+
+    if (!res.ok) continue;
+
+    const json = (await res.json()) as {
+      rows?: { keys: string[] }[];
+    };
+    const pages = (json.rows ?? []).map((r) => r.keys[0] ?? "");
+
+    // Priority 1: exact match against known URL variants
+    for (const variant of pageVariants) {
+      const exact = pages.find((p) => p === variant || p === `${variant}/`);
+      if (exact) { canonicalUrl = exact; workingCandidate = candidate; break; }
+    }
+
+    // Priority 2: pathname-only match (handles any scheme/host difference)
+    if (!canonicalUrl) {
+      const byPath = pages.find((p) => {
+        try {
+          return new URL(p).pathname.replace(/\/$/, "").toLowerCase() === targetPath;
+        } catch { return false; }
+      });
+      if (byPath) { canonicalUrl = byPath; workingCandidate = candidate; }
+    }
+
+    if (canonicalUrl) break;
+  }
+
+  // Page has no impressions in GSC at all.
+  if (!canonicalUrl || !workingCandidate) return [];
+
+  // ── Step 2: Query keywords using the exact canonical URL ────────────────────
+  const res = await fetch(
+    `https://searchconsole.googleapis.com/webmasters/v3/sites/${encodeURIComponent(workingCandidate)}/searchAnalytics/query`,
+    {
+      method: "POST",
+      headers: { Authorization: `Bearer ${accessToken}`, "Content-Type": "application/json" },
+      body: JSON.stringify({
+        startDate,
+        endDate,
+        dimensions: ["query"],
+        dimensionFilterGroups: [
+          { filters: [{ dimension: "page", operator: "equals", expression: canonicalUrl }] },
+        ],
+        rowLimit,
+        dataState: "final",
+      }),
+    },
+  );
+
+  if (!res.ok) return null;
+
+  const json = (await res.json()) as {
+    rows?: { keys: string[]; clicks: number; impressions: number; ctr: number; position: number }[];
+  };
+
+  return (json.rows ?? []).map((r) => ({
+    query: r.keys[0] ?? "",
+    clicks: r.clicks,
+    impressions: r.impressions,
+    ctr: r.ctr,
+    position: r.position,
+  }));
 }

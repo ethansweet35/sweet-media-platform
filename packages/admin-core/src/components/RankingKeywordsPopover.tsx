@@ -35,6 +35,10 @@ interface CacheEntry {
 }
 
 const queryCache = new Map<string, CacheEntry>();
+// Re-fetch after 30 min, or immediately if the cached result was empty
+// (so a stale "no data" result from before a fix doesn't persist forever).
+const CACHE_TTL_MS = 30 * 60 * 1000;
+const EMPTY_CACHE_TTL_MS = 5 * 60 * 1000;
 
 function positionBadgeClass(pos: number): string {
   if (pos <= 3) return "bg-emerald-50 text-emerald-700";
@@ -67,9 +71,14 @@ export default function RankingKeywordsPopover({
   const fetchKeywords = useCallback(async () => {
     const cached = queryCache.get(pageUrl);
     if (cached) {
-      setRows(cached.rows);
-      setStatus(cached.rows.length === 0 ? "none" : "done");
-      return;
+      const ttl = cached.rows.length === 0 ? EMPTY_CACHE_TTL_MS : CACHE_TTL_MS;
+      if (Date.now() - cached.fetchedAt < ttl) {
+        setRows(cached.rows);
+        setStatus(cached.rows.length === 0 ? "none" : "done");
+        return;
+      }
+      // Stale — fall through to re-fetch
+      queryCache.delete(pageUrl);
     }
     setStatus("loading");
     try {
