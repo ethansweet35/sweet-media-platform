@@ -111,6 +111,6 @@ export const SEATTLE_IMAGES = {
 export const GARDEN_GROVE_IMAGES = {
   exterior: `${SUPABASE_BASE}/images/nbt_gg_exterior01.jpg`,
   interior: `${SUPABASE_BASE}/images/nbt_gg_interior01.jpg`,
-  activities: `${SUPABASE_BASE}/images/nbt_gg_activities01.jpg`,
+  activities: `${SUPABASE_BASE}/images/nbt_gg_activities01_v2.jpg`,
   community: `${SUPABASE_BASE}/images/nbt_gg_community01.jpg`,
 } as const;
