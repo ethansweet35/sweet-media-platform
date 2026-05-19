@@ -1,0 +1,159 @@
+# New Laptop Setup — Sweet Media Platform
+
+**This rule exists to help the AI assistant onboard Ethan to a new machine.**
+Once setup is complete, this file can be deleted.
+
+---
+
+## Context
+
+Ethan switched to a new laptop. The full codebase is on GitHub. All secret env files were backed up to `~/Desktop/sweetmedia-env-backup.tar.gz` from the old machine and should be transferred to the new one.
+
+---
+
+## Step 1 — Install System Dependencies
+
+Run these in order:
+
+```bash
+# Homebrew (if not installed)
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+
+# Node version manager
+brew install nvm
+# Then follow the shell config instructions nvm prints (add to ~/.zshrc)
+nvm install --lts
+nvm use --lts
+
+# pnpm — must match monorepo version
+npm install -g pnpm@10.33.2
+
+# Supabase CLI
+brew install supabase/tap/supabase
+
+# Vercel CLI
+pnpm install -g vercel
+
+# GitHub CLI
+brew install gh
+gh auth login
+```
+
+---
+
+## Step 2 — Clone the Repo
+
+```bash
+git clone https://github.com/ethansweet35/sweet-media-platform.git
+cd sweet-media-platform
+```
+
+---
+
+## Step 3 — Restore Env Files
+
+Copy `sweetmedia-env-backup.tar.gz` from the old machine (Desktop) to the new machine, then:
+
+```bash
+cd /path/to/sweet-media-platform
+tar -xzf ~/Desktop/sweetmedia-env-backup.tar.gz
+```
+
+This restores:
+- `.env` (root — all shared platform secrets)
+- `apps/addiction-interventions/.env.local`
+- `apps/cipher-billing/.env.local`
+- `apps/inner-peak-colorado/.env.local`
+- `apps/mountainview-treatment/.env.local`
+- `apps/northbound-treatment/.env.local`
+- `apps/rize-oc/.env.local`
+- `apps/simple-health/.env.local`
+- `apps/sweet-media/.env.local`
+- `scripts/migrate-wp-media.mjs` (untracked script)
+- `wp-media-migration-progress.json` (untracked migration progress)
+
+If the tarball is not available, use `vercel env pull .env.local` inside each app directory as a fallback for the per-app files. The root `.env` would need to be rebuilt from 1Password.
+
+---
+
+## Step 4 — Install Dependencies
+
+```bash
+# From repo root
+pnpm install
+```
+
+---
+
+## Step 5 — Verify CLI Auth
+
+```bash
+# Supabase
+supabase login
+# (uses SUPABASE_ACCESS_TOKEN from .env — or login via browser)
+
+# Vercel
+vercel whoami
+# (uses VERCEL_TOKEN from .env — or run: vercel login)
+
+# GitHub
+gh auth status
+```
+
+---
+
+## Step 6 — Verify Dev Server
+
+```bash
+pnpm dev
+# Should start all apps except client-template (filtered out by root turbo config)
+```
+
+---
+
+## Root `.env` Keys Reference
+
+The root `.env` (not committed to git) contains these keys — all should be restored from the tarball or 1Password:
+
+- `SUPABASE_ACCESS_TOKEN` — Supabase management API / CLI auth
+- `OPENROUTER_API_KEY` — Blog AI generation, Content Editor
+- `OPENAI_API_KEY` — Image generation (DALL-E), blog fallback
+- `GOOGLE_INDEXING_CLIENT_EMAIL` — Google Indexing API service account
+- `GOOGLE_INDEXING_PRIVATE_KEY` — Google Indexing API private key
+- `GOOGLE_NLP_API_KEY` — Content Editor entity extraction
+- `GOOGLE_OAUTH_CLIENT_ID` / `GOOGLE_OAUTH_CLIENT_SECRET` — OAuth
+- `DATAFORSEO_LOGIN` / `DATAFORSEO_PASSWORD` — SERP data for Content Editor
+- `FIRECRAWL_API_KEY` — Competitor page scraping
+- `SEMRUSH_API_KEY` — Keyword research
+- `BLOG_WEBHOOK_SECRET` — blog-webhook Edge Function auth
+- `VERCEL_TOKEN` — Vercel CLI / publish-client-to-vercel.mjs script
+- `GITHUB_REPO` — used by setup scripts
+
+---
+
+## Per-App `.env.local` Keys Reference
+
+Each app's `.env.local` contains:
+
+**Public vars** (Supabase connection):
+- `NEXT_PUBLIC_SUPABASE_URL`
+- `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY`
+- `NEXT_PUBLIC_SUPABASE_ANON_KEY`
+- `NEXT_PUBLIC_SITE_ID`
+- `NEXT_PUBLIC_SITE_URL`
+
+**Secret vars** (per-brand):
+- `SUPABASE_SERVICE_ROLE_KEY`
+- `RESEND_API_KEY`
+- `CONTACT_TO_EMAIL`, `CONTACT_FROM_EMAIL`, `CONTACT_BRAND_NAME`
+
+**Shared platform secrets** (same values as root `.env`):
+- `OPENROUTER_API_KEY`, `OPENAI_API_KEY`, `SEMRUSH_API_KEY`
+- `DATAFORSEO_LOGIN`, `DATAFORSEO_PASSWORD`
+- `FIRECRAWL_API_KEY`, `GOOGLE_NLP_API_KEY`
+
+---
+
+## After Setup Is Complete
+
+Delete this file: `.cursor/rules/new-laptop-setup.mdc`
