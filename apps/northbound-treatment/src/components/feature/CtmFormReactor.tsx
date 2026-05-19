@@ -16,21 +16,17 @@ export default function CtmFormReactor({
   title = "Northbound Treatment — contact form",
 }: CtmFormReactorProps) {
   return (
-    /**
-     * Wrapper caps the visible height so CTM's formreactor.js resizing the
-     * iframe element doesn't cause the card to grow inconsistently on each
-     * visit. The iframe can grow inside but the container stays fixed.
+    /*
+     * Note: intentionally omitting the "ctm-call-widget" class.
+     * formreactor.js queries for that class and directly sets
+     * iframe.style.height, causing the card to stretch inconsistently.
+     * The form still submits and tracks correctly via the iframe src.
      */
-    <div
-      className="w-full overflow-hidden"
+    <iframe
+      className={`w-full border-none ${className}`.trim()}
+      src={CTM_FORM_REACTOR_IFRAME_SRC}
       style={{ height: `${height}px` }}
-    >
-      <iframe
-        className={`ctm-call-widget w-full border-none ${className}`.trim()}
-        src={CTM_FORM_REACTOR_IFRAME_SRC}
-        style={{ height: `${height}px`, minHeight: `${height}px` }}
-        title={title}
-      />
-    </div>
+      title={title}
+    />
   );
 }
