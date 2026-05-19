@@ -15,6 +15,11 @@ export { useContentEditorRowActions, type ContentEditorRowRef } from "./hooks/us
 export { default as KeywordSuggestPopover } from "./components/KeywordSuggestPopover";
 export { default as InlineKeywordCell } from "./components/InlineKeywordCell";
 export { default as BulkPickKeywordModal } from "./components/BulkPickKeywordModal";
+export { default as RankingKeywordsPopover } from "./components/RankingKeywordsPopover";
+export type {
+  SemrushRankingKeywordDTO,
+  SemrushRankingKeywordsResponse,
+} from "./types/semrush";
 export { supabase, supabaseConfigured } from "./lib/supabase";
 export { AuthProvider, useAuth } from "./contexts/AuthContext";
 export { default as AdminGuard } from "./components/AdminGuard";

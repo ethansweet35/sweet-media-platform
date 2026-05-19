@@ -339,6 +339,72 @@ export async function getKeywordSuggestions(
 }
 
 // =========================================================
+// URL-level ranking keywords
+// =========================================================
+
+/** A single keyword that a given URL ranks for organically. */
+export interface SemrushRankingKeyword {
+  /** Keyword phrase. */
+  phrase: string;
+  /** Current organic position (1-based). */
+  position: number;
+  /** Monthly search volume. */
+  searchVolume: number;
+  /** Keyword difficulty (0–100). */
+  difficulty: number;
+  /** CPC in USD. */
+  cpc: number;
+  /** Estimated organic traffic share (%). */
+  trafficPercent: number;
+}
+
+/**
+ * Fetch all organic keywords a specific URL currently ranks for.
+ *
+ * Endpoint: type=url_organic · cost ≈ 10 API units per 10 rows returned.
+ * Results sorted by traffic share (highest impact first).
+ *
+ * @param url  Full URL to look up (e.g. "https://example.com/about").
+ * @param opts Optional limit (default 50, max 100) and database override.
+ */
+export async function getUrlRankingKeywords(
+  url: string,
+  opts?: { displayLimit?: number; database?: string },
+): Promise<SemrushRankingKeyword[]> {
+  const { apiKey, database } = getSemrushEnv();
+  const cleanUrl = url.trim();
+  if (!cleanUrl) {
+    throw new SemrushApiError("url is required", 400, null);
+  }
+
+  const limit = Math.max(1, Math.min(100, opts?.displayLimit ?? 50));
+
+  // Column order MUST match positional parsing below: Ph, Po, Nq, Kd, Cp, Tr
+  const body = await semrushFetch({
+    type: "url_organic",
+    key: apiKey,
+    url: cleanUrl,
+    database: opts?.database ?? database,
+    display_limit: limit,
+    display_sort: "tr_desc",
+    export_columns: "Ph,Po,Nq,Kd,Cp,Tr",
+    export_decode: 1,
+  });
+
+  const rows = parseSemrushRows(body);
+  return rows
+    .map(([ph, po, nq, kd, cp, tr]) => ({
+      phrase: ph ?? "",
+      position: toNumber(po),
+      searchVolume: toNumber(nq),
+      difficulty: toNumber(kd),
+      cpc: toNumber(cp),
+      trafficPercent: toNumber(tr),
+    }))
+    .filter((r) => r.phrase.length > 0);
+}
+
+// =========================================================
 // Auto-pick best-fit keyword for a row
 // =========================================================
 

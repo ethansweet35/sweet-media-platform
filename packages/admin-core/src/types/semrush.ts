@@ -44,6 +44,24 @@ export interface SemrushSuggestionsResponse {
   error?: string;
 }
 
+/** A keyword that a URL is actively ranking for (from url_organic). */
+export interface SemrushRankingKeywordDTO {
+  phrase: string;
+  position: number;
+  searchVolume: number;
+  difficulty: number;
+  cpc: number;
+  trafficPercent: number;
+}
+
+/** Response payload of `/api/admin/semrush/ranking-keywords`. */
+export interface SemrushRankingKeywordsResponse {
+  ok: boolean;
+  url: string;
+  keywords: SemrushRankingKeywordDTO[];
+  error?: string;
+}
+
 /** Numeric intent labels matching Semrush's `In` column. */
 export type SemrushIntentDTO = 0 | 1 | 2 | 3;
 

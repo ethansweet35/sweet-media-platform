@@ -10,6 +10,8 @@ import type { SeoGenResult } from "../../../../../lib/generateSeoMetadata";
 import type { BlogSection } from "@sweetmedia/blog-core";
 import ContentEditorCell from "../../../../ContentEditorCell";
 import InlineKeywordCell from "../../../../InlineKeywordCell";
+import RankingKeywordsPopover from "../../../../RankingKeywordsPopover";
+import { getPublicSiteOrigin } from "../../../../../lib/publicSiteUrl";
 
 function countWords(text: string): number {
   return text.trim().split(/\s+/).filter(Boolean).length;
@@ -344,9 +346,22 @@ export default function AdminBlogTable({
                         <p className="text-sm font-medium text-neutral-900 line-clamp-1 leading-snug">
                           {post.title}
                         </p>
-                        <p className="text-[11px] text-neutral-400 mt-0.5 font-mono line-clamp-1">
-                          /{post.slug}
-                        </p>
+                        <div className="flex items-center gap-1 mt-0.5">
+                          <p className="text-[11px] text-neutral-400 font-mono line-clamp-1 min-w-0">
+                            /{post.slug}
+                          </p>
+                          <RankingKeywordsPopover
+                            pageUrl={`${getPublicSiteOrigin()}/blog/${post.slug}`}
+                          >
+                            <button
+                              type="button"
+                              title="See ranking keywords for this post"
+                              className="shrink-0 w-4 h-4 flex items-center justify-center rounded text-neutral-300 hover:text-[#3d6f7f] hover:bg-[#3d6f7f]/8 transition-all cursor-default"
+                            >
+                              <i className="ri-bar-chart-grouped-line text-[10px]" />
+                            </button>
+                          </RankingKeywordsPopover>
+                        </div>
                         {post.scheduled_publish_at ? (
                           <p className="text-[11px] text-neutral-500 mt-1">
                             Scheduled: {formatScheduledLine(post.scheduled_publish_at)}

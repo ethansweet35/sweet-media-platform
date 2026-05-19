@@ -12,6 +12,7 @@ import PageEditModal from "../components/pages/PageEditModal";
 import PageDeleteModal from "../components/pages/PageDeleteModal";
 import BulkPickKeywordModal from "../components/BulkPickKeywordModal";
 import InlineKeywordCell from "../components/InlineKeywordCell";
+import RankingKeywordsPopover from "../components/RankingKeywordsPopover";
 import { callGenerateSeoMetadata, type SeoGenResult } from "../lib/generateSeoMetadata";
 import { stripBrandSuffix } from "../lib/seedCleaner";
 
@@ -710,9 +711,22 @@ export default function AdminTrackedPagesPage() {
 
                               {/* Route */}
                               <td className="px-3 py-3 align-middle overflow-hidden">
-                                <code className="text-[11px] text-neutral-700 font-mono bg-neutral-100 px-1.5 py-0.5 rounded block truncate" title={p.route_path}>
-                                  {p.route_path}
-                                </code>
+                                <div className="flex items-center gap-1.5">
+                                  <code className="text-[11px] text-neutral-700 font-mono bg-neutral-100 px-1.5 py-0.5 rounded block truncate min-w-0" title={p.route_path}>
+                                    {p.route_path}
+                                  </code>
+                                  <RankingKeywordsPopover
+                                    pageUrl={`${getPublicSiteOrigin()}${p.route_path}`}
+                                  >
+                                    <button
+                                      type="button"
+                                      title="See ranking keywords for this page"
+                                      className="shrink-0 w-5 h-5 flex items-center justify-center rounded text-neutral-300 hover:text-[#3d6f7f] hover:bg-[#3d6f7f]/8 transition-all cursor-default"
+                                    >
+                                      <i className="ri-bar-chart-grouped-line text-[11px]" />
+                                    </button>
+                                  </RankingKeywordsPopover>
+                                </div>
                               </td>
 
                               {/* Title */}

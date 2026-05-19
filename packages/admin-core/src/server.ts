@@ -6,6 +6,16 @@
 export { scanAppRoutes, derivePageTitle, syncTrackedPages } from "./lib/scanAppRoutes";
 
 export {
+  resolveGscAccessToken,
+  queryGscByPage,
+  queryGscPageKeywords,
+  buildSiteCandidates,
+  type GscAuthResult,
+  type GscPageRow,
+  type GscQueryRow,
+} from "./lib/server/gscClient";
+
+export {
   fetchPageTextContent,
   deriveKeywordSeedWithAi,
   type PageContentResult,
@@ -25,6 +35,7 @@ export {
   getSemrushEnv,
   getKeywordOverview,
   getKeywordSuggestions,
+  getUrlRankingKeywords,
   pickKeyword,
   type SemrushKeywordOverview,
   type SemrushKeywordSuggestion,
@@ -32,6 +43,7 @@ export {
   type SemrushIntent,
   type KeywordPickMode,
   type SemrushAutoPickResult,
+  type SemrushRankingKeyword,
 } from "./lib/server/semrushClient";
 
 // ─── Content Editor — full pipeline + vendor wrappers ──────────────────
