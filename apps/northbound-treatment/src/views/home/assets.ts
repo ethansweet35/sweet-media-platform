@@ -11,7 +11,7 @@ export const NB_LOGO = `${SUPABASE_BASE}/logos/northbound-logo.png`;
 export const HERO_BG = `${SUPABASE_BASE}/images/nbt_hero_bg01.jpg`;
 
 export const PROCESS_IMAGES = {
-  feelBetter: `${SUPABASE_BASE}/images/nbt_process_step01_feel-better.jpg`,
+  feelBetter: `${SUPABASE_BASE}/images/nbt_process_step01_feel-better_v2.jpg`,
   discoverYourself: `${SUPABASE_BASE}/images/nbt_process_step02_discover-yourself.jpg`,
   liveFree: `${SUPABASE_BASE}/images/nbt_process_step03_live-free.jpg`,
 } as const;
