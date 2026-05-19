@@ -23,8 +23,12 @@ const IMGS = {
   heroTeen:   `${SB_ROOT}/amh_hero_virtual_v1.jpg`,
   virtualIop: `${SB_ROOT}/amh_iop_section_v1.jpg`,
   blue:       `${SB}/blue.png`,
+  resilience: `${SB_ROOT}/amh_resilience_bg_v1.jpg`,
   becn:       `${SB}/BECN_BIG-f197bb44.png`,
   umr:        `${SB}/umr.webp`,
+  aetna:      `${SB}/Aetna-Logo.png`,
+  anthem:     `${SB}/Anthem-Inc-Logo.png`,
+  cigna:      `${SB}/Cigna-Logo.png`,
 };
 
 export default function HomePage() {
@@ -104,12 +108,12 @@ export default function HomePage() {
       </section>
 
       {/* ── Conditions + Consultation bar ── */}
-      <section className="border-b border-[#E8EEF4] bg-white">
-        <div className="mx-auto max-w-6xl px-6 lg:px-10">
+      <section className="border-b border-[#E8EEF4] bg-white px-6 py-[100px] lg:px-10">
+        <div className="mx-auto max-w-[1350px]">
           <div className="grid grid-cols-1 gap-0 md:grid-cols-[1fr_280px] md:items-center md:divide-x md:divide-[#E8EEF4]">
 
             {/* Conditions */}
-            <div className="py-8 pr-0 md:pr-10">
+            <div className="pr-0 md:pr-10">
               <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-[#83B3DC]">
                 Conditions We Treat
               </p>
@@ -136,7 +140,7 @@ export default function HomePage() {
             </div>
 
             {/* Consultation */}
-            <div className="flex flex-col justify-center border-t border-[#E8EEF4] py-8 md:border-t-0 md:pl-10">
+            <div className="flex flex-col justify-center border-t border-[#E8EEF4] md:border-t-0 md:pl-10">
               <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-[#83B3DC]">
                 Free Consultation
               </p>
@@ -164,7 +168,7 @@ export default function HomePage() {
       </section>
 
       {/* ── What Is A Virtual IOP ── */}
-      <section className="relative overflow-hidden py-12 px-6 lg:px-10 lg:py-14">
+      <section className="relative overflow-hidden px-6 py-[100px] lg:px-10">
         {/* Blurred photo substrate */}
         <Image
           src={IMGS.virtualIop}
@@ -178,7 +182,7 @@ export default function HomePage() {
         <div className="absolute inset-0 bg-gradient-to-br from-[#1a3a52]/80 via-[#2a5a7a]/70 to-[#83B3DC]/50" />
 
         {/* Bento grid */}
-        <div className="relative z-10 mx-auto max-w-6xl">
+        <div className="relative z-10 mx-auto max-w-[1350px]">
           <div className="grid gap-3 lg:grid-cols-[1fr_320px] lg:grid-rows-[1fr_auto]">
 
             {/* Cell 1 — main content */}
@@ -271,8 +275,8 @@ export default function HomePage() {
       </section>
 
       {/* ── Why Choose Virtual IOP ── */}
-      <section className="bg-white px-6 py-20 lg:px-10 lg:py-24">
-        <div className="mx-auto max-w-6xl">
+      <section className="bg-white px-6 py-[100px] lg:px-10">
+        <div className="mx-auto max-w-[1350px]">
 
           {/* Header */}
           <div className="mb-12 flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
@@ -366,339 +370,624 @@ export default function HomePage() {
       </section>
 
       {/* ── Traditional vs Outpatient ── */}
-      <section className="bg-white px-6 py-20 lg:px-10 lg:py-24">
-        <div className="mx-auto max-w-5xl">
-          <div className="mx-auto max-w-3xl text-center">
-            <p className="mb-3 text-xs font-bold uppercase tracking-[0.2em] text-[#83B3DC]">Our Difference</p>
-            <h2 className="text-4xl font-bold text-[#1F2124] md:text-5xl" style={{ fontFamily: "var(--font-heebo)" }}>
-              Traditional Vs Outpatient Therapy
+      <section className="bg-[#0A0F14] px-6 py-[100px] lg:px-10">
+        <div className="mx-auto max-w-[1350px]">
+
+          {/* Header */}
+          <div className="mb-12 text-center">
+            <p className="mb-3 text-[11px] font-bold uppercase tracking-[0.3em] text-[#83B3DC]">Our Difference</p>
+            <h2 className="text-4xl font-bold text-white md:text-5xl" style={{ fontFamily: "var(--font-heebo)" }}>
+              Traditional vs. Virtual IOP
             </h2>
-            <p className="mt-4 text-sm leading-8 text-[#7C848B]">
-              While traditional weekly therapy is effective for maintenance, it is often insufficient for those facing acute crisis or complex challenges. We bridge the gap between occasional office visits and hospitalization by offering a higher level of frequency, family involvement, and immediate support.
-            </p>
           </div>
 
-          <div className="mt-12 grid gap-5 md:grid-cols-2">
-            {/* Traditional — dark gray card */}
-            <div className="rounded-2xl bg-[#6B7280] p-8">
-              <h3 className="mb-5 text-xl font-bold text-white" style={{ fontFamily: "var(--font-heebo)" }}>
-                Traditional Therapy
-              </h3>
-              <ul className="space-y-3.5">
-                {[
-                  "1 hour per week (often insufficient for crisis)",
-                  "Clinical, sterile office environments",
-                  "Parents often excluded from the process",
-                  "Long waitlists for appointments",
-                ].map((item) => (
-                  <li key={item} className="flex items-center gap-3 text-sm text-white/90">
-                    <i className="ri-close-line flex-shrink-0 text-base text-red-300"></i>
-                    {item}
-                  </li>
-                ))}
-              </ul>
-            </div>
-
-            {/* Outpatient — brand blue card */}
-            <div className="rounded-2xl bg-[#83B3DC] p-8">
-              <h3 className="mb-5 text-xl font-bold text-white" style={{ fontFamily: "var(--font-heebo)" }}>
-                Outpatient Therapy
-              </h3>
-              <ul className="space-y-3.5">
-                {[
-                  "9-20 hours of therapy per week",
-                  "Comfort of home, removing stigma",
-                  "Comprehensive Parent Coaching track",
-                  "Admissions within 24-48 hours",
-                ].map((item) => (
-                  <li key={item} className="flex items-center gap-3 text-sm text-white">
-                    <span className="flex h-5 w-5 flex-shrink-0 items-center justify-center rounded-full bg-white/30">
-                      <i className="ri-check-line text-xs text-white"></i>
-                    </span>
-                    {item}
-                  </li>
-                ))}
-              </ul>
-            </div>
+          {/* Column headers */}
+          <div className="mb-2 grid grid-cols-[1fr_1fr_1fr] gap-4 px-4">
+            <div />
+            <p className="text-center text-xs font-bold uppercase tracking-[0.2em] text-white/30">Traditional Therapy</p>
+            <p className="text-center text-xs font-bold uppercase tracking-[0.2em] text-[#83B3DC]">Virtual IOP</p>
           </div>
+
+          {/* Comparison rows */}
+          <div className="overflow-hidden rounded-2xl border border-white/8">
+            {[
+              {
+                label:       "Weekly Therapy",
+                traditional: "~1 hour",
+                iop:         "9–20 hours",
+              },
+              {
+                label:       "Setting",
+                traditional: "Sterile clinic office",
+                iop:         "Comfort of home",
+              },
+              {
+                label:       "Parent Involvement",
+                traditional: "Often excluded",
+                iop:         "Dedicated coaching track",
+              },
+              {
+                label:       "Wait Time",
+                traditional: "Weeks to months",
+                iop:         "Admissions in 24–48 hrs",
+              },
+              {
+                label:       "Insurance",
+                traditional: "Varies widely",
+                iop:         "Most major plans accepted",
+              },
+              {
+                label:       "Crisis Support",
+                traditional: "Limited between sessions",
+                iop:         "Multi-day structured support",
+              },
+            ].map((row, i) => (
+              <div
+                key={row.label}
+                className={`grid grid-cols-[1fr_1fr_1fr] gap-4 px-6 py-5 ${i % 2 === 0 ? "bg-white/[0.03]" : ""} border-b border-white/5 last:border-b-0`}
+              >
+                {/* Label */}
+                <p className="flex items-center text-xs font-bold uppercase tracking-wider text-white/40">{row.label}</p>
+
+                {/* Traditional — muted */}
+                <div className="flex items-center justify-center gap-2">
+                  <i className="ri-close-line flex-shrink-0 text-sm text-red-400/70"></i>
+                  <span className="text-sm text-white/35 line-through">{row.traditional}</span>
+                </div>
+
+                {/* IOP — highlighted */}
+                <div
+                  className="flex items-center justify-center gap-2 rounded-xl px-3 py-2"
+                  style={{
+                    background: "rgba(131,179,220,0.12)",
+                    border: "1px solid rgba(131,179,220,0.2)",
+                  }}
+                >
+                  <i className="ri-check-line flex-shrink-0 text-sm text-[#83B3DC]"></i>
+                  <span className="text-sm font-semibold text-white">{row.iop}</span>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* CTA */}
+          <div className="mt-10 text-center">
+            <a
+              href={PHONE_HREF}
+              className="inline-flex items-center gap-2.5 rounded-full bg-white px-8 py-4 text-sm font-bold text-[#000000] transition hover:bg-white/90"
+            >
+              <i className="ri-phone-fill"></i>
+              Get Started — Free Consultation
+            </a>
+          </div>
+
         </div>
       </section>
 
-      {/* ── Conditions Treated (dark navy) ── */}
-      <section className="bg-[#000000] px-6 py-20 lg:px-10 lg:py-24">
-        <div className="mx-auto max-w-7xl">
-          <div className="mx-auto max-w-3xl text-center">
-            <p className="mb-3 text-xs font-bold uppercase tracking-[0.2em] text-[#83B3DC]">
-              Conditions Treated
-            </p>
-            <h2 className="text-3xl font-bold text-white md:text-4xl" style={{ fontFamily: "var(--font-heebo)" }}>
-              Adolescent Mental Health: Conditions We Treat
+      {/* ── Conditions Treated ── */}
+      <section className="bg-[#F0F4F8] px-6 py-[100px] lg:px-10">
+        <div className="mx-auto max-w-[1350px]">
+
+          {/* Header */}
+          <div className="mx-auto mb-12 max-w-2xl text-center">
+            <p className="mb-3 text-[11px] font-bold uppercase tracking-[0.3em] text-[#83B3DC]">Conditions Treated</p>
+            <h2 className="text-4xl font-bold text-[#0A0F14] md:text-5xl" style={{ fontFamily: "var(--font-heebo)" }}>
+              Mental Health Conditions We Treat
             </h2>
-            <p className="mt-4 text-base leading-8 text-white/60">
-              Our specialized virtual therapy programs provide evidence-based care for teens struggling with emotional and behavioral challenges.
+            <p className="mt-4 text-sm leading-8 text-[#54595F]">
+              Evidence-based virtual care for teens navigating a wide range of emotional and behavioral challenges.
             </p>
           </div>
 
-          <div className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+          {/* 3-col grid */}
+          <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
             {[
-              {
-                title: "Anxiety Disorders",
-                body: "Treatment for Generalized Anxiety Disorder (GAD), Social Anxiety, and Panic Attacks. We help teens build coping mechanisms for overwhelming stress and worry.",
-                path: "/conditions/anxiety",
-              },
-              {
-                title: "Depression",
-                body: "Compassionate care for Major Depressive Disorder and Dysthymia. Support for teens facing persistent sadness, hopelessness, or mood dysregulation.",
-                path: "/conditions/depression",
-              },
-              {
-                title: "Trauma & PTSD",
-                body: "Trauma-informed therapy for PTSD, Acute Stress, and Complex Trauma. Helping adolescents process past events and restore emotional safety.",
-                path: "/conditions/trauma-ptsd",
-              },
-              {
-                title: "Self-Harming Behaviors",
-                body: "Intervention for non-suicidal self-injury (NSSI). Safe, non-judgmental support to address the root causes of self-harm and develop healthier emotional outlets.",
-                path: "/conditions/self-harm",
-              },
-              {
-                title: "ADD & ADHD",
-                body: "Executive function coaching and therapy for ADD & ADHD, improving focus, organization, and emotional regulation for academic and social success.",
-                path: "/conditions/adhd",
-              },
-              {
-                title: "School Avoidance",
-                body: "Support for school refusal and avoidance. We provide academic reintegration strategies to help anxious teens return to the classroom with confidence.",
-                path: "/conditions/school-avoidance",
-              },
-            ].map((c) => (
+              { icon: "ri-mental-health-line",  title: "Anxiety Disorders",       tagline: "GAD, Social Anxiety & Panic Attacks",      path: "/conditions/anxiety" },
+              { icon: "ri-heart-pulse-line",     title: "Depression",              tagline: "Major Depressive Disorder & Dysthymia",     path: "/conditions/depression" },
+              { icon: "ri-shield-flash-line",    title: "Trauma & PTSD",           tagline: "PTSD, Acute Stress & Complex Trauma",      path: "/conditions/trauma-ptsd" },
+              { icon: "ri-hand-heart-line",      title: "Self-Harming Behaviors",  tagline: "Safe, non-judgmental NSSI intervention",   path: "/conditions/self-harm" },
+              { icon: "ri-brain-line",           title: "ADD & ADHD",              tagline: "Focus, executive function & regulation",   path: "/conditions/adhd" },
+              { icon: "ri-book-open-line",       title: "School Avoidance",        tagline: "Academic reintegration for anxious teens", path: "/conditions/school-avoidance" },
+            ].map((c, i) => (
               <Link
                 key={c.path}
                 href={c.path}
-                className="group rounded-3xl border border-white/10 bg-white/5 p-7 hover:bg-white/10 transition-colors"
+                className="group relative flex flex-col overflow-hidden rounded-2xl bg-white p-7 shadow-sm ring-1 ring-[#E8EEF4] transition hover:shadow-lg hover:ring-[#83B3DC]/50"
               >
-                <h3 className="text-lg font-bold text-white group-hover:text-[#83B3DC] transition-colors" style={{ fontFamily: "var(--font-heebo)" }}>
-                  {c.title}
-                </h3>
-                <p className="mt-3 text-sm leading-7 text-white/60">{c.body}</p>
+                {/* Gradient header wash */}
+                <div className="pointer-events-none absolute inset-x-0 top-0 h-28 bg-gradient-to-b from-[#EEF5FB] to-transparent transition group-hover:from-[#83B3DC]/10" />
+
+                {/* Watermark number */}
+                <span
+                  className="pointer-events-none absolute -right-2 -top-3 select-none text-[88px] font-bold leading-none text-[#E8EEF4] transition group-hover:text-[#83B3DC]/10"
+                  style={{ fontFamily: "var(--font-heebo)" }}
+                >
+                  {String(i + 1).padStart(2, "0")}
+                </span>
+
+                {/* Icon */}
+                <span className="relative z-10 flex h-12 w-12 items-center justify-center rounded-xl bg-white shadow-sm ring-1 ring-[#E8EEF4] text-[#83B3DC] transition group-hover:bg-[#83B3DC] group-hover:text-white group-hover:ring-[#83B3DC]">
+                  <i className={`${c.icon} text-xl`}></i>
+                </span>
+
+                {/* Text */}
+                <div className="relative z-10 mt-5 flex-1">
+                  <p className="text-base font-bold text-[#0A0F14] transition group-hover:text-[#83B3DC]" style={{ fontFamily: "var(--font-heebo)" }}>
+                    {c.title}
+                  </p>
+                  <p className="mt-1.5 text-xs leading-5 text-[#7C848B]">{c.tagline}</p>
+                </div>
+
+                {/* Footer link */}
+                <div className="relative z-10 mt-6 flex items-center justify-between border-t border-[#F0F4F8] pt-4">
+                  <span className="text-xs font-semibold text-[#83B3DC]/50 transition group-hover:text-[#83B3DC]">
+                    Learn more
+                  </span>
+                  <span className="flex h-7 w-7 items-center justify-center rounded-full bg-[#F0F4F8] text-[#83B3DC]/50 transition group-hover:bg-[#83B3DC] group-hover:text-white">
+                    <i className="ri-arrow-right-line text-xs"></i>
+                  </span>
+                </div>
               </Link>
             ))}
           </div>
+
+          <div className="mt-10 text-center">
+            <Link
+              href="/conditions"
+              className="inline-flex items-center gap-2 rounded-full border border-[#CBE6EC] bg-white px-7 py-3.5 text-sm font-semibold text-[#0A0F14] transition hover:border-[#83B3DC] hover:text-[#83B3DC]"
+            >
+              See All Conditions
+              <i className="ri-arrow-right-line"></i>
+            </Link>
+          </div>
+
         </div>
       </section>
 
       {/* ── A Structured Path ── */}
-      <section className="bg-white px-6 py-20 lg:px-10 lg:py-24">
-        <div className="mx-auto max-w-7xl">
-          <div className="grid gap-12 lg:grid-cols-2 lg:items-start">
-            <div>
-              <p className="mb-3 text-xs font-bold uppercase tracking-[0.2em] text-[#83B3DC]">Our Process</p>
-              <h2 className="text-3xl font-bold text-[#1F2124] md:text-4xl" style={{ fontFamily: "var(--font-heebo)" }}>
-                A Structured Path for Adolescents
-              </h2>
-              <p className="mt-5 text-base leading-8 text-[#7C848B]">
-                Every teen begins with a comprehensive intake appointment, where we conduct a full clinical assessment and set clear treatment goals. We then develop a personalized treatment plan tailored to each teen&apos;s emotional and behavioral profile.
-              </p>
-              <a
-                href={PHONE_HREF}
-                className="mt-8 inline-flex items-center gap-2 rounded-full bg-[#000000] px-6 py-3.5 text-sm font-bold text-white hover:bg-[#111111] transition-colors"
-              >
-                <i className="ri-phone-fill"></i>
-                Call Now | {PHONE}
-              </a>
-            </div>
+      <section className="bg-[#0A0F14] px-6 py-[100px] lg:px-10">
+        <div className="mx-auto max-w-[1350px]">
 
-            <div className="flex flex-col gap-3">
+          {/* Header */}
+          <div className="mb-16 flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
+            <div>
+              <p className="mb-3 text-[11px] font-bold uppercase tracking-[0.3em] text-[#83B3DC]">Our Process</p>
+              <h2 className="text-4xl font-bold text-white md:text-5xl" style={{ fontFamily: "var(--font-heebo)" }}>
+                A Structured Path<br className="hidden lg:block" /> for Adolescents
+              </h2>
+            </div>
+            <a
+              href={PHONE_HREF}
+              className="self-start inline-flex items-center gap-2.5 rounded-full bg-white px-7 py-3.5 text-sm font-bold text-[#000000] transition hover:bg-white/90 lg:self-auto"
+            >
+              <i className="ri-phone-fill"></i>
+              {PHONE}
+            </a>
+          </div>
+
+          {/* Timeline */}
+          <div className="relative">
+            {/* Connecting rail — desktop only */}
+            <div className="absolute left-0 right-0 top-5 hidden h-px bg-white/10 lg:block" />
+
+            <div className="grid grid-cols-1 gap-10 lg:grid-cols-4 lg:gap-6">
               {[
-                { label: "Evidence-Based Therapy, such as Dialectical Behavior Therapy", icon: "ri-brain-line" },
-                { label: "Engaging experiential therapy through movement, art, or music", icon: "ri-palette-line" },
-                { label: "Family sessions and parental support to involve the entire family", icon: "ri-home-heart-line" },
-                { label: "Motivational interviewing to build commitment to a lasting recovery", icon: "ri-heart-pulse-line" },
-              ].map((s) => (
-                <div
-                  key={s.label}
-                  className="flex items-center gap-4 rounded-2xl border border-[#CBE6EC] bg-[#F4F9FC] px-5 py-4"
-                >
-                  <span className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-xl bg-[#83B3DC]/15 text-[#83B3DC]">
-                    <i className={`${s.icon} text-lg`}></i>
-                  </span>
-                  <span className="text-sm font-semibold text-[#1F2124]">{s.label}</span>
+                {
+                  num: "01",
+                  icon: "ri-clipboard-line",
+                  title: "Initial Assessment",
+                  body: "A full clinical evaluation to understand your teen's history, challenges, and treatment goals.",
+                },
+                {
+                  num: "02",
+                  icon: "ri-file-list-3-line",
+                  title: "Personalized Plan",
+                  body: "A custom treatment roadmap built around your teen's unique emotional and behavioral profile.",
+                },
+                {
+                  num: "03",
+                  icon: "ri-brain-line",
+                  title: "Active Therapy",
+                  body: "DBT, experiential therapy, and family sessions — 9–20 hours of structured care each week.",
+                },
+                {
+                  num: "04",
+                  icon: "ri-heart-pulse-line",
+                  title: "Lasting Recovery",
+                  body: "Motivational coaching and ongoing family integration to sustain progress beyond the program.",
+                },
+              ].map((step) => (
+                <div key={step.num} className="relative flex flex-col lg:items-start">
+                  {/* Step node — sits on the rail */}
+                  <div className="mb-6 flex items-center gap-4 lg:flex-col lg:items-start lg:gap-0">
+                    <div
+                      className="relative z-10 flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-[#83B3DC] lg:mb-8"
+                      style={{ boxShadow: "0 0 0 4px rgba(131,179,220,0.15)" }}
+                    >
+                      <i className={`${step.icon} text-sm text-white`}></i>
+                    </div>
+
+                    {/* Mobile: number + title inline */}
+                    <p className="text-xs font-bold uppercase tracking-[0.2em] text-white/30 lg:hidden">
+                      Step {step.num}
+                    </p>
+                  </div>
+
+                  {/* Step number — desktop decorative */}
+                  <p
+                    className="mb-2 hidden text-xs font-bold uppercase tracking-[0.2em] text-white/25 lg:block"
+                  >
+                    Step {step.num}
+                  </p>
+
+                  <h3 className="text-lg font-bold text-white" style={{ fontFamily: "var(--font-heebo)" }}>
+                    {step.title}
+                  </h3>
+                  <p className="mt-2 text-sm leading-7 text-white/50">{step.body}</p>
                 </div>
               ))}
             </div>
           </div>
+
         </div>
       </section>
 
-      {/* ── Building Resilience (full-width bg image) ── */}
+      {/* ── Testimonials ── */}
       <section className="relative overflow-hidden">
+        {/* Background */}
         <Image
-          src={IMGS.heroTeen}
-          alt="Teen mental health care"
+          src={IMGS.resilience}
+          alt="Calm sunrise over a misty lake"
           fill
           className="object-cover object-center"
           sizes="100vw"
         />
-        <div className="absolute inset-0 bg-[#000000]/80" />
-        <div className="relative px-6 py-20 lg:px-10 lg:py-28">
-          <div className="mx-auto max-w-3xl text-center">
-            <h2 className="text-3xl font-bold text-white md:text-4xl lg:text-5xl" style={{ fontFamily: "var(--font-heebo)" }}>
-              Building Resilience: Specialized Mental Health Care for Teens
-            </h2>
-            <p className="mx-auto mt-5 max-w-2xl text-base leading-8 text-white/75">
-              Navigating adolescence is difficult, but your family doesn&apos;t have to do it alone. We offer specialized virtual mental health programs designed to help teenagers manage anxiety, depression, and behavioral challenges. Our secure online environment provides the professional support teens need to build resilience and achieve lasting well-being.
-            </p>
-            <a
-              href={PHONE_HREF}
-              className="mt-8 inline-flex items-center gap-2.5 rounded-full bg-white px-7 py-4 text-sm font-bold text-[#000000] hover:bg-white/90 transition-colors shadow-lg"
-            >
-              <i className="ri-phone-fill text-base"></i>
-              Call Now | {PHONE}
-            </a>
+        <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/65 to-black/80" />
+
+        <div className="relative z-10 px-6 py-[100px] lg:px-10">
+          <div className="mx-auto max-w-[1350px]">
+
+            {/* Header */}
+            <div className="mb-14 flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
+              <div>
+                <p className="mb-3 text-[11px] font-bold uppercase tracking-[0.3em] text-[#83B3DC]">What Parents Say</p>
+                <h2 className="text-4xl font-bold leading-tight text-white md:text-5xl" style={{ fontFamily: "var(--font-heebo)" }}>
+                  Families Who Found<br className="hidden lg:block" /> Their Way Through
+                </h2>
+              </div>
+              <div className="flex items-center gap-2">
+                {Array.from({ length: 5 }).map((_, i) => (
+                  <i key={i} className="ri-star-fill text-[#83B3DC] text-lg"></i>
+                ))}
+                <span className="ml-2 text-sm font-semibold text-white/60">4.9 average rating</span>
+              </div>
+            </div>
+
+            {/* Testimonial grid */}
+            <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+              {[
+                {
+                  quote: "We were skeptical about online therapy for our daughter, but the team at AMH made every session feel personal and safe. Within 6 weeks we saw a real shift in how she handled her anxiety.",
+                  name: "Sarah M.",
+                  detail: "Parent of a 15-year-old",
+                  icon: "ri-user-heart-line",
+                },
+                {
+                  quote: "The flexibility of virtual IOP was a game-changer for us. My son could attend sessions after school without missing anything. His therapist really understood teen culture and didn't talk down to him.",
+                  name: "David & Renee K.",
+                  detail: "Parents of a 17-year-old",
+                  icon: "ri-group-line",
+                },
+                {
+                  quote: "After two years of struggling with depression, our daughter finally feels heard. The group sessions gave her connection she didn't know she needed. I wish we'd found AMH sooner.",
+                  name: "Maria T.",
+                  detail: "Parent of a 14-year-old",
+                  icon: "ri-user-heart-line",
+                },
+              ].map((t) => (
+                <div
+                  key={t.name}
+                  className="flex flex-col gap-5 rounded-3xl p-7"
+                  style={{
+                    background: "rgba(255,255,255,0.07)",
+                    backdropFilter: "blur(20px)",
+                    WebkitBackdropFilter: "blur(20px)",
+                    border: "1px solid rgba(255,255,255,0.10)",
+                    boxShadow: "inset 0 1px 0 rgba(255,255,255,0.12)",
+                  }}
+                >
+                  {/* Stars */}
+                  <div className="flex gap-1">
+                    {Array.from({ length: 5 }).map((_, i) => (
+                      <i key={i} className="ri-star-fill text-[#83B3DC] text-xs"></i>
+                    ))}
+                  </div>
+
+                  {/* Quote */}
+                  <p className="flex-1 text-sm leading-8 text-white/75">&ldquo;{t.quote}&rdquo;</p>
+
+                  {/* Attribution */}
+                  <div className="flex items-center gap-3 border-t border-white/10 pt-5">
+                    <span className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-full bg-[#83B3DC]/15 text-[#83B3DC]">
+                      <i className={`${t.icon} text-sm`}></i>
+                    </span>
+                    <div>
+                      <p className="text-sm font-bold text-white">{t.name}</p>
+                      <p className="text-xs text-white/40">{t.detail}</p>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+
           </div>
         </div>
       </section>
 
       {/* ── Who Benefits ── */}
-      <section className="bg-white px-6 py-20 lg:px-10 lg:py-24">
-        <div className="mx-auto max-w-7xl">
-          <div className="grid gap-12 lg:grid-cols-2 lg:items-center">
+      <section className="bg-[#0A0F14] px-6 py-[100px] lg:px-10">
+        <div className="mx-auto max-w-[1350px]">
+          <div className="grid gap-12 lg:grid-cols-[1fr_360px] lg:items-start">
+
+            {/* Left — criteria */}
             <div>
-              <p className="mb-3 text-xs font-bold uppercase tracking-[0.2em] text-[#83B3DC]">Online Treatment</p>
-              <h2 className="text-3xl font-bold text-[#1F2124] md:text-4xl" style={{ fontFamily: "var(--font-heebo)" }}>
-                Who Benefits from a Virtual IOP?
+              <p className="mb-4 text-[11px] font-bold uppercase tracking-[0.3em] text-[#83B3DC]">Online Treatment</p>
+              <h2 className="text-4xl font-bold text-white md:text-5xl" style={{ fontFamily: "var(--font-heebo)" }}>
+                Is Virtual IOP Right<br className="hidden lg:block" /> for Your Teen?
               </h2>
-              <p className="mt-4 text-base leading-8 text-[#7C848B]">
-                Our Intensive Outpatient Programs are ideal for teens who:
-              </p>
-              <ul className="mt-6 space-y-4">
+              <p className="mt-4 text-sm text-white/45">Our program is ideal for teens who meet any of the following:</p>
+
+              <ul className="mt-8 divide-y divide-white/8">
                 {[
-                  "Require more than a session per week to address escalating mental health disorders",
-                  "Are transitioning out of a partial hospitalization program or residential treatment program",
-                  "Need integrated care for co-occurring anxiety disorders, substance use disorders, or emotional distress",
-                  "Struggle with functional life tasks due to anxiety, depression, or trauma",
-                  "Need enhanced therapy intensity without leaving home or school",
+                  { icon: "ri-add-line",            label: "Require more than once-weekly therapy",                    sub: "Escalating mental health needs beyond standard outpatient" },
+                  { icon: "ri-arrow-down-line",      label: "Stepping down from PHP or residential care",              sub: "A bridge to support continued progress at home" },
+                  { icon: "ri-links-line",           label: "Co-occurring disorders or dual diagnoses",                sub: "Integrated care for anxiety, trauma, and substance use" },
+                  { icon: "ri-home-2-line",          label: "Struggling with daily functioning",                       sub: "Difficulty at school, home, or in relationships" },
+                  { icon: "ri-computer-line",        label: "Need intensive care without disrupting school",           sub: "Flexible scheduling designed around teen life" },
                 ].map((item) => (
-                  <li key={item} className="flex items-start gap-3 text-sm leading-7 text-[#7C848B]">
-                    <span className="mt-0.5 flex h-5 w-5 flex-shrink-0 items-center justify-center rounded-full bg-[#83B3DC] text-white">
-                      <i className="ri-check-line text-xs"></i>
+                  <li key={item.label} className="group flex items-start gap-5 py-5">
+                    <span className="mt-0.5 flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-xl bg-[#83B3DC]/10 text-[#83B3DC]">
+                      <i className={`${item.icon} text-base`}></i>
                     </span>
-                    {item}
+                    <div>
+                      <p className="text-sm font-bold text-white">{item.label}</p>
+                      <p className="mt-0.5 text-xs text-white/40">{item.sub}</p>
+                    </div>
                   </li>
                 ))}
               </ul>
-              <a
-                href={PHONE_HREF}
-                className="mt-8 inline-flex items-center gap-2 rounded-full bg-white px-6 py-3.5 text-sm font-bold text-[#000000] hover:bg-white/90 transition-colors"
-              >
-                <i className="ri-phone-fill"></i>
-                Call Now {PHONE}
-              </a>
             </div>
 
-            {/* Insurance card */}
-            <div className="rounded-3xl border border-[#CBE6EC] bg-[#F4F9FC] p-8">
-              <h3 className="text-xl font-bold text-[#1F2124]" style={{ fontFamily: "var(--font-heebo)" }}>
-                Insurance and Payment Options for Virtual IOP for Teens
-              </h3>
-              <p className="mt-3 text-sm leading-7 text-[#7C848B]">
-                Adolescent Mental Health partners with major insurance providers to make our Virtual IOP for Teens accessible and affordable. Our admissions team will verify your insurance coverage, explain your benefits, and guide you through the enrollment process step by step.
-              </p>
-              <p className="mt-3 text-sm leading-7 text-[#7C848B]">
-                Whether your family uses private insurance, Medicaid, or is exploring self-pay options, we will work with you to reduce the financial stress of treatment.
-              </p>
-              <div className="mt-6 flex flex-wrap items-center gap-4">
-                {[
-                  { name: "BCBS", src: IMGS.blue },
-                  { name: "BCEN", src: IMGS.becn },
-                  { name: "UMR", src: IMGS.umr },
-                ].map((ins) => (
-                  <div key={ins.name} className="rounded-xl border border-[#CBE6EC] bg-white p-3">
-                    <Image src={ins.src} alt={ins.name} width={80} height={36} className="h-8 w-auto object-contain" />
-                  </div>
-                ))}
+            {/* Right — insurance glass card */}
+            <div className="lg:sticky lg:top-24">
+              <div
+                className="rounded-3xl p-7"
+                style={{
+                  background: "rgba(255,255,255,0.05)",
+                  backdropFilter: "blur(16px)",
+                  WebkitBackdropFilter: "blur(16px)",
+                  border: "1px solid rgba(255,255,255,0.10)",
+                  boxShadow: "inset 0 1px 0 rgba(255,255,255,0.12)",
+                }}
+              >
+                <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-[#83B3DC]">Insurance & Payment</p>
+                <p className="mt-3 text-base font-bold leading-snug text-white" style={{ fontFamily: "var(--font-heebo)" }}>
+                  Most Major Insurance Plans Accepted
+                </p>
+                <p className="mt-3 text-xs leading-6 text-white/45">
+                  Our admissions team verifies your coverage, explains your benefits, and guides you through enrollment — step by step.
+                </p>
+
+                {/* Insurer logos — row of 3 + row of 2 centered */}
+                <div className="mt-6 flex flex-wrap justify-center gap-2">
+                  {[
+                    { name: "Cigna",   src: IMGS.cigna },
+                    { name: "Anthem",  src: IMGS.anthem },
+                    { name: "Aetna",   src: IMGS.aetna },
+                    { name: "BCEN",    src: IMGS.becn },
+                    { name: "UMR",     src: IMGS.umr },
+                  ].map((ins) => (
+                    <div
+                      key={ins.name}
+                      className="flex w-[30%] items-center justify-center rounded-xl bg-white px-3 py-2.5"
+                    >
+                      <Image src={ins.src} alt={ins.name} width={80} height={32} className="h-6 w-auto object-contain" />
+                    </div>
+                  ))}
+                </div>
+
+                <p className="mt-4 text-[11px] text-white/30">+ Medicaid, self-pay, and more options available</p>
+
+                <div className="mt-6 flex flex-col gap-3">
+                  <a
+                    href={PHONE_HREF}
+                    className="flex items-center justify-center gap-2.5 rounded-xl bg-white py-3.5 text-sm font-bold text-[#000000] transition hover:bg-white/90"
+                  >
+                    <i className="ri-phone-fill"></i>
+                    Verify My Insurance
+                  </a>
+                  <a
+                    href="mailto:admissions@adolescentmentalhealth.com"
+                    className="flex items-center justify-center gap-2.5 rounded-xl border border-white/15 py-3.5 text-sm font-semibold text-white/70 transition hover:border-white/30 hover:text-white"
+                  >
+                    <i className="ri-mail-line text-[#83B3DC]"></i>
+                    Email Admissions
+                  </a>
+                </div>
               </div>
             </div>
+
           </div>
         </div>
       </section>
 
       {/* ── FAQ ── */}
-      <section className="bg-[#F4F9FC] px-6 py-20 lg:px-10 lg:py-24">
-        <div className="mx-auto max-w-4xl">
-          <div className="text-center">
-            <p className="mb-3 text-xs font-bold uppercase tracking-[0.2em] text-[#83B3DC]">FAQ</p>
-            <h2 className="text-3xl font-bold text-[#1F2124] md:text-4xl" style={{ fontFamily: "var(--font-heebo)" }}>
-              Frequently Asked Questions
-            </h2>
-            <p className="mt-3 text-sm text-[#7C848B]">For more information, please contact us today.</p>
-          </div>
+      <section className="bg-white px-6 py-[100px] lg:px-10">
+        <div className="mx-auto max-w-[1350px]">
+          <div className="grid gap-16 lg:grid-cols-[320px_1fr] lg:items-start">
 
-          <div className="mt-10 divide-y divide-[#CBE6EC] overflow-hidden rounded-3xl border border-[#CBE6EC]">
-            {[
-              {
-                q: "My teen is skeptical about therapy, especially online. How do you make the virtual experience engaging and relatable for them?",
-                a: "We offer a variety of programs including virtual intensive outpatient programs. These are designed to be engaging and interactive, with a focus on building strong relationships between teens and their therapists. Our online therapists use role-playing, group activities, and creative exercises to keep teens engaged.",
-              },
-              {
-                q: "Beyond scheduled sessions, what kind of support does Adolescent Mental Health offer between appointments?",
-                a: "We offer online forums and support groups, educational materials on mental health topics, self-care tips and strategies, and access to a crisis hotline — so your teen is never without support.",
-              },
-              {
-                q: "How does your online therapy address cyberbullying and social media pressures?",
-                a: "Our virtual programs address the unique challenges teens face in the digital age, providing education and support on cyberbullying, social media use, and online safety. We help teens develop healthy coping mechanisms for digital stress.",
-              },
-              {
-                q: "My teen has a busy schedule with school. How flexible are appointment times?",
-                a: "We offer flexible appointment times for our virtual programs and have a dedicated team who can help with rescheduling appointments if needed. We work around school and extracurricular schedules.",
-              },
-              {
-                q: "How does Adolescent Mental Health ensure the confidentiality of online sessions?",
-                a: "All of our virtual programs use secure, HIPAA-compliant video conferencing platforms. We have a strict policy in place regarding the sharing of personal information.",
-              },
-              {
-                q: "How do you match teens with therapists who have relevant expertise?",
-                a: "We have a team of experienced therapists who specialize in working with teens with a variety of mental health concerns — including LGBTQ+ identity, gaming-related anxiety, academic pressure, and family conflict. We match carefully for the best fit.",
-              },
-            ].map((faq, i) => (
-              <details key={i} className="group bg-white px-7 py-5 open:bg-[#F4F9FC]">
-                <summary className="flex cursor-pointer list-none items-start justify-between gap-4 text-sm font-bold text-[#1F2124]" style={{ fontFamily: "var(--font-heebo)" }}>
-                  {faq.q}
-                  <i className="ri-add-line flex-shrink-0 text-[#83B3DC] text-lg group-open:hidden mt-0.5"></i>
-                  <i className="ri-subtract-line flex-shrink-0 text-[#83B3DC] text-lg hidden group-open:block mt-0.5"></i>
-                </summary>
-                <p className="mt-4 text-sm leading-7 text-[#7C848B]">{faq.a}</p>
-              </details>
-            ))}
+            {/* Left — sticky heading */}
+            <div className="lg:sticky lg:top-24">
+              <p className="mb-3 text-[11px] font-bold uppercase tracking-[0.3em] text-[#83B3DC]">FAQ</p>
+              <h2 className="text-4xl font-bold leading-tight text-[#0A0F14] md:text-5xl" style={{ fontFamily: "var(--font-heebo)" }}>
+                Questions Parents Ask
+              </h2>
+              <p className="mt-5 text-sm leading-8 text-[#54595F]">
+                Still have questions? Our admissions team is available to walk you through every step.
+              </p>
+              <div className="mt-8 flex flex-col gap-3">
+                <a
+                  href={PHONE_HREF}
+                  className="flex items-center gap-2.5 rounded-xl bg-[#0A0F14] px-5 py-3.5 text-sm font-bold text-white transition hover:bg-[#111111]"
+                >
+                  <i className="ri-phone-fill flex-shrink-0 text-[#83B3DC]"></i>
+                  {PHONE}
+                </a>
+                <a
+                  href="mailto:admissions@adolescentmentalhealth.com"
+                  className="flex items-center gap-2.5 rounded-xl border border-[#E8EEF4] px-5 py-3.5 text-sm font-semibold text-[#54595F] transition hover:border-[#83B3DC] hover:text-[#0A0F14]"
+                >
+                  <i className="ri-mail-line flex-shrink-0 text-[#83B3DC]"></i>
+                  Email Admissions
+                </a>
+              </div>
+            </div>
+
+            {/* Right — accordions */}
+            <div className="divide-y divide-[#F0F4F8]">
+              {[
+                {
+                  q: "My teen is skeptical about therapy, especially online. How do you engage them?",
+                  a: "Our therapists use role-playing, group activities, and creative exercises to keep teens engaged. Virtual IOPs are designed to feel personal and relatable — not clinical — and teens often adapt quickly.",
+                },
+                {
+                  q: "What kind of support is available between scheduled sessions?",
+                  a: "We offer online support groups, educational materials, self-care strategies, and access to a crisis line — so your teen is never without support between appointments.",
+                },
+                {
+                  q: "How do you handle cyberbullying and social media pressures?",
+                  a: "Our programs address digital-age challenges head-on: cyberbullying, social media anxiety, online safety, and screen dependency. Teens build healthy coping skills specific to their digital environment.",
+                },
+                {
+                  q: "My teen has a busy school schedule. How flexible are you?",
+                  a: "We work around school and extracurricular schedules. Our admissions team will help find session times that don't conflict with classes, and rescheduling support is always available.",
+                },
+                {
+                  q: "How is confidentiality maintained in virtual sessions?",
+                  a: "All sessions use HIPAA-compliant, encrypted video conferencing. Personal information is never shared without explicit consent, and our strict privacy policy governs all digital interactions.",
+                },
+                {
+                  q: "How do you match my teen with the right therapist?",
+                  a: "We match based on your teen's specific needs — LGBTQ+ identity, gaming anxiety, academic pressure, family conflict, and more. We prioritize therapeutic fit and adjust when needed.",
+                },
+              ].map((faq, i) => (
+                <details key={i} className="group py-6">
+                  <summary className="flex cursor-pointer list-none items-start justify-between gap-6">
+                    <div className="flex items-start gap-4">
+                      <span
+                        className="mt-0.5 flex-shrink-0 text-xs font-bold text-[#83B3DC]/40"
+                        style={{ fontFamily: "var(--font-heebo)", minWidth: "1.5rem" }}
+                      >
+                        {String(i + 1).padStart(2, "0")}
+                      </span>
+                      <span className="text-base font-bold text-[#0A0F14] group-open:text-[#83B3DC] transition-colors" style={{ fontFamily: "var(--font-heebo)" }}>
+                        {faq.q}
+                      </span>
+                    </div>
+                    <span className="mt-0.5 flex h-7 w-7 flex-shrink-0 items-center justify-center rounded-full bg-[#F0F4F8] text-[#83B3DC] transition group-open:bg-[#83B3DC] group-open:text-white">
+                      <i className="ri-add-line text-sm group-open:hidden"></i>
+                      <i className="ri-subtract-line text-sm hidden group-open:block"></i>
+                    </span>
+                  </summary>
+                  <p className="mt-4 pl-10 text-sm leading-8 text-[#54595F]">{faq.a}</p>
+                </details>
+              ))}
+            </div>
+
           </div>
         </div>
       </section>
 
       {/* ── Final CTA ── */}
-      <section className="bg-[#000000] px-6 py-20 lg:px-10 lg:py-24">
-        <div className="mx-auto max-w-4xl text-center">
-          <h2 className="text-3xl font-bold text-white md:text-4xl" style={{ fontFamily: "var(--font-heebo)" }}>
-            Empower Your Teen for Tomorrow
-          </h2>
-          <p className="mx-auto mt-5 max-w-xl text-base leading-8 text-white/70">
-            Compassionate support, expert guidance, and tailored programs for adolescent mental health. Connect with Adolescent Mental Health today. Let us guide your teenager towards resilience and well-being.
-          </p>
-          <p className="mt-2 text-sm text-white/40">All calls are 100% free and confidential</p>
-          <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
-            <a
-              href={PHONE_HREF}
-              className="inline-flex items-center gap-2.5 rounded-full bg-white px-8 py-4 text-sm font-bold text-[#000000] hover:bg-white/90 transition-colors shadow-lg"
+      <section className="relative overflow-hidden bg-[#0A0F14] px-6 py-[100px] lg:px-10">
+        {/* Decorative ambient glow */}
+        <div className="pointer-events-none absolute left-1/2 top-1/2 h-[600px] w-[600px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#83B3DC]/8 blur-[120px]" />
+        <div className="pointer-events-none absolute -right-32 -top-32 h-80 w-80 rounded-full bg-[#83B3DC]/5 blur-[80px]" />
+
+        <div className="relative mx-auto max-w-[1350px]">
+
+          {/* Top row — label + trust pills */}
+          <div className="mb-10 flex flex-wrap items-center justify-between gap-4">
+            <p className="text-[11px] font-bold uppercase tracking-[0.3em] text-[#83B3DC]">Get Started Today</p>
+            <div className="flex flex-wrap gap-2">
+              {["HIPAA Compliant", "Ages 12–17", "Insurance Accepted", "Same-Week Intake"].map((t) => (
+                <span key={t} className="rounded-full border border-white/10 bg-white/5 px-3.5 py-1 text-[11px] font-semibold text-white/50">
+                  {t}
+                </span>
+              ))}
+            </div>
+          </div>
+
+          {/* Main content row */}
+          <div className="grid gap-10 lg:grid-cols-[1fr_380px] lg:items-end">
+
+            {/* Left — headline */}
+            <div>
+              <h2 className="text-5xl font-bold leading-[1.05] text-white md:text-6xl lg:text-7xl" style={{ fontFamily: "var(--font-heebo)" }}>
+                Your Teen Deserves<br />
+                <span className="text-[#83B3DC]">More Than Weekly</span><br />
+                Therapy.
+              </h2>
+              <p className="mt-6 max-w-lg text-base leading-8 text-white/50">
+                Adolescent Mental Health delivers structured, insurance-accepted virtual IOP — built around your teen's schedule, not the other way around.
+              </p>
+            </div>
+
+            {/* Right — glass action card */}
+            <div
+              className="rounded-3xl p-8"
+              style={{
+                background: "rgba(255,255,255,0.04)",
+                backdropFilter: "blur(20px)",
+                border: "1px solid rgba(255,255,255,0.08)",
+                boxShadow: "rgba(255,255,255,0.07) 0px 1px 0px inset",
+              }}
             >
-              <i className="ri-phone-fill text-base"></i>
-              Call Now | {PHONE}
-            </a>
-            <Link
-              href="/admissions"
-              className="inline-flex items-center gap-2 rounded-full border-2 border-white/30 px-8 py-4 text-sm font-semibold text-white hover:border-white hover:bg-white/10 transition-colors"
-            >
-              Get Started Online
-              <i className="ri-arrow-right-line"></i>
-            </Link>
+              <p className="text-sm font-semibold text-white/70">Ready to take the first step?</p>
+              <p className="mt-1 text-xs text-white/30">All calls are 100% free and confidential</p>
+
+              <div className="mt-6 flex flex-col gap-3">
+                <a
+                  href={PHONE_HREF}
+                  className="flex items-center justify-center gap-2.5 rounded-xl bg-white px-6 py-4 text-sm font-bold text-[#0A0F14] transition hover:bg-white/90"
+                >
+                  <i className="ri-phone-fill text-[#83B3DC]"></i>
+                  Call Now — {PHONE}
+                </a>
+                <Link
+                  href="/admissions"
+                  className="flex items-center justify-center gap-2 rounded-xl border border-white/10 bg-white/5 px-6 py-4 text-sm font-semibold text-white transition hover:border-white/20 hover:bg-white/10"
+                >
+                  Start Online Intake
+                  <i className="ri-arrow-right-line text-[#83B3DC]"></i>
+                </Link>
+              </div>
+
+              <div className="mt-6 grid grid-cols-2 gap-3 border-t border-white/8 pt-6">
+                {[
+                  { icon: "ri-shield-check-line", label: "HIPAA Compliant" },
+                  { icon: "ri-time-line", label: "Same-Week Intake" },
+                  { icon: "ri-heart-pulse-line", label: "Evidence-Based" },
+                  { icon: "ri-group-line", label: "Family Involved" },
+                ].map((item) => (
+                  <div key={item.label} className="flex items-center gap-2.5">
+                    <i className={`${item.icon} text-sm text-[#83B3DC]`}></i>
+                    <span className="text-xs text-white/40">{item.label}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+
           </div>
         </div>
       </section>
