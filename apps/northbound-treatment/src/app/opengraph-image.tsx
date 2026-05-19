@@ -6,7 +6,7 @@ export const size = { width: 1200, height: 630 };
 export const contentType = "image/jpeg";
 
 const SUPABASE = "https://ahufsygjwpbymomfdazb.supabase.co/storage/v1/object/public/site-assets";
-const HERO_BG = `${SUPABASE}/images/nbt_gg_exterior01.jpg`;
+const HERO_BG = `${SUPABASE}/images/nbt_og_background.jpg`;
 const LOGO = `${SUPABASE}/logos/northbound-logo.png`;
 
 export default function Image() {
