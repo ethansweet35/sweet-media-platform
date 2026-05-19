@@ -36,17 +36,9 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     siteName: "Northbound Treatment Center",
-    images: [
-      {
-        url: "https://www.northboundtreatment.com/wp-content/uploads/2023/07/My-project-1-1.png",
-        width: 696,
-        height: 696,
-      },
-    ],
   },
   twitter: {
     card: "summary_large_image",
-    images: ["https://www.northboundtreatment.com/wp-content/uploads/2023/07/My-project-1-1.png"],
   },
   verification: {
     // Google Search Console — all three tokens from live northboundtreatment.com
