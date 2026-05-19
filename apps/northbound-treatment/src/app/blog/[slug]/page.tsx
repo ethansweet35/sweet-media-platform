@@ -55,7 +55,9 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const row = await fetchPublishedBlogPostForMetadata(slug);
 
   const titleBase = metaString(row?.title) || slugToFallbackTitle(slug);
-  const title = `${titleBase} | Northbound Treatment`;
+  // titleBase is used for <title> — the root layout template appends "| Northbound Treatment"
+  // ogTitle is used for OG/Twitter where the template does NOT apply
+  const ogTitle = `${titleBase} | Northbound Treatment`;
   const description =
     metaString(row?.meta_description).trim() ||
     metaString(row?.excerpt).trim() ||
@@ -64,13 +66,13 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const ogImageUrl = toAbsoluteOgUrl(row?.hero_image_url);
 
   return {
-    title,
+    title: titleBase,
     description,
     alternates: { canonical: `/blog/${slug}` },
     openGraph: {
       type: "article",
       url: `/blog/${slug}`,
-      title,
+      title: ogTitle,
       description,
       siteName: "Northbound Treatment",
       publishedTime: metaString(row?.published_at) || undefined,
@@ -81,7 +83,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     },
     twitter: {
       card: "summary_large_image",
-      title,
+      title: ogTitle,
       description,
       images: [ogImageUrl],
     },
