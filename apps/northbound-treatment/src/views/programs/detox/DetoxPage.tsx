@@ -111,7 +111,7 @@ const data: TreatmentPageData = {
     {
       icon: "ri-home-heart-line",
       title: "Comfort-First Facility in Garden Grove",
-      body: "Our Garden Grove detox facility (16–30 beds) was designed to feel nothing like a hospital. Memory foam beds, flat-screen TVs, a fire pit, and chef-catered meals — real comfort that supports real healing during an already difficult time.",
+      body: "Our Garden Grove detox facility was designed to feel nothing like a hospital. Memory foam beds, flat-screen TVs, a fire pit, and chef-catered meals — real comfort that supports real healing during an already difficult time.",
     },
     {
       icon: "ri-refresh-line",

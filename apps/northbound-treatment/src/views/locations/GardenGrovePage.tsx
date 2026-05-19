@@ -238,8 +238,8 @@ export default function GardenGrovePage() {
               </div>
               {/* floating badge */}
               <div className="absolute -bottom-6 -left-6 rounded-2xl bg-navy px-6 py-5 shadow-xl">
-                <p className="font-heading text-3xl font-bold text-white">16–30</p>
-                <p className="mt-0.5 text-xs font-semibold uppercase tracking-widest text-terracotta">Bed Capacity</p>
+                <p className="font-heading text-3xl font-bold text-white">38+</p>
+                <p className="mt-0.5 text-xs font-semibold uppercase tracking-widest text-terracotta">Years of Care</p>
               </div>
             </div>
           </div>
