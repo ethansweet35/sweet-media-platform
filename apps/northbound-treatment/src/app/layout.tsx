@@ -5,6 +5,7 @@ import "./globals.css";
 import Layout from "@/components/feature/Layout";
 import { AnalyticsWrapper } from "@sweetmedia/admin-core";
 import { CTM_FORMREACTOR_SRC, CTM_TRACKING_SRC } from "@/lib/ctm";
+import CtmRouteReloader from "@/components/feature/CtmRouteReloader";
 
 const dmSans = DM_Sans({
   variable: "--font-dm-sans",
@@ -89,7 +90,8 @@ export default function RootLayout({
           id="ctm-tracking"
           src={CTM_TRACKING_SRC}
           strategy="afterInteractive"
-          async
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          {...({ fetchpriority: "high" } as any)}
           data-cfasync="false"
         />
         <Script
@@ -148,6 +150,7 @@ export default function RootLayout({
         </noscript>
         <Layout>{children}</Layout>
         <AnalyticsWrapper />
+        <CtmRouteReloader />
       </body>
     </html>
   );
