@@ -62,7 +62,7 @@ const CONTAINER = "mx-auto w-full max-w-7xl px-6 lg:px-10";
 function VerifyForm() {
   return (
     <CtmFormReactor
-      height={420}
+      height={380}
       title="Verify insurance benefits — Northbound Treatment"
     />
   );
@@ -97,9 +97,9 @@ export default function InsurancePageTemplate({ data }: { data: InsurancePageDat
     <>
       {/* ── Hero ────────────────────────────────────────────────── */}
       <section className="relative overflow-hidden bg-navy">
-        <div className="grid lg:grid-cols-[1fr_480px]">
+        <div className="grid lg:grid-cols-[1fr_440px] lg:items-stretch">
           {/* Left: image + content */}
-          <div className="relative min-h-[min(480px,calc(100dvh-10rem))] max-h-[620px]">
+          <div className="relative min-h-[420px] lg:min-h-0">
             <Image
               src={data.heroImage}
               alt={data.heroImageAlt}
@@ -154,9 +154,9 @@ export default function InsurancePageTemplate({ data }: { data: InsurancePageDat
           </div>
 
           {/* Right: verification form */}
-          <div className="flex flex-col justify-center bg-navy-light/80 px-8 py-14 lg:px-10">
+          <div className="flex flex-col justify-center bg-navy-light/80 px-8 py-8 lg:px-10 lg:py-10">
             <p className="brand-eyebrow mb-2 text-terracotta">Verify Insurance</p>
-            <h2 className="font-heading mb-6 text-2xl font-bold text-white">
+            <h2 className="font-heading mb-4 text-2xl font-bold text-white">
               Check Your {data.carrierName} Benefits
             </h2>
             <VerifyForm />
