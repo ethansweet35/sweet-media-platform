@@ -28,8 +28,10 @@ export default function Hero() {
         sizes="100vw"
       />
 
-      {/* ── Primary overlay: dark navy anchored on the left, fades toward the right ─ */}
-      <div className="absolute inset-0 bg-gradient-to-r from-navy/95 from-0% via-navy/90 via-[38%] to-transparent to-[68%]" />
+      {/* ── Mobile: full-bleed overlay so text stays legible at any width ─── */}
+      <div className="absolute inset-0 bg-navy/85 lg:hidden" />
+      {/* ── Desktop: dark navy anchored on the left, fades toward the right ─ */}
+      <div className="absolute inset-0 hidden bg-gradient-to-r from-navy/95 from-0% via-navy/90 via-[38%] to-transparent to-[68%] lg:block" />
 
       {/* ── Bottom band — subtle left-anchored navy vignette ─ */}
       <div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-navy/50 via-navy/20 to-transparent" />

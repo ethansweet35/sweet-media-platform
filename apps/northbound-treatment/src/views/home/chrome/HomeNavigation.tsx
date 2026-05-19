@@ -16,13 +16,13 @@ import { PRIMARY_NAV, type MegaSection, type TopLevelItem } from "./menuData";
 export default function HomeNavigation() {
   const [activeMenu, setActiveMenu] = useState<string | null>(null);
   const [mobileOpen, setMobileOpen] = useState(false);
-  const [openMobileSection, setOpenMobileSection] = useState<string | null>(
-    null,
-  );
+  const [openMobileSection, setOpenMobileSection] = useState<string | null>(null);
+  const [openMobileSubSection, setOpenMobileSubSection] = useState<string | null>(null);
 
   const closeMobile = () => {
     setMobileOpen(false);
     setOpenMobileSection(null);
+    setOpenMobileSubSection(null);
   };
 
   return (
@@ -104,31 +104,65 @@ export default function HomeNavigation() {
 
       {/* Mobile drawer */}
       {mobileOpen ? (
-        <div className="architectural-border-top max-h-[calc(100vh-7.5rem)] overflow-y-auto bg-sand-light px-6 pb-6 pt-2 lg:hidden">
-          <ul className="divide-y divide-sand-dark/40">
+        <div className="absolute left-0 right-0 top-full z-50 flex max-h-[calc(100svh-7.5rem)] flex-col bg-white shadow-2xl lg:hidden">
+          {/* Accent bar */}
+          <div className="h-[3px] w-full flex-shrink-0 bg-gradient-to-r from-terracotta via-navy to-espresso" />
+
+          {/* Header strip */}
+          <div className="flex flex-shrink-0 items-center justify-between border-b border-sand-dark/40 bg-navy px-5 py-3">
+            <div className="flex items-center gap-2.5">
+              <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-terracotta" />
+              <span className="text-[10px] font-bold uppercase tracking-[0.22em] text-white/50">
+                Navigate
+              </span>
+            </div>
+            <div className="flex items-center gap-3 text-[9px] font-semibold uppercase tracking-[0.14em] text-white/25">
+              <span>38+ Years</span>
+              <span>·</span>
+              <span>24 / 7 Care</span>
+              <span>·</span>
+              <span>DHCS Licensed</span>
+            </div>
+          </div>
+
+          {/* Scrollable nav items */}
+          <ul className="flex-1 divide-y divide-sand-dark/30 overflow-y-auto px-5">
             {PRIMARY_NAV.map((item) => (
               <MobileMenuRow
                 key={item.label}
                 item={item}
                 isOpen={openMobileSection === item.label}
-                onToggle={() =>
+                onToggle={() => {
                   setOpenMobileSection((cur) =>
                     cur === item.label ? null : item.label,
+                  );
+                  setOpenMobileSubSection(null);
+                }}
+                onNavigate={closeMobile}
+                openSubSection={openMobileSubSection}
+                onSubToggle={(heading) =>
+                  setOpenMobileSubSection((cur) =>
+                    cur === heading ? null : heading,
                   )
                 }
-                onNavigate={closeMobile}
               />
             ))}
           </ul>
 
-          <a
-            href="tel:8663110003"
-            onClick={closeMobile}
-            className="mt-6 flex items-center justify-center gap-2 bg-navy px-6 py-3 text-xs uppercase tracking-[0.18em] text-sand-light hover:bg-terracotta"
-          >
-            <span className="h-2 w-2 animate-pulse rounded-full bg-terracotta"></span>
-            (866) 311-0003
-          </a>
+          {/* Sticky CTA footer */}
+          <div className="flex-shrink-0 border-t border-sand-dark/40 bg-white p-4">
+            <a
+              href="tel:8663110003"
+              onClick={closeMobile}
+              className="flex items-center justify-center gap-2 bg-terracotta px-6 py-3.5 text-xs font-bold uppercase tracking-[0.2em] text-white transition hover:bg-terracotta-light"
+            >
+              <i className="ri-phone-fill text-sm" />
+              (866) 311-0003
+            </a>
+            <p className="mt-2 text-center text-[9px] font-semibold uppercase tracking-widest text-espresso/30">
+              Free &amp; Confidential · DHCS #300661CP
+            </p>
+          </div>
         </div>
       ) : null}
     </nav>
@@ -424,7 +458,7 @@ function MegaMenuCta({ onClose }: { onClose: () => void }) {
 }
 
 /* -----------------------------------------------------------------------
- * Mobile accordion row
+ * Mobile accordion — two levels: top-level item → section → links
  * ---------------------------------------------------------------------- */
 
 function MobileMenuRow({
@@ -432,11 +466,15 @@ function MobileMenuRow({
   isOpen,
   onToggle,
   onNavigate,
+  openSubSection,
+  onSubToggle,
 }: {
   item: TopLevelItem;
   isOpen: boolean;
   onToggle: () => void;
   onNavigate: () => void;
+  openSubSection: string | null;
+  onSubToggle: (heading: string) => void;
 }) {
   if (!item.sections) {
     return (
@@ -444,9 +482,10 @@ function MobileMenuRow({
         <Link
           href={item.href}
           onClick={onNavigate}
-          className="block py-4 text-xs uppercase tracking-[0.2em] text-espresso hover:text-terracotta"
+          className="flex items-center justify-between py-4 text-sm font-semibold uppercase tracking-[0.14em] text-espresso hover:text-navy"
         >
           {item.label}
+          <i className="ri-arrow-right-line text-sm text-espresso/25" />
         </Link>
       </li>
     );
@@ -457,50 +496,108 @@ function MobileMenuRow({
       <button
         type="button"
         onClick={onToggle}
-        className="flex w-full items-center justify-between py-4 text-left text-xs uppercase tracking-[0.2em] text-espresso hover:text-terracotta"
+        className={`flex w-full items-center justify-between py-4 text-left text-sm font-semibold uppercase tracking-[0.14em] transition-colors ${
+          isOpen ? "text-navy" : "text-espresso"
+        }`}
       >
         {item.label}
         <i
-          className={`ri-arrow-down-s-line text-base leading-none transition-transform duration-300 ${
-            isOpen ? "rotate-180" : ""
+          className={`ri-arrow-down-s-line text-xl leading-none transition-transform duration-200 ${
+            isOpen ? "rotate-180 text-terracotta" : "text-espresso/30"
           }`}
-        ></i>
+        />
       </button>
 
       {isOpen ? (
-        <div className="space-y-5 border-l border-sand-dark/60 pb-5 pl-4">
+        <div className="mb-4 space-y-1.5">
           {item.sections.map((section) => (
-            <div key={section.heading}>
-              {section.headingHref ? (
-                <Link
-                  href={section.headingHref}
-                  onClick={onNavigate}
-                  className="mb-2 block text-[10px] font-bold uppercase tracking-[0.22em] text-navy hover:text-terracotta"
-                >
-                  {section.heading}
-                </Link>
-              ) : (
-                <p className="mb-2 text-[10px] font-bold uppercase tracking-[0.22em] text-navy">
-                  {section.heading}
-                </p>
-              )}
-              <ul className="space-y-1">
-                {section.links.map((link) => (
-                  <li key={`${link.label}-${link.href}`}>
-                    <Link
-                      href={link.href}
-                      onClick={onNavigate}
-                      className="block py-1.5 text-sm font-light text-espresso/80 hover:text-terracotta"
-                    >
-                      {link.label}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </div>
+            <MobileSubSection
+              key={section.heading}
+              section={section}
+              isOpen={openSubSection === section.heading}
+              onToggle={() => onSubToggle(section.heading)}
+              onNavigate={onNavigate}
+            />
           ))}
         </div>
       ) : null}
     </li>
+  );
+}
+
+function MobileSubSection({
+  section,
+  isOpen,
+  onToggle,
+  onNavigate,
+}: {
+  section: MegaSection;
+  isOpen: boolean;
+  onToggle: () => void;
+  onNavigate: () => void;
+}) {
+  return (
+    <div className="overflow-hidden">
+      <button
+        type="button"
+        onClick={onToggle}
+        className={`flex w-full items-center justify-between px-4 py-3 text-left transition-colors ${
+          isOpen ? "bg-navy" : "bg-sand"
+        }`}
+      >
+        <div className="flex items-center gap-2.5">
+          {section.icon ? (
+            <i
+              className={`${section.icon} text-sm ${
+                isOpen ? "text-terracotta" : "text-navy/40"
+              }`}
+            />
+          ) : null}
+          <span
+            className={`text-[11px] font-bold uppercase tracking-[0.16em] ${
+              isOpen ? "text-white" : "text-espresso"
+            }`}
+          >
+            {section.heading}
+          </span>
+        </div>
+        <i
+          className={`ri-arrow-down-s-line text-base leading-none transition-transform duration-200 ${
+            isOpen ? "rotate-180 text-white/50" : "text-espresso/30"
+          }`}
+        />
+      </button>
+
+      {isOpen ? (
+        <div className="border border-t-0 border-sand-dark/40 bg-white px-4 pb-3 pt-2">
+          {section.headingHref ? (
+            <Link
+              href={section.headingHref}
+              onClick={onNavigate}
+              className="mb-2 flex items-center gap-1.5 border-b border-sand-dark/30 pb-2 text-[10px] font-bold uppercase tracking-[0.18em] text-terracotta"
+            >
+              View all {section.heading}
+              <i className="ri-arrow-right-line text-xs" />
+            </Link>
+          ) : null}
+          <ul>
+            {section.links.map((link) => (
+              <li key={`${link.label}-${link.href}`}>
+                <Link
+                  href={link.href}
+                  onClick={onNavigate}
+                  className="flex items-center gap-2.5 py-2 text-sm text-espresso/75 hover:text-navy"
+                >
+                  {link.icon ? (
+                    <i className={`${link.icon} text-xs text-navy/25`} />
+                  ) : null}
+                  {link.label}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </div>
+      ) : null}
+    </div>
   );
 }
