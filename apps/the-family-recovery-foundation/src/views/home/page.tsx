@@ -3,6 +3,9 @@ import AboutSection from "./components/AboutSection";
 import PillarsSection from "./components/PillarsSection";
 import ServicesSection from "./components/ServicesSection";
 import StoriesSection from "./components/StoriesSection";
+import HomeSupportCtaSection from "./components/HomeSupportCtaSection";
+import HomeResourcesPartnersSection from "./components/HomeResourcesPartnersSection";
+import HomeDonateSection from "./components/HomeDonateSection";
 
 export default function HomePage() {
   return (
@@ -13,6 +16,9 @@ export default function HomePage() {
         <PillarsSection />
         <ServicesSection />
         <StoriesSection />
+        <HomeSupportCtaSection />
+        <HomeResourcesPartnersSection />
+        <HomeDonateSection />
       </main>
       </div>
   );
