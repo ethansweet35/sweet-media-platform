@@ -23,6 +23,7 @@ const SKIP_EXACT = new Set([
   "/wahler-scholarship",
   "/referring-professionals",
   "/resources",
+  "/virtual-lp",
 ]);
 
 // Maps path segments → more effective search terms

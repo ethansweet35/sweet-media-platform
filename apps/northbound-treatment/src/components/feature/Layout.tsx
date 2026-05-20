@@ -6,6 +6,7 @@ import HomeFooter from "@/views/home/chrome/HomeFooter";
 import HomeNavigation from "@/views/home/chrome/HomeNavigation";
 import HomeTopBar from "@/views/home/chrome/HomeTopBar";
 import RelatedPostsSection from "@/components/feature/RelatedPostsSection";
+import VirtualLpChrome from "@/views/virtual-lp/VirtualLpChrome";
 
 /**
  * Global layout wrapper.
@@ -18,6 +19,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const isAdmin = pathname?.startsWith("/admin");
   const isHome = pathname === "/";
+  const isVirtualLp = pathname === "/virtual-lp" || pathname === "/virtual-lp/";
 
   const [scrolled, setScrolled] = useState(false);
 
@@ -36,6 +38,15 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 
   if (isAdmin || isHome) return <>{children}</>;
 
+  if (isVirtualLp) {
+    return (
+      <div className="min-h-screen bg-white">
+        <VirtualLpChrome />
+        <main className="pt-[4.75rem]">{children}</main>
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen bg-white">
       <HomeTopBar />
@@ -45,6 +56,8 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       <RelatedPostsSection />
       <HomeFooter />
 
+      {!isVirtualLp ? (
+      <>
       {/* Mobile sticky CTA — fades in after scroll */}
       <div
         className={`fixed bottom-0 left-0 right-0 z-50 transition-transform duration-500 md:hidden ${
@@ -87,6 +100,8 @@ export default function Layout({ children }: { children: React.ReactNode }) {
           (866) 311-0003
         </a>
       </div>
+      </>
+      ) : null}
     </div>
   );
 }
