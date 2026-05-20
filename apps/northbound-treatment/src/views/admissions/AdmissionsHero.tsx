@@ -92,12 +92,11 @@ export default function AdmissionsHero() {
           </div>
 
           {/* ── Right: CTM FormReactor ─────────────────────────────────────── */}
-          <div className="relative">
+          <div className="relative lg:flex lg:items-start lg:justify-end">
             <CtmLeadFormCard
               eyebrow="Available 24/7 — No Obligation"
               title="Request a Free Assessment"
               subtitle="Fill out the form and we'll call you immediately."
-              height={460}
             />
           </div>
 

@@ -91,11 +91,9 @@ export default function ContactPage() {
               </p>
 
               <CtmLeadFormCard
-                className="max-w-[560px]"
                 eyebrow="Available 24/7"
                 title="Confidential Contact Form"
                 subtitle="A counselor will respond within minutes."
-                height={290}
               />
 
               <p className="mt-6 flex items-center justify-center gap-2 text-xs text-espresso/50">

@@ -62,7 +62,7 @@ const CONTAINER = "mx-auto w-full max-w-7xl px-6 lg:px-10";
 function VerifyForm() {
   return (
     <CtmFormReactor
-      height={380}
+      className="max-w-[400px]"
       title="Verify insurance benefits — Northbound Treatment"
     />
   );

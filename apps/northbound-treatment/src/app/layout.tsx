@@ -77,22 +77,26 @@ export default function RootLayout({
           })(window,document,'script','dataLayer','${GTM_ID}');
         `}</Script>
 
-        {/* ── CTM call tracking (account 186366) ── */}
-        <Script
-          id="ctm-tracking"
-          src={CTM_TRACKING_SRC}
-          strategy="afterInteractive"
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          {...({ fetchpriority: "high" } as any)}
-          data-cfasync="false"
-        />
-        <Script
-          id="ctm-formreactor"
-          src={CTM_FORMREACTOR_SRC}
-          strategy="afterInteractive"
-          defer
-          async
-        />
+        {/* ── CTM call tracking (account 186366) — domain-locked, only load on production ── */}
+        {process.env.NODE_ENV === "production" && (
+          <>
+            <Script
+              id="ctm-tracking"
+              src={CTM_TRACKING_SRC}
+              strategy="afterInteractive"
+              // eslint-disable-next-line @typescript-eslint/no-explicit-any
+              {...({ fetchpriority: "high" } as any)}
+              data-cfasync="false"
+            />
+            <Script
+              id="ctm-formreactor"
+              src={CTM_FORMREACTOR_SRC}
+              strategy="afterInteractive"
+              defer
+              async
+            />
+          </>
+        )}
 
         {/* ── TalkFurther + ACSB — domain-locked, only load on production ── */}
         {process.env.NODE_ENV === "production" && (

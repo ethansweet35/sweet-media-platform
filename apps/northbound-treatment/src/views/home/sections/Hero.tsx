@@ -169,11 +169,9 @@ export default function Hero() {
           {/* Right — CTM FormReactor (matches live northboundtreatment.com) */}
           <div className="relative z-30 mt-12 lg:col-span-6 lg:mt-0 lg:flex lg:items-start lg:justify-end">
             <CtmLeadFormCard
-              className="max-w-[400px]"
               eyebrow="Available 24/7"
               title="Start Your Recovery"
               subtitle="Fill out the form and we'll call you immediately."
-              height={290}
             />
           </div>
         </div>

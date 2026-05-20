@@ -151,12 +151,11 @@ function TreatmentHero({ data }: { data: TreatmentPageData }) {
             </div>
           </div>
           {/* Right: CTM FormReactor */}
-          <div className="relative">
+          <div className="relative lg:flex lg:items-start lg:justify-end">
             <CtmLeadFormCard
               eyebrow="Free · No Obligation · Confidential"
               title="Verify Your Coverage"
               subtitle="Fill out the form — we'll call you right away."
-              height={460}
             />
           </div>
         </div>

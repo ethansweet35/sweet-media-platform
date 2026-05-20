@@ -4,7 +4,7 @@ type CtmLeadFormCardProps = {
   eyebrow: string;
   title: string;
   subtitle?: string;
-  /** iframe height — default matches live WP full lead form */
+  /** iframe height — default matches homepage compact embed */
   height?: number;
   className?: string;
 };
@@ -14,12 +14,12 @@ export default function CtmLeadFormCard({
   eyebrow,
   title,
   subtitle,
-  height = 460,
+  height = 290,
   className = "",
 }: CtmLeadFormCardProps) {
   return (
     <div
-      className={`relative w-full overflow-hidden border border-white/10 bg-navy-light/60 p-6 shadow-2xl backdrop-blur-md lg:p-8 ${className}`.trim()}
+      className={`relative w-full max-w-[400px] overflow-hidden border border-white/10 bg-navy-light/60 p-6 shadow-2xl backdrop-blur-md lg:p-8 ${className}`.trim()}
     >
       <div className="absolute left-0 top-0 h-1 w-full bg-gradient-to-r from-terracotta via-navy to-espresso" />
 
