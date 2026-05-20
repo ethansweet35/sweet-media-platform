@@ -1,11 +1,11 @@
 /** Shared “How it works” / onboarding phases — Elementor copy used on Our Solution + Our Process. */
 
 export const IMG_ONBOARD_PHASE_1 =
-  "https://nstzjqmtsqgeihkyvkqq.supabase.co/storage/v1/object/public/site-assets/images/Untitled-design-2026-04-08T230931.171.png";
+  "https://nstzjqmtsqgeihkyvkqq.supabase.co/storage/v1/object/public/site-assets/images/Untitled-design-2026-04-09T100233.880.png";
 export const IMG_ONBOARD_PHASE_2 =
-  "https://nstzjqmtsqgeihkyvkqq.supabase.co/storage/v1/object/public/site-assets/images/Untitled-design-2026-04-08T231247.007.png";
+  "https://nstzjqmtsqgeihkyvkqq.supabase.co/storage/v1/object/public/site-assets/images/Untitled-design-2026-04-15T201810.850.png";
 export const IMG_ONBOARD_PHASE_3 =
-  "https://nstzjqmtsqgeihkyvkqq.supabase.co/storage/v1/object/public/site-assets/images/Untitled-design-2026-04-08T231506.070.png";
+  "https://nstzjqmtsqgeihkyvkqq.supabase.co/storage/v1/object/public/site-assets/images/Untitled-design-2026-04-15T210356.097.png";
 
 export type OnboardingPhase = {
   phase: string;
