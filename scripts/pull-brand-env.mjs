@@ -27,7 +27,7 @@ import { execSync } from 'child_process';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const REPO_ROOT = join(__dirname, '..');
-const OP_VAULT  = 'sweet media platform';
+const OP_VAULT  = 'Sweet Media Platform';
 
 function log(msg)  { console.log(`\n✅  ${msg}`); }
 function step(msg) { console.log(`\n⏳  ${msg}...`); }
@@ -79,11 +79,14 @@ function extractEnvFromItem(item) {
   for (const field of item.fields) {
     const val = field.value;
     if (!val) continue;
-    // If this field value looks like an env file blob, parse it
+    // SECURE_NOTE env blob in notesPlain
+    if (field.id === 'notesPlain' || field.purpose === 'NOTES') {
+      if (/^[A-Z_]+=.+/m.test(val)) Object.assign(out, parseEnvText(val));
+      continue;
+    }
     if (/^[A-Z_]+=.+/m.test(val)) {
       Object.assign(out, parseEnvText(val));
     } else if (field.label && /^[A-Z_]+$/.test(field.label)) {
-      // Individual labeled field matching an env var pattern
       out[field.label] = val;
     }
   }
@@ -94,6 +97,31 @@ function envMapToFile(envMap) {
   return Object.entries(envMap)
     .map(([k, v]) => `${k}=${v}`)
     .join('\n') + '\n';
+}
+
+/** Fetch raw .env.local text — supports SECURE_NOTE (notesPlain) and DOCUMENT (file attachment). */
+function fetchEnvFileContent(itemName) {
+  const item = fetchOpItem(itemName);
+  if (!item) return null;
+
+  const envMap = extractEnvFromItem(item);
+  if (envMap) return envMapToFile(envMap);
+
+  const hasDocumentFile = item.category === 'DOCUMENT' || (item.files?.length ?? 0) > 0;
+  if (hasDocumentFile) {
+    try {
+      const escaped = itemName.replace(/"/g, '\\"');
+      const text = execSync(
+        `op document get "${escaped}" --vault "${OP_VAULT}"`,
+        { stdio: ['pipe', 'pipe', 'pipe'] },
+      ).toString();
+      if (text.trim()) return text.endsWith('\n') ? text : `${text}\n`;
+    } catch {
+      return null;
+    }
+  }
+
+  return null;
 }
 
 async function main() {
@@ -126,30 +154,24 @@ async function main() {
   const itemName = `${slug} \u2014 .env.local`; // em dash
   step(`Fetching "${itemName}" from 1Password`);
 
-  const item = fetchOpItem(itemName);
+  const envContent = fetchEnvFileContent(itemName);
 
-  if (!item) {
+  if (!envContent) {
     die(
-      `Could not find item "${itemName}" in vault "${OP_VAULT}".\n` +
+      `Could not find or read "${itemName}" in vault "${OP_VAULT}".\n` +
       '  Make sure:\n' +
       '  1. 1Password desktop app is open and unlocked\n' +
       '  2. The desktop app integration is enabled (Settings → Developer → Integrate with CLI)\n' +
-      `  3. The vault item is named exactly: "${itemName}"`
+      `  3. The vault item is named exactly: "${itemName}"\n` +
+      '  4. The item has either a notesPlain env blob or a .env.local file attachment'
     );
   }
 
-  const envMap = extractEnvFromItem(item);
-
-  if (!envMap) {
-    die(
-      `Found the 1Password item but could not extract any env vars from it.\n` +
-      `  Check that the item "${itemName}" contains env var content (KEY=value lines).`
-    );
-  }
+  const envMap = parseEnvText(envContent);
 
   // ── Write .env.local ─────────────────────────────────────────────────────
   const existed = existsSync(outPath);
-  writeFileSync(outPath, envMapToFile(envMap), 'utf8');
+  writeFileSync(outPath, envContent, 'utf8');
 
   log(`${existed ? 'Updated' : 'Created'} apps/${slug}/.env.local (${Object.keys(envMap).length} vars)`);
 

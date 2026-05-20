@@ -49,12 +49,21 @@ const ALL_BRANDS = [
   'addiction-interventions',
   'cipher-billing',
   'rize-oc',
+  'simple-health',
+  'adolescent-mental-health',
+  'mountainview-treatment',
 ];
 
 // Brands whose Vercel project name differs from the app slug
 const VERCEL_PROJECT_NAMES = {
   'sweet-media':         'sweet-media-platform',
   'inner-peak-colorado': 'inner-peak-colorado-platform',
+};
+
+// 1Password .upload.env titles that differ from "<slug> — .upload.env"
+const OP_UPLOAD_ENV_TITLES = {
+  'northbound-treatment': 'northbound — .upload.env',
+  'inner-peak-colorado':  'inner-peak — .upload.env',
 };
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
@@ -91,6 +100,23 @@ function run(cmd, cwd = REPO_ROOT) {
     stdout: result.stdout ?? '',
     stderr: result.stderr ?? '',
   };
+}
+
+/** Pull a SECURE_NOTE item's notesPlain field (env file blob) from 1Password. */
+function pullOpSecureNote(title) {
+  const escaped = title.replace(/"/g, '\\"');
+  const result = run(`op item get "${escaped}" --vault "${OP_VAULT}" --format json`);
+  if (!result.ok) return null;
+  try {
+    const item = JSON.parse(result.stdout);
+    const field = (item.fields || []).find(
+      (f) => f.id === 'notesPlain' || f.label === 'notesPlain' || f.purpose === 'NOTES',
+    );
+    const text = field?.value?.trim();
+    return text || null;
+  } catch {
+    return null;
+  }
 }
 
 // ─── Main ─────────────────────────────────────────────────────────────────────
@@ -136,9 +162,9 @@ async function main() {
   if (!skip1password && opOk) {
     const rootEnvPath = join(REPO_ROOT, '.env');
     step('Pulling root .env from 1Password');
-    const result = run(`op document get "platform — root .env" --vault "${OP_VAULT}"`);
-    if (result.ok && result.stdout.trim()) {
-      writeFileSync(rootEnvPath, result.stdout, 'utf8');
+    const rootEnvText = pullOpSecureNote('platform — root .env');
+    if (rootEnvText) {
+      writeFileSync(rootEnvPath, rootEnvText.endsWith('\n') ? rootEnvText : `${rootEnvText}\n`, 'utf8');
       log('Root .env written');
     } else {
       warn(
@@ -204,11 +230,15 @@ async function main() {
     // 2b. Pull .upload.env from 1Password
     if (!skip1password && opOk) {
       const uploadEnvPath = join(appDir, '.upload.env');
-      const title = `${slug} — .upload.env`;
-      step(`Pulling .upload.env for ${slug} from 1Password`);
-      const result = run(`op document get "${title}" --vault "${OP_VAULT}"`);
-      if (result.ok && result.stdout.trim()) {
-        writeFileSync(uploadEnvPath, result.stdout, 'utf8');
+      const title = OP_UPLOAD_ENV_TITLES[slug] ?? `${slug} — .upload.env`;
+      step(`Pulling .upload.env for ${slug} from 1Password ("${title}")`);
+      const uploadEnvText = pullOpSecureNote(title);
+      if (uploadEnvText) {
+        writeFileSync(
+          uploadEnvPath,
+          uploadEnvText.endsWith('\n') ? uploadEnvText : `${uploadEnvText}\n`,
+          'utf8',
+        );
         log(`.upload.env written for ${slug}`);
       } else {
         warn(

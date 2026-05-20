@@ -22,3 +22,4 @@ wp-screenshots/
 apps/*-migration/
 .upload.env
 uploaded-image-files.txt
+.env*.local
