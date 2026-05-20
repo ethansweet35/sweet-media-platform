@@ -73,9 +73,9 @@ export default function Navbar() {
             <Image
               src={`${SB}/amh-logo-optimized.png`}
               alt="Adolescent Mental Health"
-              width={160}
-              height={74}
-              className="h-11 w-auto"
+              width={200}
+              height={92}
+              className="h-14 w-auto sm:h-16"
               priority
             />
           </Link>
