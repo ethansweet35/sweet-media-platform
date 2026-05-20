@@ -7,6 +7,7 @@ import Eyebrow from "@/components/ui/Eyebrow";
 import SectionHeader from "@/components/ui/SectionHeader";
 import Button from "@/components/ui/Button";
 import CinematicHeroSection from "@/components/ui/CinematicHeroSection";
+import { CINEMATIC_STANDARD_HERO_GRADIENT } from "@/lib/cinematicHeroStyles";
 import { PAGE_GRID } from "@/components/ui/PageHeroShell";
 import { AutoLinkedTextClient } from "@sweetmedia/blog-core";
 
@@ -242,10 +243,7 @@ export default function ContactPage() {
             />
             <div
               className="absolute inset-0"
-              style={{
-                background:
-                  "linear-gradient(to bottom, rgba(44,48,46,0.55) 0%, rgba(44,48,46,0.2) 40%, rgba(44,48,46,0.92) 100%)",
-              }}
+              style={{ background: CINEMATIC_STANDARD_HERO_GRADIENT }}
             />
           </>
         }

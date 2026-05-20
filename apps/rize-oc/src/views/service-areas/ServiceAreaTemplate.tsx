@@ -3,6 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import CinematicHeroSection from "@/components/ui/CinematicHeroSection";
+import { CINEMATIC_STANDARD_HERO_GRADIENT } from "@/lib/cinematicHeroStyles";
 import { PAGE_GRID } from "@/components/ui/PageHeroShell";
 import SectionWrapper from "@/components/ui/SectionWrapper";
 import Eyebrow from "@/components/ui/Eyebrow";
@@ -167,7 +168,7 @@ export default function ServiceAreaTemplate({ data }: { data: ServiceAreaData })
               className="absolute inset-0"
               style={{
                 background:
-                  "linear-gradient(to bottom, rgba(44,48,46,0.55) 0%, rgba(44,48,46,0.45) 30%, rgba(44,48,46,0.78) 65%, rgba(44,48,46,0.98) 100%)",
+                  CINEMATIC_STANDARD_HERO_GRADIENT,
               }}
             />
           </>

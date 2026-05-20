@@ -11,9 +11,9 @@ interface CinematicHeroSectionProps {
 }
 
 /**
- * Full-bleed photo hero that starts flush under the sticky navbar.
- * Uses an in-flow min-height shell so `Image fill` covers the full section
- * (all-absolute children alone can collapse height and leave a gap above the photo).
+ * Full-bleed photo hero that sits flush under the sticky navbar.
+ * Pulls the section up with --rize-nav-offset so the photo meets the nav edge,
+ * and keeps an in-flow min-height shell so `Image fill` covers the full area.
  */
 export default function CinematicHeroSection({
   children,
@@ -23,9 +23,18 @@ export default function CinematicHeroSection({
   contentClassName,
 }: CinematicHeroSectionProps) {
   return (
-    <section className={cn("relative isolate overflow-hidden bg-ink", minHeight, className)}>
-      <div className="pointer-events-none absolute inset-0" aria-hidden="true">
+    <section
+      className={cn(
+        "relative isolate overflow-hidden bg-ink",
+        "-mt-[var(--rize-nav-offset)] pt-[var(--rize-nav-offset)]",
+        minHeight,
+        className,
+      )}
+    >
+      <div className="pointer-events-none absolute inset-0 relative" aria-hidden="true">
         {media}
+        {/* Extra top scrim so bright sky/window areas never mimic the cream nav band */}
+        <div className="absolute inset-x-0 top-0 z-[2] h-28 bg-gradient-to-b from-ink/90 via-ink/50 to-transparent" />
       </div>
       <div className={cn("relative z-10 flex flex-col justify-end", minHeight, contentClassName)}>
         {children}

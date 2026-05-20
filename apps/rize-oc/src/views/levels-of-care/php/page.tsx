@@ -7,6 +7,7 @@ import IconCircle from "@/components/ui/IconCircle";
 import Button from "@/components/ui/Button";
 import FaqAccordion, { type FaqItem } from "@/components/ui/FaqAccordion";
 import CinematicHeroSection from "@/components/ui/CinematicHeroSection";
+import { CINEMATIC_PHP_HERO_GRADIENT } from "@/lib/cinematicHeroStyles";
 import { PAGE_GRID } from "@/components/ui/PageHeroShell";
 import { AutoLinkedText } from "@sweetmedia/blog-core";
 
@@ -187,7 +188,7 @@ export default function PhpPage() {
             />
             <div
               className="absolute inset-0"
-              style={{ background: "linear-gradient(110deg, rgba(44,48,46,0.97) 0%, rgba(44,48,46,0.90) 38%, rgba(44,48,46,0.55) 62%, rgba(44,48,46,0.1) 100%)" }}
+              style={{ background: CINEMATIC_PHP_HERO_GRADIENT }}
             />
             <span
               className="pointer-events-none absolute right-[3%] top-1/2 -translate-y-1/2 font-[family-name:var(--font-display)] italic font-normal leading-none text-white/[0.04]"

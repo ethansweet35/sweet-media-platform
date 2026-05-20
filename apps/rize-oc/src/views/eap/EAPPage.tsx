@@ -3,6 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import CinematicHeroSection from "@/components/ui/CinematicHeroSection";
+import { CINEMATIC_STANDARD_HERO_GRADIENT } from "@/lib/cinematicHeroStyles";
 import { PAGE_GRID } from "@/components/ui/PageHeroShell";
 import SectionWrapper from "@/components/ui/SectionWrapper";
 import Eyebrow from "@/components/ui/Eyebrow";
@@ -133,7 +134,7 @@ export default function EAPPage() {
               className="absolute inset-0"
               style={{
                 background:
-                  "linear-gradient(to bottom, rgba(44,48,46,0.50) 0%, rgba(44,48,46,0.25) 38%, rgba(44,48,46,0.68) 68%, rgba(44,48,46,0.97) 100%)",
+                  CINEMATIC_STANDARD_HERO_GRADIENT,
               }}
             />
           </>

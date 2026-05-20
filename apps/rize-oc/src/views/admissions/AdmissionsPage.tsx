@@ -7,6 +7,7 @@ import SectionHeader from "@/components/ui/SectionHeader";
 import IconCircle from "@/components/ui/IconCircle";
 import Button from "@/components/ui/Button";
 import CinematicHeroSection from "@/components/ui/CinematicHeroSection";
+import { CINEMATIC_STANDARD_HERO_GRADIENT } from "@/lib/cinematicHeroStyles";
 import { PAGE_GRID } from "@/components/ui/PageHeroShell";
 import FaqAccordion, { type FaqItem } from "@/components/ui/FaqAccordion";
 import AccreditationsBar from "@/views/home/components/AccreditationsBar";
@@ -129,7 +130,7 @@ export default function AdmissionsPage() {
               className="absolute inset-0"
               style={{
                 background:
-                  "linear-gradient(to bottom, rgba(44,48,46,0.65) 0%, rgba(44,48,46,0.25) 40%, rgba(44,48,46,0.55) 62%, rgba(44,48,46,0.96) 100%)",
+                  CINEMATIC_STANDARD_HERO_GRADIENT,
               }}
             />
           </>

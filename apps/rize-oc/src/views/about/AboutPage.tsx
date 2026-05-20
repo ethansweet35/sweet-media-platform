@@ -8,6 +8,7 @@ import SectionHeader from "@/components/ui/SectionHeader";
 import IconCircle from "@/components/ui/IconCircle";
 import Button from "@/components/ui/Button";
 import CinematicHeroSection from "@/components/ui/CinematicHeroSection";
+import { CINEMATIC_STANDARD_HERO_GRADIENT } from "@/lib/cinematicHeroStyles";
 import { PAGE_GRID } from "@/components/ui/PageHeroShell";
 import AccreditationsBar from "@/views/home/components/AccreditationsBar";
 import { AutoLinkedTextClient } from "@sweetmedia/blog-core";
@@ -125,7 +126,7 @@ export default function AboutPage() {
               className="absolute inset-0"
               style={{
                 background:
-                  "linear-gradient(to bottom, rgba(44,48,46,0.72) 0%, rgba(44,48,46,0.35) 38%, rgba(44,48,46,0.55) 62%, rgba(44,48,46,0.95) 100%)",
+                  CINEMATIC_STANDARD_HERO_GRADIENT,
               }}
             />
           </>

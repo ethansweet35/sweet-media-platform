@@ -6,6 +6,7 @@ import IconCircle from "@/components/ui/IconCircle";
 import Button from "@/components/ui/Button";
 import PageHeroShell from "@/components/ui/PageHeroShell";
 import CinematicHeroSection from "@/components/ui/CinematicHeroSection";
+import { CINEMATIC_BOTTOM_HERO_GRADIENT } from "@/lib/cinematicHeroStyles";
 import AccreditationsBar from "@/views/home/components/AccreditationsBar";
 import { AutoLinkedText } from "@sweetmedia/blog-core";
 
@@ -206,7 +207,7 @@ export default function WhatWeTreatPage() {
             />
             <div
               className="absolute inset-0"
-              style={{ background: "linear-gradient(to top, rgba(44,48,46,1) 0%, rgba(44,48,46,0.92) 30%, rgba(44,48,46,0.65) 55%, rgba(44,48,46,0.2) 100%)" }}
+              style={{ background: CINEMATIC_BOTTOM_HERO_GRADIENT }}
             />
           </>
         }

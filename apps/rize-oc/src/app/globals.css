@@ -52,6 +52,14 @@
   --max-width:    1300px;
   --radius-sm:    3px;
   --radius-md:    3px;
+  /* Sticky nav height — cinematic heroes pull up by this amount (see CinematicHeroSection) */
+  --rize-nav-offset: 5.25rem;
+}
+
+@media (min-width: 1024px) {
+  :root {
+    --rize-nav-offset: 8.125rem;
+  }
 }
 
 html {
