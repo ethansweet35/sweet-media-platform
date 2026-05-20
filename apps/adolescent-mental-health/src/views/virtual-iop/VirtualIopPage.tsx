@@ -7,7 +7,7 @@ const SB_ROOT =
   "https://almncgkbmooyuptdgkhe.supabase.co/storage/v1/object/public/site-assets/images";
 
 const IMGS = {
-  hero: `${SB_ROOT}/amh_viop_hero01.jpg`,
+  hero: `${SB_ROOT}/amh_viop_hero02.jpg`,
   bento: `${SB_ROOT}/amh_viop_bento01.jpg`,
   individual: `${SB_ROOT}/amh_viop_individual05.jpg`,
   group: `${SB_ROOT}/amh_viop_group03.jpg`,
@@ -222,8 +222,8 @@ export default function VirtualIopPage() {
 
         <div className="relative px-6 pb-16 pt-28 lg:px-10 lg:pb-24 lg:pt-32">
           <div className="mx-auto max-w-[1350px]">
-            <div className="grid items-end gap-10 lg:grid-cols-[1.05fr_0.95fr] lg:gap-14">
-              <div className="relative z-10 max-w-2xl pb-2 lg:pb-10">
+            <div className="grid items-start gap-10 lg:grid-cols-[1.05fr_0.95fr] lg:items-center lg:gap-14">
+              <div className="relative z-10 max-w-2xl">
                 <div className="inline-flex items-center gap-2.5 rounded-full border border-[#83B3DC]/25 bg-white/90 px-4 py-2 shadow-sm backdrop-blur-sm">
                   <span className="relative flex h-2 w-2">
                     <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#83B3DC] opacity-60" />
@@ -238,7 +238,7 @@ export default function VirtualIopPage() {
                   className="mt-7 text-[2.75rem] font-bold leading-[1.02] tracking-tight text-[#0A0F14] sm:text-5xl lg:text-[4.25rem]"
                   style={{ fontFamily: "var(--font-heebo)" }}
                 >
-                  Intensive care for teens,{" "}
+                  Virtual IOP for teens,{" "}
                   <span className="text-[#83B3DC]">without leaving home</span>
                 </h1>
 
@@ -282,31 +282,33 @@ export default function VirtualIopPage() {
                 </div>
               </div>
 
-              <div className="relative mx-auto w-full max-w-lg lg:mx-0 lg:max-w-none lg:justify-self-end">
+              <div className="relative mx-auto w-full max-w-md lg:mx-0 lg:max-w-[540px] lg:justify-self-end lg:pt-2">
                 <div
-                  className="pointer-events-none absolute -right-3 top-6 hidden h-[88%] w-[92%] rounded-[2rem] bg-[#83B3DC]/25 lg:block"
+                  className="pointer-events-none absolute -right-3 top-0 hidden h-full w-[92%] rounded-[2rem] bg-[#83B3DC]/25 lg:block"
                   aria-hidden
                 />
-                <div className="relative aspect-[4/5] overflow-hidden rounded-[2rem] shadow-2xl shadow-[#0A0F14]/10 ring-1 ring-white/60 sm:aspect-[5/6]">
+                {/* 4:3 matches the hero asset aspect — tall portrait frames forced upscaling on retina */}
+                <div className="relative aspect-[4/3] overflow-hidden rounded-[2rem] shadow-2xl shadow-[#0A0F14]/10 ring-1 ring-white/60">
                   <Image
                     src={IMGS.hero}
                     alt="Teen attending a virtual therapy session from a cozy bedroom at home"
                     fill
                     className="object-cover object-[center_35%]"
                     priority
-                    sizes="(max-width: 1024px) 100vw, 560px"
+                    quality={90}
+                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 448px, 540px"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-[#0A0F14]/25 via-transparent to-transparent" />
                 </div>
 
-                <div className="absolute -left-2 bottom-8 z-10 rounded-2xl bg-white/95 px-5 py-4 shadow-xl ring-1 ring-[#E8EEF4] backdrop-blur-md sm:-left-6 sm:bottom-12">
+                <div className="absolute -left-2 bottom-6 z-10 rounded-2xl bg-white/95 px-5 py-4 shadow-xl ring-1 ring-[#E8EEF4] backdrop-blur-md sm:-left-6 sm:bottom-8">
                   <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#83B3DC]">Clinical hours</p>
                   <p className="mt-1 text-3xl font-bold text-[#0A0F14]" style={{ fontFamily: "var(--font-heebo)" }}>
                     9–20<span className="text-lg font-semibold text-[#7C848B]">/wk</span>
                   </p>
                 </div>
 
-                <div className="absolute -right-1 top-6 z-10 hidden rounded-2xl bg-[#0A0F14] px-4 py-3 shadow-xl sm:block lg:-right-4 lg:top-10">
+                <div className="absolute -right-1 top-4 z-10 hidden rounded-2xl bg-[#0A0F14] px-4 py-3 shadow-xl sm:block lg:-right-4 lg:top-6">
                   <div className="flex items-center gap-2.5">
                     <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-[#83B3DC]/20 text-[#83B3DC]">
                       <i className="ri-video-chat-line text-base"></i>
@@ -405,15 +407,15 @@ export default function VirtualIopPage() {
               </div>
             </div>
 
-            {/* Photo panel — fixed aspect, no stretch */}
-            <div className="flex flex-col gap-3 lg:sticky lg:top-28 lg:self-start">
-              <div className="relative aspect-[4/5] overflow-hidden rounded-3xl ring-1 ring-[#E8EEF4]">
+            {/* Photo panel — grows to match left column height */}
+            <div className="flex flex-col gap-3 lg:h-full">
+              <div className="relative min-h-[260px] flex-1 overflow-hidden rounded-3xl ring-1 ring-[#E8EEF4]">
                 <Image
                   src={IMGS.bento}
                   alt="Teen at a home study nook attending a virtual therapy session on laptop"
                   fill
                   className="object-cover object-center"
-                  sizes="400px"
+                  sizes="(max-width: 1024px) 100vw, 400px"
                 />
               </div>
               <div className="rounded-2xl bg-white px-5 py-4 shadow-sm ring-1 ring-[#E8EEF4]">

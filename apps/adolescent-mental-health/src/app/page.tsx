@@ -6,7 +6,7 @@ import Link from "next/link";
 const fallbackMetadata: Metadata = {
   title: "Virtual IOP for Teens | Adolescent Mental Health Treatment",
   description:
-    "Adolescent Mental Health provides Virtual Intensive Outpatient Programs for teens ages 12–17. Evidence-based care for anxiety, depression, trauma, and more. Insurance accepted. Call (949) 946-5876.",
+    "Adolescent Mental Health provides Virtual Intensive Outpatient Programs for teens ages 12–17. Evidence-based care for anxiety, depression, trauma, and more. Insurance accepted.",
   alternates: { canonical: "/" },
 };
 
@@ -31,9 +31,23 @@ const IMGS = {
   cigna:      `${SB}/Cigna-Logo.png`,
 };
 
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: [
+    { "@type": "Question", name: "My teen is skeptical about therapy, especially online. How do you engage them?", acceptedAnswer: { "@type": "Answer", text: "Our therapists use role-playing, group activities, and creative exercises to keep teens engaged. Virtual IOPs are designed to feel personal and relatable — not clinical — and teens often adapt quickly." } },
+    { "@type": "Question", name: "What kind of support is available between scheduled sessions?", acceptedAnswer: { "@type": "Answer", text: "We offer online support groups, educational materials, self-care strategies, and access to a crisis line — so your teen is never without support between appointments." } },
+    { "@type": "Question", name: "How do you handle cyberbullying and social media pressures?", acceptedAnswer: { "@type": "Answer", text: "Our programs address digital-age challenges head-on: cyberbullying, social media anxiety, online safety, and screen dependency. Teens build healthy coping skills specific to their digital environment." } },
+    { "@type": "Question", name: "My teen has a busy school schedule. How flexible are you?", acceptedAnswer: { "@type": "Answer", text: "We work around school and extracurricular schedules. Our admissions team will help find session times that don't conflict with classes, and rescheduling support is always available." } },
+    { "@type": "Question", name: "How is confidentiality maintained in virtual sessions?", acceptedAnswer: { "@type": "Answer", text: "All sessions use HIPAA-compliant, encrypted video conferencing. Personal information is never shared without explicit consent, and our strict privacy policy governs all digital interactions." } },
+    { "@type": "Question", name: "How do you match my teen with the right therapist?", acceptedAnswer: { "@type": "Answer", text: "We match based on your teen's specific needs — LGBTQ+ identity, gaming anxiety, academic pressure, family conflict, and more. We prioritize therapeutic fit and adjust when needed." } },
+  ],
+};
+
 export default function HomePage() {
   return (
     <main style={{ fontFamily: "var(--font-montserrat)" }}>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
       <OptimizationStatusBanner trackedPagePath="/" brandName="Adolescent Mental Health" />
 
       {/* ── Hero ── */}
@@ -64,7 +78,7 @@ export default function HomePage() {
               className="text-4xl font-bold leading-[1.08] text-white sm:text-5xl lg:text-6xl xl:text-7xl"
               style={{ fontFamily: "var(--font-heebo)" }}
             >
-              Expert Mental Health Care for Your Teen, From Home
+              Virtual IOP for Teens — Expert Mental Health Care From Home
             </h1>
 
             <p className="mx-auto mt-6 max-w-xl text-sm leading-8 text-white/70">
