@@ -17,7 +17,9 @@ apps/*/supabase/.temp
 # WordPress migration script outputs (one-time artifacts, never commit)
 design-tokens-*.json
 migration-report-*.json
+image-map-*.json
 wp-inventory-*.json
+wp-media-migration-progress.json
 wp-screenshots/
 apps/*-migration/
 .upload.env
