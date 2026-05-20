@@ -145,7 +145,7 @@ export default function HeroSection() {
           {/* Stats Card — Frosted Glass */}
           <div className="backdrop-blur-xl bg-pure-white/10 border border-pure-white/20 rounded-2xl p-3 md:p-4 max-w-[240px]">
             <div className="flex items-center gap-3 mb-2">
-              <span className="text-[26px] md:text-[28px] font-display text-pure-white leading-none">247+</span>
+              <span className="text-[26px] md:text-[28px] font-display text-pure-white leading-none">1720+</span>
               <div className="flex flex-col">
                 <span className="text-[12px] md:text-[13px] font-body font-medium text-pure-white/90 leading-tight">families supported</span>
                 <span className="text-[11px] md:text-[12px] font-body text-pure-white/60">globally</span>

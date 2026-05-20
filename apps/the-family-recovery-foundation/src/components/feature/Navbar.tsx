@@ -9,23 +9,26 @@ import {
   aboutDropdownItems,
   servicesDropdownItems,
   eventsDropdownItems,
+  contactDropdownItems,
   SOCIAL_LINKS as socialLinks,
   LOGO_SRC,
 } from "@/lib/tfrf-nav";
 
+type DropdownKey = "about" | "services" | "events" | "contact";
+
+const DROPDOWN_ITEMS: Record<DropdownKey, readonly { label: string; href: string }[]> = {
+  about: aboutDropdownItems,
+  services: servicesDropdownItems,
+  events: eventsDropdownItems,
+  contact: contactDropdownItems,
+};
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
-  const [aboutOpen, setAboutOpen] = useState(false);
-  const [servicesOpen, setServicesOpen] = useState(false);
-  const [eventsOpen, setEventsOpen] = useState(false);
-  const [mobileAboutOpen, setMobileAboutOpen] = useState(false);
-  const [mobileServicesOpen, setMobileServicesOpen] = useState(false);
-  const [mobileEventsOpen, setMobileEventsOpen] = useState(false);
-  const aboutRef = useRef<HTMLDivElement>(null);
-  const servicesRef = useRef<HTMLDivElement>(null);
-  const eventsRef = useRef<HTMLDivElement>(null);
+  const [openDropdown, setOpenDropdown] = useState<DropdownKey | null>(null);
+  const [mobileOpenDropdown, setMobileOpenDropdown] = useState<DropdownKey | null>(null);
+  const dropdownRefs = useRef<Partial<Record<DropdownKey, HTMLDivElement | null>>>({});
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20);
@@ -34,35 +37,33 @@ export default function Navbar() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  // Close dropdowns on click outside
   useEffect(() => {
     function handleClick(e: MouseEvent) {
-      if (aboutRef.current && !aboutRef.current.contains(e.target as Node)) {
-        setAboutOpen(false);
-      }
-      if (servicesRef.current && !servicesRef.current.contains(e.target as Node)) {
-        setServicesOpen(false);
-      }
-      if (eventsRef.current && !eventsRef.current.contains(e.target as Node)) {
-        setEventsOpen(false);
+      if (!openDropdown) return;
+      const ref = dropdownRefs.current[openDropdown];
+      if (ref && !ref.contains(e.target as Node)) {
+        setOpenDropdown(null);
       }
     }
-    if (aboutOpen || servicesOpen || eventsOpen) {
-      document.addEventListener("mousedown", handleClick);
-      return () => document.removeEventListener("mousedown", handleClick);
-    }
-  }, [aboutOpen, servicesOpen, eventsOpen]);
+    document.addEventListener("mousedown", handleClick);
+    return () => document.removeEventListener("mousedown", handleClick);
+  }, [openDropdown]);
 
   const closeMobile = useCallback(() => {
     setMobileOpen(false);
-    setMobileAboutOpen(false);
-    setMobileServicesOpen(false);
-    setMobileEventsOpen(false);
+    setMobileOpenDropdown(null);
   }, []);
+
+  const toggleDropdown = (key: DropdownKey) => {
+    setOpenDropdown((current) => (current === key ? null : key));
+  };
+
+  const openOnHover = (key: DropdownKey) => {
+    setOpenDropdown(key);
+  };
 
   return (
     <>
-      {/* Floating pill — sits over the home hero; other pages use layout top padding */}
       <header
         className={cn(
           "fixed top-4 md:top-5 left-4 right-4 md:left-6 md:right-6 lg:left-8 lg:right-8 z-50 transition-all duration-300 rounded-full",
@@ -80,50 +81,19 @@ export default function Navbar() {
             />
           </Link>
 
-          {/* Desktop Nav + Social — right aligned */}
           <div className="hidden lg:flex items-center gap-6">
-            {/* Nav links */}
             <div className="flex items-center gap-1">
               {mainNavItems.map((item) => (
                 <div key={item.label} className="relative">
-                  {item.hasDropdown ? (
+                  {item.hasDropdown && item.dropdown ? (
                     <>
                       <button
-                        onClick={() => {
-                          if (item.label === "About") {
-                            setAboutOpen((v) => !v);
-                            setServicesOpen(false);
-                            setEventsOpen(false);
-                          } else if (item.label === "Our Services") {
-                            setServicesOpen((v) => !v);
-                            setAboutOpen(false);
-                            setEventsOpen(false);
-                          } else {
-                            setEventsOpen((v) => !v);
-                            setAboutOpen(false);
-                            setServicesOpen(false);
-                          }
-                        }}
-                        onMouseEnter={() => {
-                          if (item.label === "About") {
-                            setAboutOpen(true);
-                            setServicesOpen(false);
-                            setEventsOpen(false);
-                          } else if (item.label === "Our Services") {
-                            setServicesOpen(true);
-                            setAboutOpen(false);
-                            setEventsOpen(false);
-                          } else {
-                            setEventsOpen(true);
-                            setAboutOpen(false);
-                            setServicesOpen(false);
-                          }
-                        }}
+                        type="button"
+                        onClick={() => toggleDropdown(item.dropdown as DropdownKey)}
+                        onMouseEnter={() => openOnHover(item.dropdown as DropdownKey)}
                         className={cn(
                           "relative px-3 py-2 text-[15px] font-body font-medium transition-colors duration-200 whitespace-nowrap rounded-full hover:bg-mist/50 flex items-center gap-1 cursor-pointer",
-                          (item.label === "About" && aboutOpen) ||
-                            (item.label === "Our Services" && servicesOpen) ||
-                            (item.label === "Events" && eventsOpen)
+                          openDropdown === item.dropdown
                             ? "text-tfrf-blue"
                             : "text-deep-navy hover:text-tfrf-blue",
                         )}
@@ -132,88 +102,33 @@ export default function Navbar() {
                         <i
                           className={cn(
                             "ri-arrow-down-s-line w-4 h-4 flex items-center justify-center text-base transition-transform duration-200",
-                            ((item.label === "About" && aboutOpen) ||
-                              (item.label === "Our Services" && servicesOpen) ||
-                              (item.label === "Events" && eventsOpen)) &&
-                              "rotate-180",
+                            openDropdown === item.dropdown && "rotate-180",
                           )}
                         />
                       </button>
-
-                      {/* About Dropdown */}
-                      {item.label === "About" && (
-                        <div
-                          ref={aboutRef}
-                          className={cn(
-                            "absolute top-full left-0 mt-2 w-56 bg-pure-white rounded-xl border border-mist/60 shadow-lg shadow-black/5 overflow-hidden transition-all duration-200",
-                            aboutOpen
-                              ? "opacity-100 translate-y-0 pointer-events-auto"
-                              : "opacity-0 -translate-y-1 pointer-events-none"
-                          )}
-                          onMouseLeave={() => setAboutOpen(false)}
-                        >
-                          {aboutDropdownItems.map((sub) => (
-                            <Link
-                              key={sub.href}
-                              href={sub.href}
-                              onClick={() => setAboutOpen(false)}
-                              className="block px-4 py-3 text-[14px] font-body text-deep-navy hover:text-tfrf-blue hover:bg-powder-blue/30 transition-colors duration-150"
-                            >
-                              {sub.label}
-                            </Link>
-                          ))}
-                        </div>
-                      )}
-
-                      {/* Services Dropdown */}
-                      {item.label === "Our Services" && (
-                        <div
-                          ref={servicesRef}
-                          className={cn(
-                            "absolute top-full left-0 mt-2 w-56 bg-pure-white rounded-xl border border-mist/60 shadow-lg shadow-black/5 overflow-hidden transition-all duration-200",
-                            servicesOpen
-                              ? "opacity-100 translate-y-0 pointer-events-auto"
-                              : "opacity-0 -translate-y-1 pointer-events-none"
-                          )}
-                          onMouseLeave={() => setServicesOpen(false)}
-                        >
-                          {servicesDropdownItems.map((sub) => (
-                            <Link
-                              key={sub.href}
-                              href={sub.href}
-                              onClick={() => setServicesOpen(false)}
-                              className="block px-4 py-3 text-[14px] font-body text-deep-navy hover:text-tfrf-blue hover:bg-powder-blue/30 transition-colors duration-150"
-                            >
-                              {sub.label}
-                            </Link>
-                          ))}
-                        </div>
-                      )}
-
-                      {/* Events Dropdown */}
-                      {item.label === "Events" && (
-                        <div
-                          ref={eventsRef}
-                          className={cn(
-                            "absolute top-full left-0 mt-2 w-56 bg-pure-white rounded-xl border border-mist/60 shadow-lg shadow-black/5 overflow-hidden transition-all duration-200",
-                            eventsOpen
-                              ? "opacity-100 translate-y-0 pointer-events-auto"
-                              : "opacity-0 -translate-y-1 pointer-events-none"
-                          )}
-                          onMouseLeave={() => setEventsOpen(false)}
-                        >
-                          {eventsDropdownItems.map((sub) => (
-                            <Link
-                              key={sub.href}
-                              href={sub.href}
-                              onClick={() => setEventsOpen(false)}
-                              className="block px-4 py-3 text-[14px] font-body text-deep-navy hover:text-tfrf-blue hover:bg-powder-blue/30 transition-colors duration-150"
-                            >
-                              {sub.label}
-                            </Link>
-                          ))}
-                        </div>
-                      )}
+                      <div
+                        ref={(el) => {
+                          dropdownRefs.current[item.dropdown as DropdownKey] = el;
+                        }}
+                        className={cn(
+                          "absolute top-full left-0 mt-2 w-56 bg-pure-white rounded-xl border border-mist/60 shadow-lg shadow-black/5 overflow-hidden transition-all duration-200",
+                          openDropdown === item.dropdown
+                            ? "opacity-100 translate-y-0 pointer-events-auto"
+                            : "opacity-0 -translate-y-1 pointer-events-none",
+                        )}
+                        onMouseLeave={() => setOpenDropdown(null)}
+                      >
+                        {DROPDOWN_ITEMS[item.dropdown as DropdownKey].map((sub) => (
+                          <Link
+                            key={sub.href}
+                            href={sub.href}
+                            onClick={() => setOpenDropdown(null)}
+                            className="block px-4 py-3 text-[14px] font-body text-deep-navy hover:text-tfrf-blue hover:bg-powder-blue/30 transition-colors duration-150"
+                          >
+                            {sub.label}
+                          </Link>
+                        ))}
+                      </div>
                     </>
                   ) : (
                     <Link
@@ -227,7 +142,6 @@ export default function Navbar() {
               ))}
             </div>
 
-            {/* Social icons */}
             <div className="flex items-center gap-3 pl-4 border-l border-slate/20">
               {socialLinks.map((social) => (
                 <a
@@ -247,7 +161,6 @@ export default function Navbar() {
             </div>
           </div>
 
-          {/* Mobile hamburger */}
           <button
             onClick={() => setMobileOpen(true)}
             className="lg:hidden p-2 text-deep-navy cursor-pointer"
@@ -262,11 +175,10 @@ export default function Navbar() {
         </div>
       </header>
 
-      {/* Mobile Menu Overlay */}
       <div
         className={cn(
           "fixed inset-0 z-[60] bg-soft-white transition-transform duration-500 ease-in-out lg:hidden",
-          mobileOpen ? "translate-x-0" : "translate-x-full"
+          mobileOpen ? "translate-x-0" : "translate-x-full",
         )}
       >
         <div className="h-full flex flex-col px-8 py-6">
@@ -288,119 +200,59 @@ export default function Navbar() {
           </div>
 
           <div className="flex flex-col gap-2">
-            {/* About with mobile dropdown */}
-            <div>
-              <button
-                onClick={() => setMobileAboutOpen((v) => !v)}
-                className="w-full text-left text-display-s font-display text-deep-navy hover:text-tfrf-blue transition-colors duration-200 px-2 py-2 flex items-center justify-between cursor-pointer"
-              >
-                About
-                <i className={cn(
-                  "ri-arrow-down-s-line w-6 h-6 flex items-center justify-center text-xl transition-transform duration-200",
-                  mobileAboutOpen && "rotate-180"
-                )} />
-              </button>
-              <div
-                className={cn(
-                  "overflow-hidden transition-all duration-300",
-                  mobileAboutOpen ? "max-h-60 opacity-100" : "max-h-0 opacity-0"
-                )}
-              >
-                <div className="pl-4 flex flex-col gap-1 py-1">
-                  {aboutDropdownItems.map((sub) => (
-                    <Link
-                      key={sub.href}
-                      href={sub.href}
-                      onClick={closeMobile}
-                      className="text-body-l font-body text-slate hover:text-tfrf-blue transition-colors duration-200 px-2 py-2"
-                    >
-                      {sub.label}
-                    </Link>
-                  ))}
+            {mainNavItems.map((item) =>
+              item.hasDropdown && item.dropdown ? (
+                <div key={item.label}>
+                  <button
+                    type="button"
+                    onClick={() =>
+                      setMobileOpenDropdown((current) =>
+                        current === item.dropdown ? null : (item.dropdown as DropdownKey),
+                      )
+                    }
+                    className="w-full text-left text-display-s font-display text-deep-navy hover:text-tfrf-blue transition-colors duration-200 px-2 py-2 flex items-center justify-between cursor-pointer"
+                  >
+                    {item.label}
+                    <i
+                      className={cn(
+                        "ri-arrow-down-s-line w-6 h-6 flex items-center justify-center text-xl transition-transform duration-200",
+                        mobileOpenDropdown === item.dropdown && "rotate-180",
+                      )}
+                    />
+                  </button>
+                  <div
+                    className={cn(
+                      "overflow-hidden transition-all duration-300",
+                      mobileOpenDropdown === item.dropdown ? "max-h-60 opacity-100" : "max-h-0 opacity-0",
+                    )}
+                  >
+                    <div className="pl-4 flex flex-col gap-1 py-1">
+                      {DROPDOWN_ITEMS[item.dropdown as DropdownKey].map((sub) => (
+                        <Link
+                          key={sub.href}
+                          href={sub.href}
+                          onClick={closeMobile}
+                          className="text-body-l font-body text-slate hover:text-tfrf-blue transition-colors duration-200 px-2 py-2"
+                        >
+                          {sub.label}
+                        </Link>
+                      ))}
+                    </div>
+                  </div>
                 </div>
-              </div>
-            </div>
-
-            {/* Services with mobile dropdown */}
-            <div>
-              <button
-                onClick={() => setMobileServicesOpen((v) => !v)}
-                className="w-full text-left text-display-s font-display text-deep-navy hover:text-tfrf-blue transition-colors duration-200 px-2 py-2 flex items-center justify-between cursor-pointer"
-              >
-                Our Services
-                <i className={cn(
-                  "ri-arrow-down-s-line w-6 h-6 flex items-center justify-center text-xl transition-transform duration-200",
-                  mobileServicesOpen && "rotate-180"
-                )} />
-              </button>
-              <div
-                className={cn(
-                  "overflow-hidden transition-all duration-300",
-                  mobileServicesOpen ? "max-h-40 opacity-100" : "max-h-0 opacity-0"
-                )}
-              >
-                <div className="pl-4 flex flex-col gap-1 py-1">
-                  {servicesDropdownItems.map((sub) => (
-                    <Link
-                      key={sub.href}
-                      href={sub.href}
-                      onClick={closeMobile}
-                      className="text-body-l font-body text-slate hover:text-tfrf-blue transition-colors duration-200 px-2 py-2"
-                    >
-                      {sub.label}
-                    </Link>
-                  ))}
-                </div>
-              </div>
-            </div>
-
-            {/* Events with mobile dropdown */}
-            <div>
-              <button
-                onClick={() => setMobileEventsOpen((v) => !v)}
-                className="w-full text-left text-display-s font-display text-deep-navy hover:text-tfrf-blue transition-colors duration-200 px-2 py-2 flex items-center justify-between cursor-pointer"
-              >
-                Events
-                <i className={cn(
-                  "ri-arrow-down-s-line w-6 h-6 flex items-center justify-center text-xl transition-transform duration-200",
-                  mobileEventsOpen && "rotate-180"
-                )} />
-              </button>
-              <div
-                className={cn(
-                  "overflow-hidden transition-all duration-300",
-                  mobileEventsOpen ? "max-h-40 opacity-100" : "max-h-0 opacity-0"
-                )}
-              >
-                <div className="pl-4 flex flex-col gap-1 py-1">
-                  {eventsDropdownItems.map((sub) => (
-                    <Link
-                      key={sub.href}
-                      href={sub.href}
-                      onClick={closeMobile}
-                      className="text-body-l font-body text-slate hover:text-tfrf-blue transition-colors duration-200 px-2 py-2"
-                    >
-                      {sub.label}
-                    </Link>
-                  ))}
-                </div>
-              </div>
-            </div>
-
-            {/* Other nav items */}
-            {mainNavItems.filter((i) => !i.hasDropdown).map((item) => (
-              <Link
-                key={item.label}
-                href={item.href}
-                onClick={closeMobile}
-                className="text-display-s font-display text-deep-navy hover:text-tfrf-blue transition-colors duration-200 px-2 py-2"
-              >
-                {item.label}
-              </Link>
-            ))}
+              ) : (
+                <Link
+                  key={item.label}
+                  href={item.href}
+                  onClick={closeMobile}
+                  className="text-display-s font-display text-deep-navy hover:text-tfrf-blue transition-colors duration-200 px-2 py-2"
+                >
+                  {item.label}
+                </Link>
+              ),
+            )}
           </div>
 
-          {/* Mobile social icons */}
           <div className="mt-auto pb-8">
             <div className="flex items-center gap-4">
               {socialLinks.map((social) => (
@@ -412,7 +264,7 @@ export default function Navbar() {
                   aria-label={social.label}
                   className={cn(
                     "w-10 h-10 flex items-center justify-center rounded-full hover:bg-mist transition-colors duration-200",
-                    social.color
+                    social.color,
                   )}
                 >
                   <i className={`${social.icon} w-6 h-6 flex items-center justify-center text-xl`} />

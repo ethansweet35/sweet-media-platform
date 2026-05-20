@@ -88,7 +88,7 @@ export default function ContactHeroSection() {
               </p>
               <div className="pt-2">
                 <p className="text-body-m font-body text-deep-navy font-semibold">
-                  Warmly, Beth Darlin MS, CADCII, ICADC
+                  Warmly, Beth Durling MS, CADCII, ICADC
                 </p>
                 <p className="text-body-s font-body text-slate">
                   Executive Director

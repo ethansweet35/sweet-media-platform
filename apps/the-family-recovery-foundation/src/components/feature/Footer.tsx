@@ -1,28 +1,12 @@
 import Link from "next/link";
-import { LOGO_SRC, SOCIAL_LINKS } from "@/lib/tfrf-nav";
-
-const linkColumns = [
-  {
-    title: "About Us",
-    links: [
-      { label: "About", href: "/about" },
-      { label: "Get Help", href: "/get-help" },
-      { label: "Donate", href: "/donate" },
-      { label: "Get Involved", href: "/get-involved" },
-      { label: "Contact", href: "/contact" },
-    ],
-  },
-  {
-    title: "Learn More",
-    links: [
-      { label: "Stories", href: "/stories" },
-      { label: "Meetings", href: "/meetings" },
-      { label: "Resources", href: "/resources" },
-      { label: "Partnerships", href: "/partnerships" },
-      { label: "Events", href: "/gala" },
-    ],
-  },
-];
+import {
+  LOGO_SRC,
+  SOCIAL_LINKS,
+  footerLinkColumns,
+  CONTACT_EMAIL,
+  CONTACT_PHONE,
+  CONTACT_PHONE_HREF,
+} from "@/lib/tfrf-nav";
 
 const locations = [
   { city: "Newport Beach, CA", address: "4701 Teller Ave Suite 150E", zip: "92660" },
@@ -71,14 +55,14 @@ export default function Footer() {
 
           <div className="lg:col-span-4 lg:col-start-6">
             <div className="grid grid-cols-2 gap-8">
-              {linkColumns.map((column) => (
+              {footerLinkColumns.map((column) => (
                 <div key={column.title}>
                   <h4 className="text-[12px] font-body font-semibold uppercase tracking-[0.15em] text-sky-blue mb-4">
                     {column.title}
                   </h4>
                   <ul className="space-y-3">
                     {column.links.map((link) => (
-                      <li key={link.label}>
+                      <li key={link.href}>
                         <Link
                           href={link.href}
                           className="text-[15px] font-body text-pure-white/70 hover:text-pure-white transition-colors duration-200"
@@ -98,18 +82,18 @@ export default function Footer() {
               Contact
             </h4>
             <a
-              href="tel:8889648825"
+              href={CONTACT_PHONE_HREF}
               className="flex items-center gap-2 text-[17px] font-body text-pure-white/80 hover:text-pure-white transition-colors duration-200 mb-2"
             >
               <i className="ri-phone-line w-4 h-4 flex items-center justify-center" />
-              888-964-8825
+              {CONTACT_PHONE}
             </a>
             <a
-              href="mailto:hello@tfrfoundation.org"
+              href={`mailto:${CONTACT_EMAIL}`}
               className="flex items-center gap-2 text-[15px] font-body text-pure-white/60 hover:text-pure-white transition-colors duration-200 mb-6"
             >
               <i className="ri-mail-line w-4 h-4 flex items-center justify-center" />
-              hello@tfrfoundation.org
+              {CONTACT_EMAIL}
             </a>
 
             <p className="text-[15px] font-body text-pure-white/70 leading-relaxed">

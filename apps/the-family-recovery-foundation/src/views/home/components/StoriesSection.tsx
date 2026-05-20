@@ -1,7 +1,7 @@
 import { stories } from "@/mocks/stories";
 
 const stats = [
-  { value: "247+", label: "Families Supported" },
+  { value: "1720+", label: "Families Supported" },
   { value: "$1.2M", label: "Financial Aid Provided" },
   { value: "23", label: "States Reached" },
   { value: "24/7", label: "Private Messaging Access" },

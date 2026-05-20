@@ -1,8 +1,12 @@
 'use client';
 
 import { useState } from "react";
+import Image from "next/image";
 import { HOME_ABOUT_VIDEO_POSTER, HOME_ABOUT_VIDEO_SRC } from "@/lib/home-media";
-import { SOCIAL_LINKS } from "@/lib/tfrf-nav";
+import { boardMembers } from "@/mocks/team";
+import { CONTACT_PHONE, CONTACT_PHONE_HREF, SOCIAL_LINKS } from "@/lib/tfrf-nav";
+
+const paulAlexander = boardMembers.find((m) => m.id === "paul-alexander")!;
 
 export default function AboutSection() {
   const [isPlaying, setIsPlaying] = useState(false);
@@ -74,13 +78,17 @@ export default function AboutSection() {
             </div>
 
             <div className="flex items-center gap-4 pt-4 lg:pt-2 border-t border-mist lg:mt-auto">
-              <div className="w-11 h-11 rounded-full bg-soft-white flex items-center justify-center shrink-0 ring-1 ring-mist">
-                <i className="ri-quill-pen-line text-tfrf-blue text-xl" />
-              </div>
+              <Image
+                src={paulAlexander.image}
+                alt={paulAlexander.name}
+                width={44}
+                height={44}
+                className="w-11 h-11 rounded-full object-cover shrink-0 ring-1 ring-mist"
+              />
               <div>
-                <p className="text-body-s font-body font-semibold text-deep-navy">Ryan Soares</p>
+                <p className="text-body-s font-body font-semibold text-deep-navy">{paulAlexander.name}</p>
                 <p className="text-caption font-body text-slate">
-                  CEO &amp; Founder of The Family Recovery Foundation
+                  Founder, The Family Recovery Foundation
                 </p>
               </div>
             </div>
@@ -91,27 +99,18 @@ export default function AboutSection() {
               <p className="text-caption font-body font-semibold uppercase tracking-[0.12em] text-tfrf-blue mb-2">
                 Reach our team
               </p>
-              <div className="flex flex-wrap items-center gap-x-3 gap-y-1 font-display text-deep-navy">
-                <a
-                  href="tel:8889648825"
-                  className="text-[20px] md:text-[22px] hover:text-tfrf-blue transition-colors duration-200"
-                >
-                  888-964-8825
-                </a>
-                <span className="text-stone-blue text-sm">or</span>
-                <a
-                  href="tel:9497010145"
-                  className="text-[20px] md:text-[22px] hover:text-tfrf-blue transition-colors duration-200"
-                >
-                  949-701-0145
-                </a>
-              </div>
+              <a
+                href={CONTACT_PHONE_HREF}
+                className="font-display text-[20px] md:text-[22px] text-deep-navy hover:text-tfrf-blue transition-colors duration-200"
+              >
+                {CONTACT_PHONE}
+              </a>
             </div>
 
             <div>
               <div className="flex items-center justify-between mb-2">
                 <span className="text-body-s font-body font-semibold text-deep-navy">Families Reached</span>
-                <span className="text-body-s font-body font-semibold text-deep-navy">247+</span>
+                <span className="text-body-s font-body font-semibold text-deep-navy">1720+</span>
               </div>
               <div className="h-1.5 bg-mist rounded-full overflow-hidden">
                 <div className="h-full bg-tfrf-blue rounded-full" style={{ width: "78%" }} />

@@ -9,6 +9,7 @@ const nextConfig: NextConfig = {
       { source: "/events/nashville", destination: "/gala/nashville/", permanent: true },
       { source: "/events", destination: "/gala/", permanent: true },
       { source: "/home", destination: "/", permanent: true },
+      { source: "/about", destination: "/about-the-family-recovery-foundation/", permanent: true },
       { source: "/blogs", destination: "/blog/", permanent: true },
       { source: "/blogs/:slug", destination: "/blog/:slug/", permanent: true },
       { source: "/lrsf-blogs", destination: "/blog/", permanent: true },
