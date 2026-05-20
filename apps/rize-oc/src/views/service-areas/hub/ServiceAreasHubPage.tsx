@@ -4,7 +4,12 @@ import Image from "next/image";
 import Link from "next/link";
 import CinematicHeroSection from "@/components/ui/CinematicHeroSection";
 import { CINEMATIC_STANDARD_HERO_GRADIENT } from "@/lib/cinematicHeroStyles";
-import { PAGE_GRID } from "@/components/ui/PageHeroShell";
+import {
+  CinematicHeroGrid,
+  HERO_COPY_BLOCK,
+  HERO_LEAD,
+} from "@/components/ui/PageHeroShell";
+import { cn } from "@/lib/cn";
 import SectionWrapper from "@/components/ui/SectionWrapper";
 import Eyebrow from "@/components/ui/Eyebrow";
 import IconCircle from "@/components/ui/IconCircle";
@@ -103,6 +108,7 @@ export default function ServiceAreasHubPage() {
       {/* ①  Hero ─────────────────────────────────────────────────────────── */}
       <CinematicHeroSection
         minHeight="min-h-[72vh]"
+        contentClassName="justify-start"
         media={
           <>
             <Image
@@ -122,7 +128,7 @@ export default function ServiceAreasHubPage() {
           </>
         }
       >
-        <div className={PAGE_GRID}>
+        <CinematicHeroGrid>
           <div className="flex items-center gap-2 mb-6">
             <Link href="/" className="text-[10px] font-medium uppercase tracking-[0.25em] text-white/40 hover:text-accent transition-colors">
               Home
@@ -131,7 +137,7 @@ export default function ServiceAreasHubPage() {
             <span className="text-[10px] font-medium uppercase tracking-[0.25em] text-accent">Service Areas</span>
           </div>
 
-          <div className="max-w-[700px]">
+          <div className={HERO_COPY_BLOCK}>
             <Eyebrow colorClass="text-accent">Orange County, California</Eyebrow>
             <h1
               className="font-[family-name:var(--font-display)] font-normal text-white mt-4 mb-6"
@@ -141,7 +147,7 @@ export default function ServiceAreasHubPage() {
               <br />
               <em className="italic text-white/55">Orange County</em>
             </h1>
-            <p className="text-[16px] font-light leading-relaxed text-white/80 max-w-[520px] mb-10">
+            <p className={cn(HERO_LEAD, "mb-10")}>
               <AutoLinkedTextClient>{"Rize OC provides premium addiction and mental health treatment to communities across Orange County — one facility, one exceptional standard of care, within 25 minutes of everywhere listed below."}</AutoLinkedTextClient>
             </p>
             <div className="flex flex-wrap gap-3">
@@ -168,7 +174,7 @@ export default function ServiceAreasHubPage() {
               </div>
             ))}
           </div>
-        </div>
+        </CinematicHeroGrid>
       </CinematicHeroSection>
 
       {/* ②  City Cards Grid ──────────────────────────────────────────────── */}

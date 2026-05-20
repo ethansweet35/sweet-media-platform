@@ -8,7 +8,8 @@ import Button from "@/components/ui/Button";
 import FaqAccordion, { type FaqItem } from "@/components/ui/FaqAccordion";
 import CinematicHeroSection from "@/components/ui/CinematicHeroSection";
 import { CINEMATIC_PHP_HERO_GRADIENT } from "@/lib/cinematicHeroStyles";
-import { PAGE_GRID } from "@/components/ui/PageHeroShell";
+import { HERO_LEAD, PAGE_GRID } from "@/components/ui/PageHeroShell";
+import { cn } from "@/lib/cn";
 import { AutoLinkedText } from "@sweetmedia/blog-core";
 
 const BASE = "https://nfjlvkxrbzytjefmcvhg.supabase.co/storage/v1/object/public/site-assets/images";
@@ -202,13 +203,13 @@ export default function PhpPage() {
           <div className={`${PAGE_GRID} py-16 lg:py-20`}>
             <Eyebrow colorClass="text-accent" className="mb-6">Levels of Care — Step 2</Eyebrow>
             <h1
-              className="font-[family-name:var(--font-display)] font-normal text-white max-w-[760px]"
+              className="font-[family-name:var(--font-display)] font-normal text-white lg:max-w-[52rem]"
               style={{ fontSize: "clamp(48px, 6vw, 92px)", lineHeight: 0.95 }}
             >
               Partial Hospitalization<br />
               <em className="italic text-white/60">Program (PHP)</em>
             </h1>
-            <p className="mt-6 text-[16px] font-light leading-relaxed text-white/75 max-w-[520px]">
+            <p className={cn(HERO_LEAD, "mt-6 text-white/75")}>
               <AutoLinkedText>{"Six hours of daily intensive clinical programming — the full therapeutic depth of residential treatment, with the healing freedom of home each evening."}</AutoLinkedText>
             </p>
             <div className="mt-8 flex flex-wrap gap-3">

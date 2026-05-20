@@ -4,11 +4,12 @@ import SectionWrapper from "@/components/ui/SectionWrapper";
 import Eyebrow from "@/components/ui/Eyebrow";
 import IconCircle from "@/components/ui/IconCircle";
 import Button from "@/components/ui/Button";
-import PageHeroShell from "@/components/ui/PageHeroShell";
+import PageHeroShell, { HERO_LEAD, HERO_SPLIT_LEFT } from "@/components/ui/PageHeroShell";
 import CinematicHeroSection from "@/components/ui/CinematicHeroSection";
 import { CINEMATIC_BOTTOM_HERO_GRADIENT } from "@/lib/cinematicHeroStyles";
 import AccreditationsBar from "@/views/home/components/AccreditationsBar";
 import { AutoLinkedText } from "@sweetmedia/blog-core";
+import { cn } from "@/lib/cn";
 
 const BASE = "https://nfjlvkxrbzytjefmcvhg.supabase.co/storage/v1/object/public/site-assets/images";
 
@@ -213,6 +214,7 @@ export default function WhatWeTreatPage() {
         }
       >
         <PageHeroShell
+          fullBleedBottomBar
           bottomBar={
             <div className="grid grid-cols-2 lg:grid-cols-4 border-t border-white/10">
               {[
@@ -229,7 +231,7 @@ export default function WhatWeTreatPage() {
             </div>
           }
         >
-            <div className="flex-1 max-w-3xl">
+            <div className={HERO_SPLIT_LEFT}>
               <Eyebrow colorClass="text-accent" className="mb-4">Rize OC</Eyebrow>
               <h1
                 className="font-[family-name:var(--font-display)] font-normal text-white"
@@ -238,7 +240,7 @@ export default function WhatWeTreatPage() {
                 What We<br />
                 <em className="italic text-white/60">Treat</em>
               </h1>
-              <p className="mt-6 text-[16px] font-light leading-relaxed text-white/80 max-w-[520px]">
+              <p className={cn(HERO_LEAD, "mt-6")}>
                 <AutoLinkedText>{"Comprehensive addiction and mental health treatment — every substance, every condition, fully integrated dual-diagnosis care for the complete clinical picture."}</AutoLinkedText>
               </p>
             </div>

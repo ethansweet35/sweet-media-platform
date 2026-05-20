@@ -33,7 +33,7 @@ export default function SpecialtyProgramPage({
       {/* Hero */}
       <section className="bg-ink py-24">
         <div className="mx-auto max-w-[1300px] px-6">
-          <div className="max-w-3xl">
+          <div className="min-w-0 w-full lg:max-w-[52rem]">
             <p className="text-[10px] font-medium uppercase tracking-[0.35em] text-accent mb-5">{eyebrow}</p>
             <h1
               className="font-[family-name:var(--font-display)] font-normal text-white mb-6"

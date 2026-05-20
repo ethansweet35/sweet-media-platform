@@ -3,7 +3,7 @@
 import Image from "next/image";
 import CinematicHeroSection from "@/components/ui/CinematicHeroSection";
 import { CINEMATIC_STANDARD_HERO_GRADIENT } from "@/lib/cinematicHeroStyles";
-import { PAGE_GRID } from "@/components/ui/PageHeroShell";
+import PageHeroShell, { HERO_LEAD, HERO_SPLIT_LEFT } from "@/components/ui/PageHeroShell";
 import SectionWrapper from "@/components/ui/SectionWrapper";
 import SectionHeader from "@/components/ui/SectionHeader";
 import Eyebrow from "@/components/ui/Eyebrow";
@@ -12,6 +12,7 @@ import Button from "@/components/ui/Button";
 import InsuranceForm from "@/views/home/components/InsuranceForm";
 import AccreditationsBar from "@/views/home/components/AccreditationsBar";
 import { AutoLinkedTextClient } from "@sweetmedia/blog-core";
+import { cn } from "@/lib/cn";
 
 const BASE = "https://nfjlvkxrbzytjefmcvhg.supabase.co/storage/v1/object/public/site-assets/images";
 
@@ -65,14 +66,15 @@ export default function VerifyInsurancePage() {
       {/* ①  Hero ─────────────────────────────────────────────────────────── */}
       <CinematicHeroSection
         minHeight="min-h-[75vh]"
+        contentClassName="justify-start"
         media={
           <>
             <Image
-          src={`${BASE}/verify-insurance_hero01.jpg`}
-          alt="Rize OC admissions specialist reviewing insurance coverage with a prospective client in a warm, professional consultation room"
-          fill
-          className="object-cover object-center"
-          priority
+              src={`${BASE}/verify-insurance_hero01.jpg`}
+              alt="Rize OC admissions specialist reviewing insurance coverage with a prospective client in a warm, professional consultation room"
+              fill
+              className="object-cover object-[72%_center]"
+              priority
             />
             <div
               className="absolute inset-0"
@@ -84,18 +86,38 @@ export default function VerifyInsurancePage() {
           </>
         }
       >
-        <div className={PAGE_GRID}>
-          <div className="max-w-[680px]">
-            <Eyebrow colorClass="text-accent">Insurance Verification</Eyebrow>
+        <PageHeroShell
+          fullBleedBottomBar
+          topSlot={<Eyebrow colorClass="text-accent">Insurance Verification</Eyebrow>}
+          bottomBar={
+            <div className="grid grid-cols-2 lg:grid-cols-4 border-t border-white/10">
+              {[
+                { icon: "ri-lock-line",         text: "100% Confidential" },
+                { icon: "ri-time-line",         text: "Same-Day Response" },
+                { icon: "ri-shield-check-line", text: "No Obligation" },
+                { icon: "ri-award-line",        text: "Most PPOs Accepted" },
+              ].map(({ icon, text }) => (
+                <div
+                  key={text}
+                  className="flex items-center justify-center gap-2 px-6 py-5 border-r border-white/10 last:border-r-0 bg-ink/50 backdrop-blur-sm"
+                >
+                  <i className={`${icon} text-accent text-sm`} />
+                  <span className="text-[11px] font-medium uppercase tracking-[0.15em] text-white/70">{text}</span>
+                </div>
+              ))}
+            </div>
+          }
+        >
+          <div className={HERO_SPLIT_LEFT}>
             <h1
-              className="font-[family-name:var(--font-display)] font-normal text-white mt-4 mb-6"
+              className="font-[family-name:var(--font-display)] font-normal text-white"
               style={{ fontSize: "clamp(48px, 5.5vw, 86px)", lineHeight: 0.95 }}
             >
               Verify Your
               <br />
               <em className="italic text-white/60">Coverage Today</em>
             </h1>
-            <p className="text-[16px] font-light leading-relaxed text-white/80 max-w-[500px] mb-10">
+            <p className={cn(HERO_LEAD, "mt-6 mb-10")}>
               <AutoLinkedTextClient>{"Our dedicated team contacts your insurance provider directly — for free, with no obligation — so you can focus entirely on taking the first step."}</AutoLinkedTextClient>
             </p>
             <div className="flex flex-wrap gap-3">
@@ -111,21 +133,8 @@ export default function VerifyInsurancePage() {
             </div>
           </div>
 
-          {/* Trust strip */}
-          <div className="mt-12 flex flex-wrap gap-x-8 gap-y-3">
-            {[
-              { icon: "ri-lock-line",         text: "100% Confidential" },
-              { icon: "ri-time-line",         text: "Same-Day Response" },
-              { icon: "ri-shield-check-line", text: "No Obligation" },
-              { icon: "ri-award-line",        text: "Most PPOs Accepted" },
-            ].map(({ icon, text }) => (
-              <div key={text} className="flex items-center gap-2">
-                <i className={`${icon} text-accent text-sm`} />
-                <span className="text-[11px] font-medium uppercase tracking-[0.15em] text-white/70">{text}</span>
-              </div>
-            ))}
-          </div>
-        </div>
+          <div className="hidden lg:block shrink-0 w-[min(420px,34vw)]" aria-hidden />
+        </PageHeroShell>
       </CinematicHeroSection>
 
       {/* ②  4 feature tiles ──────────────────────────────────────────────── */}

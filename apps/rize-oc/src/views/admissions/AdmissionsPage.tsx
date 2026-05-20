@@ -8,7 +8,13 @@ import IconCircle from "@/components/ui/IconCircle";
 import Button from "@/components/ui/Button";
 import CinematicHeroSection from "@/components/ui/CinematicHeroSection";
 import { CINEMATIC_STANDARD_HERO_GRADIENT } from "@/lib/cinematicHeroStyles";
-import { PAGE_GRID } from "@/components/ui/PageHeroShell";
+import {
+  CinematicHeroGrid,
+  HERO_COPY_BLOCK,
+  HERO_LEAD,
+  PAGE_GRID,
+} from "@/components/ui/PageHeroShell";
+import { cn } from "@/lib/cn";
 import FaqAccordion, { type FaqItem } from "@/components/ui/FaqAccordion";
 import AccreditationsBar from "@/views/home/components/AccreditationsBar";
 import { AutoLinkedTextClient } from "@sweetmedia/blog-core";
@@ -117,6 +123,7 @@ export default function AdmissionsPage() {
 
       {/* ① Hero ─────────────────────────────────────────────────────────── */}
       <CinematicHeroSection
+        contentClassName="justify-start"
         media={
           <>
             <Image
@@ -136,8 +143,8 @@ export default function AdmissionsPage() {
           </>
         }
       >
-        <div className={PAGE_GRID}>
-          <div className="max-w-[760px]">
+        <CinematicHeroGrid>
+          <div className={HERO_COPY_BLOCK}>
             <Eyebrow colorClass="text-accent">Admissions at Rize OC</Eyebrow>
             <h1
               className="font-[family-name:var(--font-display)] font-normal text-white mt-4 mb-6"
@@ -146,7 +153,7 @@ export default function AdmissionsPage() {
               Begin Your<br />
               <em className="italic text-white/60">Recovery Today</em>
             </h1>
-            <p className="text-[17px] font-light leading-relaxed text-white/85 max-w-[520px] mb-10">
+            <p className={cn(HERO_LEAD, "text-[17px] text-white/85 mb-10")}>
               Our admissions process is simple, compassionate, and fast. Most clients are assessed and admitted within 24 hours — with insurance verified at no cost to you.
             </p>
             <div className="flex flex-wrap gap-3">
@@ -173,7 +180,7 @@ export default function AdmissionsPage() {
               </div>
             ))}
           </div>
-        </div>
+        </CinematicHeroGrid>
       </CinematicHeroSection>
 
       {/* ② How It Works ─────────────────────────────────────────────────── */}

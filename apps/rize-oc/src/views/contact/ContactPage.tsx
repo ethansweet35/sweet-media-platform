@@ -8,7 +8,7 @@ import SectionHeader from "@/components/ui/SectionHeader";
 import Button from "@/components/ui/Button";
 import CinematicHeroSection from "@/components/ui/CinematicHeroSection";
 import { CINEMATIC_STANDARD_HERO_GRADIENT } from "@/lib/cinematicHeroStyles";
-import { PAGE_GRID } from "@/components/ui/PageHeroShell";
+import { CinematicHeroGrid } from "@/components/ui/PageHeroShell";
 import { AutoLinkedTextClient } from "@sweetmedia/blog-core";
 
 const BASE = "https://nfjlvkxrbzytjefmcvhg.supabase.co/storage/v1/object/public/site-assets/images";
@@ -232,6 +232,7 @@ export default function ContactPage() {
       {/* ① Hero ─────────────────────────────────────────────────────────── */}
       <CinematicHeroSection
         minHeight="min-h-[60vh]"
+        contentClassName="justify-start"
         media={
           <>
             <Image
@@ -248,7 +249,7 @@ export default function ContactPage() {
           </>
         }
       >
-        <div className={PAGE_GRID}>
+        <CinematicHeroGrid>
           <Eyebrow colorClass="text-accent">Get in Touch</Eyebrow>
           <h1
             className="font-[family-name:var(--font-display)] font-normal text-white mt-4"
@@ -257,7 +258,7 @@ export default function ContactPage() {
             We&apos;re Here<br />
             <em className="italic text-white/60">Whenever You&apos;re Ready</em>
           </h1>
-        </div>
+        </CinematicHeroGrid>
       </CinematicHeroSection>
 
       {/* ② Contact methods ──────────────────────────────────────────────── */}

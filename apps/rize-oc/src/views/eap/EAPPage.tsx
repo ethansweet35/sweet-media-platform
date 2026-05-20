@@ -4,7 +4,13 @@ import Image from "next/image";
 import Link from "next/link";
 import CinematicHeroSection from "@/components/ui/CinematicHeroSection";
 import { CINEMATIC_STANDARD_HERO_GRADIENT } from "@/lib/cinematicHeroStyles";
-import { PAGE_GRID } from "@/components/ui/PageHeroShell";
+import {
+  CinematicHeroGrid,
+  HERO_COPY_BLOCK,
+  HERO_LEAD,
+  PAGE_GRID,
+} from "@/components/ui/PageHeroShell";
+import { cn } from "@/lib/cn";
 import SectionWrapper from "@/components/ui/SectionWrapper";
 import Eyebrow from "@/components/ui/Eyebrow";
 import IconCircle from "@/components/ui/IconCircle";
@@ -121,6 +127,7 @@ export default function EAPPage() {
       {/* ①  Hero ─────────────────────────────────────────────────────────── */}
       <CinematicHeroSection
         minHeight="min-h-[75vh]"
+        contentClassName="justify-start"
         media={
           <>
             <Image
@@ -140,7 +147,7 @@ export default function EAPPage() {
           </>
         }
       >
-        <div className={PAGE_GRID}>
+        <CinematicHeroGrid>
           <div className="flex items-center gap-2 mb-6">
             <Link href="/" className="text-[10px] font-medium uppercase tracking-[0.25em] text-white/40 hover:text-accent transition-colors">
               Home
@@ -149,7 +156,7 @@ export default function EAPPage() {
             <span className="text-[10px] font-medium uppercase tracking-[0.25em] text-accent">Employee Assistance Programs</span>
           </div>
 
-          <div className="max-w-[680px]">
+          <div className={HERO_COPY_BLOCK}>
             <Eyebrow colorClass="text-accent">For Employees &amp; Employers</Eyebrow>
             <h1
               className="font-[family-name:var(--font-display)] font-normal text-white mt-4 mb-6"
@@ -159,7 +166,7 @@ export default function EAPPage() {
               <br />
               <em className="italic text-white/55">Programs (EAPs)</em>
             </h1>
-            <p className="text-[16px] font-light leading-relaxed text-white/80 max-w-[520px] mb-10">
+            <p className={cn(HERO_LEAD, "mb-10")}>
               <AutoLinkedTextClient>{"Your EAP benefit may cover addiction and mental health treatment at Rize OC — with complete confidentiality from your employer. Our team handles all coordination at no cost to you."}</AutoLinkedTextClient>
             </p>
             <div className="flex flex-wrap gap-3">
@@ -188,7 +195,7 @@ export default function EAPPage() {
               </div>
             ))}
           </div>
-        </div>
+        </CinematicHeroGrid>
       </CinematicHeroSection>
 
       {/* ②  What Is an EAP ───────────────────────────────────────────────── */}

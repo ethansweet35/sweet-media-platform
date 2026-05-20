@@ -253,7 +253,7 @@ export default function OurTeamPage() {
                 <br />
                 <em className="italic text-white/55">Rize OC Team</em>
               </h1>
-              <p className="mt-6 text-[16px] font-light leading-relaxed text-white/75 max-w-[480px]">
+              <p className="mt-6 text-[16px] font-light leading-relaxed text-white/75 lg:max-w-2xl">
                 <AutoLinkedTextClient>{"Our team of board-certified physicians, licensed therapists, and recovery specialists share one commitment: helping every client build a life worth living."}</AutoLinkedTextClient>
               </p>
               <div className="mt-10 flex flex-wrap gap-3">

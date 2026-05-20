@@ -5,10 +5,11 @@ import Eyebrow from "@/components/ui/Eyebrow";
 import SectionHeader from "@/components/ui/SectionHeader";
 import IconCircle from "@/components/ui/IconCircle";
 import Button from "@/components/ui/Button";
-import PageHeroShell from "@/components/ui/PageHeroShell";
+import PageHeroShell, { HERO_LEAD, HERO_SPLIT_LEFT } from "@/components/ui/PageHeroShell";
 import CinematicHeroSection from "@/components/ui/CinematicHeroSection";
 import { CINEMATIC_BOTTOM_HERO_GRADIENT } from "@/lib/cinematicHeroStyles";
 import { AutoLinkedText } from "@sweetmedia/blog-core";
+import { cn } from "@/lib/cn";
 
 const BASE = "https://nfjlvkxrbzytjefmcvhg.supabase.co/storage/v1/object/public/site-assets/images";
 
@@ -99,6 +100,7 @@ export default function LevelsOfCarePage() {
         }
       >
         <PageHeroShell
+          fullBleedBottomBar
           topSlot={<Eyebrow colorClass="text-accent">Treatment Programs</Eyebrow>}
           bottomBar={
             <div className="grid grid-cols-2 lg:grid-cols-5 border-t border-white/10">
@@ -121,7 +123,7 @@ export default function LevelsOfCarePage() {
             </div>
           }
         >
-            <div className="flex-1 max-w-3xl">
+            <div className={HERO_SPLIT_LEFT}>
               <h1
                 className="font-[family-name:var(--font-display)] font-normal text-white"
                 style={{ fontSize: "clamp(52px, 6.5vw, 96px)", lineHeight: 0.95 }}
@@ -129,7 +131,7 @@ export default function LevelsOfCarePage() {
                 Levels of<br />
                 <em className="italic text-white/60">Care</em>
               </h1>
-              <p className="mt-6 text-[16px] font-light leading-relaxed text-white/80 max-w-[520px]">
+              <p className={cn(HERO_LEAD, "mt-6")}>
                 <AutoLinkedText>{"Recovery is not a single event — it is a continuum. Rize OC offers every level from medically supervised detox to long-term virtual outpatient, ensuring the right support at every stage."}</AutoLinkedText>
               </p>
             </div>

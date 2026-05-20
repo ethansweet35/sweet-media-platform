@@ -9,7 +9,13 @@ import IconCircle from "@/components/ui/IconCircle";
 import Button from "@/components/ui/Button";
 import CinematicHeroSection from "@/components/ui/CinematicHeroSection";
 import { CINEMATIC_STANDARD_HERO_GRADIENT } from "@/lib/cinematicHeroStyles";
-import { PAGE_GRID } from "@/components/ui/PageHeroShell";
+import {
+  CinematicHeroGrid,
+  HERO_COPY_BLOCK,
+  HERO_LEAD,
+  PAGE_GRID,
+} from "@/components/ui/PageHeroShell";
+import { cn } from "@/lib/cn";
 import AccreditationsBar from "@/views/home/components/AccreditationsBar";
 import { AutoLinkedTextClient } from "@sweetmedia/blog-core";
 
@@ -113,6 +119,7 @@ export default function AboutPage() {
       {/* ①  Hero — Full-Bleed Cinematic ─────────────────────────────────── */}
       <CinematicHeroSection
         minHeight="min-h-[90vh]"
+        contentClassName="justify-start"
         media={
           <>
             <Image
@@ -132,8 +139,8 @@ export default function AboutPage() {
           </>
         }
       >
-        <div className={PAGE_GRID}>
-          <div className="max-w-[760px]">
+        <CinematicHeroGrid>
+          <div className={HERO_COPY_BLOCK}>
             <Eyebrow colorClass="text-accent">About Rize Recovery</Eyebrow>
             <h1
               className="font-[family-name:var(--font-display)] font-normal text-white mt-4 mb-6"
@@ -142,7 +149,7 @@ export default function AboutPage() {
               Where Healing<br />
               <em className="italic text-white/60">Happens.</em>
             </h1>
-            <p className="text-[17px] font-light leading-relaxed text-white/85 max-w-[520px] mb-10">
+            <p className={cn(HERO_LEAD, "text-[17px] text-white/85 mb-10")}>
               <AutoLinkedTextClient>{"Orange County's premier destination for evidence-based addiction and mental health treatment — where cutting-edge clinical care meets the serenity of California's coast."}</AutoLinkedTextClient>
             </p>
             <div className="flex flex-wrap gap-3">
@@ -156,7 +163,7 @@ export default function AboutPage() {
           </div>
 
           {/* Stat strip anchored at bottom-right */}
-          <div className="mt-14 grid grid-cols-2 sm:grid-cols-4 gap-px bg-white/10 border border-white/10 sm:max-w-[700px] ml-auto">
+          <div className="mt-14 grid w-full grid-cols-2 sm:grid-cols-4 gap-px bg-white/10 border border-white/10 lg:max-w-[52rem] lg:ml-auto">
             {stats.map(({ value, label }) => (
               <div key={label} className="bg-ink/60 px-6 py-5 backdrop-blur-sm text-center">
                 <p
@@ -167,7 +174,7 @@ export default function AboutPage() {
               </div>
             ))}
           </div>
-        </div>
+        </CinematicHeroGrid>
       </CinematicHeroSection>
 
       {/* ②  Founding Story ───────────────────────────────────────────────── */}

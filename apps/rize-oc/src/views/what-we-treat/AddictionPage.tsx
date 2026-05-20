@@ -5,11 +5,12 @@ import Eyebrow from "@/components/ui/Eyebrow";
 import SectionHeader from "@/components/ui/SectionHeader";
 import IconCircle from "@/components/ui/IconCircle";
 import Button from "@/components/ui/Button";
-import PageHeroShell from "@/components/ui/PageHeroShell";
+import PageHeroShell, { HERO_LEAD, HERO_SPLIT_LEFT } from "@/components/ui/PageHeroShell";
 import CinematicHeroSection from "@/components/ui/CinematicHeroSection";
 import { CINEMATIC_BOTTOM_HERO_GRADIENT } from "@/lib/cinematicHeroStyles";
 import FaqAccordion, { type FaqItem } from "@/components/ui/FaqAccordion";
 import { AutoLinkedText } from "@sweetmedia/blog-core";
+import { cn } from "@/lib/cn";
 
 const BASE = "https://nfjlvkxrbzytjefmcvhg.supabase.co/storage/v1/object/public/site-assets/images";
 
@@ -189,6 +190,7 @@ export default function AddictionPage() {
         }
       >
         <PageHeroShell
+          fullBleedBottomBar
           topSlot={<Eyebrow colorClass="text-accent">What We Treat</Eyebrow>}
           bottomBar={
             <div className="grid grid-cols-2 lg:grid-cols-4 border-t border-white/10">
@@ -206,7 +208,7 @@ export default function AddictionPage() {
             </div>
           }
         >
-            <div className="flex-1 max-w-3xl">
+            <div className={HERO_SPLIT_LEFT}>
               <h1
                 className="font-[family-name:var(--font-display)] font-normal text-white"
                 style={{ fontSize: "clamp(52px, 6.5vw, 96px)", lineHeight: 0.95 }}
@@ -214,7 +216,7 @@ export default function AddictionPage() {
                 Addiction<br />
                 <em className="italic text-white/60">Treatment</em>
               </h1>
-              <p className="mt-6 text-[16px] font-light leading-relaxed text-white/80 max-w-[520px]">
+              <p className={cn(HERO_LEAD, "mt-6")}>
                 <AutoLinkedText>{"Evidence-based, medically-supervised treatment for all substance use disorders — addressing the full clinical picture, not just the substance."}</AutoLinkedText>
               </p>
             </div>

@@ -4,7 +4,13 @@ import Image from "next/image";
 import Link from "next/link";
 import CinematicHeroSection from "@/components/ui/CinematicHeroSection";
 import { CINEMATIC_STANDARD_HERO_GRADIENT } from "@/lib/cinematicHeroStyles";
-import { PAGE_GRID } from "@/components/ui/PageHeroShell";
+import {
+  CinematicHeroGrid,
+  HERO_COPY_BLOCK,
+  HERO_LEAD,
+  PAGE_GRID,
+} from "@/components/ui/PageHeroShell";
+import { cn } from "@/lib/cn";
 import SectionWrapper from "@/components/ui/SectionWrapper";
 import Eyebrow from "@/components/ui/Eyebrow";
 import IconCircle from "@/components/ui/IconCircle";
@@ -155,6 +161,7 @@ export default function ServiceAreaTemplate({ data }: { data: ServiceAreaData })
       {/* ①  Hero ─────────────────────────────────────────────────────────── */}
       <CinematicHeroSection
         minHeight="min-h-[88vh]"
+        contentClassName="justify-start"
         media={
           <>
             <Image
@@ -174,7 +181,7 @@ export default function ServiceAreaTemplate({ data }: { data: ServiceAreaData })
           </>
         }
       >
-        <div className={PAGE_GRID}>
+        <CinematicHeroGrid>
           <div className="flex items-center gap-2 mb-6">
             <Link href="/" className="text-[10px] font-medium uppercase tracking-[0.25em] text-white/40 hover:text-accent transition-colors">
               Home
@@ -187,7 +194,7 @@ export default function ServiceAreaTemplate({ data }: { data: ServiceAreaData })
             <span className="text-[10px] font-medium uppercase tracking-[0.25em] text-accent">{city}, CA</span>
           </div>
 
-          <div className="max-w-[700px]">
+          <div className={HERO_COPY_BLOCK}>
             <Eyebrow colorClass="text-accent">{heroEyebrow}</Eyebrow>
             <h1
               className="font-[family-name:var(--font-display)] font-normal text-white mt-4 mb-6"
@@ -197,7 +204,7 @@ export default function ServiceAreaTemplate({ data }: { data: ServiceAreaData })
               <br />
               <em className="italic text-white/55">{heroHeadlineEmphasis}</em>
             </h1>
-            <p className="text-[16px] font-light leading-relaxed text-white/80 max-w-[540px] mb-10"><AutoLinkedTextClient>{heroBody}</AutoLinkedTextClient></p>
+            <p className={cn(HERO_LEAD, "mb-10")}><AutoLinkedTextClient>{heroBody}</AutoLinkedTextClient></p>
             <div className="flex flex-wrap gap-3">
               <Button href="tel:9494612620" variant="accent" size="md">
                 <i className="ri-phone-line mr-2 text-sm" /> Call (949) 461-2620
@@ -211,7 +218,7 @@ export default function ServiceAreaTemplate({ data }: { data: ServiceAreaData })
             </div>
           </div>
 
-          <div className="mt-14 grid grid-cols-2 sm:grid-cols-4 gap-px bg-white/10 border border-white/10 sm:max-w-[700px]">
+          <div className="mt-14 grid w-full grid-cols-2 sm:grid-cols-4 gap-px bg-white/10 border border-white/10 lg:max-w-[52rem]">
             {[
               { value: driveTime,  label: `From ${city}` },
               { value: "24/7",     label: "Admissions Line" },
@@ -227,7 +234,7 @@ export default function ServiceAreaTemplate({ data }: { data: ServiceAreaData })
               </div>
             ))}
           </div>
-        </div>
+        </CinematicHeroGrid>
       </CinematicHeroSection>
 
       {/* ②  Intro ────────────────────────────────────────────────────────── */}

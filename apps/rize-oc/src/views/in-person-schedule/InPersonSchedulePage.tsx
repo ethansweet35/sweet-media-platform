@@ -274,7 +274,7 @@ export default function InPersonSchedulePage() {
         <div className="pointer-events-none absolute -left-20 bottom-0 h-64 w-64 rounded-full bg-accent/5" />
 
         <div className="relative mx-auto w-full max-w-[1300px] px-[30px] lg:px-6">
-          <div className="max-w-[640px]">
+          <div className="min-w-0 w-full lg:max-w-[52rem]">
             <div className="flex items-center gap-2 mb-6">
               <Link
                 href="/about"
@@ -297,7 +297,7 @@ export default function InPersonSchedulePage() {
               <br />
               <em className="italic text-white/60">Schedule</em>
             </h1>
-            <p className="text-[16px] font-light leading-relaxed text-white/80 max-w-[500px] mb-10">
+            <p className="text-[16px] font-light leading-relaxed text-white/80 lg:max-w-2xl mb-10">
               <AutoLinkedTextClient>{"Daily clinician-led group therapy sessions across four concurrent tracks — each designed to build evidence-based recovery skills in a structured, supportive environment."}</AutoLinkedTextClient>
             </p>
             <div className="flex flex-wrap gap-3">

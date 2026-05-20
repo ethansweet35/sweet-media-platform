@@ -6,10 +6,11 @@ import SectionHeader from "@/components/ui/SectionHeader";
 import IconCircle from "@/components/ui/IconCircle";
 import Button from "@/components/ui/Button";
 import FaqAccordion, { type FaqItem } from "@/components/ui/FaqAccordion";
-import PageHeroShell from "@/components/ui/PageHeroShell";
+import PageHeroShell, { HERO_LEAD, HERO_SPLIT_LEFT } from "@/components/ui/PageHeroShell";
 import CinematicHeroSection from "@/components/ui/CinematicHeroSection";
 import { CINEMATIC_BOTTOM_HERO_GRADIENT } from "@/lib/cinematicHeroStyles";
 import { AutoLinkedText } from "@sweetmedia/blog-core";
+import { cn } from "@/lib/cn";
 
 const BASE = "https://nfjlvkxrbzytjefmcvhg.supabase.co/storage/v1/object/public/site-assets/images";
 
@@ -142,11 +143,11 @@ export default function VirtualPage() {
         media={
           <>
             <Image
-          src={`${BASE}/vop_hero03.jpg`}
-          alt="Person participating in secure telehealth therapy session from a comfortable California home"
-          fill
-          className="object-cover object-center"
-          priority
+              src={`${BASE}/vop_hero03.jpg`}
+              alt="Person participating in secure telehealth therapy session from a comfortable California home"
+              fill
+              className="object-cover object-[72%_center]"
+              priority
             />
             <div
               className="absolute inset-0"
@@ -156,6 +157,8 @@ export default function VirtualPage() {
         }
       >
         <PageHeroShell
+          fullBleedBottomBar
+          mainClassName="lg:gap-16"
           topSlot={<Eyebrow colorClass="text-accent">Levels of Care — Virtual Option</Eyebrow>}
           bottomBar={
             <div className="grid grid-cols-2 lg:grid-cols-4 border-t border-white/10">
@@ -173,15 +176,15 @@ export default function VirtualPage() {
             </div>
           }
         >
-            <div className="flex-1 max-w-3xl">
+            <div className={HERO_SPLIT_LEFT}>
               <h1
                 className="font-[family-name:var(--font-display)] font-normal text-white"
-                style={{ fontSize: "clamp(52px, 6.5vw, 96px)", lineHeight: 0.95 }}
+                style={{ fontSize: "clamp(48px, 5.5vw, 92px)", lineHeight: 0.95 }}
               >
                 Virtual Outpatient<br />
                 <em className="italic text-white/60">Program</em>
               </h1>
-              <p className="mt-6 text-[16px] font-light leading-relaxed text-white/80 max-w-[520px]">
+              <p className={cn(HERO_LEAD, "mt-6")}>
                 <AutoLinkedText>{"All the clinical depth of in-person IOP and OP — delivered through a HIPAA-compliant telehealth platform from wherever you are in California."}</AutoLinkedText>
               </p>
             </div>

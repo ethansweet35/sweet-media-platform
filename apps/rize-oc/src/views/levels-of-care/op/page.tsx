@@ -6,10 +6,11 @@ import SectionHeader from "@/components/ui/SectionHeader";
 import IconCircle from "@/components/ui/IconCircle";
 import Button from "@/components/ui/Button";
 import FaqAccordion, { type FaqItem } from "@/components/ui/FaqAccordion";
-import PageHeroShell from "@/components/ui/PageHeroShell";
+import PageHeroShell, { HERO_LEAD, HERO_SPLIT_LEFT } from "@/components/ui/PageHeroShell";
 import CinematicHeroSection from "@/components/ui/CinematicHeroSection";
 import { CINEMATIC_BOTTOM_HERO_GRADIENT } from "@/lib/cinematicHeroStyles";
 import { AutoLinkedText } from "@sweetmedia/blog-core";
+import { cn } from "@/lib/cn";
 
 const BASE = "https://nfjlvkxrbzytjefmcvhg.supabase.co/storage/v1/object/public/site-assets/images";
 
@@ -158,6 +159,7 @@ export default function OpPage() {
         }
       >
         <PageHeroShell
+          fullBleedBottomBar
           topSlot={<Eyebrow colorClass="text-accent">Levels of Care — Step 4</Eyebrow>}
           bottomBar={
             <div className="grid grid-cols-2 lg:grid-cols-4 border-t border-white/10">
@@ -175,7 +177,7 @@ export default function OpPage() {
             </div>
           }
         >
-          <div className="flex-1 max-w-3xl">
+          <div className={HERO_SPLIT_LEFT}>
             <h1
               className="font-[family-name:var(--font-display)] font-normal text-white"
               style={{ fontSize: "clamp(52px, 6.5vw, 96px)", lineHeight: 0.95 }}
@@ -183,7 +185,7 @@ export default function OpPage() {
               Outpatient<br />
               <em className="italic text-white/60">Program (OP)</em>
             </h1>
-            <p className="mt-6 text-[16px] font-light leading-relaxed text-white/80 max-w-[520px]">
+            <p className={cn(HERO_LEAD, "mt-6")}>
               <AutoLinkedText>{"Long-term recovery sustainment — one to two sessions weekly, ongoing alumni community, and the clinical partnership that extends recovery indefinitely."}</AutoLinkedText>
             </p>
           </div>
