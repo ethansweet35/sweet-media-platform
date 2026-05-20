@@ -1,0 +1,44 @@
+{
+  "name": "@sweetmedia/the-family-recovery-foundation",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "predev": "node ../../scripts/pull-brand-env.mjs --slug the-family-recovery-foundation --if-missing",
+    "build": "next build",
+    "postbuild": "tsx scripts/sync-tracked-pages.ts",
+    "start": "next start",
+    "lint": "eslint",
+    "typecheck": "tsc --noEmit",
+    "upload:images": "node scripts/upload-images-to-supabase.mjs",
+    "migrate:images:readdy": "node scripts/migrate-readdy-images-to-supabase.mjs",
+    "migrate:images:squarespace": "node scripts/migrate-squarespace-images-to-supabase.mjs --crawl",
+    "migrate:blogs:squarespace": "node scripts/migrate-squarespace-blogs.mjs",
+    "migrate:worksheets": "node scripts/migrate-worksheet-pdfs.mjs",
+    "upload:home-about-video": "node scripts/upload-home-about-video.mjs /tmp/tfrf_home_about_video_compressed.mp4"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.105.1",
+    "@sweetmedia/admin-core": "workspace:*",
+    "@sweetmedia/blog-core": "workspace:*",
+    "@sweetmedia/seo-schema": "workspace:*",
+    "@vercel/analytics": "^1.6.1",
+    "@vercel/speed-insights": "^1.3.1",
+    "dotenv": "^17.4.2",
+    "next": "16.2.4",
+    "react": "19.2.4",
+    "react-dom": "19.2.4",
+    "resend": "^6.12.2"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4",
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "eslint": "^9",
+    "eslint-config-next": "16.2.4",
+    "tailwindcss": "^4",
+    "tsx": "4.21.0",
+    "typescript": "^5"
+  }
+}

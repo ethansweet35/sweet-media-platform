@@ -112,6 +112,9 @@ export async function runScaffold(opts) {
   const pkgPath = join(destDir, 'package.json');
   const pkg = JSON.parse(readFileSync(pkgPath, 'utf8'));
   pkg.name = `@sweetmedia/${slug}`;
+  if (typeof pkg.scripts?.predev === 'string') {
+    pkg.scripts.predev = pkg.scripts.predev.replace(/client-template/g, slug);
+  }
   writeFileSync(pkgPath, `${JSON.stringify(pkg, null, 2)}\n`, 'utf8');
 
   const nextPath = join(destDir, 'next.config.ts');

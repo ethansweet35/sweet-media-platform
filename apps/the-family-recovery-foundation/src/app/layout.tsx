@@ -1,0 +1,82 @@
+import type { Metadata } from "next";
+import { Inter, Playfair_Display } from "next/font/google";
+import Script from "next/script";
+import "./globals.css";
+import Layout from "@/components/feature/Layout";
+import { AnalyticsWrapper } from "@sweetmedia/admin-core";
+
+const REMIXICON_CSS =
+  "https://cdn.jsdelivr.net/npm/remixicon@4.6.0/fonts/remixicon.css";
+
+const inter = Inter({
+  variable: "--font-inter",
+  subsets: ["latin"],
+  display: "swap",
+});
+
+const playfair = Playfair_Display({
+  variable: "--font-playfair",
+  subsets: ["latin"],
+  display: "swap",
+});
+
+export const metadata: Metadata = {
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? "https://tfrfoundation.org"),
+  title: {
+    default: "The Family Recovery Foundation",
+    template: "%s | The Family Recovery Foundation",
+  },
+  description:
+    "The Family Recovery Foundation stands with families impacted by addiction through prevention, education, and support.",
+};
+
+export default function RootLayout({
+  children,
+}: Readonly<{
+  children: React.ReactNode;
+}>) {
+  return (
+    <html lang="en">
+      <head>
+        <link rel="preconnect" href="https://cdn.jsdelivr.net" crossOrigin="anonymous" />
+        <link rel="preload" as="style" href={REMIXICON_CSS} crossOrigin="anonymous" />
+        <Script id="load-remixicon-styles" strategy="afterInteractive">{`
+          (function() {
+            var cssHref = "${REMIXICON_CSS}";
+            var inject = function () {
+              if (document.querySelector('link[href="' + cssHref + '"][rel="stylesheet"]')) return;
+              var link = document.createElement("link");
+              link.rel = "stylesheet";
+              link.href = cssHref;
+              link.crossOrigin = "anonymous";
+              document.head.appendChild(link);
+            };
+            if (document.readyState === "complete") {
+              if ("requestIdleCallback" in window) {
+                window.requestIdleCallback(inject, { timeout: 1200 });
+              } else {
+                setTimeout(inject, 400);
+              }
+              return;
+            }
+            window.addEventListener("load", function onLoad() {
+              window.removeEventListener("load", onLoad);
+              if ("requestIdleCallback" in window) {
+                window.requestIdleCallback(inject, { timeout: 1200 });
+              } else {
+                setTimeout(inject, 400);
+              }
+            });
+          })();
+        `}</Script>
+        <noscript>
+          <link rel="stylesheet" href={REMIXICON_CSS} crossOrigin="anonymous" />
+        </noscript>
+      </head>
+      <body className={`${inter.variable} ${playfair.variable} antialiased`}>
+        <Layout>{children}</Layout>
+        <AnalyticsWrapper />
+      </body>
+    </html>
+  );
+}

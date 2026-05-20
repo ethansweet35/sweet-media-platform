@@ -1,0 +1,84 @@
+@import "tailwindcss";
+
+@source "../**/*.{js,ts,jsx,tsx,mdx}";
+@source "../../src/**/*.{js,ts,jsx,tsx,mdx}";
+@source "../../../../packages/admin-core/src/**/*.{js,ts,jsx,tsx}";
+
+@theme {
+  --color-tfrf-blue: #1b5fa0;
+  --color-deep-navy: #0c2640;
+  --color-sky-blue: #5a8fba;
+  --color-powder-blue: #b8cedf;
+  --color-soft-white: #f7f9fc;
+  --color-pure-white: #ffffff;
+  --color-mist: #ecf1f6;
+  --color-slate: #5a6b7d;
+  --color-stone-blue: #8497a8;
+
+  --font-family-display: var(--font-playfair, "Playfair Display", Georgia, serif);
+  --font-family-body: var(--font-inter, "Inter", system-ui, sans-serif);
+  --font-display: var(--font-playfair, "Playfair Display", Georgia, serif);
+  --font-body: var(--font-inter, "Inter", system-ui, sans-serif);
+
+  --max-width-content: 90rem;
+  --max-width-bleed: 105rem;
+
+  --text-display-xl: clamp(3.5rem, 8vw, 7.5rem);
+  --text-display-xl--line-height: 1.05;
+  --text-display-l: clamp(2.75rem, 5.5vw, 5rem);
+  --text-display-l--line-height: 1.05;
+  --text-display-m: clamp(2.25rem, 3.5vw, 3.5rem);
+  --text-display-m--line-height: 1.1;
+  --text-display-s: clamp(1.75rem, 2.5vw, 2.25rem);
+  --text-display-s--line-height: 1.1;
+  --text-body-l: clamp(1.125rem, 1.4vw, 1.375rem);
+  --text-body-l--line-height: 1.6;
+  --text-body-m: 1.0625rem;
+  --text-body-m--line-height: 1.55;
+  --text-body-s: 0.9375rem;
+  --text-body-s--line-height: 1.55;
+  --text-caption: 0.8125rem;
+  --text-caption--line-height: 1.5;
+  --text-eyebrow: 0.75rem;
+  --text-eyebrow--line-height: 1.4;
+  --tracking-eyebrow: 0.15em;
+}
+
+:root {
+  --color-background: #f7f9fc;
+  --color-text: #0f2a40;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  background: var(--color-soft-white);
+  color: var(--color-deep-navy);
+  font-family: var(--font-body);
+  font-weight: 400;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-display);
+}
+
+::selection {
+  background-color: #b8cedf;
+  color: #0f2a40;
+}
+
+button,
+a {
+  transition: color 180ms ease, background-color 180ms ease, border-color 180ms ease,
+    opacity 180ms ease, transform 180ms ease;
+}

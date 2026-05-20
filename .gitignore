@@ -25,3 +25,6 @@ apps/*-migration/
 .upload.env
 uploaded-image-files.txt
 .env*.local
+
+# Readdy project exports may ship a hosted .env — never commit
+apps/*/readdy-export/.env
