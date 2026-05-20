@@ -169,7 +169,7 @@ export default function AddictionPage() {
   return (
     <>
       {/* ①  Hero ─────────────────────────────────────────────────────────── */}
-      <section className="relative bg-ink overflow-hidden min-h-[88vh] flex flex-col justify-end">
+      <section className="relative bg-ink overflow-hidden min-h-[88vh]">
         <Image
           src={`${BASE}/addiction_hero02.jpg`}
           alt="Serene healing garden courtyard at a luxury treatment center in Orange County California"
@@ -182,6 +182,7 @@ export default function AddictionPage() {
           style={{ background: "linear-gradient(to top, rgba(44,48,46,1) 0%, rgba(44,48,46,0.92) 30%, rgba(44,48,46,0.65) 55%, rgba(44,48,46,0.2) 100%)" }}
         />
 
+        <div className="absolute inset-x-0 bottom-0 z-10">
         <PageHeroShell
           topSlot={<Eyebrow colorClass="text-accent">What We Treat</Eyebrow>}
           bottomBar={
@@ -234,6 +235,7 @@ export default function AddictionPage() {
               </div>
             </div>
         </PageHeroShell>
+        </div>
       </section>
 
       {/* ②  Understanding Addiction ───────────────────────────────────────── */}

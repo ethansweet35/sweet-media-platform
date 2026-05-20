@@ -108,7 +108,7 @@ export default function AboutPage() {
     <main className="min-h-screen bg-[var(--color-background)]">
 
       {/* ①  Hero — Full-Bleed Cinematic ─────────────────────────────────── */}
-      <section className="relative bg-ink overflow-hidden min-h-[90vh] flex flex-col justify-end">
+      <section className="relative bg-ink overflow-hidden min-h-[90vh]">
         <Image
           src={`${BASE}/about_hero01.jpg`}
           alt="Premium Rize OC treatment facility in Orange County California surrounded by California coastal landscaping"
@@ -126,7 +126,7 @@ export default function AboutPage() {
         />
 
         {/* Content — bottom-anchored editorial layout */}
-        <div className="relative z-10 mx-auto w-full max-w-[1300px] px-[30px] lg:px-6 pb-20 pt-32">
+        <div className="absolute inset-x-0 bottom-0 z-10 mx-auto w-full max-w-[1300px] px-[30px] lg:px-6 pb-16 lg:pb-20">
           <div className="max-w-[760px]">
             <Eyebrow colorClass="text-accent">About Rize Recovery</Eyebrow>
             <h1

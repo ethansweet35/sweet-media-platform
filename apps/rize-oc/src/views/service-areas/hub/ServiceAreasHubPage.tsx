@@ -98,7 +98,7 @@ export default function ServiceAreasHubPage() {
     <main className="min-h-screen">
 
       {/* ①  Hero ─────────────────────────────────────────────────────────── */}
-      <section className="relative bg-ink overflow-hidden min-h-[72vh] flex flex-col justify-end">
+      <section className="relative bg-ink overflow-hidden min-h-[72vh]">
         <Image
           src={`${BASE}/service-areas-hub_hero01.jpg`}
           alt="Aerial panoramic view of Orange County California coastline and inland communities at sunset"
@@ -114,7 +114,7 @@ export default function ServiceAreasHubPage() {
           }}
         />
 
-        <div className="relative z-10 mx-auto w-full max-w-[1300px] px-[30px] lg:px-6 pb-20 pt-40">
+        <div className="absolute inset-x-0 bottom-0 z-10 mx-auto w-full max-w-[1300px] px-[30px] lg:px-6 pb-16 lg:pb-20">
           <div className="flex items-center gap-2 mb-6">
             <Link href="/" className="text-[10px] font-medium uppercase tracking-[0.25em] text-white/40 hover:text-accent transition-colors">
               Home

@@ -178,7 +178,7 @@ export default function DetoxPage() {
   return (
     <>
       {/* ①  Hero ─────────────────────────────────────────────────────────── */}
-      <section className="relative bg-ink overflow-hidden min-h-[88vh] flex flex-col justify-end">
+      <section className="relative bg-ink overflow-hidden min-h-[88vh]">
         {/* Full-bleed background image */}
         <Image
           src="https://nfjlvkxrbzytjefmcvhg.supabase.co/storage/v1/object/public/site-assets/images/detox_hero04.jpg"
@@ -194,6 +194,7 @@ export default function DetoxPage() {
           style={{ background: "linear-gradient(to top, rgba(44,48,46,1) 0%, rgba(44,48,46,0.92) 30%, rgba(44,48,46,0.65) 55%, rgba(44,48,46,0.2) 100%)" }}
         />
 
+        <div className="absolute inset-x-0 bottom-0 z-10">
         <PageHeroShell
           topSlot={<Eyebrow colorClass="text-accent">Levels of Care — Step 1</Eyebrow>}
           bottomBar={
@@ -253,6 +254,7 @@ export default function DetoxPage() {
               </div>
             </div>
         </PageHeroShell>
+        </div>
       </section>
 
       {/* ②  What Is Detox? ───────────────────────────────────────────────── */}

@@ -60,7 +60,7 @@ export default function VerifyInsurancePage() {
     <main className="min-h-screen">
 
       {/* ①  Hero ─────────────────────────────────────────────────────────── */}
-      <section className="relative bg-ink overflow-hidden min-h-[75vh] flex flex-col justify-end">
+      <section className="relative bg-ink overflow-hidden min-h-[75vh]">
         <Image
           src={`${BASE}/verify-insurance_hero01.jpg`}
           alt="Rize OC admissions specialist reviewing insurance coverage with a prospective client in a warm, professional consultation room"
@@ -76,7 +76,7 @@ export default function VerifyInsurancePage() {
           }}
         />
 
-        <div className="relative z-10 mx-auto w-full max-w-[1300px] px-[30px] lg:px-6 pb-20 pt-32">
+        <div className="absolute inset-x-0 bottom-0 z-10 mx-auto w-full max-w-[1300px] px-[30px] lg:px-6 pb-16 lg:pb-20">
           <div className="max-w-[680px]">
             <Eyebrow colorClass="text-accent">Insurance Verification</Eyebrow>
             <h1

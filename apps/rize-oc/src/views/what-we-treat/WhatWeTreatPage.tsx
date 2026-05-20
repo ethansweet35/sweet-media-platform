@@ -193,7 +193,7 @@ export default function WhatWeTreatPage() {
   return (
     <>
       {/* ①  Hero ─────────────────────────────────────────────────────────── */}
-      <section className="relative bg-ink overflow-hidden min-h-[88vh] flex flex-col justify-end">
+      <section className="relative bg-ink overflow-hidden min-h-[88vh]">
         <Image
           src={`${BASE}/what-we-treat_hero02.jpg`}
           alt="Serene therapy room with floor-to-ceiling windows overlooking palm trees and the California coast at golden hour"
@@ -206,6 +206,7 @@ export default function WhatWeTreatPage() {
           style={{ background: "linear-gradient(to top, rgba(44,48,46,1) 0%, rgba(44,48,46,0.92) 30%, rgba(44,48,46,0.65) 55%, rgba(44,48,46,0.2) 100%)" }}
         />
 
+        <div className="absolute inset-x-0 bottom-0 z-10">
         <PageHeroShell
           bottomBar={
             <div className="grid grid-cols-2 lg:grid-cols-4 border-t border-white/10">
@@ -258,6 +259,7 @@ export default function WhatWeTreatPage() {
               </div>
             </div>
         </PageHeroShell>
+        </div>
       </section>
 
       {/* ②  Dual Diagnosis intro ─────────────────────────────────────────── */}

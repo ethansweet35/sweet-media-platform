@@ -113,7 +113,7 @@ export default function AdmissionsPage() {
     <main className="min-h-screen">
 
       {/* ① Hero ─────────────────────────────────────────────────────────── */}
-      <section className="relative bg-ink overflow-hidden min-h-[88vh] flex flex-col justify-end">
+      <section className="relative bg-ink overflow-hidden min-h-[88vh]">
         <Image
           src={`${BASE}/admissions_hero01.jpg`}
           alt="Rize OC admissions coordinator welcoming a new patient at the Orange County treatment center"
@@ -128,7 +128,7 @@ export default function AdmissionsPage() {
               "linear-gradient(to bottom, rgba(44,48,46,0.65) 0%, rgba(44,48,46,0.25) 40%, rgba(44,48,46,0.55) 62%, rgba(44,48,46,0.96) 100%)",
           }}
         />
-        <div className="relative z-10 mx-auto w-full max-w-[1300px] px-[30px] lg:px-6 pb-20 pt-32">
+        <div className="absolute inset-x-0 bottom-0 z-10 mx-auto w-full max-w-[1300px] px-[30px] lg:px-6 pb-16 lg:pb-20">
           <div className="max-w-[760px]">
             <Eyebrow colorClass="text-accent">Admissions at Rize OC</Eyebrow>
             <h1

@@ -227,7 +227,7 @@ export default function ContactPage() {
     <main className="min-h-screen">
 
       {/* ① Hero ─────────────────────────────────────────────────────────── */}
-      <section className="relative bg-ink overflow-hidden min-h-[60vh] flex flex-col justify-end">
+      <section className="relative bg-ink overflow-hidden min-h-[60vh]">
         <Image
           src={`${BASE}/contact_hero01.jpg`}
           alt="Rize OC treatment center entrance in Orange County California"
@@ -242,7 +242,7 @@ export default function ContactPage() {
               "linear-gradient(to bottom, rgba(44,48,46,0.55) 0%, rgba(44,48,46,0.2) 40%, rgba(44,48,46,0.92) 100%)",
           }}
         />
-        <div className="relative z-10 mx-auto w-full max-w-[1300px] px-[30px] lg:px-6 pb-16 pt-28">
+        <div className="absolute inset-x-0 bottom-0 z-10 mx-auto w-full max-w-[1300px] px-[30px] lg:px-6 pb-14 lg:pb-16">
           <Eyebrow colorClass="text-accent">Get in Touch</Eyebrow>
           <h1
             className="font-[family-name:var(--font-display)] font-normal text-white mt-4"

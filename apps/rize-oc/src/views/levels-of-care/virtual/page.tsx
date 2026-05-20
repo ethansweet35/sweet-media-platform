@@ -136,7 +136,7 @@ export default function VirtualPage() {
   return (
     <>
       {/* ①  Hero ─────────────────────────────────────────────────────────── */}
-      <section className="relative bg-ink overflow-hidden min-h-[88vh] flex flex-col justify-end">
+      <section className="relative bg-ink overflow-hidden min-h-[88vh]">
         <Image
           src={`${BASE}/vop_hero03.jpg`}
           alt="Person participating in secure telehealth therapy session from a comfortable California home"
@@ -149,6 +149,7 @@ export default function VirtualPage() {
           style={{ background: "linear-gradient(to top, rgba(44,48,46,1) 0%, rgba(44,48,46,0.92) 30%, rgba(44,48,46,0.65) 55%, rgba(44,48,46,0.2) 100%)" }}
         />
 
+        <div className="absolute inset-x-0 bottom-0 z-10">
         <PageHeroShell
           topSlot={<Eyebrow colorClass="text-accent">Levels of Care — Virtual Option</Eyebrow>}
           bottomBar={
@@ -201,6 +202,7 @@ export default function VirtualPage() {
               </div>
             </div>
         </PageHeroShell>
+        </div>
       </section>
 
       {/* ②  What Is Virtual Care? ────────────────────────────────────────── */}

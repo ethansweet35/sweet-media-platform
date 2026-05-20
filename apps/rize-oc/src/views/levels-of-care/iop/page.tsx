@@ -172,7 +172,7 @@ export default function IopPage() {
   return (
     <>
       {/* ①  Hero ─────────────────────────────────────────────────────────── */}
-      <section className="relative bg-ink overflow-hidden min-h-[88vh] flex flex-col justify-end">
+      <section className="relative bg-ink overflow-hidden min-h-[88vh]">
         <Image
           src={`${BASE}/iop_hero03.jpg`}
           alt="Modern individual therapy counseling office at Rize OC Intensive Outpatient Program in Orange County"
@@ -185,6 +185,7 @@ export default function IopPage() {
           style={{ background: "linear-gradient(to top, rgba(44,48,46,1) 0%, rgba(44,48,46,0.92) 30%, rgba(44,48,46,0.65) 55%, rgba(44,48,46,0.2) 100%)" }}
         />
 
+        <div className="absolute inset-x-0 bottom-0 z-10">
         <PageHeroShell
           topSlot={<Eyebrow colorClass="text-accent">Levels of Care — Step 3</Eyebrow>}
           bottomBar={
@@ -237,6 +238,7 @@ export default function IopPage() {
               </div>
             </div>
         </PageHeroShell>
+        </div>
       </section>
 
       {/* ②  What Is IOP? ──────────────────────────────────────────────────── */}

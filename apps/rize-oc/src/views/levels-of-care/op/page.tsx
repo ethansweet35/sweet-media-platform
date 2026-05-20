@@ -138,7 +138,7 @@ export default function OpPage() {
   return (
     <>
       {/* ①  Hero ─────────────────────────────────────────────────────────── */}
-      <section className="relative bg-ink overflow-hidden min-h-[88vh] flex flex-col justify-end">
+      <section className="relative bg-ink overflow-hidden min-h-[88vh]">
         <Image
           src={`${BASE}/op_hero03.jpg`}
           alt="Serene outdoor courtyard at Rize OC outpatient wellness center in Orange County California"
@@ -151,6 +151,7 @@ export default function OpPage() {
           style={{ background: "linear-gradient(to top, rgba(44,48,46,1) 0%, rgba(44,48,46,0.92) 30%, rgba(44,48,46,0.65) 55%, rgba(44,48,46,0.2) 100%)" }}
         />
 
+        <div className="absolute inset-x-0 bottom-0 z-10">
         <PageHeroShell
           topSlot={<Eyebrow colorClass="text-accent">Levels of Care — Step 4</Eyebrow>}
           bottomBar={
@@ -203,6 +204,7 @@ export default function OpPage() {
             </div>
           </div>
         </PageHeroShell>
+        </div>
       </section>
 
       {/* ②  What Is OP? ───────────────────────────────────────────────────── */}
