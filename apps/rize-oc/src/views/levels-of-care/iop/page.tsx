@@ -6,6 +6,9 @@ import SectionHeader from "@/components/ui/SectionHeader";
 import IconCircle from "@/components/ui/IconCircle";
 import Button from "@/components/ui/Button";
 import FaqAccordion, { type FaqItem } from "@/components/ui/FaqAccordion";
+import PageHeroShell from "@/components/ui/PageHeroShell";
+import CinematicHeroSection from "@/components/ui/CinematicHeroSection";
+import { CINEMATIC_BOTTOM_HERO_GRADIENT } from "@/lib/cinematicHeroStyles";
 import { AutoLinkedText } from "@sweetmedia/blog-core";
 
 const BASE = "https://nfjlvkxrbzytjefmcvhg.supabase.co/storage/v1/object/public/site-assets/images";
@@ -171,25 +174,41 @@ export default function IopPage() {
   return (
     <>
       {/* ①  Hero ─────────────────────────────────────────────────────────── */}
-      <section className="relative bg-ink overflow-hidden min-h-[88vh] flex flex-col justify-end">
-        <Image
+      <CinematicHeroSection
+        media={
+          <>
+            <Image
           src={`${BASE}/iop_hero03.jpg`}
           alt="Modern individual therapy counseling office at Rize OC Intensive Outpatient Program in Orange County"
           fill
           className="object-cover object-center"
           priority
-        />
-        <div
-          className="absolute inset-0"
-          style={{ background: "linear-gradient(to top, rgba(44,48,46,1) 0%, rgba(44,48,46,0.92) 30%, rgba(44,48,46,0.65) 55%, rgba(44,48,46,0.2) 100%)" }}
-        />
-
-        <div className="relative z-10 w-full">
-          <div className="absolute bottom-full mb-8 left-0 w-full px-6 lg:px-12 xl:px-20">
-            <Eyebrow colorClass="text-accent">Levels of Care — Step 3</Eyebrow>
-          </div>
-
-          <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-8 px-6 lg:px-12 xl:px-20 pb-16 pt-0">
+            />
+            <div
+              className="absolute inset-0"
+              style={{ background: CINEMATIC_BOTTOM_HERO_GRADIENT }}
+            />
+          </>
+        }
+      >
+        <PageHeroShell
+          topSlot={<Eyebrow colorClass="text-accent">Levels of Care — Step 3</Eyebrow>}
+          bottomBar={
+            <div className="grid grid-cols-2 lg:grid-cols-4 border-t border-white/10">
+              {[
+                { value: "3–9",   label: "Hours Per Week" },
+                { value: "8–12",  label: "Week Average Stay" },
+                { value: "AM/PM", label: "Schedule Options" },
+                { value: "≤8",    label: "Clients Per Group" },
+              ].map(({ value, label }) => (
+                <div key={label} className="px-8 py-5 border-r border-white/10 last:border-r-0 bg-ink/50 backdrop-blur-sm">
+                  <p className="font-[family-name:var(--font-display)] text-[28px] font-normal text-white leading-none"><AutoLinkedText>{value}</AutoLinkedText></p>
+                  <p className="text-[10px] font-medium uppercase tracking-[0.22em] text-white/50 mt-1.5"><AutoLinkedText>{label}</AutoLinkedText></p>
+                </div>
+              ))}
+            </div>
+          }
+        >
             <div className="flex-1 max-w-3xl">
               <h1
                 className="font-[family-name:var(--font-display)] font-normal text-white"
@@ -223,23 +242,8 @@ export default function IopPage() {
                 ))}
               </div>
             </div>
-          </div>
-
-          <div className="grid grid-cols-2 lg:grid-cols-4 border-t border-white/10">
-            {[
-              { value: "3–9",   label: "Hours Per Week" },
-              { value: "8–12",  label: "Week Average Stay" },
-              { value: "AM/PM", label: "Schedule Options" },
-              { value: "≤8",    label: "Clients Per Group" },
-            ].map(({ value, label }) => (
-              <div key={label} className="px-8 py-5 border-r border-white/10 last:border-r-0 bg-ink/50 backdrop-blur-sm">
-                <p className="font-[family-name:var(--font-display)] text-[28px] font-normal text-white leading-none"><AutoLinkedText>{value}</AutoLinkedText></p>
-                <p className="text-[10px] font-medium uppercase tracking-[0.22em] text-white/50 mt-1.5"><AutoLinkedText>{label}</AutoLinkedText></p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+        </PageHeroShell>
+      </CinematicHeroSection>
 
       {/* ②  What Is IOP? ──────────────────────────────────────────────────── */}
       <section className="bg-white">

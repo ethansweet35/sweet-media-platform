@@ -7,6 +7,9 @@ import Eyebrow from "@/components/ui/Eyebrow";
 import SectionHeader from "@/components/ui/SectionHeader";
 import IconCircle from "@/components/ui/IconCircle";
 import Button from "@/components/ui/Button";
+import CinematicHeroSection from "@/components/ui/CinematicHeroSection";
+import { CINEMATIC_STANDARD_HERO_GRADIENT } from "@/lib/cinematicHeroStyles";
+import { PAGE_GRID } from "@/components/ui/PageHeroShell";
 import AccreditationsBar from "@/views/home/components/AccreditationsBar";
 import { AutoLinkedTextClient } from "@sweetmedia/blog-core";
 
@@ -108,25 +111,28 @@ export default function AboutPage() {
     <main className="min-h-screen bg-[var(--color-background)]">
 
       {/* ①  Hero — Full-Bleed Cinematic ─────────────────────────────────── */}
-      <section className="relative bg-ink overflow-hidden min-h-[90vh] flex flex-col justify-end">
-        <Image
-          src={`${BASE}/about_hero01.jpg`}
-          alt="Premium Rize OC treatment facility in Orange County California surrounded by California coastal landscaping"
-          fill
-          className="object-cover object-center"
-          priority
-        />
-        {/* Vignette — heavy bottom + edges, lets center breathe */}
-        <div
-          className="absolute inset-0"
-          style={{
-            background:
-              "linear-gradient(to bottom, rgba(44,48,46,0.72) 0%, rgba(44,48,46,0.35) 38%, rgba(44,48,46,0.55) 62%, rgba(44,48,46,0.95) 100%)",
-          }}
-        />
-
-        {/* Content — bottom-anchored editorial layout */}
-        <div className="relative z-10 mx-auto w-full max-w-[1300px] px-6 lg:px-10 pb-20 pt-32">
+      <CinematicHeroSection
+        minHeight="min-h-[90vh]"
+        media={
+          <>
+            <Image
+              src={`${BASE}/about_hero01.jpg`}
+              alt="Premium Rize OC treatment facility in Orange County California surrounded by California coastal landscaping"
+              fill
+              className="object-cover object-center"
+              priority
+            />
+            <div
+              className="absolute inset-0"
+              style={{
+                background:
+                  CINEMATIC_STANDARD_HERO_GRADIENT,
+              }}
+            />
+          </>
+        }
+      >
+        <div className={PAGE_GRID}>
           <div className="max-w-[760px]">
             <Eyebrow colorClass="text-accent">About Rize Recovery</Eyebrow>
             <h1
@@ -162,7 +168,7 @@ export default function AboutPage() {
             ))}
           </div>
         </div>
-      </section>
+      </CinematicHeroSection>
 
       {/* ②  Founding Story ───────────────────────────────────────────────── */}
       <SectionWrapper bg="bg-white" py="py-[100px]">
@@ -241,7 +247,7 @@ export default function AboutPage() {
         <div className="pointer-events-none absolute -right-40 -top-40 h-[500px] w-[500px] rounded-full bg-accent/5" />
         <div className="pointer-events-none absolute -left-24 bottom-0 h-80 w-80 rounded-full bg-accent/5" />
 
-        <div className="relative mx-auto w-full max-w-[1300px] px-6 lg:px-10">
+        <div className="relative mx-auto w-full max-w-[1300px] px-[30px] lg:px-6">
           <div className="mb-16 text-center max-w-2xl mx-auto">
             <Eyebrow colorClass="text-accent">Our Philosophy</Eyebrow>
             <h2
@@ -341,7 +347,7 @@ export default function AboutPage() {
       <section className="relative bg-ink overflow-hidden py-[100px]">
         <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_80%_20%,rgba(196,137,90,0.07)_0%,transparent_60%)]" />
 
-        <div className="relative mx-auto w-full max-w-[1300px] px-6 lg:px-10">
+        <div className="relative mx-auto w-full max-w-[1300px] px-[30px] lg:px-6">
           <div className="grid lg:grid-cols-[1fr_1fr] gap-16 xl:gap-24 items-center">
 
             {/* Left — narrative intro */}
@@ -397,7 +403,7 @@ export default function AboutPage() {
         <div className="pointer-events-none absolute -left-32 -top-32 h-96 w-96 rounded-full bg-accent/8" />
         <div className="pointer-events-none absolute -right-20 -bottom-20 h-64 w-64 rounded-full bg-accent/6" />
 
-        <div className="relative mx-auto w-full max-w-[1300px] px-6 lg:px-10 text-center">
+        <div className="relative mx-auto w-full max-w-[1300px] px-[30px] lg:px-6 text-center">
           <Eyebrow colorClass="text-accent">Take the First Step</Eyebrow>
           <h2
             className="font-[family-name:var(--font-display)] font-normal text-white mt-4 mx-auto"

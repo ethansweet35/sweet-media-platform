@@ -2,6 +2,9 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import CinematicHeroSection from "@/components/ui/CinematicHeroSection";
+import { CINEMATIC_STANDARD_HERO_GRADIENT } from "@/lib/cinematicHeroStyles";
+import { PAGE_GRID } from "@/components/ui/PageHeroShell";
 import SectionWrapper from "@/components/ui/SectionWrapper";
 import Eyebrow from "@/components/ui/Eyebrow";
 import IconCircle from "@/components/ui/IconCircle";
@@ -150,23 +153,28 @@ export default function ServiceAreaTemplate({ data }: { data: ServiceAreaData })
     <main className="min-h-screen">
 
       {/* ①  Hero ─────────────────────────────────────────────────────────── */}
-      <section className="relative bg-ink overflow-hidden min-h-[88vh] flex flex-col justify-end">
-        <Image
+      <CinematicHeroSection
+        minHeight="min-h-[88vh]"
+        media={
+          <>
+            <Image
           src={`${BASE}/${heroImage}`}
           alt={heroImageAlt}
           fill
           className="object-cover object-center"
           priority
-        />
-        <div
-          className="absolute inset-0"
-          style={{
-            background:
-              "linear-gradient(to bottom, rgba(44,48,46,0.55) 0%, rgba(44,48,46,0.45) 30%, rgba(44,48,46,0.78) 65%, rgba(44,48,46,0.98) 100%)",
-          }}
-        />
-
-        <div className="relative z-10 mx-auto w-full max-w-[1300px] px-6 lg:px-10 pb-20 pt-40">
+            />
+            <div
+              className="absolute inset-0"
+              style={{
+                background:
+                  CINEMATIC_STANDARD_HERO_GRADIENT,
+              }}
+            />
+          </>
+        }
+      >
+        <div className={PAGE_GRID}>
           <div className="flex items-center gap-2 mb-6">
             <Link href="/" className="text-[10px] font-medium uppercase tracking-[0.25em] text-white/40 hover:text-accent transition-colors">
               Home
@@ -220,7 +228,7 @@ export default function ServiceAreaTemplate({ data }: { data: ServiceAreaData })
             ))}
           </div>
         </div>
-      </section>
+      </CinematicHeroSection>
 
       {/* ②  Intro ────────────────────────────────────────────────────────── */}
       <section className="bg-white">
@@ -327,7 +335,7 @@ export default function ServiceAreaTemplate({ data }: { data: ServiceAreaData })
         <div className="pointer-events-none absolute -right-40 -top-40 h-[500px] w-[500px] rounded-full bg-accent/5" />
         <div className="pointer-events-none absolute -left-24 bottom-0 h-80 w-80 rounded-full bg-accent/5" />
 
-        <div className="relative mx-auto w-full max-w-[1300px] px-6 lg:px-10">
+        <div className="relative mx-auto w-full max-w-[1300px] px-[30px] lg:px-6">
           <div className="mb-12 text-center max-w-xl mx-auto">
             <Eyebrow colorClass="text-accent">Conditions We Treat</Eyebrow>
             <h2

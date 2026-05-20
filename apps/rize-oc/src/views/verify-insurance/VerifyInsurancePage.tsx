@@ -1,6 +1,9 @@
 "use client";
 
 import Image from "next/image";
+import CinematicHeroSection from "@/components/ui/CinematicHeroSection";
+import { CINEMATIC_STANDARD_HERO_GRADIENT } from "@/lib/cinematicHeroStyles";
+import { PAGE_GRID } from "@/components/ui/PageHeroShell";
 import SectionWrapper from "@/components/ui/SectionWrapper";
 import SectionHeader from "@/components/ui/SectionHeader";
 import Eyebrow from "@/components/ui/Eyebrow";
@@ -60,23 +63,28 @@ export default function VerifyInsurancePage() {
     <main className="min-h-screen">
 
       {/* ①  Hero ─────────────────────────────────────────────────────────── */}
-      <section className="relative bg-ink overflow-hidden min-h-[75vh] flex flex-col justify-end">
-        <Image
+      <CinematicHeroSection
+        minHeight="min-h-[75vh]"
+        media={
+          <>
+            <Image
           src={`${BASE}/verify-insurance_hero01.jpg`}
           alt="Rize OC admissions specialist reviewing insurance coverage with a prospective client in a warm, professional consultation room"
           fill
           className="object-cover object-center"
           priority
-        />
-        <div
-          className="absolute inset-0"
-          style={{
-            background:
-              "linear-gradient(to bottom, rgba(44,48,46,0.55) 0%, rgba(44,48,46,0.25) 40%, rgba(44,48,46,0.70) 70%, rgba(44,48,46,0.97) 100%)",
-          }}
-        />
-
-        <div className="relative z-10 mx-auto w-full max-w-[1300px] px-6 lg:px-10 pb-20 pt-32">
+            />
+            <div
+              className="absolute inset-0"
+              style={{
+                background:
+                  CINEMATIC_STANDARD_HERO_GRADIENT,
+              }}
+            />
+          </>
+        }
+      >
+        <div className={PAGE_GRID}>
           <div className="max-w-[680px]">
             <Eyebrow colorClass="text-accent">Insurance Verification</Eyebrow>
             <h1
@@ -118,7 +126,7 @@ export default function VerifyInsurancePage() {
             ))}
           </div>
         </div>
-      </section>
+      </CinematicHeroSection>
 
       {/* ②  4 feature tiles ──────────────────────────────────────────────── */}
       <section className="bg-white">
@@ -199,7 +207,7 @@ export default function VerifyInsurancePage() {
         <div className="pointer-events-none absolute -right-40 -top-40 h-[500px] w-[500px] rounded-full bg-accent/5" />
         <div className="pointer-events-none absolute -left-24 bottom-0 h-80 w-80 rounded-full bg-accent/5" />
 
-        <div className="relative mx-auto w-full max-w-[1300px] px-6 lg:px-10">
+        <div className="relative mx-auto w-full max-w-[1300px] px-[30px] lg:px-6">
           <div className="mb-14 text-center max-w-xl mx-auto">
             <Eyebrow colorClass="text-accent">The Process</Eyebrow>
             <h2
@@ -294,7 +302,7 @@ export default function VerifyInsurancePage() {
         <div className="pointer-events-none absolute -left-32 -top-32 h-96 w-96 rounded-full bg-accent/8" />
         <div className="pointer-events-none absolute -right-20 -bottom-20 h-64 w-64 rounded-full bg-accent/6" />
 
-        <div className="relative mx-auto w-full max-w-[1300px] px-6 lg:px-10 text-center">
+        <div className="relative mx-auto w-full max-w-[1300px] px-[30px] lg:px-6 text-center">
           <Eyebrow colorClass="text-accent">Ready to Begin?</Eyebrow>
           <h2
             className="font-[family-name:var(--font-display)] font-normal text-white mt-4 mx-auto"

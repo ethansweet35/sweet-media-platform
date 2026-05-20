@@ -55,6 +55,7 @@ export default function ContentBlock({ block, index, total, onChange, onDelete, 
     "stat-row": "Stat Row",
     divider: "Divider",
     table: "Table",
+    image: "Image",
   };
 
   const BLOCK_ICONS: Record<BlogSection["type"], string> = {
@@ -68,6 +69,7 @@ export default function ContentBlock({ block, index, total, onChange, onDelete, 
     "stat-row": "ri-bar-chart-box-line",
     divider: "ri-separator",
     table: "ri-table-line",
+    image: "ri-image-line",
   };
 
   return (
@@ -236,6 +238,31 @@ export default function ContentBlock({ block, index, total, onChange, onDelete, 
                 </div>
               </div>
             ))}
+          </div>
+        </div>
+      )}
+
+      {block.type === "image" && (
+        <div className="space-y-3">
+          <div>
+            <label className={labelCls}>Image URL</label>
+            <input
+              type="text"
+              value={block.text || ""}
+              onChange={(e) => update({ text: e.target.value })}
+              placeholder="https://..."
+              className={`${inputCls} font-mono text-xs`}
+            />
+          </div>
+          <div>
+            <label className={labelCls}>Alt text</label>
+            <input
+              type="text"
+              value={block.alt || ""}
+              onChange={(e) => update({ alt: e.target.value })}
+              placeholder="Describe the image..."
+              className={inputCls}
+            />
           </div>
         </div>
       )}

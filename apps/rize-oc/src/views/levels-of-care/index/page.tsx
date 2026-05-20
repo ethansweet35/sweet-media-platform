@@ -5,6 +5,9 @@ import Eyebrow from "@/components/ui/Eyebrow";
 import SectionHeader from "@/components/ui/SectionHeader";
 import IconCircle from "@/components/ui/IconCircle";
 import Button from "@/components/ui/Button";
+import PageHeroShell from "@/components/ui/PageHeroShell";
+import CinematicHeroSection from "@/components/ui/CinematicHeroSection";
+import { CINEMATIC_BOTTOM_HERO_GRADIENT } from "@/lib/cinematicHeroStyles";
 import { AutoLinkedText } from "@sweetmedia/blog-core";
 
 const BASE = "https://nfjlvkxrbzytjefmcvhg.supabase.co/storage/v1/object/public/site-assets/images";
@@ -78,25 +81,46 @@ export default function LevelsOfCarePage() {
   return (
     <>
       {/* ── Hero ──────────────────────────────────────────────────────────── */}
-      <section className="relative bg-ink overflow-hidden min-h-[88vh] flex flex-col justify-end">
-        <Image
+      <CinematicHeroSection
+        media={
+          <>
+            <Image
           src="https://nfjlvkxrbzytjefmcvhg.supabase.co/storage/v1/object/public/site-assets/images/loc_hero02.jpg"
           alt="Aerial golden-hour view of a serene behavioral health treatment campus in Orange County California with courtyard fountain and coastal hills"
           fill
           className="object-cover object-center"
           priority
-        />
-        <div
-          className="absolute inset-0"
-          style={{ background: "linear-gradient(to top, rgba(44,48,46,1) 0%, rgba(44,48,46,0.92) 30%, rgba(44,48,46,0.65) 55%, rgba(44,48,46,0.2) 100%)" }}
-        />
-
-        <div className="relative z-10 w-full">
-          <div className="absolute bottom-full mb-8 left-0 w-full px-6 lg:px-12 xl:px-20">
-            <Eyebrow colorClass="text-accent">Treatment Programs</Eyebrow>
-          </div>
-
-          <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-8 px-6 lg:px-12 xl:px-20 pb-16 pt-0">
+            />
+            <div
+              className="absolute inset-0"
+              style={{ background: CINEMATIC_BOTTOM_HERO_GRADIENT }}
+            />
+          </>
+        }
+      >
+        <PageHeroShell
+          topSlot={<Eyebrow colorClass="text-accent">Treatment Programs</Eyebrow>}
+          bottomBar={
+            <div className="grid grid-cols-2 lg:grid-cols-5 border-t border-white/10">
+              {[
+                { label: "Detox",   href: "/drug-alcohol-detox" },
+                { label: "PHP",     href: "/partial-hospitalization-program-orange-county" },
+                { label: "IOP",     href: "/iop-program-orange-county" },
+                { label: "OP",      href: "/outpatient-program" },
+                { label: "Virtual", href: "/virtual-outpatient-program" },
+              ].map(({ label, href }) => (
+                <Link
+                  key={href}
+                  href={href}
+                  className="px-6 py-5 border-r border-white/10 last:border-r-0 bg-ink/50 backdrop-blur-sm flex items-center justify-between group hover:bg-white/5 transition-colors"
+                >
+                  <span className="text-[11px] font-semibold uppercase tracking-[0.2em] text-white/50 group-hover:text-accent transition-colors">{label}</span>
+                  <i className="ri-arrow-right-line text-white/20 text-sm group-hover:text-accent transition-colors" />
+                </Link>
+              ))}
+            </div>
+          }
+        >
             <div className="flex-1 max-w-3xl">
               <h1
                 className="font-[family-name:var(--font-display)] font-normal text-white"
@@ -130,28 +154,8 @@ export default function LevelsOfCarePage() {
                 ))}
               </div>
             </div>
-          </div>
-
-          <div className="grid grid-cols-2 lg:grid-cols-5 border-t border-white/10">
-            {[
-              { label: "Detox",   href: "/drug-alcohol-detox" },
-              { label: "PHP",     href: "/partial-hospitalization-program-orange-county" },
-              { label: "IOP",     href: "/iop-program-orange-county" },
-              { label: "OP",      href: "/outpatient-program" },
-              { label: "Virtual", href: "/virtual-outpatient-program" },
-            ].map(({ label, href }) => (
-              <Link
-                key={href}
-                href={href}
-                className="px-6 py-5 border-r border-white/10 last:border-r-0 bg-ink/50 backdrop-blur-sm flex items-center justify-between group hover:bg-white/5 transition-colors"
-              >
-                <span className="text-[11px] font-semibold uppercase tracking-[0.2em] text-white/50 group-hover:text-accent transition-colors">{label}</span>
-                <i className="ri-arrow-right-line text-white/20 text-sm group-hover:text-accent transition-colors" />
-              </Link>
-            ))}
-          </div>
-        </div>
-      </section>
+        </PageHeroShell>
+      </CinematicHeroSection>
 
       {/* ── Intro copy ────────────────────────────────────────────────────── */}
       <section className="bg-white">

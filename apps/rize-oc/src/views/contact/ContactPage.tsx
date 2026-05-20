@@ -6,6 +6,9 @@ import SectionWrapper from "@/components/ui/SectionWrapper";
 import Eyebrow from "@/components/ui/Eyebrow";
 import SectionHeader from "@/components/ui/SectionHeader";
 import Button from "@/components/ui/Button";
+import CinematicHeroSection from "@/components/ui/CinematicHeroSection";
+import { CINEMATIC_STANDARD_HERO_GRADIENT } from "@/lib/cinematicHeroStyles";
+import { PAGE_GRID } from "@/components/ui/PageHeroShell";
 import { AutoLinkedTextClient } from "@sweetmedia/blog-core";
 
 const BASE = "https://nfjlvkxrbzytjefmcvhg.supabase.co/storage/v1/object/public/site-assets/images";
@@ -227,22 +230,25 @@ export default function ContactPage() {
     <main className="min-h-screen">
 
       {/* ① Hero ─────────────────────────────────────────────────────────── */}
-      <section className="relative bg-ink overflow-hidden min-h-[60vh] flex flex-col justify-end">
-        <Image
-          src={`${BASE}/contact_hero01.jpg`}
-          alt="Rize OC treatment center entrance in Orange County California"
-          fill
-          className="object-cover object-center"
-          priority
-        />
-        <div
-          className="absolute inset-0"
-          style={{
-            background:
-              "linear-gradient(to bottom, rgba(44,48,46,0.55) 0%, rgba(44,48,46,0.2) 40%, rgba(44,48,46,0.92) 100%)",
-          }}
-        />
-        <div className="relative z-10 mx-auto w-full max-w-[1300px] px-6 lg:px-10 pb-16 pt-28">
+      <CinematicHeroSection
+        minHeight="min-h-[60vh]"
+        media={
+          <>
+            <Image
+              src={`${BASE}/contact_hero01.jpg`}
+              alt="Rize OC treatment center entrance in Orange County California"
+              fill
+              className="object-cover object-center"
+              priority
+            />
+            <div
+              className="absolute inset-0"
+              style={{ background: CINEMATIC_STANDARD_HERO_GRADIENT }}
+            />
+          </>
+        }
+      >
+        <div className={PAGE_GRID}>
           <Eyebrow colorClass="text-accent">Get in Touch</Eyebrow>
           <h1
             className="font-[family-name:var(--font-display)] font-normal text-white mt-4"
@@ -252,11 +258,11 @@ export default function ContactPage() {
             <em className="italic text-white/60">Whenever You&apos;re Ready</em>
           </h1>
         </div>
-      </section>
+      </CinematicHeroSection>
 
       {/* ② Contact methods ──────────────────────────────────────────────── */}
       <div className="bg-ink border-t border-white/8">
-        <div className="mx-auto w-full max-w-[1300px] px-6 lg:px-10">
+        <div className="mx-auto w-full max-w-[1300px] px-[30px] lg:px-6">
           <div className="grid md:grid-cols-3 divide-y md:divide-y-0 md:divide-x divide-white/8">
             {contactMethods.map(({ icon, label, value, sub, href, cta }) => (
               <a
@@ -358,7 +364,7 @@ export default function ContactPage() {
         <div className="pointer-events-none absolute -left-24 -top-24 h-72 w-72 rounded-full bg-accent/8" />
         <div className="pointer-events-none absolute -right-16 bottom-0 h-56 w-56 rounded-full bg-accent/6" />
 
-        <div className="relative mx-auto w-full max-w-[1300px] px-6 lg:px-10">
+        <div className="relative mx-auto w-full max-w-[1300px] px-[30px] lg:px-6">
           <div className="grid lg:grid-cols-[1fr_auto] gap-10 items-center">
             <div>
               <Eyebrow colorClass="text-accent">Prefer to Talk?</Eyebrow>

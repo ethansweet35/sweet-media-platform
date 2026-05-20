@@ -6,6 +6,9 @@ import SectionHeader from "@/components/ui/SectionHeader";
 import IconCircle from "@/components/ui/IconCircle";
 import Button from "@/components/ui/Button";
 import FaqAccordion, { type FaqItem } from "@/components/ui/FaqAccordion";
+import PageHeroShell from "@/components/ui/PageHeroShell";
+import CinematicHeroSection from "@/components/ui/CinematicHeroSection";
+import { CINEMATIC_BOTTOM_HERO_GRADIENT } from "@/lib/cinematicHeroStyles";
 import { AutoLinkedText } from "@sweetmedia/blog-core";
 
 const BASE = "https://nfjlvkxrbzytjefmcvhg.supabase.co/storage/v1/object/public/site-assets/images";
@@ -137,75 +140,76 @@ export default function OpPage() {
   return (
     <>
       {/* ①  Hero ─────────────────────────────────────────────────────────── */}
-      <section className="relative bg-ink overflow-hidden min-h-[88vh] flex flex-col justify-end">
-        <Image
+      <CinematicHeroSection
+        media={
+          <>
+            <Image
           src={`${BASE}/op_hero03.jpg`}
           alt="Serene outdoor courtyard at Rize OC outpatient wellness center in Orange County California"
           fill
           className="object-cover object-center"
           priority
-        />
-        <div
-          className="absolute inset-0"
-          style={{ background: "linear-gradient(to top, rgba(44,48,46,1) 0%, rgba(44,48,46,0.92) 30%, rgba(44,48,46,0.65) 55%, rgba(44,48,46,0.2) 100%)" }}
-        />
-
-        <div className="relative z-10 w-full">
-          <div className="absolute bottom-full mb-8 left-0 w-full px-6 lg:px-12 xl:px-20">
-            <Eyebrow colorClass="text-accent">Levels of Care — Step 4</Eyebrow>
-          </div>
-
-          <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-8 px-6 lg:px-12 xl:px-20 pb-16 pt-0">
-            <div className="flex-1 max-w-3xl">
-              <h1
-                className="font-[family-name:var(--font-display)] font-normal text-white"
-                style={{ fontSize: "clamp(52px, 6.5vw, 96px)", lineHeight: 0.95 }}
-              >
-                Outpatient<br />
-                <em className="italic text-white/60">Program (OP)</em>
-              </h1>
-              <p className="mt-6 text-[16px] font-light leading-relaxed text-white/80 max-w-[520px]">
-                <AutoLinkedText>{"Long-term recovery sustainment — one to two sessions weekly, ongoing alumni community, and the clinical partnership that extends recovery indefinitely."}</AutoLinkedText>
-              </p>
+            />
+            <div
+              className="absolute inset-0"
+              style={{ background: CINEMATIC_BOTTOM_HERO_GRADIENT }}
+            />
+          </>
+        }
+      >
+        <PageHeroShell
+          topSlot={<Eyebrow colorClass="text-accent">Levels of Care — Step 4</Eyebrow>}
+          bottomBar={
+            <div className="grid grid-cols-2 lg:grid-cols-4 border-t border-white/10">
+              {[
+                { value: "1–2",    label: "Sessions Per Week" },
+                { value: "Open",   label: "Ended Duration" },
+                { value: "Alumni", label: "Community Access" },
+                { value: "100%",   label: "Therapeutic Continuity" },
+              ].map(({ value, label }) => (
+                <div key={label} className="px-8 py-5 border-r border-white/10 last:border-r-0 bg-ink/50 backdrop-blur-sm">
+                  <p className="font-[family-name:var(--font-display)] text-[28px] font-normal text-white leading-none"><AutoLinkedText>{value}</AutoLinkedText></p>
+                  <p className="text-[10px] font-medium uppercase tracking-[0.22em] text-white/50 mt-1.5"><AutoLinkedText>{label}</AutoLinkedText></p>
+                </div>
+              ))}
             </div>
+          }
+        >
+          <div className="flex-1 max-w-3xl">
+            <h1
+              className="font-[family-name:var(--font-display)] font-normal text-white"
+              style={{ fontSize: "clamp(52px, 6.5vw, 96px)", lineHeight: 0.95 }}
+            >
+              Outpatient<br />
+              <em className="italic text-white/60">Program (OP)</em>
+            </h1>
+            <p className="mt-6 text-[16px] font-light leading-relaxed text-white/80 max-w-[520px]">
+              <AutoLinkedText>{"Long-term recovery sustainment — one to two sessions weekly, ongoing alumni community, and the clinical partnership that extends recovery indefinitely."}</AutoLinkedText>
+            </p>
+          </div>
 
-            <div className="flex flex-col items-start lg:items-end gap-4 shrink-0">
-              <div className="flex flex-wrap gap-3">
-                <Button href="#verify" variant="accent" size="md">Verify Insurance — Free</Button>
-                <Button href="tel:9494612620" variant="outline-white" size="md">
-                  <i className="ri-phone-line mr-2 text-sm" /> (949)-461-2620
-                </Button>
-              </div>
-              <div className="flex flex-wrap items-center gap-x-5 gap-y-2">
-                {[
-                  { icon: "ri-checkbox-circle-line", text: "Joint Commission Accredited" },
-                  { icon: "ri-shield-check-line",    text: "DHCS Licensed" },
-                  { icon: "ri-infinity-line",        text: "Open-Ended Duration" },
-                ].map(({ icon, text }) => (
-                  <div key={text} className="flex items-center gap-1.5">
-                    <i className={`${icon} text-accent text-sm`} />
-                    <span className="text-[11px] font-medium uppercase tracking-[0.15em] text-white/80">{text}</span>
-                  </div>
-                ))}
-              </div>
+          <div className="flex flex-col items-start lg:items-end gap-4 shrink-0">
+            <div className="flex flex-wrap gap-3">
+              <Button href="#verify" variant="accent" size="md">Verify Insurance — Free</Button>
+              <Button href="tel:9494612620" variant="outline-white" size="md">
+                <i className="ri-phone-line mr-2 text-sm" /> (949)-461-2620
+              </Button>
+            </div>
+            <div className="flex flex-wrap items-center gap-x-5 gap-y-2">
+              {[
+                { icon: "ri-checkbox-circle-line", text: "Joint Commission Accredited" },
+                { icon: "ri-shield-check-line",    text: "DHCS Licensed" },
+                { icon: "ri-infinity-line",        text: "Open-Ended Duration" },
+              ].map(({ icon, text }) => (
+                <div key={text} className="flex items-center gap-1.5">
+                  <i className={`${icon} text-accent text-sm`} />
+                  <span className="text-[11px] font-medium uppercase tracking-[0.15em] text-white/80">{text}</span>
+                </div>
+              ))}
             </div>
           </div>
-
-          <div className="grid grid-cols-2 lg:grid-cols-4 border-t border-white/10">
-            {[
-              { value: "1–2",    label: "Sessions Per Week" },
-              { value: "Open",   label: "Ended Duration" },
-              { value: "Alumni", label: "Community Access" },
-              { value: "100%",   label: "Therapeutic Continuity" },
-            ].map(({ value, label }) => (
-              <div key={label} className="px-8 py-5 border-r border-white/10 last:border-r-0 bg-ink/50 backdrop-blur-sm">
-                <p className="font-[family-name:var(--font-display)] text-[28px] font-normal text-white leading-none"><AutoLinkedText>{value}</AutoLinkedText></p>
-                <p className="text-[10px] font-medium uppercase tracking-[0.22em] text-white/50 mt-1.5"><AutoLinkedText>{label}</AutoLinkedText></p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+        </PageHeroShell>
+      </CinematicHeroSection>
 
       {/* ②  What Is OP? ───────────────────────────────────────────────────── */}
       <section className="bg-white">

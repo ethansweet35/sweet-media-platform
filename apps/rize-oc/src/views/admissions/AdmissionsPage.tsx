@@ -6,6 +6,9 @@ import Eyebrow from "@/components/ui/Eyebrow";
 import SectionHeader from "@/components/ui/SectionHeader";
 import IconCircle from "@/components/ui/IconCircle";
 import Button from "@/components/ui/Button";
+import CinematicHeroSection from "@/components/ui/CinematicHeroSection";
+import { CINEMATIC_STANDARD_HERO_GRADIENT } from "@/lib/cinematicHeroStyles";
+import { PAGE_GRID } from "@/components/ui/PageHeroShell";
 import FaqAccordion, { type FaqItem } from "@/components/ui/FaqAccordion";
 import AccreditationsBar from "@/views/home/components/AccreditationsBar";
 import { AutoLinkedTextClient } from "@sweetmedia/blog-core";
@@ -113,22 +116,27 @@ export default function AdmissionsPage() {
     <main className="min-h-screen">
 
       {/* ① Hero ─────────────────────────────────────────────────────────── */}
-      <section className="relative bg-ink overflow-hidden min-h-[88vh] flex flex-col justify-end">
-        <Image
-          src={`${BASE}/admissions_hero01.jpg`}
-          alt="Rize OC admissions coordinator welcoming a new patient at the Orange County treatment center"
-          fill
-          className="object-cover object-center"
-          priority
-        />
-        <div
-          className="absolute inset-0"
-          style={{
-            background:
-              "linear-gradient(to bottom, rgba(44,48,46,0.65) 0%, rgba(44,48,46,0.25) 40%, rgba(44,48,46,0.55) 62%, rgba(44,48,46,0.96) 100%)",
-          }}
-        />
-        <div className="relative z-10 mx-auto w-full max-w-[1300px] px-6 lg:px-10 pb-20 pt-32">
+      <CinematicHeroSection
+        media={
+          <>
+            <Image
+              src={`${BASE}/admissions_hero01.jpg`}
+              alt="Rize OC admissions coordinator welcoming a new patient at the Orange County treatment center"
+              fill
+              className="object-cover object-center"
+              priority
+            />
+            <div
+              className="absolute inset-0"
+              style={{
+                background:
+                  CINEMATIC_STANDARD_HERO_GRADIENT,
+              }}
+            />
+          </>
+        }
+      >
+        <div className={PAGE_GRID}>
           <div className="max-w-[760px]">
             <Eyebrow colorClass="text-accent">Admissions at Rize OC</Eyebrow>
             <h1
@@ -166,14 +174,14 @@ export default function AdmissionsPage() {
             ))}
           </div>
         </div>
-      </section>
+      </CinematicHeroSection>
 
       {/* ② How It Works ─────────────────────────────────────────────────── */}
       <section className="relative bg-ink overflow-hidden py-[100px]">
         <div className="pointer-events-none absolute -right-40 -top-40 h-[500px] w-[500px] rounded-full bg-accent/5" />
         <div className="pointer-events-none absolute -left-24 bottom-0 h-80 w-80 rounded-full bg-accent/5" />
 
-        <div className="relative mx-auto w-full max-w-[1300px] px-6 lg:px-10">
+        <div className="relative mx-auto w-full max-w-[1300px] px-[30px] lg:px-6">
           <div className="mb-16 text-center max-w-2xl mx-auto">
             <Eyebrow colorClass="text-accent">Simple by Design</Eyebrow>
             <h2
@@ -339,7 +347,7 @@ export default function AdmissionsPage() {
         <div className="pointer-events-none absolute -left-32 -top-32 h-96 w-96 rounded-full bg-accent/8" />
         <div className="pointer-events-none absolute -right-20 -bottom-20 h-64 w-64 rounded-full bg-accent/6" />
 
-        <div className="relative mx-auto w-full max-w-[1300px] px-6 lg:px-10 text-center">
+        <div className="relative mx-auto w-full max-w-[1300px] px-[30px] lg:px-6 text-center">
           <Eyebrow colorClass="text-accent">Ready to Begin?</Eyebrow>
           <h2
             className="font-[family-name:var(--font-display)] font-normal text-white mt-4 mx-auto"

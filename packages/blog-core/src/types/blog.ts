@@ -1,6 +1,8 @@
 export interface BlogSection {
-  type: "paragraph" | "h2" | "h3" | "pullquote" | "callout" | "list" | "numbered" | "stat-row" | "divider" | "table";
+  type: "paragraph" | "h2" | "h3" | "pullquote" | "callout" | "list" | "numbered" | "stat-row" | "divider" | "table" | "image";
   text?: string;
+  /** Alt text when type is "image" (text holds the image URL). */
+  alt?: string;
   items?: string[];
   stats?: { value: string; label: string }[];
   variant?: "warning" | "tip" | "insight";
