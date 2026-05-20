@@ -6,6 +6,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import ConditionClinicalOverview from "@/components/conditions/ConditionClinicalOverview";
 import Eyebrow from "@/components/ui/Eyebrow";
 import SectionWrapper from "@/components/ui/SectionWrapper";
 import IconCircle from "@/components/ui/IconCircle";
@@ -102,7 +103,7 @@ export default function MHConditionPage({ data }: { data: MHConditionData }) {
               <em className="italic text-white/50">{headlineEmphasis}</em>
             </h1>
 
-            <p className="text-[16px] font-light leading-relaxed text-white/65 max-w-[480px] mb-10"><AutoLinkedText>{subhead}</AutoLinkedText></p>
+            <p className="text-[16px] font-light leading-relaxed text-white/65 lg:max-w-2xl mb-10"><AutoLinkedText>{subhead}</AutoLinkedText></p>
 
             <div className="flex flex-wrap gap-3">
               <Button href="#treatment" variant="accent" size="md">
@@ -225,41 +226,12 @@ export default function MHConditionPage({ data }: { data: MHConditionData }) {
         </div>
       </div>
 
-      {/* ③  Clinical Overview ────────────────────────────────────────────── */}
-      <section className="bg-white">
-        <SectionWrapper>
-          <div className="mb-10">
-            <Eyebrow colorClass="text-ink/45" className="mb-4">Clinical Overview</Eyebrow>
-            <h2
-              className="font-[family-name:var(--font-display)] font-normal text-ink"
-              style={{ fontSize: "clamp(32px, 3.5vw, 50px)", lineHeight: 1.05 }}
-            >
-              {overviewTitle}
-            </h2>
-          </div>
-          <div className="grid lg:grid-cols-2 gap-x-16 gap-y-6">
-            <div className="flex flex-col gap-5">
-              {overviewCol1.map((para, i) => (
-                <p key={i} className="text-[15px] font-light leading-relaxed text-ink/65"><AutoLinkedText>{para}</AutoLinkedText></p>
-              ))}
-            </div>
-            <div className="flex flex-col gap-5">
-              {overviewCol2.map((para, i) => (
-                <p key={i} className="text-[15px] font-light leading-relaxed text-ink/65"><AutoLinkedText>{para}</AutoLinkedText></p>
-              ))}
-              <div className="mt-2 border-l-2 border-accent pl-5">
-                <p className="text-[13px] font-medium uppercase tracking-[0.2em] text-ink/50 mb-2">Next Step</p>
-                <p className="text-[15px] font-light text-ink/70">
-                  <AutoLinkedText>{"Our clinical team is available 24/7 for a free, confidential assessment. No commitment required."}</AutoLinkedText>
-                </p>
-                <a href="tel:9494612620" className="mt-3 inline-flex items-center gap-2 text-accent text-[14px] font-medium hover:text-ink transition-colors">
-                  <i className="ri-phone-line" /> (949)-461-2620
-                </a>
-              </div>
-            </div>
-          </div>
-        </SectionWrapper>
-      </section>
+      <ConditionClinicalOverview
+        overviewTitle={overviewTitle}
+        overviewCol1={overviewCol1}
+        overviewCol2={overviewCol2}
+        nextStepCopy="Our clinical team is available 24/7 for a free, confidential assessment. No commitment required."
+      />
 
       {/* ④  Signs & Symptoms ─────────────────────────────────────────────── */}
       <section className="bg-cream">
