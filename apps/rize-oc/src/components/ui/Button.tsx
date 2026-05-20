@@ -50,6 +50,13 @@ export default function Button({
   const classes = cn(BASE, variantMap[variant], sizeMap[size], className);
 
   if (href) {
+    if (href.startsWith("tel:")) {
+      return (
+        <a href={href} className={classes} suppressHydrationWarning>
+          {children}
+        </a>
+      );
+    }
     return (
       <Link href={href} className={classes}>
         {children}

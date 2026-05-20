@@ -1,9 +1,11 @@
 import Image from "next/image";
 import InsuranceForm from "./InsuranceForm";
 import IconCircle from "@/components/ui/IconCircle";
+import CallRailPhoneLink from "@/components/ui/CallRailPhoneLink";
 import CinematicHeroSection from "@/components/ui/CinematicHeroSection";
 import { PAGE_GRID } from "@/components/ui/PageHeroShell";
 import { AutoLinkedText } from "@sweetmedia/blog-core";
+import { CALLRAIL_PHONE_DISPLAY_COMPACT } from "@/lib/callrailPhone";
 
 const trustBadges = [
   { icon: "ri-checkbox-circle-line", label: "Licensed & Accredited" },
@@ -68,13 +70,12 @@ export default function HeroSection() {
           </div>
 
           <div className="mt-10 flex flex-wrap items-center gap-4">
-            <a
-              href="tel:9494612620"
+            <CallRailPhoneLink
               className="flex items-center gap-2 bg-accent px-7 py-3.5 text-sm font-medium uppercase tracking-[0.12em] text-white hover:bg-accent/90 transition-colors"
             >
               <i className="ri-phone-line text-sm" />
-              (949)-461-2620
-            </a>
+              {CALLRAIL_PHONE_DISPLAY_COMPACT}
+            </CallRailPhoneLink>
             <a
               href="#programs"
               className="flex items-center gap-2 border border-white/30 px-7 py-3.5 text-sm font-medium uppercase tracking-[0.12em] text-white hover:bg-white hover:text-ink transition-colors"

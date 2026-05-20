@@ -2,11 +2,10 @@
 
 import Image from "next/image";
 import InsuranceForm from "@/views/home/components/InsuranceForm";
+import CallRailPhoneLink from "@/components/ui/CallRailPhoneLink";
 import CinematicHeroSection from "@/components/ui/CinematicHeroSection";
 import { PAGE_GRID } from "@/components/ui/PageHeroShell";
-
-const PHONE_DISPLAY = "(949) 461-2620";
-const PHONE_HREF    = "tel:9494612620";
+import { CALLRAIL_PHONE_DISPLAY } from "@/lib/callrailPhone";
 const HERO_IMG      = "https://uivbbrwuaffqujzkqjvr.supabase.co/storage/v1/object/public/site-assets/images/rize_home_hero01.jpg";
 
 const TRUST_BADGES = [
@@ -55,8 +54,7 @@ export default function LpHero({
           {/* Eyebrow — only rendered when explicitly passed */}
           {eyebrow && (
             <div className="flex items-center gap-2 mb-5">
-              <div className="border border-white/20 px-4 py-1.5 flex items-center gap-2.5 bg-white/5 backdrop-blur-sm">
-                <i className="ri-star-fill text-accent text-xs" />
+              <div className="border border-white/20 px-4 py-1.5 flex items-center bg-white/5 backdrop-blur-sm">
                 <span className="text-[10px] font-medium uppercase tracking-[0.32em] text-white">
                   {eyebrow}
                 </span>
@@ -97,13 +95,12 @@ export default function LpHero({
 
           {/* CTAs */}
           <div className="mt-8 flex flex-wrap items-center gap-4">
-            <a
-              href={PHONE_HREF}
+            <CallRailPhoneLink
               className="flex items-center gap-2 bg-accent px-7 py-3.5 text-[11px] font-semibold uppercase tracking-[0.14em] text-white hover:opacity-90 transition-opacity"
             >
               <i className="ri-phone-fill text-xs" />
-              Call Now — {PHONE_DISPLAY}
-            </a>
+              Call Now — {CALLRAIL_PHONE_DISPLAY}
+            </CallRailPhoneLink>
             <a
               href="#verify"
               className="flex items-center gap-2 border border-white/30 px-7 py-3.5 text-[11px] font-semibold uppercase tracking-[0.14em] text-white hover:bg-white hover:text-ink transition-colors"

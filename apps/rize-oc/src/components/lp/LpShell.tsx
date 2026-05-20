@@ -1,7 +1,6 @@
 import Image from "next/image";
-
-const PHONE_DISPLAY = "(949) 461-2620";
-const PHONE_HREF    = "tel:9494612620";
+import CallRailPhoneLink from "@/components/ui/CallRailPhoneLink";
+import { CALLRAIL_PHONE_DISPLAY } from "@/lib/callrailPhone";
 const LOGO_SRC      = "https://nfjlvkxrbzytjefmcvhg.supabase.co/storage/v1/object/public/site-assets/images/wp-migrated/rize-logo.png";
 
 const NAV_LINKS = [
@@ -45,14 +44,11 @@ export default function LpShell({ children }: { children: React.ReactNode }) {
           </nav>
 
           {/* CTA */}
-          <a
-            href={PHONE_HREF}
-            className="shrink-0 flex items-center gap-2 bg-accent px-5 py-3 text-[11px] font-semibold uppercase tracking-[0.15em] text-white hover:opacity-90 transition-opacity"
-          >
+          <CallRailPhoneLink className="shrink-0 flex items-center gap-2 bg-accent px-5 py-3 text-[11px] font-semibold uppercase tracking-[0.15em] text-white hover:opacity-90 transition-opacity">
             <i className="ri-phone-fill text-sm" />
-            <span className="hidden sm:inline">{PHONE_DISPLAY}</span>
+            <span className="hidden sm:inline">{CALLRAIL_PHONE_DISPLAY}</span>
             <span className="sm:hidden">Call Now</span>
-          </a>
+          </CallRailPhoneLink>
         </div>
       </header>
 
@@ -71,7 +67,7 @@ export default function LpShell({ children }: { children: React.ReactNode }) {
             <span>·</span>
             <a href="/privacy-policy" className="hover:text-ink/70 transition-colors">Privacy Policy</a>
             <span>·</span>
-            <a href={PHONE_HREF} className="hover:text-ink/70 transition-colors">{PHONE_DISPLAY}</a>
+            <CallRailPhoneLink className="hover:text-ink/70 transition-colors">{CALLRAIL_PHONE_DISPLAY}</CallRailPhoneLink>
           </div>
         </div>
       </footer>

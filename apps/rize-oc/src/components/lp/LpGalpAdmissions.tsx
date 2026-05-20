@@ -1,5 +1,5 @@
-const PHONE_HREF = "tel:9494612620";
-const PHONE_DISPLAY = "(949) 461-2620";
+import CallRailPhoneLink from "@/components/ui/CallRailPhoneLink";
+import { CALLRAIL_PHONE_DISPLAY } from "@/lib/callrailPhone";
 
 const steps = [
   {
@@ -76,13 +76,10 @@ export default function LpGalpAdmissions() {
 
         {/* CTA + insurer strip */}
         <div className="flex flex-col sm:flex-row items-start sm:items-center gap-8">
-          <a
-            href={PHONE_HREF}
-            className="inline-flex items-center gap-2.5 bg-accent px-8 py-4 text-[11px] font-semibold uppercase tracking-[0.18em] text-white hover:opacity-90 transition-opacity shrink-0"
-          >
+          <CallRailPhoneLink className="inline-flex items-center gap-2.5 bg-accent px-8 py-4 text-[11px] font-semibold uppercase tracking-[0.18em] text-white hover:opacity-90 transition-opacity shrink-0">
             <i className="ri-phone-fill" />
-            Call Now — {PHONE_DISPLAY}
-          </a>
+            Call Now — {CALLRAIL_PHONE_DISPLAY}
+          </CallRailPhoneLink>
           <div className="flex flex-wrap items-center gap-3">
             {insurers.map((ins) => (
               <span key={ins} className="text-[10px] font-semibold uppercase tracking-[0.15em] text-white/30">

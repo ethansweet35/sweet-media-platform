@@ -4,6 +4,8 @@ import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useState, useEffect, useRef } from "react";
+import CallRailPhoneLink from "@/components/ui/CallRailPhoneLink";
+import { CALLRAIL_PHONE_DISPLAY } from "@/lib/callrailPhone";
 
 // ── Brand tokens ──────────────────────────────────────────────────────────────
 const INK    = "#2C302E";
@@ -144,10 +146,10 @@ export default function Navbar() {
       <div className="hidden lg:block w-full" style={{ backgroundColor: INK }}>
         <div className="mx-auto max-w-[1300px] px-6 py-2.5 flex items-center justify-between">
           <div className="flex items-center gap-6">
-            <a href="tel:9494612620" className="flex items-center gap-1.5 text-white/55 hover:text-white transition-colors duration-200">
+            <CallRailPhoneLink className="flex items-center gap-1.5 text-white/55 hover:text-white transition-colors duration-200">
               <i className="ri-phone-line text-xs" />
-              <span className="text-[11px] font-light tracking-wide">(949) 461-2620</span>
-            </a>
+              <span className="text-[11px] font-light tracking-wide">{CALLRAIL_PHONE_DISPLAY}</span>
+            </CallRailPhoneLink>
             <a href="mailto:admissions@rizeoc.com" className="flex items-center gap-1.5 text-white/55 hover:text-white transition-colors duration-200">
               <i className="ri-mail-line text-xs" />
               <span className="text-[11px] font-light tracking-wide">admissions@rizeoc.com</span>
@@ -201,26 +203,24 @@ export default function Navbar() {
             ))}
             </div>
 
-            <a
-              href="tel:9494612620"
+            <CallRailPhoneLink
               className="inline-flex items-center gap-2 px-6 py-2.5 text-[11px] uppercase tracking-[0.15em] font-medium text-white transition-colors duration-300 hover:opacity-85 shrink-0"
               style={{ backgroundColor: INK }}
             >
               <i className="ri-phone-fill text-xs" style={{ color: ACCENT }} />
               Call Now
-            </a>
+            </CallRailPhoneLink>
           </div>
 
           {/* Mobile: Call Now + hamburger */}
           <div className="lg:hidden flex items-center gap-2">
-            <a
-              href="tel:9494612620"
+            <CallRailPhoneLink
               className="flex items-center gap-1.5 px-4 py-2 text-[11px] font-medium text-white uppercase tracking-[0.14em]"
               style={{ backgroundColor: INK }}
             >
               <i className="ri-phone-fill text-xs" style={{ color: ACCENT }} />
               Call Now
-            </a>
+            </CallRailPhoneLink>
             <button
               className="w-8 h-8 flex items-center justify-center text-ink"
               onClick={() => setMobileOpen(!mobileOpen)}
@@ -489,13 +489,12 @@ export default function Navbar() {
 
             {/* Mobile CTAs */}
             <div className="pt-5 flex flex-col gap-3">
-              <a
-                href="tel:9494612620"
+              <CallRailPhoneLink
                 className="block w-full text-center text-[11px] uppercase tracking-[0.15em] px-6 py-3.5 font-medium text-white transition-opacity hover:opacity-85"
                 style={{ backgroundColor: INK }}
               >
-                (949) 461-2620 — Call Now
-              </a>
+                {CALLRAIL_PHONE_DISPLAY} — Call Now
+              </CallRailPhoneLink>
               <Link
                 href="/verify-insurance"
                 onClick={() => setMobileOpen(false)}

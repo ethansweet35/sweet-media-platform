@@ -1,5 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
+import CallRailPhoneLink from "@/components/ui/CallRailPhoneLink";
+import { CALLRAIL_PHONE_DISPLAY } from "@/lib/callrailPhone";
 
 const IMG = "https://nfjlvkxrbzytjefmcvhg.supabase.co/storage/v1/object/public/site-assets/images/wp-migrated";
 
@@ -38,13 +40,10 @@ export default function Footer() {
               A profound sanctuary for mental health &amp; addiction recovery in Orange County, CA.
               Evidence-based. Compassionate. Confidential.
             </p>
-            <a
-              href="tel:9494612620"
-              className="mt-5 inline-flex items-center gap-2 text-accent hover:text-white transition-colors"
-            >
+            <CallRailPhoneLink className="mt-5 inline-flex items-center gap-2 text-accent hover:text-white transition-colors">
               <i className="ri-phone-line" />
-              <span className="text-sm font-medium">(949) 461-2620</span>
-            </a>
+              <span className="text-sm font-medium">{CALLRAIL_PHONE_DISPLAY}</span>
+            </CallRailPhoneLink>
           </div>
 
           {/* Programs */}
@@ -76,7 +75,7 @@ export default function Footer() {
             <h3 className="text-xs font-semibold uppercase tracking-[0.3em] text-white/40 mb-5">Contact</h3>
             <div className="flex flex-col gap-3 text-sm font-light text-white/60">
               <p>22792 Centre Dr Suite 104<br />Lake Forest, CA 92630</p>
-              <a href="tel:9494612620" className="hover:text-white transition-colors">(949) 461-2620</a>
+              <CallRailPhoneLink className="hover:text-white transition-colors">{CALLRAIL_PHONE_DISPLAY}</CallRailPhoneLink>
               <Link href="/about" className="hover:text-white transition-colors">About Us</Link>
               <Link href="/blog" className="hover:text-white transition-colors">Blog</Link>
             </div>

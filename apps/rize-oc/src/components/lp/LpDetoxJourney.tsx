@@ -129,6 +129,7 @@ export default function LpDetoxJourney() {
           </div>
           <a
             href="tel:9494612620"
+            suppressHydrationWarning
             className="shrink-0 inline-flex items-center gap-2 bg-accent px-6 py-3 text-[11px] font-semibold uppercase tracking-[0.16em] text-white hover:opacity-90 transition-opacity whitespace-nowrap"
           >
             <i className="ri-phone-fill text-xs" />
