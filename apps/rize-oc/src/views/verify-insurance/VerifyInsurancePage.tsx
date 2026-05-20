@@ -1,6 +1,8 @@
 "use client";
 
 import Image from "next/image";
+import CinematicHeroSection from "@/components/ui/CinematicHeroSection";
+import { PAGE_GRID } from "@/components/ui/PageHeroShell";
 import SectionWrapper from "@/components/ui/SectionWrapper";
 import SectionHeader from "@/components/ui/SectionHeader";
 import Eyebrow from "@/components/ui/Eyebrow";
@@ -60,23 +62,28 @@ export default function VerifyInsurancePage() {
     <main className="min-h-screen">
 
       {/* ①  Hero ─────────────────────────────────────────────────────────── */}
-      <section className="relative bg-ink overflow-hidden min-h-[75vh]">
-        <Image
+      <CinematicHeroSection
+        minHeight="min-h-[75vh]"
+        media={
+          <>
+            <Image
           src={`${BASE}/verify-insurance_hero01.jpg`}
           alt="Rize OC admissions specialist reviewing insurance coverage with a prospective client in a warm, professional consultation room"
           fill
           className="object-cover object-center"
           priority
-        />
-        <div
-          className="absolute inset-0"
-          style={{
-            background:
-              "linear-gradient(to bottom, rgba(44,48,46,0.55) 0%, rgba(44,48,46,0.25) 40%, rgba(44,48,46,0.70) 70%, rgba(44,48,46,0.97) 100%)",
-          }}
-        />
-
-        <div className="absolute inset-x-0 bottom-0 z-10 mx-auto w-full max-w-[1300px] px-[30px] lg:px-6 pb-16 lg:pb-20">
+            />
+            <div
+              className="absolute inset-0"
+              style={{
+                background:
+                  "linear-gradient(to bottom, rgba(44,48,46,0.55) 0%, rgba(44,48,46,0.25) 40%, rgba(44,48,46,0.70) 70%, rgba(44,48,46,0.97) 100%)",
+              }}
+            />
+          </>
+        }
+      >
+        <div className={PAGE_GRID}>
           <div className="max-w-[680px]">
             <Eyebrow colorClass="text-accent">Insurance Verification</Eyebrow>
             <h1
@@ -118,7 +125,7 @@ export default function VerifyInsurancePage() {
             ))}
           </div>
         </div>
-      </section>
+      </CinematicHeroSection>
 
       {/* ②  4 feature tiles ──────────────────────────────────────────────── */}
       <section className="bg-white">

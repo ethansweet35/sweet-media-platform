@@ -19,6 +19,8 @@ import Eyebrow from "@/components/ui/Eyebrow";
 import SectionWrapper from "@/components/ui/SectionWrapper";
 import IconCircle from "@/components/ui/IconCircle";
 import Button from "@/components/ui/Button";
+import CinematicHeroSection from "@/components/ui/CinematicHeroSection";
+import { PAGE_GRID } from "@/components/ui/PageHeroShell";
 import FaqAccordion, { type FaqItem } from "@/components/ui/FaqAccordion";
 import { AutoLinkedText } from "@sweetmedia/blog-core";
 
@@ -88,26 +90,29 @@ export default function ConditionPage({ data }: { data: ConditionData }) {
   return (
     <>
       {/* ①  Full-Bleed Hero with Floating Card ──────────────────────────── */}
-      <section className="relative bg-ink overflow-hidden min-h-[92vh] flex items-center">
-        {/* Background image — full width */}
-        <Image
-          src={`${BASE}/${heroImage}`}
-          alt={heroImageAlt}
-          fill
-          className="object-cover object-center"
-          priority
-        />
-        {/* Overlay — heavier on the left, lighter toward right */}
-        <div
-          className="absolute inset-0"
-          style={{
-            background:
-              "linear-gradient(105deg, rgba(44,48,46,0.97) 0%, rgba(44,48,46,0.82) 45%, rgba(44,48,46,0.55) 70%, rgba(44,48,46,0.35) 100%)",
-          }}
-        />
-
-        {/* Content grid */}
-        <div className="relative z-10 mx-auto w-full max-w-[1300px] px-[30px] lg:px-6 py-20 lg:py-0 grid lg:grid-cols-[1fr_400px] gap-10 xl:gap-16 items-center min-h-[92vh]">
+      <CinematicHeroSection
+        minHeight="min-h-[92vh]"
+        contentClassName="justify-center"
+        media={
+          <>
+            <Image
+              src={`${BASE}/${heroImage}`}
+              alt={heroImageAlt}
+              fill
+              className="object-cover object-center"
+              priority
+            />
+            <div
+              className="absolute inset-0"
+              style={{
+                background:
+                  "linear-gradient(105deg, rgba(44,48,46,0.97) 0%, rgba(44,48,46,0.82) 45%, rgba(44,48,46,0.55) 70%, rgba(44,48,46,0.35) 100%)",
+              }}
+            />
+          </>
+        }
+      >
+        <div className={`${PAGE_GRID} grid lg:grid-cols-[1fr_400px] gap-10 xl:gap-16 items-center py-12 lg:py-16`}>
 
           {/* Left — text content (unchanged) */}
           <div className="flex flex-col justify-center">
@@ -262,7 +267,7 @@ export default function ConditionPage({ data }: { data: ConditionData }) {
             </p>
           </div>
         </div>
-      </section>
+      </CinematicHeroSection>
 
       {/* ②  Quick Facts bar ─────────────────────────────────────────────── */}
       <div className="bg-accent/10 border-y border-accent/20">

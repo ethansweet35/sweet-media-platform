@@ -6,6 +6,8 @@ import SectionWrapper from "@/components/ui/SectionWrapper";
 import Eyebrow from "@/components/ui/Eyebrow";
 import SectionHeader from "@/components/ui/SectionHeader";
 import Button from "@/components/ui/Button";
+import CinematicHeroSection from "@/components/ui/CinematicHeroSection";
+import { PAGE_GRID } from "@/components/ui/PageHeroShell";
 import { AutoLinkedTextClient } from "@sweetmedia/blog-core";
 
 const BASE = "https://nfjlvkxrbzytjefmcvhg.supabase.co/storage/v1/object/public/site-assets/images";
@@ -227,22 +229,28 @@ export default function ContactPage() {
     <main className="min-h-screen">
 
       {/* ① Hero ─────────────────────────────────────────────────────────── */}
-      <section className="relative bg-ink overflow-hidden min-h-[60vh]">
-        <Image
-          src={`${BASE}/contact_hero01.jpg`}
-          alt="Rize OC treatment center entrance in Orange County California"
-          fill
-          className="object-cover object-center"
-          priority
-        />
-        <div
-          className="absolute inset-0"
-          style={{
-            background:
-              "linear-gradient(to bottom, rgba(44,48,46,0.55) 0%, rgba(44,48,46,0.2) 40%, rgba(44,48,46,0.92) 100%)",
-          }}
-        />
-        <div className="absolute inset-x-0 bottom-0 z-10 mx-auto w-full max-w-[1300px] px-[30px] lg:px-6 pb-14 lg:pb-16">
+      <CinematicHeroSection
+        minHeight="min-h-[60vh]"
+        media={
+          <>
+            <Image
+              src={`${BASE}/contact_hero01.jpg`}
+              alt="Rize OC treatment center entrance in Orange County California"
+              fill
+              className="object-cover object-center"
+              priority
+            />
+            <div
+              className="absolute inset-0"
+              style={{
+                background:
+                  "linear-gradient(to bottom, rgba(44,48,46,0.55) 0%, rgba(44,48,46,0.2) 40%, rgba(44,48,46,0.92) 100%)",
+              }}
+            />
+          </>
+        }
+      >
+        <div className={PAGE_GRID}>
           <Eyebrow colorClass="text-accent">Get in Touch</Eyebrow>
           <h1
             className="font-[family-name:var(--font-display)] font-normal text-white mt-4"
@@ -252,7 +260,7 @@ export default function ContactPage() {
             <em className="italic text-white/60">Whenever You&apos;re Ready</em>
           </h1>
         </div>
-      </section>
+      </CinematicHeroSection>
 
       {/* ② Contact methods ──────────────────────────────────────────────── */}
       <div className="bg-ink border-t border-white/8">

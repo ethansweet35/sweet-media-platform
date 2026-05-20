@@ -2,6 +2,8 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import CinematicHeroSection from "@/components/ui/CinematicHeroSection";
+import { PAGE_GRID } from "@/components/ui/PageHeroShell";
 import SectionWrapper from "@/components/ui/SectionWrapper";
 import Eyebrow from "@/components/ui/Eyebrow";
 import IconCircle from "@/components/ui/IconCircle";
@@ -116,23 +118,28 @@ export default function EAPPage() {
     <main className="min-h-screen">
 
       {/* ①  Hero ─────────────────────────────────────────────────────────── */}
-      <section className="relative bg-ink overflow-hidden min-h-[75vh]">
-        <Image
+      <CinematicHeroSection
+        minHeight="min-h-[75vh]"
+        media={
+          <>
+            <Image
           src={`${BASE}/eap_hero01.jpg`}
           alt="A compassionate EAP counselor meeting with an employee in a warm, professional office setting"
           fill
           className="object-cover object-center"
           priority
-        />
-        <div
-          className="absolute inset-0"
-          style={{
-            background:
-              "linear-gradient(to bottom, rgba(44,48,46,0.50) 0%, rgba(44,48,46,0.25) 38%, rgba(44,48,46,0.68) 68%, rgba(44,48,46,0.97) 100%)",
-          }}
-        />
-
-        <div className="absolute inset-x-0 bottom-0 z-10 mx-auto w-full max-w-[1300px] px-[30px] lg:px-6 pb-16 lg:pb-20">
+            />
+            <div
+              className="absolute inset-0"
+              style={{
+                background:
+                  "linear-gradient(to bottom, rgba(44,48,46,0.50) 0%, rgba(44,48,46,0.25) 38%, rgba(44,48,46,0.68) 68%, rgba(44,48,46,0.97) 100%)",
+              }}
+            />
+          </>
+        }
+      >
+        <div className={PAGE_GRID}>
           <div className="flex items-center gap-2 mb-6">
             <Link href="/" className="text-[10px] font-medium uppercase tracking-[0.25em] text-white/40 hover:text-accent transition-colors">
               Home
@@ -181,7 +188,7 @@ export default function EAPPage() {
             ))}
           </div>
         </div>
-      </section>
+      </CinematicHeroSection>
 
       {/* ②  What Is an EAP ───────────────────────────────────────────────── */}
       <section className="bg-white">

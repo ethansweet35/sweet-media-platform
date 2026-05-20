@@ -2,6 +2,8 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import CinematicHeroSection from "@/components/ui/CinematicHeroSection";
+import { PAGE_GRID } from "@/components/ui/PageHeroShell";
 import SectionWrapper from "@/components/ui/SectionWrapper";
 import Eyebrow from "@/components/ui/Eyebrow";
 import IconCircle from "@/components/ui/IconCircle";
@@ -98,23 +100,28 @@ export default function ServiceAreasHubPage() {
     <main className="min-h-screen">
 
       {/* ①  Hero ─────────────────────────────────────────────────────────── */}
-      <section className="relative bg-ink overflow-hidden min-h-[72vh]">
-        <Image
+      <CinematicHeroSection
+        minHeight="min-h-[72vh]"
+        media={
+          <>
+            <Image
           src={`${BASE}/service-areas-hub_hero01.jpg`}
           alt="Aerial panoramic view of Orange County California coastline and inland communities at sunset"
           fill
           className="object-cover object-center"
           priority
-        />
-        <div
-          className="absolute inset-0"
-          style={{
-            background:
-              "linear-gradient(to bottom, rgba(44,48,46,0.55) 0%, rgba(44,48,46,0.45) 30%, rgba(44,48,46,0.78) 65%, rgba(44,48,46,0.98) 100%)",
-          }}
-        />
-
-        <div className="absolute inset-x-0 bottom-0 z-10 mx-auto w-full max-w-[1300px] px-[30px] lg:px-6 pb-16 lg:pb-20">
+            />
+            <div
+              className="absolute inset-0"
+              style={{
+                background:
+                  "linear-gradient(to bottom, rgba(44,48,46,0.55) 0%, rgba(44,48,46,0.45) 30%, rgba(44,48,46,0.78) 65%, rgba(44,48,46,0.98) 100%)",
+              }}
+            />
+          </>
+        }
+      >
+        <div className={PAGE_GRID}>
           <div className="flex items-center gap-2 mb-6">
             <Link href="/" className="text-[10px] font-medium uppercase tracking-[0.25em] text-white/40 hover:text-accent transition-colors">
               Home
@@ -161,7 +168,7 @@ export default function ServiceAreasHubPage() {
             ))}
           </div>
         </div>
-      </section>
+      </CinematicHeroSection>
 
       {/* ②  City Cards Grid ──────────────────────────────────────────────── */}
       <section className="bg-cream">

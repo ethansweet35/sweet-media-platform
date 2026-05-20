@@ -6,6 +6,8 @@ import SectionHeader from "@/components/ui/SectionHeader";
 import IconCircle from "@/components/ui/IconCircle";
 import Button from "@/components/ui/Button";
 import FaqAccordion, { type FaqItem } from "@/components/ui/FaqAccordion";
+import CinematicHeroSection from "@/components/ui/CinematicHeroSection";
+import { PAGE_GRID } from "@/components/ui/PageHeroShell";
 import { AutoLinkedText } from "@sweetmedia/blog-core";
 
 const BASE = "https://nfjlvkxrbzytjefmcvhg.supabase.co/storage/v1/object/public/site-assets/images";
@@ -171,27 +173,32 @@ export default function PhpPage() {
   return (
     <>
       {/* ①  Hero ─────────────────────────────────────────────────────────── */}
-      <section className="relative bg-ink overflow-hidden min-h-screen flex flex-col">
-        <Image
-          src={`${BASE}/php_hero03.jpg`}
-          alt="Bright premium group therapy room at Rize OC Partial Hospitalization Program in Orange County"
-          fill
-          className="object-cover object-center"
-          priority
-        />
-        <div
-          className="absolute inset-0"
-          style={{ background: "linear-gradient(110deg, rgba(44,48,46,0.97) 0%, rgba(44,48,46,0.90) 38%, rgba(44,48,46,0.55) 62%, rgba(44,48,46,0.1) 100%)" }}
-        />
-        <span
-          className="pointer-events-none select-none absolute right-[3%] top-1/2 -translate-y-1/2 font-[family-name:var(--font-display)] italic font-normal leading-none text-white/[0.04]"
-          style={{ fontSize: "clamp(160px, 22vw, 320px)" }}
-          aria-hidden
-        >02</span>
-
-        {/* Main content — vertically centered */}
-        <div className="relative z-10 flex-1 flex items-center">
-          <div className="mx-auto w-full max-w-[1300px] px-[30px] lg:px-6 py-28">
+      <CinematicHeroSection
+        minHeight="min-h-screen"
+        contentClassName="justify-between"
+        media={
+          <>
+            <Image
+              src={`${BASE}/php_hero03.jpg`}
+              alt="Bright premium group therapy room at Rize OC Partial Hospitalization Program in Orange County"
+              fill
+              className="object-cover object-center"
+              priority
+            />
+            <div
+              className="absolute inset-0"
+              style={{ background: "linear-gradient(110deg, rgba(44,48,46,0.97) 0%, rgba(44,48,46,0.90) 38%, rgba(44,48,46,0.55) 62%, rgba(44,48,46,0.1) 100%)" }}
+            />
+            <span
+              className="pointer-events-none absolute right-[3%] top-1/2 -translate-y-1/2 font-[family-name:var(--font-display)] italic font-normal leading-none text-white/[0.04]"
+              style={{ fontSize: "clamp(160px, 22vw, 320px)" }}
+              aria-hidden
+            >02</span>
+          </>
+        }
+      >
+        <div className="flex flex-1 flex-col justify-center">
+          <div className={`${PAGE_GRID} py-16 lg:py-20`}>
             <Eyebrow colorClass="text-accent" className="mb-6">Levels of Care — Step 2</Eyebrow>
             <h1
               className="font-[family-name:var(--font-display)] font-normal text-white max-w-[760px]"
@@ -226,8 +233,8 @@ export default function PhpPage() {
         </div>
 
         {/* Continuum progress strip */}
-        <div className="relative z-10 border-t border-white/10">
-          <div className="mx-auto max-w-[1300px] w-full flex">
+        <div className="border-t border-white/10">
+          <div className={`${PAGE_GRID} flex`}>
             {[
               { num: "01", label: "Detox",   href: "/drug-alcohol-detox",                          active: false },
               { num: "02", label: "PHP",     href: "/partial-hospitalization-program-orange-county", active: true  },
@@ -251,7 +258,7 @@ export default function PhpPage() {
             ))}
           </div>
         </div>
-      </section>
+      </CinematicHeroSection>
 
       {/* ②  What Is PHP? ──────────────────────────────────────────────────── */}
       <section className="bg-white">

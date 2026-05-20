@@ -2,6 +2,8 @@
 
 import Image from "next/image";
 import InsuranceForm from "@/views/home/components/InsuranceForm";
+import CinematicHeroSection from "@/components/ui/CinematicHeroSection";
+import { PAGE_GRID } from "@/components/ui/PageHeroShell";
 
 const PHONE_DISPLAY = "(949) 461-2620";
 const PHONE_HREF    = "tel:9494612620";
@@ -29,19 +31,23 @@ export default function LpHero({
   statLabel,
 }: LpHeroProps) {
   return (
-    <section className="relative overflow-hidden bg-ink">
-      {/* Background image */}
-      <Image
-        src={HERO_IMG}
-        alt="Rize OC treatment facility"
-        fill
-        className="object-cover object-center opacity-35"
-        priority
-      />
-      {/* Gradient overlay — heavy on left, fades right */}
-      <div className="absolute inset-0 bg-gradient-to-r from-ink/95 via-ink/75 to-ink/30" />
-
-      <div className="relative mx-auto max-w-[1300px] w-full px-[30px] py-20 lg:px-6 lg:py-28 grid lg:grid-cols-[1fr_400px] items-center gap-10 lg:gap-14">
+    <CinematicHeroSection
+      minHeight="min-h-[min(720px,90dvh)]"
+      contentClassName="justify-center"
+      media={
+        <>
+          <Image
+            src={HERO_IMG}
+            alt="Rize OC treatment facility"
+            fill
+            className="object-cover object-center opacity-35"
+            priority
+          />
+          <div className="absolute inset-0 bg-gradient-to-r from-ink/95 via-ink/75 to-ink/30" />
+        </>
+      }
+    >
+      <div className={`${PAGE_GRID} py-20 lg:py-28 grid lg:grid-cols-[1fr_400px] items-center gap-10 lg:gap-14`}>
 
         {/* Left — content */}
         <div className="flex flex-col justify-center">
@@ -154,6 +160,6 @@ export default function LpHero({
         </div>
 
       </div>
-    </section>
+    </CinematicHeroSection>
   );
 }

@@ -15,7 +15,7 @@ interface PageHeroShellProps {
 
 /**
  * Constrains cinematic full-bleed hero copy to the same 1300px grid as SectionWrapper.
- * Pair with `absolute inset-x-0 bottom-0 z-10` inside the hero section (not flex justify-end).
+ * Use inside `CinematicHeroSection` (do not wrap the section in flex justify-end).
  */
 export default function PageHeroShell({
   children,

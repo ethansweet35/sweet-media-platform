@@ -6,6 +6,7 @@ import SectionHeader from "@/components/ui/SectionHeader";
 import IconCircle from "@/components/ui/IconCircle";
 import Button from "@/components/ui/Button";
 import PageHeroShell from "@/components/ui/PageHeroShell";
+import CinematicHeroSection from "@/components/ui/CinematicHeroSection";
 import { AutoLinkedText } from "@sweetmedia/blog-core";
 
 const BASE = "https://nfjlvkxrbzytjefmcvhg.supabase.co/storage/v1/object/public/site-assets/images";
@@ -79,20 +80,23 @@ export default function LevelsOfCarePage() {
   return (
     <>
       {/* ── Hero ──────────────────────────────────────────────────────────── */}
-      <section className="relative bg-ink overflow-hidden min-h-[88vh]">
-        <Image
+      <CinematicHeroSection
+        media={
+          <>
+            <Image
           src="https://nfjlvkxrbzytjefmcvhg.supabase.co/storage/v1/object/public/site-assets/images/loc_hero02.jpg"
           alt="Aerial golden-hour view of a serene behavioral health treatment campus in Orange County California with courtyard fountain and coastal hills"
           fill
           className="object-cover object-center"
           priority
-        />
-        <div
-          className="absolute inset-0"
-          style={{ background: "linear-gradient(to top, rgba(44,48,46,1) 0%, rgba(44,48,46,0.92) 30%, rgba(44,48,46,0.65) 55%, rgba(44,48,46,0.2) 100%)" }}
-        />
-
-        <div className="absolute inset-x-0 bottom-0 z-10">
+            />
+            <div
+              className="absolute inset-0"
+              style={{ background: "linear-gradient(to top, rgba(44,48,46,1) 0%, rgba(44,48,46,0.92) 30%, rgba(44,48,46,0.65) 55%, rgba(44,48,46,0.2) 100%)" }}
+            />
+          </>
+        }
+      >
         <PageHeroShell
           topSlot={<Eyebrow colorClass="text-accent">Treatment Programs</Eyebrow>}
           bottomBar={
@@ -150,8 +154,7 @@ export default function LevelsOfCarePage() {
               </div>
             </div>
         </PageHeroShell>
-        </div>
-      </section>
+      </CinematicHeroSection>
 
       {/* ── Intro copy ────────────────────────────────────────────────────── */}
       <section className="bg-white">

@@ -7,6 +7,8 @@ import Eyebrow from "@/components/ui/Eyebrow";
 import SectionHeader from "@/components/ui/SectionHeader";
 import IconCircle from "@/components/ui/IconCircle";
 import Button from "@/components/ui/Button";
+import CinematicHeroSection from "@/components/ui/CinematicHeroSection";
+import { PAGE_GRID } from "@/components/ui/PageHeroShell";
 import AccreditationsBar from "@/views/home/components/AccreditationsBar";
 import { AutoLinkedTextClient } from "@sweetmedia/blog-core";
 
@@ -108,25 +110,28 @@ export default function AboutPage() {
     <main className="min-h-screen bg-[var(--color-background)]">
 
       {/* ①  Hero — Full-Bleed Cinematic ─────────────────────────────────── */}
-      <section className="relative bg-ink overflow-hidden min-h-[90vh]">
-        <Image
-          src={`${BASE}/about_hero01.jpg`}
-          alt="Premium Rize OC treatment facility in Orange County California surrounded by California coastal landscaping"
-          fill
-          className="object-cover object-center"
-          priority
-        />
-        {/* Vignette — heavy bottom + edges, lets center breathe */}
-        <div
-          className="absolute inset-0"
-          style={{
-            background:
-              "linear-gradient(to bottom, rgba(44,48,46,0.72) 0%, rgba(44,48,46,0.35) 38%, rgba(44,48,46,0.55) 62%, rgba(44,48,46,0.95) 100%)",
-          }}
-        />
-
-        {/* Content — bottom-anchored editorial layout */}
-        <div className="absolute inset-x-0 bottom-0 z-10 mx-auto w-full max-w-[1300px] px-[30px] lg:px-6 pb-16 lg:pb-20">
+      <CinematicHeroSection
+        minHeight="min-h-[90vh]"
+        media={
+          <>
+            <Image
+              src={`${BASE}/about_hero01.jpg`}
+              alt="Premium Rize OC treatment facility in Orange County California surrounded by California coastal landscaping"
+              fill
+              className="object-cover object-center"
+              priority
+            />
+            <div
+              className="absolute inset-0"
+              style={{
+                background:
+                  "linear-gradient(to bottom, rgba(44,48,46,0.72) 0%, rgba(44,48,46,0.35) 38%, rgba(44,48,46,0.55) 62%, rgba(44,48,46,0.95) 100%)",
+              }}
+            />
+          </>
+        }
+      >
+        <div className={PAGE_GRID}>
           <div className="max-w-[760px]">
             <Eyebrow colorClass="text-accent">About Rize Recovery</Eyebrow>
             <h1
@@ -162,7 +167,7 @@ export default function AboutPage() {
             ))}
           </div>
         </div>
-      </section>
+      </CinematicHeroSection>
 
       {/* ②  Founding Story ───────────────────────────────────────────────── */}
       <SectionWrapper bg="bg-white" py="py-[100px]">

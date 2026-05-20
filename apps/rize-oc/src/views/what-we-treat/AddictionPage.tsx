@@ -6,6 +6,7 @@ import SectionHeader from "@/components/ui/SectionHeader";
 import IconCircle from "@/components/ui/IconCircle";
 import Button from "@/components/ui/Button";
 import PageHeroShell from "@/components/ui/PageHeroShell";
+import CinematicHeroSection from "@/components/ui/CinematicHeroSection";
 import FaqAccordion, { type FaqItem } from "@/components/ui/FaqAccordion";
 import { AutoLinkedText } from "@sweetmedia/blog-core";
 
@@ -169,20 +170,23 @@ export default function AddictionPage() {
   return (
     <>
       {/* ①  Hero ─────────────────────────────────────────────────────────── */}
-      <section className="relative bg-ink overflow-hidden min-h-[88vh]">
-        <Image
+      <CinematicHeroSection
+        media={
+          <>
+            <Image
           src={`${BASE}/addiction_hero02.jpg`}
           alt="Serene healing garden courtyard at a luxury treatment center in Orange County California"
           fill
           className="object-cover object-center"
           priority
-        />
-        <div
-          className="absolute inset-0"
-          style={{ background: "linear-gradient(to top, rgba(44,48,46,1) 0%, rgba(44,48,46,0.92) 30%, rgba(44,48,46,0.65) 55%, rgba(44,48,46,0.2) 100%)" }}
-        />
-
-        <div className="absolute inset-x-0 bottom-0 z-10">
+            />
+            <div
+              className="absolute inset-0"
+              style={{ background: "linear-gradient(to top, rgba(44,48,46,1) 0%, rgba(44,48,46,0.92) 30%, rgba(44,48,46,0.65) 55%, rgba(44,48,46,0.2) 100%)" }}
+            />
+          </>
+        }
+      >
         <PageHeroShell
           topSlot={<Eyebrow colorClass="text-accent">What We Treat</Eyebrow>}
           bottomBar={
@@ -235,8 +239,7 @@ export default function AddictionPage() {
               </div>
             </div>
         </PageHeroShell>
-        </div>
-      </section>
+      </CinematicHeroSection>
 
       {/* ②  Understanding Addiction ───────────────────────────────────────── */}
       <section className="bg-white">

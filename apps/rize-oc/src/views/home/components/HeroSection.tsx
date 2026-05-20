@@ -1,6 +1,8 @@
 import Image from "next/image";
 import InsuranceForm from "./InsuranceForm";
 import IconCircle from "@/components/ui/IconCircle";
+import CinematicHeroSection from "@/components/ui/CinematicHeroSection";
+import { PAGE_GRID } from "@/components/ui/PageHeroShell";
 import { AutoLinkedText } from "@sweetmedia/blog-core";
 
 const trustBadges = [
@@ -11,20 +13,23 @@ const trustBadges = [
 
 export default function HeroSection() {
   return (
-    <section className="relative overflow-hidden bg-ink">
-      {/* Background Image */}
-      <Image
-        src="https://uivbbrwuaffqujzkqjvr.supabase.co/storage/v1/object/public/site-assets/images/rize_home_hero01.jpg"
-        alt="Rize OC Mental Health and Addiction Treatment Center"
-        fill
-        className="object-cover object-center opacity-40"
-        priority
-      />
-
-      {/* Dark gradient overlay for readability */}
-      <div className="absolute inset-0 bg-gradient-to-r from-ink/95 via-ink/80 to-ink/20" />
-
-      <div className="relative mx-auto max-w-[1300px] w-full px-[30px] lg:px-6 py-section grid lg:grid-cols-[1fr_460px] items-center gap-8 lg:gap-12">
+    <CinematicHeroSection
+      minHeight="min-h-[min(720px,90dvh)]"
+      contentClassName="justify-center"
+      media={
+        <>
+          <Image
+            src="https://uivbbrwuaffqujzkqjvr.supabase.co/storage/v1/object/public/site-assets/images/rize_home_hero01.jpg"
+            alt="Rize OC Mental Health and Addiction Treatment Center"
+            fill
+            className="object-cover object-center opacity-40"
+            priority
+          />
+          <div className="absolute inset-0 bg-gradient-to-r from-ink/95 via-ink/80 to-ink/20" />
+        </>
+      }
+    >
+      <div className={`${PAGE_GRID} py-section grid lg:grid-cols-[1fr_460px] items-center gap-8 lg:gap-12`}>
         
         {/* Left — content */}
         <div className="relative flex flex-col justify-center">
@@ -102,6 +107,6 @@ export default function HeroSection() {
           </div>
         </div>
       </div>
-    </section>
+    </CinematicHeroSection>
   );
 }

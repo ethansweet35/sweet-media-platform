@@ -7,6 +7,7 @@ import IconCircle from "@/components/ui/IconCircle";
 import Button from "@/components/ui/Button";
 import FaqAccordion, { type FaqItem } from "@/components/ui/FaqAccordion";
 import PageHeroShell from "@/components/ui/PageHeroShell";
+import CinematicHeroSection from "@/components/ui/CinematicHeroSection";
 import { AutoLinkedText } from "@sweetmedia/blog-core";
 
 const BASE = "https://nfjlvkxrbzytjefmcvhg.supabase.co/storage/v1/object/public/site-assets/images";
@@ -178,23 +179,23 @@ export default function DetoxPage() {
   return (
     <>
       {/* ①  Hero ─────────────────────────────────────────────────────────── */}
-      <section className="relative bg-ink overflow-hidden min-h-[88vh]">
-        {/* Full-bleed background image */}
-        <Image
-          src="https://nfjlvkxrbzytjefmcvhg.supabase.co/storage/v1/object/public/site-assets/images/detox_hero04.jpg"
-          alt="Luxury coastal recovery facility outdoor terrace at Rize OC, Orange County"
-          fill
-          className="object-cover object-center"
-          priority
-        />
-
-        {/* Gradient overlay — strongly dark in the lower 60% where all text lives */}
-        <div
-          className="absolute inset-0"
-          style={{ background: "linear-gradient(to top, rgba(44,48,46,1) 0%, rgba(44,48,46,0.92) 30%, rgba(44,48,46,0.65) 55%, rgba(44,48,46,0.2) 100%)" }}
-        />
-
-        <div className="absolute inset-x-0 bottom-0 z-10">
+      <CinematicHeroSection
+        media={
+          <>
+            <Image
+              src="https://nfjlvkxrbzytjefmcvhg.supabase.co/storage/v1/object/public/site-assets/images/detox_hero04.jpg"
+              alt="Luxury coastal recovery facility outdoor terrace at Rize OC, Orange County"
+              fill
+              className="object-cover object-center"
+              priority
+            />
+            <div
+              className="absolute inset-0"
+              style={{ background: "linear-gradient(to top, rgba(44,48,46,1) 0%, rgba(44,48,46,0.92) 30%, rgba(44,48,46,0.65) 55%, rgba(44,48,46,0.2) 100%)" }}
+            />
+          </>
+        }
+      >
         <PageHeroShell
           topSlot={<Eyebrow colorClass="text-accent">Levels of Care — Step 1</Eyebrow>}
           bottomBar={
@@ -254,8 +255,7 @@ export default function DetoxPage() {
               </div>
             </div>
         </PageHeroShell>
-        </div>
-      </section>
+      </CinematicHeroSection>
 
       {/* ②  What Is Detox? ───────────────────────────────────────────────── */}
       <section className="bg-white">
