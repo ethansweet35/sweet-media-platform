@@ -34,3 +34,19 @@ export const HERO_COMMUNITY_AVATARS = [
   { id: "avatar-5", src: `${IMG}/tfrf_hero_avatar05.jpg`, alt: "Community member supported by family recovery programs" },
   { id: "avatar-6", src: `${IMG}/tfrf_hero_avatar06.jpg`, alt: "Community member supported by family recovery programs" },
 ] as const;
+
+/** Homepage Resources & Partners logo strip (from live tfrfoundation.org) */
+export const HOME_PARTNER_LOGOS = [
+  { id: "nih", src: `${IMG}/tfrf_sq_16655974_NIH.png`, alt: "National Institutes of Health" },
+  {
+    id: "opioid-response",
+    src: `${IMG}/tfrf_sq_16655974_OpioidResponseNetwork.png`,
+    alt: "Opioid Response Network",
+  },
+  { id: "samhsa", src: `${IMG}/tfrf_sq_16655974_Samhsa.png`, alt: "SAMHSA" },
+  {
+    id: "partnership-to-end",
+    src: `${IMG}/tfrf_sq_16655974_PartnershipToEndAddiction.png`,
+    alt: "Partnership to End Addiction",
+  },
+] as const;

@@ -4,6 +4,7 @@ import PillarsSection from "./components/PillarsSection";
 import ServicesSection from "./components/ServicesSection";
 import StoriesSection from "./components/StoriesSection";
 import HomeSupportCtaSection from "./components/HomeSupportCtaSection";
+import HomePartnersSection from "./components/HomePartnersSection";
 import HomeDonateSection from "./components/HomeDonateSection";
 
 export default function HomePage() {
@@ -16,6 +17,7 @@ export default function HomePage() {
         <ServicesSection />
         <StoriesSection />
         <HomeSupportCtaSection />
+        <HomePartnersSection />
         <HomeDonateSection />
       </main>
       </div>
