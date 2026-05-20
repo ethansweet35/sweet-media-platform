@@ -13,7 +13,6 @@ interface BlogPostArticleProps {
   canonicalUrl: string;
 }
 
-/** Server component: renders full article markup (body + TOC) for SSR. */
 export default function BlogPostArticle({
   post,
   allPosts,
@@ -24,27 +23,19 @@ export default function BlogPostArticle({
   const midPoint = Math.ceil(contentSections.length / 2);
   const firstHalf = contentSections.slice(0, midPoint);
   const secondHalf = contentSections.slice(midPoint);
+  const tocHeadings = contentSections.filter((s) => s.type === "h2" || s.type === "h3");
 
   const usedHrefs = new Set<string>();
 
   return (
-    <section className="w-full bg-white">
-      <div className="max-w-screen-xl mx-auto px-6 py-12 md:py-16">
-        <div className="flex gap-10 lg:gap-16 items-start">
-          <div className="hidden lg:block w-12 flex-shrink-0 pt-2">
+    <section className="w-full bg-soft-white">
+      <div className="max-w-content mx-auto px-6 lg:px-16 py-12 md:py-16">
+        <div className="flex items-start gap-8 lg:gap-12">
+          <div className="hidden lg:block w-12 shrink-0 pt-2">
             <PostShare title={post.title} canonicalUrl={canonicalUrl} />
           </div>
 
-          <div className="flex-1 min-w-0 max-w-3xl">
-            <div className="mb-8 pb-8 border-b border-neutral-100">
-              <p
-                className="text-lg md:text-xl text-neutral-700 leading-relaxed font-light italic"
-                style={{ fontFamily: "'Inter', serif" }}
-              >
-                {post.excerpt}
-              </p>
-            </div>
-
+          <article className="min-w-0 flex-1 max-w-3xl">
             <PostBody
               sections={firstHalf}
               autoLinkMap={autoLinkMap}
@@ -62,45 +53,52 @@ export default function BlogPostArticle({
             />
 
             <PostAuthor post={post} />
-
             <PostBlogMobileShareRow title={post.title} canonicalUrl={canonicalUrl} />
-          </div>
+          </article>
 
-          <div className="hidden xl:block w-56 flex-shrink-0">
-            <div className="sticky top-28">
-              <p className="text-[9px] tracking-[0.3em] uppercase text-neutral-400 font-semibold mb-4">
-                In This Article
-              </p>
-              <nav className="flex flex-col gap-2">
-                {post.content
-                  .filter((s) => s.type === "h2")
-                  .map((s, i) => (
-                    <span
-                      key={`${post.id}-h2-${i}`}
-                      className="text-[12px] text-neutral-400 hover:text-[#1F2937] leading-snug cursor-pointer transition-colors py-1 border-l-2 border-transparent hover:border-[#1F2937] pl-3"
-                    >
-                      {s.text}
-                    </span>
-                  ))}
-              </nav>
+          <aside className="hidden xl:block w-52 shrink-0">
+            <div className="sticky top-28 rounded-2xl border border-mist bg-pure-white p-6 shadow-sm">
+              {tocHeadings.length > 0 ? (
+                <>
+                  <p className="text-eyebrow font-body font-semibold uppercase tracking-[0.2em] text-tfrf-blue mb-4">
+                    In This Article
+                  </p>
+                  <nav className="flex flex-col gap-1">
+                    {tocHeadings.map((s, i) => (
+                      <span
+                        key={`${post.id}-toc-${i}`}
+                        className={`border-l-2 py-1.5 pl-3 font-body text-[13px] leading-snug transition-colors ${
+                          s.type === "h2"
+                            ? "border-tfrf-blue text-deep-navy font-semibold"
+                            : "border-mist text-slate hover:border-tfrf-blue/50 hover:text-tfrf-blue"
+                        }`}
+                      >
+                        {s.text}
+                      </span>
+                    ))}
+                  </nav>
+                </>
+              ) : null}
 
-              <div className="mt-8 pt-6 border-t border-neutral-100">
-                <p className="text-[9px] tracking-[0.3em] uppercase text-neutral-400 font-semibold mb-3">
-                  Tags
-                </p>
-                <div className="flex flex-wrap gap-1.5">
-                  {post.tags.map((tag) => (
-                    <span
-                      key={tag}
-                      className="text-[9px] tracking-widest uppercase text-[#1F2937] bg-[#1F2937]/6 px-2 py-1 rounded-full whitespace-nowrap"
-                    >
-                      {tag}
-                    </span>
-                  ))}
+              {post.tags?.length ? (
+                <div className={tocHeadings.length ? "mt-8 border-t border-mist pt-6" : ""}>
+                  <p className="text-eyebrow font-body font-semibold uppercase tracking-[0.2em] text-tfrf-blue mb-3">
+                    Tags
+                  </p>
+                  <div className="flex flex-wrap gap-2">
+                    {post.tags.map((tag) => (
+                      <span
+                        key={tag}
+                        className="rounded-full bg-powder-blue/40 px-2.5 py-1 text-[10px] font-body font-semibold uppercase tracking-[0.1em] text-deep-navy"
+                      >
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
                 </div>
-              </div>
+              ) : null}
             </div>
-          </div>
+          </aside>
         </div>
       </div>
     </section>

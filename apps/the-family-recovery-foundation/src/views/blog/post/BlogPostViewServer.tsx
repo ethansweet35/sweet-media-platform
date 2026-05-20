@@ -21,7 +21,7 @@ export default function BlogPostViewServer({
   const canonicalUrl = canonicalBlogPostUrl(post.slug);
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-soft-white">
       <PostHero post={post} />
       <BlogPostArticle
         post={post}

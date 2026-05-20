@@ -1,6 +1,7 @@
 #!/usr/bin/env npx tsx
 /**
  * Converts blog_posts.content from raw markdown → JSON BlogSection[] in Supabase.
+ * Re-normalizes existing JSON to fix embedded #### headings in list items.
  *
  * Usage:
  *   pnpm --filter @sweetmedia/the-family-recovery-foundation reparse:blogs
@@ -9,7 +10,11 @@
 import path from "node:path";
 import dotenv from "dotenv";
 import { createClient } from "@supabase/supabase-js";
-import { looksLikeMarkdown, markdownToSections } from "@sweetmedia/blog-core";
+import {
+  looksLikeMarkdown,
+  markdownToSections,
+  normalizeSections,
+} from "@sweetmedia/blog-core";
 
 const projectRoot = path.resolve(path.dirname(new URL(import.meta.url).pathname), "..");
 const dryRun = process.argv.includes("--dry-run");
@@ -40,29 +45,41 @@ async function main() {
     const raw = String(row.content ?? "").trim();
     if (!raw) continue;
 
-    let needsParse = false;
+    let sections;
+    let fromMarkdown = false;
+
     try {
       const parsed = JSON.parse(raw);
-      if (!Array.isArray(parsed)) needsParse = true;
-      else if (parsed.every((s: { type?: string }) => s.type === "paragraph") && looksLikeMarkdown(raw)) {
-        needsParse = true;
+      if (Array.isArray(parsed)) {
+        if (
+          parsed.every((s: { type?: string }) => s.type === "paragraph") &&
+          looksLikeMarkdown(raw)
+        ) {
+          sections = markdownToSections(raw);
+          fromMarkdown = true;
+        } else {
+          sections = normalizeSections(parsed);
+        }
+      } else {
+        sections = markdownToSections(raw);
+        fromMarkdown = true;
       }
     } catch {
-      needsParse = true;
+      sections = markdownToSections(raw);
+      fromMarkdown = true;
     }
 
-    if (!needsParse && !looksLikeMarkdown(raw)) {
-      console.log(`  skip ${row.slug} (already structured)`);
-      continue;
-    }
-
-    const sections = markdownToSections(raw);
     if (sections.length === 0) {
       console.warn(`  warn ${row.slug}: no sections parsed`);
       continue;
     }
 
     const json = JSON.stringify(sections);
+    if (json === raw) {
+      console.log(`  skip ${row.slug} (unchanged)`);
+      continue;
+    }
+
     if (!dryRun) {
       const { error: upErr } = await supabase
         .from("blog_posts")
@@ -72,7 +89,10 @@ async function main() {
     }
 
     const images = sections.filter((s) => s.type === "image").length;
-    console.log(`✓ ${row.slug} → ${sections.length} blocks (${images} images)`);
+    const h3 = sections.filter((s) => s.type === "h3").length;
+    console.log(
+      `✓ ${row.slug} → ${sections.length} blocks (${images} images, ${h3} h3)${fromMarkdown ? " [markdown]" : " [normalized]"}`,
+    );
     updated++;
   }
 

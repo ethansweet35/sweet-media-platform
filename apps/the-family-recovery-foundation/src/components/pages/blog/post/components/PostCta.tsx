@@ -2,43 +2,35 @@ import Link from "next/link";
 
 export default function PostCta() {
   return (
-    <section className="w-full bg-[#1F2937] py-16 md:py-20">
-      <div className="max-w-screen-xl mx-auto px-6">
-        <div className="max-w-2xl mx-auto text-center">
-          <div className="flex items-center justify-center gap-3 mb-6">
-            <div className="w-8 h-px bg-white/20" />
-            <span className="text-[10px] tracking-[0.3em] uppercase text-white/40 font-semibold">
-              Ready to Grow?
-            </span>
-            <div className="w-8 h-px bg-white/20" />
-          </div>
+    <section className="relative overflow-hidden bg-deep-navy py-16 md:py-20">
+      <div className="absolute inset-0 bg-gradient-to-r from-deep-navy via-tfrf-blue/90 to-sky-blue/50" />
+      <div className="pointer-events-none absolute -right-16 top-0 h-64 w-64 rounded-full bg-sky-blue/20 blur-3xl" />
 
-          <h2
-            className="text-2xl md:text-3xl font-light text-white mb-4 leading-snug"
-            style={{ fontFamily: "'Inter', serif" }}
+      <div className="relative z-10 max-w-content mx-auto px-6 lg:px-16 text-center">
+        <p className="text-eyebrow font-body font-semibold uppercase tracking-[0.2em] text-sky-blue mb-4">
+          We&apos;re Here to Help
+        </p>
+        <h2 className="font-display text-[clamp(28px,3.5vw,40px)] text-pure-white mb-4 leading-[1.15]">
+          Put these insights to work for your family
+        </h2>
+        <p className="mx-auto mb-8 max-w-xl font-body text-body-m text-pure-white/80 leading-relaxed">
+          The Family Recovery Foundation offers free clinical and spiritual support for families
+          navigating addiction. Reach out — you don&apos;t have to do it alone.
+        </p>
+        <div className="flex flex-col items-center justify-center gap-3 sm:flex-row">
+          <Link
+            href="/get-help"
+            className="inline-flex items-center gap-2 rounded-full bg-pure-white px-7 py-3.5 text-sm font-body font-semibold text-deep-navy transition-colors hover:bg-powder-blue"
           >
-            Put These Insights to Work for Your Program
-          </h2>
-
-          <p className="text-sm text-white/50 leading-relaxed mb-8 max-w-lg mx-auto">
-            The Family Recovery Foundation offers client-centered services. Reach out for a confidential consultation
-            and see exactly how we&apos;d apply these strategies to your facility.
-          </p>
-
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
-            <Link
-              href="/contact"
-              className="bg-white text-[#1F2937] text-[11px] tracking-[0.2em] uppercase font-bold px-7 py-3.5 rounded-full hover:bg-white/90 transition-all duration-200 whitespace-nowrap"
-            >
-              Book a Strategy Call
-            </Link>
-            <Link
-              href="/blog"
-              className="border border-white/20 text-white/70 text-[11px] tracking-[0.2em] uppercase font-bold px-7 py-3.5 rounded-full hover:border-white/40 hover:text-white transition-all duration-200 whitespace-nowrap"
-            >
-              More Articles
-            </Link>
-          </div>
+            Get Help
+            <i className="ri-arrow-right-line" />
+          </Link>
+          <Link
+            href="/blog"
+            className="inline-flex items-center gap-2 rounded-full border border-pure-white/40 px-7 py-3.5 text-sm font-body font-semibold text-pure-white transition-colors hover:border-pure-white/70 hover:bg-pure-white/10"
+          >
+            More Articles
+          </Link>
         </div>
       </div>
     </section>

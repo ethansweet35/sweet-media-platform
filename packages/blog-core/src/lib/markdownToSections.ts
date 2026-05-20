@@ -1,5 +1,81 @@
 import type { BlogSection } from "../types/blog";
 
+/** If a line is a markdown heading (including list items like `- #### Title`), return clean title text. */
+export function parseEmbeddedHeading(text: string): string | null {
+  let trimmed = text.trim().replace(/^[✓✔•]\s*/, "");
+  // Squarespace exports sometimes keep list markers on heading lines
+  while (/^[-*+]\s+/.test(trimmed)) {
+    trimmed = trimmed.replace(/^[-*+]\s+/, "");
+  }
+  const match = trimmed.match(/^#{1,6}\s+(.+)$/);
+  if (!match) return null;
+  return stripInlineMarkdown(match[1]).replace(/:+\s*$/, "").trim();
+}
+
+/** End-of-article resource blocks (Get Help, links, etc.) */
+export function isResourceSectionHeading(text: string): boolean {
+  const t = text.trim().toLowerCase();
+  return (
+    t.includes("get help") ||
+    t.includes("helpful links") ||
+    t.includes("additional resources") ||
+    t.startsWith("resources")
+  );
+}
+
+/** Split list blocks so `#### Section` items become h3 sections. */
+export function normalizeSections(sections: BlogSection[]): BlogSection[] {
+  const out: BlogSection[] = [];
+
+  for (const section of sections) {
+    if ((section.type === "list" || section.type === "numbered") && section.items?.length) {
+      let batch: string[] = [];
+      const flushBatch = () => {
+        if (batch.length > 0) {
+          out.push({
+            type: section.type,
+            items: batch.map((item) => stripInlineMarkdown(item)),
+          });
+          batch = [];
+        }
+      };
+
+      for (const item of section.items) {
+        const heading = parseEmbeddedHeading(item);
+        if (heading) {
+          flushBatch();
+          out.push({ type: "h3", text: heading });
+        } else {
+          batch.push(item);
+        }
+      }
+      flushBatch();
+      continue;
+    }
+
+    if (section.type === "paragraph" && section.text) {
+      const heading = parseEmbeddedHeading(section.text);
+      if (heading) {
+        out.push({ type: "h3", text: heading });
+        continue;
+      }
+    }
+
+    if (section.text) {
+      out.push({ ...section, text: stripInlineMarkdown(section.text) });
+    } else if (section.items) {
+      out.push({
+        ...section,
+        items: section.items.map((item) => stripInlineMarkdown(item)),
+      });
+    } else {
+      out.push(section);
+    }
+  }
+
+  return out;
+}
+
 /** Strip common inline markdown emphasis markers for display. */
 export function stripInlineMarkdown(text: string): string {
   return text
@@ -190,9 +266,16 @@ export function markdownToSections(md: string): BlogSection[] {
       flushParagraph();
       flushQuote();
       flushTable();
+      const listContent = trimmed.replace(/^[-*]\s+/, "");
+      const embeddedHeading = parseEmbeddedHeading(listContent);
+      if (embeddedHeading) {
+        flushList();
+        content.push({ type: "h3", text: embeddedHeading });
+        continue;
+      }
       if (listType && listType !== "list") flushList();
       listType = "list";
-      currentList.push(trimmed.replace(/^[-*]\s+/, ""));
+      currentList.push(listContent);
       continue;
     }
 
@@ -221,7 +304,7 @@ export function markdownToSections(md: string): BlogSection[] {
   flushQuote();
   flushTable();
 
-  return content;
+  return normalizeSections(content);
 }
 
 export function looksLikeMarkdown(content: string): boolean {

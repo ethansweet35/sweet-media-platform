@@ -33,21 +33,18 @@ export default function PostRelated({ currentPost, allPosts }: PostRelatedProps)
   if (related.length === 0) return null;
 
   return (
-    <section className="w-full bg-white border-t border-neutral-100">
-      <div className="max-w-screen-xl mx-auto px-6 py-16 md:py-20">
-        <div className="flex items-center gap-3 mb-10">
-          <div className="w-8 h-px bg-neutral-300" />
-          <span className="text-[10px] tracking-[0.3em] uppercase text-neutral-400 font-semibold">
-            Continue Reading
-          </span>
-        </div>
+    <section className="w-full border-t border-mist bg-pure-white">
+      <div className="max-w-content mx-auto px-6 lg:px-16 py-14 md:py-18">
+        <p className="text-eyebrow font-body font-semibold uppercase tracking-[0.2em] text-tfrf-blue mb-8">
+          Continue Reading
+        </p>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
           {related.map((post) => (
             <Link
               key={post.id}
               href={`/blog/${post.slug}`}
-              className="group bg-white rounded-2xl overflow-hidden border border-neutral-100 hover:border-neutral-200 transition-all duration-300 block"
+              className="group block overflow-hidden rounded-2xl border border-mist bg-soft-white transition-all duration-300 hover:border-tfrf-blue/30 hover:shadow-[0_8px_32px_rgba(30,58,95,0.08)]"
             >
               <article>
                 <div className="relative aspect-[16/10] overflow-hidden">
@@ -57,45 +54,45 @@ export default function PostRelated({ currentPost, allPosts }: PostRelatedProps)
                     fill
                     loading="lazy"
                     sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 380px"
-                    className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500"
+                    className="h-full w-full object-cover object-top transition-transform duration-500 group-hover:scale-[1.03]"
                   />
                   <div className="absolute top-3 left-3">
-                    <span className="inline-block bg-white/90 backdrop-blur-sm text-[10px] tracking-[0.15em] uppercase font-bold text-[#1F2937] px-2.5 py-1 rounded-full">
+                    <span className="inline-block rounded-full bg-deep-navy/90 px-2.5 py-1 text-[10px] font-body font-semibold uppercase tracking-[0.14em] text-pure-white backdrop-blur-sm">
                       {post.category}
                     </span>
                   </div>
                 </div>
 
                 <div className="p-5">
-                  <div className="flex items-center gap-2 mb-3">
-                    <span className="text-[11px] text-neutral-400">{post.date}</span>
-                    <span className="w-1 h-1 rounded-full bg-neutral-300" />
-                    <span className="text-[11px] text-neutral-400">{post.readTime}</span>
+                  <div className="mb-3 flex items-center gap-2 text-caption font-body text-stone-blue">
+                    <span>{post.date}</span>
+                    <span className="h-1 w-1 rounded-full bg-mist" />
+                    <span>{post.readTime}</span>
                   </div>
 
-                  <h3
-                    className="text-base font-medium text-neutral-900 leading-snug mb-3 group-hover:text-[#1F2937] transition-colors line-clamp-2"
-                    style={{ fontFamily: "'Inter', serif" }}
-                  >
+                  <h3 className="font-display text-base text-deep-navy leading-snug mb-3 line-clamp-2 transition-colors group-hover:text-tfrf-blue">
                     {post.title}
                   </h3>
 
-                  <p className="text-sm text-neutral-500 leading-relaxed line-clamp-2 mb-4">
+                  <p className="font-body text-body-s text-slate leading-relaxed line-clamp-2 mb-4">
                     {post.excerpt}
                   </p>
 
-                  <div className="flex items-center justify-between pt-3 border-t border-neutral-100">
+                  <div className="flex items-center justify-between border-t border-mist pt-3">
                     <div className="flex items-center gap-2">
-                      <div className="w-6 h-6 rounded-full bg-[#1F2937] flex items-center justify-center">
-                        <span className="text-white text-[9px] font-bold">
-                          {post.author.split(" ").map((n) => n[0]).join("")}
+                      <div className="flex h-6 w-6 items-center justify-center rounded-full bg-tfrf-blue text-pure-white">
+                        <span className="text-[9px] font-body font-bold">
+                          {post.author
+                            .split(" ")
+                            .map((n) => n[0])
+                            .join("")}
                         </span>
                       </div>
-                      <span className="text-[11px] text-neutral-500">{post.author}</span>
+                      <span className="text-caption font-body text-slate">{post.author}</span>
                     </div>
-                    <span className="flex items-center gap-1 text-[11px] tracking-[0.1em] uppercase font-medium text-[#1F2937] group-hover:text-[#2563EB] transition-colors">
+                    <span className="flex items-center gap-1 text-caption font-body font-semibold uppercase tracking-[0.1em] text-tfrf-blue transition-colors group-hover:text-deep-navy">
                       Read
-                      <i className="ri-arrow-right-line text-xs group-hover:translate-x-0.5 transition-transform"></i>
+                      <i className="ri-arrow-right-line text-xs group-hover:translate-x-0.5 transition-transform" />
                     </span>
                   </div>
                 </div>

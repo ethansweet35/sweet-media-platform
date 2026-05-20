@@ -12,15 +12,14 @@ export default function BlogFeatured() {
 
   if (loading) {
     return (
-      <section className="w-full bg-white">
-        <div className="max-w-screen-xl mx-auto px-6 py-16 md:py-24">
+      <section className="w-full bg-pure-white border-b border-mist">
+        <div className="max-w-content mx-auto px-6 lg:px-16 py-14 md:py-20">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-center animate-pulse">
-            <div className="aspect-[4/3] bg-neutral-100 rounded-2xl" />
+            <div className="aspect-[4/3] bg-mist rounded-2xl" />
             <div className="space-y-4">
-              <div className="h-4 bg-neutral-100 rounded w-1/3" />
-              <div className="h-8 bg-neutral-100 rounded w-3/4" />
-              <div className="h-4 bg-neutral-100 rounded w-full" />
-              <div className="h-4 bg-neutral-100 rounded w-2/3" />
+              <div className="h-4 bg-mist rounded w-1/3" />
+              <div className="h-8 bg-mist rounded w-3/4" />
+              <div className="h-4 bg-mist rounded w-full" />
             </div>
           </div>
         </div>
@@ -31,18 +30,14 @@ export default function BlogFeatured() {
   if (!post) return null;
 
   return (
-    <section className="w-full bg-white">
-      <div className="max-w-screen-xl mx-auto px-6 py-16 md:py-24">
-        <div className="flex items-center gap-3 mb-10 justify-center lg:justify-start">
-          <div className="w-8 h-px bg-neutral-300" />
-          <span className="text-[10px] tracking-[0.3em] uppercase text-neutral-400 font-semibold">
-            Featured Article
-          </span>
-        </div>
+    <section className="w-full bg-pure-white border-b border-mist">
+      <div className="max-w-content mx-auto px-6 lg:px-16 py-14 md:py-20">
+        <p className="text-eyebrow font-body font-semibold uppercase tracking-[0.2em] text-tfrf-blue mb-8">
+          Featured Article
+        </p>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-center">
-          {/* Image */}
-          <div className="relative rounded-2xl overflow-hidden">
+          <div className="relative overflow-hidden rounded-2xl ring-1 ring-mist shadow-sm">
             <Image
               src={post.image}
               alt={post.title}
@@ -53,50 +48,50 @@ export default function BlogFeatured() {
               sizes="(max-width: 1024px) 100vw, 50vw"
             />
             <div className="absolute top-4 left-4">
-              <span className="inline-block bg-white/90 backdrop-blur-sm text-[10px] tracking-[0.2em] uppercase font-bold text-[#1F2937] px-3 py-1.5 rounded-full">
+              <span className="inline-block rounded-full bg-deep-navy/90 px-3 py-1.5 text-[10px] font-body font-semibold uppercase tracking-[0.14em] text-pure-white backdrop-blur-sm">
                 {post.category}
               </span>
             </div>
           </div>
 
-          {/* Content */}
           <div>
-            <div className="flex items-center gap-3 mb-5">
-              <span className="text-[11px] text-neutral-400">{post.date}</span>
-              <span className="w-1 h-1 rounded-full bg-neutral-300" />
-              <span className="text-[11px] text-neutral-400">{post.readTime}</span>
+            <div className="flex items-center gap-2 mb-5 text-caption font-body text-stone-blue">
+              <span>{post.date}</span>
+              <span className="w-1 h-1 rounded-full bg-mist" />
+              <span>{post.readTime}</span>
             </div>
 
-            <h2
-              className="text-2xl md:text-3xl lg:text-4xl font-light text-neutral-900 leading-snug mb-5"
-              style={{ fontFamily: "'Inter', serif" }}
-            >
+            <h2 className="font-display text-[clamp(26px,3.5vw,40px)] text-deep-navy leading-[1.15] mb-5">
               {post.title}
             </h2>
 
-            <p className="text-sm md:text-base text-neutral-500 leading-relaxed mb-8">
-              {post.excerpt}
-            </p>
+            <p className="font-body text-body-m text-slate leading-relaxed mb-8">{post.excerpt}</p>
 
-            <div className="flex items-center justify-between">
+            <div className="flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-full bg-[#1F2937] flex items-center justify-center">
-                  <span className="text-white text-xs font-bold">
-                    {post.author.split(" ").map((n) => n[0]).join("")}
+                <div className="flex h-10 w-10 items-center justify-center rounded-full bg-tfrf-blue text-pure-white">
+                  <span className="text-xs font-body font-bold">
+                    {post.author
+                      .split(" ")
+                      .map((n) => n[0])
+                      .join("")}
                   </span>
                 </div>
                 <div>
-                  <p className="text-sm font-medium text-neutral-800">{post.author}</p>
-                  <p className="text-[11px] text-neutral-400">{post.authorRole}</p>
+                  <p className="font-body text-body-s font-semibold text-deep-navy">{post.author}</p>
+                  {post.authorRole ? (
+                    <p className="text-caption font-body text-stone-blue">{post.authorRole}</p>
+                  ) : null}
                 </div>
               </div>
 
               <button
+                type="button"
                 onClick={() => router.push(`/blog/${post.slug}`)}
-                className="group flex items-center gap-2 text-[11px] tracking-[0.15em] uppercase font-bold text-[#1F2937] hover:text-[#2563EB] transition-colors cursor-pointer whitespace-nowrap"
+                className="group inline-flex cursor-pointer items-center gap-2 rounded-full bg-deep-navy px-6 py-3 text-sm font-body font-semibold text-pure-white transition-colors hover:bg-tfrf-blue"
               >
                 Read Article
-                <i className="ri-arrow-right-line text-sm group-hover:translate-x-1 transition-transform"></i>
+                <i className="ri-arrow-right-line transition-transform group-hover:translate-x-0.5" />
               </button>
             </div>
           </div>

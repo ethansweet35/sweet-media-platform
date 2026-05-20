@@ -12,73 +12,60 @@ export default function BlogHero({ searchQuery, onSearchChange }: BlogHeroProps)
   const [isFocused, setIsFocused] = useState(false);
 
   return (
-    <section className="relative w-full overflow-hidden bg-[#1F2937]">
-      <div
-        className="absolute inset-0 opacity-[0.08]"
-        style={{
-          backgroundImage:
-            "radial-gradient(circle at 1px 1px, #F8FAFC 1px, transparent 0)",
-          backgroundSize: "34px 34px",
-        }}
-      />
-      <div className="absolute -top-24 right-0 w-96 h-96 rounded-full bg-[#DDA15E]/10 blur-3xl" />
-      <div className="absolute bottom-0 left-0 w-80 h-80 rounded-full bg-[#8FA489]/10 blur-3xl" />
+    <section className="relative overflow-hidden bg-deep-navy">
+      <div className="absolute inset-0 bg-gradient-to-br from-deep-navy via-tfrf-blue/85 to-sky-blue/35" />
+      <div className="pointer-events-none absolute -right-20 top-0 h-72 w-72 rounded-full bg-sky-blue/25 blur-3xl" />
+      <div className="pointer-events-none absolute -left-16 bottom-0 h-56 w-56 rounded-full bg-powder-blue/20 blur-3xl" />
 
-      <div className="relative max-w-7xl mx-auto px-8 md:px-16 pt-36 pb-20 md:pt-44 md:pb-28">
-        <div className="flex items-center gap-2 mb-8">
-          <Link
-            href="/"
-            className="text-[10px] tracking-[0.25em] uppercase text-[#E2E8F0]/45 hover:text-[#E2E8F0]/80 transition-colors"
-          >
+      <div className="relative z-10 max-w-content mx-auto px-6 lg:px-16 pt-28 md:pt-36 pb-16 md:pb-24">
+        <nav className="mb-6 flex items-center gap-2 text-[12px] font-body font-semibold uppercase tracking-[0.18em] text-pure-white/60">
+          <Link href="/" className="transition-colors hover:text-pure-white">
             Home
           </Link>
-          <span className="text-[#E2E8F0]/25">/</span>
-          <span className="text-[10px] tracking-[0.25em] uppercase text-[#DDA15E]">
-            Resources
-          </span>
-        </div>
+          <span>/</span>
+          <span className="text-sky-blue">Resources</span>
+        </nav>
 
         <div className="max-w-3xl">
-          <span className="text-xs uppercase tracking-[0.35em] text-[#DDA15E] font-medium">
+          <p className="text-eyebrow font-body font-semibold uppercase tracking-[0.2em] text-sky-blue mb-4">
             The Family Recovery Foundation Journal
-          </span>
-
-          <h1
-            className="font-serif text-[#F8FAFC] leading-[1.08] mt-6 mb-6"
-            style={{ fontSize: "clamp(42px, 6vw, 78px)" }}
-          >
+          </p>
+          <h1 className="text-[clamp(36px,5vw,64px)] font-display text-pure-white leading-[1.08] mb-6">
             Thoughtful guidance for{" "}
-            <em className="text-[#DDA15E]">healing at home.</em>
+            <em className="italic text-powder-blue">healing at home</em>
           </h1>
-
-          <p className="text-[#E2E8F0]/70 font-light text-base md:text-lg leading-[1.9] max-w-2xl mb-10">
-            Mental health, addiction recovery, trauma-informed care, and wellness resources from the The Family Recovery Foundation team.
+          <p className="text-body-l font-body text-pure-white/85 leading-relaxed max-w-2xl mb-10">
+            Mental health, addiction recovery, and family-centered resources from The Family Recovery
+            Foundation team.
           </p>
 
           <div
-            className={`max-w-xl flex items-center gap-3 bg-[#F8FAFC]/10 backdrop-blur-sm border rounded-full px-5 py-3 transition-all duration-200 ${
-              isFocused ? "border-[#DDA15E]/50 bg-[#F8FAFC]/15" : "border-[#F8FAFC]/15"
+            className={`flex max-w-xl items-center gap-3 rounded-full border px-5 py-3 transition-all duration-200 ${
+              isFocused
+                ? "border-sky-blue/60 bg-pure-white/15"
+                : "border-pure-white/20 bg-pure-white/10"
             }`}
           >
-            <i className="ri-search-line text-[#E2E8F0]/45 text-lg" />
+            <i className="ri-search-line text-lg text-pure-white/50" />
             <input
-              type="text"
+              type="search"
               value={searchQuery}
               onChange={(e) => onSearchChange(e.target.value)}
               onFocus={() => setIsFocused(true)}
               onBlur={() => setIsFocused(false)}
               placeholder="Search articles..."
-              className="flex-1 bg-transparent text-sm text-[#F8FAFC] placeholder:text-[#E2E8F0]/35 focus:outline-none"
+              className="flex-1 bg-transparent text-body-s font-body text-pure-white placeholder:text-pure-white/40 focus:outline-none"
             />
-            {searchQuery && (
+            {searchQuery ? (
               <button
-              onClick={() => onSearchChange("")}
-                className="w-6 h-6 flex items-center justify-center rounded-full bg-[#F8FAFC]/10 hover:bg-[#F8FAFC]/20 text-[#E2E8F0]/60 transition-colors cursor-pointer"
+                type="button"
+                onClick={() => onSearchChange("")}
+                className="flex h-7 w-7 cursor-pointer items-center justify-center rounded-full bg-pure-white/15 text-pure-white/70 transition-colors hover:bg-pure-white/25"
                 aria-label="Clear search"
               >
-                <i className="ri-close-line text-xs" />
+                <i className="ri-close-line text-sm" />
               </button>
-            )}
+            ) : null}
           </div>
         </div>
       </div>
