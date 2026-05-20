@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
 import { programsList } from "@/mocks/family-programming";
+import { PAGE_TOP_NAV_PADDING } from "@/lib/layout";
 
 export default function FamilyProgrammingHeroSection() {
   const [openPrograms, setOpenPrograms] = useState<Set<string>>(new Set());
@@ -53,7 +54,7 @@ export default function FamilyProgrammingHeroSection() {
   };
 
   return (
-    <section className="bg-pure-white pt-32 md:pt-40 pb-16 md:pb-24 overflow-hidden">
+    <section className={`bg-pure-white ${PAGE_TOP_NAV_PADDING} pb-16 md:pb-24 overflow-hidden`}>
       <div className="max-w-content mx-auto px-6 lg:px-16">
         {/* Header */}
         <div className="text-center mb-10 md:mb-14">

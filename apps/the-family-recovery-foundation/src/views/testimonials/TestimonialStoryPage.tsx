@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { PAGE_TOP_NAV_PADDING } from "@/lib/layout";
 import { videoStories } from "@/mocks/testimonials";
 
 export function getTestimonialStory(slug: string) {
@@ -22,7 +23,7 @@ export default function TestimonialStoryPage({ slug }: TestimonialStoryPageProps
 
   return (
     <main className="bg-soft-white">
-      <section className="bg-pure-white pt-32 md:pt-40 pb-12 md:pb-16">
+      <section className={`bg-pure-white ${PAGE_TOP_NAV_PADDING} pb-12 md:pb-16`}>
         <div className="max-w-content mx-auto px-6 lg:px-16">
           <Link
             href="/stories"

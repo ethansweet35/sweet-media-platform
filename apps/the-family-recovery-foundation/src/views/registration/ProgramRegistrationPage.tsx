@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { PAGE_TOP_NAV_PADDING } from "@/lib/layout";
 import ProgramRegistrationForm from "@/components/marketing/ProgramRegistrationForm";
 import type { RegistrationProgram } from "@/mocks/registration-programs";
 
@@ -9,7 +10,7 @@ interface ProgramRegistrationPageProps {
 export default function ProgramRegistrationPage({ program }: ProgramRegistrationPageProps) {
   return (
     <main className="bg-soft-white min-h-screen">
-      <section className="bg-pure-white pt-32 md:pt-40 pb-12 md:pb-16">
+      <section className={`bg-pure-white ${PAGE_TOP_NAV_PADDING} pb-12 md:pb-16`}>
         <div className="max-w-content mx-auto px-6 lg:px-16">
           <Link
             href="/meetings"

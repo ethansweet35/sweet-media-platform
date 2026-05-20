@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from "react";
+import { PAGE_TOP_NAV_PADDING } from "@/lib/layout";
 
 export default function PartnershipsHeroSection() {
   const [visible, setVisible] = useState(false);
@@ -11,7 +12,7 @@ export default function PartnershipsHeroSection() {
   }, []);
 
   return (
-    <section className="relative overflow-hidden bg-deep-navy pt-28 md:pt-36 lg:pt-44 pb-20 md:pb-28">
+    <section className={`relative overflow-hidden bg-deep-navy ${PAGE_TOP_NAV_PADDING} pb-20 md:pb-28`}>
       {/* Decorative soft shapes */}
       <div className="absolute top-0 right-0 w-[500px] h-[500px] rounded-full bg-tfrf-blue/20 blur-3xl -translate-y-1/3 translate-x-1/4" />
       <div className="absolute bottom-0 left-0 w-[400px] h-[400px] rounded-full bg-sky-blue/15 blur-3xl translate-y-1/3 -translate-x-1/4" />

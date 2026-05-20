@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useRef, useState } from "react";
+import { PAGE_TOP_NAV_PADDING } from "@/lib/layout";
 
 export default function TestimonialsHeroSection() {
   const [visible, setVisible] = useState(false);
@@ -23,7 +24,7 @@ export default function TestimonialsHeroSection() {
   return (
     <section
       ref={ref}
-      className="relative bg-powder-blue overflow-hidden pt-28 md:pt-36 lg:pt-44 pb-20 md:pb-28 lg:pb-36"
+      className={`relative bg-powder-blue overflow-hidden ${PAGE_TOP_NAV_PADDING} pb-20 md:pb-28 lg:pb-36`}
     >
       {/* Soft decorative shapes */}
       <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-tfrf-blue/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/4" />

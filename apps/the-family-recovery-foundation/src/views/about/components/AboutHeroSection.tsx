@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from "react";
+import { PAGE_TOP_NAV_PADDING } from "@/lib/layout";
 
 export default function AboutHeroSection() {
   const [visible, setVisible] = useState(false);
@@ -11,7 +12,7 @@ export default function AboutHeroSection() {
   }, []);
 
   return (
-    <section className="bg-pure-white pt-28 md:pt-36 lg:pt-44 pb-16 md:pb-24 overflow-hidden">
+    <section className={`bg-pure-white ${PAGE_TOP_NAV_PADDING} pb-16 md:pb-24 overflow-hidden`}>
       <div className="max-w-content mx-auto px-6 lg:px-16">
         <div className="flex flex-col lg:flex-row items-center gap-12 lg:gap-16 xl:gap-20">
           {/* Left: Text */}

@@ -1,10 +1,11 @@
 import Link from "next/link";
+import { PAGE_TOP_NAV_PADDING } from "@/lib/layout";
 import DonateHeroSection from "./components/DonateHeroSection";
 
 export default function DonateLightTheWayPage() {
   return (
     <div className="min-h-screen bg-soft-white">
-      <section className="bg-deep-navy text-pure-white py-14 md:py-18">
+      <section className={`bg-deep-navy text-pure-white ${PAGE_TOP_NAV_PADDING} pb-14 md:pb-18`}>
         <div className="max-w-content mx-auto px-6 lg:px-16 text-center max-w-3xl">
           <p className="text-[12px] font-body font-semibold uppercase tracking-[0.2em] text-sky-blue mb-4">
             Light the Way Campaign
@@ -25,7 +26,7 @@ export default function DonateLightTheWayPage() {
           </Link>
         </div>
       </section>
-      <main className="pt-8 md:pt-12">
+      <main>
         <DonateHeroSection />
       </main>
     </div>

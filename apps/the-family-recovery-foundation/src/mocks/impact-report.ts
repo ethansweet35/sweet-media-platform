@@ -1,3 +1,5 @@
+import { SITE_IMAGES } from "@/lib/site-images";
+
 export const programStats = [
   {
     id: "fix-your-family",
@@ -56,23 +58,23 @@ export const additionalInsights = [
 
 export const galleryImages = [
   {
-    id: "family-walk",
-    src: "https://jkiafgbizwufsycqlfyr.supabase.co/storage/v1/object/public/site-assets/images/tfrf_sq_d1eedb3a_orlando-allo-qRpOzXWsu3c-unsplash.jpg",
-    alt: "Family walking together outdoors in a natural setting with warm golden light",
+    id: "gala-community",
+    src: SITE_IMAGES.galaCommunity,
+    alt: "Families and supporters at a Family Recovery Foundation community gathering",
   },
   {
-    id: "family-reading",
-    src: "https://jkiafgbizwufsycqlfyr.supabase.co/storage/v1/object/public/site-assets/images/tfrf_sq_17647354_unsplash-image-TFH8e9Lmp0s.jpg",
-    alt: "Family spending quality time together reading and bonding",
+    id: "event-a",
+    src: SITE_IMAGES.eventPhotoA,
+    alt: "Guests connecting at a Family Recovery Foundation event",
   },
   {
-    id: "family-kitchen",
-    src: "https://jkiafgbizwufsycqlfyr.supabase.co/storage/v1/object/public/site-assets/images/tfrf_sq_17647354_unsplash-image-rRWiVQzLm7k.jpg",
-    alt: "Family gathered in the kitchen sharing a moment together",
+    id: "event-b",
+    src: SITE_IMAGES.eventPhotoB,
+    alt: "The Family Recovery Foundation team with families at a live event",
   },
   {
-    id: "meditation-silhouette",
-    src: "https://jkiafgbizwufsycqlfyr.supabase.co/storage/v1/object/public/site-assets/images/tfrf_sq_17647354_unsplash-image-ie8WW5KUx3o.jpg",
-    alt: "Person meditating in peaceful morning light by the window",
+    id: "event-c",
+    src: SITE_IMAGES.eventPhotoC,
+    alt: "Celebrating recovery and family support at a foundation gathering",
   },
 ];

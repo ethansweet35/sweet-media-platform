@@ -3,6 +3,7 @@
 import { usePathname } from "next/navigation";
 import { useEffect } from "react";
 import { cn } from "@/lib/utils";
+import { LAYOUT_NAV_OVERLAP } from "@/lib/layout";
 import Navbar from "./Navbar";
 import Footer from "./Footer";
 
@@ -26,15 +27,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       )}
     >
       <Navbar />
-      <div
-        className={
-          isHome
-            ? "flex-1 -mt-[5.25rem] md:-mt-[5.75rem]"
-            : "flex-1 pt-[5.25rem] md:pt-[5.75rem]"
-        }
-      >
-        {children}
-      </div>
+      <div className={cn("flex-1", LAYOUT_NAV_OVERLAP)}>{children}</div>
       <Footer />
     </div>
   );

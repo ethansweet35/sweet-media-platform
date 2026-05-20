@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import type { BlogPost } from "@sweetmedia/blog-core";
+import { PAGE_TOP_NAV_PADDING } from "@/lib/layout";
 
 interface PostHeroProps {
   post: BlogPost;
@@ -29,7 +30,7 @@ export default function PostHero({ post }: PostHeroProps) {
       <div className="pointer-events-none absolute -right-24 top-0 h-80 w-80 rounded-full bg-sky-blue/20 blur-3xl" />
       <div className="pointer-events-none absolute -left-16 bottom-0 h-64 w-64 rounded-full bg-powder-blue/15 blur-3xl" />
 
-      <div className="relative z-10 max-w-content mx-auto px-6 lg:px-16 pt-28 md:pt-36 pb-14 md:pb-20">
+      <div className={`relative z-10 max-w-content mx-auto px-6 lg:px-16 ${PAGE_TOP_NAV_PADDING} pb-14 md:pb-20`}>
         <nav className="mb-6 flex flex-wrap items-center gap-2 text-[12px] font-body font-semibold uppercase tracking-[0.18em]">
           <Link href="/blog" className="text-pure-white/70 transition-colors hover:text-pure-white">
             <i className="ri-arrow-left-line mr-1.5 align-middle" />

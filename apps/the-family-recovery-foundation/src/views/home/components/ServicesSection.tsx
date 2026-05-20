@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { services } from "@/mocks/services";
+import { SITE_IMAGES } from "@/lib/site-images";
 
 export default function ServicesSection() {
   const [openId, setOpenId] = useState<string | null>(services[0].id);
@@ -29,8 +30,8 @@ export default function ServicesSection() {
           <div className="w-full lg:w-[48%] shrink-0">
             <div className="relative aspect-[3/4] rounded-2xl overflow-hidden bg-deep-navy/10">
               <img
-                src="https://jkiafgbizwufsycqlfyr.supabase.co/storage/v1/object/public/site-assets/images/tfrf_services01.jpg"
-                alt="A family counselor listening attentively to a mother and daughter during a support session"
+                src={SITE_IMAGES.aboutLifeLines}
+                alt="The Family Recovery Foundation team supporting families in recovery"
                 className="w-full h-full object-cover object-top"
               />
             </div>

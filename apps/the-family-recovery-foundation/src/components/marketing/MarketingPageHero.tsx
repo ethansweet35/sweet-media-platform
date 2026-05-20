@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { PAGE_TOP_NAV_PADDING } from "@/lib/layout";
 
 interface MarketingPageHeroProps {
   eyebrow?: string;
@@ -21,8 +22,8 @@ export default function MarketingPageHero({
     <section
       className={
         isDark
-          ? "bg-deep-navy text-pure-white py-16 md:py-24"
-          : "bg-pure-white py-16 md:py-24 lg:py-28"
+          ? `bg-deep-navy text-pure-white ${PAGE_TOP_NAV_PADDING} pb-16 md:pb-24`
+          : `bg-pure-white ${PAGE_TOP_NAV_PADDING} pb-16 md:pb-24 lg:pb-28`
       }
     >
       <div className="max-w-content mx-auto px-6 lg:px-16">

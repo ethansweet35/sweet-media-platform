@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, FormEvent } from "react";
+import { PAGE_TOP_NAV_PADDING } from "@/lib/layout";
 
 const suggestedAmounts = [5, 10, 25, 50, 100, 500];
 
@@ -40,7 +41,9 @@ export default function DonateHeroSection() {
         />
       </div>
 
-      <div className="relative z-10 max-w-content mx-auto px-6 lg:px-8 py-16 md:py-24 lg:py-32">
+      <div
+        className={`relative z-10 max-w-content mx-auto px-6 lg:px-8 ${PAGE_TOP_NAV_PADDING} pb-16 md:pb-24 lg:pb-32`}
+      >
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-start">
           {/* Left column — text content */}
           <div className="lg:col-span-5">

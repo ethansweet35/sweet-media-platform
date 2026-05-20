@@ -1,6 +1,7 @@
 'use client';
 
 import Link from "next/link";
+import { PAGE_TOP_NAV_PADDING } from "@/lib/layout";
 import { pillars } from "@/mocks/pillars";
 import { pillarDetails } from "@/mocks/pillar-details";
 
@@ -22,7 +23,7 @@ export default function PillarDetailPage({ slug }: PillarDetailPageProps) {
 
   return (
     <main className="bg-soft-white">
-      <section className="bg-pure-white py-16 md:py-24 lg:py-28">
+      <section className={`bg-pure-white ${PAGE_TOP_NAV_PADDING} pb-16 md:pb-24 lg:pb-28`}>
         <div className="max-w-content mx-auto px-6 lg:px-16">
           <Link
             href="/3-pillars"

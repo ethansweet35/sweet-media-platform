@@ -1,9 +1,11 @@
 import ResourcesSection from "@/views/partnerships/components/ResourcesSection";
 
+import { PAGE_TOP_NAV_PADDING } from "@/lib/layout";
+
 export default function ResourcesPage() {
   return (
     <main className="bg-pure-white">
-      <section className="bg-deep-navy text-pure-white py-16 md:py-20">
+      <section className={`bg-deep-navy text-pure-white ${PAGE_TOP_NAV_PADDING} pb-16 md:pb-20`}>
         <div className="max-w-content mx-auto px-6 lg:px-16 max-w-3xl">
           <p className="text-[12px] font-body font-semibold uppercase tracking-[0.2em] text-sky-blue mb-4">
             Resources &amp; Partners

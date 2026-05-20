@@ -1,6 +1,8 @@
 'use client';
 
 import { useEffect, useState, useRef } from "react";
+import { PAGE_TOP_NAV_PADDING } from "@/lib/layout";
+import { SITE_IMAGES } from "@/lib/site-images";
 
 const headlineWords = [
   { text: "Committed", italic: false },
@@ -55,8 +57,8 @@ export default function HeroSection() {
       {/* Background Image */}
       <div className="absolute inset-0">
         <img
-          src="https://jkiafgbizwufsycqlfyr.supabase.co/storage/v1/object/public/site-assets/images/tfrf_hero002.jpg"
-          alt="A hopeful couple looking up at a bright blue sky, symbolizing optimism and recovery"
+          src={SITE_IMAGES.heroBanner}
+          alt="The Family Recovery Foundation LifeLines banner with families in recovery"
           className="w-full h-full object-cover object-top"
         />
         {/* Blue-tinted gradient overlays for text readability */}
@@ -66,7 +68,7 @@ export default function HeroSection() {
       </div>
 
       {/* Content */}
-      <div className="relative z-10 min-h-[100svh] flex flex-col justify-center px-6 md:px-10 lg:px-16 pt-[6.5rem] md:pt-[7rem] lg:pt-[7.5rem] pb-4 md:pb-6 lg:pb-8 max-w-content mx-auto">
+      <div className={`relative z-10 min-h-[100svh] flex flex-col justify-center px-6 md:px-10 lg:px-16 ${PAGE_TOP_NAV_PADDING} pb-4 md:pb-6 lg:pb-8 max-w-content mx-auto`}>
         {/* Top text area */}
         <div className="max-w-lg lg:max-w-xl mb-6 md:mb-8">
           {/* Headline — slightly bigger */}

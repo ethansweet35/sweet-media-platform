@@ -1,4 +1,5 @@
 import { stories } from "@/mocks/stories";
+import { SITE_IMAGES } from "@/lib/site-images";
 
 const stats = [
   { value: "1720+", label: "Families Supported" },
@@ -42,8 +43,8 @@ export default function StoriesSection() {
             <div className="absolute -top-4 -left-4 w-[65%] h-[65%] rounded-[30px] bg-powder-blue -z-10" />
             <div className="relative aspect-[4/3] rounded-2xl overflow-hidden bg-deep-navy/5">
               <img
-                src="https://jkiafgbizwufsycqlfyr.supabase.co/storage/v1/object/public/site-assets/images/tfrf_impact01.jpg"
-                alt="A family sitting together on a couch having a genuine conversation, showing hope and reconnection"
+                src={SITE_IMAGES.galaCommunity}
+                alt="Families and supporters gathered at a Family Recovery Foundation community event"
                 className="w-full h-full object-cover object-top"
               />
             </div>

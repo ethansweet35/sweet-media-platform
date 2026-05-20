@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { PAGE_TOP_NAV_PADDING } from "@/lib/layout";
 
 interface MarketingStubPageProps {
   title: string;
@@ -14,7 +15,7 @@ export default function MarketingStubPage({
 }: MarketingStubPageProps) {
   return (
     <main className="bg-soft-white min-h-[60vh]">
-      <div className="max-w-content mx-auto px-6 lg:px-8 py-20 lg:py-28">
+      <div className={`max-w-content mx-auto px-6 lg:px-8 ${PAGE_TOP_NAV_PADDING} pb-20 lg:pb-28`}>
         <p className="text-[12px] font-body font-semibold uppercase tracking-[0.15em] text-tfrf-blue mb-4">
           The Family Recovery Foundation
         </p>

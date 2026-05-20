@@ -1,6 +1,9 @@
+import { PAGE_TOP_NAV_PADDING } from "@/lib/layout";
+import { SITE_IMAGES } from "@/lib/site-images";
+
 export default function NashvilleHeroSection() {
   return (
-    <section className="relative bg-soft-white pt-24 md:pt-28 lg:pt-32 pb-12 md:pb-16 overflow-hidden">
+    <section className={`relative bg-soft-white ${PAGE_TOP_NAV_PADDING} pb-12 md:pb-16 overflow-hidden`}>
       {/* Decorative top accent line */}
       <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-tfrf-blue via-sky-blue to-powder-blue" />
 
@@ -8,8 +11,8 @@ export default function NashvilleHeroSection() {
         {/* Hero image with overlaid text */}
         <div className="relative rounded-2xl overflow-hidden">
           <img
-            src="https://jkiafgbizwufsycqlfyr.supabase.co/storage/v1/object/public/site-assets/images/tfrf_nashville-hero-001.jpg"
-            alt="Nashville skyline at golden hour"
+            src={SITE_IMAGES.galaCommunity}
+            alt="The Family Recovery Foundation community celebration"
             className="w-full h-[300px] sm:h-[380px] md:h-[460px] lg:h-[520px] object-cover object-center"
           />
           {/* Gradient overlay for text readability */}

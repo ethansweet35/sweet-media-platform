@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect, useRef, FormEvent } from "react";
+import { PAGE_TOP_NAV_PADDING } from "@/lib/layout";
 
 export default function ContactHeroSection() {
   const [visible, setVisible] = useState(false);
@@ -65,7 +66,10 @@ export default function ContactHeroSection() {
     "w-full px-4 py-3 rounded-md border border-mist bg-pure-white text-body-s font-body text-deep-navy placeholder:text-stone-blue focus:outline-none focus:border-tfrf-blue focus:ring-1 focus:ring-tfrf-blue/20 transition-all duration-200";
 
   return (
-    <section ref={ref} className="bg-soft-white py-16 md:py-24 lg:py-32">
+    <section
+      ref={ref}
+      className={`bg-soft-white ${PAGE_TOP_NAV_PADDING} pb-16 md:pb-24 lg:pb-32`}
+    >
       <div className="max-w-content mx-auto px-6 lg:px-16">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20">
           {/* Left — Message */}

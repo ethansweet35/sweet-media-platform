@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import { PAGE_TOP_NAV_PADDING } from "@/lib/layout";
 
 interface BlogHeroProps {
   searchQuery: string;
@@ -17,7 +18,7 @@ export default function BlogHero({ searchQuery, onSearchChange }: BlogHeroProps)
       <div className="pointer-events-none absolute -right-20 top-0 h-72 w-72 rounded-full bg-sky-blue/25 blur-3xl" />
       <div className="pointer-events-none absolute -left-16 bottom-0 h-56 w-56 rounded-full bg-powder-blue/20 blur-3xl" />
 
-      <div className="relative z-10 max-w-content mx-auto px-6 lg:px-16 pt-28 md:pt-36 pb-16 md:pb-24">
+      <div className={`relative z-10 max-w-content mx-auto px-6 lg:px-16 ${PAGE_TOP_NAV_PADDING} pb-16 md:pb-24`}>
         <nav className="mb-6 flex items-center gap-2 text-[12px] font-body font-semibold uppercase tracking-[0.18em] text-pure-white/60">
           <Link href="/" className="transition-colors hover:text-pure-white">
             Home

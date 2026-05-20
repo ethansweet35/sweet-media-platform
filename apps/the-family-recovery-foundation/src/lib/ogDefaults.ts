@@ -1,3 +1,4 @@
+import { SITE_IMAGES } from "@/lib/site-images";
+
 /** Absolute URL — safe to import from server `generateMetadata` (no `"use client"` boundary). */
-export const DEFAULT_OG_IMAGE =
-  "https://jkiafgbizwufsycqlfyr.supabase.co/storage/v1/object/public/site-assets/images/og-default.jpg";
+export const DEFAULT_OG_IMAGE = SITE_IMAGES.lifeLinesBlueBanner;

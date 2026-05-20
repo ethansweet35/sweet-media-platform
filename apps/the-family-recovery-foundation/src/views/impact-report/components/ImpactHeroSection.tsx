@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import Eyebrow from "@/components/base/Eyebrow";
+import { PAGE_TOP_NAV_PADDING } from "@/lib/layout";
 
 export default function ImpactHeroSection() {
   const [visible, setVisible] = useState(false);
@@ -24,7 +25,7 @@ export default function ImpactHeroSection() {
   return (
     <section
       ref={ref}
-      className="bg-pure-white pt-32 md:pt-40 pb-12 md:pb-16 overflow-hidden"
+      className={`bg-pure-white ${PAGE_TOP_NAV_PADDING} pb-12 md:pb-16 overflow-hidden`}
     >
       <div className="max-w-content mx-auto px-6 lg:px-16 text-center">
         <div
