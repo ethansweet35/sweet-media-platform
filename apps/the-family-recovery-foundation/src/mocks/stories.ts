@@ -10,7 +10,7 @@ export const stories = [
       "\"I didn't know there was help for families like ours until I found The Family Recovery Foundation. It changed everything.\"",
     description:
       "When substance use enters a family, it affects everyone — not just the person struggling. Our foundation works directly with parents, siblings, and loved ones to provide the education, tools, and emotional support needed to navigate recovery together. We believe families heal as a unit.",
-    image: SITE_IMAGES.galaCommunity,
+    image: SITE_IMAGES.familiesImpact,
     accent: "bg-powder-blue",
   },
   {

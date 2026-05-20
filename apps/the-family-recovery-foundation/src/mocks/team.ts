@@ -21,7 +21,11 @@ export const boardMembers: TeamMember[] = [
     name: "Devon Wayt",
     title: "Vice President",
     image: "https://jkiafgbizwufsycqlfyr.supabase.co/storage/v1/object/public/site-assets/images/tfrf_sq_0ee7c3e9_devonwayt.jpg",
-    bio: ["Coming Soon…"],
+    bio: [
+      "Devon is a person in long-term recovery – a product of good treatment and recovery in California. He has more than 23 years' experience with all populations and levels of care behavioral health treatment and recovery-oriented systems of care, with expertise ranging from quality and compliance to operations and executive leadership. Devon owned and operated a behavioral healthcare organization that spanned across three states for a decade of his career.",
+      "He graduated from Pepperdine University's Graziadio School of Business and Management in Southern California where he earned a Bachelor of Science degree in management and a Master of Business Administration. He is the Founder and CEO of Circa Behavioral Healthcare Solutions – a behavioral health compliance consulting firm, and Co-Founder of Mint Billing and Como HR – billing and human resources consulting firms respectively.",
+      "Devon serves on the CCAPP Credentialing Board, as the Chair of California Alliance for Behavioral Health and Addiction Treatment (CABAT) and on the Nowell Family Foundation Board – founded by the family of the late and former lead singer of Sublime, Bradley Nowell. His purpose is to protect the vulnerable by powerfully outfitting healers so that those suffering turn to God, take arms, and fight honorable battles where victory over them bears witness to a world in that all generations live free. His wife and three sons provide him strength and courage to fulfill his purpose through enterprise, action, and relationships.",
+    ],
     category: "board",
   },
   {

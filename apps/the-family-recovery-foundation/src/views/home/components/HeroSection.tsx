@@ -2,7 +2,7 @@
 
 import { useEffect, useState, useRef } from "react";
 import { PAGE_TOP_NAV_PADDING } from "@/lib/layout";
-import { SITE_IMAGES } from "@/lib/site-images";
+import { HERO_COMMUNITY_AVATARS, SITE_IMAGES } from "@/lib/site-images";
 
 const headlineWords = [
   { text: "Committed", italic: false },
@@ -21,15 +21,6 @@ const recoveryTags = [
   "Support",
   "Family Care",
   "Community",
-];
-
-const avatarGradients = [
-  "from-tfrf-blue to-sky-blue",
-  "from-sky-blue to-powder-blue",
-  "from-deep-navy to-tfrf-blue",
-  "from-tfrf-blue to-deep-navy",
-  "from-sky-blue to-tfrf-blue",
-  "from-powder-blue to-sky-blue",
 ];
 
 export default function HeroSection() {
@@ -57,8 +48,8 @@ export default function HeroSection() {
       {/* Background Image */}
       <div className="absolute inset-0">
         <img
-          src={SITE_IMAGES.heroBanner}
-          alt="The Family Recovery Foundation LifeLines banner with families in recovery"
+          src={SITE_IMAGES.homeHero}
+          alt="Hopeful family in recovery walking together outdoors"
           className="w-full h-full object-cover object-top"
         />
         {/* Blue-tinted gradient overlays for text readability */}
@@ -155,18 +146,20 @@ export default function HeroSection() {
             </div>
             <div className="flex items-center">
               <div className="flex -space-x-2">
-                {avatarGradients.map((gradient, i) => (
+                {HERO_COMMUNITY_AVATARS.map((avatar) => (
                   <div
-                    key={i}
-                    className={`w-7 h-7 md:w-8 md:h-8 rounded-full bg-gradient-to-br ${gradient} border-2 border-pure-white/30 flex items-center justify-center`}
+                    key={avatar.id}
+                    className="w-7 h-7 md:w-8 md:h-8 shrink-0 overflow-hidden rounded-full border-2 border-pure-white/30"
                   >
-                    <span className="text-[9px] md:text-[10px] font-body font-bold text-pure-white/80">
-                      {String.fromCharCode(65 + i)}
-                    </span>
+                    <img
+                      src={avatar.src}
+                      alt={avatar.alt}
+                      className="h-full w-full object-cover object-[center_20%]"
+                    />
                   </div>
                 ))}
               </div>
-              <span className="ml-2 text-[11px] md:text-[12px] font-body text-pure-white/60">+12 more</span>
+              <span className="ml-2 text-[11px] md:text-[12px] font-body text-pure-white/60">+ more</span>
             </div>
           </div>
 

@@ -1,6 +1,3 @@
-'use client';
-
-import { useEffect } from "react";
 import AboutHeroSection from "./components/AboutHeroSection";
 import MissionBannerSection from "./components/MissionBannerSection";
 import MeetOurPeopleSection from "./components/MeetOurPeopleSection";
@@ -10,10 +7,6 @@ import PartnershipSection from "./components/PartnershipSection";
 import NewsletterSection from "./components/NewsletterSection";
 
 export default function About() {
-  useEffect(() => {
-    document.title = "About The Family Recovery Foundation | TFRF";
-  }, []);
-
   return (
     <div className="min-h-screen bg-pure-white">
       <main>

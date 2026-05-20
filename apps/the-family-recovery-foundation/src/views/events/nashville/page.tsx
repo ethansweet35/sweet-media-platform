@@ -1,15 +1,8 @@
-'use client';
-
-import { useEffect } from "react";
 import NashvilleHeroSection from "./components/NashvilleHeroSection";
 import NashvilleDetailsSection from "./components/NashvilleDetailsSection";
 import NashvilleSponsorshipsSection from "./components/NashvilleSponsorshipsSection";
 
 export default function NashvilleGalaPage() {
-  useEffect(() => {
-    document.title = "Nashville Gala | The Family Recovery Foundation";
-  }, []);
-
   return (
     <div className="min-h-screen bg-soft-white">
       <main>

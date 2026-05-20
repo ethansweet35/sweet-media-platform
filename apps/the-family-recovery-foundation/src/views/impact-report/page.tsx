@@ -1,6 +1,3 @@
-'use client';
-
-import { useEffect } from "react";
 import ImpactHeroSection from "./components/ImpactHeroSection";
 import ImpactHeadlineSection from "./components/ImpactHeadlineSection";
 import ImpactStatsSection from "./components/ImpactStatsSection";
@@ -8,10 +5,6 @@ import ImpactGallerySection from "./components/ImpactGallerySection";
 import AdditionalInsightsSection from "./components/AdditionalInsightsSection";
 
 export default function ImpactReport() {
-  useEffect(() => {
-    document.title = "2025 Impact Report | The Family Recovery Foundation";
-  }, []);
-
   return (
     <div className="min-h-screen bg-pure-white">
       <main>

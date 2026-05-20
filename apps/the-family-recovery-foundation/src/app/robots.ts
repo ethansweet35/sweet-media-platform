@@ -8,17 +8,6 @@ export default function robots(): MetadataRoute.Robots {
       {
         userAgent: "*",
         disallow: ["/admin/", "/api/"],
-        allow: [
-          "/",
-          "/about",
-          "/what-we-treat",
-          "/virtual-outpatient",
-          "/therapy",
-          "/admissions",
-          "/contact",
-          "/resources",
-          "/locations",
-        ],
       },
     ],
     sitemap: `${SITE_URL}/sitemap.xml`,
