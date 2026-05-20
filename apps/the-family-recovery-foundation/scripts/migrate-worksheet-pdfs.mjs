@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 /**
  * Exports worksheet Google Docs (from live Squarespace) as PDFs and uploads to Supabase.
+ * For modules + worksheets, prefer: node scripts/migrate-family-documents.mjs
  *
  * Usage:
  *   node scripts/migrate-worksheet-pdfs.mjs

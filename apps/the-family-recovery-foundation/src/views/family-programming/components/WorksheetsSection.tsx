@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useRef, useState } from "react";
+import DownloadLink from "@/components/marketing/DownloadLink";
 import { worksheets } from "@/mocks/family-programming";
 
 export default function WorksheetsSection() {
@@ -41,16 +42,10 @@ export default function WorksheetsSection() {
               <p className="text-[14px] md:text-[15px] font-body text-slate mb-6">
                 {worksheet.title}
               </p>
-              <a
+              <DownloadLink
                 href={worksheet.downloadUrl}
-                download={worksheet.downloadFilename}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 px-6 py-2.5 rounded-lg bg-tfrf-blue text-pure-white font-body font-medium text-[13px] hover:bg-deep-navy transition-colors"
-              >
-                <i className="ri-download-line w-4 h-4 flex items-center justify-center" />
-                Download Now
-              </a>
+                filename={worksheet.downloadFilename}
+              />
             </div>
           ))}
         </div>

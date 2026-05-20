@@ -1,14 +1,15 @@
 'use client';
 
 import { useEffect, useRef, useState } from "react";
-import { familyModules } from "@/mocks/family-programming";
+import DownloadLink from "@/components/marketing/DownloadLink";
+import { familyModules, type FamilyModule } from "@/mocks/family-programming";
 
 function ModuleCard({
   module,
   index,
   visible,
 }: {
-  module: (typeof familyModules)[0];
+  module: FamilyModule;
   index: number;
   visible: boolean;
 }) {
@@ -35,9 +36,11 @@ function ModuleCard({
       <h3 className="text-[15px] md:text-[16px] font-body font-semibold text-deep-navy leading-snug flex-1 mb-5">
         {module.title}
       </h3>
-      <button className="w-full py-2.5 rounded-lg bg-tfrf-blue text-pure-white font-body font-medium text-[13px] hover:bg-deep-navy transition-colors cursor-pointer">
-        Download Now
-      </button>
+      <DownloadLink
+        href={module.downloadUrl}
+        filename={module.downloadFilename}
+        className="w-full"
+      />
     </div>
   );
 }

@@ -15,6 +15,7 @@
     "migrate:images:squarespace": "node scripts/migrate-squarespace-images-to-supabase.mjs --crawl",
     "migrate:blogs:squarespace": "node scripts/migrate-squarespace-blogs.mjs",
     "migrate:worksheets": "node scripts/migrate-worksheet-pdfs.mjs",
+    "migrate:documents": "node scripts/migrate-family-documents.mjs",
     "upload:home-about-video": "node scripts/upload-home-about-video.mjs /tmp/tfrf_home_about_video_compressed.mp4"
   },
   "dependencies": {

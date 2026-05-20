@@ -1,4 +1,5 @@
 import Link from "next/link";
+import DownloadLink from "@/components/marketing/DownloadLink";
 import MarketingPageHero, { MarketingCtaLink } from "@/components/marketing/MarketingPageHero";
 import { worksheets } from "@/mocks/family-programming";
 
@@ -25,16 +26,11 @@ export default function WorksheetsPage() {
                   Worksheet {worksheet.number}
                 </h2>
                 <p className="text-[15px] font-body text-slate mb-6">{worksheet.title}</p>
-                <a
+                <DownloadLink
                   href={worksheet.downloadUrl}
-                  download={worksheet.downloadFilename}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 rounded-lg bg-tfrf-blue px-6 py-2.5 text-[13px] font-body font-semibold text-pure-white hover:bg-deep-navy transition-colors"
-                >
-                  <i className="ri-download-line" />
-                  Download Now
-                </a>
+                  filename={worksheet.downloadFilename}
+                  className="font-semibold"
+                />
               </article>
             ))}
           </div>

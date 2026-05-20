@@ -57,20 +57,110 @@ export const programsList = [
   },
 ];
 
+const TFRF_DOCUMENTS_BASE =
+  "https://jkiafgbizwufsycqlfyr.supabase.co/storage/v1/object/public/site-assets/documents";
+
 export const familyModules = [
-  { id: "module-1", number: 1, title: "Definition of Addiction", hasVideo: false },
-  { id: "module-2", number: 2, title: "Our Central Nervous System", hasVideo: false },
-  { id: "module-3", number: 3, title: "Codependency I: Characteristics and Strategies", hasVideo: true },
-  { id: "module-4", number: 4, title: "Codependency II: Manipulation and Enabling", hasVideo: false },
-  { id: "module-5", number: 5, title: "Codependency III: The Neuroscience", hasVideo: false },
-  { id: "module-6", number: 6, title: "Communication Skills: Difficult Conversations", hasVideo: false },
-  { id: "module-7", number: 7, title: "Boundaries: Who I am and Who I am Not", hasVideo: false },
-  { id: "module-8", number: 8, title: "The Language of Connective Boundaries", hasVideo: false },
-  { id: "module-9", number: 9, title: "Understanding and Navigating Gaslighting", hasVideo: false },
-  { id: "module-10", number: 10, title: "I am coming home: Navigating the Transition When Your Loved One Comes Home from Treatment", hasVideo: false },
-  { id: "module-11", number: 11, title: "When the Addict Hits THE WALL", hasVideo: false },
-  { id: "module-12", number: 12, title: "Just For Today", hasVideo: false },
+  {
+    id: "module-1",
+    number: 1,
+    title: "Definition of Addiction",
+    hasVideo: false,
+    downloadUrl: `${TFRF_DOCUMENTS_BASE}/tfrf_module_01_definition-of-addiction.pdf`,
+    downloadFilename: "TFRF-Module-01-Definition-of-Addiction.pdf",
+  },
+  {
+    id: "module-2",
+    number: 2,
+    title: "Our Central Nervous System",
+    hasVideo: false,
+    downloadUrl: `${TFRF_DOCUMENTS_BASE}/tfrf_module_02_central-nervous-system.pdf`,
+    downloadFilename: "TFRF-Module-02-Central-Nervous-System.pdf",
+  },
+  {
+    id: "module-3",
+    number: 3,
+    title: "Codependency I: Characteristics and Strategies",
+    hasVideo: true,
+    downloadUrl: `${TFRF_DOCUMENTS_BASE}/tfrf_module_03_codependency-i.pdf`,
+    downloadFilename: "TFRF-Module-03-Codependency-I.pdf",
+  },
+  {
+    id: "module-4",
+    number: 4,
+    title: "Codependency II: Manipulation and Enabling",
+    hasVideo: false,
+    downloadUrl: `${TFRF_DOCUMENTS_BASE}/tfrf_module_04_codependency-ii.pdf`,
+    downloadFilename: "TFRF-Module-04-Codependency-II.pdf",
+  },
+  {
+    id: "module-5",
+    number: 5,
+    title: "Codependency III: The Neuroscience",
+    hasVideo: false,
+    downloadUrl: `${TFRF_DOCUMENTS_BASE}/tfrf_module_05_codependency-iii.pdf`,
+    downloadFilename: "TFRF-Module-05-Codependency-III.pdf",
+  },
+  {
+    id: "module-6",
+    number: 6,
+    title: "Communication Skills: Difficult Conversations",
+    hasVideo: false,
+    downloadUrl: `${TFRF_DOCUMENTS_BASE}/tfrf_module_06_communication-skills.pdf`,
+    downloadFilename: "TFRF-Module-06-Communication-Skills.pdf",
+  },
+  {
+    id: "module-7",
+    number: 7,
+    title: "Boundaries: Who I am and Who I am Not",
+    hasVideo: false,
+    downloadUrl: `${TFRF_DOCUMENTS_BASE}/tfrf_module_07_boundaries.pdf`,
+    downloadFilename: "TFRF-Module-07-Boundaries.pdf",
+  },
+  {
+    id: "module-8",
+    number: 8,
+    title: "The Language of Connective Boundaries",
+    hasVideo: false,
+    downloadUrl: `${TFRF_DOCUMENTS_BASE}/tfrf_module_08_connective-boundaries.pdf`,
+    downloadFilename: "TFRF-Module-08-Connective-Boundaries.pdf",
+  },
+  {
+    id: "module-9",
+    number: 9,
+    title: "Understanding and Navigating Gaslighting",
+    hasVideo: false,
+    downloadUrl: `${TFRF_DOCUMENTS_BASE}/tfrf_module_09_gaslighting.pdf`,
+    downloadFilename: "TFRF-Module-09-Gaslighting.pdf",
+  },
+  {
+    id: "module-10",
+    number: 10,
+    title:
+      "I am coming home: Navigating the Transition When Your Loved One Comes Home from Treatment",
+    hasVideo: false,
+    downloadUrl: `${TFRF_DOCUMENTS_BASE}/tfrf_module_10-coming-home.pdf`,
+    downloadFilename: "TFRF-Module-10-Coming-Home.pdf",
+  },
+  {
+    id: "module-11",
+    number: 11,
+    title: "When the Addict Hits THE WALL",
+    hasVideo: false,
+    downloadUrl: `${TFRF_DOCUMENTS_BASE}/tfrf_module_11_the-wall.pdf`,
+    downloadFilename: "TFRF-Module-11-The-Wall.pdf",
+  },
+  {
+    id: "module-12",
+    number: 12,
+    title: "Just For Today",
+    hasVideo: false,
+    downloadUrl: `${TFRF_DOCUMENTS_BASE}/tfrf_module_12_just-for-today.pdf`,
+    downloadFilename: "TFRF-Module-12-Just-For-Today.pdf",
+  },
 ];
+
+export type FamilyModule = (typeof familyModules)[number];
 
 export const worksheets = [
   {
