@@ -166,7 +166,7 @@ export default function ServiceAreaTemplate({ data }: { data: ServiceAreaData })
           }}
         />
 
-        <div className="relative z-10 mx-auto w-full max-w-[1300px] px-6 lg:px-10 pb-20 pt-40">
+        <div className="relative z-10 mx-auto w-full max-w-[1300px] px-[30px] lg:px-6 pb-20 pt-40">
           <div className="flex items-center gap-2 mb-6">
             <Link href="/" className="text-[10px] font-medium uppercase tracking-[0.25em] text-white/40 hover:text-accent transition-colors">
               Home
@@ -327,7 +327,7 @@ export default function ServiceAreaTemplate({ data }: { data: ServiceAreaData })
         <div className="pointer-events-none absolute -right-40 -top-40 h-[500px] w-[500px] rounded-full bg-accent/5" />
         <div className="pointer-events-none absolute -left-24 bottom-0 h-80 w-80 rounded-full bg-accent/5" />
 
-        <div className="relative mx-auto w-full max-w-[1300px] px-6 lg:px-10">
+        <div className="relative mx-auto w-full max-w-[1300px] px-[30px] lg:px-6">
           <div className="mb-12 text-center max-w-xl mx-auto">
             <Eyebrow colorClass="text-accent">Conditions We Treat</Eyebrow>
             <h2

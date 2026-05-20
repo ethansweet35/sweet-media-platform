@@ -132,7 +132,7 @@ export default function EAPPage() {
           }}
         />
 
-        <div className="relative z-10 mx-auto w-full max-w-[1300px] px-6 lg:px-10 pb-20 pt-32">
+        <div className="relative z-10 mx-auto w-full max-w-[1300px] px-[30px] lg:px-6 pb-20 pt-32">
           <div className="flex items-center gap-2 mb-6">
             <Link href="/" className="text-[10px] font-medium uppercase tracking-[0.25em] text-white/40 hover:text-accent transition-colors">
               Home
@@ -238,7 +238,7 @@ export default function EAPPage() {
         <div className="pointer-events-none absolute -right-40 -top-40 h-[500px] w-[500px] rounded-full bg-accent/5" />
         <div className="pointer-events-none absolute -left-24 bottom-0 h-80 w-80 rounded-full bg-accent/5" />
 
-        <div className="relative mx-auto w-full max-w-[1300px] px-6 lg:px-10">
+        <div className="relative mx-auto w-full max-w-[1300px] px-[30px] lg:px-6">
           <div className="mb-14 text-center max-w-xl mx-auto">
             <Eyebrow colorClass="text-accent">The Process</Eyebrow>
             <h2
@@ -477,7 +477,7 @@ export default function EAPPage() {
         <div className="pointer-events-none absolute -left-32 -top-32 h-96 w-96 rounded-full bg-accent/8" />
         <div className="pointer-events-none absolute -right-20 -bottom-20 h-64 w-64 rounded-full bg-accent/6" />
 
-        <div className="relative mx-auto w-full max-w-[1300px] px-6 lg:px-10 text-center">
+        <div className="relative mx-auto w-full max-w-[1300px] px-[30px] lg:px-6 text-center">
           <Eyebrow colorClass="text-accent">Your EAP Benefit Is Waiting</Eyebrow>
           <h2
             className="font-[family-name:var(--font-display)] font-normal text-white mt-4 mx-auto"

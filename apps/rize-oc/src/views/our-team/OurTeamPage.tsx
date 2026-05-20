@@ -233,7 +233,7 @@ export default function OurTeamPage() {
         <div className="pointer-events-none absolute -right-40 -top-40 h-[500px] w-[500px] rounded-full bg-accent/5" />
         <div className="pointer-events-none absolute -left-24 bottom-0 h-80 w-80 rounded-full bg-accent/5" />
 
-        <div className="relative mx-auto w-full max-w-[1300px] px-6 lg:px-10">
+        <div className="relative mx-auto w-full max-w-[1300px] px-[30px] lg:px-6">
           <div className="flex items-center gap-2 mb-8">
             <Link href="/" className="text-[10px] font-medium uppercase tracking-[0.25em] text-white/40 hover:text-accent transition-colors">Home</Link>
             <span className="text-white/25 text-xs">/</span>

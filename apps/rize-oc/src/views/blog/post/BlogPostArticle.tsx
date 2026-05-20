@@ -30,7 +30,7 @@ export default function BlogPostArticle({
 
   return (
     <section className="w-full bg-cream">
-      <div className="mx-auto w-full max-w-[1300px] px-6 lg:px-10 py-16 lg:py-20">
+      <div className="mx-auto w-full max-w-[1300px] px-[30px] lg:px-6 py-16 lg:py-20">
         <div className="flex gap-8 lg:gap-12">
 
           {/* Share sidebar */}

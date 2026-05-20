@@ -1,4 +1,5 @@
 import { cn } from "@/lib/cn";
+import { PAGE_GRID } from "@/components/ui/PageHeroShell";
 
 interface SectionWrapperProps {
   children: React.ReactNode;
@@ -17,7 +18,7 @@ interface SectionWrapperProps {
  */
 export default function SectionWrapper({ children, className, py = "py-[75px] lg:py-section", bg }: SectionWrapperProps) {
   return (
-    <div className={cn("mx-auto max-w-[1300px] w-full px-[30px] lg:px-6", py, bg, className)}>
+    <div className={cn(PAGE_GRID, py, bg, className)}>
       {children}
     </div>
   );

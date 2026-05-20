@@ -273,7 +273,7 @@ export default function InPersonSchedulePage() {
         <div className="pointer-events-none absolute -right-40 -top-40 h-[500px] w-[500px] rounded-full bg-accent/5" />
         <div className="pointer-events-none absolute -left-20 bottom-0 h-64 w-64 rounded-full bg-accent/5" />
 
-        <div className="relative mx-auto w-full max-w-[1300px] px-6 lg:px-10">
+        <div className="relative mx-auto w-full max-w-[1300px] px-[30px] lg:px-6">
           <div className="max-w-[640px]">
             <div className="flex items-center gap-2 mb-6">
               <Link
@@ -443,7 +443,7 @@ export default function InPersonSchedulePage() {
         <div className="pointer-events-none absolute -left-32 -top-32 h-96 w-96 rounded-full bg-accent/8" />
         <div className="pointer-events-none absolute -right-20 -bottom-20 h-64 w-64 rounded-full bg-accent/6" />
 
-        <div className="relative mx-auto w-full max-w-[1300px] px-6 lg:px-10 text-center">
+        <div className="relative mx-auto w-full max-w-[1300px] px-[30px] lg:px-6 text-center">
           <Eyebrow colorClass="text-accent">Ready to Join?</Eyebrow>
           <h2
             className="font-[family-name:var(--font-display)] font-normal text-white mt-4 mx-auto"

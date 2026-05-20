@@ -191,7 +191,7 @@ export default function PhpPage() {
 
         {/* Main content — vertically centered */}
         <div className="relative z-10 flex-1 flex items-center">
-          <div className="mx-auto w-full max-w-[1300px] px-6 lg:px-10 py-28">
+          <div className="mx-auto w-full max-w-[1300px] px-[30px] lg:px-6 py-28">
             <Eyebrow colorClass="text-accent" className="mb-6">Levels of Care — Step 2</Eyebrow>
             <h1
               className="font-[family-name:var(--font-display)] font-normal text-white max-w-[760px]"

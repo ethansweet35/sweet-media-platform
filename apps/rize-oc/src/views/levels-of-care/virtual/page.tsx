@@ -6,6 +6,7 @@ import SectionHeader from "@/components/ui/SectionHeader";
 import IconCircle from "@/components/ui/IconCircle";
 import Button from "@/components/ui/Button";
 import FaqAccordion, { type FaqItem } from "@/components/ui/FaqAccordion";
+import PageHeroShell from "@/components/ui/PageHeroShell";
 import { AutoLinkedText } from "@sweetmedia/blog-core";
 
 const BASE = "https://nfjlvkxrbzytjefmcvhg.supabase.co/storage/v1/object/public/site-assets/images";
@@ -148,12 +149,24 @@ export default function VirtualPage() {
           style={{ background: "linear-gradient(to top, rgba(44,48,46,1) 0%, rgba(44,48,46,0.92) 30%, rgba(44,48,46,0.65) 55%, rgba(44,48,46,0.2) 100%)" }}
         />
 
-        <div className="relative z-10 w-full">
-          <div className="absolute bottom-full mb-8 left-0 w-full px-6 lg:px-12 xl:px-20">
-            <Eyebrow colorClass="text-accent">Levels of Care — Virtual Option</Eyebrow>
-          </div>
-
-          <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-8 px-6 lg:px-12 xl:px-20 pb-16 pt-0">
+        <PageHeroShell
+          topSlot={<Eyebrow colorClass="text-accent">Levels of Care — Virtual Option</Eyebrow>}
+          bottomBar={
+            <div className="grid grid-cols-2 lg:grid-cols-4 border-t border-white/10">
+              {[
+                { value: "HIPAA",  label: "Compliant Platform" },
+                { value: "CA",     label: "State Licensed" },
+                { value: "IOP+OP", label: "Levels Offered" },
+                { value: "Any",    label: "Device Supported" },
+              ].map(({ value, label }) => (
+                <div key={label} className="px-8 py-5 border-r border-white/10 last:border-r-0 bg-ink/50 backdrop-blur-sm">
+                  <p className="font-[family-name:var(--font-display)] text-[28px] font-normal text-white leading-none"><AutoLinkedText>{value}</AutoLinkedText></p>
+                  <p className="text-[10px] font-medium uppercase tracking-[0.22em] text-white/50 mt-1.5"><AutoLinkedText>{label}</AutoLinkedText></p>
+                </div>
+              ))}
+            </div>
+          }
+        >
             <div className="flex-1 max-w-3xl">
               <h1
                 className="font-[family-name:var(--font-display)] font-normal text-white"
@@ -187,22 +200,7 @@ export default function VirtualPage() {
                 ))}
               </div>
             </div>
-          </div>
-
-          <div className="grid grid-cols-2 lg:grid-cols-4 border-t border-white/10">
-            {[
-              { value: "HIPAA",  label: "Compliant Platform" },
-              { value: "CA",     label: "State Licensed" },
-              { value: "IOP+OP", label: "Levels Offered" },
-              { value: "Any",    label: "Device Supported" },
-            ].map(({ value, label }) => (
-              <div key={label} className="px-8 py-5 border-r border-white/10 last:border-r-0 bg-ink/50 backdrop-blur-sm">
-                <p className="font-[family-name:var(--font-display)] text-[28px] font-normal text-white leading-none"><AutoLinkedText>{value}</AutoLinkedText></p>
-                <p className="text-[10px] font-medium uppercase tracking-[0.22em] text-white/50 mt-1.5"><AutoLinkedText>{label}</AutoLinkedText></p>
-              </div>
-            ))}
-          </div>
-        </div>
+        </PageHeroShell>
       </section>
 
       {/* ②  What Is Virtual Care? ────────────────────────────────────────── */}

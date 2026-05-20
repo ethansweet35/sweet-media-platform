@@ -71,7 +71,7 @@ export default function MHConditionPage({ data }: { data: MHConditionData }) {
           }}
         />
 
-        <div className="relative z-10 mx-auto w-full max-w-[1300px] px-6 lg:px-10 py-20 lg:py-0 grid lg:grid-cols-[1fr_400px] gap-10 xl:gap-16 items-center min-h-[92vh]">
+        <div className="relative z-10 mx-auto w-full max-w-[1300px] px-[30px] lg:px-6 py-20 lg:py-0 grid lg:grid-cols-[1fr_400px] gap-10 xl:gap-16 items-center min-h-[92vh]">
 
           {/* Left — text */}
           <div className="flex flex-col justify-center">

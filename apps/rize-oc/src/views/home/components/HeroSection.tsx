@@ -24,7 +24,7 @@ export default function HeroSection() {
       {/* Dark gradient overlay for readability */}
       <div className="absolute inset-0 bg-gradient-to-r from-ink/95 via-ink/80 to-ink/20" />
 
-      <div className="relative mx-auto max-w-[1300px] w-full px-6 py-section grid lg:grid-cols-[1fr_460px] items-center gap-8 lg:gap-12">
+      <div className="relative mx-auto max-w-[1300px] w-full px-[30px] lg:px-6 py-section grid lg:grid-cols-[1fr_460px] items-center gap-8 lg:gap-12">
         
         {/* Left — content */}
         <div className="relative flex flex-col justify-center">

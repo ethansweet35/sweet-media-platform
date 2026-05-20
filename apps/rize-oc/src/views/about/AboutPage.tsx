@@ -126,7 +126,7 @@ export default function AboutPage() {
         />
 
         {/* Content — bottom-anchored editorial layout */}
-        <div className="relative z-10 mx-auto w-full max-w-[1300px] px-6 lg:px-10 pb-20 pt-32">
+        <div className="relative z-10 mx-auto w-full max-w-[1300px] px-[30px] lg:px-6 pb-20 pt-32">
           <div className="max-w-[760px]">
             <Eyebrow colorClass="text-accent">About Rize Recovery</Eyebrow>
             <h1
@@ -241,7 +241,7 @@ export default function AboutPage() {
         <div className="pointer-events-none absolute -right-40 -top-40 h-[500px] w-[500px] rounded-full bg-accent/5" />
         <div className="pointer-events-none absolute -left-24 bottom-0 h-80 w-80 rounded-full bg-accent/5" />
 
-        <div className="relative mx-auto w-full max-w-[1300px] px-6 lg:px-10">
+        <div className="relative mx-auto w-full max-w-[1300px] px-[30px] lg:px-6">
           <div className="mb-16 text-center max-w-2xl mx-auto">
             <Eyebrow colorClass="text-accent">Our Philosophy</Eyebrow>
             <h2
@@ -341,7 +341,7 @@ export default function AboutPage() {
       <section className="relative bg-ink overflow-hidden py-[100px]">
         <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_80%_20%,rgba(196,137,90,0.07)_0%,transparent_60%)]" />
 
-        <div className="relative mx-auto w-full max-w-[1300px] px-6 lg:px-10">
+        <div className="relative mx-auto w-full max-w-[1300px] px-[30px] lg:px-6">
           <div className="grid lg:grid-cols-[1fr_1fr] gap-16 xl:gap-24 items-center">
 
             {/* Left — narrative intro */}
@@ -397,7 +397,7 @@ export default function AboutPage() {
         <div className="pointer-events-none absolute -left-32 -top-32 h-96 w-96 rounded-full bg-accent/8" />
         <div className="pointer-events-none absolute -right-20 -bottom-20 h-64 w-64 rounded-full bg-accent/6" />
 
-        <div className="relative mx-auto w-full max-w-[1300px] px-6 lg:px-10 text-center">
+        <div className="relative mx-auto w-full max-w-[1300px] px-[30px] lg:px-6 text-center">
           <Eyebrow colorClass="text-accent">Take the First Step</Eyebrow>
           <h2
             className="font-[family-name:var(--font-display)] font-normal text-white mt-4 mx-auto"

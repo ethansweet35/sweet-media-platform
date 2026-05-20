@@ -114,7 +114,7 @@ export default function ServiceAreasHubPage() {
           }}
         />
 
-        <div className="relative z-10 mx-auto w-full max-w-[1300px] px-6 lg:px-10 pb-20 pt-40">
+        <div className="relative z-10 mx-auto w-full max-w-[1300px] px-[30px] lg:px-6 pb-20 pt-40">
           <div className="flex items-center gap-2 mb-6">
             <Link href="/" className="text-[10px] font-medium uppercase tracking-[0.25em] text-white/40 hover:text-accent transition-colors">
               Home
