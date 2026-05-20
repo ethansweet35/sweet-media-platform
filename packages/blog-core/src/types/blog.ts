@@ -1,3 +1,5 @@
+import { looksLikeMarkdown, markdownToSections } from "../lib/markdownToSections";
+
 export interface BlogSection {
   type: "paragraph" | "h2" | "h3" | "pullquote" | "callout" | "list" | "numbered" | "stat-row" | "divider" | "table" | "image";
   text?: string;
@@ -81,111 +83,35 @@ export const categories = [
   "Strategy",
 ];
 
-/**
- * Detect whether a string is raw markdown (contains markdown table syntax,
- * headings, list markers, etc.) rather than JSON-serialised BlogSection[].
- */
-function looksLikeMarkdown(content: string): boolean {
-  return (
-    content.includes("| ") ||
-    /^#{1,3} /m.test(content) ||
-    /^[-*] /m.test(content) ||
-    /^\d+\. /m.test(content) ||
-    /^> /m.test(content)
-  );
-}
-
-/**
- * Convert plain-text / light-markdown content into BlogSection[].
- * Used as a fallback when the DB content field is not JSON-serialized sections.
- */
-function plainTextToSections(text: string): BlogSection[] {
-  const sections: BlogSection[] = [];
-  const lines = text.split("\n");
-  let pendingParagraph = "";
-  let currentList: string[] = [];
-  let listType: "list" | "numbered" | null = null;
-
-  const flushParagraph = () => {
-    const t = pendingParagraph.trim();
-    if (t) sections.push({ type: "paragraph", text: t });
-    pendingParagraph = "";
-  };
-  const flushList = () => {
-    if (currentList.length > 0) {
-      sections.push({ type: listType === "numbered" ? "numbered" : "list", items: [...currentList] });
-      currentList = [];
-      listType = null;
-    }
-  };
-
-  for (const line of lines) {
-    const trimmed = line.trim();
-
-    if (!trimmed) {
-      flushParagraph();
-      flushList();
-      continue;
-    }
-    if (trimmed.startsWith("## ")) {
-      flushParagraph(); flushList();
-      sections.push({ type: "h2", text: trimmed.slice(3) });
-      continue;
-    }
-    if (trimmed.startsWith("### ")) {
-      flushParagraph(); flushList();
-      sections.push({ type: "h3", text: trimmed.slice(4) });
-      continue;
-    }
-    if (trimmed.startsWith("# ")) {
-      flushParagraph(); flushList();
-      // Skip top-level title — it's already the post title
-      continue;
-    }
-    if (trimmed.startsWith("- ") || trimmed.startsWith("* ")) {
-      flushParagraph();
-      if (listType && listType !== "list") flushList();
-      listType = "list";
-      currentList.push(trimmed.replace(/^[-*]\s+/, ""));
-      continue;
-    }
-    if (/^\d+\.\s+/.test(trimmed)) {
-      flushParagraph();
-      if (listType && listType !== "numbered") flushList();
-      listType = "numbered";
-      currentList.push(trimmed.replace(/^\d+\.\s+/, ""));
-      continue;
-    }
-    // Regular text — accumulate into paragraph
-    flushList();
-    pendingParagraph += (pendingParagraph ? " " : "") + trimmed;
-  }
-
-  flushParagraph();
-  flushList();
-  return sections;
-}
-
 export function dbToBlogPost(db: DbBlogPost): BlogPost {
   let parsedContent: BlogSection[] = [];
 
   try {
     let raw: unknown = db.content;
-    // Strip surrounding quotes if content is double-encoded JSON.
     if (typeof raw === "string" && raw.startsWith("\"")) {
       raw = JSON.parse(raw);
     }
     const parsed = typeof raw === "string" ? JSON.parse(raw) : raw;
     if (Array.isArray(parsed)) {
       parsedContent = parsed as BlogSection[];
+    } else if (typeof parsed === "string" && parsed.trim()) {
+      parsedContent = markdownToSections(parsed);
     }
   } catch {
-    // JSON parse failed — content is likely plain text or markdown
+    // JSON parse failed — content is likely markdown
   }
 
-  // Fallback: if we got no structured sections, convert plain text → sections
   if (parsedContent.length === 0 && typeof db.content === "string" && db.content.trim()) {
-    parsedContent = plainTextToSections(db.content);
+    const raw = db.content.trim();
+    parsedContent = markdownToSections(raw);
+  } else if (
+    parsedContent.length > 0 &&
+    parsedContent.every((s) => s.type === "paragraph") &&
+    typeof db.content === "string" &&
+    looksLikeMarkdown(db.content)
+  ) {
+    // Legacy weak plain-text parse stored as single paragraphs — re-parse as markdown
+    parsedContent = markdownToSections(db.content);
   }
 
   const dateObj = db.published_at ? new Date(db.published_at) : new Date(db.created_at);

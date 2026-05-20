@@ -1,4 +1,4 @@
-#!/usr/bin/env node
+#!/usr/bin/env npx tsx
 /**
  * Migrates Squarespace lrsf-blogs posts into Supabase blog_posts.
  *
@@ -11,6 +11,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { createRequire } from "node:module";
 import dotenv from "dotenv";
+import { markdownToSections } from "@sweetmedia/blog-core";
 
 const __dirname = path.dirname(new URL(import.meta.url).pathname);
 const projectRoot = path.resolve(__dirname, "..");
@@ -251,7 +252,7 @@ async function main() {
         title,
         slug,
         excerpt: excerpt || null,
-        content: markdown,
+        content: JSON.stringify(markdownToSections(markdown)),
         status: "published",
         category: "Family Recovery",
         author: "The Family Recovery Foundation",

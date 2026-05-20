@@ -1,4 +1,5 @@
 import type { BlogSection } from "@sweetmedia/blog-core";
+import { stripInlineMarkdown } from "@sweetmedia/blog-core";
 import { parseInlineLinks, type InlineSegment } from "@/lib/markdownToBlog";
 import { autoLinkText, type LinkSegment, type AutoLinkMapping } from "@sweetmedia/blog-core";
 import Image from "next/image";
@@ -51,8 +52,7 @@ function InlineText({
   usedHrefs: Set<string>;
   enableAutoLink?: boolean;
 }) {
-  // First, parse explicit markdown links
-  const inlineSegments: InlineSegment[] = parseInlineLinks(text);
+  const inlineSegments: InlineSegment[] = parseInlineLinks(stripInlineMarkdown(text));
 
   return (
     <>
