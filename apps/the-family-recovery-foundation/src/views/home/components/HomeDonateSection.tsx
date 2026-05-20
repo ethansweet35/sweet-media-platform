@@ -3,7 +3,7 @@ import { SITE_IMAGES } from "@/lib/site-images";
 
 export default function HomeDonateSection() {
   return (
-    <section id="donate" className="relative overflow-hidden bg-pure-white">
+    <section id="donate" className="relative bg-pure-white">
       <div className="absolute inset-0 pointer-events-none">
         <img
           src={SITE_IMAGES.lifeLinesGreyBannerPng}
@@ -34,8 +34,8 @@ export default function HomeDonateSection() {
           </div>
 
           <div className="lg:col-span-7 flex justify-center lg:justify-end">
-            <div className="w-full max-w-[500px] rounded-xl border border-mist/80 bg-pure-white p-4 md:p-5 shadow-sm">
-              <DonorboxEmbed className="flex justify-center" />
+            <div className="w-full max-w-[500px] min-h-[400px] rounded-xl border border-mist/80 bg-pure-white p-4 md:p-5 shadow-sm overflow-visible">
+              <DonorboxEmbed />
             </div>
           </div>
         </div>
