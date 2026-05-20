@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { AutoLinkedText } from "@sweetmedia/blog-core";
+import { heroContentPad, heroPageHeroSection } from "@/lib/heroSpacing";
 
 export type Breadcrumb = { label: string; href?: string };
 
@@ -37,7 +38,7 @@ export default function PageHero({
     : [headline];
 
   return (
-    <section className="relative flex min-h-[min(440px,calc(100dvh-10rem))] items-start overflow-hidden lg:max-h-[600px] lg:items-center">
+    <section className={heroPageHeroSection}>
       {/* Background image */}
       <Image
         src={image}
@@ -54,7 +55,7 @@ export default function PageHero({
       {/* Terracotta glow accent */}
       <div className="pointer-events-none absolute -left-20 top-1/2 h-72 w-72 -translate-y-1/2 rounded-full bg-terracotta/20 blur-3xl" />
 
-      <div className="relative z-10 mx-auto w-full max-w-7xl px-6 py-10 lg:px-10 lg:py-14">
+      <div className={`relative z-10 mx-auto w-full max-w-7xl ${heroContentPad}`}>
         {/* Breadcrumbs */}
         {breadcrumbs && breadcrumbs.length > 0 && (
           <nav className="mb-6 flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.1em] text-white/50">

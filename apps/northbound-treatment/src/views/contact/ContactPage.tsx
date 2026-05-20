@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { heroSolidSection } from "@/lib/heroSpacing";
 import CtmLeadFormCard from "@/components/feature/CtmLeadFormCard";
 import CtaBanner from "@/views/shared/CtaBanner";
 import { AutoLinkedTextClient } from "@sweetmedia/blog-core";
@@ -41,7 +42,7 @@ export default function ContactPage() {
   return (
     <>
       {/* ── Hero ──────────────────────────────────────────────────── */}
-      <section className="relative overflow-hidden bg-navy py-20 lg:py-24">
+      <section className={`relative overflow-hidden bg-navy ${heroSolidSection}`}>
         <div className="pointer-events-none absolute -right-24 -top-24 h-80 w-80 rounded-full bg-navy-light/40" />
         <div className="pointer-events-none absolute -bottom-16 -left-16 h-64 w-64 rounded-full bg-terracotta/10" />
 

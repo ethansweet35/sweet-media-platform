@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { heroViewportSection } from "@/lib/heroSpacing";
+import { heroInnerWrap, heroViewportSection } from "@/lib/heroSpacing";
 import Link from "next/link";
 import { useState } from "react";
 import CtmLeadFormCard from "@/components/feature/CtmLeadFormCard";
@@ -95,7 +95,7 @@ function TreatmentHero({ data }: { data: TreatmentPageData }) {
       <div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-navy/70 to-transparent" />
       <div className="pointer-events-none absolute -left-20 top-1/3 h-96 w-96 rounded-full bg-terracotta/15 blur-3xl" />
 
-      <div className="relative z-10 mx-auto w-full max-w-7xl px-6 lg:px-12">
+      <div className={heroInnerWrap}>
         <div className="grid items-center gap-12 lg:grid-cols-2 lg:gap-16">
 
           {/* Left: copy */}

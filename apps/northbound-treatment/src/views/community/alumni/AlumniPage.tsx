@@ -3,6 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
+import { heroContentPad, heroLocationSection } from "@/lib/heroSpacing";
 import CtaBanner from "@/views/shared/CtaBanner";
 import { AutoLinkedTextClient } from "@sweetmedia/blog-core";
 
@@ -90,7 +91,7 @@ export default function AlumniPage() {
   return (
     <>
       {/* ── Hero ──────────────────────────────────────────────── */}
-      <section className="relative min-h-[min(520px,calc(100dvh-9rem))] max-h-[680px] overflow-hidden">
+      <section className={`${heroLocationSection} overflow-hidden`}>
         <Image
           src={HERO}
           alt="Northbound alumni celebrating together at an outdoor event in Southern California"
@@ -101,7 +102,7 @@ export default function AlumniPage() {
         <div className="absolute inset-0 bg-gradient-to-r from-navy/90 via-navy/70 to-transparent" />
         <div className="absolute inset-0 bg-gradient-to-t from-navy/60 via-transparent to-transparent" />
 
-        <div className={`${CONTAINER} relative z-10 flex min-h-full flex-col justify-center py-12 lg:py-16`}>
+        <div className={`relative z-10 mx-auto flex min-h-full w-full max-w-7xl flex-col justify-center ${heroContentPad}`}>
           <nav className="mb-6 flex items-center gap-2 text-xs font-semibold text-white/50">
             <Link href="/" className="hover:text-white transition">Home</Link>
             <span>/</span>

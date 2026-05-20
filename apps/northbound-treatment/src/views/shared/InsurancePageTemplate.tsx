@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 import CtmFormReactor from "@/components/feature/CtmFormReactor";
+import { heroSectionPad } from "@/lib/heroSpacing";
 import { AutoLinkedTextClient } from "@sweetmedia/blog-core";
 
 /* ─── Types ──────────────────────────────────────────────────────── */
@@ -110,7 +111,7 @@ export default function InsurancePageTemplate({ data }: { data: InsurancePageDat
             <div className="absolute inset-0 bg-gradient-to-r from-navy/85 via-navy/60 to-navy/40" />
             <div className="absolute inset-0 bg-gradient-to-t from-navy/70 via-transparent to-transparent" />
 
-            <div className="relative z-10 flex h-full flex-col justify-center px-8 py-10 lg:px-12 lg:py-14">
+            <div className={`relative z-10 flex h-full flex-col justify-center px-8 lg:px-12 ${heroSectionPad}`}>
               {/* Breadcrumb */}
               <nav className="mb-5 flex items-center gap-2 text-xs font-semibold text-white/40">
                 <Link href="/" className="hover:text-white transition">Home</Link>
@@ -154,7 +155,7 @@ export default function InsurancePageTemplate({ data }: { data: InsurancePageDat
           </div>
 
           {/* Right: verification form */}
-          <div className="flex flex-col justify-center bg-navy-light/80 px-8 py-8 lg:px-10 lg:py-10">
+          <div className={`flex flex-col justify-center bg-navy-light/80 px-8 lg:px-10 ${heroSectionPad}`}>
             <p className="brand-eyebrow mb-2 text-terracotta">Verify Insurance</p>
             <h2 className="font-heading mb-4 text-2xl font-bold text-white">
               Check Your {data.carrierName} Benefits

@@ -44,7 +44,7 @@ export default function OurHistoryPage() {
     <div className="min-h-screen bg-white">
 
       {/* Hero */}
-      <section className="bg-[#3a6697] py-24">
+      <section className="bg-[#3a6697] py-28 lg:py-32">
         <div className="mx-auto max-w-7xl px-6 lg:px-10">
           <p className="mb-4 text-xs font-semibold uppercase tracking-[0.2em] text-[#e97a52]">About Northbound</p>
           <h1 className="font-heading text-5xl font-bold text-white md:text-6xl">

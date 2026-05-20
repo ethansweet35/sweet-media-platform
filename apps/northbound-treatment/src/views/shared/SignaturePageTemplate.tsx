@@ -6,7 +6,7 @@
  * experience/feature grid → dark evidence strip → editorial split → related services → CTA.
  */
 import Image from "next/image";
-import { heroTopPad } from "@/lib/heroSpacing";
+import { heroBottomPad, heroCinematicSection, heroTopPad } from "@/lib/heroSpacing";
 import Link from "next/link";
 import CtaBanner from "@/views/shared/CtaBanner";
 import { AutoLinkedText } from "@sweetmedia/blog-core";
@@ -110,7 +110,7 @@ export default function SignaturePageTemplate({ data }: { data: SignaturePageDat
   return (
     <>
       {/* ══ 1. CINEMATIC HERO ══════════════════════════════════════════════ */}
-      <section className="relative flex min-h-[min(640px,calc(100dvh-7.5rem))] max-h-[780px] flex-col overflow-hidden">
+      <section className={heroCinematicSection}>
         <div className="absolute inset-0">
           <Image
             src={data.heroImage}
@@ -134,7 +134,7 @@ export default function SignaturePageTemplate({ data }: { data: SignaturePageDat
         </div>
 
         {/* Main content */}
-        <div className="relative z-10 flex flex-1 flex-col justify-end pb-14 lg:pb-20">
+        <div className={`relative z-10 flex flex-1 flex-col justify-end ${heroBottomPad}`}>
           <div className="mx-auto w-full max-w-7xl px-6 lg:px-10">
             <div className="max-w-3xl">
               <div className="mb-8 h-px w-16 bg-terracotta" />

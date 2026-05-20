@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { heroLocationSection, heroTopPad } from "@/lib/heroSpacing";
+import { heroContentPad, heroLocationSection } from "@/lib/heroSpacing";
 import Link from "next/link";
 import { useState } from "react";
 import CtaBanner from "@/views/shared/CtaBanner";
@@ -107,7 +107,7 @@ export default function SanDiegoPage() {
         />
         <div className="absolute inset-0 bg-gradient-to-t from-navy via-navy/35 to-transparent" />
 
-        <div className={`relative z-10 mx-auto w-full max-w-7xl px-6 pb-16 lg:px-10 ${heroTopPad}`}>
+        <div className={`relative z-10 mx-auto w-full max-w-7xl ${heroContentPad}`}>
           <nav className="mb-6 flex items-center gap-2 text-xs text-white/50">
             <Link href="/" className="hover:text-white/80 transition">Home</Link>
             <i className="ri-arrow-right-s-line"></i>
