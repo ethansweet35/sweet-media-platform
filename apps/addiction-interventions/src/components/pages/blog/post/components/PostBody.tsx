@@ -1,6 +1,7 @@
 import type { BlogSection } from "@sweetmedia/blog-core";
 import { parseInlineLinks, type InlineSegment } from "@/lib/markdownToBlog";
 import { autoLinkText, type LinkSegment, type AutoLinkMapping } from "@sweetmedia/blog-core";
+import Image from "next/image";
 import Link from "next/link";
 
 function isExternal(href: string | undefined): boolean {
@@ -287,6 +288,24 @@ export default function PostBody({ sections, autoLinkMap, currentSlug, usedHrefs
 
           case "divider":
             return <hr key={i} className="my-10 border-[#EFEFEF]" />;
+
+          case "image": {
+            const src = section.text?.trim();
+            if (!src) return null;
+            const alt = section.alt?.trim() || "Blog illustration";
+            return (
+              <figure key={i} className="my-10">
+                <Image
+                  src={src}
+                  alt={alt}
+                  width={1024}
+                  height={1536}
+                  sizes="(max-width: 768px) 100vw, 720px"
+                  className="mx-auto w-full max-w-2xl h-auto rounded-2xl"
+                />
+              </figure>
+            );
+          }
 
           default:
             return null;
