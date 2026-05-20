@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useCallback, useRef } from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
 
 import {
@@ -9,21 +10,21 @@ import {
   aboutDropdownItems,
   servicesDropdownItems,
   eventsDropdownItems,
-  contactDropdownItems,
   SOCIAL_LINKS as socialLinks,
   LOGO_SRC,
 } from "@/lib/tfrf-nav";
 
-type DropdownKey = "about" | "services" | "events" | "contact";
+type DropdownKey = "about" | "services" | "events";
 
 const DROPDOWN_ITEMS: Record<DropdownKey, readonly { label: string; href: string }[]> = {
   about: aboutDropdownItems,
   services: servicesDropdownItems,
   events: eventsDropdownItems,
-  contact: contactDropdownItems,
 };
 
 export default function Navbar() {
+  const pathname = usePathname();
+  const isHome = pathname === "/";
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [openDropdown, setOpenDropdown] = useState<DropdownKey | null>(null);
@@ -64,25 +65,25 @@ export default function Navbar() {
 
   return (
     <>
-      <header
-        className={cn(
-          "fixed top-4 md:top-5 left-4 right-4 md:left-6 md:right-6 lg:left-8 lg:right-8 z-50 transition-all duration-300 rounded-full",
-          scrolled
-            ? "bg-pure-white/95 backdrop-blur-md shadow-lg shadow-black/5 border border-slate/10"
-            : "bg-pure-white/95 backdrop-blur-md shadow-md shadow-black/8 border border-pure-white/40",
-        )}
-      >
-        <div className="flex items-center justify-between h-16 md:h-[72px] lg:h-[84px] px-6 md:px-10 lg:px-12">
-          <Link href="/" className="flex items-center shrink-0">
+      <header className="fixed top-0 inset-x-0 z-50 px-4 md:px-6 lg:px-8 pt-3 md:pt-4 pointer-events-none">
+        <div
+          className={cn(
+            "max-w-content mx-auto pointer-events-auto flex items-center justify-between gap-4 h-16 md:h-[72px] lg:h-[76px] px-5 md:px-8 lg:px-10 rounded-full transition-all duration-300",
+            scrolled || !isHome
+              ? "bg-pure-white/95 backdrop-blur-md shadow-lg shadow-black/5 border border-slate/10"
+              : "bg-pure-white/95 backdrop-blur-md shadow-md shadow-black/8 border border-pure-white/40",
+          )}
+        >
+          <Link href="/" className="flex items-center shrink-0 min-w-0">
             <img
               src={LOGO_SRC}
               alt="The Family Recovery Foundation"
-              className="h-11 md:h-12 lg:h-14 w-auto object-contain"
+              className="h-10 md:h-11 lg:h-12 w-auto max-w-[min(100%,220px)] object-contain object-left"
             />
           </Link>
 
-          <div className="hidden lg:flex items-center gap-6">
-            <div className="flex items-center gap-1">
+          <div className="hidden lg:flex items-center shrink-0 gap-2">
+            <nav className="flex items-center gap-0.5" aria-label="Main">
               {mainNavItems.map((item) => (
                 <div key={item.label} className="relative">
                   {item.hasDropdown && item.dropdown ? (
@@ -140,9 +141,11 @@ export default function Navbar() {
                   )}
                 </div>
               ))}
-            </div>
+            </nav>
 
-            <div className="flex items-center gap-3 pl-4 border-l border-slate/20">
+            <div className="mx-1 h-5 w-px shrink-0 bg-slate/25" aria-hidden />
+
+            <div className="flex items-center gap-1">
               {socialLinks.map((social) => (
                 <a
                   key={social.label}
@@ -163,7 +166,7 @@ export default function Navbar() {
 
           <button
             onClick={() => setMobileOpen(true)}
-            className="lg:hidden p-2 text-deep-navy cursor-pointer"
+            className="lg:hidden p-2 text-deep-navy cursor-pointer shrink-0"
             aria-label="Open menu"
           >
             <div className="w-6 flex flex-col gap-1.5">

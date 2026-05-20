@@ -66,7 +66,7 @@ export default function HeroSection() {
       </div>
 
       {/* Content */}
-      <div className="relative z-10 min-h-[100svh] flex flex-col justify-center px-6 md:px-10 lg:px-16 pt-[5.5rem] md:pt-[6.5rem] lg:pt-[7.5rem] pb-4 md:pb-6 lg:pb-8 max-w-content mx-auto">
+      <div className="relative z-10 min-h-[100svh] flex flex-col justify-center px-6 md:px-10 lg:px-16 pt-[6.5rem] md:pt-[7rem] lg:pt-[7.5rem] pb-4 md:pb-6 lg:pb-8 max-w-content mx-auto">
         {/* Top text area */}
         <div className="max-w-lg lg:max-w-xl mb-6 md:mb-8">
           {/* Headline — slightly bigger */}

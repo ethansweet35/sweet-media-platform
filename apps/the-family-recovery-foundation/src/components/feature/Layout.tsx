@@ -2,6 +2,7 @@
 
 import { usePathname } from "next/navigation";
 import { useEffect } from "react";
+import { cn } from "@/lib/utils";
 import Navbar from "./Navbar";
 import Footer from "./Footer";
 
@@ -18,13 +19,18 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   const isHome = pathname === "/";
 
   return (
-    <div className="min-h-screen flex flex-col bg-soft-white">
+    <div
+      className={cn(
+        "min-h-screen flex flex-col",
+        isHome ? "bg-deep-navy" : "bg-soft-white",
+      )}
+    >
       <Navbar />
       <div
         className={
           isHome
-            ? "flex-1"
-            : "flex-1 pt-[5.5rem] md:pt-[6.25rem] lg:pt-[7.25rem]"
+            ? "flex-1 -mt-[5.25rem] md:-mt-[5.75rem]"
+            : "flex-1 pt-[5.25rem] md:pt-[5.75rem]"
         }
       >
         {children}

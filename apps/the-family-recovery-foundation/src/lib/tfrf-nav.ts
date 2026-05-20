@@ -38,17 +38,13 @@ export const eventsDropdownItems = [
   { label: "Nashville Gala", href: "/gala/nashville" },
 ] as const;
 
-export const contactDropdownItems = [
-  { label: "Contact", href: "/contact" },
-  { label: "Get Help", href: "/get-help" },
-] as const;
-
+/** Live site top nav ends with Donate + Get Help (Contact is footer-only). */
 export const mainNavItems = [
   { label: "About", href: ABOUT_HREF, hasDropdown: true as const, dropdown: "about" as const },
   { label: "Our Services", href: "/family-programming", hasDropdown: true as const, dropdown: "services" as const },
   { label: "Events", href: "/gala", hasDropdown: true as const, dropdown: "events" as const },
   { label: "Donate", href: "/donate", hasDropdown: false as const, dropdown: null },
-  { label: "Contact", href: "/contact", hasDropdown: true as const, dropdown: "contact" as const },
+  { label: "Get Help", href: "/get-help", hasDropdown: false as const, dropdown: null },
 ] as const;
 
 export const footerLinkColumns = [
