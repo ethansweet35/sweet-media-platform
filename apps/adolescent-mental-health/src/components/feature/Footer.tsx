@@ -47,7 +47,7 @@ export default function Footer() {
 
       {/* Brand strip */}
       <div className="border-b border-white/[0.06] px-6 py-10 lg:px-10">
-        <div className="mx-auto flex max-w-7xl flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
+        <div className="mx-auto flex max-w-[1350px] flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
           <Image
             src="https://almncgkbmooyuptdgkhe.supabase.co/storage/v1/object/public/site-assets/images/wp-migrated/amh-logo-optimized.png"
             alt="Adolescent Mental Health"
@@ -85,7 +85,7 @@ export default function Footer() {
 
       {/* Main link grid */}
       <div className="px-6 py-14 lg:px-10">
-        <div className="mx-auto grid max-w-7xl gap-10 md:grid-cols-[1.8fr_1fr_1fr_1fr]">
+        <div className="mx-auto grid max-w-[1350px] gap-10 md:grid-cols-[1.8fr_1fr_1fr_1fr]">
 
           {/* Brand blurb */}
           <div>
@@ -171,7 +171,7 @@ export default function Footer() {
 
       {/* Bottom bar */}
       <div className="border-t border-white/[0.06] px-6 py-5 lg:px-10">
-        <div className="mx-auto flex max-w-7xl flex-col gap-3 md:flex-row md:items-center md:justify-between">
+        <div className="mx-auto flex max-w-[1350px] flex-col gap-3 md:flex-row md:items-center md:justify-between">
           <p className="text-xs text-white/25">
             © {new Date().getFullYear()} Adolescent Mental Health. All rights reserved.
           </p>

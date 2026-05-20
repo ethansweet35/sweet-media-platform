@@ -67,7 +67,8 @@ export default function Navbar() {
 
       {/* Main nav */}
       <nav className="border-b border-slate-100 bg-white shadow-sm">
-        <div className="mx-auto flex max-w-7xl items-center justify-between gap-6 px-6 py-3">
+        <div className="px-6 lg:px-10">
+        <div className="mx-auto flex max-w-[1350px] items-center justify-between gap-6 py-3">
           {/* Logo */}
           <Link href="/" className="flex-shrink-0">
             <Image
@@ -135,10 +136,12 @@ export default function Navbar() {
             <i className={`text-xl ${mobileOpen ? "ri-close-line" : "ri-menu-line"}`}></i>
           </button>
         </div>
+        </div>
 
         {/* Mobile menu */}
         {mobileOpen && (
-          <div className="lg:hidden border-t border-slate-100 bg-white px-6 py-4">
+          <div className="lg:hidden border-t border-slate-100 bg-white px-6 py-4 lg:px-10">
+            <div className="mx-auto max-w-[1350px]">
             <div className="flex flex-col gap-1">
               {navLinks.map((link) => (
                 <div key={link.path}>
@@ -164,6 +167,7 @@ export default function Navbar() {
                 <i className="ri-phone-fill"></i>
                 {PHONE}
               </a>
+            </div>
             </div>
           </div>
         )}
