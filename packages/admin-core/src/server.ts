@@ -42,6 +42,22 @@ export {
 } from "./lib/server/semrushSeedRefinement";
 
 export {
+  insertContentChangeLogEntries,
+  fetchContentChangeLog,
+  handleContentChangeLogPost,
+} from "./lib/server/contentChangeLogServer";
+
+export { handleSeoImpactGet } from "./lib/server/seoImpact";
+
+export {
+  queryGscPagePeriodComparison,
+  computeMetricDeltas,
+  resolveCanonicalGscPageUrl,
+  type GscPeriodMetrics,
+  type GscDailyMetric,
+} from "./lib/server/gscClient";
+
+export {
   buildPublicSitemapGroupXml,
   buildPublicSitemapIndexXml,
   loadPublicSitemapSources,

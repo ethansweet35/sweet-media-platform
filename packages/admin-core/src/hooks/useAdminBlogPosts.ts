@@ -2,6 +2,11 @@
 
 import { useState, useEffect, useCallback } from "react";
 import { supabase } from "../lib/supabase";
+import {
+  blogPostForChangeDiff,
+  diffBlogPostUpdates,
+  postContentChangeLog,
+} from "../lib/contentChangeLog";
 import { dbToBlogPost, type BlogPost, type DbBlogPost } from "@sweetmedia/blog-core";
 
 export function useAdminBlogPosts() {
@@ -111,19 +116,40 @@ export function useAdminBlogPosts() {
     }
   }, []);
 
-  const updatePost = useCallback(async (id: string, updates: Partial<DbBlogPost>): Promise<boolean> => {
-    try {
-      const { error } = await supabase
-        .from("blog_posts")
-        .update({ ...updates, updated_at: new Date().toISOString() })
-        .eq("id", id);
-      if (error) throw error;
-      await fetchPosts();
-      return true;
-    } catch {
-      return false;
-    }
-  }, [fetchPosts]);
+  const updatePost = useCallback(
+    async (id: string, updates: Partial<DbBlogPost>): Promise<boolean> => {
+      const prior = posts.find((p) => p.id === id);
+      try {
+        const { error } = await supabase
+          .from("blog_posts")
+          .update({ ...updates, updated_at: new Date().toISOString() })
+          .eq("id", id);
+        if (error) throw error;
+
+        if (prior) {
+          const changes = diffBlogPostUpdates(blogPostForChangeDiff(prior), updates);
+          if (changes.length > 0) {
+            const {
+              data: { user },
+            } = await supabase.auth.getUser();
+            void postContentChangeLog({
+              entity_type: "blog",
+              entity_id: id,
+              route_path: `/blog/${updates.slug ?? prior.slug}`,
+              changes,
+              changed_by: user?.email ?? null,
+            });
+          }
+        }
+
+        await fetchPosts();
+        return true;
+      } catch {
+        return false;
+      }
+    },
+    [fetchPosts, posts],
+  );
 
   return {
     posts,

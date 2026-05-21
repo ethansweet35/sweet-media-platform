@@ -26,6 +26,16 @@ export { default as OptimizationStatusBanner } from "./components/OptimizationSt
 export { default as ContentEditorCell, type ContentEditorCellRow } from "./components/ContentEditorCell";
 export { useContentEditorRowActions, type ContentEditorRowRef } from "./hooks/useContentEditorRowActions";
 export { default as KeywordSuggestPopover } from "./components/KeywordSuggestPopover";
+export { default as SeoImpactTimelinePopover } from "./components/SeoImpactTimelinePopover";
+export {
+  diffTrackedPageUpdates,
+  diffBlogPostUpdates,
+  postContentChangeLog,
+  blogPostForChangeDiff,
+  formatChangeValue,
+  type ContentEntityType,
+  type ContentChangeInput,
+} from "./lib/contentChangeLog";
 export { default as InlineKeywordCell } from "./components/InlineKeywordCell";
 export { default as BulkPickKeywordModal } from "./components/BulkPickKeywordModal";
 export { default as RankingKeywordsPopover } from "./components/RankingKeywordsPopover";

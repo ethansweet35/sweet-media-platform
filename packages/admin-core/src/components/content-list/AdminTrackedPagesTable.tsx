@@ -282,7 +282,15 @@ export default function AdminTrackedPagesTable({
       case "gsc":
         return (
           <td className="px-3 py-3 align-middle">
-            <GscMetricsCell metrics={gscData[gscPath]} loading={gscLoading} />
+            <GscMetricsCell
+              metrics={gscData[gscPath]}
+              loading={gscLoading}
+              seoImpact={{
+                entityType: "page",
+                entityId: p.id,
+                pageUrl: `${getPublicSiteOrigin()}${p.route_path}`,
+              }}
+            />
           </td>
         );
       case "contentEditor":

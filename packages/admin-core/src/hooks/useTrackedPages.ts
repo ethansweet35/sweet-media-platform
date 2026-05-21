@@ -2,6 +2,10 @@
 
 import { useState, useEffect, useCallback } from "react";
 import { supabase } from "../lib/supabase";
+import {
+  diffTrackedPageUpdates,
+  postContentChangeLog,
+} from "../lib/contentChangeLog";
 import type { TrackedPage, TrackedPageInput, TrackedPageUpdates } from "../types/tracked-page";
 
 type DbTrackedPageRow = {
@@ -110,6 +114,7 @@ export function useTrackedPages() {
 
   const updatePage = useCallback(
     async (id: string, updates: TrackedPageUpdates): Promise<boolean> => {
+      const prior = pages.find((p) => p.id === id);
       try {
         const row: Record<string, unknown> = { updated_at: new Date().toISOString() };
         if (updates.route_path !== undefined) row.route_path = String(updates.route_path).trim();
@@ -144,13 +149,30 @@ export function useTrackedPages() {
 
         const { error: updErr } = await supabase.from("tracked_pages").update(row).eq("id", id);
         if (updErr) throw updErr;
+
+        if (prior) {
+          const changes = diffTrackedPageUpdates(prior, updates);
+          if (changes.length > 0) {
+            const {
+              data: { user },
+            } = await supabase.auth.getUser();
+            void postContentChangeLog({
+              entity_type: "page",
+              entity_id: id,
+              route_path: (updates.route_path ?? prior.route_path).trim(),
+              changes,
+              changed_by: user?.email ?? null,
+            });
+          }
+        }
+
         await fetchPages();
         return true;
       } catch {
         return false;
       }
     },
-    [fetchPages],
+    [fetchPages, pages],
   );
 
   const deletePage = useCallback(

@@ -354,7 +354,15 @@ export default function AdminBlogTable({
 
                     {/* GSC Metrics */}
                     <td className="px-3 py-3 align-middle">
-                      <GscMetricsCell metrics={gscMetrics} loading={gscLoading} />
+                      <GscMetricsCell
+                        metrics={gscMetrics}
+                        loading={gscLoading}
+                        seoImpact={{
+                          entityType: "blog",
+                          entityId: post.id,
+                          pageUrl: `${getPublicSiteOrigin()}/blog/${post.slug}`,
+                        }}
+                      />
                     </td>
 
                     {/* Content Editor */}

@@ -392,3 +392,231 @@ export async function queryGscPageKeywords(
     position: r.position,
   }));
 }
+
+export type GscPageResolved = {
+  workingCandidate: string;
+  canonicalUrl: string;
+};
+
+/** Resolve the exact page URL string GSC stores for a marketing URL. */
+export async function resolveCanonicalGscPageUrl(
+  accessToken: string,
+  siteUrl: string,
+  pageUrl: string,
+  startDate: string,
+  endDate: string,
+): Promise<GscPageResolved | null> {
+  const siteCandidates = buildSiteCandidates(siteUrl);
+  const pageVariants = buildPageUrlVariants(pageUrl);
+
+  let targetPath: string;
+  try {
+    targetPath = new URL(pageUrl).pathname.replace(/\/$/, "").toLowerCase();
+  } catch {
+    targetPath = pageUrl.toLowerCase();
+  }
+
+  for (const candidate of siteCandidates) {
+    const res = await fetch(
+      `https://searchconsole.googleapis.com/webmasters/v3/sites/${encodeURIComponent(candidate)}/searchAnalytics/query`,
+      {
+        method: "POST",
+        headers: { Authorization: `Bearer ${accessToken}`, "Content-Type": "application/json" },
+        body: JSON.stringify({
+          startDate,
+          endDate,
+          dimensions: ["page"],
+          rowLimit: 25000,
+          dataState: "final",
+        }),
+      },
+    );
+
+    if (!res.ok) continue;
+
+    const json = (await res.json()) as { rows?: { keys: string[] }[] };
+    const pages = (json.rows ?? []).map((r) => r.keys[0] ?? "");
+
+    for (const variant of pageVariants) {
+      const exact = pages.find((p) => p === variant || p === `${variant}/`);
+      if (exact) return { workingCandidate: candidate, canonicalUrl: exact };
+    }
+
+    const byPath = pages.find((p) => {
+      try {
+        return new URL(p).pathname.replace(/\/$/, "").toLowerCase() === targetPath;
+      } catch {
+        return false;
+      }
+    });
+    if (byPath) return { workingCandidate: candidate, canonicalUrl: byPath };
+  }
+
+  return null;
+}
+
+export type GscPeriodMetrics = {
+  clicks: number;
+  impressions: number;
+  ctr: number;
+  position: number;
+  startDate: string;
+  endDate: string;
+};
+
+export type GscDailyMetric = {
+  date: string;
+  clicks: number;
+  impressions: number;
+  position: number;
+};
+
+async function queryGscPageAggregate(
+  accessToken: string,
+  resolved: GscPageResolved,
+  startDate: string,
+  endDate: string,
+): Promise<GscPeriodMetrics | null> {
+  const res = await fetch(
+    `https://searchconsole.googleapis.com/webmasters/v3/sites/${encodeURIComponent(resolved.workingCandidate)}/searchAnalytics/query`,
+    {
+      method: "POST",
+      headers: { Authorization: `Bearer ${accessToken}`, "Content-Type": "application/json" },
+      body: JSON.stringify({
+        startDate,
+        endDate,
+        dimensions: ["page"],
+        dimensionFilterGroups: [
+          { filters: [{ dimension: "page", operator: "equals", expression: resolved.canonicalUrl }] },
+        ],
+        rowLimit: 1,
+        dataState: "final",
+      }),
+    },
+  );
+
+  if (!res.ok) return null;
+  const json = (await res.json()) as {
+    rows?: { clicks: number; impressions: number; ctr: number; position: number }[];
+  };
+  const row = json.rows?.[0];
+  if (!row) {
+    return { clicks: 0, impressions: 0, ctr: 0, position: 0, startDate, endDate };
+  }
+  return {
+    clicks: row.clicks,
+    impressions: row.impressions,
+    ctr: row.ctr,
+    position: row.position,
+    startDate,
+    endDate,
+  };
+}
+
+/** Compare current vs previous period totals for one page URL. */
+export async function queryGscPagePeriodComparison(
+  accessToken: string,
+  siteUrl: string,
+  pageUrl: string,
+  periodDays = 28,
+): Promise<{
+  current: GscPeriodMetrics;
+  previous: GscPeriodMetrics;
+  daily: GscDailyMetric[];
+} | null> {
+  const end = new Date();
+  end.setDate(end.getDate() - 3);
+  const currentStart = new Date(end);
+  currentStart.setDate(currentStart.getDate() - periodDays + 1);
+  const previousEnd = new Date(currentStart);
+  previousEnd.setDate(previousEnd.getDate() - 1);
+  const previousStart = new Date(previousEnd);
+  previousStart.setDate(previousStart.getDate() - periodDays + 1);
+
+  const fmt = (d: Date) => d.toISOString().slice(0, 10);
+  const curStart = fmt(currentStart);
+  const curEnd = fmt(end);
+  const prevStart = fmt(previousStart);
+  const prevEnd = fmt(previousEnd);
+
+  const resolved = await resolveCanonicalGscPageUrl(
+    accessToken,
+    siteUrl,
+    pageUrl,
+    prevStart,
+    curEnd,
+  );
+  if (!resolved) return null;
+
+  const [current, previous, daily] = await Promise.all([
+    queryGscPageAggregate(accessToken, resolved, curStart, curEnd),
+    queryGscPageAggregate(accessToken, resolved, prevStart, prevEnd),
+    queryGscPageDailySeries(accessToken, resolved, curStart, curEnd),
+  ]);
+
+  if (!current || !previous) return null;
+  return { current, previous, daily };
+}
+
+async function queryGscPageDailySeries(
+  accessToken: string,
+  resolved: GscPageResolved,
+  startDate: string,
+  endDate: string,
+): Promise<GscDailyMetric[]> {
+  const res = await fetch(
+    `https://searchconsole.googleapis.com/webmasters/v3/sites/${encodeURIComponent(resolved.workingCandidate)}/searchAnalytics/query`,
+    {
+      method: "POST",
+      headers: { Authorization: `Bearer ${accessToken}`, "Content-Type": "application/json" },
+      body: JSON.stringify({
+        startDate,
+        endDate,
+        dimensions: ["date"],
+        dimensionFilterGroups: [
+          { filters: [{ dimension: "page", operator: "equals", expression: resolved.canonicalUrl }] },
+        ],
+        rowLimit: 1000,
+        dataState: "final",
+      }),
+    },
+  );
+
+  if (!res.ok) return [];
+  const json = (await res.json()) as {
+    rows?: { keys: string[]; clicks: number; impressions: number; position: number }[];
+  };
+  return (json.rows ?? [])
+    .map((r) => ({
+      date: r.keys[0] ?? "",
+      clicks: r.clicks,
+      impressions: r.impressions,
+      position: r.position,
+    }))
+    .sort((a, b) => a.date.localeCompare(b.date));
+}
+
+export function computeMetricDeltas(
+  current: GscPeriodMetrics,
+  previous: GscPeriodMetrics,
+): {
+  clicks: number;
+  clicksPct: number | null;
+  impressions: number;
+  impressionsPct: number | null;
+  position: number;
+  positionDelta: number;
+} {
+  const pct = (cur: number, prev: number) => {
+    if (prev === 0) return cur > 0 ? 100 : null;
+    return Math.round(((cur - prev) / prev) * 1000) / 10;
+  };
+  return {
+    clicks: current.clicks - previous.clicks,
+    clicksPct: pct(current.clicks, previous.clicks),
+    impressions: current.impressions - previous.impressions,
+    impressionsPct: pct(current.impressions, previous.impressions),
+    position: current.position,
+    positionDelta: Math.round((current.position - previous.position) * 10) / 10,
+  };
+}

@@ -30,6 +30,21 @@ export const ADMIN_CHANGELOG_CATEGORY_LABEL: Record<AdminChangelogCategory, stri
 /** Newest first — maintain this order when adding entries. */
 export const ADMIN_CHANGELOG: AdminChangelogEntry[] = [
   {
+    id: "2026-05-21-seo-impact-timeline",
+    date: "2026-05-21",
+    category: "new",
+    title: "SEO impact timeline (hover on GSC column)",
+    summary:
+      "Hover the pulse icon next to GSC metrics on any page or blog row to see a timeline of recent SEO/content changes and period-over-period clicks, impressions, and ranking movement.",
+    href: "/admin/pages",
+    hrefLabel: "Pages",
+    tips: [
+      "Changes are logged automatically when you edit SEO fields, keywords, titles, or post content.",
+      "Requires Search Console connected; compares last 28 days vs the prior 28 days.",
+      "Run the content_change_log migration on each Supabase project if the timeline is empty after edits.",
+    ],
+  },
+  {
     id: "2026-05-20-whats-new-dashboard",
     date: "2026-05-20",
     category: "new",
