@@ -4,14 +4,15 @@ import { useCallback, useEffect, useState } from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import AdminPageHeader from "../components/AdminPageHeader";
+import BlogWriterCustomInstructions from "../components/BlogWriterCustomInstructions";
 import KeywordSuggestPopover from "../components/KeywordSuggestPopover";
 import { supabase } from "../lib/supabase";
 import { AI_MODELS, DEFAULT_MODEL_ID } from "../lib/aiModels";
+import { adminInputCls, adminPrimaryBtnCls, ADMIN_NAVY } from "../lib/adminTheme";
+import type { ContentEditorListRow } from "../types/content-editor";
 
 const SITE_ID = process.env.NEXT_PUBLIC_SITE_ID ?? "client-template";
-
-const inputCls =
-  "w-full px-3.5 py-2.5 text-sm border border-stone-200 rounded-lg bg-stone-50 text-stone-900 placeholder-stone-400 focus:outline-none focus:ring-2 focus:ring-stone-900 focus:border-transparent transition-all";
+const inputCls = adminInputCls;
 
 interface FormState {
   topic: string;
@@ -73,6 +74,7 @@ export default function BlogWriterPage() {
   const searchParams = useSearchParams();
   const seededKeyword = searchParams?.get("primary_keyword") ?? "";
   const seededTopic = searchParams?.get("topic") ?? "";
+  const seededEditorId = searchParams?.get("content_editor_id") ?? null;
 
   const [form, setForm] = useState<FormState>(() => {
     if (!seededKeyword && !seededTopic) return INITIAL_FORM;
@@ -133,6 +135,27 @@ export default function BlogWriterPage() {
   const retryAfterPostError = useCallback(() => {
     setPostError(null);
     setGenerationStage(null);
+  }, []);
+
+  const handleEditorLinked = useCallback((editor: ContentEditorListRow) => {
+    setForm((prev) => {
+      const next = { ...prev };
+      if (!prev.primaryKeyword.trim() && editor.primary_keyword) {
+        next.primaryKeyword = editor.primary_keyword;
+      }
+      if (!prev.topic.trim() && editor.primary_keyword) {
+        next.topic = editor.primary_keyword
+          .split(/\s+/)
+          .filter(Boolean)
+          .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+          .join(" ");
+      }
+      if (editor.recommended_word_count_target != null) {
+        const tw = editor.recommended_word_count_target;
+        if (tw >= 800 && tw <= 4000) next.targetWordCount = tw;
+      }
+      return next;
+    });
   }, []);
 
   const handleGenerateAnother = useCallback(() => {
@@ -288,19 +311,19 @@ export default function BlogWriterPage() {
 
       <div className="mx-auto max-w-screen-md py-8">
         {result ? (
-          <div className="bg-white rounded-2xl border border-stone-200 p-8 space-y-6">
+          <div className="bg-white rounded-2xl border border-[#E2E8F0] p-8 space-y-6">
             <div className="flex items-start gap-3">
               <div className="w-10 h-10 rounded-xl bg-emerald-50 flex items-center justify-center shrink-0">
                 <i className="ri-checkbox-circle-fill text-xl text-emerald-600" />
               </div>
               <div>
                 <h2
-                  className="text-xl font-semibold text-stone-900"
+                  className="text-xl font-semibold text-[#0A1F44]"
                   style={{ fontFamily: "var(--font-cormorant-garamond), serif" }}
                 >
                   Draft Created
                 </h2>
-                <p className="text-sm text-stone-900 font-medium mt-1">{result.title}</p>
+                <p className="text-sm text-[#0A1F44] font-medium mt-1">{result.title}</p>
               </div>
             </div>
 
@@ -320,11 +343,11 @@ export default function BlogWriterPage() {
                 <img
                   src={result.heroImageUrl}
                   alt=""
-                  className="w-full rounded-xl border border-stone-200 object-cover max-h-80 bg-stone-100"
+                  className="w-full rounded-xl border border-[#E2E8F0] object-cover max-h-80 bg-[#F4F7FB]"
                 />
               </div>
             ) : !result.imageWarn ? (
-              <p className="text-sm text-stone-500 italic">
+              <p className="text-sm text-[#64748B] italic">
                 Image generation is still processing — you can refresh the post page in a moment to
                 see it.
               </p>
@@ -335,14 +358,14 @@ export default function BlogWriterPage() {
                 href={`/blog/${result.slug}?preview=admin`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex flex-1 min-w-[140px] justify-center items-center px-5 py-2.5 rounded-lg bg-stone-900 text-white text-sm font-medium hover:bg-stone-800 transition-colors"
+                className="inline-flex flex-1 min-w-[140px] justify-center items-center px-5 py-2.5 rounded-lg bg-[#0A1F44] text-white text-sm font-medium hover:bg-[#0d2a5e] transition-colors"
               >
                 View Draft
               </Link>
               <button
                 type="button"
                 onClick={handleGenerateAnother}
-                className="inline-flex flex-1 min-w-[140px] justify-center items-center px-5 py-2.5 rounded-lg border border-stone-300 text-stone-800 text-sm font-medium hover:bg-stone-50 transition-colors cursor-pointer"
+                className="inline-flex flex-1 min-w-[140px] justify-center items-center px-5 py-2.5 rounded-lg border border-[#CBD5E1] text-[#0A1F44] text-sm font-medium hover:bg-[#F4F7FB] transition-colors cursor-pointer"
               >
                 Generate Another
               </button>
@@ -367,23 +390,23 @@ export default function BlogWriterPage() {
             ) : null}
 
             <div
-              className={`bg-white rounded-2xl border border-stone-200 p-8 ${disableForm ? "opacity-60 pointer-events-none" : ""}`}
+              className={`bg-white rounded-2xl border border-[#E2E8F0] p-8 ${disableForm ? "opacity-60 pointer-events-none" : ""}`}
             >
               <h2
-                className="text-lg font-semibold text-stone-900 mb-2"
+                className="text-lg font-semibold text-[#0A1F44] mb-2"
                 style={{ fontFamily: "var(--font-cormorant-garamond), serif" }}
               >
                 Generate a draft
               </h2>
-              <p className="text-sm text-stone-500 mb-6 font-[family-name:var(--font-outfit-sans),sans-serif]">
+              <p className="text-sm text-[#64748B] mb-6 font-[family-name:var(--font-outfit-sans),sans-serif]">
                 Fill out the brief below. Posts are saved as drafts; featured images attach when
                 generation completes.
               </p>
 
               {generationStage ? (
-                <div className="mb-8 flex flex-col items-center gap-4 py-10 px-4 rounded-xl bg-stone-50 border border-stone-100">
-                  <div className="w-10 h-10 border-2 border-stone-200 border-t-stone-900 rounded-full animate-spin" />
-                  <p className="text-sm text-center text-stone-700 font-medium font-[family-name:var(--font-outfit-sans),sans-serif]">
+                <div className="mb-8 flex flex-col items-center gap-4 py-10 px-4 rounded-xl bg-[#F4F7FB] border border-[#E2E8F0]">
+                  <div className="w-10 h-10 border-2 border-[#E2E8F0] border-t-[#0A1F44] rounded-full animate-spin" />
+                  <p className="text-sm text-center text-[#334155] font-medium font-[family-name:var(--font-outfit-sans),sans-serif]">
                     {generationStage === "post"
                       ? "Drafting your post — this takes 30-60 seconds..."
                       : "Post drafted — now creating the featured image (1-2 minutes)..."}
@@ -393,7 +416,7 @@ export default function BlogWriterPage() {
 
               <form onSubmit={handleSubmit} className="space-y-5 font-[family-name:var(--font-outfit-sans),sans-serif]">
                 <div>
-                  <label className="block text-sm font-medium text-stone-700 mb-1.5">
+                  <label className="block text-sm font-medium text-[#334155] mb-1.5">
                     Topic <span className="text-red-600">*</span>
                   </label>
                   <textarea
@@ -411,7 +434,7 @@ export default function BlogWriterPage() {
 
                 <div>
                   <div className="flex items-center justify-between mb-1.5">
-                    <label className="block text-sm font-medium text-stone-700">
+                    <label className="block text-sm font-medium text-[#334155]">
                       Primary keyword <span className="text-red-600">*</span>
                     </label>
                     <KeywordSuggestPopover
@@ -439,7 +462,7 @@ export default function BlogWriterPage() {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-stone-700 mb-1.5">
+                  <label className="block text-sm font-medium text-[#334155] mb-1.5">
                     Category
                   </label>
                   <select
@@ -456,7 +479,7 @@ export default function BlogWriterPage() {
                       </option>
                     ))}
                   </select>
-                  <p className="mt-1 text-xs text-stone-500">
+                  <p className="mt-1 text-xs text-[#64748B]">
                     Categories are pulled from existing posts. Type a new one below if needed.
                   </p>
                   <input
@@ -472,7 +495,7 @@ export default function BlogWriterPage() {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-stone-700 mb-1.5">
+                  <label className="block text-sm font-medium text-[#334155] mb-1.5">
                     Tone
                   </label>
                   <input
@@ -488,7 +511,7 @@ export default function BlogWriterPage() {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-stone-700 mb-1.5">
+                  <label className="block text-sm font-medium text-[#334155] mb-1.5">
                     Target word count
                   </label>
                   <input
@@ -505,13 +528,13 @@ export default function BlogWriterPage() {
                     }
                     className={inputCls}
                   />
-                  <p className="mt-1 text-xs text-stone-500">
+                  <p className="mt-1 text-xs text-[#64748B]">
                     Between 800 and 4000. Default is 2000.
                   </p>
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-stone-700 mb-1.5">
+                  <label className="block text-sm font-medium text-[#334155] mb-1.5">
                     Audience
                   </label>
                   <input
@@ -526,27 +549,18 @@ export default function BlogWriterPage() {
                   />
                 </div>
 
-                <div>
-                  <label className="block text-sm font-medium text-stone-700 mb-1.5">
-                    Custom instructions
-                  </label>
-                  <textarea
-                    rows={3}
-                    value={form.customInstructions}
-                    disabled={disableForm}
-                    placeholder="Any specific angles, sources, or emphasis..."
-                    onChange={(ev) =>
-                      setForm((p) => ({
-                        ...p,
-                        customInstructions: ev.target.value,
-                      }))
-                    }
-                    className={`${inputCls} resize-y min-h-[4.5rem]`}
-                  />
-                </div>
+                <BlogWriterCustomInstructions
+                  value={form.customInstructions}
+                  disabled={disableForm}
+                  initialEditorId={seededEditorId}
+                  onChange={(text) =>
+                    setForm((p) => ({ ...p, customInstructions: text }))
+                  }
+                  onEditorLinked={handleEditorLinked}
+                />
 
                 <div>
-                  <label className="block text-sm font-medium text-stone-700 mb-1.5">
+                  <label className="block text-sm font-medium text-[#334155] mb-1.5">
                     Model
                   </label>
                   <select
@@ -564,7 +578,7 @@ export default function BlogWriterPage() {
                       </option>
                     ))}
                   </select>
-                  <p className="mt-2 text-xs text-stone-500 leading-relaxed font-[family-name:var(--font-outfit-sans),sans-serif]">
+                  <p className="mt-2 text-xs text-[#64748B] leading-relaxed font-[family-name:var(--font-outfit-sans),sans-serif]">
                     {AI_MODELS.find((mod) => mod.id === form.model)?.description ??
                       "Select an OpenRouter model."}
                   </p>

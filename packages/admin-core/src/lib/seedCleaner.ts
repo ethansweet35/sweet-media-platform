@@ -87,3 +87,162 @@ export function stripBrandSuffix(seoTitle: string): string {
   const stripped = seoTitle.replace(/\s*[|–—-]\s*[^|–—-]+$/, "").trim();
   return stripped || seoTitle.trim();
 }
+
+/** Slugs that rarely identify a unique page topic on their own. */
+const GENERIC_ROUTE_SLUGS = new Set([
+  "about",
+  "about-us",
+  "contact",
+  "contact-us",
+  "home",
+  "blog",
+  "thank-you",
+  "thanks",
+  "privacy",
+  "privacy-policy",
+  "terms",
+  "terms-of-use",
+  "services",
+  "resources",
+  "faq",
+  "faqs",
+  "careers",
+  "login",
+  "search",
+  "team",
+  "staff",
+  "locations",
+  "location",
+  "news",
+  "events",
+  "gallery",
+  "media",
+  "press",
+  "support",
+  "help",
+  "sitemap",
+  "index",
+  "404",
+  "not-found",
+]);
+
+const NUMBER_WORD_EQUIV: Record<string, string[]> = {
+  "3": ["three", "third", "3rd"],
+  three: ["3", "third", "3rd"],
+  "4": ["four", "fourth", "4th"],
+  four: ["4", "fourth", "4th"],
+  "5": ["five", "fifth", "5th"],
+  five: ["5", "fifth", "5th"],
+};
+
+/** Last URL segment as a spaced phrase (e.g. `/3-pillars` → `3 pillars`). */
+export function routeSlugToSeed(routePath: string): string {
+  const last = routePath.split("/").filter(Boolean).pop() ?? "";
+  return last.replace(/[-_]+/g, " ").trim().toLowerCase();
+}
+
+/** True when the slug signals a specific landing page (not generic nav). */
+export function isDistinctiveRouteSlug(slug: string): boolean {
+  const s = slug.trim().toLowerCase();
+  if (!s || GENERIC_ROUTE_SLUGS.has(s)) return false;
+  if (/\d/.test(s)) return true;
+  const words = s.split(/\s+/).filter(Boolean);
+  if (words.length >= 2) return true;
+  return s.length >= 8;
+}
+
+function tokenRelatesToSlug(token: string, slugToken: string): boolean {
+  if (token === slugToken) return true;
+  if (token.length >= 4 && slugToken.length >= 4) {
+    if (token.startsWith(slugToken) || slugToken.startsWith(token)) return true;
+  }
+  const equiv = NUMBER_WORD_EQUIV[token] ?? NUMBER_WORD_EQUIV[slugToken];
+  if (equiv?.includes(slugToken) || equiv?.includes(token)) return true;
+  return false;
+}
+
+/** Whether a cleaned seed already reflects the route slug (e.g. pillars + 3/three). */
+export function seedOverlapsRoute(phrase: string, routePath: string): boolean {
+  const cleaned = cleanSeedPhrase(phrase);
+  const slug = routeSlugToSeed(routePath);
+  if (!cleaned || !slug) return true;
+
+  const phraseTokens = cleaned.split(/\s+/).filter((t) => t.length > 0);
+  const slugTokens = slug.split(/\s+/).filter((t) => t.length > 0);
+  if (slugTokens.length === 0) return true;
+
+  const matched = slugTokens.filter((st) =>
+    phraseTokens.some((pt) => tokenRelatesToSlug(pt, st)),
+  );
+  return matched.length >= Math.min(1, Math.ceil(slugTokens.length / 2));
+}
+
+export type PageKeywordSeedInput = {
+  route_path: string;
+  page_title: string;
+  seo_title?: string | null;
+  default_seo_title?: string | null;
+  meta_description?: string | null;
+};
+
+/** Metadata sent with Semrush requests so the server can enrich seeds with full page context. */
+export type PageKeywordSeedContextPayload = {
+  page_title?: string;
+  seo_title?: string;
+  meta_description?: string;
+};
+
+/**
+ * Build the primary Semrush seed phrase: URL slug + page title first, then clean to 4 words.
+ * SEO/meta are not mixed into the primary phrase (they are sent separately for AI refinement).
+ */
+export function buildPrimaryPageKeywordSeed(input: PageKeywordSeedInput): string {
+  const routeSlug = routeSlugToSeed(input.route_path);
+  const pageTitle = (input.page_title ?? "").trim();
+  const distinctive = isDistinctiveRouteSlug(routeSlug);
+
+  if (distinctive) {
+    const parts: string[] = [];
+    if (routeSlug) parts.push(routeSlug);
+    if (pageTitle) parts.push(pageTitle);
+    if (parts.length > 0) {
+      const cleaned = cleanSeedPhrase(parts.join(" "));
+      if (cleaned) return cleaned;
+      return parts.join(" ");
+    }
+  }
+
+  if (pageTitle) {
+    const cleaned = cleanSeedPhrase(pageTitle);
+    if (cleaned) return cleaned;
+    return pageTitle;
+  }
+
+  if (routeSlug) return cleanSeedPhrase(routeSlug) || routeSlug;
+
+  const activeSeo = stripBrandSuffix((input.seo_title ?? "").trim());
+  const defaultSeo = stripBrandSuffix((input.default_seo_title ?? "").trim());
+  const meta = (input.meta_description ?? "").trim();
+
+  if (activeSeo) return cleanSeedPhrase(activeSeo) || activeSeo;
+  if (defaultSeo) return cleanSeedPhrase(defaultSeo) || defaultSeo;
+  if (meta) return cleanSeedPhrase(meta) || meta;
+  return "";
+}
+
+/** @deprecated Use buildPrimaryPageKeywordSeed — kept as alias for call sites. */
+export function derivePageKeywordResearchSeed(input: PageKeywordSeedInput): string {
+  return buildPrimaryPageKeywordSeed(input);
+}
+
+export function toPageKeywordSeedContextPayload(
+  input: PageKeywordSeedInput,
+): PageKeywordSeedContextPayload {
+  const activeSeo = stripBrandSuffix((input.seo_title ?? "").trim());
+  const defaultSeo = stripBrandSuffix((input.default_seo_title ?? "").trim());
+  return {
+    page_title: (input.page_title ?? "").trim() || undefined,
+    seo_title: activeSeo || defaultSeo || undefined,
+    meta_description: (input.meta_description ?? "").trim() || undefined,
+  };
+}

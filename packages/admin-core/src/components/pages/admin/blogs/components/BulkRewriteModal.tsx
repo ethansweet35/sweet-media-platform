@@ -3,6 +3,7 @@
 import { useRef, useState } from "react";
 import { supabase } from "../../../../../lib/supabase";
 import { AI_MODELS, DEFAULT_MODEL_ID } from "../../../../../lib/aiModels";
+import { formatContentEditorBrief } from "../../../../../lib/formatContentEditorBrief";
 import type { BlogPost } from "@sweetmedia/blog-core";
 import type { BlogSection } from "@sweetmedia/blog-core";
 
@@ -79,80 +80,11 @@ interface BulkRewriteModalProps {
 // ─── Helpers ─────────────────────────────────────────────────────────────────
 
 const inputCls =
-  "w-full px-3 py-2 text-sm border border-neutral-200 rounded-lg bg-white text-neutral-900 placeholder-neutral-400 focus:outline-none focus:ring-2 focus:ring-[#3d6f7f]/20 focus:border-[#3d6f7f] transition-all";
+  "w-full px-3 py-2 text-sm border border-[#E2E8F0] rounded-lg bg-white text-[#0A1F44] placeholder-[#94A3B8] focus:outline-none focus:ring-2 focus:ring-[#0A1F44]/20 focus:border-[#7B9FD4] transition-all";
 
 function estimateReadTime(content: unknown[]): string {
   const words = JSON.stringify(content).split(/\s+/).filter(Boolean).length;
   return `${Math.max(1, Math.ceil(words / 200))} min read`;
-}
-
-/**
- * Formats a Content Editor state into a plaintext SEO brief that the
- * rewrite-blog-post AI writer understands and strictly follows.
- */
-function formatBriefAsText(state: ContentEditorStateResponse): string {
-  const parts: string[] = [];
-  const editor = state.editor;
-
-  // Structural targets
-  if (editor.recommended_word_count_min != null && editor.recommended_word_count_max != null) {
-    parts.push("=== STRUCTURAL TARGETS ===");
-    parts.push(
-      `Target word count: ${editor.recommended_word_count_min}–${editor.recommended_word_count_max} words`,
-    );
-    if (editor.recommended_h2_min != null) {
-      parts.push(`H2 sections: ${editor.recommended_h2_min}–${editor.recommended_h2_max}`);
-    }
-    parts.push("");
-  }
-
-  // Recommended outline
-  const outline = [...(state.outline ?? [])].sort((a, b) => a.position - b.position);
-  if (outline.length > 0) {
-    parts.push("=== RECOMMENDED OUTLINE ===");
-    for (const s of outline) {
-      const prefix = s.heading_level === 3 ? "  H3: " : "H2: ";
-      parts.push(`${prefix}${s.heading_text}`);
-    }
-    parts.push("");
-  }
-
-  // NLP terms
-  const activeTerms = (state.terms ?? []).filter(
-    (t) => !t.user_blacklisted && t.user_included !== false,
-  );
-  if (activeTerms.length > 0) {
-    parts.push("=== NLP TERMS (you MUST use each term at the specified frequency) ===");
-    for (const t of activeTerms.slice(0, 60)) {
-      parts.push(`- ${t.term}: ${t.min_recommended_uses}–${t.max_recommended_uses} uses`);
-    }
-    parts.push("");
-  }
-
-  // Questions to answer
-  const activeQuestions = (state.questions ?? []).filter((q) => !q.user_dismissed);
-  if (activeQuestions.length > 0) {
-    parts.push(
-      "=== QUESTIONS TO ANSWER (address every one in the body or FAQ section) ===",
-    );
-    for (const q of activeQuestions.slice(0, 15)) {
-      parts.push(`- ${q.question}`);
-    }
-    parts.push("");
-  }
-
-  // Key facts
-  const activeFacts = (state.facts ?? []).filter((f) => !f.user_dismissed);
-  if (activeFacts.length > 0) {
-    parts.push(
-      "=== KEY FACTS TO COVER (paraphrase naturally — do NOT copy verbatim) ===",
-    );
-    for (const f of activeFacts.slice(0, 20)) {
-      parts.push(`- ${f.fact_text}`);
-    }
-  }
-
-  return parts.join("\n");
 }
 
 // ─── Component ───────────────────────────────────────────────────────────────
@@ -266,7 +198,7 @@ export default function BulkRewriteModal({ posts, onClose, onComplete }: BulkRew
 
         // Poll until ready
         const state = await pollUntilReady(post.id, editorId);
-        seoGuidelines = formatBriefAsText(state);
+        seoGuidelines = formatContentEditorBrief(state);
       } catch (err) {
         updateRow(post.id, {
           status: "brief_failed",
@@ -362,7 +294,7 @@ export default function BulkRewriteModal({ posts, onClose, onComplete }: BulkRew
     if (row.status === "error" || row.status === "brief_failed") {
       return <i className="ri-error-warning-fill text-red-400 text-base"></i>;
     }
-    return <span className="w-2 h-2 rounded-full bg-neutral-300 mt-1 block"></span>;
+    return <span className="w-2 h-2 rounded-full bg-[#CBD5E1] mt-1 block"></span>;
   }
 
   function rowBg(row: RowState): string {
@@ -390,20 +322,20 @@ export default function BulkRewriteModal({ posts, onClose, onComplete }: BulkRew
 
       <div className="relative bg-white rounded-3xl shadow-2xl w-full max-w-3xl max-h-[90vh] flex flex-col overflow-hidden">
         {/* Header */}
-        <div className="px-7 py-5 border-b border-neutral-100 flex items-center gap-3 flex-shrink-0">
+        <div className="px-7 py-5 border-b border-[#E2E8F0] flex items-center gap-3 flex-shrink-0">
           <div className="w-9 h-9 rounded-xl bg-violet-100 flex items-center justify-center">
             <i className="ri-sparkling-2-line text-violet-600 text-lg"></i>
           </div>
           <div className="flex-1">
-            <h2 className="text-base font-semibold text-neutral-900">Bulk AI Rewrite</h2>
-            <p className="text-[12px] text-neutral-400">
+            <h2 className="text-base font-semibold text-[#0A1F44]">Bulk AI Rewrite</h2>
+            <p className="text-[12px] text-[#94A3B8]">
               Rewrites {posts.length} post{posts.length !== 1 ? "s" : ""} — auto-generates an SEO brief per post, then writes the content
             </p>
           </div>
           {!running && (
             <button
               onClick={onClose}
-              className="w-8 h-8 flex items-center justify-center rounded-lg hover:bg-neutral-100 text-neutral-400 transition-colors cursor-pointer"
+              className="w-8 h-8 flex items-center justify-center rounded-lg hover:bg-[#F4F7FB] text-[#94A3B8] transition-colors cursor-pointer"
             >
               <i className="ri-close-line text-base"></i>
             </button>
@@ -411,14 +343,14 @@ export default function BulkRewriteModal({ posts, onClose, onComplete }: BulkRew
         </div>
 
         {/* Global settings */}
-        <div className="px-7 py-4 border-b border-neutral-50 bg-neutral-50/60 flex items-center gap-5 flex-shrink-0 flex-wrap">
+        <div className="px-7 py-4 border-b border-[#F4F7FB] bg-[#F4F7FB]/60 flex items-center gap-5 flex-shrink-0 flex-wrap">
           <div className="flex items-center gap-2">
-            <span className="text-[10px] uppercase tracking-[0.15em] font-semibold text-neutral-500">Model</span>
+            <span className="text-[10px] uppercase tracking-[0.15em] font-semibold text-[#64748B]">Model</span>
             <select
               value={model}
               onChange={(e) => setModel(e.target.value)}
               disabled={running}
-              className="text-sm border border-neutral-200 rounded-lg px-2.5 py-1.5 bg-white text-neutral-800 focus:outline-none focus:ring-1 focus:ring-[#3d6f7f]/30 cursor-pointer disabled:opacity-50"
+              className="text-sm border border-[#E2E8F0] rounded-lg px-2.5 py-1.5 bg-white text-[#0A1F44] focus:outline-none focus:ring-1 focus:ring-[#0A1F44]/30 cursor-pointer disabled:opacity-50"
             >
               {AI_MODELS.map((m) => (
                 <option key={m.id} value={m.id}>{m.displayName}</option>
@@ -426,12 +358,12 @@ export default function BulkRewriteModal({ posts, onClose, onComplete }: BulkRew
             </select>
           </div>
           <div className="flex items-center gap-2">
-            <span className="text-[10px] uppercase tracking-[0.15em] font-semibold text-neutral-500">Words</span>
+            <span className="text-[10px] uppercase tracking-[0.15em] font-semibold text-[#64748B]">Words</span>
             <select
               value={wordCount}
               onChange={(e) => setWordCount(Number(e.target.value))}
               disabled={running}
-              className="text-sm border border-neutral-200 rounded-lg px-2.5 py-1.5 bg-white text-neutral-800 focus:outline-none focus:ring-1 focus:ring-[#3d6f7f]/30 cursor-pointer disabled:opacity-50"
+              className="text-sm border border-[#E2E8F0] rounded-lg px-2.5 py-1.5 bg-white text-[#0A1F44] focus:outline-none focus:ring-1 focus:ring-[#0A1F44]/30 cursor-pointer disabled:opacity-50"
             >
               {[800, 1200, 1500, 2000, 2500, 3000, 4000].map((n) => (
                 <option key={n} value={n}>{n.toLocaleString()}</option>
@@ -439,7 +371,7 @@ export default function BulkRewriteModal({ posts, onClose, onComplete }: BulkRew
             </select>
           </div>
           {/* Info chip */}
-          <div className="ml-auto flex items-center gap-1.5 text-[11px] text-neutral-400">
+          <div className="ml-auto flex items-center gap-1.5 text-[11px] text-[#94A3B8]">
             <i className="ri-information-line text-xs"></i>
             <span>Brief auto-generated per post · ~2–3 min each</span>
           </div>
@@ -451,7 +383,7 @@ export default function BulkRewriteModal({ posts, onClose, onComplete }: BulkRew
         </div>
 
         {/* Post rows */}
-        <div className="flex-1 overflow-y-auto divide-y divide-neutral-50">
+        <div className="flex-1 overflow-y-auto divide-y divide-[#F4F7FB]">
           {posts.map((post) => {
             const row = rows[post.id];
             const isActive = ["creating_brief", "brief_running", "writing"].includes(row.status);
@@ -469,7 +401,7 @@ export default function BulkRewriteModal({ posts, onClose, onComplete }: BulkRew
                   </div>
 
                   <div className="flex-1 min-w-0 space-y-2">
-                    <p className="text-sm font-medium text-neutral-800 leading-snug line-clamp-1">
+                    <p className="text-sm font-medium text-[#0A1F44] leading-snug line-clamp-1">
                       {post.title}
                     </p>
 
@@ -501,7 +433,7 @@ export default function BulkRewriteModal({ posts, onClose, onComplete }: BulkRew
                           type="button"
                           onClick={() => fileRefs.current[post.id]?.click()}
                           disabled={running}
-                          className="flex items-center gap-1.5 px-3 py-2 rounded-lg border border-dashed border-neutral-300 hover:border-[#3d6f7f]/50 hover:bg-[#3d6f7f]/4 text-[11px] font-medium text-neutral-500 hover:text-[#3d6f7f] transition-all cursor-pointer disabled:opacity-50 whitespace-nowrap"
+                          className="flex items-center gap-1.5 px-3 py-2 rounded-lg border border-dashed border-[#CBD5E1] hover:border-[#0A1F44]/50 hover:bg-[#0A1F44]/4 text-[11px] font-medium text-[#64748B] hover:text-[#0A1F44] transition-all cursor-pointer disabled:opacity-50 whitespace-nowrap"
                         >
                           <i className="ri-file-upload-line text-xs"></i>
                           {row.manualBriefFileName || "Override brief"}
@@ -530,15 +462,15 @@ export default function BulkRewriteModal({ posts, onClose, onComplete }: BulkRew
         </div>
 
         {/* Footer */}
-        <div className="px-7 py-4 border-t border-neutral-100 flex items-center gap-3 flex-shrink-0 bg-white">
+        <div className="px-7 py-4 border-t border-[#E2E8F0] flex items-center gap-3 flex-shrink-0 bg-white">
           {done ? (
             <>
-              <p className="flex-1 text-sm text-neutral-500">
+              <p className="flex-1 text-sm text-[#64748B]">
                 Rewrites saved as drafts. Reload the posts list to see updated content.
               </p>
               <button
                 onClick={onComplete}
-                className="flex items-center gap-2 px-6 py-2.5 rounded-xl bg-[#3d6f7f] hover:bg-[#35636f] text-white text-sm font-semibold transition-colors cursor-pointer"
+                className="flex items-center gap-2 px-6 py-2.5 rounded-xl bg-[#0A1F44] hover:bg-[#0d2a5e] text-white text-sm font-semibold transition-colors cursor-pointer"
               >
                 <i className="ri-check-line text-sm"></i>
                 Done
@@ -553,11 +485,11 @@ export default function BulkRewriteModal({ posts, onClose, onComplete }: BulkRew
             <>
               <button
                 onClick={onClose}
-                className="px-5 py-2.5 rounded-xl border border-neutral-200 text-sm font-semibold text-neutral-600 hover:bg-neutral-50 transition-colors cursor-pointer"
+                className="px-5 py-2.5 rounded-xl border border-[#E2E8F0] text-sm font-semibold text-[#64748B] hover:bg-[#F4F7FB] transition-colors cursor-pointer"
               >
                 Cancel
               </button>
-              <div className="flex-1 text-[12px] text-neutral-400">
+              <div className="flex-1 text-[12px] text-[#94A3B8]">
                 Each post: auto-generate SEO brief → write content → save as draft.
               </div>
               <button

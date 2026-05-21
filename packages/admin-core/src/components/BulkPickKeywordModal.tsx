@@ -1,8 +1,11 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { ADMIN_OCEAN } from "../lib/adminTheme";
-import { cleanSeedPhrase } from "../lib/seedCleaner";
+import { ADMIN_ACCENT, ADMIN_ACCENT_SOFT, ADMIN_OCEAN } from "../lib/adminTheme";
+import {
+  cleanSeedPhrase,
+  type PageKeywordSeedContextPayload,
+} from "../lib/seedCleaner";
 import type {
   KeywordPickModeDTO,
   SemrushAutoPickResponse,
@@ -19,7 +22,7 @@ const INTENT_LABEL: Record<SemrushIntentDTO, string> = {
 const INTENT_COLOR: Record<SemrushIntentDTO, string> = {
   0: "bg-blue-50 text-blue-700",       // commercial
   1: "bg-amber-50 text-amber-700",     // informational
-  2: "bg-neutral-100 text-neutral-600",// navigational
+  2: "bg-[#F4F7FB] text-[#64748B]",// navigational
   3: "bg-emerald-50 text-emerald-700", // transactional
 };
 
@@ -37,6 +40,8 @@ interface BulkPickRow {
    * the server crawls the live page and uses its H1 for a better Semrush seed.
    */
   routePath?: string;
+  /** SEO + meta for server refinement (pages). */
+  pageContext?: PageKeywordSeedContextPayload;
 }
 
 interface RowState {
@@ -121,7 +126,12 @@ export default function BulkPickKeywordModal({
         const res = await fetch("/api/admin/semrush/auto-pick", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ seed: cleanedSeed, mode, route_path: row.routePath }),
+          body: JSON.stringify({
+            seed: cleanedSeed,
+            mode,
+            route_path: row.routePath,
+            page_context: row.pageContext,
+          }),
         });
         const data = (await res.json()) as SemrushAutoPickResponse;
         if (!res.ok || !data.ok) {
@@ -201,16 +211,16 @@ export default function BulkPickKeywordModal({
 
       <div className="relative bg-white rounded-3xl shadow-2xl w-full max-w-3xl max-h-[90vh] flex flex-col overflow-hidden">
         {/* Header */}
-        <div className="px-7 py-5 border-b border-neutral-100 flex items-center gap-3 flex-shrink-0">
+        <div className="px-7 py-5 border-b border-[#E2E8F0] flex items-center gap-3 flex-shrink-0">
           <div
             className="w-9 h-9 rounded-xl flex items-center justify-center"
-            style={{ backgroundColor: `${ADMIN_OCEAN}18` }}
+            style={{ backgroundColor: ADMIN_ACCENT_SOFT }}
           >
-            <i className="ri-search-eye-line text-lg" style={{ color: ADMIN_OCEAN }} />
+            <i className="ri-search-eye-line text-lg" style={{ color: ADMIN_ACCENT }} />
           </div>
           <div className="flex-1">
-            <h2 className="text-base font-semibold text-neutral-900">Auto-pick Primary Keywords</h2>
-            <p className="text-[12px] text-neutral-500">
+            <h2 className="text-base font-semibold text-[#0A1F44]">Auto-pick Primary Keywords</h2>
+            <p className="text-[12px] text-[#64748B]">
               {labelByMode[mode]} · {rows.length} {rows.length === 1 ? "row" : "rows"}
             </p>
           </div>
@@ -218,7 +228,7 @@ export default function BulkPickKeywordModal({
             <button
               type="button"
               onClick={handleClose}
-              className="w-8 h-8 flex items-center justify-center rounded-lg hover:bg-neutral-100 text-neutral-400 cursor-pointer transition-colors"
+              className="w-8 h-8 flex items-center justify-center rounded-lg hover:bg-[#F4F7FB] text-[#94A3B8] cursor-pointer transition-colors"
             >
               <i className="ri-close-line text-base" />
             </button>
@@ -226,15 +236,15 @@ export default function BulkPickKeywordModal({
         </div>
 
         {/* Help banner */}
-        <div className="px-7 py-3 bg-neutral-50 border-b border-neutral-100 text-[12px] text-neutral-600 leading-relaxed">
+        <div className="px-7 py-3 bg-[#F4F7FB] border-b border-[#E2E8F0] text-[12px] text-[#64748B] leading-relaxed">
           {helpByMode[mode]}{" "}
-          <span className="text-neutral-400">
+          <span className="text-[#94A3B8]">
             (~{estimatedUnits.toLocaleString()} Semrush API units)
           </span>
         </div>
 
         {/* Rows list */}
-        <div className="flex-1 overflow-y-auto divide-y divide-neutral-100">
+        <div className="flex-1 overflow-y-auto divide-y divide-[#E2E8F0]">
           {rows.map((row) => {
             const state = rowStates[row.id];
             return (
@@ -264,20 +274,20 @@ export default function BulkPickKeywordModal({
                     ) : state.status === "skipped" ? (
                       <i className="ri-information-line text-amber-500 text-base" />
                     ) : state.status === "suggested" ? (
-                      <i className="ri-sparkling-2-fill text-base" style={{ color: ADMIN_OCEAN }} />
+                      <i className="ri-sparkling-2-fill text-base" style={{ color: ADMIN_ACCENT }} />
                     ) : (
-                      <span className="w-2 h-2 rounded-full bg-neutral-300" />
+                      <span className="w-2 h-2 rounded-full bg-[#CBD5E1]" />
                     )}
                   </div>
 
                   <div className="flex-1 min-w-0 space-y-1.5">
-                    <p className="text-[13px] font-medium text-neutral-800 leading-snug truncate">
+                    <p className="text-[13px] font-medium text-[#0A1F44] leading-snug truncate">
                       {row.title}
                     </p>
                     {row.currentKeyword && state.status !== "applied" && (
-                      <p className="text-[10px] text-neutral-400">
+                      <p className="text-[10px] text-[#94A3B8]">
                         Current:{" "}
-                        <span className="font-mono text-neutral-500">{row.currentKeyword}</span>
+                        <span className="font-mono text-[#64748B]">{row.currentKeyword}</span>
                       </p>
                     )}
 
@@ -287,7 +297,7 @@ export default function BulkPickKeywordModal({
                           type="checkbox"
                           checked={state.included}
                           onChange={(e) => updateRow(row.id, { included: e.target.checked })}
-                          className="w-4 h-4 rounded border-neutral-300 cursor-pointer accent-[#3d6f7f]"
+                          className="w-4 h-4 rounded border-[#CBD5E1] cursor-pointer accent-[#0A1F44]"
                           title="Include in apply"
                         />
                         <input
@@ -295,9 +305,9 @@ export default function BulkPickKeywordModal({
                           value={state.edited ?? state.pick.phrase}
                           onChange={(e) => updateRow(row.id, { edited: e.target.value })}
                           disabled={!state.included || applying}
-                          className="flex-1 min-w-[180px] max-w-[320px] px-2.5 py-1.5 text-[12px] border border-neutral-300 rounded-md bg-white text-neutral-900 focus:outline-none focus:border-[#3d6f7f] disabled:opacity-50"
+                          className="flex-1 min-w-[180px] max-w-[320px] px-2.5 py-1.5 text-[12px] border border-[#CBD5E1] rounded-md bg-white text-[#0A1F44] focus:outline-none focus:border-[#7B9FD4] disabled:opacity-50"
                         />
-                        <span className="text-[10px] font-mono text-neutral-500">
+                        <span className="text-[10px] font-mono text-[#64748B]">
                           Vol {state.pick.volume.toLocaleString()} · KD {state.pick.difficulty || "—"}
                         </span>
                         {state.pick.intent.length > 0 && (
@@ -337,10 +347,10 @@ export default function BulkPickKeywordModal({
         </div>
 
         {/* Footer */}
-        <div className="px-7 py-4 border-t border-neutral-100 flex items-center gap-3 flex-shrink-0 bg-white">
+        <div className="px-7 py-4 border-t border-[#E2E8F0] flex items-center gap-3 flex-shrink-0 bg-white">
           {done ? (
             <>
-              <p className="flex-1 text-sm text-neutral-500">
+              <p className="flex-1 text-sm text-[#64748B]">
                 {counts.applied} keyword{counts.applied !== 1 ? "s" : ""} saved
                 {counts.errored > 0 ? `, ${counts.errored} failed` : ""}.
               </p>
@@ -356,8 +366,8 @@ export default function BulkPickKeywordModal({
             </>
           ) : applying ? (
             <div className="flex-1 flex items-center gap-3">
-              <i className="ri-loader-4-line animate-spin text-base" style={{ color: ADMIN_OCEAN }} />
-              <span className="text-sm text-neutral-700 font-medium">
+              <i className="ri-loader-4-line animate-spin text-base" style={{ color: ADMIN_ACCENT }} />
+              <span className="text-sm text-[#334155] font-medium">
                 Saving {counts.applied + 1} of {counts.included}…
               </span>
             </div>
@@ -373,11 +383,11 @@ export default function BulkPickKeywordModal({
               <button
                 type="button"
                 onClick={handleClose}
-                className="px-5 py-2.5 rounded-xl border border-neutral-200 text-sm font-semibold text-neutral-600 hover:bg-neutral-50 cursor-pointer transition-colors"
+                className="px-5 py-2.5 rounded-xl border border-[#E2E8F0] text-sm font-semibold text-[#64748B] hover:bg-[#F4F7FB] cursor-pointer transition-colors"
               >
                 Cancel
               </button>
-              <div className="flex-1 text-[12px] text-neutral-500">
+              <div className="flex-1 text-[12px] text-[#64748B]">
                 {counts.included} of {counts.suggested} ready to apply.{" "}
                 Uncheck rows you don&apos;t want to overwrite.
               </div>
@@ -397,11 +407,11 @@ export default function BulkPickKeywordModal({
               <button
                 type="button"
                 onClick={handleClose}
-                className="px-5 py-2.5 rounded-xl border border-neutral-200 text-sm font-semibold text-neutral-600 hover:bg-neutral-50 cursor-pointer transition-colors"
+                className="px-5 py-2.5 rounded-xl border border-[#E2E8F0] text-sm font-semibold text-[#64748B] hover:bg-[#F4F7FB] cursor-pointer transition-colors"
               >
                 Cancel
               </button>
-              <div className="flex-1 text-[12px] text-neutral-500">
+              <div className="flex-1 text-[12px] text-[#64748B]">
                 One Semrush call per row. You&apos;ll review &amp; approve before anything saves.
               </div>
               <button

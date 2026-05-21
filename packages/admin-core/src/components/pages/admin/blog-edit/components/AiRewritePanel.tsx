@@ -29,9 +29,9 @@ interface AiRewritePanelProps {
 }
 
 const inputCls =
-  "w-full px-3.5 py-2.5 text-sm border border-neutral-200 rounded-xl bg-neutral-50 text-neutral-900 placeholder-neutral-400 focus:outline-none focus:ring-2 focus:ring-[#3d6f7f]/30 focus:border-[#3d6f7f] transition-all";
+  "w-full px-3.5 py-2.5 text-sm border border-[#E2E8F0] rounded-xl bg-[#F4F7FB] text-[#0A1F44] placeholder-[#94A3B8] focus:outline-none focus:ring-2 focus:ring-[#0A1F44]/30 focus:border-[#7B9FD4] transition-all";
 const labelCls =
-  "block text-[10px] tracking-[0.15em] uppercase font-semibold text-neutral-500 mb-1.5";
+  "block text-[10px] tracking-[0.15em] uppercase font-semibold text-[#64748B] mb-1.5";
 
 export default function AiRewritePanel({
   initialTopic,
@@ -74,15 +74,15 @@ export default function AiRewritePanel({
 
       <div className="fixed top-0 right-0 h-full w-[480px] max-w-full bg-white z-50 shadow-2xl flex flex-col overflow-hidden">
         {/* Header */}
-        <div className="px-6 py-5 border-b border-neutral-100 flex items-center gap-3 flex-shrink-0">
+        <div className="px-6 py-5 border-b border-[#E2E8F0] flex items-center gap-3 flex-shrink-0">
           <div className="w-8 h-8 rounded-xl bg-violet-100 flex items-center justify-center">
             <i className="ri-sparkling-2-line text-violet-600 text-base"></i>
           </div>
           <div className="flex-1 min-w-0">
-            <h2 className="text-sm font-semibold text-neutral-900">AI Rewrite</h2>
-            <p className="text-[11px] text-neutral-400">Runs in background — you can close this while it generates</p>
+            <h2 className="text-sm font-semibold text-[#0A1F44]">AI Rewrite</h2>
+            <p className="text-[11px] text-[#94A3B8]">Runs in background — you can close this while it generates</p>
           </div>
-          <button onClick={onClose} className="w-8 h-8 flex items-center justify-center rounded-lg hover:bg-neutral-100 text-neutral-400 transition-colors cursor-pointer">
+          <button onClick={onClose} className="w-8 h-8 flex items-center justify-center rounded-lg hover:bg-[#F4F7FB] text-[#94A3B8] transition-colors cursor-pointer">
             <i className="ri-close-line text-base"></i>
           </button>
         </div>
@@ -121,7 +121,7 @@ export default function AiRewritePanel({
                 <option key={m.id} value={m.id}>{m.displayName}</option>
               ))}
             </select>
-            <p className="text-[11px] text-neutral-400 mt-1.5">
+            <p className="text-[11px] text-[#94A3B8] mt-1.5">
               {AI_MODELS.find((m) => m.id === model)?.description}
             </p>
           </div>
@@ -130,11 +130,11 @@ export default function AiRewritePanel({
           <div>
             <label className={labelCls}>
               SEO Brief
-              <span className="ml-1.5 normal-case font-normal text-neutral-400">optional</span>
+              <span className="ml-1.5 normal-case font-normal text-[#94A3B8]">optional</span>
             </label>
             <div className="space-y-2">
               <button type="button" onClick={() => fileRef.current?.click()}
-                className="w-full flex items-center gap-3 px-4 py-3 rounded-xl border-2 border-dashed border-neutral-200 hover:border-[#3d6f7f]/40 hover:bg-[#3d6f7f]/4 text-neutral-500 hover:text-[#3d6f7f] transition-all cursor-pointer">
+                className="w-full flex items-center gap-3 px-4 py-3 rounded-xl border-2 border-dashed border-[#E2E8F0] hover:border-[#0A1F44]/40 hover:bg-[#0A1F44]/4 text-[#64748B] hover:text-[#0A1F44] transition-all cursor-pointer">
                 <i className="ri-file-upload-line text-base flex-shrink-0"></i>
                 <span className="text-[12px] font-medium">
                   {seoGuidelines ? "Replace .txt file" : "Import brief (.txt / .md)"}
@@ -150,7 +150,7 @@ export default function AiRewritePanel({
                 rows={4} placeholder="Or paste a SEO brief (NLP terms, structure targets, questions, facts)..."
                 className={`${inputCls} resize-none`} />
               {seoGuidelines && (
-                <p className="text-[11px] text-neutral-400">
+                <p className="text-[11px] text-[#94A3B8]">
                   {seoGuidelines.length.toLocaleString()} chars loaded
                   {seoGuidelines.length > 12000 && <span className="text-amber-500"> (trimmed to 12,000)</span>}
                 </p>
@@ -160,9 +160,9 @@ export default function AiRewritePanel({
         </div>
 
         {/* Footer */}
-        <div className="px-6 py-4 border-t border-neutral-100 flex items-center gap-3 flex-shrink-0">
+        <div className="px-6 py-4 border-t border-[#E2E8F0] flex items-center gap-3 flex-shrink-0">
           <button onClick={onClose}
-            className="px-5 py-2.5 rounded-xl border border-neutral-200 text-sm font-semibold text-neutral-600 hover:bg-neutral-50 transition-colors cursor-pointer">
+            className="px-5 py-2.5 rounded-xl border border-[#E2E8F0] text-sm font-semibold text-[#64748B] hover:bg-[#F4F7FB] transition-colors cursor-pointer">
             Cancel
           </button>
           <button onClick={handleSubmit} disabled={!topic.trim() || !keyword.trim()}

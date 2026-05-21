@@ -3,7 +3,7 @@
 import { useCallback, useState } from "react";
 import Link from "next/link";
 import AdminPageHeader from "../components/AdminPageHeader";
-import { ADMIN_OCEAN } from "../lib/adminTheme";
+import { ADMIN_ACCENT, ADMIN_ACCENT_SOFT, ADMIN_OCEAN } from "../lib/adminTheme";
 import type {
   SemrushKeywordOverviewDTO,
   SemrushKeywordSuggestionDTO,
@@ -11,7 +11,7 @@ import type {
 } from "../types/semrush";
 
 const inputCls =
-  "w-full px-4 py-3 text-sm border border-neutral-200 rounded-xl bg-white text-neutral-900 placeholder-neutral-400 focus:outline-none focus:border-[#3d6f7f] transition-colors";
+  "w-full px-4 py-3 text-sm border border-[#E2E8F0] rounded-xl bg-white text-[#0A1F44] placeholder-[#94A3B8] focus:outline-none focus:border-[#7B9FD4] transition-colors";
 
 const SUGGEST_LIMIT_DEFAULT = 10;
 const SUGGEST_LIMIT_MAX = 25;
@@ -43,7 +43,7 @@ function formatNumber(n: number): string {
 }
 
 function difficultyClass(kd: number): string {
-  if (kd === 0) return "text-neutral-400";
+  if (kd === 0) return "text-[#94A3B8]";
   if (kd < 30) return "text-emerald-600";
   if (kd < 50) return "text-amber-600";
   if (kd < 70) return "text-orange-600";
@@ -51,7 +51,7 @@ function difficultyClass(kd: number): string {
 }
 
 function difficultyBadgeClass(kd: number): string {
-  if (kd === 0) return "bg-neutral-100 text-neutral-500";
+  if (kd === 0) return "bg-[#F4F7FB] text-[#64748B]";
   if (kd < 30) return "bg-emerald-50 text-emerald-700";
   if (kd < 50) return "bg-amber-50 text-amber-700";
   if (kd < 70) return "bg-orange-50 text-orange-700";
@@ -70,7 +70,7 @@ function positionBadgeClass(pos: number): string {
   if (pos <= 3) return "bg-emerald-50 text-emerald-700";
   if (pos <= 10) return "bg-amber-50 text-amber-700";
   if (pos <= 20) return "bg-orange-50 text-orange-700";
-  return "bg-neutral-100 text-neutral-500";
+  return "bg-[#F4F7FB] text-[#64748B]";
 }
 
 function formatCtr(ctr: number): string {
@@ -288,7 +288,7 @@ export default function AdminKeywordResearchPage() {
 
       <div className="mx-auto max-w-screen-xl py-6 space-y-6">
         {/* Tab switcher */}
-        <div className="inline-flex rounded-xl border border-neutral-200 bg-white p-1 shadow-sm gap-1">
+        <div className="inline-flex rounded-xl border border-[#E2E8F0] bg-white p-1 shadow-sm gap-1">
           <TabButton
             active={activeTab === "research"}
             icon="ri-search-eye-line"
@@ -308,9 +308,9 @@ export default function AdminKeywordResearchPage() {
           <>
             <form
               onSubmit={handleSubmit}
-              className="rounded-2xl border border-neutral-200 bg-white p-5 shadow-sm"
+              className="rounded-2xl border border-[#E2E8F0] bg-white p-5 shadow-sm"
             >
-              <label className="block text-[11px] font-bold tracking-[0.12em] uppercase text-neutral-500 mb-1.5">
+              <label className="block text-[11px] font-bold tracking-[0.12em] uppercase text-[#64748B] mb-1.5">
                 Seed keyword or topic
               </label>
               <div className="flex flex-col sm:flex-row gap-3">
@@ -328,7 +328,7 @@ export default function AdminKeywordResearchPage() {
                     value={limit}
                     onChange={(e) => setLimit(Number(e.target.value))}
                     disabled={loading}
-                    className="px-3 py-3 text-sm border border-neutral-200 rounded-xl bg-white text-neutral-700 cursor-pointer disabled:opacity-50"
+                    className="px-3 py-3 text-sm border border-[#E2E8F0] rounded-xl bg-white text-[#334155] cursor-pointer disabled:opacity-50"
                   >
                     {[5, 10, 15, 25].map((n) => (
                       <option key={n} value={n}>
@@ -354,7 +354,7 @@ export default function AdminKeywordResearchPage() {
                   </button>
                 </div>
               </div>
-              <p className="mt-2 text-[11px] text-neutral-400">
+              <p className="mt-2 text-[11px] text-[#94A3B8]">
                 Cost per click: ~10 + (40 × {limit > SUGGEST_LIMIT_MAX ? SUGGEST_LIMIT_MAX : limit})
                 Semrush API units. Database: US.
               </p>
@@ -373,13 +373,13 @@ export default function AdminKeywordResearchPage() {
             {result && (
               <div className="space-y-5">
                 {result.seed && (
-                  <div className="rounded-2xl border border-neutral-200 bg-white p-5 shadow-sm">
+                  <div className="rounded-2xl border border-[#E2E8F0] bg-white p-5 shadow-sm">
                     <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
                       <div className="min-w-0">
-                        <p className="text-[10px] font-bold uppercase tracking-[0.12em] text-neutral-400">
+                        <p className="text-[10px] font-bold uppercase tracking-[0.12em] text-[#94A3B8]">
                           Seed keyword
                         </p>
-                        <p className="mt-1 text-xl font-semibold text-neutral-900 truncate">
+                        <p className="mt-1 text-xl font-semibold text-[#0A1F44] truncate">
                           {result.seed.phrase}
                         </p>
                       </div>
@@ -401,18 +401,18 @@ export default function AdminKeywordResearchPage() {
                   </div>
                 )}
 
-                <div className="rounded-2xl border border-neutral-200 bg-white shadow-sm overflow-hidden">
-                  <div className="flex items-center justify-between gap-3 px-5 py-4 border-b border-neutral-100">
+                <div className="rounded-2xl border border-[#E2E8F0] bg-white shadow-sm overflow-hidden">
+                  <div className="flex items-center justify-between gap-3 px-5 py-4 border-b border-[#E2E8F0]">
                     <div>
-                      <p className="text-[11px] font-bold uppercase tracking-[0.12em] text-neutral-700">
+                      <p className="text-[11px] font-bold uppercase tracking-[0.12em] text-[#334155]">
                         Broad-match keywords
-                        <span className="ml-2 text-neutral-400 normal-case font-normal tracking-normal">
+                        <span className="ml-2 text-[#94A3B8] normal-case font-normal tracking-normal">
                           ({result.suggestions.length})
                         </span>
                       </p>
-                      <p className="mt-0.5 text-[11px] text-neutral-400">
+                      <p className="mt-0.5 text-[11px] text-[#94A3B8]">
                         Sorted by{" "}
-                        <span className="font-semibold text-neutral-600">
+                        <span className="font-semibold text-[#64748B]">
                           {sortKey === "searchVolume"
                             ? "volume"
                             : sortKey === "cpc"
@@ -430,8 +430,8 @@ export default function AdminKeywordResearchPage() {
                             onClick={() => setSortKey(k)}
                             className={`px-2.5 py-1 rounded-md text-[10px] font-semibold transition-colors cursor-pointer ${
                               sortKey === k
-                                ? "bg-neutral-900 text-white"
-                                : "text-neutral-500 hover:bg-neutral-100"
+                                ? "bg-[#0A1F44] text-white"
+                                : "text-[#64748B] hover:bg-[#F4F7FB]"
                             }`}
                           >
                             {k === "searchVolume" ? "Volume" : k === "difficulty" ? "KD" : "CPC"}
@@ -441,7 +441,7 @@ export default function AdminKeywordResearchPage() {
                       <button
                         type="button"
                         onClick={handleExportCsv}
-                        className="px-3 py-1.5 rounded-lg text-[10px] font-bold uppercase tracking-[0.1em] border border-neutral-200 text-neutral-700 hover:border-neutral-400 cursor-pointer transition-colors"
+                        className="px-3 py-1.5 rounded-lg text-[10px] font-bold uppercase tracking-[0.1em] border border-[#E2E8F0] text-[#334155] hover:border-[#7B9FD4] cursor-pointer transition-colors"
                       >
                         <i className="ri-download-line mr-1" />
                         CSV
@@ -450,13 +450,13 @@ export default function AdminKeywordResearchPage() {
                   </div>
 
                   {sorted.length === 0 ? (
-                    <p className="p-8 text-center text-sm text-neutral-500">
+                    <p className="p-8 text-center text-sm text-[#64748B]">
                       No broad-match keywords returned. Try a shorter or more general seed.
                     </p>
                   ) : (
                     <div className="overflow-x-auto">
                       <table className="min-w-full text-left text-sm">
-                        <thead className="bg-neutral-50 text-[10px] font-bold uppercase tracking-[0.08em] text-neutral-500">
+                        <thead className="bg-[#F4F7FB] text-[10px] font-bold uppercase tracking-[0.08em] text-[#64748B]">
                           <tr>
                             <th className="px-5 py-2.5">Keyword</th>
                             <th className="px-3 py-2.5 text-right whitespace-nowrap">Volume</th>
@@ -466,13 +466,13 @@ export default function AdminKeywordResearchPage() {
                             <th className="px-3 py-2.5 text-right whitespace-nowrap">Actions</th>
                           </tr>
                         </thead>
-                        <tbody className="divide-y divide-neutral-100">
+                        <tbody className="divide-y divide-[#E2E8F0]">
                           {sorted.map((s) => (
-                            <tr key={s.phrase} className="hover:bg-neutral-50/50 transition-colors">
+                            <tr key={s.phrase} className="hover:bg-[#F4F7FB]/50 transition-colors">
                               <td className="px-5 py-3">
-                                <p className="text-[13px] text-neutral-900">{s.phrase}</p>
+                                <p className="text-[13px] text-[#0A1F44]">{s.phrase}</p>
                               </td>
-                              <td className="px-3 py-3 text-right font-mono text-[12px] text-neutral-700">
+                              <td className="px-3 py-3 text-right font-mono text-[12px] text-[#334155]">
                                 {formatNumber(s.searchVolume)}
                               </td>
                               <td className="px-3 py-3 text-right">
@@ -483,10 +483,10 @@ export default function AdminKeywordResearchPage() {
                                   <span className="ml-1 opacity-60">{difficultyLabel(s.difficulty)}</span>
                                 </span>
                               </td>
-                              <td className="px-3 py-3 text-right font-mono text-[12px] text-neutral-600">
+                              <td className="px-3 py-3 text-right font-mono text-[12px] text-[#64748B]">
                                 ${s.cpc.toFixed(2)}
                               </td>
-                              <td className="px-3 py-3 text-right font-mono text-[12px] text-neutral-600">
+                              <td className="px-3 py-3 text-right font-mono text-[12px] text-[#64748B]">
                                 {(s.competition * 100).toFixed(0)}%
                               </td>
                               <td className="px-3 py-3 text-right">
@@ -495,7 +495,7 @@ export default function AdminKeywordResearchPage() {
                                     type="button"
                                     onClick={() => handleCopy(s.phrase)}
                                     title="Copy keyword"
-                                    className="px-2 py-1 rounded-md text-[10px] font-semibold text-neutral-500 hover:bg-neutral-200 cursor-pointer transition-colors"
+                                    className="px-2 py-1 rounded-md text-[10px] font-semibold text-[#64748B] hover:bg-[#E2E8F0] cursor-pointer transition-colors"
                                   >
                                     {copyState === s.phrase ? (
                                       <>
@@ -528,7 +528,7 @@ export default function AdminKeywordResearchPage() {
                   )}
                 </div>
 
-                <p className="text-[11px] text-neutral-400 text-center">
+                <p className="text-[11px] text-[#94A3B8] text-center">
                   Pulled {new Date(result.fetchedAt).toLocaleTimeString()} · Click{" "}
                   <strong>Draft</strong> to start a new blog post pre-filled with that keyword.
                 </p>
@@ -542,9 +542,9 @@ export default function AdminKeywordResearchPage() {
           <>
             <form
               onSubmit={handleRankSubmit}
-              className="rounded-2xl border border-neutral-200 bg-white p-5 shadow-sm"
+              className="rounded-2xl border border-[#E2E8F0] bg-white p-5 shadow-sm"
             >
-              <label className="block text-[11px] font-bold tracking-[0.12em] uppercase text-neutral-500 mb-1.5">
+              <label className="block text-[11px] font-bold tracking-[0.12em] uppercase text-[#64748B] mb-1.5">
                 Page URL
               </label>
               <div className="flex flex-col sm:flex-row gap-3">
@@ -562,7 +562,7 @@ export default function AdminKeywordResearchPage() {
                     value={rankDays}
                     onChange={(e) => setRankDays(Number(e.target.value))}
                     disabled={rankLoading}
-                    className="px-3 py-3 text-sm border border-neutral-200 rounded-xl bg-white text-neutral-700 cursor-pointer disabled:opacity-50"
+                    className="px-3 py-3 text-sm border border-[#E2E8F0] rounded-xl bg-white text-[#334155] cursor-pointer disabled:opacity-50"
                   >
                     {[28, 90].map((n) => (
                       <option key={n} value={n}>
@@ -588,7 +588,7 @@ export default function AdminKeywordResearchPage() {
                   </button>
                 </div>
               </div>
-              <p className="mt-2 text-[11px] text-neutral-400">
+              <p className="mt-2 text-[11px] text-[#94A3B8]">
                 Pulls real query data from Google Search Console — no API unit cost. Shows every
                 keyword Google served this page for in the selected date range.
               </p>
@@ -623,13 +623,13 @@ export default function AdminKeywordResearchPage() {
             {rankResult && !rankResult.needsOAuth && (
               <div className="space-y-5">
                 {/* Summary card */}
-                <div className="rounded-2xl border border-neutral-200 bg-white p-5 shadow-sm">
+                <div className="rounded-2xl border border-[#E2E8F0] bg-white p-5 shadow-sm">
                   <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
                     <div className="min-w-0">
-                      <p className="text-[10px] font-bold uppercase tracking-[0.12em] text-neutral-400">
+                      <p className="text-[10px] font-bold uppercase tracking-[0.12em] text-[#94A3B8]">
                         Queries for
                       </p>
-                      <p className="mt-1 text-sm font-semibold text-neutral-800 break-all">
+                      <p className="mt-1 text-sm font-semibold text-[#0A1F44] break-all">
                         {rankResult.url}
                       </p>
                     </div>
@@ -657,18 +657,18 @@ export default function AdminKeywordResearchPage() {
                 </div>
 
                 {/* Rankings table */}
-                <div className="rounded-2xl border border-neutral-200 bg-white shadow-sm overflow-hidden">
-                  <div className="flex items-center justify-between gap-3 px-5 py-4 border-b border-neutral-100">
+                <div className="rounded-2xl border border-[#E2E8F0] bg-white shadow-sm overflow-hidden">
+                  <div className="flex items-center justify-between gap-3 px-5 py-4 border-b border-[#E2E8F0]">
                     <div>
-                      <p className="text-[11px] font-bold uppercase tracking-[0.12em] text-neutral-700">
+                      <p className="text-[11px] font-bold uppercase tracking-[0.12em] text-[#334155]">
                         Ranking queries
-                        <span className="ml-2 text-neutral-400 normal-case font-normal tracking-normal">
+                        <span className="ml-2 text-[#94A3B8] normal-case font-normal tracking-normal">
                           ({rankResult.rows.length})
                         </span>
                       </p>
-                      <p className="mt-0.5 text-[11px] text-neutral-400">
+                      <p className="mt-0.5 text-[11px] text-[#94A3B8]">
                         Sorted by{" "}
-                        <span className="font-semibold text-neutral-600">
+                        <span className="font-semibold text-[#64748B]">
                           {rankSortKey === "position"
                             ? "position"
                             : rankSortKey === "impressions"
@@ -686,8 +686,8 @@ export default function AdminKeywordResearchPage() {
                             onClick={() => setRankSortKey(k)}
                             className={`px-2.5 py-1 rounded-md text-[10px] font-semibold transition-colors cursor-pointer ${
                               rankSortKey === k
-                                ? "bg-neutral-900 text-white"
-                                : "text-neutral-500 hover:bg-neutral-100"
+                                ? "bg-[#0A1F44] text-white"
+                                : "text-[#64748B] hover:bg-[#F4F7FB]"
                             }`}
                           >
                             {k === "position" ? "Pos" : k === "impressions" ? "Impr" : "Clicks"}
@@ -697,7 +697,7 @@ export default function AdminKeywordResearchPage() {
                       <button
                         type="button"
                         onClick={handleRankExportCsv}
-                        className="px-3 py-1.5 rounded-lg text-[10px] font-bold uppercase tracking-[0.1em] border border-neutral-200 text-neutral-700 hover:border-neutral-400 cursor-pointer transition-colors"
+                        className="px-3 py-1.5 rounded-lg text-[10px] font-bold uppercase tracking-[0.1em] border border-[#E2E8F0] text-[#334155] hover:border-[#7B9FD4] cursor-pointer transition-colors"
                       >
                         <i className="ri-download-line mr-1" />
                         CSV
@@ -707,10 +707,10 @@ export default function AdminKeywordResearchPage() {
 
                   {rankSorted.length === 0 ? (
                     <div className="p-10 text-center">
-                      <p className="text-sm font-semibold text-neutral-700">
+                      <p className="text-sm font-semibold text-[#334155]">
                         No queries found for this URL.
                       </p>
-                      <p className="mt-1.5 text-[12px] text-neutral-500 max-w-sm mx-auto">
+                      <p className="mt-1.5 text-[12px] text-[#64748B] max-w-sm mx-auto">
                         Google hasn&apos;t served this page for any queries in the selected date
                         range. The page may be too new, not indexed, or use a different URL format.
                       </p>
@@ -718,7 +718,7 @@ export default function AdminKeywordResearchPage() {
                   ) : (
                     <div className="overflow-x-auto">
                       <table className="min-w-full text-left text-sm">
-                        <thead className="bg-neutral-50 text-[10px] font-bold uppercase tracking-[0.08em] text-neutral-500">
+                        <thead className="bg-[#F4F7FB] text-[10px] font-bold uppercase tracking-[0.08em] text-[#64748B]">
                           <tr>
                             <th className="px-5 py-2.5">Query</th>
                             <th className="px-3 py-2.5 text-right whitespace-nowrap">Position</th>
@@ -728,11 +728,11 @@ export default function AdminKeywordResearchPage() {
                             <th className="px-3 py-2.5 text-right whitespace-nowrap">Actions</th>
                           </tr>
                         </thead>
-                        <tbody className="divide-y divide-neutral-100">
+                        <tbody className="divide-y divide-[#E2E8F0]">
                           {rankSorted.map((row) => (
-                            <tr key={row.query} className="hover:bg-neutral-50/50 transition-colors">
+                            <tr key={row.query} className="hover:bg-[#F4F7FB]/50 transition-colors">
                               <td className="px-5 py-3">
-                                <p className="text-[13px] text-neutral-900">{row.query}</p>
+                                <p className="text-[13px] text-[#0A1F44]">{row.query}</p>
                               </td>
                               <td className="px-3 py-3 text-right">
                                 <span
@@ -741,13 +741,13 @@ export default function AdminKeywordResearchPage() {
                                   #{Math.round(row.position)}
                                 </span>
                               </td>
-                              <td className="px-3 py-3 text-right font-mono text-[12px] text-neutral-700">
+                              <td className="px-3 py-3 text-right font-mono text-[12px] text-[#334155]">
                                 {row.impressions.toLocaleString()}
                               </td>
-                              <td className="px-3 py-3 text-right font-mono text-[12px] text-neutral-700">
+                              <td className="px-3 py-3 text-right font-mono text-[12px] text-[#334155]">
                                 {row.clicks.toLocaleString()}
                               </td>
-                              <td className="px-3 py-3 text-right font-mono text-[12px] text-neutral-500">
+                              <td className="px-3 py-3 text-right font-mono text-[12px] text-[#64748B]">
                                 {formatCtr(row.ctr)}
                               </td>
                               <td className="px-3 py-3 text-right">
@@ -756,7 +756,7 @@ export default function AdminKeywordResearchPage() {
                                     type="button"
                                     onClick={() => handleRankCopy(row.query)}
                                     title="Copy query"
-                                    className="px-2 py-1 rounded-md text-[10px] font-semibold text-neutral-500 hover:bg-neutral-200 cursor-pointer transition-colors"
+                                    className="px-2 py-1 rounded-md text-[10px] font-semibold text-[#64748B] hover:bg-[#E2E8F0] cursor-pointer transition-colors"
                                   >
                                     {rankCopyState === row.query ? (
                                       <>
@@ -789,7 +789,7 @@ export default function AdminKeywordResearchPage() {
                   )}
                 </div>
 
-                <p className="text-[11px] text-neutral-400 text-center">
+                <p className="text-[11px] text-[#94A3B8] text-center">
                   Pulled {new Date(rankResult.fetchedAt).toLocaleTimeString()} · Real data from
                   Google Search Console · Last {rankDays} days
                 </p>
@@ -820,7 +820,7 @@ function TabButton({
       type="button"
       onClick={onClick}
       className={`inline-flex items-center gap-2 px-4 py-2.5 rounded-lg text-[12px] font-bold uppercase tracking-[0.1em] transition-colors cursor-pointer ${
-        active ? "bg-neutral-900 text-white" : "text-neutral-500 hover:bg-neutral-100"
+        active ? "bg-[#0A1F44] text-white" : "text-[#64748B] hover:bg-[#F4F7FB]"
       }`}
     >
       <i className={`${icon} text-sm`} />
@@ -831,15 +831,15 @@ function TabButton({
 
 function EmptyState({ icon, title, body }: { icon: string; title: string; body: string }) {
   return (
-    <div className="rounded-2xl border border-neutral-200 bg-neutral-50 p-10 text-center">
+    <div className="rounded-2xl border border-[#E2E8F0] bg-[#F4F7FB] p-10 text-center">
       <div
         className="mx-auto mb-4 inline-flex h-12 w-12 items-center justify-center rounded-2xl"
-        style={{ backgroundColor: `${ADMIN_OCEAN}18` }}
+        style={{ backgroundColor: ADMIN_ACCENT_SOFT }}
       >
-        <i className={`${icon} text-2xl`} style={{ color: ADMIN_OCEAN }} />
+        <i className={`${icon} text-2xl`} style={{ color: ADMIN_ACCENT }} />
       </div>
-      <p className="text-sm font-semibold text-neutral-700">{title}</p>
-      <p className="mt-1.5 text-[12px] text-neutral-500 leading-relaxed max-w-md mx-auto">{body}</p>
+      <p className="text-sm font-semibold text-[#334155]">{title}</p>
+      <p className="mt-1.5 text-[12px] text-[#64748B] leading-relaxed max-w-md mx-auto">{body}</p>
     </div>
   );
 }
@@ -866,11 +866,11 @@ function Stat({
 }) {
   return (
     <div className="text-right">
-      <p className="text-[10px] font-bold uppercase tracking-[0.12em] text-neutral-400">{label}</p>
-      <p className={`mt-0.5 font-mono text-xl font-semibold ${valueClass ?? "text-neutral-900"}`}>
+      <p className="text-[10px] font-bold uppercase tracking-[0.12em] text-[#94A3B8]">{label}</p>
+      <p className={`mt-0.5 font-mono text-xl font-semibold ${valueClass ?? "text-[#0A1F44]"}`}>
         {value}
       </p>
-      {hint && <p className={`text-[10px] ${valueClass ?? "text-neutral-500"}`}>{hint}</p>}
+      {hint && <p className={`text-[10px] ${valueClass ?? "text-[#64748B]"}`}>{hint}</p>}
     </div>
   );
 }

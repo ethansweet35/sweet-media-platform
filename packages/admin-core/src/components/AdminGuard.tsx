@@ -24,8 +24,8 @@ export default function AdminGuard({ children }: { children: React.ReactNode }) 
 
   if (isLoading || !isAdmin) {
     return (
-      <div className="min-h-screen bg-stone-50 flex items-center justify-center">
-        <div className="w-6 h-6 border-2 border-stone-300 border-t-stone-700 rounded-full animate-spin" />
+      <div className="min-h-screen bg-[#F4F7FB] flex items-center justify-center">
+        <div className="w-6 h-6 border-2 border-[#CBD5E1] border-t-[#0A1F44] rounded-full animate-spin" />
       </div>
     );
   }

@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useCallback, useRef, KeyboardEvent } from "react";
 import AdminPageHeader from "../components/AdminPageHeader";
-import { ADMIN_OCEAN, ADMIN_OCEAN_HOVER } from "../lib/adminTheme";
+import { ADMIN_ACCENT, ADMIN_ACCENT_SOFT, ADMIN_OCEAN, ADMIN_OCEAN_HOVER } from "../lib/adminTheme";
 import { useBrandSettings, type BusinessHoursRow } from "../hooks/useBrandSettings";
 
 // ─── Constants ───────────────────────────────────────────────────────────────
@@ -82,15 +82,15 @@ function SectionCard({
   children: React.ReactNode;
 }) {
   return (
-    <div className="bg-white rounded-2xl border border-neutral-100 overflow-hidden">
-      <div className="flex items-center gap-3 px-6 py-4 border-b border-neutral-100">
+    <div className="bg-white rounded-2xl border border-[#E2E8F0] overflow-hidden">
+      <div className="flex items-center gap-3 px-6 py-4 border-b border-[#E2E8F0]">
         <div
           className="w-8 h-8 rounded-lg flex items-center justify-center"
-          style={{ backgroundColor: `${ADMIN_OCEAN}14` }}
+          style={{ backgroundColor: ADMIN_ACCENT_SOFT }}
         >
-          <i className={`${icon} text-sm`} style={{ color: ADMIN_OCEAN }}></i>
+          <i className={`${icon} text-sm`} style={{ color: ADMIN_ACCENT }}></i>
         </div>
-        <h2 className="text-sm font-semibold text-neutral-900">{title}</h2>
+        <h2 className="text-sm font-semibold text-[#0A1F44]">{title}</h2>
       </div>
       <div className="p-6">{children}</div>
     </div>
@@ -99,14 +99,14 @@ function SectionCard({
 
 function FieldLabel({ children }: { children: React.ReactNode }) {
   return (
-    <label className="block text-[10px] tracking-[0.2em] uppercase font-semibold text-neutral-400 mb-1.5">
+    <label className="block text-[10px] tracking-[0.2em] uppercase font-semibold text-[#94A3B8] mb-1.5">
       {children}
     </label>
   );
 }
 
 const inputCls =
-  "w-full border border-neutral-200 rounded-xl px-3.5 py-2.5 text-sm text-neutral-800 placeholder:text-neutral-300 focus:outline-none focus:border-[#3d6f7f] transition-colors bg-white";
+  "w-full border border-[#E2E8F0] rounded-xl px-3.5 py-2.5 text-sm text-[#0A1F44] placeholder:text-[#CBD5E1] focus:outline-none focus:border-[#7B9FD4] transition-colors bg-white";
 
 function TextField({
   label,
@@ -175,19 +175,19 @@ function TagInput({
     <div>
       <FieldLabel>{label}</FieldLabel>
       <div
-        className="min-h-[42px] flex flex-wrap gap-1.5 items-center border border-neutral-200 rounded-xl px-3 py-2 cursor-text transition-colors focus-within:border-[#3d6f7f] bg-white"
+        className="min-h-[42px] flex flex-wrap gap-1.5 items-center border border-[#E2E8F0] rounded-xl px-3 py-2 cursor-text transition-colors focus-within:border-[#0A1F44] bg-white"
         onClick={() => inputRef.current?.focus()}
       >
         {values.map((tag, i) => (
           <span
             key={`${tag}-${i}`}
-            className="inline-flex items-center gap-1 text-xs font-medium text-neutral-700 bg-neutral-100 rounded-lg px-2.5 py-1"
+            className="inline-flex items-center gap-1 text-xs font-medium text-[#334155] bg-[#F4F7FB] rounded-lg px-2.5 py-1"
           >
             {tag}
             <button
               type="button"
               onClick={(e) => { e.stopPropagation(); removeTag(i); }}
-              className="text-neutral-400 hover:text-neutral-600 transition-colors cursor-pointer leading-none"
+              className="text-[#94A3B8] hover:text-[#64748B] transition-colors cursor-pointer leading-none"
               aria-label={`Remove ${tag}`}
             >
               <i className="ri-close-line text-[10px]"></i>
@@ -202,10 +202,10 @@ function TagInput({
           onKeyDown={handleKeyDown}
           onBlur={addTag}
           placeholder={values.length === 0 ? (placeholder ?? "Type and press Enter…") : ""}
-          className="flex-1 min-w-[120px] bg-transparent text-sm text-neutral-800 placeholder:text-neutral-300 focus:outline-none"
+          className="flex-1 min-w-[120px] bg-transparent text-sm text-[#0A1F44] placeholder:text-[#CBD5E1] focus:outline-none"
         />
       </div>
-      <p className="text-[10px] text-neutral-400 mt-1">Type a value and press Enter or comma to add. Click × to remove.</p>
+      <p className="text-[10px] text-[#94A3B8] mt-1">Type a value and press Enter or comma to add. Click × to remove.</p>
     </div>
   );
 }
@@ -224,10 +224,10 @@ function BusinessHoursEditor({
   return (
     <div className="space-y-2">
       <div className="hidden sm:grid grid-cols-[120px_1fr_1fr_80px] gap-3 mb-1">
-        <span className="text-[10px] tracking-[0.2em] uppercase font-semibold text-neutral-400">Day</span>
-        <span className="text-[10px] tracking-[0.2em] uppercase font-semibold text-neutral-400">Open</span>
-        <span className="text-[10px] tracking-[0.2em] uppercase font-semibold text-neutral-400">Close</span>
-        <span className="text-[10px] tracking-[0.2em] uppercase font-semibold text-neutral-400 text-center">24 hrs</span>
+        <span className="text-[10px] tracking-[0.2em] uppercase font-semibold text-[#94A3B8]">Day</span>
+        <span className="text-[10px] tracking-[0.2em] uppercase font-semibold text-[#94A3B8]">Open</span>
+        <span className="text-[10px] tracking-[0.2em] uppercase font-semibold text-[#94A3B8]">Close</span>
+        <span className="text-[10px] tracking-[0.2em] uppercase font-semibold text-[#94A3B8] text-center">24 hrs</span>
       </div>
       {DAYS.map((day) => {
         const entry = hours[day] ?? { open: "", close: "", is24: false };
@@ -236,7 +236,7 @@ function BusinessHoursEditor({
             key={day}
             className="grid grid-cols-[120px_1fr_1fr_80px] gap-3 items-center"
           >
-            <span className="text-sm font-medium text-neutral-700">{day}</span>
+            <span className="text-sm font-medium text-[#334155]">{day}</span>
             <input
               type="time"
               value={entry.open}
@@ -258,7 +258,7 @@ function BusinessHoursEditor({
                 aria-checked={entry.is24}
                 onClick={() => update(day, { is24: !entry.is24 })}
                 className={`relative w-11 h-6 rounded-full transition-colors cursor-pointer flex-shrink-0 ${
-                  entry.is24 ? "bg-emerald-500" : "bg-neutral-300"
+                  entry.is24 ? "bg-emerald-500" : "bg-[#CBD5E1]"
                 }`}
               >
                 <span
@@ -383,9 +383,9 @@ export default function AdminBrandSettingsPage() {
       />
 
       {loading && (
-        <div className="bg-white rounded-2xl border border-neutral-100 p-16 text-center">
-          <i className="ri-loader-4-line animate-spin text-3xl text-neutral-300 mb-3 block"></i>
-          <p className="text-sm text-neutral-400">Loading settings…</p>
+        <div className="bg-white rounded-2xl border border-[#E2E8F0] p-16 text-center">
+          <i className="ri-loader-4-line animate-spin text-3xl text-[#CBD5E1] mb-3 block"></i>
+          <p className="text-sm text-[#94A3B8]">Loading settings…</p>
         </div>
       )}
 
@@ -541,7 +541,7 @@ export default function AdminBrandSettingsPage() {
               hours={form.hours}
               onChange={(h) => set("hours", h)}
             />
-            <p className="text-[10px] text-neutral-400 mt-4">
+            <p className="text-[10px] text-[#94A3B8] mt-4">
               Leave open and close empty for days the business is closed. Toggle "24 hrs" to set 00:00–23:59 automatically.
             </p>
           </SectionCard>
@@ -552,7 +552,7 @@ export default function AdminBrandSettingsPage() {
               type="button"
               onClick={handleSave}
               disabled={saving}
-              className="flex items-center gap-2 rounded-xl px-7 py-3 text-[11px] font-bold uppercase tracking-[0.12em] text-white transition-opacity hover:opacity-95 shadow-[0_2px_12px_rgba(61,111,127,0.2)] disabled:opacity-50 cursor-pointer"
+              className="flex items-center gap-2 rounded-xl px-7 py-3 text-[11px] font-bold uppercase tracking-[0.12em] text-white transition-opacity hover:opacity-95 shadow-[0_2px_12px_rgba(10,31,68,0.18)] disabled:opacity-50 cursor-pointer"
               style={{ backgroundColor: saving ? ADMIN_OCEAN_HOVER : ADMIN_OCEAN }}
             >
               {saving ? (
@@ -570,7 +570,7 @@ export default function AdminBrandSettingsPage() {
       {toast && (
         <div
           className={`fixed bottom-6 right-6 z-50 flex items-center gap-3 px-5 py-3.5 rounded-2xl shadow-lg transition-all duration-300 ${
-            toast.type === "success" ? "bg-[#3d6f7f] text-white" : "bg-red-500 text-white"
+            toast.type === "success" ? "bg-[#0A1F44] text-white" : "bg-red-500 text-white"
           }`}
         >
           <i

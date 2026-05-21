@@ -329,10 +329,10 @@ export default function ContentEditorCell({
           }
           className={`inline-flex items-center gap-1 px-2 h-7 rounded-lg border text-[10px] font-bold uppercase tracking-[0.1em] transition-colors whitespace-nowrap ${
             noKeyword
-              ? "bg-neutral-50 border-neutral-200 text-neutral-300 cursor-not-allowed"
+              ? "bg-[#F4F7FB] border-[#E2E8F0] text-[#CBD5E1] cursor-not-allowed"
               : action?.status === "loading"
-                ? "bg-[#3d6f7f]/10 border-[#3d6f7f]/30 text-[#3d6f7f] cursor-wait"
-                : "bg-white border-[#3d6f7f]/30 text-[#3d6f7f] hover:bg-[#3d6f7f]/8 cursor-pointer"
+                ? "bg-[#0A1F44]/10 border-[#0A1F44]/30 text-[#0A1F44] cursor-wait"
+                : "bg-white border-[#0A1F44]/30 text-[#0A1F44] hover:bg-[#0A1F44]/8 cursor-pointer"
           }`}
         >
           {action?.status === "loading" ? (
@@ -358,8 +358,8 @@ export default function ContentEditorCell({
         }
         className={`w-7 h-7 inline-flex items-center justify-center rounded-lg border transition-all ${
           !hasEditor || isProcessing
-            ? "border-neutral-200 text-neutral-300 cursor-not-allowed"
-            : "border-neutral-200 text-neutral-500 hover:text-[#3d6f7f] hover:bg-[#3d6f7f]/6 cursor-pointer"
+            ? "border-[#E2E8F0] text-[#CBD5E1] cursor-not-allowed"
+            : "border-[#E2E8F0] text-[#64748B] hover:text-[#0A1F44] hover:bg-[#0A1F44]/6 cursor-pointer"
         }`}
       >
         <i

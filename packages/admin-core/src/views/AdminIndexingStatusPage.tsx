@@ -2,7 +2,8 @@
 
 import { useEffect, useMemo, useState } from "react";
 import { supabase } from "../lib/supabase";
-import { ADMIN_OCEAN, adminFontSerif } from "../lib/adminTheme";
+import AdminPageHeader from "../components/AdminPageHeader";
+import { ADMIN_OCEAN, adminPrimaryActionCls, adminTableWrapCls } from "../lib/adminTheme";
 import { canonicalBlogPostUrl, getPublicSiteOrigin } from "../lib/publicSiteUrl";
 import { collectSitemapUrls } from "../lib/sitemap";
 
@@ -309,38 +310,32 @@ export default function AdminIndexingStatusPage() {
 
   return (
     <div>
-      <section className="mb-8">
-        <h1 className={`text-[2.2rem] font-semibold tracking-tight text-neutral-900 ${adminFontSerif}`}>
-          Indexing Status
-        </h1>
-        <p className="mt-2 text-sm text-neutral-500">
-          Live Google indexing checks for published blog posts and tracked pages.
-        </p>
-      </section>
-
-      <div className="mb-6 flex flex-wrap items-center gap-3">
-        <button
-          type="button"
-          onClick={() => void checkAll()}
-          disabled={rows.length === 0}
-          className="rounded-xl px-4 py-2 text-[11px] font-bold uppercase tracking-[0.14em] text-white disabled:opacity-60"
-          style={{ backgroundColor: ADMIN_OCEAN }}
-        >
-          Scan All URLs
-        </button>
-        <button
-          type="button"
-          onClick={() => void pingAll()}
-          disabled={rows.length === 0 || pingingAll}
-          className="rounded-xl px-4 py-2 text-[11px] font-bold uppercase tracking-[0.14em] text-white disabled:opacity-60"
-          style={{ backgroundColor: "#16a34a" }}
-        >
-          {pingingAll ? "Pinging…" : "Ping All URLs"}
-        </button>
-        <p className="self-center text-xs text-neutral-500">
-          Property: <span className="font-mono">{siteUrl}</span>
-        </p>
-      </div>
+      <AdminPageHeader
+        title="Indexing Status"
+        subtitle={`Live Google indexing checks for published blog posts and tracked pages. Property: ${siteUrl}`}
+        actions={
+          <>
+            <button
+              type="button"
+              onClick={() => void checkAll()}
+              disabled={rows.length === 0}
+              className={adminPrimaryActionCls}
+              style={{ backgroundColor: ADMIN_OCEAN }}
+            >
+              Scan All URLs
+            </button>
+            <button
+              type="button"
+              onClick={() => void pingAll()}
+              disabled={rows.length === 0 || pingingAll}
+              className={`${adminPrimaryActionCls} disabled:opacity-60`}
+              style={{ backgroundColor: "#16a34a" }}
+            >
+              {pingingAll ? "Pinging…" : "Ping All URLs"}
+            </button>
+          </>
+        }
+      />
 
       {error && (
         <div className="mb-6 rounded-2xl border border-red-200 bg-red-50 px-5 py-4 text-sm text-red-700">
@@ -349,14 +344,14 @@ export default function AdminIndexingStatusPage() {
       )}
 
       {loading ? (
-        <div className="rounded-2xl border border-black/[0.06] bg-white px-6 py-10 text-sm text-neutral-500">
+        <div className={`${adminTableWrapCls} px-6 py-10 text-sm text-[#64748B]`}>
           Loading URLs…
         </div>
       ) : (
-        <div className="overflow-hidden rounded-2xl border border-black/[0.06] bg-white shadow-[0_1px_20px_rgba(0,0,0,0.04)]">
+        <div className={adminTableWrapCls}>
           <div className="overflow-x-auto">
             <table className="min-w-full text-left">
-              <thead className="border-b border-black/[0.06] bg-black/[0.02] text-[11px] uppercase tracking-[0.12em] text-neutral-500">
+              <thead className="border-b border-[#E2E8F0] bg-[#F4F7FB] text-[11px] uppercase tracking-[0.12em] text-[#64748B]">
                 <tr>
                   <th className="px-4 py-3">Type</th>
                   <th className="px-4 py-3">Title / URL</th>
@@ -371,7 +366,7 @@ export default function AdminIndexingStatusPage() {
               <tbody className="divide-y divide-black/[0.05] text-sm">
                 {rows.length === 0 ? (
                   <tr>
-                    <td colSpan={8} className="px-4 py-8 text-center text-neutral-500">
+                    <td colSpan={8} className="px-4 py-8 text-center text-[#64748B]">
                       No URLs found.
                     </td>
                   </tr>
@@ -382,24 +377,24 @@ export default function AdminIndexingStatusPage() {
                     return (
                       <tr key={row.id}>
                         <td className="px-4 py-3">
-                          <span className="rounded-full bg-black/[0.05] px-2 py-1 text-[11px] uppercase tracking-wide text-neutral-600">
+                          <span className="rounded-full bg-black/[0.05] px-2 py-1 text-[11px] uppercase tracking-wide text-[#64748B]">
                             {row.type}
                           </span>
                         </td>
                         <td className="px-4 py-3">
-                          <p className="font-medium text-neutral-900">{row.title}</p>
-                          <a href={row.url} target="_blank" rel="noreferrer" className="text-xs text-neutral-500 hover:underline">
+                          <p className="font-medium text-[#0A1F44]">{row.title}</p>
+                          <a href={row.url} target="_blank" rel="noreferrer" className="text-xs text-[#64748B] hover:underline">
                             {row.url}
                           </a>
                           {result?.error ? (
                             <p className="mt-1 text-xs text-red-600">{result.error}</p>
                           ) : result ? (
-                            <p className="mt-1 text-xs text-neutral-500">
+                            <p className="mt-1 text-xs text-[#64748B]">
                               Verdict: {result.indexStatus.verdict || "—"} · {result.indexStatus.coverageState || "—"}
                             </p>
                           ) : null}
                         </td>
-                        <td className="px-4 py-3 text-xs text-neutral-600">{fmt(row.updatedAt)}</td>
+                        <td className="px-4 py-3 text-xs text-[#64748B]">{fmt(row.updatedAt)}</td>
                         <td className="px-4 py-3 text-xs">
                           {result ? (
                             <span className={result.currentlyIndexed ? "text-emerald-600" : "text-rose-600"}>
@@ -409,13 +404,13 @@ export default function AdminIndexingStatusPage() {
                         </td>
                         <td className="px-4 py-3 text-xs">
                           {result ? (
-                            <span className={result.recentlyIndexed ? "text-emerald-600" : "text-neutral-500"}>
+                            <span className={result.recentlyIndexed ? "text-emerald-600" : "text-[#64748B]"}>
                               {result.recentlyIndexed ? "Yes (7d)" : "No"}
                             </span>
                           ) : "—"}
                         </td>
-                        <td className="px-4 py-3 text-xs text-neutral-600">{fmt(result?.lastCrawlTime)}</td>
-                        <td className="px-4 py-3 text-xs text-neutral-600">{fmt(result?.latestUpdateNotification)}</td>
+                        <td className="px-4 py-3 text-xs text-[#64748B]">{fmt(result?.lastCrawlTime)}</td>
+                        <td className="px-4 py-3 text-xs text-[#64748B]">{fmt(result?.latestUpdateNotification)}</td>
                         <td className="px-4 py-3">
                           <div className="flex flex-col gap-2">
                             <div className="flex items-center gap-2">
@@ -423,7 +418,7 @@ export default function AdminIndexingStatusPage() {
                                 type="button"
                                 onClick={() => void checkOne(row)}
                                 disabled={busy}
-                                className="rounded-lg border border-black/[0.12] px-3 py-1.5 text-[11px] font-semibold uppercase tracking-[0.1em] text-neutral-700 hover:bg-black/[0.03] disabled:opacity-60"
+                                className="rounded-lg border border-black/[0.12] px-3 py-1.5 text-[11px] font-semibold uppercase tracking-[0.1em] text-[#334155] hover:bg-black/[0.03] disabled:opacity-60"
                               >
                                 {busy ? "Checking…" : "Check"}
                               </button>

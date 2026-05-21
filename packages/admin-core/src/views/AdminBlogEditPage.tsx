@@ -229,18 +229,18 @@ export default function BlogEditPage() {
   // Loading state
   if (loading) {
     return (
-      <div className="min-h-screen bg-neutral-50">
-        <div className="bg-white border-b border-neutral-100 h-14" />
+      <div className="min-h-screen bg-[#F4F7FB]">
+        <div className="bg-white border-b border-[#E2E8F0] h-14" />
         <div className="max-w-screen-xl mx-auto px-6 py-8">
           <div className="flex gap-6 animate-pulse">
             <div className="flex-1 space-y-4">
-              <div className="h-10 bg-neutral-100 rounded-2xl" />
-              <div className="h-6 bg-neutral-100 rounded-xl w-1/3" />
-              <div className="h-40 bg-neutral-100 rounded-2xl" />
+              <div className="h-10 bg-[#F4F7FB] rounded-2xl" />
+              <div className="h-6 bg-[#F4F7FB] rounded-xl w-1/3" />
+              <div className="h-40 bg-[#F4F7FB] rounded-2xl" />
             </div>
             <div className="w-72 space-y-4">
-              <div className="h-32 bg-neutral-100 rounded-2xl" />
-              <div className="h-48 bg-neutral-100 rounded-2xl" />
+              <div className="h-32 bg-[#F4F7FB] rounded-2xl" />
+              <div className="h-48 bg-[#F4F7FB] rounded-2xl" />
             </div>
           </div>
         </div>
@@ -251,13 +251,13 @@ export default function BlogEditPage() {
   // Error / not found
   if (error || !post) {
     return (
-      <div className="min-h-screen bg-neutral-50 flex items-center justify-center">
+      <div className="min-h-screen bg-[#F4F7FB] flex items-center justify-center">
         <div className="text-center">
-          <i className="ri-article-line text-5xl text-neutral-200 mb-4 block"></i>
-          <h1 className="text-xl font-semibold text-neutral-800 mb-2">Post Not Found</h1>
-          <p className="text-sm text-neutral-400 mb-6">{error || "This post doesn't exist."}</p>
+          <i className="ri-article-line text-5xl text-[#E2E8F0] mb-4 block"></i>
+          <h1 className="text-xl font-semibold text-[#0A1F44] mb-2">Post Not Found</h1>
+          <p className="text-sm text-[#94A3B8] mb-6">{error || "This post doesn't exist."}</p>
           <button onClick={() => router.push("/admin/blogs")}
-            className="bg-[#3d6f7f] text-white text-[11px] tracking-[0.2em] uppercase font-bold px-6 py-3 rounded-xl cursor-pointer">
+            className="bg-[#0A1F44] text-white text-[11px] tracking-[0.2em] uppercase font-bold px-6 py-3 rounded-xl cursor-pointer">
             Back to Dashboard
           </button>
         </div>
@@ -266,7 +266,7 @@ export default function BlogEditPage() {
   }
 
   return (
-    <div className="min-h-screen bg-neutral-50">
+    <div className="min-h-screen bg-[#F4F7FB]">
       <BlogEditorHeader
         title={form.title}
         status={form.status}
@@ -349,24 +349,24 @@ export default function BlogEditPage() {
             )}
 
             {/* Title */}
-            <div className="bg-white rounded-2xl border border-neutral-100 p-6">
-              <label className="block text-[10px] tracking-[0.2em] uppercase font-semibold text-neutral-400 mb-2">Post Title</label>
+            <div className="bg-white rounded-2xl border border-[#E2E8F0] p-6">
+              <label className="block text-[10px] tracking-[0.2em] uppercase font-semibold text-[#94A3B8] mb-2">Post Title</label>
               <input type="text" value={form.title} onChange={(e) => handleFormChange("title", e.target.value)}
                 placeholder="Enter your post title..."
-                className="w-full text-2xl font-semibold text-neutral-900 placeholder:text-neutral-300 focus:outline-none bg-transparent leading-snug"
+                className="w-full text-2xl font-semibold text-[#0A1F44] placeholder:text-[#CBD5E1] focus:outline-none bg-transparent leading-snug"
                 style={{ fontFamily: "'Playfair Display', serif" }} />
             </div>
 
             {/* Excerpt */}
-            <div className="bg-white rounded-2xl border border-neutral-100 p-6">
-              <label className="block text-[10px] tracking-[0.2em] uppercase font-semibold text-neutral-400 mb-2">
-                Excerpt <span className="normal-case font-normal text-neutral-400">— shown on blog listing cards</span>
+            <div className="bg-white rounded-2xl border border-[#E2E8F0] p-6">
+              <label className="block text-[10px] tracking-[0.2em] uppercase font-semibold text-[#94A3B8] mb-2">
+                Excerpt <span className="normal-case font-normal text-[#94A3B8]">— shown on blog listing cards</span>
               </label>
               <textarea value={form.excerpt} onChange={(e) => handleFormChange("excerpt", e.target.value)}
                 rows={3} maxLength={500} placeholder="A short, compelling summary of this post..."
-                className="w-full text-base text-neutral-600 placeholder:text-neutral-300 focus:outline-none bg-transparent resize-none leading-relaxed" />
-              <div className="flex justify-end mt-2 pt-2 border-t border-neutral-50">
-                <span className={`text-[10px] font-medium ${form.excerpt.length > 450 ? "text-amber-500" : "text-neutral-300"}`}>
+                className="w-full text-base text-[#64748B] placeholder:text-[#CBD5E1] focus:outline-none bg-transparent resize-none leading-relaxed" />
+              <div className="flex justify-end mt-2 pt-2 border-t border-[#F4F7FB]">
+                <span className={`text-[10px] font-medium ${form.excerpt.length > 450 ? "text-amber-500" : "text-[#CBD5E1]"}`}>
                   {form.excerpt.length}/500
                 </span>
               </div>
@@ -375,10 +375,10 @@ export default function BlogEditPage() {
             {/* Content blocks */}
             <div>
               <div className="flex items-center gap-3 mb-4">
-                <div className="w-8 h-px bg-neutral-300" />
-                <span className="text-[10px] tracking-[0.25em] uppercase font-semibold text-neutral-400">Article Content</span>
-                <div className="flex-1 h-px bg-neutral-100" />
-                <span className="text-[10px] text-neutral-400">{blocks.length} block{blocks.length !== 1 ? "s" : ""}</span>
+                <div className="w-8 h-px bg-[#CBD5E1]" />
+                <span className="text-[10px] tracking-[0.25em] uppercase font-semibold text-[#94A3B8]">Article Content</span>
+                <div className="flex-1 h-px bg-[#F4F7FB]" />
+                <span className="text-[10px] text-[#94A3B8]">{blocks.length} block{blocks.length !== 1 ? "s" : ""}</span>
               </div>
               <ContentBlockEditor blocks={blocks} onChange={handleBlocksChange} />
             </div>
@@ -392,7 +392,7 @@ export default function BlogEditPage() {
       {/* Toast */}
       {toast && (
         <div className={`fixed bottom-6 right-6 z-50 flex items-center gap-3 px-5 py-3.5 rounded-2xl shadow-lg transition-all duration-300 ${
-          toast.type === "success" ? "bg-[#3d6f7f] text-white" : "bg-red-500 text-white"
+          toast.type === "success" ? "bg-[#0A1F44] text-white" : "bg-red-500 text-white"
         }`}>
           <i className={`text-base ${toast.type === "success" ? "ri-check-line" : "ri-error-warning-line"}`}></i>
           <span className="text-sm font-medium">{toast.message}</span>

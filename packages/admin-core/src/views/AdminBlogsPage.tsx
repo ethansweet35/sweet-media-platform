@@ -2,8 +2,22 @@
 
 import Link from "next/link";
 import { useState, useMemo, useCallback, useRef } from "react";
+import { useSearchParams, useRouter } from "next/navigation";
 import AdminPageHeader from "../components/AdminPageHeader";
+import AdminContentBulkBar from "../components/content-list/AdminContentBulkBar";
+import AdminContentFilterPills from "../components/content-list/AdminContentFilterPills";
+import AdminContentListMeta from "../components/content-list/AdminContentListMeta";
+import AdminContentPagination from "../components/content-list/AdminContentPagination";
+import {
+  AdminContentErrorState,
+  AdminContentLoadingState,
+} from "../components/content-list/AdminContentListStates";
+import AdminContentSearchBar from "../components/content-list/AdminContentSearchBar";
+import AdminContentStatsGrid from "../components/content-list/AdminContentStatsGrid";
+import AdminGscConnectBanner from "../components/content-list/AdminGscConnectBanner";
+import ContentPipelineKanban from "../components/ContentPipelineKanban";
 import { useAdminBlogPosts } from "../hooks/useAdminBlogPosts";
+import { useContentPipeline } from "../hooks/useContentPipeline";
 import { useSearchConsoleData } from "../hooks/useSearchConsoleData";
 import { supabase } from "../lib/supabase";
 import type { BlogPost } from "@sweetmedia/blog-core";
@@ -11,7 +25,7 @@ import AdminBlogTable from "../components/pages/admin/blogs/components/AdminBlog
 import AdminBlogDeleteModal from "../components/pages/admin/blogs/components/AdminBlogDeleteModal";
 import BulkRewriteModal from "../components/pages/admin/blogs/components/BulkRewriteModal";
 import BulkPickKeywordModal from "../components/BulkPickKeywordModal";
-import { ADMIN_OCEAN } from "../lib/adminTheme";
+import { ADMIN_OCEAN, adminInputCls, adminPrimaryActionCls, adminSecondaryBtnCls, adminToastErrorCls, adminToastSuccessCls } from "../lib/adminTheme";
 import { callGenerateSeoMetadata, type SeoGenResult } from "../lib/generateSeoMetadata";
 import { getPublicSiteOrigin } from "../lib/publicSiteUrl";
 import type { BlogSection } from "@sweetmedia/blog-core";
@@ -34,6 +48,7 @@ function extractContentSnippet(sections: BlogSection[]): string {
 }
 
 type FilterStatus = "all" | "published" | "draft";
+type BlogsViewMode = "table" | "pipeline";
 
 interface ImageGenStatus {
   status: "pending" | "generating" | "done" | "error";
@@ -97,6 +112,22 @@ async function callGenerateBlogImage(post: BlogPost): Promise<{ url: string; mod
 }
 
 export default function AdminBlogDashboard() {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const viewMode: BlogsViewMode =
+    searchParams?.get("view") === "pipeline" ? "pipeline" : "table";
+
+  const setViewMode = useCallback(
+    (mode: BlogsViewMode) => {
+      const params = new URLSearchParams(searchParams?.toString() ?? "");
+      if (mode === "pipeline") params.set("view", "pipeline");
+      else params.delete("view");
+      const qs = params.toString();
+      router.replace(qs ? `/admin/blogs?${qs}` : "/admin/blogs", { scroll: false });
+    },
+    [router, searchParams],
+  );
+
   const {
     posts,
     loading,
@@ -108,6 +139,7 @@ export default function AdminBlogDashboard() {
     updatePost,
     refetch,
   } = useAdminBlogPosts();
+  const pipeline = useContentPipeline();
   const { data: gscData, loading: gscLoading, needsOAuth: gscNeedsOAuth } = useSearchConsoleData();
 
   const [searchQuery, setSearchQuery] = useState("");
@@ -490,9 +522,31 @@ export default function AdminBlogDashboard() {
         subtitle="Manage drafts, scheduling, hero images, and featured posts."
         actions={
           <>
+            <div className="flex items-center rounded-xl border border-black/[0.08] bg-white p-1">
+              <button
+                type="button"
+                onClick={() => setViewMode("table")}
+                className={`inline-flex items-center gap-1.5 rounded-lg px-3 py-2 text-[10px] font-bold uppercase tracking-[0.1em] transition-colors cursor-pointer ${
+                  viewMode === "table" ? "bg-[#0A1F44] text-white" : "text-[#64748B] hover:text-[#0A1F44]"
+                }`}
+              >
+                <i className="ri-table-line text-sm" />
+                Table
+              </button>
+              <button
+                type="button"
+                onClick={() => setViewMode("pipeline")}
+                className={`inline-flex items-center gap-1.5 rounded-lg px-3 py-2 text-[10px] font-bold uppercase tracking-[0.1em] transition-colors cursor-pointer ${
+                  viewMode === "pipeline" ? "bg-[#0A1F44] text-white" : "text-[#64748B] hover:text-[#0A1F44]"
+                }`}
+              >
+                <i className="ri-kanban-view text-sm" />
+                Pipeline
+              </button>
+            </div>
             <Link
               href="/admin/blog-writer"
-              className="flex items-center gap-2 rounded-xl px-5 py-2.5 text-[11px] font-bold uppercase tracking-[0.12em] text-white transition-opacity hover:opacity-95 shadow-[0_2px_12px_rgba(61,111,127,0.2)]"
+              className={adminPrimaryActionCls}
               style={{ backgroundColor: ADMIN_OCEAN }}
             >
               <i className="ri-quill-pen-line text-xs" />
@@ -502,7 +556,7 @@ export default function AdminBlogDashboard() {
               href="/blog"
               target="_blank"
               rel="noreferrer"
-              className="flex items-center gap-2 rounded-xl border border-black/[0.1] bg-white px-4 py-2.5 text-[11px] font-bold uppercase tracking-[0.12em] text-neutral-600 shadow-[0_1px_12px_rgba(0,0,0,0.04)] transition-colors hover:bg-black/[0.02]"
+              className={adminSecondaryBtnCls}
             >
               <i className="ri-external-link-line text-xs" />
               View blog
@@ -512,101 +566,78 @@ export default function AdminBlogDashboard() {
       />
 
       <div className="">
-        {/* Stats row */}
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-          {[
-            {
-              label: "Total Posts",
-              value: stats.total,
-              icon: "ri-article-line",
-              color: "text-[#3d6f7f]",
-              bg: "bg-[#3d6f7f]/8",
-            },
+        {/* Pipeline view */}
+        {viewMode === "pipeline" && !pipeline.loading && !pipeline.error && (
+          <div className="mb-8">
+            <ContentPipelineKanban cardsByStage={pipeline.cardsByStage} maxCardsPerColumn={20} />
+          </div>
+        )}
+
+        {viewMode === "pipeline" && pipeline.loading && (
+          <div className="bg-white rounded-2xl border border-[#E2E8F0] p-12 text-center mb-8">
+            <i className="ri-loader-4-line animate-spin text-3xl text-[#CBD5E1] mb-3 block" />
+            <p className="text-sm text-[#94A3B8]">Loading pipeline…</p>
+          </div>
+        )}
+
+        {viewMode === "pipeline" && pipeline.error && (
+          <div className="bg-red-50 border border-red-200 rounded-2xl p-6 text-center mb-8">
+            <p className="text-sm text-red-600">{pipeline.error}</p>
+          </div>
+        )}
+
+        {viewMode === "table" && (
+        <>
+        <AdminContentStatsGrid
+          stats={[
+            { label: "Total Posts", value: stats.total, icon: "ri-article-line", color: "text-[#0A1F44]", bg: "bg-[#0A1F44]/8" },
             { label: "Published", value: stats.published, icon: "ri-checkbox-circle-line", color: "text-emerald-600", bg: "bg-emerald-50" },
             { label: "Drafts", value: stats.drafts, icon: "ri-draft-line", color: "text-amber-600", bg: "bg-amber-50" },
             { label: "Featured", value: stats.featured, icon: "ri-star-line", color: "text-orange-500", bg: "bg-orange-50" },
-          ].map((stat) => (
-            <div key={stat.label} className="bg-white rounded-2xl border border-neutral-100 p-5 flex items-center gap-4">
-              <div className={`w-10 h-10 rounded-xl ${stat.bg} flex items-center justify-center flex-shrink-0`}>
-                <i className={`${stat.icon} ${stat.color} text-lg`}></i>
-              </div>
-              <div>
-                <p className="text-2xl font-bold text-neutral-900 leading-none">{stat.value}</p>
-                <p className="text-[11px] text-neutral-400 mt-1 tracking-wide">{stat.label}</p>
-              </div>
-            </div>
-          ))}
-        </div>
+          ]}
+        />
 
-        {/* Filters */}
-        <div className="bg-white rounded-2xl border border-neutral-100 p-4 mb-4 flex flex-col sm:flex-row gap-3 items-start sm:items-center">
-          <div className="flex items-center gap-2 flex-1 min-w-0 bg-neutral-50 border border-neutral-200 rounded-xl px-3 py-2.5">
-            <i className="ri-search-line text-neutral-400 text-sm flex-shrink-0"></i>
-            <input
-              type="text"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder="Search by title, author, or category..."
-              className="flex-1 bg-transparent text-sm text-neutral-700 placeholder:text-neutral-400 focus:outline-none min-w-0"
-            />
-            {searchQuery && (
-              <button
-                onClick={() => setSearchQuery("")}
-                className="w-5 h-5 flex items-center justify-center rounded-full bg-neutral-200 hover:bg-neutral-300 text-neutral-500 transition-colors cursor-pointer flex-shrink-0"
-              >
-                <i className="ri-close-line text-[10px]"></i>
-              </button>
-            )}
-          </div>
-
-          <div className="flex items-center gap-1 bg-neutral-100 rounded-xl p-1 flex-shrink-0">
-            {(["all", "published", "draft"] as FilterStatus[]).map((s) => (
-              <button
-                key={s}
-                onClick={() => setFilterStatus(s)}
-                className={`px-3 py-1.5 rounded-lg text-[11px] tracking-[0.1em] uppercase font-semibold transition-all cursor-pointer whitespace-nowrap ${
-                  filterStatus === s
-                    ? "bg-white text-neutral-800 shadow-sm"
-                    : "text-neutral-500 hover:text-neutral-700"
-                }`}
-              >
-                {s === "all" ? "All" : s.charAt(0).toUpperCase() + s.slice(1)}
-              </button>
-            ))}
-          </div>
-
+        <AdminContentSearchBar
+          value={searchQuery}
+          onChange={(value) => {
+            setSearchQuery(value);
+            setCurrentPage(1);
+          }}
+          placeholder="Search by title, author, or category..."
+        >
+          <AdminContentFilterPills
+            value={filterStatus}
+            options={["all", "published", "draft"] as const}
+            onChange={(value) => {
+              setFilterStatus(value);
+              setCurrentPage(1);
+            }}
+          />
           <select
             value={filterCategory}
-            onChange={(e) => setFilterCategory(e.target.value)}
-            className="border border-neutral-200 bg-white text-sm text-neutral-700 px-3 py-2.5 rounded-xl focus:outline-none focus:border-[#3d6f7f] transition-all cursor-pointer flex-shrink-0"
+            onChange={(e) => {
+              setFilterCategory(e.target.value);
+              setCurrentPage(1);
+            }}
+            className={`${adminInputCls} w-auto shrink-0 cursor-pointer py-2`}
           >
             {categories.map((cat) => (
               <option key={cat} value={cat}>{cat}</option>
             ))}
           </select>
-        </div>
+        </AdminContentSearchBar>
 
-        {/* Bulk action bar — slides in when posts are selected */}
-        {selectedCount > 0 && (
-          <div
-            className="rounded-2xl px-5 py-3.5 mb-4 flex items-center gap-4 flex-wrap"
-            style={{ backgroundColor: ADMIN_OCEAN }}
-          >
-            <div className="flex items-center gap-2.5 flex-1 min-w-0">
-              <div className="w-6 h-6 rounded-full bg-white/15 flex items-center justify-center flex-shrink-0">
-                <span className="text-white text-[11px] font-bold">{selectedCount}</span>
-              </div>
-              <span className="text-white text-sm font-medium whitespace-nowrap">
-                {selectedCount} post{selectedCount !== 1 ? "s" : ""} selected
-              </span>
-              {selectedPostsWithoutImages > 0 && (
-                <span className="text-white/50 text-[11px] whitespace-nowrap hidden sm:block">
-                  · {selectedPostsWithoutImages} without image
-                </span>
-              )}
-            </div>
+        {gscNeedsOAuth && !gscLoading ? <AdminGscConnectBanner entityLabel="post" /> : null}
 
-            <div className="flex items-center gap-2 flex-wrap">
+        <AdminContentBulkBar
+          count={selectedCount}
+          noun="post"
+          detail={
+            selectedPostsWithoutImages > 0
+              ? `${selectedPostsWithoutImages} without image`
+              : undefined
+          }
+        >
               {/* Generate images action */}
               {bulkGenRunning ? (
                 <div className="flex items-center gap-3">
@@ -686,13 +717,12 @@ export default function AdminBlogDashboard() {
               {/* Auto-pick Primary Keywords */}
               <button
                 onClick={() => setBulkPickKeywordOpen(true)}
-                className="flex items-center gap-1.5 bg-white text-[#3d6f7f] hover:bg-white/90 text-[11px] tracking-[0.12em] uppercase font-bold px-4 py-2 rounded-xl transition-colors cursor-pointer whitespace-nowrap"
+                className="flex items-center gap-1.5 bg-white text-[#0A1F44] hover:bg-white/90 text-[11px] tracking-[0.12em] uppercase font-bold px-4 py-2 rounded-xl transition-colors cursor-pointer whitespace-nowrap"
               >
                 <i className="ri-search-eye-line text-xs"></i>
                 Auto-pick Keywords
               </button>
 
-              {/* Deselect */}
               <button
                 onClick={clearSelection}
                 className="flex items-center gap-1.5 bg-white/10 hover:bg-white/20 text-white text-[11px] tracking-[0.1em] uppercase font-bold px-3 py-2 rounded-xl transition-colors cursor-pointer whitespace-nowrap"
@@ -700,52 +730,27 @@ export default function AdminBlogDashboard() {
                 <i className="ri-close-line text-xs"></i>
                 Deselect
               </button>
-            </div>
-          </div>
-        )}
+        </AdminContentBulkBar>
 
-        {/* Results count + page size */}
-        <div className="flex items-center justify-between mb-4 flex-wrap gap-3">
-          <p className="text-sm text-neutral-500">
-            Showing{" "}
-            <span className="font-semibold text-neutral-800">
-              {filtered.length === 0 ? 0 : (safePage - 1) * pageSize + 1}–{Math.min(safePage * pageSize, filtered.length)}
-            </span>{" "}
-            of <span className="font-semibold text-neutral-800">{filtered.length}</span> posts
-          </p>
-          <div className="flex items-center gap-3">
-            {selectedCount === 0 && (
-              <p className="text-[11px] text-neutral-400 hidden sm:block">
-                Select posts to use bulk actions
-              </p>
-            )}
-            <div className="flex items-center gap-1.5">
-              <span className="text-[11px] text-neutral-400">Show</span>
-              {([10, 20, 50] as const).map((n) => (
-                <button
-                  key={n}
-                  onClick={() => { setPageSize(n); setCurrentPage(1); }}
-                  className={`px-2.5 py-1 rounded-lg text-[11px] font-semibold transition-all cursor-pointer ${
-                    pageSize === n
-                      ? "bg-[#3d6f7f] text-white"
-                      : "bg-neutral-100 text-neutral-500 hover:bg-neutral-200"
-                  }`}
-                >
-                  {n}
-                </button>
-              ))}
-            </div>
-          </div>
-        </div>
+        <AdminContentListMeta
+          rangeStart={filtered.length === 0 ? 0 : (safePage - 1) * pageSize + 1}
+          rangeEnd={Math.min(safePage * pageSize, filtered.length)}
+          total={filtered.length}
+          noun="posts"
+          pageSize={pageSize}
+          onPageSizeChange={(size) => {
+            setPageSize(size);
+            setCurrentPage(1);
+          }}
+          hint={selectedCount === 0 ? "Select posts to use bulk actions" : undefined}
+        />
 
-        {/* API test result panel */}
         {testResult && (
-          <div className="bg-neutral-900 rounded-2xl p-4 mb-4">
+          <div className="bg-[#0A1F44] rounded-2xl p-4 mb-4">
             <p className="text-xs text-emerald-400 font-mono break-all whitespace-pre-wrap">{testResult}</p>
           </div>
         )}
 
-        {/* Error detail panel */}
         {lastErrorDetail && (
           <div className="bg-red-50 border border-red-200 rounded-2xl p-4 mb-4">
             <div className="flex items-start justify-between gap-3">
@@ -766,44 +771,10 @@ export default function AdminBlogDashboard() {
           </div>
         )}
 
-        {/* Loading */}
-        {loading && (
-          <div className="bg-white rounded-2xl border border-neutral-100 p-12 text-center">
-            <i className="ri-loader-4-line animate-spin text-3xl text-neutral-300 mb-3 block"></i>
-            <p className="text-sm text-neutral-400">Loading posts...</p>
-          </div>
-        )}
+        {loading ? <AdminContentLoadingState label="Loading posts…" /> : null}
 
-        {/* Error */}
-        {error && !loading && (
-          <div className="bg-red-50 border border-red-200 rounded-2xl p-6 text-center">
-            <i className="ri-error-warning-line text-2xl text-red-400 mb-2 block"></i>
-            <p className="text-sm text-red-600">{error}</p>
-          </div>
-        )}
+        {error && !loading ? <AdminContentErrorState message={error} /> : null}
 
-        {/* GSC connect CTA */}
-        {gscNeedsOAuth && !gscLoading && (
-          <div className="mb-4 flex items-center gap-4 rounded-2xl border border-neutral-200 bg-white px-5 py-4 shadow-[0_1px_8px_rgba(0,0,0,0.04)]">
-            <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-neutral-100">
-              <i className="ri-google-line text-base text-neutral-500" />
-            </div>
-            <div className="flex-1 min-w-0">
-              <p className="text-sm font-semibold text-neutral-800">Connect Google Search Console</p>
-              <p className="text-[12px] text-neutral-500">Show live clicks, impressions, and ranking for each post.</p>
-            </div>
-            <a
-              href="/admin/search-console"
-              className="shrink-0 inline-flex items-center gap-1.5 rounded-xl px-4 py-2 text-[12px] font-semibold text-white shadow-sm transition-opacity hover:opacity-90"
-              style={{ backgroundColor: ADMIN_OCEAN }}
-            >
-              <i className="ri-plug-line text-xs" />
-              Connect
-            </a>
-          </div>
-        )}
-
-        {/* Table */}
         {!loading && !error && (
           <>
           <AdminBlogTable
@@ -831,69 +802,14 @@ export default function AdminBlogDashboard() {
             gscData={gscData}
             gscLoading={gscLoading}
           />
-            {/* Pagination */}
-            {totalPages > 1 && (
-              <div className="flex items-center justify-between mt-4 flex-wrap gap-3">
-                <p className="text-[11px] text-neutral-400">
-                  Page {safePage} of {totalPages}
-                </p>
-                <div className="flex items-center gap-1">
-                  <button
-                    onClick={() => setCurrentPage(1)}
-                    disabled={safePage === 1}
-                    className="w-8 h-8 flex items-center justify-center rounded-lg text-neutral-500 hover:bg-neutral-100 disabled:opacity-30 disabled:cursor-not-allowed cursor-pointer transition-colors"
-                  >
-                    <i className="ri-skip-left-line text-sm" />
-                  </button>
-                  <button
-                    onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
-                    disabled={safePage === 1}
-                    className="w-8 h-8 flex items-center justify-center rounded-lg text-neutral-500 hover:bg-neutral-100 disabled:opacity-30 disabled:cursor-not-allowed cursor-pointer transition-colors"
-                  >
-                    <i className="ri-arrow-left-s-line text-sm" />
-                  </button>
-                  {Array.from({ length: totalPages }, (_, i) => i + 1)
-                    .filter((n) => n === 1 || n === totalPages || Math.abs(n - safePage) <= 2)
-                    .reduce<(number | "…")[]>((acc, n, idx, arr) => {
-                      if (idx > 0 && (arr[idx - 1] as number) < n - 1) acc.push("…");
-                      acc.push(n);
-                      return acc;
-                    }, [])
-                    .map((item, idx) =>
-                      item === "…" ? (
-                        <span key={`ellipsis-${idx}`} className="w-8 text-center text-xs text-neutral-400">…</span>
-                      ) : (
-                        <button
-                          key={item}
-                          onClick={() => setCurrentPage(item as number)}
-                          className={`w-8 h-8 flex items-center justify-center rounded-lg text-xs font-semibold transition-colors cursor-pointer ${
-                            safePage === item
-                              ? "bg-[#3d6f7f] text-white"
-                              : "text-neutral-600 hover:bg-neutral-100"
-                          }`}
-                        >
-                          {item}
-                        </button>
-                      )
-                    )}
-                  <button
-                    onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
-                    disabled={safePage === totalPages}
-                    className="w-8 h-8 flex items-center justify-center rounded-lg text-neutral-500 hover:bg-neutral-100 disabled:opacity-30 disabled:cursor-not-allowed cursor-pointer transition-colors"
-                  >
-                    <i className="ri-arrow-right-s-line text-sm" />
-                  </button>
-                  <button
-                    onClick={() => setCurrentPage(totalPages)}
-                    disabled={safePage === totalPages}
-                    className="w-8 h-8 flex items-center justify-center rounded-lg text-neutral-500 hover:bg-neutral-100 disabled:opacity-30 disabled:cursor-not-allowed cursor-pointer transition-colors"
-                  >
-                    <i className="ri-skip-right-line text-sm" />
-                  </button>
-                </div>
-              </div>
-            )}
+          <AdminContentPagination
+            currentPage={safePage}
+            totalPages={totalPages}
+            onPageChange={setCurrentPage}
+          />
           </>
+        )}
+        </>
         )}
       </div>
 
@@ -937,14 +853,7 @@ export default function AdminBlogDashboard() {
 
       {/* Toast */}
       {toast && (
-        <div
-          className={`fixed bottom-6 right-6 z-50 flex items-center gap-3 px-5 py-3.5 rounded-2xl transition-all duration-300 text-white ${
-          toast.type === "success"
-            ? ""
-            : "bg-red-500"
-        }`}
-          style={toast.type === "success" ? { backgroundColor: ADMIN_OCEAN } : undefined}
-        >
+        <div className={toast.type === "success" ? adminToastSuccessCls : adminToastErrorCls}>
           <i className={`text-base ${toast.type === "success" ? "ri-check-line" : "ri-error-warning-line"}`}></i>
           <span className="text-sm font-medium">{toast.message}</span>
         </div>

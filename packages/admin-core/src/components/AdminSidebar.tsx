@@ -2,95 +2,104 @@
 
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
+import { useEffect, useMemo, useState } from "react";
 import { useAuth } from "../contexts/AuthContext";
 import {
-  ADMIN_CREAM_SIDEBAR,
-  ADMIN_OCEAN,
+  ADMIN_ACCENT,
+  ADMIN_ACCENT_SOFT,
+  ADMIN_NAVY_DEEP,
   adminFontSans,
 } from "../lib/adminTheme";
-
-interface NavItem {
-  href: string;
-  label: string;
-  icon: string;
-}
+import {
+  ADMIN_NAV_GROUPS,
+  groupContainsActiveRoute,
+  isActiveAdminRoute,
+  type AdminNavGroup,
+  type AdminNavGroupId,
+  type AdminNavItem,
+} from "../lib/adminNav";
 
 export interface AdminSidebarProps {
   brandName?: string;
   brandInitial?: string;
 }
 
-const contentItems: NavItem[] = [
-  { href: "/admin", label: "Dashboard", icon: "ri-dashboard-line" },
-  { href: "/admin/blogs", label: "Blog Posts", icon: "ri-article-line" },
-  { href: "/admin/blog-writer", label: "Blog Writer", icon: "ri-quill-pen-line" },
-  { href: "/admin/content-calendar", label: "Content Calendar", icon: "ri-calendar-line" },
-  { href: "/admin/knowledge-base", label: "Knowledge Base", icon: "ri-book-open-line" },
-  { href: "/admin/pages", label: "Pages", icon: "ri-pages-line" },
-];
-
-const seoItems: NavItem[] = [
-  { href: "/admin/keyword-research", label: "Keyword Research", icon: "ri-search-eye-line" },
-  { href: "/admin/content-editor", label: "Content Editor", icon: "ri-quill-pen-fill" },
-  { href: "/admin/internal-links", label: "Internal Links", icon: "ri-links-line" },
-  { href: "/admin/link-health", label: "Link Health", icon: "ri-shield-check-line" },
-  { href: "/admin/indexing-status", label: "Indexing Status", icon: "ri-radar-line" },
-  { href: "/admin/sitemap", label: "Sitemap", icon: "ri-map-2-line" },
-  { href: "/admin/search-console", label: "Search Console", icon: "ri-google-line" },
-];
-
-const settingsItems: NavItem[] = [
-  { href: "/admin/brand-settings", label: "Brand Settings", icon: "ri-building-2-line" },
-];
-
-function isActiveRoute(pathname: string, href: string): boolean {
-  if (href === "/admin") {
-    return pathname === "/admin" || pathname === "/admin/";
+function defaultExpandedGroups(pathname: string): Record<AdminNavGroupId, boolean> {
+  const expanded: Record<AdminNavGroupId, boolean> = {
+    content: true,
+    seo: false,
+    health: false,
+    settings: false,
+  };
+  for (const group of ADMIN_NAV_GROUPS) {
+    if (groupContainsActiveRoute(group, pathname)) {
+      expanded[group.id] = true;
+    }
   }
-  return pathname === href || pathname.startsWith(`${href}/`);
+  return expanded;
 }
 
-function NavSection({
-  title,
-  items,
-  pathname,
-}: {
-  title: string;
-  items: NavItem[];
-  pathname: string;
-}) {
+function NavLink({ item, pathname }: { item: AdminNavItem; pathname: string }) {
+  const active = isActiveAdminRoute(pathname, item.href);
   return (
-    <div className="mb-8">
-      <p
-        className={`mb-3 px-3 text-[10px] font-semibold uppercase tracking-[0.2em] text-neutral-400 ${adminFontSans}`}
+    <Link
+      href={item.href}
+      prefetch={item.href.startsWith("/admin/content-calendar") ? false : undefined}
+      className={`flex items-center gap-3 rounded-xl px-3 py-2 text-[13px] font-medium transition-colors ${adminFontSans} ${
+        active ? "text-white" : "text-white/55 hover:bg-white/[0.06] hover:text-white/90"
+      }`}
+      style={
+        active ? { backgroundColor: ADMIN_ACCENT_SOFT, color: ADMIN_ACCENT } : undefined
+      }
+      title={item.label}
+    >
+      <i className={`${item.icon} text-base shrink-0 ${active ? "" : "opacity-90"}`} />
+      <span className="truncate">{item.shortLabel ?? item.label}</span>
+    </Link>
+  );
+}
+
+function NavGroupSection({
+  group,
+  pathname,
+  expanded,
+  onToggle,
+}: {
+  group: AdminNavGroup;
+  pathname: string;
+  expanded: boolean;
+  onToggle: () => void;
+}) {
+  const hasActive = groupContainsActiveRoute(group, pathname);
+
+  return (
+    <div className="mb-2">
+      <button
+        type="button"
+        onClick={onToggle}
+        className={`mb-1 flex w-full items-center justify-between rounded-lg px-3 py-2 text-left transition-colors hover:bg-white/[0.04] ${adminFontSans}`}
+        aria-expanded={expanded}
       >
-        {title}
-      </p>
-      <nav className="flex flex-col gap-0.5">
-        {items.map((item) => {
-          const active = isActiveRoute(pathname, item.href);
-          return (
-            <Link
-              key={item.href}
-              href={item.href}
-              prefetch={item.href.startsWith("/admin/content-calendar") ? false : undefined}
-              className={`flex items-center gap-3 rounded-xl px-3 py-2.5 text-[13px] font-medium transition-colors ${adminFontSans} ${
-                active
-                  ? "text-neutral-900"
-                  : "text-neutral-500 hover:bg-black/[0.04] hover:text-neutral-800"
-              }`}
-              style={
-                active
-                  ? { backgroundColor: `${ADMIN_OCEAN}18`, color: ADMIN_OCEAN }
-                  : undefined
-              }
-            >
-              <i className={`${item.icon} text-lg shrink-0 ${active ? "" : "opacity-80"}`} />
-              {item.label}
-            </Link>
-          );
-        })}
-      </nav>
+        <span
+          className={`text-[10px] font-semibold uppercase tracking-[0.22em] ${
+            hasActive ? "text-white/70" : "text-white/35"
+          }`}
+        >
+          {group.label}
+        </span>
+        <i
+          className={`ri-arrow-down-s-line text-sm text-white/40 transition-transform ${
+            expanded ? "rotate-0" : "-rotate-90"
+          }`}
+        />
+      </button>
+      {expanded ? (
+        <nav className="flex flex-col gap-0.5 pb-2">
+          {group.items.map((item) => (
+            <NavLink key={item.href} item={item} pathname={pathname} />
+          ))}
+        </nav>
+      ) : null}
     </div>
   );
 }
@@ -99,9 +108,34 @@ export default function AdminSidebar({
   brandName = "Admin",
   brandInitial = "A",
 }: AdminSidebarProps) {
-  const pathname = usePathname();
+  const pathname = usePathname() ?? "/admin";
   const router = useRouter();
   const { user, signOut } = useAuth();
+
+  const [expandedGroups, setExpandedGroups] = useState<Record<AdminNavGroupId, boolean>>(() =>
+    defaultExpandedGroups(pathname),
+  );
+
+  useEffect(() => {
+    setExpandedGroups((prev) => {
+      const next = { ...prev };
+      for (const group of ADMIN_NAV_GROUPS) {
+        if (groupContainsActiveRoute(group, pathname)) {
+          next[group.id] = true;
+        }
+      }
+      return next;
+    });
+  }, [pathname]);
+
+  const toggleGroup = (id: AdminNavGroupId) => {
+    setExpandedGroups((prev) => ({ ...prev, [id]: !prev[id] }));
+  };
+
+  const flatItemCount = useMemo(
+    () => ADMIN_NAV_GROUPS.reduce((sum, g) => sum + g.items.length, 0),
+    [],
+  );
 
   const handleSignOut = async () => {
     await signOut();
@@ -110,44 +144,58 @@ export default function AdminSidebar({
 
   return (
     <aside
-      className={`sticky top-0 flex h-[100vh] w-[240px] shrink-0 flex-col overflow-y-auto border-r border-black/[0.06] ${adminFontSans}`}
-      style={{ backgroundColor: ADMIN_CREAM_SIDEBAR }}
+      className={`sticky top-0 flex h-[100vh] w-[220px] shrink-0 flex-col overflow-hidden border-r border-white/[0.06] ${adminFontSans}`}
+      style={{ backgroundColor: ADMIN_NAVY_DEEP }}
     >
-      <div className="border-b border-black/[0.06] px-4 pb-6 pt-10">
+      <div className="border-b border-white/[0.08] px-4 pb-5 pt-6">
         <Link
           href="/admin"
-          className="mx-auto flex h-11 w-11 items-center justify-center rounded-2xl text-xl font-semibold leading-none tracking-tight text-white shadow-[0_1px_12px_rgba(61,111,127,0.25)] transition-opacity hover:opacity-90"
-          style={{
-            backgroundColor: ADMIN_OCEAN,
-            fontFamily: "var(--font-cormorant-garamond), serif",
-          }}
-          aria-label={`${brandName} Home`}
+          className="flex items-center gap-3 rounded-xl px-2 py-1 transition-opacity hover:opacity-90"
+          aria-label={`${brandName} Admin home`}
         >
-          {brandInitial}
+          <span
+            className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl text-xl font-semibold leading-none text-white shadow-[0_4px_20px_rgba(123,159,212,0.22)]"
+            style={{
+              background: `linear-gradient(135deg, ${ADMIN_ACCENT} 0%, #5a7eb8 100%)`,
+              fontFamily: "'Cormorant Garamond', serif",
+            }}
+          >
+            {brandInitial}
+          </span>
+          <span className="min-w-0">
+            <span className="block truncate text-[13px] font-semibold text-white/95">{brandName}</span>
+            <span className="block text-[10px] font-medium uppercase tracking-[0.18em] text-white/40">
+              Admin · {flatItemCount} tools
+            </span>
+          </span>
         </Link>
-        <p
-          className={`mt-3 text-center text-[10px] font-medium uppercase tracking-[0.28em] text-neutral-400 ${adminFontSans}`}
-        >
-          {brandName}
-        </p>
       </div>
 
-      <div className="flex-1 overflow-y-auto px-3 pb-8 pt-6">
-        <NavSection title="Content" items={contentItems} pathname={pathname ?? ""} />
-        <NavSection title="SEO tools" items={seoItems} pathname={pathname ?? ""} />
-        <NavSection title="Settings" items={settingsItems} pathname={pathname ?? ""} />
+      <div className="flex-1 overflow-y-auto px-2 pb-4 pt-3">
+        {ADMIN_NAV_GROUPS.map((group) => (
+          <NavGroupSection
+            key={group.id}
+            group={group}
+            pathname={pathname}
+            expanded={expandedGroups[group.id]}
+            onToggle={() => toggleGroup(group.id)}
+          />
+        ))}
       </div>
 
-      <div className="border-t border-black/[0.06] px-4 py-4">
-        <p className={`mb-2 truncate px-2 text-[11px] text-neutral-500 ${adminFontSans}`}>
-          {user?.email ?? ""}
-        </p>
+      <div className="border-t border-white/[0.08] px-3 py-3">
         <button
           type="button"
           onClick={handleSignOut}
-          className={`w-full rounded-xl px-3 py-2 text-left text-[12px] font-medium text-red-600/90 transition-colors hover:bg-red-50 hover:text-red-700 ${adminFontSans}`}
+          className={`flex w-full items-center gap-2 rounded-xl px-3 py-2.5 text-left text-[12px] font-medium text-red-300/90 transition-colors hover:bg-red-500/10 hover:text-red-200 ${adminFontSans}`}
         >
+          <i className="ri-logout-box-r-line text-base shrink-0" />
           Sign out
+          {user?.email ? (
+            <span className="ml-auto truncate text-[10px] text-white/30 max-w-[90px]" title={user.email}>
+              {user.email.split("@")[0]}
+            </span>
+          ) : null}
         </button>
       </div>
     </aside>

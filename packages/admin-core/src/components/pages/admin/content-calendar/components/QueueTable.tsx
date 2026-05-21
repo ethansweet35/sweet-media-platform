@@ -9,7 +9,7 @@ const STATUS_STYLES: Record<
   BlogQueueItem["status"],
   { label: string; bg: string; text: string; ring?: string }
 > = {
-  pending: { label: "Pending", bg: "bg-neutral-100", text: "text-neutral-700" },
+  pending: { label: "Pending", bg: "bg-[#F4F7FB]", text: "text-[#334155]" },
   generating: { label: "Generating", bg: "bg-sky-100", text: "text-sky-800" },
   draft_ready: { label: "Draft ready", bg: "bg-emerald-100", text: "text-emerald-900" },
   published: { label: "Published", bg: "bg-teal-100", text: "text-teal-900" },
@@ -134,7 +134,7 @@ export default function QueueTable({
                 }}
                 onClick={() => toggleRow(item.id)}
                 className={`cursor-pointer border-t border-black/[0.05] transition-colors ${
-                  isHi ? "bg-[#3d6f7f]/[0.07]" : "hover:bg-black/[0.02]"
+                  isHi ? "bg-[#0A1F44]/[0.07]" : "hover:bg-black/[0.02]"
                 }`}
               >
                 <td className="align-top whitespace-nowrap px-4 py-3">

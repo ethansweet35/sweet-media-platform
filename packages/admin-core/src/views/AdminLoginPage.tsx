@@ -4,6 +4,34 @@ import { useState, useEffect, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import { useAuth } from "../contexts/AuthContext";
 import { supabaseConfigured } from "../lib/supabase";
+import AdminFonts from "../components/AdminFonts";
+import {
+  ADMIN_ACCENT,
+  ADMIN_NAVY,
+  ADMIN_NAVY_DEEP,
+  ADMIN_SURFACE,
+  ADMIN_TEXT,
+  ADMIN_TEXT_MUTED,
+  adminFontSans,
+  adminFontSerif,
+  adminInputCls,
+  adminPrimaryBtnCls,
+  adminCardCls,
+} from "../lib/adminTheme";
+
+function LoginShell({ children }: { children: React.ReactNode }) {
+  return (
+    <>
+      <AdminFonts />
+      <div
+        className={`min-h-screen flex items-center justify-center px-4 ${adminFontSans}`}
+        style={{ backgroundColor: ADMIN_SURFACE }}
+      >
+        {children}
+      </div>
+    </>
+  );
+}
 
 export default function AdminLoginPage() {
   const { signIn, user, isAdmin, isLoading } = useAuth();
@@ -34,7 +62,6 @@ export default function AdminLoginPage() {
         setSubmitting(false);
         return;
       }
-      // Success: keep submitting true until useEffect redirects away
     } catch {
       setError("Something went wrong. Please try again.");
       setSubmitting(false);
@@ -43,116 +70,132 @@ export default function AdminLoginPage() {
 
   if (!supabaseConfigured) {
     return (
-      <div className="min-h-screen bg-stone-50 flex items-center justify-center px-4">
+      <LoginShell>
         <div className="w-full max-w-sm text-center">
           <div className="inline-flex items-center justify-center w-12 h-12 bg-red-100 rounded-xl mb-4">
             <i className="ri-error-warning-line text-red-500 text-xl" />
           </div>
-          <h1 className="text-lg font-semibold text-stone-900 mb-2">Missing Configuration</h1>
-          <p className="text-sm text-stone-500 leading-relaxed">
-            <code className="text-xs bg-stone-100 px-1.5 py-0.5 rounded">NEXT_PUBLIC_SUPABASE_URL</code> and{" "}
-            <code className="text-xs bg-stone-100 px-1.5 py-0.5 rounded">NEXT_PUBLIC_SUPABASE_ANON_KEY</code>{" "}
-            are not set in this environment. Add them in your Vercel project settings.
+          <h1 className={`text-lg font-semibold mb-2 ${adminFontSerif}`} style={{ color: ADMIN_TEXT }}>
+            Missing Configuration
+          </h1>
+          <p className="text-sm leading-relaxed" style={{ color: ADMIN_TEXT_MUTED }}>
+            <code className="text-xs bg-white px-1.5 py-0.5 rounded border border-[#E2E8F0]">NEXT_PUBLIC_SUPABASE_URL</code> and{" "}
+            <code className="text-xs bg-white px-1.5 py-0.5 rounded border border-[#E2E8F0]">NEXT_PUBLIC_SUPABASE_ANON_KEY</code>{" "}
+            are not set in this environment.
           </p>
         </div>
-      </div>
+      </LoginShell>
     );
   }
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-stone-50 flex items-center justify-center">
-        <div className="w-6 h-6 border-2 border-stone-300 border-t-stone-700 rounded-full animate-spin" />
-      </div>
+      <LoginShell>
+        <div
+          className="w-6 h-6 border-2 rounded-full animate-spin"
+          style={{ borderColor: `${ADMIN_ACCENT}44`, borderTopColor: ADMIN_NAVY }}
+        />
+      </LoginShell>
     );
   }
 
   return (
-    <>
-      <div className="min-h-screen bg-stone-50 flex items-center justify-center px-4">
-        <div className="w-full max-w-sm">
-          <div className="text-center mb-10">
-            <div className="inline-flex items-center justify-center w-12 h-12 bg-stone-900 rounded-xl mb-4">
-              <i className="ri-shield-keyhole-line text-white text-xl" />
-            </div>
-            <h1 className="text-2xl font-semibold text-stone-900 tracking-tight" style={{ fontFamily: "'Playfair Display', serif" }}>
-              Admin Access
-            </h1>
-            <p className="text-sm text-stone-500 mt-1">Sign in to manage your content</p>
+    <LoginShell>
+      <div className="w-full max-w-sm">
+        <div className="text-center mb-10">
+          <div
+            className="inline-flex items-center justify-center w-14 h-14 rounded-2xl mb-5 shadow-[0_8px_32px_rgba(123,159,212,0.3)]"
+            style={{ background: `linear-gradient(135deg, ${ADMIN_ACCENT}, #5a7eb8)` }}
+          >
+            <i className="ri-shield-keyhole-line text-white text-2xl" />
           </div>
-
-          <div className="bg-white rounded-2xl border border-stone-200 p-8">
-            <form onSubmit={handleSubmit} className="space-y-5">
-              <div>
-                <label className="block text-sm font-medium text-stone-700 mb-1.5">
-                  Email address
-                </label>
-                <input
-                  type="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  required
-                  autoComplete="email"
-                  placeholder="you@example.com"
-                  className="w-full px-3.5 py-2.5 text-sm border border-stone-200 rounded-lg bg-stone-50 text-stone-900 placeholder-stone-400 focus:outline-none focus:ring-2 focus:ring-stone-900 focus:border-transparent transition-all"
-                />
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium text-stone-700 mb-1.5">
-                  Password
-                </label>
-                <div className="relative">
-                  <input
-                    type={showPassword ? "text" : "password"}
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    required
-                    autoComplete="current-password"
-                    placeholder="••••••••"
-                    className="w-full px-3.5 py-2.5 text-sm border border-stone-200 rounded-lg bg-stone-50 text-stone-900 placeholder-stone-400 focus:outline-none focus:ring-2 focus:ring-stone-900 focus:border-transparent transition-all pr-10"
-                  />
-                  <button
-                    type="button"
-                    onClick={() => setShowPassword(!showPassword)}
-                    className="absolute right-3 top-1/2 -translate-y-1/2 w-5 h-5 flex items-center justify-center text-stone-400 hover:text-stone-600 cursor-pointer"
-                  >
-                    <i className={showPassword ? "ri-eye-off-line text-sm" : "ri-eye-line text-sm"} />
-                  </button>
-                </div>
-              </div>
-
-              {error && (
-                <div className="flex items-start gap-2.5 bg-red-50 border border-red-200 rounded-lg px-3.5 py-3">
-                  <div className="w-4 h-4 flex items-center justify-center mt-0.5 shrink-0">
-                    <i className="ri-error-warning-line text-red-500 text-sm" />
-                  </div>
-                  <p className="text-sm text-red-700">{error}</p>
-                </div>
-              )}
-
-              <button
-                type="submit"
-                disabled={submitting}
-                className="w-full py-2.5 bg-stone-900 text-white text-sm font-medium rounded-lg hover:bg-stone-800 disabled:opacity-50 disabled:cursor-not-allowed transition-colors cursor-pointer whitespace-nowrap"
-              >
-                {submitting ? (
-                  <span className="flex items-center justify-center gap-2">
-                    <span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                    Signing in...
-                  </span>
-                ) : (
-                  "Sign in"
-                )}
-              </button>
-            </form>
-          </div>
-
-          <p className="text-center text-xs text-stone-400 mt-6">
-            This area is restricted to authorized administrators only.
+          <h1
+            className={`text-3xl font-semibold tracking-tight ${adminFontSerif}`}
+            style={{ color: ADMIN_TEXT }}
+          >
+            Admin Access
+          </h1>
+          <p className="text-sm mt-2" style={{ color: ADMIN_TEXT_MUTED }}>
+            Sign in to manage your content
           </p>
         </div>
+
+        <div className={`${adminCardCls} p-8`}>
+          <form onSubmit={handleSubmit} className="space-y-5">
+            <div>
+              <label className="block text-sm font-medium mb-1.5" style={{ color: ADMIN_TEXT }}>
+                Email address
+              </label>
+              <input
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+                autoComplete="email"
+                placeholder="you@example.com"
+                className={adminInputCls}
+              />
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium mb-1.5" style={{ color: ADMIN_TEXT }}>
+                Password
+              </label>
+              <div className="relative">
+                <input
+                  type={showPassword ? "text" : "password"}
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  required
+                  autoComplete="current-password"
+                  placeholder="••••••••"
+                  className={`${adminInputCls} pr-10`}
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 w-5 h-5 flex items-center justify-center cursor-pointer"
+                  style={{ color: ADMIN_TEXT_MUTED }}
+                >
+                  <i className={showPassword ? "ri-eye-off-line text-sm" : "ri-eye-line text-sm"} />
+                </button>
+              </div>
+            </div>
+
+            {error && (
+              <div className="flex items-start gap-2.5 bg-red-50 border border-red-200 rounded-xl px-3.5 py-3">
+                <i className="ri-error-warning-line text-red-500 text-sm mt-0.5 shrink-0" />
+                <p className="text-sm text-red-700">{error}</p>
+              </div>
+            )}
+
+            <button
+              type="submit"
+              disabled={submitting}
+              className={`w-full ${adminPrimaryBtnCls}`}
+            >
+              {submitting ? (
+                <span className="flex items-center justify-center gap-2">
+                  <span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                  Signing in...
+                </span>
+              ) : (
+                "Sign in"
+              )}
+            </button>
+          </form>
+        </div>
+
+        <p className="text-center text-xs mt-6" style={{ color: ADMIN_TEXT_MUTED }}>
+          Restricted to authorized administrators only.
+        </p>
+
+        {/* Subtle brand strip */}
+        <div
+          className="mx-auto mt-8 h-1 w-24 rounded-full opacity-60"
+          style={{ background: `linear-gradient(90deg, ${ADMIN_NAVY_DEEP}, ${ADMIN_ACCENT}, ${ADMIN_NAVY_DEEP})` }}
+        />
       </div>
-    </>
+    </LoginShell>
   );
 }

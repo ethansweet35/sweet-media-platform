@@ -32,13 +32,13 @@ export default function AdminBlogDeleteModal({ post, onConfirm, onCancel }: Admi
           <i className="ri-delete-bin-line text-red-500 text-xl"></i>
         </div>
 
-        <h2 className="text-lg font-semibold text-neutral-900 text-center mb-2">
+        <h2 className="text-lg font-semibold text-[#0A1F44] text-center mb-2">
           Delete this post?
         </h2>
-        <p className="text-sm text-neutral-500 text-center mb-1 leading-relaxed">
+        <p className="text-sm text-[#64748B] text-center mb-1 leading-relaxed">
           You&apos;re about to permanently delete:
         </p>
-        <p className="text-sm font-medium text-neutral-800 text-center mb-6 px-4 line-clamp-2">
+        <p className="text-sm font-medium text-[#0A1F44] text-center mb-6 px-4 line-clamp-2">
           &ldquo;{post.title}&rdquo;
         </p>
 
@@ -52,7 +52,7 @@ export default function AdminBlogDeleteModal({ post, onConfirm, onCancel }: Admi
         <div className="flex gap-3">
           <button
             onClick={onCancel}
-            className="flex-1 border border-neutral-200 text-neutral-600 text-[11px] tracking-[0.15em] uppercase font-bold py-3 rounded-xl hover:border-neutral-300 transition-colors cursor-pointer whitespace-nowrap"
+            className="flex-1 border border-[#E2E8F0] text-[#64748B] text-[11px] tracking-[0.15em] uppercase font-bold py-3 rounded-xl hover:border-[#CBD5E1] transition-colors cursor-pointer whitespace-nowrap"
           >
             Cancel
           </button>

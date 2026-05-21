@@ -46,7 +46,7 @@ export type BulkAutoResult =
   | { uid: string; skipped: true; reason: string };
 
 export const STATUS_CONFIG: Record<LinkStatus, { label: string; color: string; bg: string; border: string; icon: string }> = {
-  pending:  { label: "Pending",  color: "text-neutral-400", bg: "bg-neutral-100", border: "border-neutral-100", icon: "ri-time-line" },
+  pending:  { label: "Pending",  color: "text-[#94A3B8]", bg: "bg-[#F4F7FB]", border: "border-[#E2E8F0]", icon: "ri-time-line" },
   checking: { label: "Checking", color: "text-amber-500",   bg: "bg-amber-50",    border: "border-amber-100",   icon: "ri-loader-4-line" },
   ok:       { label: "OK",       color: "text-emerald-600", bg: "bg-emerald-50",  border: "border-emerald-100", icon: "ri-checkbox-circle-line" },
   broken:   { label: "Broken",   color: "text-red-600",     bg: "bg-red-50",      border: "border-red-200",     icon: "ri-error-warning-line" },

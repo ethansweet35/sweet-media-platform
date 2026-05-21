@@ -2,6 +2,15 @@
 
 import { useEffect, useState } from "react";
 import type { KbEntry, KbEntryInput } from "../../../../../types/knowledge-base";
+import {
+  adminFieldLabelCls,
+  adminInputCls,
+  adminModalBackdropCls,
+  adminModalOverlayCls,
+  adminPrimaryBtnCls,
+  adminSecondaryBtnCls,
+  adminTextareaCls,
+} from "../../../../../lib/adminTheme";
 
 interface KnowledgeBaseEntryModalProps {
   entry: KbEntry | null;
@@ -80,26 +89,23 @@ export default function KnowledgeBaseEntryModal({
     if (ok) onClose();
   };
 
-  const inputCls =
-    "w-full px-3.5 py-2.5 text-sm border border-neutral-200 rounded-xl bg-white text-neutral-900 placeholder-neutral-400 focus:outline-none focus:border-[#3d6f7f] transition-colors";
-
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center px-4 py-8 overflow-y-auto">
+    <div className={adminModalOverlayCls}>
       <div
-        className="absolute inset-0 bg-black/40 backdrop-blur-sm"
+        className={adminModalBackdropCls}
         onClick={() => !saving && onClose()}
         aria-hidden
       />
 
       <div className="relative bg-white rounded-2xl w-full max-w-2xl p-6 shadow-xl my-auto max-h-[min(92vh,900px)] flex flex-col">
         <div className="flex items-start justify-between gap-4 mb-4">
-          <h2 className="text-lg font-semibold text-neutral-900">
+          <h2 className="text-lg font-semibold text-[#0A1F44]">
             {isEdit ? "Edit entry" : "New knowledge base entry"}
           </h2>
           <button
             type="button"
             onClick={() => !saving && onClose()}
-            className="w-9 h-9 flex items-center justify-center rounded-xl text-neutral-400 hover:bg-neutral-100 hover:text-neutral-600 transition-colors cursor-pointer shrink-0"
+            className="w-9 h-9 flex items-center justify-center rounded-xl text-[#94A3B8] hover:bg-[#F4F7FB] hover:text-[#64748B] transition-colors cursor-pointer shrink-0"
             aria-label="Close"
           >
             <i className="ri-close-line text-lg"></i>
@@ -115,14 +121,14 @@ export default function KnowledgeBaseEntryModal({
           )}
 
           <div>
-            <label className="block text-[11px] font-bold tracking-[0.12em] uppercase text-neutral-500 mb-1.5">
+            <label className={adminFieldLabelCls}>
               Title <span className="text-red-500">*</span>
             </label>
             <input
               type="text"
               value={title}
               onChange={(e) => setTitle(e.target.value)}
-              className={inputCls}
+              className={adminInputCls}
               placeholder="Short title"
               disabled={saving}
               required
@@ -130,28 +136,26 @@ export default function KnowledgeBaseEntryModal({
           </div>
 
           <div>
-            <label className="block text-[11px] font-bold tracking-[0.12em] uppercase text-neutral-500 mb-1.5">
-              Category
-            </label>
+            <label className={adminFieldLabelCls}>Category</label>
             <input
               type="text"
               value={category}
               onChange={(e) => setCategory(e.target.value)}
-              className={inputCls}
+              className={adminInputCls}
               placeholder="Optional"
               disabled={saving}
             />
           </div>
 
           <div className="min-h-0 flex-1 flex flex-col">
-            <label className="block text-[11px] font-bold tracking-[0.12em] uppercase text-neutral-500 mb-1.5">
+            <label className={adminFieldLabelCls}>
               Content <span className="text-red-500">*</span>
             </label>
             <textarea
               value={content}
               onChange={(e) => setContent(e.target.value)}
               rows={10}
-              className={`${inputCls} font-mono text-[13px] leading-relaxed resize-y min-h-[220px]`}
+              className={`${adminTextareaCls} font-mono text-[13px] leading-relaxed min-h-[220px]`}
               placeholder="Guidance or facts the blog writer should consider..."
               disabled={saving}
               required
@@ -159,14 +163,12 @@ export default function KnowledgeBaseEntryModal({
           </div>
 
           <div>
-            <label className="block text-[11px] font-bold tracking-[0.12em] uppercase text-neutral-500 mb-1.5">
-              Tags
-            </label>
+            <label className={adminFieldLabelCls}>Tags</label>
             <input
               type="text"
               value={tagsInput}
               onChange={(e) => setTagsInput(e.target.value)}
-              className={inputCls}
+              className={adminInputCls}
               placeholder="Comma-separated"
               disabled={saving}
             />
@@ -178,23 +180,23 @@ export default function KnowledgeBaseEntryModal({
               checked={isActive}
               onChange={(e) => setIsActive(e.target.checked)}
               disabled={saving}
-              className="w-4 h-4 rounded border-neutral-300 text-[#3d6f7f] accent-[#3d6f7f] cursor-pointer"
+              className="w-4 h-4 rounded border-[#CBD5E1] text-[#0A1F44] accent-[#0A1F44] cursor-pointer"
             />
-            <span className="text-sm text-neutral-800 font-medium">Is Active</span>
+            <span className="text-sm text-[#0A1F44] font-medium">Is Active</span>
           </label>
 
-          <div className="flex gap-3 pt-2 mt-auto border-t border-neutral-100">
+          <div className="flex gap-3 pt-2 mt-auto border-t border-[#E2E8F0]">
             <button
               type="button"
               onClick={() => !saving && onClose()}
-              className="flex-1 border border-neutral-200 text-neutral-600 text-[11px] tracking-[0.15em] uppercase font-bold py-3 rounded-xl hover:border-neutral-300 transition-colors cursor-pointer whitespace-nowrap"
+              className={`flex-1 ${adminSecondaryBtnCls} text-[11px] tracking-[0.15em] uppercase font-bold py-3`}
             >
               Cancel
             </button>
             <button
               type="submit"
               disabled={saving}
-              className="flex-1 bg-[#3d6f7f] text-white text-[11px] tracking-[0.15em] uppercase font-bold py-3 rounded-xl hover:bg-[#35636f] transition-colors disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer whitespace-nowrap"
+              className={`flex-1 ${adminPrimaryBtnCls} text-[11px] tracking-[0.15em] uppercase font-bold py-3`}
             >
               {saving ? (
                 <span className="flex items-center justify-center gap-2">

@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import KeywordSuggestPopover from "./KeywordSuggestPopover";
 import { ADMIN_OCEAN } from "../lib/adminTheme";
+import type { PageKeywordSeedContextPayload } from "../lib/seedCleaner";
 
 interface InlineKeywordCellProps {
   /** Current saved keyword for this row (null = not set yet). */
@@ -18,6 +19,8 @@ interface InlineKeywordCellProps {
    * server can crawl the live page and derive a better seed when the title is generic.
    */
   routePath?: string;
+  /** Page title + SEO + meta for richer Semrush seed refinement. */
+  pageSeedContext?: PageKeywordSeedContextPayload;
   /** Persist a new value (or null to clear). Returns true on success. */
   onSave: (next: string | null) => Promise<boolean>;
   /** Disable interaction (e.g. while bulk operation is running). */
@@ -39,6 +42,7 @@ export default function InlineKeywordCell({
   value,
   rowTitle,
   routePath,
+  pageSeedContext,
   onSave,
   disabled,
 }: InlineKeywordCellProps) {
@@ -106,7 +110,7 @@ export default function InlineKeywordCell({
           }}
           disabled={saving || disabled}
           placeholder="Primary keyword…"
-          className="flex-1 min-w-0 px-2 py-1 text-[12px] border border-neutral-300 rounded-md bg-white text-neutral-900 placeholder-neutral-400 focus:outline-none focus:border-[#3d6f7f]"
+          className="flex-1 min-w-0 px-2 py-1 text-[12px] border border-[#CBD5E1] rounded-md bg-white text-[#0A1F44] placeholder-[#94A3B8] focus:outline-none focus:border-[#7B9FD4]"
         />
         <button
           type="button"
@@ -127,7 +131,7 @@ export default function InlineKeywordCell({
           onClick={handleCancel}
           disabled={saving || disabled}
           title="Cancel (Esc)"
-          className="w-7 h-7 flex items-center justify-center rounded-md text-neutral-400 hover:text-neutral-700 hover:bg-neutral-100 cursor-pointer disabled:opacity-50 transition-colors"
+          className="w-7 h-7 flex items-center justify-center rounded-md text-[#94A3B8] hover:text-[#334155] hover:bg-[#F4F7FB] cursor-pointer disabled:opacity-50 transition-colors"
         >
           <i className="ri-close-line text-xs" />
         </button>
@@ -147,8 +151,8 @@ export default function InlineKeywordCell({
         title={value ? `Click to edit "${value}"` : "Click to set primary keyword"}
         className={`flex-1 min-w-0 text-left text-[12px] px-2 py-1 rounded-md transition-colors cursor-pointer ${
           value
-            ? "text-neutral-700 hover:bg-neutral-100"
-            : "text-neutral-400 italic hover:bg-neutral-100"
+            ? "text-[#334155] hover:bg-[#F4F7FB]"
+            : "text-[#94A3B8] italic hover:bg-[#F4F7FB]"
         } ${disabled ? "cursor-not-allowed opacity-60" : ""}`}
       >
         <span className="block truncate">{value || "Set keyword"}</span>
@@ -157,6 +161,7 @@ export default function InlineKeywordCell({
         currentKeyword={value ?? ""}
         seedFallback={rowTitle}
         routePath={routePath}
+        pageContext={pageSeedContext}
         onSelect={handleSuggestionPick}
         disabled={disabled}
       />

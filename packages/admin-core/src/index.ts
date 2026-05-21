@@ -1,4 +1,7 @@
 export * from "./lib/adminTheme";
+export * from "./lib/adminNav";
+export * from "./lib/blogPipeline";
+export * from "./lib/adminCommandPalette";
 export * from "./lib/aiModels";
 
 export * from "./types/blog-queue";
@@ -7,7 +10,15 @@ export * from "./types/knowledge-base";
 export * from "./types/tracked-page";
 export * from "./types/semrush";
 
-export { cleanSeedPhrase, stripBrandSuffix } from "./lib/seedCleaner";
+export {
+  cleanSeedPhrase,
+  stripBrandSuffix,
+  buildPrimaryPageKeywordSeed,
+  derivePageKeywordResearchSeed,
+  toPageKeywordSeedContextPayload,
+  type PageKeywordSeedContextPayload,
+  type PageKeywordSeedInput,
+} from "./lib/seedCleaner";
 
 export { AnalyticsWrapper } from "./components/AnalyticsWrapper";
 export { default as AdminPageHeader } from "./components/AdminPageHeader";
@@ -37,6 +48,8 @@ export {
   type AiOptimizeRunStatus,
 } from "./hooks/useAiOptimizeRuns";
 export { useInternalLinks, type InternalLink } from "./hooks/useInternalLinks";
+export { AdminCommandPaletteProvider, useAdminCommandPalette } from "./components/AdminCommandPalette";
+export { useContentPipeline } from "./hooks/useContentPipeline";
 export { useDashboardData, formatDashboardDate, relativeTimeSince } from "./hooks/useDashboardData";
 export { useAdminBlogPosts } from "./hooks/useAdminBlogPosts";
 export { useSearchConsoleData, type GscMetrics } from "./hooks/useSearchConsoleData";

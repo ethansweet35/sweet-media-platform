@@ -2,7 +2,16 @@
 
 import { useEffect, useMemo, useState } from "react";
 import AdminPageHeader from "../components/AdminPageHeader";
-import { ADMIN_OCEAN } from "../lib/adminTheme";
+import {
+  ADMIN_OCEAN,
+  adminPageCardCls,
+  adminPillTabCls,
+  adminPrimaryActionCls,
+  adminPrimaryBtnCls,
+  adminReadonlyInputCls,
+  adminStatCardCls,
+  adminTableWrapCls,
+} from "../lib/adminTheme";
 import { supabase } from "../lib/supabase";
 import { getPublicSiteOrigin } from "../lib/publicSiteUrl";
 import { useSystemSettings } from "../hooks/useSystemSettings";
@@ -163,7 +172,7 @@ export default function AdminSitemapPage() {
             type="button"
             onClick={() => void generateSitemap()}
             disabled={loading}
-            className="flex items-center gap-2 rounded-xl px-5 py-2.5 text-[11px] font-bold uppercase tracking-[0.12em] text-white transition-opacity hover:opacity-95 disabled:opacity-50"
+            className={adminPrimaryActionCls}
             style={{ backgroundColor: ADMIN_OCEAN }}
           >
             <i className={`ri-refresh-line text-sm ${loading ? "animate-spin" : ""}`} />
@@ -173,17 +182,17 @@ export default function AdminSitemapPage() {
       />
 
       <div className="max-w-3xl mx-auto space-y-6">
-        <div className="bg-white rounded-2xl border border-neutral-100 p-6">
+        <div className={adminPageCardCls}>
           <div className="flex items-start gap-4">
-            <div className="w-10 h-10 flex items-center justify-center rounded-xl bg-[#3d6f7f]/8 flex-shrink-0">
-              <i className="ri-map-2-line text-lg text-[#3d6f7f]"></i>
+            <div className="w-10 h-10 flex items-center justify-center rounded-xl bg-[#0A1F44]/8 flex-shrink-0">
+              <i className="ri-map-2-line text-lg text-[#0A1F44]"></i>
             </div>
             <div>
-              <h2 className="text-sm font-semibold text-neutral-800 mb-1">How this works</h2>
-              <p className="text-xs text-neutral-500 leading-relaxed">
-                The public <code className="bg-neutral-100 px-1 py-0.5 rounded text-[10px]">/sitemap.xml</code> route
+              <h2 className="text-sm font-semibold text-[#0A1F44] mb-1">How this works</h2>
+              <p className="text-xs text-[#64748B] leading-relaxed">
+                The public <code className="bg-[#F4F7FB] px-1 py-0.5 rounded text-[10px]">/sitemap.xml</code> route
                 serves a sitemap index. Child sitemaps are grouped automatically into pages, blog posts, and route
-                sections such as <code className="bg-neutral-100 px-1 py-0.5 rounded text-[10px]">/service-areas</code>{" "}
+                sections such as <code className="bg-[#F4F7FB] px-1 py-0.5 rounded text-[10px]">/service-areas</code>{" "}
                 when a brand has enough URLs under the same parent folder.
               </p>
             </div>
@@ -196,37 +205,33 @@ export default function AdminSitemapPage() {
               key={view.id}
               type="button"
               onClick={() => setSelectedView(view.id)}
-              className={`rounded-full px-4 py-2 text-[11px] font-semibold uppercase tracking-[0.08em] transition-colors ${
-                selectedView === view.id
-                  ? "bg-[#3d6f7f] text-white"
-                  : "bg-white text-neutral-600 border border-neutral-200 hover:border-neutral-300"
-              }`}
+              className={adminPillTabCls(selectedView === view.id)}
             >
               {view.label}
             </button>
           ))}
         </div>
 
-        <div className="bg-white rounded-2xl border border-neutral-100 p-6">
+        <div className={adminPageCardCls}>
           <div className="flex items-start gap-4">
             <div className="w-10 h-10 flex shrink-0 items-center justify-center rounded-xl bg-emerald-50">
-              <i className={`text-lg ${selectedView === "index" ? "ri-google-line text-emerald-700" : "ri-links-line text-[#3d6f7f]"}`}></i>
+              <i className={`text-lg ${selectedView === "index" ? "ri-google-line text-emerald-700" : "ri-links-line text-[#0A1F44]"}`}></i>
             </div>
             <div className="min-w-0 flex-1 space-y-2">
-              <h2 className="text-sm font-semibold text-neutral-800">
+              <h2 className="text-sm font-semibold text-[#0A1F44]">
                 {selectedView === "index" ? "Search Console URL" : `Public URL · ${selectedCategoryLabel}`}
               </h2>
               {selectedView === "index" ? (
-                <p className="text-xs leading-relaxed text-neutral-500">
-                  Paste into <span className="font-medium text-neutral-600">Sitemaps</span> in Google Search Console.
+                <p className="text-xs leading-relaxed text-[#64748B]">
+                  Paste into <span className="font-medium text-[#64748B]">Sitemaps</span> in Google Search Console.
                   Uses the live sitemap index (
-                  <code className="rounded bg-neutral-100 px-1 py-0.5 text-[10px]">/sitemap.xml</code>), which references
+                  <code className="rounded bg-[#F4F7FB] px-1 py-0.5 text-[10px]">/sitemap.xml</code>), which references
                   all partitions.
                 </p>
               ) : (
-                <p className="text-xs leading-relaxed text-neutral-500">
+                <p className="text-xs leading-relaxed text-[#64748B]">
                   Direct URL that serves only the{" "}
-                  <span className="font-medium text-neutral-700">{selectedCategoryLabel}</span> URLs. Search Console works
+                  <span className="font-medium text-[#334155]">{selectedCategoryLabel}</span> URLs. Search Console works
                   best with the Index tab&apos;s URL; use this link to verify one partition or share a subset.
                 </p>
               )}
@@ -235,7 +240,7 @@ export default function AdminSitemapPage() {
                   type="text"
                   readOnly
                   value={currentViewPublicUrl}
-                  className="w-full rounded-xl border border-neutral-200 bg-neutral-50 px-3 py-2.5 font-mono text-xs text-neutral-800 focus:outline-none"
+                  className={adminReadonlyInputCls}
                   aria-label={selectedView === "index" ? "Sitemap URL for Google Search Console" : "Public URL for selected sitemap partition"}
                 />
                 <button
@@ -244,7 +249,7 @@ export default function AdminSitemapPage() {
                   className={`flex shrink-0 items-center justify-center gap-2 whitespace-nowrap rounded-xl px-4 py-2.5 text-[11px] font-bold uppercase tracking-[0.1em] transition-colors ${
                     urlCopied
                       ? "bg-emerald-50 text-emerald-700 ring-1 ring-emerald-200"
-                      : "border border-neutral-200 bg-white text-neutral-700 hover:border-neutral-300"
+                      : "border border-[#E2E8F0] bg-white text-[#334155] hover:border-[#CBD5E1]"
                   }`}
                 >
                   <i className={`text-sm ${urlCopied ? "ri-check-line" : "ri-links-line"}`} />
@@ -256,21 +261,21 @@ export default function AdminSitemapPage() {
         </div>
 
         <div className="flex flex-wrap items-center gap-4">
-          <div className="bg-white rounded-xl border border-neutral-100 px-4 py-3">
-            <p className="text-[10px] tracking-wider uppercase text-neutral-400 font-semibold">Tracked Pages</p>
-            <p className="text-lg font-semibold text-neutral-800">{pageCount}</p>
+          <div className={`${adminStatCardCls} px-4 py-3 flex-col items-start gap-0`}>
+            <p className="text-[10px] tracking-wider uppercase text-[#94A3B8] font-semibold">Tracked Pages</p>
+            <p className="text-lg font-semibold text-[#0A1F44]">{pageCount}</p>
           </div>
-          <div className="bg-white rounded-xl border border-neutral-100 px-4 py-3">
-            <p className="text-[10px] tracking-wider uppercase text-neutral-400 font-semibold">Published Posts</p>
-            <p className="text-lg font-semibold text-neutral-800">{postCount}</p>
+          <div className={`${adminStatCardCls} px-4 py-3 flex-col items-start gap-0`}>
+            <p className="text-[10px] tracking-wider uppercase text-[#94A3B8] font-semibold">Published Posts</p>
+            <p className="text-lg font-semibold text-[#0A1F44]">{postCount}</p>
           </div>
-          <div className="bg-white rounded-xl border border-neutral-100 px-4 py-3">
-            <p className="text-[10px] tracking-wider uppercase text-neutral-400 font-semibold">Child Sitemaps</p>
-            <p className="text-lg font-semibold text-neutral-800">{groupCount}</p>
+          <div className={`${adminStatCardCls} px-4 py-3 flex-col items-start gap-0`}>
+            <p className="text-[10px] tracking-wider uppercase text-[#94A3B8] font-semibold">Child Sitemaps</p>
+            <p className="text-lg font-semibold text-[#0A1F44]">{groupCount}</p>
           </div>
-          <div className="bg-white rounded-xl border border-neutral-100 px-4 py-3">
-            <p className="text-[10px] tracking-wider uppercase text-neutral-400 font-semibold">Total URLs</p>
-            <p className="text-lg font-semibold text-neutral-800">{totalUrlCount}</p>
+          <div className={`${adminStatCardCls} px-4 py-3 flex-col items-start gap-0`}>
+            <p className="text-[10px] tracking-wider uppercase text-[#94A3B8] font-semibold">Total URLs</p>
+            <p className="text-lg font-semibold text-[#0A1F44]">{totalUrlCount}</p>
           </div>
         </div>
 
@@ -278,7 +283,7 @@ export default function AdminSitemapPage() {
           <button
             onClick={() => void generateSitemap()}
             disabled={loading}
-            className="flex items-center gap-2 bg-[#3d6f7f] text-white text-[11px] tracking-[0.18em] uppercase font-bold px-5 py-2.5 rounded-xl hover:bg-[#35636f] transition-colors disabled:opacity-40 cursor-pointer whitespace-nowrap"
+            className={adminPrimaryBtnCls}
           >
             {loading ? (
               <>
@@ -298,7 +303,7 @@ export default function AdminSitemapPage() {
               className={`flex items-center gap-2 text-[11px] tracking-[0.12em] uppercase font-bold px-5 py-2.5 rounded-xl transition-all cursor-pointer whitespace-nowrap ${
                 copied
                   ? "bg-emerald-50 text-emerald-600 border border-emerald-200"
-                  : "bg-white text-neutral-600 border border-neutral-200 hover:border-neutral-300"
+                  : "bg-white text-[#64748B] border border-[#E2E8F0] hover:border-[#CBD5E1]"
               }`}
             >
               <i className={`text-xs ${copied ? "ri-check-line" : "ri-clipboard-line"}`}></i>
@@ -308,17 +313,17 @@ export default function AdminSitemapPage() {
         </div>
 
         {activeXml && (
-          <div className="bg-white rounded-2xl border border-neutral-100 overflow-hidden">
-            <div className="flex items-center justify-between border-b border-neutral-100 px-5 py-3">
-              <p className="text-[10px] font-semibold uppercase tracking-wider text-neutral-500">
+          <div className={adminTableWrapCls}>
+            <div className="flex items-center justify-between border-b border-[#E2E8F0] px-5 py-3">
+              <p className="text-[10px] font-semibold uppercase tracking-wider text-[#64748B]">
                 {selectedView === "index" ? "Generated sitemap index" : `Generated · ${selectedCategoryLabel} (/sitemaps/${selectedView})`}
               </p>
-              <p className="text-[10px] text-neutral-400">{activeXml.length.toLocaleString()} chars</p>
+              <p className="text-[10px] text-[#94A3B8]">{activeXml.length.toLocaleString()} chars</p>
             </div>
             <textarea
               value={activeXml}
               readOnly
-              className="w-full h-[500px] px-5 py-4 text-xs font-mono text-neutral-700 bg-neutral-50 focus:outline-none resize-y leading-relaxed"
+              className="w-full h-[500px] px-5 py-4 text-xs font-mono text-[#334155] bg-[#F4F7FB] focus:outline-none resize-y leading-relaxed"
             />
           </div>
         )}

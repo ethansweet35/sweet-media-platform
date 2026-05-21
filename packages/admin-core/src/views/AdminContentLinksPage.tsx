@@ -492,44 +492,44 @@ export default function ContentLinksPage() {
       <div className="">
 
         {/* Intro card */}
-        <div className="bg-white rounded-2xl border border-neutral-100 p-8 mb-6">
+        <div className="bg-white rounded-2xl border border-[#E2E8F0] p-8 mb-6">
           <div className="flex items-start justify-between gap-6 flex-wrap">
             <div className="flex items-start gap-4">
-              <div className="w-12 h-12 rounded-2xl bg-[#3d6f7f]/5 flex items-center justify-center flex-shrink-0">
-                <i className="ri-file-search-line text-[#3d6f7f] text-xl"></i>
+              <div className="w-12 h-12 rounded-2xl bg-[#0A1F44]/5 flex items-center justify-center flex-shrink-0">
+                <i className="ri-file-search-line text-[#0A1F44] text-xl"></i>
               </div>
               <div>
-                <h2 className="text-lg font-bold text-neutral-900 mb-1">Blog Content Link Scanner</h2>
-                <p className="text-sm text-neutral-500 leading-relaxed max-w-xl">
+                <h2 className="text-lg font-bold text-[#0A1F44] mb-1">Blog Content Link Scanner</h2>
+                <p className="text-sm text-[#64748B] leading-relaxed max-w-xl">
                   Scans every link inside your published blog posts. Finds 404s, broken URLs, and redirects.
-                  Fix issues one-by-one or use <strong className="text-neutral-700">bulk actions</strong> to resolve multiple links at once.
+                  Fix issues one-by-one or use <strong className="text-[#334155]">bulk actions</strong> to resolve multiple links at once.
                 </p>
                 <div className="flex items-center gap-4 mt-3 flex-wrap">
-                  <span className="flex items-center gap-1.5 text-xs text-neutral-400">
-                    <i className="ri-checkbox-multiple-line text-neutral-300"></i>
+                  <span className="flex items-center gap-1.5 text-xs text-[#94A3B8]">
+                    <i className="ri-checkbox-multiple-line text-[#CBD5E1]"></i>
                     Select multiple links for bulk actions
                   </span>
-                  <span className="flex items-center gap-1.5 text-xs text-neutral-400">
-                    <i className="ri-magic-line text-neutral-300"></i>
+                  <span className="flex items-center gap-1.5 text-xs text-[#94A3B8]">
+                    <i className="ri-magic-line text-[#CBD5E1]"></i>
                     Auto Replace searches your blog + the web
                   </span>
                 </div>
               </div>
             </div>
             <button onClick={startScan} disabled={scanning}
-              className="flex items-center gap-2 bg-[#3d6f7f] text-white text-[11px] tracking-[0.12em] uppercase font-bold px-6 py-3 rounded-xl hover:bg-[#35636f] transition-colors cursor-pointer whitespace-nowrap disabled:opacity-50 disabled:cursor-not-allowed">
+              className="flex items-center gap-2 bg-[#0A1F44] text-white text-[11px] tracking-[0.12em] uppercase font-bold px-6 py-3 rounded-xl hover:bg-[#0d2a5e] transition-colors cursor-pointer whitespace-nowrap disabled:opacity-50 disabled:cursor-not-allowed">
               {scanning ? <><i className="ri-loader-4-line animate-spin text-sm"></i>Scanning...</> : <><i className="ri-radar-line text-sm"></i>{scanComplete ? "Re-Scan All Posts" : "Start Scan"}</>}
             </button>
           </div>
 
           {(scanning || scanComplete) && links.length > 0 && (
             <div className="mt-6">
-              <div className="flex items-center justify-between text-xs text-neutral-500 mb-2">
+              <div className="flex items-center justify-between text-xs text-[#64748B] mb-2">
                 <span>{scanning ? progressLabel : "Scan complete"}</span>
                 <span>{summary.checked} / {summary.total} links checked</span>
               </div>
-              <div className="w-full h-2 bg-neutral-100 rounded-full overflow-hidden">
-                <div className="h-full bg-[#3d6f7f] rounded-full transition-all duration-500" style={{ width: `${scanning ? progress : 100}%` }} />
+              <div className="w-full h-2 bg-[#F4F7FB] rounded-full overflow-hidden">
+                <div className="h-full bg-[#0A1F44] rounded-full transition-all duration-500" style={{ width: `${scanning ? progress : 100}%` }} />
               </div>
             </div>
           )}
@@ -539,20 +539,20 @@ export default function ContentLinksPage() {
         {scanComplete && summary.checked > 0 && (
           <div className="grid grid-cols-2 md:grid-cols-5 gap-3 mb-6">
             {[
-              { label: "Total Links",    value: summary.total,    icon: "ri-links-line",              color: "text-[#3d6f7f]",    bg: "bg-[#3d6f7f]/5",  f: "all"      as FilterType },
+              { label: "Total Links",    value: summary.total,    icon: "ri-links-line",              color: "text-[#0A1F44]",    bg: "bg-[#0A1F44]/5",  f: "all"      as FilterType },
               { label: "Healthy",        value: summary.ok,       icon: "ri-checkbox-circle-line",    color: "text-emerald-600", bg: "bg-emerald-50",   f: "ok"       as FilterType },
               { label: "Broken / Error", value: summary.broken,   icon: "ri-error-warning-line",      color: "text-red-600",     bg: "bg-red-50",       f: "broken"   as FilterType },
               { label: "Redirects",      value: summary.redirect, icon: "ri-arrow-right-circle-line", color: "text-amber-600",   bg: "bg-amber-50",     f: "redirect" as FilterType },
-              { label: "External Links", value: summary.external, icon: "ri-global-line",             color: "text-neutral-500", bg: "bg-neutral-100",  f: "all"      as FilterType },
+              { label: "External Links", value: summary.external, icon: "ri-global-line",             color: "text-[#64748B]", bg: "bg-[#F4F7FB]",  f: "all"      as FilterType },
             ].map((s) => (
               <button key={s.label} onClick={() => setFilter(s.f)}
-                className={`bg-white rounded-2xl border p-4 flex items-center gap-3 text-left transition-all cursor-pointer ${filter === s.f && s.f !== "all" ? "border-[#3d6f7f] ring-1 ring-[#3d6f7f]/20" : "border-neutral-100 hover:border-neutral-200"}`}>
+                className={`bg-white rounded-2xl border p-4 flex items-center gap-3 text-left transition-all cursor-pointer ${filter === s.f && s.f !== "all" ? "border-[#0A1F44] ring-1 ring-[#0A1F44]/20" : "border-[#E2E8F0] hover:border-[#E2E8F0]"}`}>
                 <div className={`w-9 h-9 rounded-xl ${s.bg} flex items-center justify-center flex-shrink-0`}>
                   <i className={`${s.icon} ${s.color} text-base`}></i>
                 </div>
                 <div>
-                  <p className="text-xl font-bold text-neutral-900 leading-none">{s.value}</p>
-                  <p className="text-[10px] text-neutral-400 mt-1 tracking-wide leading-tight">{s.label}</p>
+                  <p className="text-xl font-bold text-[#0A1F44] leading-none">{s.value}</p>
+                  <p className="text-[10px] text-[#94A3B8] mt-1 tracking-wide leading-tight">{s.label}</p>
                 </div>
               </button>
             ))}
@@ -590,7 +590,7 @@ export default function ContentLinksPage() {
                 </button>
               )}
               <button onClick={selectAllIssues}
-                className="text-[11px] tracking-[0.12em] uppercase font-bold text-neutral-600 border border-neutral-300 px-3 py-1.5 rounded-lg hover:bg-neutral-100 transition-colors cursor-pointer whitespace-nowrap">
+                className="text-[11px] tracking-[0.12em] uppercase font-bold text-[#64748B] border border-[#CBD5E1] px-3 py-1.5 rounded-lg hover:bg-[#F4F7FB] transition-colors cursor-pointer whitespace-nowrap">
                 Select All Issues
               </button>
             </div>
@@ -609,7 +609,7 @@ export default function ContentLinksPage() {
         {/* ── Bulk Action Toolbar ─────────────────────────────────────────────── */}
         {selectedUids.size > 0 && (
           <div className="sticky top-[73px] z-20 mb-4">
-            <div className="bg-[#3d6f7f] rounded-2xl px-5 py-3.5 flex items-center gap-3 flex-wrap">
+            <div className="bg-[#0A1F44] rounded-2xl px-5 py-3.5 flex items-center gap-3 flex-wrap">
               <div className="flex items-center gap-2 flex-shrink-0">
                 <div className="w-7 h-7 rounded-lg bg-white/10 flex items-center justify-center">
                   <i className="ri-checkbox-multiple-line text-white text-sm"></i>
@@ -636,7 +636,7 @@ export default function ContentLinksPage() {
               <div className="flex items-center gap-2 flex-wrap">
                 {selectedIssues.length > 0 && (
                   <button onClick={() => setActionModal({ type: "bulk-auto" })} disabled={bulkLoading}
-                    className="flex items-center gap-1.5 bg-white text-[#3d6f7f] text-[10px] tracking-[0.12em] uppercase font-bold px-3 py-2 rounded-xl hover:bg-neutral-100 transition-colors cursor-pointer whitespace-nowrap disabled:opacity-50">
+                    className="flex items-center gap-1.5 bg-white text-[#0A1F44] text-[10px] tracking-[0.12em] uppercase font-bold px-3 py-2 rounded-xl hover:bg-[#F4F7FB] transition-colors cursor-pointer whitespace-nowrap disabled:opacity-50">
                     <i className="ri-magic-line text-xs"></i>
                     Auto Replace ({selectedIssues.length})
                   </button>
@@ -665,15 +665,15 @@ export default function ContentLinksPage() {
         {/* Filter tabs + quick-select */}
         {groupedByPost.length > 0 && (
           <>
-            <div className="bg-white rounded-2xl border border-neutral-100 p-1 mb-4 flex gap-1 flex-wrap items-center">
+            <div className="bg-white rounded-2xl border border-[#E2E8F0] p-1 mb-4 flex gap-1 flex-wrap items-center">
               {(["all", "broken", "redirect", "ok"] as FilterType[]).map((f) => {
                 const labels: Record<FilterType, string> = { all: "All Links", broken: "Broken", redirect: "Redirects", ok: "Healthy" };
                 const counts: Record<FilterType, number> = { all: summary.total, broken: summary.broken, redirect: summary.redirect, ok: summary.ok };
                 return (
                   <button key={f} onClick={() => setFilter(f)}
-                    className={`flex items-center gap-1.5 text-[11px] tracking-[0.1em] uppercase font-bold py-2 px-4 rounded-xl transition-colors cursor-pointer whitespace-nowrap ${filter === f ? "bg-[#3d6f7f] text-white" : "text-neutral-500 hover:bg-neutral-50"}`}>
+                    className={`flex items-center gap-1.5 text-[11px] tracking-[0.1em] uppercase font-bold py-2 px-4 rounded-xl transition-colors cursor-pointer whitespace-nowrap ${filter === f ? "bg-[#0A1F44] text-white" : "text-[#64748B] hover:bg-[#F4F7FB]"}`}>
                     {labels[f]}
-                    <span className={`text-[10px] px-1.5 py-0.5 rounded-full font-bold ${filter === f ? "bg-white/20 text-white" : "bg-neutral-100 text-neutral-500"}`}>
+                    <span className={`text-[10px] px-1.5 py-0.5 rounded-full font-bold ${filter === f ? "bg-white/20 text-white" : "bg-[#F4F7FB] text-[#64748B]"}`}>
                       {counts[f]}
                     </span>
                   </button>
@@ -683,18 +683,18 @@ export default function ContentLinksPage() {
                 <div className="ml-auto flex items-center gap-1 pr-1">
                   {summary.broken > 0 && (
                     <button onClick={selectAllBroken}
-                      className="text-[10px] tracking-[0.1em] uppercase font-bold text-neutral-400 hover:text-red-600 px-3 py-2 rounded-xl hover:bg-red-50 transition-colors cursor-pointer whitespace-nowrap">
+                      className="text-[10px] tracking-[0.1em] uppercase font-bold text-[#94A3B8] hover:text-red-600 px-3 py-2 rounded-xl hover:bg-red-50 transition-colors cursor-pointer whitespace-nowrap">
                       <i className="ri-error-warning-line mr-1"></i>Broken ({summary.broken})
                     </button>
                   )}
                   {summary.redirect > 0 && (
                     <button onClick={selectAllRedirects}
-                      className="text-[10px] tracking-[0.1em] uppercase font-bold text-neutral-400 hover:text-amber-600 px-3 py-2 rounded-xl hover:bg-amber-50 transition-colors cursor-pointer whitespace-nowrap">
+                      className="text-[10px] tracking-[0.1em] uppercase font-bold text-[#94A3B8] hover:text-amber-600 px-3 py-2 rounded-xl hover:bg-amber-50 transition-colors cursor-pointer whitespace-nowrap">
                       <i className="ri-arrow-right-circle-line mr-1"></i>Redirects ({summary.redirect})
                     </button>
                   )}
                   <button onClick={selectAllIssues}
-                    className="text-[10px] tracking-[0.1em] uppercase font-bold text-neutral-400 hover:text-[#3d6f7f] px-3 py-2 rounded-xl hover:bg-neutral-50 transition-colors cursor-pointer whitespace-nowrap">
+                    className="text-[10px] tracking-[0.1em] uppercase font-bold text-[#94A3B8] hover:text-[#0A1F44] px-3 py-2 rounded-xl hover:bg-[#F4F7FB] transition-colors cursor-pointer whitespace-nowrap">
                     <i className="ri-checkbox-multiple-line mr-1"></i>All Issues
                   </button>
                 </div>
@@ -721,53 +721,53 @@ export default function ContentLinksPage() {
                 };
 
                 return (
-                  <div key={group.slug} className={`bg-white rounded-2xl border overflow-hidden ${brokenCount > 0 ? "border-red-200" : redirectCount > 0 ? "border-amber-200" : "border-neutral-100"}`}>
+                  <div key={group.slug} className={`bg-white rounded-2xl border overflow-hidden ${brokenCount > 0 ? "border-red-200" : redirectCount > 0 ? "border-amber-200" : "border-[#E2E8F0]"}`}>
                     <button onClick={() => setExpandedPost(isExpanded ? null : group.slug)}
-                      className="w-full flex items-center gap-3 px-5 py-4 hover:bg-neutral-50/50 transition-colors text-left cursor-pointer">
+                      className="w-full flex items-center gap-3 px-5 py-4 hover:bg-[#F4F7FB]/50 transition-colors text-left cursor-pointer">
                       {groupIssueLinks.length > 0 && (
                         <div onClick={toggleGroupSelect}
                           className={`w-5 h-5 rounded-md border-2 flex items-center justify-center flex-shrink-0 transition-all cursor-pointer ${
-                            allGroupSelected ? "border-[#3d6f7f] bg-[#3d6f7f]" :
-                            someGroupSelected ? "border-[#3d6f7f] bg-[#3d6f7f]/20" :
-                            "border-neutral-300 hover:border-[#3d6f7f]"
+                            allGroupSelected ? "border-[#0A1F44] bg-[#0A1F44]" :
+                            someGroupSelected ? "border-[#0A1F44] bg-[#0A1F44]/20" :
+                            "border-[#CBD5E1] hover:border-[#0A1F44]"
                           }`}>
                           {allGroupSelected && <i className="ri-check-line text-white text-[9px]"></i>}
-                          {someGroupSelected && !allGroupSelected && <div className="w-2 h-0.5 bg-[#3d6f7f] rounded-full"></div>}
+                          {someGroupSelected && !allGroupSelected && <div className="w-2 h-0.5 bg-[#0A1F44] rounded-full"></div>}
                         </div>
                       )}
-                      <div className="w-8 h-8 flex items-center justify-center rounded-lg bg-neutral-100 flex-shrink-0">
-                        <i className={`ri-arrow-right-s-line text-neutral-500 transition-transform ${isExpanded ? "rotate-90" : ""}`}></i>
+                      <div className="w-8 h-8 flex items-center justify-center rounded-lg bg-[#F4F7FB] flex-shrink-0">
+                        <i className={`ri-arrow-right-s-line text-[#64748B] transition-transform ${isExpanded ? "rotate-90" : ""}`}></i>
                       </div>
                       <div className="flex-1 min-w-0">
-                        <p className="text-sm font-semibold text-neutral-800 truncate">{group.title}</p>
+                        <p className="text-sm font-semibold text-[#0A1F44] truncate">{group.title}</p>
                         <div className="flex items-center gap-2 mt-1 flex-wrap">
                           <a href={`/blog/${group.slug}`} target="_blank" rel="noopener noreferrer"
                             onClick={(e) => e.stopPropagation()}
-                            className="text-[10px] text-[#3d6f7f] hover:underline font-mono cursor-pointer">
+                            className="text-[10px] text-[#0A1F44] hover:underline font-mono cursor-pointer">
                             /blog/{group.slug}
                           </a>
-                          <span className="text-[10px] text-neutral-400">{group.links.length} link{group.links.length !== 1 ? "s" : ""}</span>
+                          <span className="text-[10px] text-[#94A3B8]">{group.links.length} link{group.links.length !== 1 ? "s" : ""}</span>
                           {brokenCount > 0 && <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-red-50 text-red-600">{brokenCount} broken</span>}
                           {redirectCount > 0 && <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-amber-50 text-amber-600">{redirectCount} redirect</span>}
                         </div>
                       </div>
                       <a href={`/admin/blog-edit/${group.slug}`} onClick={(e) => e.stopPropagation()}
-                        className="flex items-center gap-1.5 border border-neutral-200 text-neutral-500 text-[10px] tracking-wide font-bold px-3 py-1.5 rounded-lg hover:bg-neutral-50 transition-colors cursor-pointer whitespace-nowrap flex-shrink-0">
+                        className="flex items-center gap-1.5 border border-[#E2E8F0] text-[#64748B] text-[10px] tracking-wide font-bold px-3 py-1.5 rounded-lg hover:bg-[#F4F7FB] transition-colors cursor-pointer whitespace-nowrap flex-shrink-0">
                         <i className="ri-pencil-line text-xs"></i>Edit Post
                       </a>
                     </button>
 
                     {isExpanded && (
-                      <div className="border-t border-neutral-100 overflow-x-auto">
+                      <div className="border-t border-[#E2E8F0] overflow-x-auto">
                         <table className="w-full min-w-[860px]">
                           <thead>
-                            <tr className="bg-neutral-50/50 border-b border-neutral-100">
+                            <tr className="bg-[#F4F7FB]/50 border-b border-[#E2E8F0]">
                               <th className="px-4 py-2.5 w-10"></th>
-                              <th className="text-left text-[10px] tracking-[0.15em] uppercase font-semibold text-neutral-400 px-4 py-2.5 w-28">Status</th>
-                              <th className="text-left text-[10px] tracking-[0.15em] uppercase font-semibold text-neutral-400 px-4 py-2.5">Anchor Text</th>
-                              <th className="text-left text-[10px] tracking-[0.15em] uppercase font-semibold text-neutral-400 px-4 py-2.5">URL</th>
-                              <th className="text-left text-[10px] tracking-[0.15em] uppercase font-semibold text-neutral-400 px-4 py-2.5 w-20">Type</th>
-                              <th className="text-right text-[10px] tracking-[0.15em] uppercase font-semibold text-neutral-400 px-4 py-2.5 w-72">Actions</th>
+                              <th className="text-left text-[10px] tracking-[0.15em] uppercase font-semibold text-[#94A3B8] px-4 py-2.5 w-28">Status</th>
+                              <th className="text-left text-[10px] tracking-[0.15em] uppercase font-semibold text-[#94A3B8] px-4 py-2.5">Anchor Text</th>
+                              <th className="text-left text-[10px] tracking-[0.15em] uppercase font-semibold text-[#94A3B8] px-4 py-2.5">URL</th>
+                              <th className="text-left text-[10px] tracking-[0.15em] uppercase font-semibold text-[#94A3B8] px-4 py-2.5 w-20">Type</th>
+                              <th className="text-right text-[10px] tracking-[0.15em] uppercase font-semibold text-[#94A3B8] px-4 py-2.5 w-72">Actions</th>
                             </tr>
                           </thead>
                           <tbody>
@@ -777,11 +777,11 @@ export default function ContentLinksPage() {
                               const isSelected = selectedUids.has(link.uid);
 
                               return (
-                                <tr key={link.uid} className={`border-b border-neutral-50 transition-colors ${isSelected ? "bg-[#3d6f7f]/[0.03]" : "hover:bg-neutral-50/30"}`}>
+                                <tr key={link.uid} className={`border-b border-[#F4F7FB] transition-colors ${isSelected ? "bg-[#0A1F44]/[0.03]" : "hover:bg-[#F4F7FB]/30"}`}>
                                   <td className="px-4 py-3 w-10">
                                     {isIssue && (
                                       <div onClick={() => toggleSelect(link.uid)}
-                                        className={`w-5 h-5 rounded-md border-2 flex items-center justify-center cursor-pointer transition-all ${isSelected ? "border-[#3d6f7f] bg-[#3d6f7f]" : "border-neutral-300 hover:border-[#3d6f7f]"}`}>
+                                        className={`w-5 h-5 rounded-md border-2 flex items-center justify-center cursor-pointer transition-all ${isSelected ? "border-[#0A1F44] bg-[#0A1F44]" : "border-[#CBD5E1] hover:border-[#0A1F44]"}`}>
                                         {isSelected && <i className="ri-check-line text-white text-[9px]"></i>}
                                       </div>
                                     )}
@@ -794,11 +794,11 @@ export default function ContentLinksPage() {
                                     </div>
                                   </td>
                                   <td className="px-4 py-3">
-                                    <span className="text-xs font-medium text-neutral-700">{link.anchorText}</span>
+                                    <span className="text-xs font-medium text-[#334155]">{link.anchorText}</span>
                                   </td>
                                   <td className="px-4 py-3 max-w-[220px]">
                                     <a href={link.isExternal ? link.url : undefined} target={link.isExternal ? "_blank" : undefined} rel="noopener noreferrer"
-                                      className="text-xs font-mono text-neutral-500 hover:text-[#3d6f7f] truncate block transition-colors cursor-pointer" title={link.url}>
+                                      className="text-xs font-mono text-[#64748B] hover:text-[#0A1F44] truncate block transition-colors cursor-pointer" title={link.url}>
                                       {link.url.length > 40 ? link.url.slice(0, 40) + "…" : link.url}
                                     </a>
                                     {link.errorMessage && <p className="text-[10px] text-red-500 mt-0.5 leading-tight">{link.errorMessage}</p>}
@@ -810,7 +810,7 @@ export default function ContentLinksPage() {
                                     )}
                                   </td>
                                   <td className="px-4 py-3">
-                                    <span className={`text-[10px] font-semibold px-2 py-0.5 rounded-full ${link.isExternal ? "bg-neutral-100 text-neutral-500" : "bg-[#3d6f7f]/5 text-[#3d6f7f]"}`}>
+                                    <span className={`text-[10px] font-semibold px-2 py-0.5 rounded-full ${link.isExternal ? "bg-[#F4F7FB] text-[#64748B]" : "bg-[#0A1F44]/5 text-[#0A1F44]"}`}>
                                       {link.isExternal ? "External" : "Internal"}
                                     </span>
                                   </td>
@@ -818,7 +818,7 @@ export default function ContentLinksPage() {
                                     {isIssue && (
                                       <div className="flex items-center gap-1.5 justify-end flex-wrap">
                                         <button onClick={() => setActionModal({ type: "auto", link })}
-                                          className="flex items-center gap-1 bg-[#3d6f7f] text-white text-[10px] font-bold px-2.5 py-1.5 rounded-lg hover:bg-[#35636f] transition-colors cursor-pointer whitespace-nowrap">
+                                          className="flex items-center gap-1 bg-[#0A1F44] text-white text-[10px] font-bold px-2.5 py-1.5 rounded-lg hover:bg-[#0d2a5e] transition-colors cursor-pointer whitespace-nowrap">
                                           <i className="ri-magic-line text-xs"></i>Auto Replace
                                         </button>
                                         {link.status === "redirect" && link.finalUrl && (
@@ -828,7 +828,7 @@ export default function ContentLinksPage() {
                                           </button>
                                         )}
                                         <button onClick={() => openReplace(link)}
-                                          className="flex items-center gap-1 bg-neutral-100 text-neutral-600 border border-neutral-200 text-[10px] font-bold px-2.5 py-1.5 rounded-lg hover:bg-neutral-200 transition-colors cursor-pointer whitespace-nowrap">
+                                          className="flex items-center gap-1 bg-[#F4F7FB] text-[#64748B] border border-[#E2E8F0] text-[10px] font-bold px-2.5 py-1.5 rounded-lg hover:bg-[#E2E8F0] transition-colors cursor-pointer whitespace-nowrap">
                                           <i className="ri-edit-line text-xs"></i>Replace
                                         </button>
                                         <button onClick={() => setActionModal({ type: "remove", link })}
@@ -854,12 +854,12 @@ export default function ContentLinksPage() {
 
         {/* Empty state */}
         {!scanning && links.length === 0 && (
-          <div className="bg-white rounded-2xl border border-neutral-100 p-16 text-center">
-            <div className="w-16 h-16 rounded-2xl bg-[#3d6f7f]/5 flex items-center justify-center mx-auto mb-4">
-              <i className="ri-file-search-line text-[#3d6f7f] text-2xl"></i>
+          <div className="bg-white rounded-2xl border border-[#E2E8F0] p-16 text-center">
+            <div className="w-16 h-16 rounded-2xl bg-[#0A1F44]/5 flex items-center justify-center mx-auto mb-4">
+              <i className="ri-file-search-line text-[#0A1F44] text-2xl"></i>
             </div>
-            <h3 className="text-base font-semibold text-neutral-800 mb-2">Ready to scan</h3>
-            <p className="text-sm text-neutral-400 max-w-sm mx-auto">
+            <h3 className="text-base font-semibold text-[#0A1F44] mb-2">Ready to scan</h3>
+            <p className="text-sm text-[#94A3B8] max-w-sm mx-auto">
               {scanComplete ? "No links found in your published blog posts." : "Hit \"Start Scan\" to check every link inside your published blog posts for broken URLs and 404s."}
             </p>
           </div>
@@ -884,24 +884,24 @@ export default function ContentLinksPage() {
                 <i className="ri-delete-bin-line text-red-500 text-lg"></i>
               </div>
               <div>
-                <h3 className="text-sm font-semibold text-neutral-900 mb-1">Remove {selectedUids.size} link{selectedUids.size !== 1 ? "s" : ""}?</h3>
-                <p className="text-xs text-neutral-500 leading-relaxed">
+                <h3 className="text-sm font-semibold text-[#0A1F44] mb-1">Remove {selectedUids.size} link{selectedUids.size !== 1 ? "s" : ""}?</h3>
+                <p className="text-xs text-[#64748B] leading-relaxed">
                   Hyperlinks will be stripped from the selected {selectedUids.size} link{selectedUids.size !== 1 ? "s" : ""}. Anchor text stays in the posts.
                 </p>
                 <div className="mt-3 max-h-32 overflow-y-auto space-y-1">
                   {selectedLinks.slice(0, 8).map((l) => (
-                    <div key={l.uid} className="flex items-center gap-2 text-[10px] text-neutral-500">
-                      <i className="ri-subtract-line text-neutral-300 flex-shrink-0"></i>
+                    <div key={l.uid} className="flex items-center gap-2 text-[10px] text-[#64748B]">
+                      <i className="ri-subtract-line text-[#CBD5E1] flex-shrink-0"></i>
                       <span className="font-medium truncate">{l.anchorText}</span>
                     </div>
                   ))}
-                  {selectedLinks.length > 8 && <p className="text-[10px] text-neutral-400 pl-4">...and {selectedLinks.length - 8} more</p>}
+                  {selectedLinks.length > 8 && <p className="text-[10px] text-[#94A3B8] pl-4">...and {selectedLinks.length - 8} more</p>}
                 </div>
               </div>
             </div>
             <div className="flex gap-2">
               <button onClick={() => setActionModal(null)} disabled={bulkLoading}
-                className="flex-1 border border-neutral-200 text-neutral-600 text-[11px] tracking-[0.12em] uppercase font-bold px-4 py-2.5 rounded-xl hover:bg-neutral-50 transition-colors cursor-pointer whitespace-nowrap disabled:opacity-50">
+                className="flex-1 border border-[#E2E8F0] text-[#64748B] text-[11px] tracking-[0.12em] uppercase font-bold px-4 py-2.5 rounded-xl hover:bg-[#F4F7FB] transition-colors cursor-pointer whitespace-nowrap disabled:opacity-50">
                 Cancel
               </button>
               <button onClick={handleBulkRemove} disabled={bulkLoading}
@@ -921,16 +921,16 @@ export default function ContentLinksPage() {
                 <i className="ri-delete-bin-line text-red-500 text-lg"></i>
               </div>
               <div>
-                <h3 className="text-sm font-semibold text-neutral-900 mb-1">Remove this link?</h3>
-                <p className="text-xs text-neutral-500 leading-relaxed">
+                <h3 className="text-sm font-semibold text-[#0A1F44] mb-1">Remove this link?</h3>
+                <p className="text-xs text-[#64748B] leading-relaxed">
                   The anchor text <strong>&quot;{actionModal.link.anchorText}&quot;</strong> will stay in the post, but the hyperlink to{" "}
-                  <span className="font-mono text-neutral-700 break-all">{actionModal.link.url}</span> will be stripped out.
+                  <span className="font-mono text-[#334155] break-all">{actionModal.link.url}</span> will be stripped out.
                 </p>
               </div>
             </div>
             <div className="flex gap-2">
               <button onClick={() => setActionModal(null)} disabled={actionLoading}
-                className="flex-1 border border-neutral-200 text-neutral-600 text-[11px] tracking-[0.12em] uppercase font-bold px-4 py-2.5 rounded-xl hover:bg-neutral-50 transition-colors cursor-pointer whitespace-nowrap disabled:opacity-50">
+                className="flex-1 border border-[#E2E8F0] text-[#64748B] text-[11px] tracking-[0.12em] uppercase font-bold px-4 py-2.5 rounded-xl hover:bg-[#F4F7FB] transition-colors cursor-pointer whitespace-nowrap disabled:opacity-50">
                 Cancel
               </button>
               <button onClick={() => handleRemove(actionModal.link)} disabled={actionLoading}
@@ -946,12 +946,12 @@ export default function ContentLinksPage() {
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/30 p-4">
           <div className="bg-white rounded-2xl p-6 max-w-lg w-full">
             <div className="flex items-start gap-3 mb-5">
-              <div className="w-10 h-10 rounded-xl bg-[#3d6f7f]/5 flex items-center justify-center flex-shrink-0">
-                <i className="ri-edit-line text-[#3d6f7f] text-lg"></i>
+              <div className="w-10 h-10 rounded-xl bg-[#0A1F44]/5 flex items-center justify-center flex-shrink-0">
+                <i className="ri-edit-line text-[#0A1F44] text-lg"></i>
               </div>
               <div className="flex-1 min-w-0">
-                <h3 className="text-sm font-semibold text-neutral-900 mb-1">Replace link URL</h3>
-                <p className="text-xs text-neutral-500 leading-relaxed">
+                <h3 className="text-sm font-semibold text-[#0A1F44] mb-1">Replace link URL</h3>
+                <p className="text-xs text-[#64748B] leading-relaxed">
                   Updating the link for anchor text <strong>&quot;{actionModal.link.anchorText}&quot;</strong>.
                   {actionModal.link.status === "redirect" && actionModal.link.finalUrl && (
                     <span className="block mt-1 text-amber-600">
@@ -963,15 +963,15 @@ export default function ContentLinksPage() {
               </div>
             </div>
             <div className="mb-3">
-              <p className="text-[10px] tracking-[0.12em] uppercase font-semibold text-neutral-400 mb-1.5">Current URL</p>
-              <div className="bg-neutral-50 border border-neutral-200 rounded-xl px-3 py-2.5 font-mono text-xs text-neutral-500 break-all">{actionModal.link.url}</div>
+              <p className="text-[10px] tracking-[0.12em] uppercase font-semibold text-[#94A3B8] mb-1.5">Current URL</p>
+              <div className="bg-[#F4F7FB] border border-[#E2E8F0] rounded-xl px-3 py-2.5 font-mono text-xs text-[#64748B] break-all">{actionModal.link.url}</div>
             </div>
             <div className="mb-5">
-              <p className="text-[10px] tracking-[0.12em] uppercase font-semibold text-neutral-400 mb-1.5">New URL</p>
+              <p className="text-[10px] tracking-[0.12em] uppercase font-semibold text-[#94A3B8] mb-1.5">New URL</p>
               <input ref={replaceInputRef} type="url" value={replaceUrl} onChange={(e) => setReplaceUrl(e.target.value)}
                 onKeyDown={(e) => { if (e.key === "Enter" && replaceUrl.trim()) handleReplace(actionModal.link, replaceUrl); }}
                 placeholder="https://example.com/new-page"
-                className="w-full border border-neutral-200 rounded-xl px-3 py-2.5 text-sm font-mono text-neutral-800 focus:outline-none focus:border-[#3d6f7f] transition-colors" />
+                className="w-full border border-[#E2E8F0] rounded-xl px-3 py-2.5 text-sm font-mono text-[#0A1F44] focus:outline-none focus:border-[#7B9FD4] transition-colors" />
               {actionModal.link.finalUrl && actionModal.link.finalUrl !== replaceUrl && (
                 <button onClick={() => setReplaceUrl(actionModal.link.finalUrl!)} className="mt-2 text-[10px] text-amber-600 hover:text-amber-700 flex items-center gap-1 cursor-pointer">
                   <i className="ri-arrow-right-up-line text-xs"></i>
@@ -981,11 +981,11 @@ export default function ContentLinksPage() {
             </div>
             <div className="flex gap-2">
               <button onClick={() => { setActionModal(null); setReplaceUrl(""); }} disabled={actionLoading}
-                className="flex-1 border border-neutral-200 text-neutral-600 text-[11px] tracking-[0.12em] uppercase font-bold px-4 py-2.5 rounded-xl hover:bg-neutral-50 transition-colors cursor-pointer whitespace-nowrap disabled:opacity-50">
+                className="flex-1 border border-[#E2E8F0] text-[#64748B] text-[11px] tracking-[0.12em] uppercase font-bold px-4 py-2.5 rounded-xl hover:bg-[#F4F7FB] transition-colors cursor-pointer whitespace-nowrap disabled:opacity-50">
                 Cancel
               </button>
               <button onClick={() => handleReplace(actionModal.link, replaceUrl)} disabled={actionLoading || !replaceUrl.trim()}
-                className="flex-1 bg-[#3d6f7f] text-white text-[11px] tracking-[0.12em] uppercase font-bold px-4 py-2.5 rounded-xl hover:bg-[#35636f] transition-colors cursor-pointer whitespace-nowrap disabled:opacity-50">
+                className="flex-1 bg-[#0A1F44] text-white text-[11px] tracking-[0.12em] uppercase font-bold px-4 py-2.5 rounded-xl hover:bg-[#0d2a5e] transition-colors cursor-pointer whitespace-nowrap disabled:opacity-50">
                 {actionLoading ? <><i className="ri-loader-4-line animate-spin text-xs mr-1"></i>Saving...</> : "Save New URL"}
               </button>
             </div>
@@ -995,7 +995,7 @@ export default function ContentLinksPage() {
 
       {/* Toast */}
       {toast && (
-        <div className={`fixed bottom-6 right-6 z-50 flex items-center gap-3 px-5 py-3.5 rounded-2xl transition-all duration-300 ${toast.type === "success" ? "bg-[#3d6f7f] text-white" : "bg-red-500 text-white"}`}>
+        <div className={`fixed bottom-6 right-6 z-50 flex items-center gap-3 px-5 py-3.5 rounded-2xl transition-all duration-300 ${toast.type === "success" ? "bg-[#0A1F44] text-white" : "bg-red-500 text-white"}`}>
           <i className={`text-base ${toast.type === "success" ? "ri-check-line" : "ri-error-warning-line"}`}></i>
           <span className="text-sm font-medium">{toast.message}</span>
         </div>

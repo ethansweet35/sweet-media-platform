@@ -3,6 +3,17 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { supabase } from "../lib/supabase";
+import AdminFonts from "../components/AdminFonts";
+import {
+  ADMIN_SURFACE,
+  ADMIN_TEXT,
+  ADMIN_TEXT_MUTED,
+  adminCardCls,
+  adminFontSans,
+  adminFontSerif,
+  adminInputCls,
+  adminPrimaryBtnCls,
+} from "../lib/adminTheme";
 
 const EDGE_FUNCTION_URL = `${process.env.NEXT_PUBLIC_SUPABASE_URL}/functions/v1/admin-setup`;
 
@@ -53,29 +64,33 @@ export default function FirstAdminSetupPage() {
 
   if (checking) {
     return (
-      <div className="min-h-screen bg-stone-50 flex items-center justify-center">
-        <div className="w-6 h-6 border-2 border-stone-300 border-t-stone-700 rounded-full animate-spin" />
-      </div>
+      <>
+        <AdminFonts />
+        <div className={`min-h-screen flex items-center justify-center ${adminFontSans}`} style={{ backgroundColor: ADMIN_SURFACE }}>
+          <div className="w-6 h-6 border-2 border-[#7B9FD4]/30 border-t-[#0A1F44] rounded-full animate-spin" />
+        </div>
+      </>
     );
   }
 
   return (
     <>
-      <div className="min-h-screen bg-stone-50 flex items-center justify-center px-4">
+      <AdminFonts />
+      <div className={`min-h-screen flex items-center justify-center px-4 ${adminFontSans}`} style={{ backgroundColor: ADMIN_SURFACE }}>
         <div className="w-full max-w-sm">
           <div className="text-center mb-10">
-            <div className="inline-flex items-center justify-center w-12 h-12 bg-stone-900 rounded-xl mb-4">
+            <div className="inline-flex items-center justify-center w-12 h-12 rounded-xl mb-4 bg-[#0A1F44]">
               <i className="ri-shield-keyhole-line text-white text-xl" />
             </div>
-            <h1 className="text-2xl font-semibold text-stone-900 tracking-tight" style={{ fontFamily: "'Playfair Display', serif" }}>
+            <h1 className={`text-2xl font-semibold tracking-tight ${adminFontSerif}`} style={{ color: ADMIN_TEXT }}>
               First Admin Setup
             </h1>
-            <p className="text-sm text-stone-500 mt-1">
+            <p className="text-sm mt-1" style={{ color: ADMIN_TEXT_MUTED }}>
               Create your admin account to manage blog content
             </p>
           </div>
 
-          <div className="bg-white rounded-2xl border border-stone-200 p-8">
+          <div className={`${adminCardCls} p-8`}>
             <EmailPasswordSetup />
 
             {error && (
@@ -88,7 +103,7 @@ export default function FirstAdminSetupPage() {
             )}
           </div>
 
-          <p className="text-center text-xs text-stone-400 mt-6">
+          <p className="text-center text-xs mt-6" style={{ color: ADMIN_TEXT_MUTED }}>
             This page only works when no admins exist. Once set up, it will redirect to the login page.
           </p>
         </div>
@@ -163,7 +178,7 @@ function EmailPasswordSetup() {
         required
         autoComplete="email"
         placeholder="Email address"
-        className="w-full px-3.5 py-2.5 text-sm border border-stone-200 rounded-lg bg-stone-50 text-stone-900 placeholder-stone-400 focus:outline-none focus:ring-2 focus:ring-stone-900 focus:border-transparent transition-all"
+        className={adminInputCls}
       />
       <div className="relative">
         <input
@@ -173,12 +188,13 @@ function EmailPasswordSetup() {
           required
           autoComplete="new-password"
           placeholder="Password (min 6 chars)"
-          className="w-full px-3.5 py-2.5 text-sm border border-stone-200 rounded-lg bg-stone-50 text-stone-900 placeholder-stone-400 focus:outline-none focus:ring-2 focus:ring-stone-900 focus:border-transparent transition-all pr-10"
+          className={`${adminInputCls} pr-10`}
         />
         <button
           type="button"
           onClick={() => setShowPassword(!showPassword)}
-          className="absolute right-3 top-1/2 -translate-y-1/2 w-5 h-5 flex items-center justify-center text-stone-400 hover:text-stone-600 cursor-pointer"
+          className="absolute right-3 top-1/2 -translate-y-1/2 w-5 h-5 flex items-center justify-center cursor-pointer"
+          style={{ color: ADMIN_TEXT_MUTED }}
         >
           <i className={showPassword ? "ri-eye-off-line text-sm" : "ri-eye-line text-sm"} />
         </button>
@@ -190,12 +206,12 @@ function EmailPasswordSetup() {
         required
         autoComplete="new-password"
         placeholder="Confirm password"
-        className="w-full px-3.5 py-2.5 text-sm border border-stone-200 rounded-lg bg-stone-50 text-stone-900 placeholder-stone-400 focus:outline-none focus:ring-2 focus:ring-stone-900 focus:border-transparent transition-all"
+        className={adminInputCls}
       />
       <button
         type="submit"
         disabled={submitting}
-        className="w-full py-2.5 bg-stone-900 text-white text-sm font-medium rounded-lg hover:bg-stone-800 disabled:opacity-50 disabled:cursor-not-allowed transition-colors cursor-pointer whitespace-nowrap"
+        className={`w-full ${adminPrimaryBtnCls}`}
       >
         {submitting ? (
           <span className="flex items-center justify-center gap-2">

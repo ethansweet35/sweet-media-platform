@@ -241,17 +241,17 @@ export default function InternalLinksPage() {
         {/* Stats */}
         <div className="grid grid-cols-3 gap-4 mb-8">
           {[
-            { label: "Total Mappings", value: links.length, icon: "ri-links-line", color: "text-[#3d6f7f]", bg: "bg-[#3d6f7f]/5" },
+            { label: "Total Mappings", value: links.length, icon: "ri-links-line", color: "text-[#0A1F44]", bg: "bg-[#0A1F44]/5" },
             { label: "Active", value: activeCount, icon: "ri-checkbox-circle-line", color: "text-emerald-600", bg: "bg-emerald-50" },
-            { label: "Inactive", value: inactiveCount, icon: "ri-eye-off-line", color: "text-neutral-500", bg: "bg-neutral-100" },
+            { label: "Inactive", value: inactiveCount, icon: "ri-eye-off-line", color: "text-[#64748B]", bg: "bg-[#F4F7FB]" },
           ].map((stat) => (
-            <div key={stat.label} className="bg-white rounded-2xl border border-neutral-100 p-5 flex items-center gap-4">
+            <div key={stat.label} className="bg-white rounded-2xl border border-[#E2E8F0] p-5 flex items-center gap-4">
               <div className={`w-10 h-10 rounded-xl ${stat.bg} flex items-center justify-center flex-shrink-0`}>
                 <i className={`${stat.icon} ${stat.color} text-lg`}></i>
               </div>
               <div>
-                <p className="text-2xl font-bold text-neutral-900 leading-none">{stat.value}</p>
-                <p className="text-[11px] text-neutral-400 mt-1 tracking-wide">{stat.label}</p>
+                <p className="text-2xl font-bold text-[#0A1F44] leading-none">{stat.value}</p>
+                <p className="text-[11px] text-[#94A3B8] mt-1 tracking-wide">{stat.label}</p>
               </div>
             </div>
           ))}
@@ -260,12 +260,12 @@ export default function InternalLinksPage() {
         <div className="flex gap-6 items-start">
           {/* Form */}
           <div className="w-full lg:w-[420px] flex-shrink-0 space-y-5">
-            <div className="bg-white rounded-2xl border border-neutral-100 p-6 sticky top-20">
+            <div className="bg-white rounded-2xl border border-[#E2E8F0] p-6 sticky top-20">
               <div className="flex items-center gap-2 mb-5">
-                <div className="w-8 h-8 rounded-lg bg-[#3d6f7f]/5 flex items-center justify-center">
-                  <i className="ri-link-m text-[#3d6f7f] text-sm"></i>
+                <div className="w-8 h-8 rounded-lg bg-[#0A1F44]/5 flex items-center justify-center">
+                  <i className="ri-link-m text-[#0A1F44] text-sm"></i>
                 </div>
-                <h2 className="text-sm font-semibold text-neutral-900">
+                <h2 className="text-sm font-semibold text-[#0A1F44]">
                   {editingId ? "Edit Link Mapping" : "New Link Mapping"}
                 </h2>
               </div>
@@ -280,7 +280,7 @@ export default function InternalLinksPage() {
               <div className="space-y-4">
                 {/* Anchor text */}
                 <div>
-                  <label className="block text-[10px] tracking-[0.2em] uppercase font-semibold text-neutral-400 mb-1.5">
+                  <label className="block text-[10px] tracking-[0.2em] uppercase font-semibold text-[#94A3B8] mb-1.5">
                     Anchor Text
                   </label>
                   <input
@@ -288,16 +288,16 @@ export default function InternalLinksPage() {
                     value={form.keyword}
                     onChange={(e) => setForm((prev) => ({ ...prev, keyword: e.target.value }))}
                     placeholder="e.g. local SEO, local search, Google local ranking"
-                    className="w-full border border-neutral-200 rounded-xl px-3.5 py-2.5 text-sm text-neutral-800 placeholder:text-neutral-300 focus:outline-none focus:border-[#3d6f7f] transition-colors"
+                    className="w-full border border-[#E2E8F0] rounded-xl px-3.5 py-2.5 text-sm text-[#0A1F44] placeholder:text-[#CBD5E1] focus:outline-none focus:border-[#7B9FD4] transition-colors"
                   />
-                  <p className="text-[10px] text-neutral-400 mt-1">
+                  <p className="text-[10px] text-[#94A3B8] mt-1">
                     Separate multiple phrases with commas to create multiple mappings at once.
                   </p>
                 </div>
 
                 {/* Destination URL */}
                 <div>
-                  <label className="block text-[10px] tracking-[0.2em] uppercase font-semibold text-neutral-400 mb-1.5">
+                  <label className="block text-[10px] tracking-[0.2em] uppercase font-semibold text-[#94A3B8] mb-1.5">
                     Destination URL
                   </label>
                   <input
@@ -305,20 +305,20 @@ export default function InternalLinksPage() {
                     value={form.href}
                     onChange={(e) => setForm((prev) => ({ ...prev, href: e.target.value }))}
                     placeholder="/seo or /blog/slug"
-                    className="w-full border border-neutral-200 rounded-xl px-3.5 py-2.5 text-sm text-neutral-800 placeholder:text-neutral-300 focus:outline-none focus:border-[#3d6f7f] transition-colors"
+                    className="w-full border border-[#E2E8F0] rounded-xl px-3.5 py-2.5 text-sm text-[#0A1F44] placeholder:text-[#CBD5E1] focus:outline-none focus:border-[#7B9FD4] transition-colors"
                   />
 
                   {/* Destination picker */}
-                  <div className="mt-3 bg-neutral-50 border border-neutral-200 rounded-xl overflow-hidden">
+                  <div className="mt-3 bg-[#F4F7FB] border border-[#E2E8F0] rounded-xl overflow-hidden">
                     {/* Tabs + search */}
-                    <div className="px-3 pt-2.5 pb-2 border-b border-neutral-200 space-y-2">
-                      <div className="flex gap-1 bg-neutral-100 rounded-lg p-0.5">
+                    <div className="px-3 pt-2.5 pb-2 border-b border-[#E2E8F0] space-y-2">
+                      <div className="flex gap-1 bg-[#F4F7FB] rounded-lg p-0.5">
                         <button
                           onClick={() => { setPresetTab("pages"); setPresetSearch(""); }}
                           className={`flex-1 text-[10px] tracking-[0.1em] uppercase font-bold py-1.5 rounded-md transition-colors cursor-pointer ${
                             presetTab === "pages"
-                              ? "bg-white text-[#3d6f7f] shadow-sm"
-                              : "text-neutral-400 hover:text-neutral-600"
+                              ? "bg-white text-[#0A1F44] shadow-sm"
+                              : "text-[#94A3B8] hover:text-[#64748B]"
                           }`}
                         >
                           <i className="ri-pages-line mr-1 text-xs"></i>
@@ -328,27 +328,27 @@ export default function InternalLinksPage() {
                           onClick={() => { setPresetTab("blogs"); setPresetSearch(""); }}
                           className={`flex-1 text-[10px] tracking-[0.1em] uppercase font-bold py-1.5 rounded-md transition-colors cursor-pointer ${
                             presetTab === "blogs"
-                              ? "bg-white text-[#3d6f7f] shadow-sm"
-                              : "text-neutral-400 hover:text-neutral-600"
+                              ? "bg-white text-[#0A1F44] shadow-sm"
+                              : "text-[#94A3B8] hover:text-[#64748B]"
                           }`}
                         >
                           <i className="ri-article-line mr-1 text-xs"></i>
                           Blog Posts
                         </button>
                       </div>
-                      <div className="flex items-center gap-2 bg-white border border-neutral-200 rounded-lg px-2.5 py-1.5">
-                        <i className="ri-search-line text-neutral-400 text-xs flex-shrink-0"></i>
+                      <div className="flex items-center gap-2 bg-white border border-[#E2E8F0] rounded-lg px-2.5 py-1.5">
+                        <i className="ri-search-line text-[#94A3B8] text-xs flex-shrink-0"></i>
                         <input
                           type="text"
                           value={presetSearch}
                           onChange={(e) => setPresetSearch(e.target.value)}
                           placeholder={presetTab === "pages" ? "Search pages…" : "Search blog posts…"}
-                          className="flex-1 bg-transparent text-xs text-neutral-700 placeholder:text-neutral-400 focus:outline-none min-w-0"
+                          className="flex-1 bg-transparent text-xs text-[#334155] placeholder:text-[#94A3B8] focus:outline-none min-w-0"
                         />
                         {presetSearch && (
                           <button
                             onClick={() => setPresetSearch("")}
-                            className="w-4 h-4 flex items-center justify-center rounded-full bg-neutral-200 hover:bg-neutral-300 text-neutral-500 transition-colors cursor-pointer flex-shrink-0"
+                            className="w-4 h-4 flex items-center justify-center rounded-full bg-[#E2E8F0] hover:bg-[#CBD5E1] text-[#64748B] transition-colors cursor-pointer flex-shrink-0"
                           >
                             <i className="ri-close-line text-[8px]"></i>
                           </button>
@@ -361,7 +361,7 @@ export default function InternalLinksPage() {
                       {presetTab === "pages" ? (
                         pagesLoading ? (
                           <div className="px-3 py-4 text-center">
-                            <i className="ri-loader-4-line animate-spin text-neutral-300 text-sm"></i>
+                            <i className="ri-loader-4-line animate-spin text-[#CBD5E1] text-sm"></i>
                           </div>
                         ) : (() => {
                           const filtered = trackedPages
@@ -373,24 +373,24 @@ export default function InternalLinksPage() {
                             );
                           return filtered.length === 0 ? (
                             <div className="px-3 py-4 text-center">
-                              <p className="text-xs text-neutral-400">
+                              <p className="text-xs text-[#94A3B8]">
                                 {presetSearch ? "No pages match your search." : "No tracked pages found."}
                               </p>
                             </div>
                           ) : (
-                            <div className="divide-y divide-neutral-100">
+                            <div className="divide-y divide-[#E2E8F0]">
                               {filtered.map((page) => (
                                 <button
                                   key={page.route_path}
                                   onClick={() => setPresetHref(page.route_path)}
                                   className={`w-full text-left px-3 py-2.5 transition-colors cursor-pointer ${
                                     form.href === page.route_path
-                                      ? "bg-[#3d6f7f]/5 text-[#3d6f7f] font-medium"
-                                      : "text-neutral-600 hover:bg-neutral-100"
+                                      ? "bg-[#0A1F44]/5 text-[#0A1F44] font-medium"
+                                      : "text-[#64748B] hover:bg-[#F4F7FB]"
                                   }`}
                                 >
                                   <span className="truncate block text-xs">{page.page_title}</span>
-                                  <span className="truncate block text-[10px] text-neutral-400 mt-0.5">{page.route_path}</span>
+                                  <span className="truncate block text-[10px] text-[#94A3B8] mt-0.5">{page.route_path}</span>
                                 </button>
                               ))}
                             </div>
@@ -399,7 +399,7 @@ export default function InternalLinksPage() {
                       ) : (
                         blogLoading ? (
                           <div className="px-3 py-4 text-center">
-                            <i className="ri-loader-4-line animate-spin text-neutral-300 text-sm"></i>
+                            <i className="ri-loader-4-line animate-spin text-[#CBD5E1] text-sm"></i>
                           </div>
                         ) : (() => {
                           const filtered = blogPosts.filter((p) =>
@@ -408,20 +408,20 @@ export default function InternalLinksPage() {
                           );
                           return filtered.length === 0 ? (
                             <div className="px-3 py-4 text-center">
-                              <p className="text-xs text-neutral-400">
+                              <p className="text-xs text-[#94A3B8]">
                                 {presetSearch ? "No blog posts match your search." : "No published blog posts found."}
                               </p>
                             </div>
                           ) : (
-                            <div className="divide-y divide-neutral-100">
+                            <div className="divide-y divide-[#E2E8F0]">
                               {filtered.map((post) => (
                                 <button
                                   key={post.id}
                                   onClick={() => setPresetHref(`/blog/${post.slug}`)}
                                   className={`w-full text-left px-3 py-2.5 transition-colors cursor-pointer ${
                                     form.href === `/blog/${post.slug}`
-                                      ? "bg-[#3d6f7f]/5 text-[#3d6f7f] font-medium"
-                                      : "text-neutral-600 hover:bg-neutral-100"
+                                      ? "bg-[#0A1F44]/5 text-[#0A1F44] font-medium"
+                                      : "text-[#64748B] hover:bg-[#F4F7FB]"
                                   }`}
                                 >
                                   <span className="truncate block text-xs">{post.title}</span>
@@ -437,7 +437,7 @@ export default function InternalLinksPage() {
 
                 {/* Priority */}
                 <div>
-                  <label className="block text-[10px] tracking-[0.2em] uppercase font-semibold text-neutral-400 mb-1.5">
+                  <label className="block text-[10px] tracking-[0.2em] uppercase font-semibold text-[#94A3B8] mb-1.5">
                     Priority — {form.priority}
                   </label>
                   <input
@@ -446,24 +446,24 @@ export default function InternalLinksPage() {
                     max={200}
                     value={form.priority}
                     onChange={(e) => setForm((prev) => ({ ...prev, priority: parseInt(e.target.value, 10) }))}
-                    className="w-full accent-[#3d6f7f]"
+                    className="w-full accent-[#0A1F44]"
                   />
-                  <div className="flex justify-between text-[10px] text-neutral-400 mt-1">
+                  <div className="flex justify-between text-[10px] text-[#94A3B8] mt-1">
                     <span>Low (1)</span>
                     <span>High (200)</span>
                   </div>
-                  <p className="text-[10px] text-neutral-400 mt-1">
+                  <p className="text-[10px] text-[#94A3B8] mt-1">
                     Higher priority wins when multiple mappings could match the same text.
                   </p>
                 </div>
 
                 {/* Active toggle */}
                 <div className="flex items-center justify-between">
-                  <label className="text-sm text-neutral-700">Active</label>
+                  <label className="text-sm text-[#334155]">Active</label>
                   <button
                     onClick={() => setForm((prev) => ({ ...prev, active: !prev.active }))}
                     className={`relative w-11 h-6 rounded-full transition-colors cursor-pointer ${
-                      form.active ? "bg-emerald-500" : "bg-neutral-300"
+                      form.active ? "bg-emerald-500" : "bg-[#CBD5E1]"
                     }`}
                   >
                     <span
@@ -479,7 +479,7 @@ export default function InternalLinksPage() {
                   <button
                     onClick={handleSubmit}
                     disabled={saving}
-                    className="flex-1 flex items-center justify-center gap-1.5 bg-[#3d6f7f] text-white text-[11px] tracking-[0.12em] uppercase font-bold px-4 py-2.5 rounded-xl hover:bg-[#35636f] transition-colors cursor-pointer whitespace-nowrap disabled:opacity-50"
+                    className="flex-1 flex items-center justify-center gap-1.5 bg-[#0A1F44] text-white text-[11px] tracking-[0.12em] uppercase font-bold px-4 py-2.5 rounded-xl hover:bg-[#0d2a5e] transition-colors cursor-pointer whitespace-nowrap disabled:opacity-50"
                   >
                     {saving ? (
                       <i className="ri-loader-4-line animate-spin text-xs"></i>
@@ -497,7 +497,7 @@ export default function InternalLinksPage() {
                   {editingId && (
                     <button
                       onClick={handleCancelEdit}
-                      className="flex items-center gap-1.5 border border-neutral-200 text-neutral-500 text-[11px] tracking-[0.12em] uppercase font-bold px-4 py-2.5 rounded-xl hover:bg-neutral-50 transition-colors cursor-pointer whitespace-nowrap"
+                      className="flex items-center gap-1.5 border border-[#E2E8F0] text-[#64748B] text-[11px] tracking-[0.12em] uppercase font-bold px-4 py-2.5 rounded-xl hover:bg-[#F4F7FB] transition-colors cursor-pointer whitespace-nowrap"
                     >
                       <i className="ri-close-line text-xs"></i>
                       Cancel
@@ -508,9 +508,9 @@ export default function InternalLinksPage() {
             </div>
 
             {/* How it works */}
-            <div className="bg-white rounded-2xl border border-neutral-100 p-5">
-              <h3 className="text-sm font-semibold text-neutral-800 mb-3 flex items-center gap-2">
-                <i className="ri-information-line text-neutral-400"></i>
+            <div className="bg-white rounded-2xl border border-[#E2E8F0] p-5">
+              <h3 className="text-sm font-semibold text-[#0A1F44] mb-3 flex items-center gap-2">
+                <i className="ri-information-line text-[#94A3B8]"></i>
                 How It Works
               </h3>
               <ul className="space-y-2.5">
@@ -521,9 +521,9 @@ export default function InternalLinksPage() {
                   "Each destination page gets linked at most once per blog post.",
                   "Inactive mappings are ignored but kept for later.",
                 ].map((tip, i) => (
-                  <li key={i} className="flex items-start gap-2 text-xs text-neutral-500 leading-relaxed">
-                    <span className="w-4 h-4 rounded-full bg-neutral-100 flex items-center justify-center flex-shrink-0 mt-0.5">
-                      <span className="text-[9px] font-bold text-neutral-400">{i + 1}</span>
+                  <li key={i} className="flex items-start gap-2 text-xs text-[#64748B] leading-relaxed">
+                    <span className="w-4 h-4 rounded-full bg-[#F4F7FB] flex items-center justify-center flex-shrink-0 mt-0.5">
+                      <span className="text-[9px] font-bold text-[#94A3B8]">{i + 1}</span>
                     </span>
                     {tip}
                   </li>
@@ -535,13 +535,13 @@ export default function InternalLinksPage() {
           {/* List / Utilization */}
           <div className="flex-1 min-w-0">
             {/* Tabs */}
-            <div className="bg-white rounded-2xl border border-neutral-100 p-1 mb-4 flex gap-1">
+            <div className="bg-white rounded-2xl border border-[#E2E8F0] p-1 mb-4 flex gap-1">
               <button
                 onClick={() => setActiveTab("mappings")}
                 className={`flex-1 text-[11px] tracking-[0.12em] uppercase font-bold py-2.5 rounded-xl transition-colors cursor-pointer whitespace-nowrap ${
                   activeTab === "mappings"
-                    ? "bg-[#3d6f7f] text-white"
-                    : "text-neutral-500 hover:bg-neutral-50"
+                    ? "bg-[#0A1F44] text-white"
+                    : "text-[#64748B] hover:bg-[#F4F7FB]"
                 }`}
               >
                 <i className="ri-links-line mr-1.5 text-xs"></i>
@@ -551,8 +551,8 @@ export default function InternalLinksPage() {
                 onClick={() => setActiveTab("by-url")}
                 className={`flex-1 text-[11px] tracking-[0.12em] uppercase font-bold py-2.5 rounded-xl transition-colors cursor-pointer whitespace-nowrap ${
                   activeTab === "by-url"
-                    ? "bg-[#3d6f7f] text-white"
-                    : "text-neutral-500 hover:bg-neutral-50"
+                    ? "bg-[#0A1F44] text-white"
+                    : "text-[#64748B] hover:bg-[#F4F7FB]"
                 }`}
               >
                 <i className="ri-folders-line mr-1.5 text-xs"></i>
@@ -562,8 +562,8 @@ export default function InternalLinksPage() {
                 onClick={() => setActiveTab("utilization")}
                 className={`flex-1 text-[11px] tracking-[0.12em] uppercase font-bold py-2.5 rounded-xl transition-colors cursor-pointer whitespace-nowrap ${
                   activeTab === "utilization"
-                    ? "bg-[#3d6f7f] text-white"
-                    : "text-neutral-500 hover:bg-neutral-50"
+                    ? "bg-[#0A1F44] text-white"
+                    : "text-[#64748B] hover:bg-[#F4F7FB]"
                 }`}
               >
                 <i className="ri-bar-chart-box-line mr-1.5 text-xs"></i>
@@ -574,20 +574,20 @@ export default function InternalLinksPage() {
             {activeTab === "mappings" ? (
               <>
                 {/* Search */}
-                <div className="bg-white rounded-2xl border border-neutral-100 p-4 mb-4 flex items-center gap-2">
-                  <div className="flex items-center gap-2 flex-1 min-w-0 bg-neutral-50 border border-neutral-200 rounded-xl px-3 py-2.5">
-                    <i className="ri-search-line text-neutral-400 text-sm flex-shrink-0"></i>
+                <div className="bg-white rounded-2xl border border-[#E2E8F0] p-4 mb-4 flex items-center gap-2">
+                  <div className="flex items-center gap-2 flex-1 min-w-0 bg-[#F4F7FB] border border-[#E2E8F0] rounded-xl px-3 py-2.5">
+                    <i className="ri-search-line text-[#94A3B8] text-sm flex-shrink-0"></i>
                     <input
                       type="text"
                       value={searchQuery}
                       onChange={(e) => setSearchQuery(e.target.value)}
                       placeholder="Search anchor text or URL..."
-                      className="flex-1 bg-transparent text-sm text-neutral-700 placeholder:text-neutral-400 focus:outline-none min-w-0"
+                      className="flex-1 bg-transparent text-sm text-[#334155] placeholder:text-[#94A3B8] focus:outline-none min-w-0"
                     />
                     {searchQuery && (
                       <button
                         onClick={() => setSearchQuery("")}
-                        className="w-5 h-5 flex items-center justify-center rounded-full bg-neutral-200 hover:bg-neutral-300 text-neutral-500 transition-colors cursor-pointer flex-shrink-0"
+                        className="w-5 h-5 flex items-center justify-center rounded-full bg-[#E2E8F0] hover:bg-[#CBD5E1] text-[#64748B] transition-colors cursor-pointer flex-shrink-0"
                       >
                         <i className="ri-close-line text-[10px]"></i>
                       </button>
@@ -595,7 +595,7 @@ export default function InternalLinksPage() {
                   </div>
                   <button
                     onClick={refetch}
-                    className="w-9 h-9 flex items-center justify-center rounded-xl border border-neutral-200 text-neutral-500 hover:bg-neutral-50 transition-colors cursor-pointer flex-shrink-0"
+                    className="w-9 h-9 flex items-center justify-center rounded-xl border border-[#E2E8F0] text-[#64748B] hover:bg-[#F4F7FB] transition-colors cursor-pointer flex-shrink-0"
                     title="Refresh"
                   >
                     <i className="ri-refresh-line text-sm"></i>
@@ -604,9 +604,9 @@ export default function InternalLinksPage() {
 
                 {/* Loading */}
                 {loading && (
-                  <div className="bg-white rounded-2xl border border-neutral-100 p-12 text-center">
-                    <i className="ri-loader-4-line animate-spin text-3xl text-neutral-300 mb-3 block"></i>
-                    <p className="text-sm text-neutral-400">Loading links...</p>
+                  <div className="bg-white rounded-2xl border border-[#E2E8F0] p-12 text-center">
+                    <i className="ri-loader-4-line animate-spin text-3xl text-[#CBD5E1] mb-3 block"></i>
+                    <p className="text-sm text-[#94A3B8]">Loading links...</p>
                   </div>
                 )}
 
@@ -626,12 +626,12 @@ export default function InternalLinksPage() {
 
                 {/* Empty */}
                 {!loading && !error && filtered.length === 0 && (
-                  <div className="bg-white rounded-2xl border border-neutral-100 p-12 text-center">
-                    <i className="ri-links-line text-4xl text-neutral-200 mb-3 block"></i>
-                    <p className="text-sm text-neutral-500 mb-1">
+                  <div className="bg-white rounded-2xl border border-[#E2E8F0] p-12 text-center">
+                    <i className="ri-links-line text-4xl text-[#E2E8F0] mb-3 block"></i>
+                    <p className="text-sm text-[#64748B] mb-1">
                       {searchQuery ? "No matches found." : "No manual link mappings yet."}
                     </p>
-                    <p className="text-xs text-neutral-400">
+                    <p className="text-xs text-[#94A3B8]">
                       {searchQuery
                         ? "Try a different search term."
                         : "Create your first mapping using the form on the left."}
@@ -641,35 +641,35 @@ export default function InternalLinksPage() {
 
                 {/* Table */}
                 {!loading && !error && filtered.length > 0 && (
-                  <div className="bg-white rounded-2xl border border-neutral-100 overflow-hidden">
+                  <div className="bg-white rounded-2xl border border-[#E2E8F0] overflow-hidden">
                     <div className="overflow-x-auto">
                       <table className="w-full">
                         <thead>
-                          <tr className="border-b border-neutral-100">
-                            <th className="text-left text-[10px] tracking-[0.15em] uppercase font-semibold text-neutral-400 px-5 py-3">Anchor Text</th>
-                            <th className="text-left text-[10px] tracking-[0.15em] uppercase font-semibold text-neutral-400 px-5 py-3">Destination</th>
-                            <th className="text-left text-[10px] tracking-[0.15em] uppercase font-semibold text-neutral-400 px-5 py-3">Priority</th>
-                            <th className="text-left text-[10px] tracking-[0.15em] uppercase font-semibold text-neutral-400 px-5 py-3">Status</th>
-                            <th className="text-right text-[10px] tracking-[0.15em] uppercase font-semibold text-neutral-400 px-5 py-3">Actions</th>
+                          <tr className="border-b border-[#E2E8F0]">
+                            <th className="text-left text-[10px] tracking-[0.15em] uppercase font-semibold text-[#94A3B8] px-5 py-3">Anchor Text</th>
+                            <th className="text-left text-[10px] tracking-[0.15em] uppercase font-semibold text-[#94A3B8] px-5 py-3">Destination</th>
+                            <th className="text-left text-[10px] tracking-[0.15em] uppercase font-semibold text-[#94A3B8] px-5 py-3">Priority</th>
+                            <th className="text-left text-[10px] tracking-[0.15em] uppercase font-semibold text-[#94A3B8] px-5 py-3">Status</th>
+                            <th className="text-right text-[10px] tracking-[0.15em] uppercase font-semibold text-[#94A3B8] px-5 py-3">Actions</th>
                           </tr>
                         </thead>
                         <tbody>
                           {filtered.map((link) => (
                             <tr
                               key={link.id}
-                              className={`border-b border-neutral-50 hover:bg-neutral-50/50 transition-colors ${
+                              className={`border-b border-[#F4F7FB] hover:bg-[#F4F7FB]/50 transition-colors ${
                                 !link.active ? "opacity-60" : ""
-                              } ${editingId === link.id ? "bg-[#3d6f7f]/3" : ""}`}
+                              } ${editingId === link.id ? "bg-[#0A1F44]/3" : ""}`}
                             >
                               <td className="px-5 py-3.5">
-                                <span className="text-sm font-medium text-neutral-800">{link.keyword}</span>
+                                <span className="text-sm font-medium text-[#0A1F44]">{link.keyword}</span>
                               </td>
                               <td className="px-5 py-3.5">
                                 <a
                                   href={link.href}
                                   target="_blank"
                                   rel="noopener noreferrer"
-                                  className="text-xs text-[#3d6f7f] hover:underline flex items-center gap-1 cursor-pointer"
+                                  className="text-xs text-[#0A1F44] hover:underline flex items-center gap-1 cursor-pointer"
                                 >
                                   {link.href}
                                   <i className="ri-external-link-line text-[10px]"></i>
@@ -677,13 +677,13 @@ export default function InternalLinksPage() {
                               </td>
                               <td className="px-5 py-3.5">
                                 <div className="flex items-center gap-2">
-                                  <div className="w-16 h-1.5 bg-neutral-100 rounded-full overflow-hidden">
+                                  <div className="w-16 h-1.5 bg-[#F4F7FB] rounded-full overflow-hidden">
                                     <div
-                                      className="h-full bg-[#3d6f7f] rounded-full"
+                                      className="h-full bg-[#0A1F44] rounded-full"
                                       style={{ width: `${(link.priority / 200) * 100}%` }}
                                     />
                                   </div>
-                                  <span className="text-xs text-neutral-500 font-mono">{link.priority}</span>
+                                  <span className="text-xs text-[#64748B] font-mono">{link.priority}</span>
                                 </div>
                               </td>
                               <td className="px-5 py-3.5">
@@ -692,7 +692,7 @@ export default function InternalLinksPage() {
                                   className={`inline-flex items-center gap-1 text-[10px] tracking-wide font-semibold px-2.5 py-1 rounded-lg cursor-pointer transition-colors ${
                                     link.active
                                       ? "bg-emerald-50 text-emerald-600"
-                                      : "bg-neutral-100 text-neutral-500"
+                                      : "bg-[#F4F7FB] text-[#64748B]"
                                   }`}
                                 >
                                   <i className={`${link.active ? "ri-checkbox-circle-line" : "ri-eye-off-line"} text-xs`}></i>
@@ -703,14 +703,14 @@ export default function InternalLinksPage() {
                                 <div className="flex items-center justify-end gap-1">
                                   <button
                                     onClick={() => handleEdit(link)}
-                                    className="w-8 h-8 flex items-center justify-center rounded-lg hover:bg-neutral-100 text-neutral-400 hover:text-neutral-600 transition-colors cursor-pointer"
+                                    className="w-8 h-8 flex items-center justify-center rounded-lg hover:bg-[#F4F7FB] text-[#94A3B8] hover:text-[#64748B] transition-colors cursor-pointer"
                                     title="Edit"
                                   >
                                     <i className="ri-pencil-line text-sm"></i>
                                   </button>
                                   <button
                                     onClick={() => setDeletingId(link.id)}
-                                    className="w-8 h-8 flex items-center justify-center rounded-lg hover:bg-red-50 text-neutral-400 hover:text-red-500 transition-colors cursor-pointer"
+                                    className="w-8 h-8 flex items-center justify-center rounded-lg hover:bg-red-50 text-[#94A3B8] hover:text-red-500 transition-colors cursor-pointer"
                                     title="Delete"
                                   >
                                     <i className="ri-delete-bin-line text-sm"></i>
@@ -728,20 +728,20 @@ export default function InternalLinksPage() {
             ) : activeTab === "by-url" ? (
               <>
                 {/* Search */}
-                <div className="bg-white rounded-2xl border border-neutral-100 p-4 mb-4 flex items-center gap-2">
-                  <div className="flex items-center gap-2 flex-1 min-w-0 bg-neutral-50 border border-neutral-200 rounded-xl px-3 py-2.5">
-                    <i className="ri-search-line text-neutral-400 text-sm flex-shrink-0"></i>
+                <div className="bg-white rounded-2xl border border-[#E2E8F0] p-4 mb-4 flex items-center gap-2">
+                  <div className="flex items-center gap-2 flex-1 min-w-0 bg-[#F4F7FB] border border-[#E2E8F0] rounded-xl px-3 py-2.5">
+                    <i className="ri-search-line text-[#94A3B8] text-sm flex-shrink-0"></i>
                     <input
                       type="text"
                       value={urlSearch}
                       onChange={(e) => setUrlSearch(e.target.value)}
                       placeholder="Search URL or anchor text..."
-                      className="flex-1 bg-transparent text-sm text-neutral-700 placeholder:text-neutral-400 focus:outline-none min-w-0"
+                      className="flex-1 bg-transparent text-sm text-[#334155] placeholder:text-[#94A3B8] focus:outline-none min-w-0"
                     />
                     {urlSearch && (
                       <button
                         onClick={() => setUrlSearch("")}
-                        className="w-5 h-5 flex items-center justify-center rounded-full bg-neutral-200 hover:bg-neutral-300 text-neutral-500 transition-colors cursor-pointer flex-shrink-0"
+                        className="w-5 h-5 flex items-center justify-center rounded-full bg-[#E2E8F0] hover:bg-[#CBD5E1] text-[#64748B] transition-colors cursor-pointer flex-shrink-0"
                       >
                         <i className="ri-close-line text-[10px]"></i>
                       </button>
@@ -749,7 +749,7 @@ export default function InternalLinksPage() {
                   </div>
                   <button
                     onClick={refetch}
-                    className="w-9 h-9 flex items-center justify-center rounded-xl border border-neutral-200 text-neutral-500 hover:bg-neutral-50 transition-colors cursor-pointer flex-shrink-0"
+                    className="w-9 h-9 flex items-center justify-center rounded-xl border border-[#E2E8F0] text-[#64748B] hover:bg-[#F4F7FB] transition-colors cursor-pointer flex-shrink-0"
                     title="Refresh"
                   >
                     <i className="ri-refresh-line text-sm"></i>
@@ -758,9 +758,9 @@ export default function InternalLinksPage() {
 
                 {/* Loading */}
                 {loading && (
-                  <div className="bg-white rounded-2xl border border-neutral-100 p-12 text-center">
-                    <i className="ri-loader-4-line animate-spin text-3xl text-neutral-300 mb-3 block"></i>
-                    <p className="text-sm text-neutral-400">Loading links...</p>
+                  <div className="bg-white rounded-2xl border border-[#E2E8F0] p-12 text-center">
+                    <i className="ri-loader-4-line animate-spin text-3xl text-[#CBD5E1] mb-3 block"></i>
+                    <p className="text-sm text-[#94A3B8]">Loading links...</p>
                   </div>
                 )}
 
@@ -780,12 +780,12 @@ export default function InternalLinksPage() {
 
                 {/* Empty */}
                 {!loading && !error && filteredLinksByUrl.length === 0 && (
-                  <div className="bg-white rounded-2xl border border-neutral-100 p-12 text-center">
-                    <i className="ri-folders-line text-4xl text-neutral-200 mb-3 block"></i>
-                    <p className="text-sm text-neutral-500 mb-1">
+                  <div className="bg-white rounded-2xl border border-[#E2E8F0] p-12 text-center">
+                    <i className="ri-folders-line text-4xl text-[#E2E8F0] mb-3 block"></i>
+                    <p className="text-sm text-[#64748B] mb-1">
                       {urlSearch ? "No matches found." : "No link mappings yet."}
                     </p>
-                    <p className="text-xs text-neutral-400">
+                    <p className="text-xs text-[#94A3B8]">
                       {urlSearch
                         ? "Try a different search term."
                         : "Create your first mapping using the form on the left."}
@@ -797,14 +797,14 @@ export default function InternalLinksPage() {
                 {!loading && !error && filteredLinksByUrl.length > 0 && (
                   <div className="space-y-3">
                     {filteredLinksByUrl.map((group) => (
-                      <div key={group.href} className="bg-white rounded-2xl border border-neutral-100 overflow-hidden">
+                      <div key={group.href} className="bg-white rounded-2xl border border-[#E2E8F0] overflow-hidden">
                         {/* URL Header — clickable to expand */}
                         <button
                           onClick={() => setExpandedUrl(expandedUrl === group.href ? null : group.href)}
-                          className="w-full flex items-center gap-3 px-5 py-4 hover:bg-neutral-50/50 transition-colors text-left cursor-pointer"
+                          className="w-full flex items-center gap-3 px-5 py-4 hover:bg-[#F4F7FB]/50 transition-colors text-left cursor-pointer"
                         >
-                          <div className="w-8 h-8 flex items-center justify-center rounded-lg bg-[#3d6f7f]/5 flex-shrink-0">
-                            <i className={`ri-arrow-right-s-line text-[#3d6f7f] transition-transform ${expandedUrl === group.href ? "rotate-90" : ""}`}></i>
+                          <div className="w-8 h-8 flex items-center justify-center rounded-lg bg-[#0A1F44]/5 flex-shrink-0">
+                            <i className={`ri-arrow-right-s-line text-[#0A1F44] transition-transform ${expandedUrl === group.href ? "rotate-90" : ""}`}></i>
                           </div>
                           <div className="flex-1 min-w-0">
                             <div className="flex items-center gap-2 flex-wrap">
@@ -813,11 +813,11 @@ export default function InternalLinksPage() {
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 onClick={(e) => e.stopPropagation()}
-                                className="text-sm font-semibold text-[#3d6f7f] hover:underline truncate cursor-pointer"
+                                className="text-sm font-semibold text-[#0A1F44] hover:underline truncate cursor-pointer"
                               >
                                 {group.href}
                               </a>
-                              <span className="text-[10px] tracking-wide text-neutral-400">
+                              <span className="text-[10px] tracking-wide text-[#94A3B8]">
                                 {group.links.length} anchor text{group.links.length !== 1 ? "s" : ""}
                               </span>
                             </div>
@@ -826,7 +826,7 @@ export default function InternalLinksPage() {
                                 {group.activeCount} active
                               </span>
                               {group.inactiveCount > 0 && (
-                                <span className="text-[10px] tracking-wide font-semibold px-2 py-0.5 rounded-full bg-neutral-100 text-neutral-500">
+                                <span className="text-[10px] tracking-wide font-semibold px-2 py-0.5 rounded-full bg-[#F4F7FB] text-[#64748B]">
                                   {group.inactiveCount} inactive
                                 </span>
                               )}
@@ -836,36 +836,36 @@ export default function InternalLinksPage() {
 
                         {/* Expanded anchor text list */}
                         {expandedUrl === group.href && (
-                          <div className="border-t border-neutral-100">
+                          <div className="border-t border-[#E2E8F0]">
                             <table className="w-full">
                               <thead>
-                                <tr className="border-b border-neutral-50 bg-neutral-50/50">
-                                  <th className="text-left text-[10px] tracking-[0.15em] uppercase font-semibold text-neutral-400 px-5 py-2.5">Anchor Text</th>
-                                  <th className="text-left text-[10px] tracking-[0.15em] uppercase font-semibold text-neutral-400 px-5 py-2.5">Priority</th>
-                                  <th className="text-left text-[10px] tracking-[0.15em] uppercase font-semibold text-neutral-400 px-5 py-2.5">Status</th>
-                                  <th className="text-right text-[10px] tracking-[0.15em] uppercase font-semibold text-neutral-400 px-5 py-2.5">Actions</th>
+                                <tr className="border-b border-[#F4F7FB] bg-[#F4F7FB]/50">
+                                  <th className="text-left text-[10px] tracking-[0.15em] uppercase font-semibold text-[#94A3B8] px-5 py-2.5">Anchor Text</th>
+                                  <th className="text-left text-[10px] tracking-[0.15em] uppercase font-semibold text-[#94A3B8] px-5 py-2.5">Priority</th>
+                                  <th className="text-left text-[10px] tracking-[0.15em] uppercase font-semibold text-[#94A3B8] px-5 py-2.5">Status</th>
+                                  <th className="text-right text-[10px] tracking-[0.15em] uppercase font-semibold text-[#94A3B8] px-5 py-2.5">Actions</th>
                                 </tr>
                               </thead>
                               <tbody>
                                 {group.links.map((link) => (
                                   <tr
                                     key={link.id}
-                                    className={`border-b border-neutral-50 hover:bg-neutral-50/50 transition-colors ${
+                                    className={`border-b border-[#F4F7FB] hover:bg-[#F4F7FB]/50 transition-colors ${
                                       !link.active ? "opacity-60" : ""
                                     }`}
                                   >
                                     <td className="px-5 py-3">
-                                      <span className="text-sm font-medium text-neutral-800">{link.keyword}</span>
+                                      <span className="text-sm font-medium text-[#0A1F44]">{link.keyword}</span>
                                     </td>
                                     <td className="px-5 py-3">
                                       <div className="flex items-center gap-2">
-                                        <div className="w-12 h-1.5 bg-neutral-100 rounded-full overflow-hidden">
+                                        <div className="w-12 h-1.5 bg-[#F4F7FB] rounded-full overflow-hidden">
                                           <div
-                                            className="h-full bg-[#3d6f7f] rounded-full"
+                                            className="h-full bg-[#0A1F44] rounded-full"
                                             style={{ width: `${(link.priority / 200) * 100}%` }}
                                           />
                                         </div>
-                                        <span className="text-xs text-neutral-500 font-mono">{link.priority}</span>
+                                        <span className="text-xs text-[#64748B] font-mono">{link.priority}</span>
                                       </div>
                                     </td>
                                     <td className="px-5 py-3">
@@ -874,7 +874,7 @@ export default function InternalLinksPage() {
                                         className={`inline-flex items-center gap-1 text-[10px] tracking-wide font-semibold px-2 py-0.5 rounded-lg cursor-pointer transition-colors ${
                                           link.active
                                             ? "bg-emerald-50 text-emerald-600"
-                                            : "bg-neutral-100 text-neutral-500"
+                                            : "bg-[#F4F7FB] text-[#64748B]"
                                         }`}
                                       >
                                         <i className={`${link.active ? "ri-checkbox-circle-line" : "ri-eye-off-line"} text-xs`}></i>
@@ -885,14 +885,14 @@ export default function InternalLinksPage() {
                                       <div className="flex items-center justify-end gap-1">
                                         <button
                                           onClick={() => handleEdit(link)}
-                                          className="w-7 h-7 flex items-center justify-center rounded-lg hover:bg-neutral-100 text-neutral-400 hover:text-neutral-600 transition-colors cursor-pointer"
+                                          className="w-7 h-7 flex items-center justify-center rounded-lg hover:bg-[#F4F7FB] text-[#94A3B8] hover:text-[#64748B] transition-colors cursor-pointer"
                                           title="Edit"
                                         >
                                           <i className="ri-pencil-line text-xs"></i>
                                         </button>
                                         <button
                                           onClick={() => setDeletingId(link.id)}
-                                          className="w-7 h-7 flex items-center justify-center rounded-lg hover:bg-red-50 text-neutral-400 hover:text-red-500 transition-colors cursor-pointer"
+                                          className="w-7 h-7 flex items-center justify-center rounded-lg hover:bg-red-50 text-[#94A3B8] hover:text-red-500 transition-colors cursor-pointer"
                                           title="Delete"
                                         >
                                           <i className="ri-delete-bin-line text-xs"></i>
@@ -916,18 +916,18 @@ export default function InternalLinksPage() {
                 {utilSummary && (
                   <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-6">
                     {[
-                      { label: "Active Links", value: utilSummary.totalActive, icon: "ri-links-line", color: "text-[#3d6f7f]", bg: "bg-[#3d6f7f]/5" },
+                      { label: "Active Links", value: utilSummary.totalActive, icon: "ri-links-line", color: "text-[#0A1F44]", bg: "bg-[#0A1F44]/5" },
                       { label: "Getting Used", value: utilSummary.usedAtLeastOnce, icon: "ri-link-unlink-m", color: "text-emerald-600", bg: "bg-emerald-50" },
                       { label: "Links Created", value: utilSummary.totalLinksCreated, icon: "ri-link-m", color: "text-amber-600", bg: "bg-amber-50" },
                       { label: "Avg Utilization", value: `${utilSummary.avgUtilization}%`, icon: "ri-percent-line", color: "text-sky-600", bg: "bg-sky-50" },
                     ].map((stat) => (
-                      <div key={stat.label} className="bg-white rounded-2xl border border-neutral-100 p-4 flex items-center gap-3">
+                      <div key={stat.label} className="bg-white rounded-2xl border border-[#E2E8F0] p-4 flex items-center gap-3">
                         <div className={`w-9 h-9 rounded-xl ${stat.bg} flex items-center justify-center flex-shrink-0`}>
                           <i className={`${stat.icon} ${stat.color} text-base`}></i>
                         </div>
                         <div>
-                          <p className="text-xl font-bold text-neutral-900 leading-none">{stat.value}</p>
-                          <p className="text-[10px] text-neutral-400 mt-1 tracking-wide">{stat.label}</p>
+                          <p className="text-xl font-bold text-[#0A1F44] leading-none">{stat.value}</p>
+                          <p className="text-[10px] text-[#94A3B8] mt-1 tracking-wide">{stat.label}</p>
                         </div>
                       </div>
                     ))}
@@ -935,20 +935,20 @@ export default function InternalLinksPage() {
                 )}
 
                 {/* Utilization search + refresh */}
-                <div className="bg-white rounded-2xl border border-neutral-100 p-4 mb-4 flex items-center gap-2">
-                  <div className="flex items-center gap-2 flex-1 min-w-0 bg-neutral-50 border border-neutral-200 rounded-xl px-3 py-2.5">
-                    <i className="ri-search-line text-neutral-400 text-sm flex-shrink-0"></i>
+                <div className="bg-white rounded-2xl border border-[#E2E8F0] p-4 mb-4 flex items-center gap-2">
+                  <div className="flex items-center gap-2 flex-1 min-w-0 bg-[#F4F7FB] border border-[#E2E8F0] rounded-xl px-3 py-2.5">
+                    <i className="ri-search-line text-[#94A3B8] text-sm flex-shrink-0"></i>
                     <input
                       type="text"
                       value={utilSearch}
                       onChange={(e) => setUtilSearch(e.target.value)}
                       placeholder="Search keyword or URL..."
-                      className="flex-1 bg-transparent text-sm text-neutral-700 placeholder:text-neutral-400 focus:outline-none min-w-0"
+                      className="flex-1 bg-transparent text-sm text-[#334155] placeholder:text-[#94A3B8] focus:outline-none min-w-0"
                     />
                     {utilSearch && (
                       <button
                         onClick={() => setUtilSearch("")}
-                        className="w-5 h-5 flex items-center justify-center rounded-full bg-neutral-200 hover:bg-neutral-300 text-neutral-500 transition-colors cursor-pointer flex-shrink-0"
+                        className="w-5 h-5 flex items-center justify-center rounded-full bg-[#E2E8F0] hover:bg-[#CBD5E1] text-[#64748B] transition-colors cursor-pointer flex-shrink-0"
                       >
                         <i className="ri-close-line text-[10px]"></i>
                       </button>
@@ -956,7 +956,7 @@ export default function InternalLinksPage() {
                   </div>
                   <button
                     onClick={refetchUtil}
-                    className="w-9 h-9 flex items-center justify-center rounded-xl border border-neutral-200 text-neutral-500 hover:bg-neutral-50 transition-colors cursor-pointer flex-shrink-0"
+                    className="w-9 h-9 flex items-center justify-center rounded-xl border border-[#E2E8F0] text-[#64748B] hover:bg-[#F4F7FB] transition-colors cursor-pointer flex-shrink-0"
                     title="Refresh utilization"
                   >
                     <i className="ri-refresh-line text-sm"></i>
@@ -964,19 +964,19 @@ export default function InternalLinksPage() {
                 </div>
 
                 {utilLoading && (
-                  <div className="bg-white rounded-2xl border border-neutral-100 p-12 text-center">
-                    <i className="ri-loader-4-line animate-spin text-3xl text-neutral-300 mb-3 block"></i>
-                    <p className="text-sm text-neutral-400">Scanning blog posts for keyword matches...</p>
+                  <div className="bg-white rounded-2xl border border-[#E2E8F0] p-12 text-center">
+                    <i className="ri-loader-4-line animate-spin text-3xl text-[#CBD5E1] mb-3 block"></i>
+                    <p className="text-sm text-[#94A3B8]">Scanning blog posts for keyword matches...</p>
                   </div>
                 )}
 
                 {!utilLoading && filteredUtilization.length === 0 && (
-                  <div className="bg-white rounded-2xl border border-neutral-100 p-12 text-center">
-                    <i className="ri-bar-chart-box-line text-4xl text-neutral-200 mb-3 block"></i>
-                    <p className="text-sm text-neutral-500 mb-1">
+                  <div className="bg-white rounded-2xl border border-[#E2E8F0] p-12 text-center">
+                    <i className="ri-bar-chart-box-line text-4xl text-[#E2E8F0] mb-3 block"></i>
+                    <p className="text-sm text-[#64748B] mb-1">
                       {utilSearch ? "No matches found." : "No active links to analyze yet."}
                     </p>
-                    <p className="text-xs text-neutral-400">
+                    <p className="text-xs text-[#94A3B8]">
                       {utilSearch
                         ? "Try a different search term."
                         : "Create and activate some link mappings first, then come back here."}
@@ -987,12 +987,12 @@ export default function InternalLinksPage() {
                 {!utilLoading && filteredUtilization.length > 0 && (
                   <div className="space-y-3">
                     {filteredUtilization.map((u) => (
-                      <div key={u.linkId} className="bg-white rounded-2xl border border-neutral-100 overflow-hidden">
+                      <div key={u.linkId} className="bg-white rounded-2xl border border-[#E2E8F0] overflow-hidden">
                         <div className="p-5">
                           <div className="flex items-start justify-between gap-4 mb-4">
                             <div className="min-w-0">
                               <div className="flex items-center gap-2 flex-wrap mb-1">
-                                <span className="text-sm font-semibold text-neutral-800">{u.keyword}</span>
+                                <span className="text-sm font-semibold text-[#0A1F44]">{u.keyword}</span>
                                 <span className={`text-[10px] tracking-wide font-semibold px-2 py-0.5 rounded-full ${
                                   u.utilizationRate >= 50
                                     ? "bg-emerald-50 text-emerald-600"
@@ -1000,7 +1000,7 @@ export default function InternalLinksPage() {
                                     ? "bg-amber-50 text-amber-600"
                                     : u.postsWithKeyword > 0
                                     ? "bg-red-50 text-red-500"
-                                    : "bg-neutral-100 text-neutral-400"
+                                    : "bg-[#F4F7FB] text-[#94A3B8]"
                                 }`}>
                                   {u.utilizationRate >= 50 ? "High" : u.utilizationRate > 0 ? "Low" : u.postsWithKeyword > 0 ? "Blocked" : "No Matches"}
                                 </span>
@@ -1015,25 +1015,25 @@ export default function InternalLinksPage() {
                                 href={u.href}
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="text-xs text-[#3d6f7f] hover:underline flex items-center gap-1 cursor-pointer"
+                                className="text-xs text-[#0A1F44] hover:underline flex items-center gap-1 cursor-pointer"
                               >
                                 {u.href}
                                 <i className="ri-external-link-line text-[10px]"></i>
                               </a>
                             </div>
                             <div className="text-right flex-shrink-0">
-                              <p className="text-2xl font-bold text-neutral-900 leading-none">{u.utilizationRate}%</p>
-                              <p className="text-[10px] text-neutral-400 mt-1">utilization</p>
+                              <p className="text-2xl font-bold text-[#0A1F44] leading-none">{u.utilizationRate}%</p>
+                              <p className="text-[10px] text-[#94A3B8] mt-1">utilization</p>
                             </div>
                           </div>
 
                           {/* Progress bar */}
                           <div className="mb-4">
-                            <div className="flex items-center justify-between text-[10px] text-neutral-400 mb-1.5">
+                            <div className="flex items-center justify-between text-[10px] text-[#94A3B8] mb-1.5">
                               <span>{u.postsLinked} linked out of {u.postsWithKeyword} posts containing this keyword</span>
                               <span className="font-mono">{u.priority} priority</span>
                             </div>
-                            <div className="w-full h-2 bg-neutral-100 rounded-full overflow-hidden">
+                            <div className="w-full h-2 bg-[#F4F7FB] rounded-full overflow-hidden">
                               <div
                                 className={`h-full rounded-full transition-all ${
                                   u.utilizationRate >= 50
@@ -1042,7 +1042,7 @@ export default function InternalLinksPage() {
                                     ? "bg-amber-400"
                                     : u.postsWithKeyword > 0
                                     ? "bg-red-400"
-                                    : "bg-neutral-300"
+                                    : "bg-[#CBD5E1]"
                                 }`}
                                 style={{ width: `${u.utilizationRate}%` }}
                               />
@@ -1052,7 +1052,7 @@ export default function InternalLinksPage() {
                           {/* Top posts */}
                           {u.topPosts.length > 0 && (
                             <div>
-                              <p className="text-[10px] tracking-[0.15em] uppercase font-semibold text-neutral-400 mb-2">Top Posts</p>
+                              <p className="text-[10px] tracking-[0.15em] uppercase font-semibold text-[#94A3B8] mb-2">Top Posts</p>
                               <div className="space-y-1.5">
                                 {u.topPosts.map((post) => (
                                   <div key={post.slug} className="flex items-center justify-between gap-3">
@@ -1060,14 +1060,14 @@ export default function InternalLinksPage() {
                                       href={`/blog/${post.slug}`}
                                       target="_blank"
                                       rel="noopener noreferrer"
-                                      className="text-xs text-neutral-600 hover:text-[#3d6f7f] truncate transition-colors cursor-pointer"
+                                      className="text-xs text-[#64748B] hover:text-[#0A1F44] truncate transition-colors cursor-pointer"
                                     >
                                       {post.title}
                                     </a>
                                     <span className={`text-[10px] font-semibold px-2 py-0.5 rounded-full flex-shrink-0 ${
                                       post.linked
                                         ? "bg-emerald-50 text-emerald-600"
-                                        : "bg-neutral-100 text-neutral-400"
+                                        : "bg-[#F4F7FB] text-[#94A3B8]"
                                     }`}>
                                       {post.linked ? "Linked" : "Not linked"}
                                     </span>
@@ -1096,14 +1096,14 @@ export default function InternalLinksPage() {
                 <i className="ri-delete-bin-line text-red-500 text-lg"></i>
               </div>
               <div>
-                <h3 className="text-sm font-semibold text-neutral-900">Delete Mapping?</h3>
-                <p className="text-xs text-neutral-400">This cannot be undone.</p>
+                <h3 className="text-sm font-semibold text-[#0A1F44]">Delete Mapping?</h3>
+                <p className="text-xs text-[#94A3B8]">This cannot be undone.</p>
               </div>
             </div>
             <div className="flex gap-2">
               <button
                 onClick={() => setDeletingId(null)}
-                className="flex-1 border border-neutral-200 text-neutral-600 text-[11px] tracking-[0.12em] uppercase font-bold px-4 py-2.5 rounded-xl hover:bg-neutral-50 transition-colors cursor-pointer whitespace-nowrap"
+                className="flex-1 border border-[#E2E8F0] text-[#64748B] text-[11px] tracking-[0.12em] uppercase font-bold px-4 py-2.5 rounded-xl hover:bg-[#F4F7FB] transition-colors cursor-pointer whitespace-nowrap"
               >
                 Cancel
               </button>
@@ -1121,7 +1121,7 @@ export default function InternalLinksPage() {
       {/* Toast */}
       {toast && (
         <div className={`fixed bottom-6 right-6 z-50 flex items-center gap-3 px-5 py-3.5 rounded-2xl transition-all duration-300 ${
-          toast.type === "success" ? "bg-[#3d6f7f] text-white" : "bg-red-500 text-white"
+          toast.type === "success" ? "bg-[#0A1F44] text-white" : "bg-red-500 text-white"
         }`}>
           <i className={`text-base ${toast.type === "success" ? "ri-check-line" : "ri-error-warning-line"}`}></i>
           <span className="text-sm font-medium">{toast.message}</span>

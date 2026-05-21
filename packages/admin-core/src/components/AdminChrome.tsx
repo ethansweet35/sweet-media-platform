@@ -3,7 +3,14 @@
 import type { ReactNode } from "react";
 import { usePathname } from "next/navigation";
 import AdminSidebar from "./AdminSidebar";
-import { ADMIN_CREAM_MAIN, adminFontSans } from "../lib/adminTheme";
+import AdminTopBar from "./AdminTopBar";
+import AdminFonts from "./AdminFonts";
+import { AdminCommandPaletteProvider } from "./AdminCommandPalette";
+import {
+  ADMIN_SURFACE,
+  ADMIN_TEXT,
+  adminFontSans,
+} from "../lib/adminTheme";
 
 export interface AdminChromeProps {
   children: ReactNode;
@@ -19,17 +26,40 @@ export default function AdminChrome({
   const pathname = usePathname();
   const isLogin =
     pathname === "/admin/login" || pathname === "/admin/login/";
+  const isSetup =
+    pathname === "/admin/setup" || pathname === "/admin/setup/";
 
-  if (isLogin) {
-    return <>{children}</>;
+  if (isLogin || isSetup) {
+    return (
+      <>
+        <AdminFonts />
+        {children}
+      </>
+    );
   }
 
   return (
-    <div className={`flex min-h-screen ${adminFontSans}`}>
-      <AdminSidebar brandName={brandName} brandInitial={brandInitial} />
-      <main className="min-h-screen flex-1 min-w-0" style={{ backgroundColor: ADMIN_CREAM_MAIN }}>
-        <div className="mx-auto min-h-screen max-w-[1400px] px-5 py-8 md:px-8">{children}</div>
-      </main>
-    </div>
+    <>
+      <AdminFonts />
+      <AdminCommandPaletteProvider>
+        <div
+          className={`flex min-h-screen ${adminFontSans}`}
+          style={{ color: ADMIN_TEXT }}
+        >
+          <AdminSidebar brandName={brandName} brandInitial={brandInitial} />
+          <div
+            className="flex min-h-screen min-w-0 flex-1 flex-col"
+            style={{ backgroundColor: ADMIN_SURFACE }}
+          >
+            <AdminTopBar />
+            <main className="flex-1">
+              <div className="mx-auto max-w-[1400px] px-5 py-7 md:px-8 md:py-8">
+                {children}
+              </div>
+            </main>
+          </div>
+        </div>
+      </AdminCommandPaletteProvider>
+    </>
   );
 }

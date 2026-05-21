@@ -19,10 +19,27 @@ export {
 export {
   fetchPageTextContent,
   deriveKeywordSeedWithAi,
+  fetchLivePageWordCount,
+  countWordsInHtml,
   type PageContentResult,
+  type PageWordCountResult,
 } from "./lib/server/pageContentFetcher";
 
-export { cleanSeedPhrase } from "./lib/seedCleaner";
+export {
+  cleanSeedPhrase,
+  stripBrandSuffix,
+  derivePageKeywordResearchSeed,
+  routeSlugToSeed,
+  isDistinctiveRouteSlug,
+  seedOverlapsRoute,
+} from "./lib/seedCleaner";
+
+export {
+  shouldRefineKeywordSeedFromPage,
+  refineKeywordSeedFromPage,
+  handleSemrushSuggestionsPost,
+  handleSemrushAutoPickPost,
+} from "./lib/server/semrushSeedRefinement";
 
 export {
   buildPublicSitemapGroupXml,

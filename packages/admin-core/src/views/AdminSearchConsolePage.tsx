@@ -125,9 +125,9 @@ export default function AdminSearchConsolePage() {
       )}
 
       {/* Connection card */}
-      <div className="rounded-2xl border border-neutral-100 bg-white p-8 shadow-[0_1px_20px_rgba(0,0,0,0.04)]">
+      <div className="rounded-2xl border border-[#E2E8F0] bg-white p-8 shadow-[0_1px_20px_rgba(0,0,0,0.04)]">
         {status.state === "loading" ? (
-          <div className="flex items-center gap-3 text-neutral-400">
+          <div className="flex items-center gap-3 text-[#94A3B8]">
             <i className="ri-loader-4-line animate-spin text-xl" />
             <span className="text-sm">Checking connection…</span>
           </div>
@@ -139,20 +139,20 @@ export default function AdminSearchConsolePage() {
               </div>
               <div>
                 <div className="flex items-center gap-2">
-                  <span className={`text-lg font-semibold text-neutral-900 ${adminFontSerif}`}>Connected</span>
+                  <span className={`text-lg font-semibold text-[#0A1F44] ${adminFontSerif}`}>Connected</span>
                   <span className="inline-flex items-center gap-1 rounded-full bg-emerald-100 px-2.5 py-0.5 text-[11px] font-semibold text-emerald-700">
                     <i className="ri-checkbox-circle-fill text-[11px]" />
                     Active
                   </span>
                 </div>
                 {status.email ? (
-                  <p className="mt-1 text-sm text-neutral-500">
-                    Signed in as <span className="font-medium text-neutral-700">{status.email}</span>
+                  <p className="mt-1 text-sm text-[#64748B]">
+                    Signed in as <span className="font-medium text-[#334155]">{status.email}</span>
                   </p>
                 ) : (
-                  <p className="mt-1 text-sm text-neutral-500">Google account connected.</p>
+                  <p className="mt-1 text-sm text-[#64748B]">Google account connected.</p>
                 )}
-                <p className="mt-2 text-[12px] text-neutral-400">
+                <p className="mt-2 text-[12px] text-[#94A3B8]">
                   GSC data refreshes every hour. To switch accounts, disconnect and reconnect.
                 </p>
               </div>
@@ -160,7 +160,7 @@ export default function AdminSearchConsolePage() {
             <div className="flex items-center gap-2 shrink-0">
               <a
                 href="/api/admin/search-console/connect"
-                className="inline-flex items-center gap-2 rounded-xl border border-neutral-200 px-4 py-2.5 text-[12px] font-semibold text-neutral-600 transition-colors hover:border-neutral-300 hover:bg-neutral-50 cursor-pointer"
+                className="inline-flex items-center gap-2 rounded-xl border border-[#E2E8F0] px-4 py-2.5 text-[12px] font-semibold text-[#64748B] transition-colors hover:border-[#CBD5E1] hover:bg-[#F4F7FB] cursor-pointer"
               >
                 <i className="ri-refresh-line" />
                 Reconnect
@@ -178,14 +178,14 @@ export default function AdminSearchConsolePage() {
           </div>
         ) : (
           <div className="flex flex-col items-center gap-6 py-6 text-center">
-            <div className="flex h-16 w-16 items-center justify-center rounded-3xl border border-neutral-100 bg-neutral-50">
-              <i className="ri-google-line text-3xl text-neutral-400" />
+            <div className="flex h-16 w-16 items-center justify-center rounded-3xl border border-[#E2E8F0] bg-[#F4F7FB]">
+              <i className="ri-google-line text-3xl text-[#94A3B8]" />
             </div>
             <div>
-              <h2 className={`text-xl font-semibold text-neutral-900 ${adminFontSerif}`}>
+              <h2 className={`text-xl font-semibold text-[#0A1F44] ${adminFontSerif}`}>
                 Connect Google Search Console
               </h2>
-              <p className="mt-2 max-w-md text-sm text-neutral-500">
+              <p className="mt-2 max-w-md text-sm text-[#64748B]">
                 Sign in with the Google account that has access to this site&apos;s Search Console
                 property. Clicks, impressions, and average position will appear in the Pages and
                 Blog Posts tables.
@@ -193,13 +193,13 @@ export default function AdminSearchConsolePage() {
             </div>
             <a
               href="/api/admin/search-console/connect"
-              className="inline-flex items-center gap-2.5 rounded-2xl px-7 py-3.5 text-sm font-semibold text-white shadow-[0_2px_24px_rgba(61,111,127,0.22)] transition-opacity hover:opacity-90"
+              className="inline-flex items-center gap-2.5 rounded-2xl px-7 py-3.5 text-sm font-semibold text-white shadow-[0_2px_24px_rgba(10,31,68,0.18)] transition-opacity hover:opacity-90"
               style={{ backgroundColor: ADMIN_OCEAN }}
             >
               <i className="ri-google-line text-base" />
               Connect Google Account
             </a>
-            <p className="text-[11px] text-neutral-400 max-w-sm">
+            <p className="text-[11px] text-[#94A3B8] max-w-sm">
               You will be redirected to Google to authorise read-only access to Search Console data.
               No data is modified.
             </p>
@@ -208,8 +208,8 @@ export default function AdminSearchConsolePage() {
       </div>
 
       {/* How it works */}
-      <div className="mt-6 rounded-2xl border border-neutral-100 bg-white p-6">
-        <h3 className={`text-sm font-semibold text-neutral-800 ${adminFontSerif}`}>How it works</h3>
+      <div className="mt-6 rounded-2xl border border-[#E2E8F0] bg-white p-6">
+        <h3 className={`text-sm font-semibold text-[#0A1F44] ${adminFontSerif}`}>How it works</h3>
         <ul className="mt-4 flex flex-col gap-3">
           {[
             { icon: "ri-shield-keyhole-line", text: "Read-only access — this integration can only read Search Console data, never modify it." },
@@ -217,8 +217,8 @@ export default function AdminSearchConsolePage() {
             { icon: "ri-building-2-line", text: "Works for any site your Google account has access to in Search Console — including WordPress sites." },
             { icon: "ri-link-unlink-line", text: "Disconnect at any time from this page. You can also revoke access from myaccount.google.com/permissions." },
           ].map(({ icon, text }) => (
-            <li key={icon} className="flex items-start gap-3 text-sm text-neutral-600">
-              <i className={`${icon} mt-0.5 text-base text-neutral-400 shrink-0`} />
+            <li key={icon} className="flex items-start gap-3 text-sm text-[#64748B]">
+              <i className={`${icon} mt-0.5 text-base text-[#94A3B8] shrink-0`} />
               <span>{text}</span>
             </li>
           ))}

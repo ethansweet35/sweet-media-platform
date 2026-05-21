@@ -2,8 +2,8 @@
 
 import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
-import { ADMIN_OCEAN } from "../lib/adminTheme";
-import { cleanSeedPhrase } from "../lib/seedCleaner";
+import { ADMIN_ACCENT, ADMIN_OCEAN } from "../lib/adminTheme";
+import { cleanSeedPhrase, type PageKeywordSeedContextPayload } from "../lib/seedCleaner";
 import type {
   SemrushKeywordOverviewDTO,
   SemrushKeywordSuggestionDTO,
@@ -21,10 +21,12 @@ interface KeywordSuggestPopoverProps {
    */
   seedFallback?: string;
   /**
-   * The page's route path (e.g. "/about"). When provided and the seed is ≤2 words,
-   * the server crawls the live page and uses its H1 as a better Semrush seed.
+   * The page's route path (e.g. "/3-pillars"). When provided, the server may crawl
+   * the live page to refine short or misaligned seeds (e.g. broad SEO titles).
    */
   routePath?: string;
+  /** SEO title, meta, and page title for server-side seed enrichment (pages only). */
+  pageContext?: PageKeywordSeedContextPayload;
   /** Called when the user clicks a suggestion (or the seed row itself). */
   onSelect: (phrase: string) => void;
   /** Optional className for the trigger button. */
@@ -49,7 +51,7 @@ function formatNumber(n: number): string {
 }
 
 function difficultyClass(kd: number): string {
-  if (kd === 0) return "text-neutral-400";
+  if (kd === 0) return "text-[#94A3B8]";
   if (kd < 30) return "text-emerald-600";
   if (kd < 50) return "text-amber-600";
   if (kd < 70) return "text-orange-600";
@@ -75,6 +77,7 @@ export default function KeywordSuggestPopover({
   currentKeyword,
   seedFallback,
   routePath,
+  pageContext,
   onSelect,
   className,
   disabled,
@@ -167,7 +170,12 @@ export default function KeywordSuggestPopover({
       const res = await fetch("/api/admin/semrush/suggestions", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ phrase: cleaned, limit: SUGGEST_LIMIT, route_path: routePath }),
+        body: JSON.stringify({
+          phrase: cleaned,
+          limit: SUGGEST_LIMIT,
+          route_path: routePath,
+          page_context: pageContext,
+        }),
       });
       const data = (await res.json()) as SemrushSuggestionsResponse;
       if (!res.ok || !data.ok) {
@@ -185,7 +193,7 @@ export default function KeywordSuggestPopover({
     } finally {
       setLoading(false);
     }
-  }, [lastFetchedSeed, suggestions.length]);
+  }, [lastFetchedSeed, suggestions.length, routePath, pageContext]);
 
   const handleTrigger = () => {
     setOpen((prev) => {
@@ -223,21 +231,21 @@ export default function KeywordSuggestPopover({
         maxWidth: "92vw",
         zIndex: 100,
       }}
-      className="rounded-2xl border border-neutral-200 bg-white shadow-2xl"
+      className="rounded-2xl border border-[#E2E8F0] bg-white shadow-2xl"
       role="dialog"
     >
       {/* Header */}
-      <div className="flex items-center justify-between gap-3 px-4 py-3 border-b border-neutral-100">
+      <div className="flex items-center justify-between gap-3 px-4 py-3 border-b border-[#E2E8F0]">
         <div className="min-w-0">
-          <p className="text-[11px] font-bold uppercase tracking-[0.12em] text-neutral-700">
-            <i className="ri-search-eye-line mr-1" style={{ color: ADMIN_OCEAN }} />
+          <p className="text-[11px] font-bold uppercase tracking-[0.12em] text-[#334155]">
+            <i className="ri-search-eye-line mr-1" style={{ color: ADMIN_ACCENT }} />
             Semrush Keyword Research
           </p>
-          <p className="mt-0.5 text-[11px] text-neutral-400 truncate">
+          <p className="mt-0.5 text-[11px] text-[#94A3B8] truncate">
             Seed:{" "}
             <span className="font-mono">{effectiveSeed || "(none)"}</span>
             {seedIsAutoDerived && (
-              <span className="ml-1 text-[10px] text-neutral-400">(auto-derived)</span>
+              <span className="ml-1 text-[10px] text-[#94A3B8]">(auto-derived)</span>
             )}
           </p>
           {serverEffectiveSeed &&
@@ -254,7 +262,7 @@ export default function KeywordSuggestPopover({
           type="button"
           onClick={() => fetchSuggestions(effectiveSeed)}
           disabled={loading || !effectiveSeed}
-          className="px-2.5 py-1 rounded-lg text-[10px] font-bold uppercase tracking-[0.1em] border border-neutral-200 text-neutral-700 hover:border-neutral-400 disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer transition-colors"
+          className="px-2.5 py-1 rounded-lg text-[10px] font-bold uppercase tracking-[0.1em] border border-[#E2E8F0] text-[#334155] hover:border-[#7B9FD4] disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer transition-colors"
         >
           {loading ? (
             <>
@@ -279,18 +287,18 @@ export default function KeywordSuggestPopover({
 
         {!error && !loading && !lastFetchedSeed && (
           <div className="px-4 py-8 text-center">
-            <p className="text-xs text-neutral-500 leading-relaxed">
+            <p className="text-xs text-[#64748B] leading-relaxed">
               Click <span className="font-semibold">Fetch</span> to pull a Semrush overview for
               &quot;{effectiveSeed || "(seed)"}&quot; plus the top {SUGGEST_LIMIT}{" "}
               broad-match keywords (matches Keyword Magic Tool).
             </p>
             {seedIsAutoDerived && (
-              <p className="mt-2 text-[10px] text-neutral-500 italic">
+              <p className="mt-2 text-[10px] text-[#64748B] italic">
                 Seed auto-derived from this row — Semrush will broad-match on it
                 even though you haven&apos;t set a primary keyword yet.
               </p>
             )}
-            <p className="mt-2 text-[10px] text-neutral-400">
+            <p className="mt-2 text-[10px] text-[#94A3B8]">
               Cost: ~10 + (40 × {SUGGEST_LIMIT}) Semrush API units per click.
             </p>
           </div>
@@ -298,8 +306,8 @@ export default function KeywordSuggestPopover({
 
         {loading && !error && (
           <div className="px-4 py-10 text-center">
-            <i className="ri-loader-4-line animate-spin text-xl text-neutral-400" />
-            <p className="mt-2 text-xs text-neutral-500">Fetching from Semrush…</p>
+            <i className="ri-loader-4-line animate-spin text-xl text-[#94A3B8]" />
+            <p className="mt-2 text-xs text-[#64748B]">Fetching from Semrush…</p>
           </div>
         )}
 
@@ -307,25 +315,25 @@ export default function KeywordSuggestPopover({
           <>
             {/* Seed row */}
             {seed && (
-              <div className="mx-3 mt-3 rounded-xl border border-neutral-200 bg-neutral-50 px-3 py-2.5">
+              <div className="mx-3 mt-3 rounded-xl border border-[#E2E8F0] bg-[#F4F7FB] px-3 py-2.5">
                 <div className="flex items-center justify-between gap-3">
                   <div className="min-w-0 flex-1">
-                    <p className="text-[10px] font-bold uppercase tracking-[0.1em] text-neutral-400">
+                    <p className="text-[10px] font-bold uppercase tracking-[0.1em] text-[#94A3B8]">
                       Your seed
                     </p>
-                    <p className="mt-0.5 text-sm font-medium text-neutral-900 truncate">
+                    <p className="mt-0.5 text-sm font-medium text-[#0A1F44] truncate">
                       {seed.phrase}
                     </p>
                   </div>
                   <div className="flex items-center gap-3 text-[11px] shrink-0">
                     <div className="text-right">
-                      <p className="text-[9px] uppercase tracking-[0.08em] text-neutral-400">Vol</p>
-                      <p className="font-mono font-semibold text-neutral-700">
+                      <p className="text-[9px] uppercase tracking-[0.08em] text-[#94A3B8]">Vol</p>
+                      <p className="font-mono font-semibold text-[#334155]">
                         {formatNumber(seed.searchVolume)}
                       </p>
                     </div>
                     <div className="text-right">
-                      <p className="text-[9px] uppercase tracking-[0.08em] text-neutral-400">KD</p>
+                      <p className="text-[9px] uppercase tracking-[0.08em] text-[#94A3B8]">KD</p>
                       <p className={`font-mono font-semibold ${difficultyClass(seed.difficulty)}`}>
                         {seed.difficulty || "—"}
                       </p>
@@ -346,7 +354,7 @@ export default function KeywordSuggestPopover({
             {/* Sort tabs */}
             {suggestions.length > 0 && (
               <div className="flex items-center gap-2 px-3 pt-3 pb-1">
-                <span className="text-[10px] uppercase tracking-[0.1em] text-neutral-400 font-bold">
+                <span className="text-[10px] uppercase tracking-[0.1em] text-[#94A3B8] font-bold">
                   Sort:
                 </span>
                 {(["searchVolume", "difficulty", "cpc"] as SortKey[]).map((k) => (
@@ -356,8 +364,8 @@ export default function KeywordSuggestPopover({
                     onClick={() => setSortKey(k)}
                     className={`px-2 py-0.5 rounded text-[10px] font-semibold transition-colors cursor-pointer ${
                       sortKey === k
-                        ? "bg-neutral-900 text-white"
-                        : "text-neutral-500 hover:bg-neutral-100"
+                        ? "bg-[#0A1F44] text-white"
+                        : "text-[#64748B] hover:bg-[#F4F7FB]"
                     }`}
                   >
                     {k === "searchVolume" ? "Volume" : k === "difficulty" ? "KD" : "CPC"}
@@ -368,41 +376,41 @@ export default function KeywordSuggestPopover({
 
             {/* Suggestions list */}
             {suggestions.length === 0 && seed === null && (
-              <p className="px-4 py-6 text-center text-xs text-neutral-500">
+              <p className="px-4 py-6 text-center text-xs text-[#64748B]">
                 No data returned for that seed. Try a different phrase.
               </p>
             )}
 
             {suggestions.length === 0 && seed !== null && (
-              <p className="px-4 py-4 text-center text-xs text-neutral-500">
+              <p className="px-4 py-4 text-center text-xs text-[#64748B]">
                 No broad-match keywords found in Semrush. Try a shorter or more general seed.
               </p>
             )}
 
             {suggestions.length > 0 && (
-              <ul className="px-2 pb-3 pt-1 divide-y divide-neutral-100">
+              <ul className="px-2 pb-3 pt-1 divide-y divide-[#E2E8F0]">
                 {sorted.map((s) => (
                   <li
                     key={s.phrase}
-                    className="group flex items-center gap-3 px-2 py-2.5 rounded-lg hover:bg-neutral-50 cursor-pointer transition-colors"
+                    className="group flex items-center gap-3 px-2 py-2.5 rounded-lg hover:bg-[#F4F7FB] cursor-pointer transition-colors"
                     onClick={() => handleSelect(s.phrase)}
                   >
                     <div className="min-w-0 flex-1">
-                      <p className="text-[13px] text-neutral-900 truncate group-hover:text-neutral-900">
+                      <p className="text-[13px] text-[#0A1F44] truncate group-hover:text-[#0A1F44]">
                         {s.phrase}
                       </p>
-                      <p className="mt-0.5 text-[10px] text-neutral-400">
+                      <p className="mt-0.5 text-[10px] text-[#94A3B8]">
                         CPC ${s.cpc.toFixed(2)} · Comp {(s.competition * 100).toFixed(0)}%
                       </p>
                     </div>
                     <div className="text-right text-[11px] shrink-0">
-                      <p className="text-[9px] uppercase tracking-[0.08em] text-neutral-400">Vol</p>
-                      <p className="font-mono font-semibold text-neutral-700">
+                      <p className="text-[9px] uppercase tracking-[0.08em] text-[#94A3B8]">Vol</p>
+                      <p className="font-mono font-semibold text-[#334155]">
                         {formatNumber(s.searchVolume)}
                       </p>
                     </div>
                     <div className="text-right text-[11px] shrink-0 w-[42px]">
-                      <p className="text-[9px] uppercase tracking-[0.08em] text-neutral-400">KD</p>
+                      <p className="text-[9px] uppercase tracking-[0.08em] text-[#94A3B8]">KD</p>
                       <p className={`font-mono font-semibold ${difficultyClass(s.difficulty)}`}>
                         {s.difficulty || "—"}
                       </p>
@@ -418,11 +426,11 @@ export default function KeywordSuggestPopover({
         )}
       </div>
 
-      <div className="px-4 py-2 border-t border-neutral-100 text-[10px] text-neutral-400 flex items-center justify-between">
+      <div className="px-4 py-2 border-t border-[#E2E8F0] text-[10px] text-[#94A3B8] flex items-center justify-between">
         <span>Click a row to use it as your primary keyword.</span>
         <a
           href="/admin/keyword-research"
-          className="font-semibold text-neutral-600 hover:underline"
+          className="font-semibold text-[#64748B] hover:underline"
         >
           Open full research →
         </a>

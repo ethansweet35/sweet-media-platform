@@ -10,7 +10,7 @@
 
 import { useRef, useState, useCallback, useEffect, type ReactNode } from "react";
 import { createPortal } from "react-dom";
-import { ADMIN_OCEAN } from "../lib/adminTheme";
+import { ADMIN_ACCENT, ADMIN_OCEAN } from "../lib/adminTheme";
 
 const SHOW_TOP_N = 5;
 
@@ -44,7 +44,7 @@ function positionBadgeClass(pos: number): string {
   if (pos <= 3) return "bg-emerald-50 text-emerald-700";
   if (pos <= 10) return "bg-amber-50 text-amber-700";
   if (pos <= 20) return "bg-orange-50 text-orange-700";
-  return "bg-neutral-100 text-neutral-500";
+  return "bg-[#F4F7FB] text-[#64748B]";
 }
 
 type FetchStatus = "idle" | "loading" | "done" | "error" | "none" | "no_auth";
@@ -118,27 +118,27 @@ export default function RankingKeywordsPopover({
   const popover = open && mounted ? (
     <div
       style={{ position: "fixed", top: coords.top, left: coords.left, zIndex: 9999 }}
-      className="w-72 rounded-xl border border-neutral-200 bg-white shadow-xl"
+      className="w-72 rounded-xl border border-[#E2E8F0] bg-white shadow-xl"
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
       {/* Arrow */}
-      <div className="absolute -top-1.5 left-3 h-3 w-3 rotate-45 border-l border-t border-neutral-200 bg-white" />
+      <div className="absolute -top-1.5 left-3 h-3 w-3 rotate-45 border-l border-t border-[#E2E8F0] bg-white" />
 
       {/* Header */}
-      <div className="px-3.5 py-2.5 border-b border-neutral-100">
-        <p className="text-[10px] font-bold uppercase tracking-[0.12em]" style={{ color: ADMIN_OCEAN }}>
+      <div className="px-3.5 py-2.5 border-b border-[#E2E8F0]">
+        <p className="text-[10px] font-bold uppercase tracking-[0.12em]" style={{ color: ADMIN_ACCENT }}>
           <i className="ri-google-line mr-1" />
           Top ranking queries · GSC
         </p>
-        <p className="mt-0.5 text-[10px] text-neutral-400 truncate">{pageUrl}</p>
+        <p className="mt-0.5 text-[10px] text-[#94A3B8] truncate">{pageUrl}</p>
       </div>
 
       {/* Body */}
       <div className="px-2 py-2">
         {status === "loading" && (
-          <div className="flex items-center gap-2 px-2 py-3 text-[12px] text-neutral-500">
-            <i className="ri-loader-4-line animate-spin text-sm" style={{ color: ADMIN_OCEAN }} />
+          <div className="flex items-center gap-2 px-2 py-3 text-[12px] text-[#64748B]">
+            <i className="ri-loader-4-line animate-spin text-sm" style={{ color: ADMIN_ACCENT }} />
             Fetching from Search Console…
           </div>
         )}
@@ -149,26 +149,26 @@ export default function RankingKeywordsPopover({
           </div>
         )}
         {status === "no_auth" && (
-          <div className="px-2 py-3 text-[12px] text-neutral-500 text-center">
-            <i className="ri-link-unlink-line block text-xl text-neutral-300 mb-1" />
+          <div className="px-2 py-3 text-[12px] text-[#64748B] text-center">
+            <i className="ri-link-unlink-line block text-xl text-[#CBD5E1] mb-1" />
             Connect Search Console to see rankings.
           </div>
         )}
         {status === "none" && (
-          <p className="px-2 py-3 text-[12px] text-neutral-500 text-center">
+          <p className="px-2 py-3 text-[12px] text-[#64748B] text-center">
             No GSC impressions found for this page yet.
           </p>
         )}
         {status === "done" && (
-          <ul className="divide-y divide-neutral-50">
+          <ul className="divide-y divide-[#F4F7FB]">
             {rows.map((row, i) => (
               <li key={row.query} className="flex items-center gap-2.5 px-2 py-2">
-                <span className="text-[10px] font-bold text-neutral-300 w-3 shrink-0 text-center">
+                <span className="text-[10px] font-bold text-[#CBD5E1] w-3 shrink-0 text-center">
                   {i + 1}
                 </span>
                 <div className="min-w-0 flex-1">
-                  <p className="text-[12px] font-medium text-neutral-800 truncate">{row.query}</p>
-                  <p className="text-[10px] text-neutral-400">
+                  <p className="text-[12px] font-medium text-[#0A1F44] truncate">{row.query}</p>
+                  <p className="text-[10px] text-[#94A3B8]">
                     {row.impressions.toLocaleString()} impr · {row.clicks.toLocaleString()} clk
                   </p>
                 </div>
@@ -182,10 +182,10 @@ export default function RankingKeywordsPopover({
       </div>
 
       {status === "done" && (
-        <div className="px-3.5 py-2 border-t border-neutral-100">
+        <div className="px-3.5 py-2 border-t border-[#E2E8F0]">
           <a
             href="/admin/keyword-research"
-            className="text-[10px] font-semibold text-neutral-400 hover:text-neutral-600 transition-colors"
+            className="text-[10px] font-semibold text-[#94A3B8] hover:text-[#64748B] transition-colors"
             onClick={(e) => e.stopPropagation()}
           >
             See full rankings in Keyword Research →

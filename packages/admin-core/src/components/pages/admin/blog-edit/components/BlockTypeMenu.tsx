@@ -34,22 +34,22 @@ export default function BlockTypeMenu({ onAdd, onClose }: BlockTypeMenuProps) {
   return (
     <div
       ref={ref}
-      className="absolute left-0 top-full mt-2 z-30 bg-white border border-neutral-200 rounded-2xl shadow-lg w-72 p-2 animate-in fade-in slide-in-from-top-2 duration-150"
+      className="absolute left-0 top-full mt-2 z-30 bg-white border border-[#E2E8F0] rounded-2xl shadow-lg w-72 p-2 animate-in fade-in slide-in-from-top-2 duration-150"
     >
-      <p className="text-[9px] tracking-[0.2em] uppercase font-semibold text-neutral-400 px-3 py-2">Add Block</p>
+      <p className="text-[9px] tracking-[0.2em] uppercase font-semibold text-[#94A3B8] px-3 py-2">Add Block</p>
       <div className="grid grid-cols-1 gap-0.5">
         {BLOCK_TYPES.map((bt) => (
           <button
             key={bt.type}
             onClick={() => { onAdd(bt.type); onClose(); }}
-            className="flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-neutral-50 transition-colors cursor-pointer text-left w-full group"
+            className="flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-[#F4F7FB] transition-colors cursor-pointer text-left w-full group"
           >
-            <div className="w-8 h-8 rounded-lg bg-neutral-100 group-hover:bg-[#3d6f7f]/8 flex items-center justify-center flex-shrink-0 transition-colors">
-              <i className={`${bt.icon} text-neutral-500 group-hover:text-[#3d6f7f] text-sm transition-colors`}></i>
+            <div className="w-8 h-8 rounded-lg bg-[#F4F7FB] group-hover:bg-[#0A1F44]/8 flex items-center justify-center flex-shrink-0 transition-colors">
+              <i className={`${bt.icon} text-[#64748B] group-hover:text-[#0A1F44] text-sm transition-colors`}></i>
             </div>
             <div>
-              <p className="text-sm font-medium text-neutral-800 leading-tight">{bt.label}</p>
-              <p className="text-[11px] text-neutral-400">{bt.desc}</p>
+              <p className="text-sm font-medium text-[#0A1F44] leading-tight">{bt.label}</p>
+              <p className="text-[11px] text-[#94A3B8]">{bt.desc}</p>
             </div>
           </button>
         ))}

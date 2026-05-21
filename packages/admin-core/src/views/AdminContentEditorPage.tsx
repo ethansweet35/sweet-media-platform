@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import AdminPageHeader from "../components/AdminPageHeader";
-import { ADMIN_OCEAN } from "../lib/adminTheme";
+import { ADMIN_ACCENT, ADMIN_ACCENT_SOFT, ADMIN_OCEAN } from "../lib/adminTheme";
 import { useContentEditors } from "../hooks/useContentEditors";
 import {
   STATUS_IS_PROCESSING,
@@ -13,10 +13,10 @@ import {
 } from "../types/content-editor";
 
 const inputCls =
-  "w-full px-4 py-3 text-sm border border-neutral-200 rounded-xl bg-white text-neutral-900 placeholder-neutral-400 focus:outline-none focus:border-[#3d6f7f] transition-colors";
+  "w-full px-4 py-3 text-sm border border-[#E2E8F0] rounded-xl bg-white text-[#0A1F44] placeholder-[#94A3B8] focus:outline-none focus:border-[#7B9FD4] transition-colors";
 
 const STATUS_CLS: Record<ContentEditorStatus, string> = {
-  pending: "bg-neutral-100 text-neutral-600",
+  pending: "bg-[#F4F7FB] text-[#64748B]",
   fetching_serp: "bg-blue-50 text-blue-700",
   extracting_content: "bg-blue-50 text-blue-700",
   analyzing_nlp: "bg-amber-50 text-amber-700",
@@ -40,11 +40,11 @@ function relativeTime(iso: string): string {
 }
 
 function scoreClass(score: number | null): string {
-  if (score == null) return "text-neutral-300";
+  if (score == null) return "text-[#CBD5E1]";
   if (score >= 75) return "text-emerald-600";
   if (score >= 50) return "text-amber-600";
   if (score > 0) return "text-orange-600";
-  return "text-neutral-300";
+  return "text-[#CBD5E1]";
 }
 
 function wordRangeText(row: ContentEditorListRow): string {
@@ -140,9 +140,9 @@ export default function AdminContentEditorPage() {
         {/* New editor form */}
         <form
           onSubmit={handleSubmit}
-          className="rounded-2xl border border-neutral-200 bg-white p-5 shadow-sm"
+          className="rounded-2xl border border-[#E2E8F0] bg-white p-5 shadow-sm"
         >
-          <label className="block text-[11px] font-bold tracking-[0.12em] uppercase text-neutral-500 mb-1.5">
+          <label className="block text-[11px] font-bold tracking-[0.12em] uppercase text-[#64748B] mb-1.5">
             Target keyword
           </label>
           <div className="flex flex-col gap-3 sm:flex-row">
@@ -172,7 +172,7 @@ export default function AdminContentEditorPage() {
               )}
             </button>
           </div>
-          <p className="mt-2 text-[11px] text-neutral-400 leading-relaxed">
+          <p className="mt-2 text-[11px] text-[#94A3B8] leading-relaxed">
             Scans the top organic results in Google US, scrapes each page with Firecrawl, extracts NLP entities + n-grams + facts, and builds a content brief.
             Typically 90–180 seconds. Cost: ~$0.30 per editor.
           </p>
@@ -184,23 +184,23 @@ export default function AdminContentEditorPage() {
         </form>
 
         {/* List */}
-        <div className="rounded-2xl border border-neutral-200 bg-white shadow-sm overflow-hidden">
-          <div className="flex items-center justify-between gap-3 px-5 py-4 border-b border-neutral-100">
+        <div className="rounded-2xl border border-[#E2E8F0] bg-white shadow-sm overflow-hidden">
+          <div className="flex items-center justify-between gap-3 px-5 py-4 border-b border-[#E2E8F0]">
             <div>
-              <p className="text-[11px] font-bold uppercase tracking-[0.12em] text-neutral-700">
+              <p className="text-[11px] font-bold uppercase tracking-[0.12em] text-[#334155]">
                 Recent editors
-                <span className="ml-2 text-neutral-400 normal-case font-normal tracking-normal">
+                <span className="ml-2 text-[#94A3B8] normal-case font-normal tracking-normal">
                   ({rows.length})
                 </span>
               </p>
-              <p className="mt-0.5 text-[11px] text-neutral-400">
+              <p className="mt-0.5 text-[11px] text-[#94A3B8]">
                 Click an editor to open the workspace.
               </p>
             </div>
             <button
               type="button"
               onClick={() => void refresh()}
-              className="px-3 py-1.5 rounded-lg text-[10px] font-bold uppercase tracking-[0.1em] border border-neutral-200 text-neutral-700 hover:border-neutral-400 cursor-pointer transition-colors"
+              className="px-3 py-1.5 rounded-lg text-[10px] font-bold uppercase tracking-[0.1em] border border-[#E2E8F0] text-[#334155] hover:border-[#7B9FD4] cursor-pointer transition-colors"
             >
               <i className="ri-refresh-line mr-1" />
               Refresh
@@ -208,19 +208,19 @@ export default function AdminContentEditorPage() {
           </div>
 
           {loading ? (
-            <p className="p-8 text-center text-sm text-neutral-500">
+            <p className="p-8 text-center text-sm text-[#64748B]">
               <i className="ri-loader-4-line animate-spin mr-2" /> Loading editors…
             </p>
           ) : rows.length === 0 ? (
             <div className="px-6 py-12 text-center">
               <div
                 className="mx-auto mb-4 inline-flex h-12 w-12 items-center justify-center rounded-2xl"
-                style={{ backgroundColor: `${ADMIN_OCEAN}18` }}
+                style={{ backgroundColor: ADMIN_ACCENT_SOFT }}
               >
-                <i className="ri-sparkling-2-line text-2xl" style={{ color: ADMIN_OCEAN }} />
+                <i className="ri-sparkling-2-line text-2xl" style={{ color: ADMIN_ACCENT }} />
               </div>
-              <p className="text-sm font-semibold text-neutral-700">No editors yet.</p>
-              <p className="mt-1.5 text-[12px] text-neutral-500 leading-relaxed max-w-md mx-auto">
+              <p className="text-sm font-semibold text-[#334155]">No editors yet.</p>
+              <p className="mt-1.5 text-[12px] text-[#64748B] leading-relaxed max-w-md mx-auto">
                 Enter a target keyword above to generate your first content editor. We&apos;ll
                 scrape the top-ranking pages and build a complete writing brief.
               </p>
@@ -228,7 +228,7 @@ export default function AdminContentEditorPage() {
           ) : (
             <div className="overflow-x-auto">
               <table className="min-w-full text-left text-sm">
-                <thead className="bg-neutral-50 text-[10px] font-bold uppercase tracking-[0.08em] text-neutral-500">
+                <thead className="bg-[#F4F7FB] text-[10px] font-bold uppercase tracking-[0.08em] text-[#64748B]">
                   <tr>
                     <th className="px-5 py-2.5">Keyword</th>
                     <th className="px-3 py-2.5">Status</th>
@@ -239,15 +239,15 @@ export default function AdminContentEditorPage() {
                     <th className="px-3 py-2.5 text-right whitespace-nowrap">Actions</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-neutral-100">
+                <tbody className="divide-y divide-[#E2E8F0]">
                   {rows.map((row) => {
                     const processing = STATUS_IS_PROCESSING[row.status];
                     return (
-                      <tr key={row.id} className="hover:bg-neutral-50/50 transition-colors">
+                      <tr key={row.id} className="hover:bg-[#F4F7FB]/50 transition-colors">
                         <td className="px-5 py-3">
                           <Link
                             href={`/admin/content-editor/${row.id}`}
-                            className="text-[13px] text-neutral-900 hover:text-[#3d6f7f] font-medium"
+                            className="text-[13px] text-[#0A1F44] hover:text-[#0A1F44] font-medium"
                           >
                             {row.primary_keyword}
                           </Link>
@@ -256,7 +256,7 @@ export default function AdminContentEditorPage() {
                               {row.error}
                             </p>
                           ) : row.status_message ? (
-                            <p className="mt-0.5 text-[11px] text-neutral-400 truncate max-w-md">
+                            <p className="mt-0.5 text-[11px] text-[#94A3B8] truncate max-w-md">
                               {row.status_message}
                             </p>
                           ) : null}
@@ -269,13 +269,13 @@ export default function AdminContentEditorPage() {
                             {STATUS_LABELS[row.status]}
                           </span>
                           {optimizingIds.has(row.id) ? (
-                            <span className="ml-1.5 inline-flex items-center gap-1 px-2 py-0.5 rounded text-[10px] font-semibold bg-[#3d6f7f]/10 text-[#1f4452]">
+                            <span className="ml-1.5 inline-flex items-center gap-1 px-2 py-0.5 rounded text-[10px] font-semibold bg-[#0A1F44]/10 text-[#1f4452]">
                               <i className="ri-magic-line animate-pulse" />
                               Optimizing
                             </span>
                           ) : null}
                         </td>
-                        <td className="px-3 py-3 text-right font-mono text-[12px] text-neutral-600">
+                        <td className="px-3 py-3 text-right font-mono text-[12px] text-[#64748B]">
                           {wordRangeText(row)}
                         </td>
                         <td className="px-3 py-3 text-right">
@@ -293,23 +293,23 @@ export default function AdminContentEditorPage() {
                                 <span className={`font-bold ${scoreClass(score)}`}>
                                   {Math.round(score)}
                                 </span>
-                                <span className="text-neutral-300">/</span>
-                                <span className="text-neutral-400">{targetLabel}</span>
+                                <span className="text-[#CBD5E1]">/</span>
+                                <span className="text-[#94A3B8]">{targetLabel}</span>
                                 {isPageMode ? (
-                                  <span className="ml-1 px-1 py-0.5 rounded bg-[#3d6f7f]/10 text-[#3d6f7f] text-[9px] font-bold tracking-wider">LIVE</span>
+                                  <span className="ml-1 px-1 py-0.5 rounded bg-[#0A1F44]/10 text-[#0A1F44] text-[9px] font-bold tracking-wider">LIVE</span>
                                 ) : null}
                               </span>
                             ) : (
                               <span className={`font-mono text-[13px] font-semibold ${scoreClass(row.target_score)}`}>
-                                {row.target_score != null ? <>— <span className="text-neutral-400 text-[11px]">/ {targetLabel}</span></> : "—"}
+                                {row.target_score != null ? <>— <span className="text-[#94A3B8] text-[11px]">/ {targetLabel}</span></> : "—"}
                               </span>
                             );
                           })()}
                         </td>
-                        <td className="px-3 py-3 text-right font-mono text-[11px] text-neutral-500">
+                        <td className="px-3 py-3 text-right font-mono text-[11px] text-[#64748B]">
                           ${Number(row.total_cost_usd ?? 0).toFixed(3)}
                         </td>
-                        <td className="px-3 py-3 text-[12px] text-neutral-500">
+                        <td className="px-3 py-3 text-[12px] text-[#64748B]">
                           {relativeTime(row.updated_at)}
                         </td>
                         <td className="px-3 py-3 text-right">
@@ -341,7 +341,7 @@ export default function AdminContentEditorPage() {
                               type="button"
                               onClick={() => void handleDelete(row.id)}
                               title="Delete editor"
-                              className="px-2 py-1 rounded-md text-[10px] font-semibold text-neutral-400 hover:bg-red-50 hover:text-red-600 cursor-pointer transition-colors"
+                              className="px-2 py-1 rounded-md text-[10px] font-semibold text-[#94A3B8] hover:bg-red-50 hover:text-red-600 cursor-pointer transition-colors"
                             >
                               <i className="ri-delete-bin-line" />
                             </button>

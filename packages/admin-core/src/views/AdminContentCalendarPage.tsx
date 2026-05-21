@@ -57,7 +57,7 @@ export default function AdminContentCalendarPage() {
       )}
 
       <div className="mb-6 grid grid-cols-2 gap-3 sm:grid-cols-4">
-        <StatChip label="Pending" value={stats.pending} muted="bg-neutral-100 text-neutral-800" />
+        <StatChip label="Pending" value={stats.pending} muted="bg-[#F4F7FB] text-[#0A1F44]" />
         <StatChip label="Generating" value={stats.generating} muted="bg-sky-100 text-sky-900" />
         <StatChip label="Draft ready" value={stats.draft_ready} muted="bg-emerald-100 text-emerald-900" />
         <StatChip label="Failed" value={stats.failed} muted="bg-red-50 text-red-900" />

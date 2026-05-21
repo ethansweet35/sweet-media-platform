@@ -2,8 +2,12 @@
 
 import { useEffect, useState } from "react";
 import type { TrackedPage, TrackedPageInput } from "../../types/tracked-page";
-import { ADMIN_OCEAN } from "../../lib/adminTheme";
+import { ADMIN_ACCENT, ADMIN_OCEAN } from "../../lib/adminTheme";
 import KeywordSuggestPopover from "../KeywordSuggestPopover";
+import {
+  buildPrimaryPageKeywordSeed,
+  toPageKeywordSeedContextPayload,
+} from "../../lib/seedCleaner";
 
 interface PageEditModalProps {
   page: TrackedPage | null;
@@ -116,7 +120,7 @@ export default function PageEditModal({ page, isOpen, onClose, onSubmit }: PageE
   };
 
   const inputCls =
-    "w-full px-3.5 py-2.5 text-sm border border-neutral-200 rounded-xl bg-white text-neutral-900 placeholder-neutral-400 focus:outline-none focus:border-[#3d6f7f] transition-colors";
+    "w-full px-3.5 py-2.5 text-sm border border-[#E2E8F0] rounded-xl bg-white text-[#0A1F44] placeholder-[#94A3B8] focus:outline-none focus:border-[#7B9FD4] transition-colors";
 
   const busy = saving || generating;
 
@@ -127,13 +131,13 @@ export default function PageEditModal({ page, isOpen, onClose, onSubmit }: PageE
       <div className="relative bg-white rounded-2xl w-full max-w-2xl p-6 shadow-xl my-auto flex flex-col" style={{ maxHeight: "min(92vh, 900px)" }}>
         {/* Header */}
         <div className="flex items-start justify-between gap-4 mb-5 shrink-0">
-          <h2 className="text-lg font-semibold text-neutral-900">
+          <h2 className="text-lg font-semibold text-[#0A1F44]">
             {isEdit ? "Edit page" : "New tracked page"}
           </h2>
           <button
             type="button"
             onClick={() => !busy && onClose()}
-            className="w-9 h-9 flex items-center justify-center rounded-xl text-neutral-400 hover:bg-neutral-100 hover:text-neutral-600 transition-colors cursor-pointer shrink-0"
+            className="w-9 h-9 flex items-center justify-center rounded-xl text-[#94A3B8] hover:bg-[#F4F7FB] hover:text-[#64748B] transition-colors cursor-pointer shrink-0"
             aria-label="Close"
           >
             <i className="ri-close-line text-lg" />
@@ -151,7 +155,7 @@ export default function PageEditModal({ page, isOpen, onClose, onSubmit }: PageE
           {/* Route + Title in a grid */}
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <label className="block text-[11px] font-bold tracking-[0.12em] uppercase text-neutral-500 mb-1.5">
+              <label className="block text-[11px] font-bold tracking-[0.12em] uppercase text-[#64748B] mb-1.5">
                 Route Path <span className="text-red-500">*</span>
               </label>
               <input
@@ -165,7 +169,7 @@ export default function PageEditModal({ page, isOpen, onClose, onSubmit }: PageE
               />
             </div>
             <div>
-              <label className="block text-[11px] font-bold tracking-[0.12em] uppercase text-neutral-500 mb-1.5">
+              <label className="block text-[11px] font-bold tracking-[0.12em] uppercase text-[#64748B] mb-1.5">
                 Page Title <span className="text-red-500">*</span>
               </label>
               <input
@@ -183,12 +187,26 @@ export default function PageEditModal({ page, isOpen, onClose, onSubmit }: PageE
           {/* Primary Keyword (moved up so AI can use it) */}
           <div>
             <div className="flex items-center justify-between mb-1.5">
-              <label className="block text-[11px] font-bold tracking-[0.12em] uppercase text-neutral-500">
+              <label className="block text-[11px] font-bold tracking-[0.12em] uppercase text-[#64748B]">
                 Primary Keyword
               </label>
               <KeywordSuggestPopover
                 currentKeyword={primaryKeyword}
-                seedFallback={seoTitle || metaDescription || pageTitle || routePath}
+                seedFallback={buildPrimaryPageKeywordSeed({
+                  route_path: routePath,
+                  page_title: pageTitle,
+                  seo_title: seoTitle || null,
+                  default_seo_title: page?.default_seo_title ?? null,
+                  meta_description: metaDescription || null,
+                })}
+                routePath={routePath || undefined}
+                pageContext={toPageKeywordSeedContextPayload({
+                  route_path: routePath,
+                  page_title: pageTitle,
+                  seo_title: seoTitle || null,
+                  default_seo_title: page?.default_seo_title ?? null,
+                  meta_description: metaDescription || null,
+                })}
                 onSelect={(phrase) => setPrimaryKeyword(phrase)}
                 disabled={busy}
               />
@@ -209,8 +227,8 @@ export default function PageEditModal({ page, isOpen, onClose, onSubmit }: PageE
             style={{ borderColor: generateSuccess ? "#86efac" : "#e5e7eb", backgroundColor: generateSuccess ? "#f0fdf4" : "#fafafa" }}
           >
             <div>
-              <p className="text-[11px] font-bold uppercase tracking-[0.12em] text-neutral-700 flex items-center gap-1.5">
-                <i className="ri-sparkling-2-line text-xs" style={{ color: ADMIN_OCEAN }} />
+              <p className="text-[11px] font-bold uppercase tracking-[0.12em] text-[#334155] flex items-center gap-1.5">
+                <i className="ri-sparkling-2-line text-xs" style={{ color: ADMIN_ACCENT }} />
                 AI Generate Meta Data
               </p>
               {generateSuccess ? (
@@ -220,7 +238,7 @@ export default function PageEditModal({ page, isOpen, onClose, onSubmit }: PageE
               ) : generateError ? (
                 <p className="text-[11px] text-red-600 mt-0.5">{generateError}</p>
               ) : (
-                <p className="text-[11px] text-neutral-400 mt-0.5">
+                <p className="text-[11px] text-[#94A3B8] mt-0.5">
                   {canGenerate
                     ? "Generates page title + SEO title + meta description from current values & keyword"
                     : "Fill in Route Path and Page Title to enable"}
@@ -251,10 +269,10 @@ export default function PageEditModal({ page, isOpen, onClose, onSubmit }: PageE
           {/* SEO Title */}
           <div>
             <div className="flex items-baseline justify-between mb-1.5">
-              <label className="text-[11px] font-bold tracking-[0.12em] uppercase text-neutral-500">
+              <label className="text-[11px] font-bold tracking-[0.12em] uppercase text-[#64748B]">
                 SEO Title
               </label>
-              <span className={`text-[11px] tabular-nums ${seoLen > 60 ? "text-red-500" : seoLen > 50 ? "text-amber-500" : "text-neutral-400"}`}>
+              <span className={`text-[11px] tabular-nums ${seoLen > 60 ? "text-red-500" : seoLen > 50 ? "text-amber-500" : "text-[#94A3B8]"}`}>
                 {seoLen}/60
               </span>
             </div>
@@ -267,8 +285,8 @@ export default function PageEditModal({ page, isOpen, onClose, onSubmit }: PageE
               disabled={busy}
             />
             {page?.default_seo_title && (
-              <p className="text-[11px] text-neutral-400 mt-1.5 leading-relaxed">
-                <span className="font-medium text-neutral-500">Code default:</span>{" "}
+              <p className="text-[11px] text-[#94A3B8] mt-1.5 leading-relaxed">
+                <span className="font-medium text-[#64748B]">Code default:</span>{" "}
                 <span className="italic">{page.default_seo_title}</span>
               </p>
             )}
@@ -277,10 +295,10 @@ export default function PageEditModal({ page, isOpen, onClose, onSubmit }: PageE
           {/* Meta Description */}
           <div>
             <div className="flex justify-between items-baseline mb-1.5">
-              <label className="text-[11px] font-bold tracking-[0.12em] uppercase text-neutral-500">
+              <label className="text-[11px] font-bold tracking-[0.12em] uppercase text-[#64748B]">
                 Meta Description
               </label>
-              <span className={`text-[11px] tabular-nums ${metaLen > 160 ? "text-red-500" : metaLen > 140 ? "text-amber-500" : "text-neutral-400"}`}>
+              <span className={`text-[11px] tabular-nums ${metaLen > 160 ? "text-red-500" : metaLen > 140 ? "text-amber-500" : "text-[#94A3B8]"}`}>
                 {metaLen}/160
               </span>
             </div>
@@ -293,8 +311,8 @@ export default function PageEditModal({ page, isOpen, onClose, onSubmit }: PageE
               disabled={busy}
             />
             {page?.default_meta_description && (
-              <p className="text-[11px] text-neutral-400 mt-1.5 leading-relaxed">
-                <span className="font-medium text-neutral-500">Code default:</span>{" "}
+              <p className="text-[11px] text-[#94A3B8] mt-1.5 leading-relaxed">
+                <span className="font-medium text-[#64748B]">Code default:</span>{" "}
                 <span className="italic">{page.default_meta_description}</span>
               </p>
             )}
@@ -302,7 +320,7 @@ export default function PageEditModal({ page, isOpen, onClose, onSubmit }: PageE
 
           {/* Notes */}
           <div>
-            <label className="block text-[11px] font-bold tracking-[0.12em] uppercase text-neutral-500 mb-1.5">
+            <label className="block text-[11px] font-bold tracking-[0.12em] uppercase text-[#64748B] mb-1.5">
               Notes
             </label>
             <textarea
@@ -322,17 +340,17 @@ export default function PageEditModal({ page, isOpen, onClose, onSubmit }: PageE
               checked={isActive}
               onChange={(e) => setIsActive(e.target.checked)}
               disabled={busy}
-              className="w-4 h-4 rounded border-neutral-300 accent-[#3d6f7f] cursor-pointer"
+              className="w-4 h-4 rounded border-[#CBD5E1] accent-[#0A1F44] cursor-pointer"
             />
-            <span className="text-sm text-neutral-800 font-medium">Is Active</span>
+            <span className="text-sm text-[#0A1F44] font-medium">Is Active</span>
           </label>
 
           {/* Footer actions */}
-          <div className="flex gap-3 pt-2 mt-auto border-t border-neutral-100 shrink-0">
+          <div className="flex gap-3 pt-2 mt-auto border-t border-[#E2E8F0] shrink-0">
             <button
               type="button"
               onClick={() => !busy && onClose()}
-              className="flex-1 border border-neutral-200 text-neutral-600 text-[11px] tracking-[0.15em] uppercase font-bold py-3 rounded-xl hover:border-neutral-300 transition-colors cursor-pointer"
+              className="flex-1 border border-[#E2E8F0] text-[#64748B] text-[11px] tracking-[0.15em] uppercase font-bold py-3 rounded-xl hover:border-[#CBD5E1] transition-colors cursor-pointer"
             >
               Cancel
             </button>

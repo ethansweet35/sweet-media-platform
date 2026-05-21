@@ -1,6 +1,8 @@
 "use client";
 
 import { useState } from "react";
+import AdminPageHeader from "../components/AdminPageHeader";
+import { adminPageCardCls, adminPrimaryBtnCls } from "../lib/adminTheme";
 import { supabase } from "../lib/supabase";
 
 export default function FixTablesPage() {
@@ -34,13 +36,13 @@ export default function FixTablesPage() {
   const skippedResults = results.filter((r) => !r.includes("FIXED") && !r.includes("ERROR"));
 
   return (
-    <div className="min-h-screen bg-neutral-50 flex items-center justify-center p-8">
-      <div className="bg-white rounded-xl border border-neutral-200 p-8 max-w-2xl w-full">
-        <h1 className="text-2xl font-semibold text-neutral-900 mb-2">Fix Table Blocks</h1>
-        <p className="text-neutral-500 text-sm mb-6">
-          Scans all blog posts and converts any paragraph blocks containing raw markdown table
-          syntax into properly formatted table blocks. Safe to run multiple times.
-        </p>
+    <div>
+      <AdminPageHeader
+        title="Fix Table Blocks"
+        subtitle="Scans all blog posts and converts raw markdown table syntax into formatted table blocks. Safe to run multiple times."
+      />
+
+      <div className={`${adminPageCardCls} max-w-2xl`}>
 
         {summary && status === "done" && (
           <div className="mb-6 p-4 rounded-lg bg-emerald-50 border border-emerald-200">
@@ -63,7 +65,7 @@ export default function FixTablesPage() {
         <button
           onClick={runMigration}
           disabled={status === "running"}
-          className="whitespace-nowrap px-6 py-3 bg-[#3d6f7f] text-white rounded-lg font-medium hover:bg-[#3d6f7f]/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer mb-6"
+          className={`${adminPrimaryBtnCls} mb-6`}
         >
           {status === "running" ? (
             <span className="flex items-center gap-2">
@@ -112,13 +114,13 @@ export default function FixTablesPage() {
             )}
 
             {skippedResults.length > 0 && (
-              <details className="border border-neutral-200 rounded-lg overflow-hidden">
-                <summary className="bg-neutral-50 px-4 py-2 cursor-pointer text-xs font-semibold text-neutral-500 uppercase tracking-wider">
+              <details className="border border-[#E2E8F0] rounded-lg overflow-hidden">
+                <summary className="bg-[#F4F7FB] px-4 py-2 cursor-pointer text-xs font-semibold text-[#64748B] uppercase tracking-wider">
                   Skipped / No Tables ({skippedResults.length})
                 </summary>
                 <div className="max-h-48 overflow-y-auto">
                   {skippedResults.map((r, i) => (
-                    <div key={i} className="px-4 py-2 text-sm text-neutral-500 border-b border-neutral-100 last:border-0">
+                    <div key={i} className="px-4 py-2 text-sm text-[#64748B] border-b border-[#E2E8F0] last:border-0">
                       {r}
                     </div>
                   ))}

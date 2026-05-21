@@ -3,74 +3,50 @@
 import { useMemo, useRef, useState, useCallback } from "react";
 import type { TrackedPage, TrackedPageInput } from "../types/tracked-page";
 import AdminPageHeader from "../components/AdminPageHeader";
-import { ADMIN_OCEAN } from "../lib/adminTheme";
+import AdminContentBulkBar from "../components/content-list/AdminContentBulkBar";
+import AdminContentFilterPills from "../components/content-list/AdminContentFilterPills";
+import AdminContentListMeta from "../components/content-list/AdminContentListMeta";
+import AdminContentPagination from "../components/content-list/AdminContentPagination";
+import {
+  AdminContentEmptyState,
+  AdminContentErrorState,
+  AdminContentLoadingState,
+} from "../components/content-list/AdminContentListStates";
+import AdminContentSearchBar from "../components/content-list/AdminContentSearchBar";
+import AdminContentStatsGrid from "../components/content-list/AdminContentStatsGrid";
+import AdminGscConnectBanner from "../components/content-list/AdminGscConnectBanner";
+import AdminTrackedPagesTable, {
+  type TrackedPagesSortCol,
+} from "../components/content-list/AdminTrackedPagesTable";
+import {
+  ADMIN_OCEAN,
+  adminPrimaryActionCls,
+  adminPrimaryBtnCls,
+  adminSecondaryBtnCls,
+  adminToastErrorCls,
+  adminToastSuccessCls,
+} from "../lib/adminTheme";
 import { getPublicSiteOrigin } from "../lib/publicSiteUrl";
 import { useTrackedPages } from "../hooks/useTrackedPages";
 import { useSearchConsoleData } from "../hooks/useSearchConsoleData";
-import ContentEditorCell from "../components/ContentEditorCell";
 import PageEditModal from "../components/pages/PageEditModal";
 import PageDeleteModal from "../components/pages/PageDeleteModal";
 import BulkPickKeywordModal from "../components/BulkPickKeywordModal";
-import InlineKeywordCell from "../components/InlineKeywordCell";
-import RankingKeywordsPopover from "../components/RankingKeywordsPopover";
 import { callGenerateSeoMetadata, type SeoGenResult } from "../lib/generateSeoMetadata";
-import { stripBrandSuffix } from "../lib/seedCleaner";
+import {
+  buildPrimaryPageKeywordSeed,
+  toPageKeywordSeedContextPayload,
+} from "../lib/seedCleaner";
 
-/**
- * Derive a Semrush-friendly seed from a tracked page when the user hasn't
- * set a primary keyword yet.
- *
- * Priority — SEO titles tend to be MUCH better keyword seeds than internal
- * page titles. Compare for /service-areas/hawaii:
- *   page_title:        "Service Areas Hawaii"   → no Semrush results
- *   default_seo_title: "Hawaii Drug Intervention Services | Brand"
- *                      → strip brand → "Hawaii Drug Intervention Services"
- *                      → cleanSeedPhrase keeps top 4 → "hawaii drug intervention services"
- *                      → returns gold (drug intervention hawaii, etc.)
- *
- * Order:
- *   1. Active SEO title (with brand suffix stripped)
- *   2. Default SEO title (with brand suffix stripped)
- *   3. Meta description
- *   4. Page title
- *   5. Last URL segment, dashes/underscores → spaces
- */
-function derivePageKeywordSeed(p: {
-  page_title: string;
-  seo_title: string | null;
-  default_seo_title: string | null;
-  meta_description: string | null;
-  route_path: string;
-}): string {
-  const activeSeo = stripBrandSuffix((p.seo_title ?? "").trim());
-  if (activeSeo) return activeSeo;
-
-  const defaultSeo = stripBrandSuffix((p.default_seo_title ?? "").trim());
-  if (defaultSeo) return defaultSeo;
-
-  const meta = (p.meta_description ?? "").trim();
-  if (meta) return meta;
-
-  const pageTitle = p.page_title?.trim();
-  if (pageTitle) return pageTitle;
-
-  const lastSegment = p.route_path.split("/").filter(Boolean).pop() ?? "";
-  return lastSegment.replace(/[-_]+/g, " ").trim();
-}
-
-type SortCol = "route" | "title" | "keyword" | "created_at" | "status" | "wordCount";
+type SortCol = TrackedPagesSortCol;
 type SortDir = "asc" | "desc";
+type PageFilterStatus = "all" | "active" | "inactive";
 
 type SeoStatus = {
   status: "generating" | "done" | "error";
   result?: SeoGenResult;
   error?: string;
 };
-
-function fmtDate(iso: string | null | undefined): string {
-  if (!iso) return "—";
-  return new Date(iso).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" });
-}
 
 function strVal(v: string | null | undefined) {
   return (v ?? "").toLowerCase();
@@ -83,6 +59,7 @@ export default function AdminTrackedPagesPage() {
 
   const [toast, setToast] = useState<{ message: string; type: "success" | "error" } | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
+  const [filterStatus, setFilterStatus] = useState<PageFilterStatus>("all");
   const [pageSize, setPageSize] = useState<10 | 20 | 50>(10);
   const [currentPage, setCurrentPage] = useState(1);
   const [sortCol, setSortCol] = useState<SortCol>("created_at");
@@ -103,33 +80,10 @@ export default function AdminTrackedPagesPage() {
   const abortRef = useRef(false);
   const [bulkPickKeywordOpen, setBulkPickKeywordOpen] = useState(false);
 
-  // Word counts for tracked pages — fetched on demand
-  type WcEntry = { status: "idle" | "loading" | "done" | "error"; words?: number };
+  // Word counts for tracked pages — fetched on demand via server API
+  type WcEntry = { status: "idle" | "loading" | "done" | "error"; words?: number; error?: string };
   const [wordCounts, setWordCounts] = useState<Record<string, WcEntry>>({});
   const [analyzingAll, setAnalyzingAll] = useState(false);
-
-  // Column widths (px)
-  const [colWidths, setColWidths] = useState({
-    check: 48, route: 200, title: 160, seo: 210, meta: 220, keyword: 260, gsc: 112, contentEditor: 340, wordCount: 100, status: 120, date: 140, actions: 140,
-  });
-  const resizeRef = useRef<{ col: keyof typeof colWidths; startX: number; startW: number } | null>(null);
-
-  const startResize = (col: keyof typeof colWidths, e: React.MouseEvent) => {
-    e.preventDefault();
-    resizeRef.current = { col, startX: e.clientX, startW: colWidths[col] };
-    const onMove = (me: MouseEvent) => {
-      if (!resizeRef.current) return;
-      const w = Math.max(60, resizeRef.current.startW + (me.clientX - resizeRef.current.startX));
-      setColWidths((p) => ({ ...p, [resizeRef.current!.col]: w }));
-    };
-    const onUp = () => {
-      resizeRef.current = null;
-      document.removeEventListener("mousemove", onMove);
-      document.removeEventListener("mouseup", onUp);
-    };
-    document.addEventListener("mousemove", onMove);
-    document.addEventListener("mouseup", onUp);
-  };
 
   // Expanded long-text cells
   const [expandedCells, setExpandedCells] = useState<Set<string>>(new Set());
@@ -291,13 +245,16 @@ export default function AdminTrackedPagesPage() {
 
   const filteredSorted = useMemo(() => {
     const q = searchQuery.trim().toLowerCase();
-    const filtered = q
+    let filtered = q
       ? pages.filter((p) =>
           strVal(p.page_title).includes(q) || strVal(p.route_path).includes(q) ||
           strVal(p.seo_title).includes(q) || strVal(p.meta_description).includes(q) ||
           strVal(p.primary_keyword).includes(q),
         )
       : [...pages];
+
+    if (filterStatus === "active") filtered = filtered.filter((p) => p.is_active);
+    else if (filterStatus === "inactive") filtered = filtered.filter((p) => !p.is_active);
 
     filtered.sort((a, b) => {
       let av: string | number = "";
@@ -313,7 +270,7 @@ export default function AdminTrackedPagesPage() {
       return 0;
     });
     return filtered;
-  }, [pages, searchQuery, sortCol, sortDir, wordCounts]);
+  }, [pages, searchQuery, filterStatus, sortCol, sortDir, wordCounts]);
 
   const totalPaginatedPages = Math.max(1, Math.ceil(filteredSorted.length / pageSize));
   const safePage = Math.min(currentPage, totalPaginatedPages);
@@ -385,23 +342,20 @@ export default function AdminTrackedPagesPage() {
   const fetchPageWordCount = async (p: TrackedPage) => {
     setWordCounts((prev) => ({ ...prev, [p.id]: { status: "loading" } }));
     try {
-      const origin = getPublicSiteOrigin();
-      const path = p.route_path.startsWith("/") ? p.route_path : `/${p.route_path}`;
-      const res = await fetch(`${origin}${path}`, { cache: "no-store" });
-      if (!res.ok) throw new Error(`HTTP ${res.status}`);
-      const html = await res.text();
-      const parser = new DOMParser();
-      const doc = parser.parseFromString(html, "text/html");
-      // Strip chrome and non-content elements
-      ["nav", "header", "footer", "script", "style", "noscript"].forEach((tag) => {
-        doc.querySelectorAll(tag).forEach((el) => el.remove());
+      const res = await fetch("/api/admin/page-word-count", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ route_path: p.route_path }),
+        cache: "no-store",
       });
-      doc.querySelectorAll("[aria-hidden='true']").forEach((el) => el.remove());
-      const text = doc.body?.textContent ?? "";
-      const words = text.trim().split(/\s+/).filter(Boolean).length;
-      setWordCounts((prev) => ({ ...prev, [p.id]: { status: "done", words } }));
-    } catch {
-      setWordCounts((prev) => ({ ...prev, [p.id]: { status: "error" } }));
+      const json = (await res.json()) as { ok?: boolean; words?: number; error?: string };
+      if (!res.ok || !json.ok || typeof json.words !== "number") {
+        throw new Error(json.error ?? `HTTP ${res.status}`);
+      }
+      setWordCounts((prev) => ({ ...prev, [p.id]: { status: "done", words: json.words } }));
+    } catch (err) {
+      const message = err instanceof Error ? err.message : "Could not count words.";
+      setWordCounts((prev) => ({ ...prev, [p.id]: { status: "error", error: message } }));
     }
   };
 
@@ -414,659 +368,249 @@ export default function AdminTrackedPagesPage() {
     setAnalyzingAll(false);
   };
 
-  // ── Sort helpers ───────────────────────────────────────────────────────────
-
-  const SortIcon = ({ col }: { col: SortCol }) =>
-    sortCol !== col
-      ? <i className="ri-arrows-up-down-line text-neutral-300 text-[10px] ml-1" />
-      : sortDir === "asc"
-      ? <i className="ri-arrow-up-line text-[#3d6f7f] text-[10px] ml-1" />
-      : <i className="ri-arrow-down-line text-[#3d6f7f] text-[10px] ml-1" />;
-
-  const SortTh = ({ col, label, rk }: { col: SortCol; label: string; rk: keyof typeof colWidths }) => (
-    <th className="py-3 font-semibold text-neutral-500 text-[10px] uppercase tracking-[0.1em] relative select-none" style={{ paddingLeft: "12px", paddingRight: "10px" }}>
-      <button type="button" onClick={() => handleSort(col)} className="inline-flex items-center cursor-pointer hover:text-neutral-700 transition-colors">
-        {label}<SortIcon col={col} />
-      </button>
-      <div onMouseDown={(e) => startResize(rk, e)} className="absolute top-0 right-0 h-full w-2.5 cursor-col-resize z-10 group flex items-center justify-end">
-        <div className="h-full w-[2px] transition-opacity group-hover:opacity-100 opacity-20" style={{ backgroundColor: "#3d6f7f" }} />
-      </div>
-    </th>
-  );
-
-  const StaticTh = ({ label, rk, right }: { label: string; rk: keyof typeof colWidths; right?: boolean }) => (
-    <th className={`py-3 font-semibold text-neutral-500 text-[10px] uppercase tracking-[0.1em] relative select-none${right ? " text-right" : ""}`} style={{ paddingLeft: "12px", paddingRight: "10px" }}>
-      <span className="block truncate">{label}</span>
-      <div onMouseDown={(e) => startResize(rk, e)} className="absolute top-0 right-0 h-full w-2.5 cursor-col-resize z-10 group flex items-center justify-end">
-        <div className="h-full w-[2px] transition-opacity group-hover:opacity-100 opacity-20" style={{ backgroundColor: "#3d6f7f" }} />
-      </div>
-    </th>
-  );
-
-  const tableWidth = Object.values(colWidths).reduce((a, b) => a + b, 0);
+  const dismissSeoStatus = useCallback((id: string) => {
+    setSeoStatuses((prev) => {
+      const next = { ...prev };
+      delete next[id];
+      return next;
+    });
+  }, []);
 
   return (
     <div>
       <AdminPageHeader
         title="Pages"
-        subtitle="Track your core pages and SEO metadata"
+        subtitle="Manage tracked pages, SEO metadata, keywords, and content editor links."
         actions={
           <div className="flex items-center gap-2">
-            <button type="button" onClick={() => void syncFromCodebase()} disabled={syncing}
-              className="flex items-center gap-2 rounded-xl px-4 py-2.5 text-[11px] font-bold uppercase tracking-[0.12em] text-neutral-700 border border-neutral-200 bg-white hover:border-neutral-300 transition-all disabled:opacity-50">
+            <button
+              type="button"
+              onClick={() => void syncFromCodebase()}
+              disabled={syncing}
+              className={adminSecondaryBtnCls}
+            >
               <i className={`ri-refresh-line text-xs ${syncing ? "animate-spin" : ""}`} />
               {syncing ? "Syncing…" : "Sync from codebase"}
             </button>
-            <button type="button" onClick={() => { setEditingPage(null); setModalOpen(true); }}
-              className="flex items-center gap-2 rounded-xl px-5 py-2.5 text-[11px] font-bold uppercase tracking-[0.12em] text-white transition-opacity hover:opacity-95 shadow-[0_2px_12px_rgba(61,111,127,0.2)]"
-              style={{ backgroundColor: ADMIN_OCEAN }}>
-              <i className="ri-add-line text-xs" />New Page
+            <button
+              type="button"
+              onClick={() => {
+                setEditingPage(null);
+                setModalOpen(true);
+              }}
+              className={adminPrimaryActionCls}
+              style={{ backgroundColor: ADMIN_OCEAN }}
+            >
+              <i className="ri-add-line text-xs" />
+              New Page
             </button>
           </div>
         }
       />
 
-      {loading && (
-        <div className="bg-white rounded-2xl border border-neutral-100 p-12 text-center">
-          <i className="ri-loader-4-line animate-spin text-3xl text-neutral-300 mb-3 block" />
-          <p className="text-sm text-neutral-400">Loading pages...</p>
-        </div>
-      )}
+      <AdminContentStatsGrid
+        stats={[
+          { label: "Total Pages", value: stats.total, icon: "ri-pages-line", color: "text-[#0A1F44]", bg: "bg-[#0A1F44]/8" },
+          { label: "Active", value: stats.active, icon: "ri-checkbox-circle-line", color: "text-emerald-600", bg: "bg-emerald-50" },
+          { label: "Inactive", value: stats.inactive, icon: "ri-indeterminate-circle-line", color: "text-[#64748B]", bg: "bg-[#F4F7FB]" },
+          { label: "With Keyword", value: stats.withKeyword, icon: "ri-keyboard-line", color: "text-amber-600", bg: "bg-amber-50" },
+        ]}
+      />
 
-      {error && !loading && (
-        <div className="bg-red-50 border border-red-200 rounded-2xl p-6 text-center">
-          <i className="ri-error-warning-line text-2xl text-red-400 mb-2 block" />
-          <p className="text-sm text-red-600">{error}</p>
-        </div>
-      )}
+      <AdminContentSearchBar
+        value={searchQuery}
+        onChange={(value) => {
+          setSearchQuery(value);
+          setCurrentPage(1);
+        }}
+        placeholder="Search route, title, SEO, meta, keyword…"
+      >
+        <AdminContentFilterPills
+          value={filterStatus}
+          options={["all", "active", "inactive"] as const}
+          onChange={(value) => {
+            setFilterStatus(value);
+            setCurrentPage(1);
+          }}
+        />
+      </AdminContentSearchBar>
 
-      {!loading && !error && (
-        <>
-          {/* Stats */}
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
-            {[
-              { label: "Total pages", value: stats.total, icon: "ri-pages-line", color: "text-[#3d6f7f]", bg: "bg-[#3d6f7f]/8" },
-              { label: "Active", value: stats.active, icon: "ri-checkbox-circle-line", color: "text-emerald-600", bg: "bg-emerald-50" },
-              { label: "Inactive", value: stats.inactive, icon: "ri-indeterminate-circle-line", color: "text-neutral-500", bg: "bg-neutral-100" },
-              { label: "With keyword", value: stats.withKeyword, icon: "ri-keyboard-line", color: "text-amber-600", bg: "bg-amber-50" },
-            ].map((stat) => (
-              <div key={stat.label} className="bg-white rounded-2xl border border-neutral-100 p-5 flex items-center gap-4">
-                <div className={`w-10 h-10 rounded-xl ${stat.bg} flex items-center justify-center flex-shrink-0`}>
-                  <i className={`${stat.icon} ${stat.color} text-lg`} />
-                </div>
-                <div>
-                  <p className="text-2xl font-bold text-neutral-900 leading-none">{stat.value}</p>
-                  <p className="text-[11px] text-neutral-400 mt-1 tracking-wide">{stat.label}</p>
-                </div>
-              </div>
-            ))}
-          </div>
+      {gscNeedsOAuth && !gscLoading ? <AdminGscConnectBanner entityLabel="page" /> : null}
 
-          {/* Toolbar */}
-          <div className="bg-white rounded-2xl border border-neutral-100 px-4 py-3 mb-3 flex flex-col sm:flex-row gap-3 items-center">
-            <div className="flex items-center gap-2 flex-1 min-w-0 bg-neutral-50 border border-neutral-200 rounded-xl px-3 py-2">
-              <i className="ri-search-line text-neutral-400 text-sm flex-shrink-0" />
-              <input type="text" value={searchQuery}
-                onChange={(e) => { setSearchQuery(e.target.value); setCurrentPage(1); }}
-                placeholder="Search route, title, SEO, meta, keyword…"
-                className="flex-1 bg-transparent text-sm text-neutral-700 placeholder:text-neutral-400 focus:outline-none min-w-0" />
-              {searchQuery && (
-                <button type="button" onClick={() => { setSearchQuery(""); setCurrentPage(1); }}
-                  className="w-5 h-5 flex items-center justify-center rounded-full bg-neutral-200 hover:bg-neutral-300 text-neutral-500 transition-colors cursor-pointer flex-shrink-0">
-                  <i className="ri-close-line text-[10px]" />
-                </button>
-              )}
-            </div>
-            <div className="flex items-center gap-1.5 flex-shrink-0">
-              <span className="text-[11px] text-neutral-400">Show</span>
-              {([10, 20, 50] as const).map((n) => (
-                <button key={n} type="button" onClick={() => { setPageSize(n); setCurrentPage(1); }}
-                  className={`px-2.5 py-1 rounded-lg text-[11px] font-semibold transition-all cursor-pointer ${pageSize === n ? "bg-[#3d6f7f] text-white" : "bg-neutral-100 text-neutral-500 hover:bg-neutral-200"}`}>
-                  {n}
-                </button>
-              ))}
-            </div>
-          </div>
-
-          {/* GSC connect CTA */}
-          {gscNeedsOAuth && !gscLoading && (
-            <div className="mb-4 flex items-center gap-4 rounded-2xl border border-neutral-200 bg-white px-5 py-4 shadow-[0_1px_8px_rgba(0,0,0,0.04)]">
-              <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-neutral-100">
-                <i className="ri-google-line text-base text-neutral-500" />
-              </div>
-              <div className="flex-1 min-w-0">
-                <p className="text-sm font-semibold text-neutral-800">Connect Google Search Console</p>
-                <p className="text-[12px] text-neutral-500">Show live clicks, impressions, and ranking for each page.</p>
-              </div>
-              <a
-                href="/admin/search-console"
-                className="shrink-0 inline-flex items-center gap-1.5 rounded-xl px-4 py-2 text-[12px] font-semibold text-white shadow-sm transition-opacity hover:opacity-90"
-                style={{ backgroundColor: ADMIN_OCEAN }}
-              >
-                <i className="ri-plug-line text-xs" />
-                Connect
-              </a>
-            </div>
-          )}
-
-          {/* Bulk action bar */}
-          {selectedCount > 0 && (
-            <div className="rounded-2xl px-5 py-3.5 mb-3 flex items-center gap-4 flex-wrap" style={{ backgroundColor: ADMIN_OCEAN }}>
-              <div className="flex items-center gap-2.5 flex-1 min-w-0">
-                <div className="w-6 h-6 rounded-full bg-white/15 flex items-center justify-center flex-shrink-0">
-                  <span className="text-white text-[11px] font-bold">{selectedCount}</span>
-                </div>
-                <span className="text-white text-sm font-medium whitespace-nowrap">
-                  {selectedCount} page{selectedCount !== 1 ? "s" : ""} selected
-                </span>
-              </div>
-              <div className="flex items-center gap-2 flex-wrap">
-                {bulkSeoRunning ? (
-                  <div className="flex items-center gap-3">
-                    <div className="flex items-center gap-2 bg-white/10 rounded-xl px-4 py-2">
-                      <i className="ri-loader-4-line animate-spin text-white text-sm" />
-                      <span className="text-white text-[11px] font-semibold whitespace-nowrap">
-                        Generating {bulkSeoProgress.done}/{bulkSeoProgress.total}…
-                      </span>
-                      <div className="w-20 h-1.5 bg-white/20 rounded-full overflow-hidden">
-                        <div className="h-full bg-emerald-400 rounded-full transition-all duration-500"
-                          style={{ width: `${bulkSeoProgress.total > 0 ? (bulkSeoProgress.done / bulkSeoProgress.total) * 100 : 0}%` }} />
-                      </div>
-                    </div>
-                    <button onClick={() => { abortRef.current = true; }}
-                      className="flex items-center gap-1.5 bg-red-500/80 hover:bg-red-500 text-white text-[11px] tracking-[0.1em] uppercase font-bold px-3 py-2 rounded-xl transition-colors cursor-pointer whitespace-nowrap">
-                      <i className="ri-stop-line text-xs" />Stop
-                    </button>
-                  </div>
-                ) : (
-                  <button onClick={() => void handleBulkSeo()}
-                    className="flex items-center gap-1.5 bg-violet-500 hover:bg-violet-400 text-white text-[11px] tracking-[0.12em] uppercase font-bold px-4 py-2 rounded-xl transition-colors cursor-pointer whitespace-nowrap">
-                    <i className="ri-sparkling-2-line text-xs" />AI Generate Meta Data
-                  </button>
-                )}
-                {pendingReviewCount > 0 && !bulkSeoRunning && (
-                  <button onClick={() => void handleApplyAllGenerated()}
-                    className="flex items-center gap-1.5 bg-emerald-500 hover:bg-emerald-400 text-white text-[11px] tracking-[0.12em] uppercase font-bold px-4 py-2 rounded-xl transition-colors cursor-pointer whitespace-nowrap">
-                    <i className="ri-check-double-line text-xs" />Apply All ({pendingReviewCount})
-                  </button>
-                )}
-                <button onClick={() => setBulkPickKeywordOpen(true)}
-                  className="flex items-center gap-1.5 bg-white text-[#3d6f7f] hover:bg-white/90 text-[11px] tracking-[0.12em] uppercase font-bold px-4 py-2 rounded-xl transition-colors cursor-pointer whitespace-nowrap">
-                  <i className="ri-search-eye-line text-xs" />Auto-pick Keywords
-                </button>
-                <button onClick={() => setSelectedIds(new Set())}
-                  className="flex items-center gap-1.5 bg-white/10 hover:bg-white/20 text-white text-[11px] tracking-[0.1em] uppercase font-bold px-3 py-2 rounded-xl transition-colors cursor-pointer whitespace-nowrap">
-                  <i className="ri-close-line text-xs" />Deselect
-                </button>
+      <AdminContentBulkBar count={selectedCount} noun="page">
+        {bulkSeoRunning ? (
+          <div className="flex items-center gap-3">
+            <div className="flex items-center gap-2 rounded-xl bg-white/10 px-4 py-2">
+              <i className="ri-loader-4-line animate-spin text-sm text-white" />
+              <span className="whitespace-nowrap text-[11px] font-semibold text-white">
+                Generating {bulkSeoProgress.done}/{bulkSeoProgress.total}…
+              </span>
+              <div className="h-1.5 w-20 overflow-hidden rounded-full bg-white/20">
+                <div
+                  className="h-full rounded-full bg-emerald-400 transition-all duration-500"
+                  style={{
+                    width: `${bulkSeoProgress.total > 0 ? (bulkSeoProgress.done / bulkSeoProgress.total) * 100 : 0}%`,
+                  }}
+                />
               </div>
             </div>
-          )}
-
-          {/* Count row */}
-          <div className="flex items-center justify-between mb-3 flex-wrap gap-2">
-            <p className="text-sm text-neutral-500">
-              Showing{" "}
-              <span className="font-semibold text-neutral-800">
-                {filteredSorted.length === 0 ? 0 : (safePage - 1) * pageSize + 1}–{Math.min(safePage * pageSize, filteredSorted.length)}
-              </span>{" "}
-              of <span className="font-semibold text-neutral-800">{filteredSorted.length}</span> pages
-            </p>
-            <button type="button" onClick={() => { setSortCol("created_at"); setSortDir("desc"); setCurrentPage(1); }}
-              className="text-[11px] text-[#3d6f7f] hover:underline cursor-pointer">
-              Reset sort
+            <button
+              type="button"
+              onClick={() => {
+                abortRef.current = true;
+              }}
+              className="flex cursor-pointer items-center gap-1.5 rounded-xl bg-red-500/80 px-3 py-2 text-[11px] font-bold uppercase tracking-[0.1em] text-white transition-colors hover:bg-red-500"
+            >
+              <i className="ri-stop-line text-xs" />
+              Stop
             </button>
           </div>
+        ) : (
+          <button
+            type="button"
+            onClick={() => void handleBulkSeo()}
+            className="flex cursor-pointer items-center gap-1.5 rounded-xl bg-violet-500 px-4 py-2 text-[11px] font-bold uppercase tracking-[0.12em] text-white transition-colors hover:bg-violet-400"
+          >
+            <i className="ri-sparkling-2-line text-xs" />
+            AI Generate Meta Data
+          </button>
+        )}
+        {pendingReviewCount > 0 && !bulkSeoRunning ? (
+          <button
+            type="button"
+            onClick={() => void handleApplyAllGenerated()}
+            className="flex cursor-pointer items-center gap-1.5 rounded-xl bg-emerald-500 px-4 py-2 text-[11px] font-bold uppercase tracking-[0.12em] text-white transition-colors hover:bg-emerald-400"
+          >
+            <i className="ri-check-double-line text-xs" />
+            Apply All ({pendingReviewCount})
+          </button>
+        ) : null}
+        <button
+          type="button"
+          onClick={() => setBulkPickKeywordOpen(true)}
+          className="flex cursor-pointer items-center gap-1.5 rounded-xl bg-white px-4 py-2 text-[11px] font-bold uppercase tracking-[0.12em] text-[#0A1F44] transition-colors hover:bg-white/90"
+        >
+          <i className="ri-search-eye-line text-xs" />
+          Auto-pick Keywords
+        </button>
+        <button
+          type="button"
+          onClick={() => setSelectedIds(new Set())}
+          className="flex cursor-pointer items-center gap-1.5 rounded-xl bg-white/10 px-3 py-2 text-[11px] font-bold uppercase tracking-[0.1em] text-white transition-colors hover:bg-white/20"
+        >
+          <i className="ri-close-line text-xs" />
+          Deselect
+        </button>
+      </AdminContentBulkBar>
 
-          {pages.length === 0 ? (
-            <div className="bg-white rounded-2xl border border-neutral-100 p-12 text-center">
-              <i className="ri-pages-line text-3xl text-neutral-200 mb-3 block" />
-              <p className="text-sm text-neutral-500 mb-6">No pages tracked yet. Sync from your codebase or add one manually.</p>
-              <div className="flex items-center justify-center gap-3">
-                <button type="button" onClick={() => void syncFromCodebase()} disabled={syncing}
-                  className="inline-flex items-center gap-1.5 rounded-xl px-4 py-2 text-[11px] font-bold uppercase tracking-[0.12em] text-neutral-700 border border-neutral-200 bg-white hover:border-neutral-300 transition-all disabled:opacity-50 cursor-pointer">
-                  <i className={`ri-refresh-line text-xs ${syncing ? "animate-spin" : ""}`} />Sync from codebase
-                </button>
-                <button type="button" onClick={() => { setEditingPage(null); setModalOpen(true); }}
-                  className="inline-flex items-center gap-1.5 rounded-xl px-4 py-2 text-[11px] font-bold uppercase tracking-[0.12em] text-white shadow-[0_2px_12px_rgba(61,111,127,0.2)] transition-opacity hover:opacity-95 cursor-pointer"
-                  style={{ backgroundColor: ADMIN_OCEAN }}>
-                  <i className="ri-add-line text-xs" />New Page
-                </button>
-              </div>
+      <AdminContentListMeta
+        rangeStart={filteredSorted.length === 0 ? 0 : (safePage - 1) * pageSize + 1}
+        rangeEnd={Math.min(safePage * pageSize, filteredSorted.length)}
+        total={filteredSorted.length}
+        noun="pages"
+        pageSize={pageSize}
+        onPageSizeChange={(size) => {
+          setPageSize(size);
+          setCurrentPage(1);
+        }}
+        hint={selectedCount === 0 ? "Select pages to use bulk actions" : undefined}
+        trailing={
+          <button
+            type="button"
+            onClick={() => {
+              setSortCol("created_at");
+              setSortDir("desc");
+              setCurrentPage(1);
+            }}
+            className="cursor-pointer text-[11px] text-[#0A1F44] hover:underline"
+          >
+            Reset sort
+          </button>
+        }
+      />
+
+      {loading ? <AdminContentLoadingState label="Loading pages…" /> : null}
+
+      {error && !loading ? <AdminContentErrorState message={error} /> : null}
+
+      {!loading && !error && pages.length === 0 ? (
+        <AdminContentEmptyState
+          icon="ri-pages-line"
+          message="No pages tracked yet. Sync from your codebase or add one manually."
+          actions={
+            <div className="flex items-center justify-center gap-3">
+              <button
+                type="button"
+                onClick={() => void syncFromCodebase()}
+                disabled={syncing}
+                className={adminSecondaryBtnCls}
+              >
+                <i className={`ri-refresh-line text-xs ${syncing ? "animate-spin" : ""}`} />
+                Sync from codebase
+              </button>
+              <button
+                type="button"
+                onClick={() => {
+                  setEditingPage(null);
+                  setModalOpen(true);
+                }}
+                className={adminPrimaryBtnCls}
+              >
+                <i className="ri-add-line text-xs" />
+                New Page
+              </button>
             </div>
-          ) : filteredSorted.length === 0 ? (
-            <div className="bg-white rounded-2xl border border-neutral-100 p-12 text-center">
-              <p className="text-sm text-neutral-500">No pages match &ldquo;{searchQuery.trim()}&rdquo;.</p>
-            </div>
-          ) : (
-            <>
-              <div className="bg-white rounded-2xl border border-neutral-100 overflow-hidden">
-                <div className="overflow-x-auto">
-                  <table className="text-left text-sm" style={{ tableLayout: "fixed", width: tableWidth + "px", minWidth: "100%" }}>
-                    <colgroup>
-                      {(["check","route","title","seo","meta","keyword","gsc","contentEditor","wordCount","status","date","actions"] as (keyof typeof colWidths)[]).map((c) => (
-                        <col key={c} style={{ width: colWidths[c] + "px" }} />
-                      ))}
-                    </colgroup>
-                    <thead>
-                      <tr className="border-b border-neutral-100 bg-neutral-50/80">
-                        {/* Checkbox */}
-                        <th className="py-3 pl-4 pr-2 relative select-none">
-                          <input type="checkbox" checked={allPageSelected}
-                            ref={(el) => { if (el) el.indeterminate = somePageSelected; }}
-                            onChange={(e) => handleSelectAll(e.target.checked)}
-                            className="w-3.5 h-3.5 rounded border-neutral-300 accent-[#3d6f7f] cursor-pointer" />
-                        </th>
-                        <SortTh col="route" label="Route" rk="route" />
-                        <SortTh col="title" label="Title" rk="title" />
-                        <StaticTh label="SEO Title" rk="seo" />
-                        <StaticTh label="Meta Desc." rk="meta" />
-                        <SortTh col="keyword" label="Keyword" rk="keyword" />
-                        <StaticTh label="GSC (28d)" rk="gsc" />
-                        <StaticTh label="Content Editor" rk="contentEditor" />
-                        {/* Word Count */}
-                        <th className="py-3 font-semibold text-neutral-500 text-[10px] uppercase tracking-[0.1em] relative select-none" style={{ paddingLeft: "12px", paddingRight: "10px" }}>
-                          <div className="flex items-center gap-1.5">
-                            <button type="button" onClick={() => handleSort("wordCount")} className="inline-flex items-center cursor-pointer hover:text-neutral-700 transition-colors">
-                              Words
-                              {sortCol !== "wordCount"
-                                ? <i className="ri-arrows-up-down-line text-neutral-300 text-[10px] ml-1" />
-                                : sortDir === "asc"
-                                ? <i className="ri-arrow-up-line text-[#3d6f7f] text-[10px] ml-1" />
-                                : <i className="ri-arrow-down-line text-[#3d6f7f] text-[10px] ml-1" />}
-                            </button>
-                            <button type="button" title="Analyze visible pages"
-                              onClick={() => void analyzeVisible()} disabled={analyzingAll}
-                              className="w-4 h-4 flex items-center justify-center rounded transition-colors text-neutral-300 hover:text-[#3d6f7f] disabled:opacity-40 disabled:cursor-wait cursor-pointer">
-                              <i className={`text-[10px] ${analyzingAll ? "ri-loader-4-line animate-spin" : "ri-scan-line"}`} />
-                            </button>
-                          </div>
-                          <div onMouseDown={(e) => startResize("wordCount", e)} className="absolute top-0 right-0 h-full w-2.5 cursor-col-resize z-10 group flex items-center justify-end">
-                            <div className="h-full w-[2px] transition-opacity group-hover:opacity-100 opacity-20" style={{ backgroundColor: "#3d6f7f" }} />
-                          </div>
-                        </th>
-                        <SortTh col="status" label="Status" rk="status" />
-                        <SortTh col="created_at" label="Added" rk="date" />
-                        <StaticTh label="Actions" rk="actions" right />
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {paginatedPages.map((p) => {
-                        const seoStatus = seoStatuses[p.id];
-                        const isSelected = selectedIds.has(p.id);
-                        return (
-                          <>
-                            <tr key={p.id}
-                              className={`border-b border-neutral-100 transition-colors ${seoStatus?.status === "done" ? "bg-violet-50/60" : isSelected ? "bg-[#3d6f7f]/3" : "hover:bg-neutral-50/60"}`}>
+          }
+        />
+      ) : null}
 
-                              {/* Checkbox */}
-                              <td className="pl-4 pr-2 py-3 align-middle">
-                                <input type="checkbox" checked={isSelected}
-                                  onChange={(e) => setSelectedIds((prev) => {
-                                    const next = new Set(prev);
-                                    e.target.checked ? next.add(p.id) : next.delete(p.id);
-                                    return next;
-                                  })}
-                                  className="w-3.5 h-3.5 rounded border-neutral-300 accent-[#3d6f7f] cursor-pointer" />
-                              </td>
+      {!loading && !error && pages.length > 0 && filteredSorted.length === 0 ? (
+        <AdminContentEmptyState
+          icon="ri-search-line"
+          message={`No pages match "${searchQuery.trim()}".`}
+        />
+      ) : null}
 
-                              {/* Route */}
-                              <td className="px-3 py-3 align-middle overflow-hidden">
-                                <div className="flex items-center gap-1.5">
-                                  <code className="text-[11px] text-neutral-700 font-mono bg-neutral-100 px-1.5 py-0.5 rounded block truncate min-w-0" title={p.route_path}>
-                                    {p.route_path}
-                                  </code>
-                                  <RankingKeywordsPopover
-                                    pageUrl={`${getPublicSiteOrigin()}${p.route_path}`}
-                                  >
-                                    <button
-                                      type="button"
-                                      title="See ranking keywords for this page"
-                                      className="shrink-0 w-5 h-5 flex items-center justify-center rounded text-neutral-400 hover:text-[#3d6f7f] hover:bg-[#3d6f7f]/10 transition-all cursor-pointer"
-                                    >
-                                      <i className="ri-bar-chart-grouped-line text-[12px]" />
-                                    </button>
-                                  </RankingKeywordsPopover>
-                                </div>
-                              </td>
+      {!loading && !error && filteredSorted.length > 0 ? (
+        <>
+          <AdminTrackedPagesTable
+            pages={paginatedPages}
+            selectedIds={selectedIds}
+            setSelectedIds={setSelectedIds}
+            allPageSelected={allPageSelected}
+            somePageSelected={somePageSelected}
+            onSelectAll={handleSelectAll}
+            sortCol={sortCol}
+            sortDir={sortDir}
+            onSort={handleSort}
+            wordCounts={wordCounts}
+            fetchPageWordCount={fetchPageWordCount}
+            analyzeVisible={analyzeVisible}
+            analyzingAll={analyzingAll}
+            expandedCells={expandedCells}
+            toggleCell={toggleCell}
+            seoStatuses={seoStatuses}
+            runSeoForPage={runSeoForPage}
+            applySeoForPage={applySeoForPage}
+            onDismissSeo={dismissSeoStatus}
+            gscData={gscData}
+            gscLoading={gscLoading}
+            togglingId={togglingId}
+            handleToggle={handleToggle}
+            openEdit={openEdit}
+            setDeletingPage={setDeletingPage}
+            viewPublicUrl={viewPublicUrl}
+            updatePage={updatePage}
+            refetch={refetch}
+          />
 
-                              {/* Title */}
-                              <td className="px-3 py-3 align-middle overflow-hidden">
-                                <span className="text-[13px] text-neutral-900 font-medium block truncate" title={p.page_title}>{p.page_title}</span>
-                              </td>
-
-                              {/* SEO Title */}
-                              <td className="px-3 py-3 align-top overflow-hidden">
-                                {(() => {
-                                  const key = `${p.id}-seo`;
-                                  const expanded = expandedCells.has(key);
-                                  const activeVal = p.seo_title;
-                                  const defaultVal = p.default_seo_title;
-                                  const displayVal = activeVal ?? defaultVal;
-                                  if (!displayVal) return <span className="text-neutral-300 text-[13px]">—</span>;
-                                  return (
-                                    <div className="flex flex-col gap-1">
-                                      <span className={`text-[13px] leading-snug ${activeVal ? "text-neutral-800" : "text-neutral-500"} ${expanded ? "" : "line-clamp-2"}`} title={displayVal}>
-                                        {displayVal}
-                                      </span>
-                                      <div className="flex items-center gap-1.5 flex-wrap">
-                                        <span className={`inline-flex items-center px-1 py-0.5 rounded text-[8px] font-bold uppercase tracking-wider ${activeVal ? "bg-amber-50 text-amber-600" : "bg-neutral-100 text-neutral-400"}`}>
-                                          {activeVal ? "Override" : "Default"}
-                                        </span>
-                                        {displayVal.length > 50 && (
-                                          <button type="button" onClick={() => toggleCell(key)} className="text-[10px] text-[#3d6f7f] hover:underline cursor-pointer">
-                                            {expanded ? "less ↑" : "more ↓"}
-                                          </button>
-                                        )}
-                                      </div>
-                                    </div>
-                                  );
-                                })()}
-                              </td>
-
-                              {/* Meta Description */}
-                              <td className="px-3 py-3 align-top overflow-hidden">
-                                {(() => {
-                                  const key = `${p.id}-meta`;
-                                  const expanded = expandedCells.has(key);
-                                  const activeVal = p.meta_description;
-                                  const defaultVal = p.default_meta_description;
-                                  const displayVal = activeVal ?? defaultVal;
-                                  if (!displayVal) return <span className="text-neutral-300 text-[13px]">—</span>;
-                                  return (
-                                    <div className="flex flex-col gap-1">
-                                      <span className={`text-[13px] leading-snug ${activeVal ? "text-neutral-800" : "text-neutral-500"} ${expanded ? "" : "line-clamp-2"}`} title={displayVal}>
-                                        {displayVal}
-                                      </span>
-                                      <div className="flex items-center gap-1.5 flex-wrap">
-                                        <span className={`inline-flex items-center px-1 py-0.5 rounded text-[8px] font-bold uppercase tracking-wider ${activeVal ? "bg-amber-50 text-amber-600" : "bg-neutral-100 text-neutral-400"}`}>
-                                          {activeVal ? "Override" : "Default"}
-                                        </span>
-                                        {displayVal.length > 90 && (
-                                          <button type="button" onClick={() => toggleCell(key)} className="text-[10px] text-[#3d6f7f] hover:underline cursor-pointer">
-                                            {expanded ? "less ↑" : "more ↓"}
-                                          </button>
-                                        )}
-                                      </div>
-                                    </div>
-                                  );
-                                })()}
-                              </td>
-
-                              {/* Keyword — inline editable + Suggest popover with auto-derived seed */}
-                              <td className="px-3 py-3 align-middle" onClick={(e) => e.stopPropagation()}>
-                                <InlineKeywordCell
-                                  value={p.primary_keyword ?? null}
-                                  rowTitle={derivePageKeywordSeed(p)}
-                                  routePath={p.route_path}
-                                  onSave={async (next) =>
-                                    updatePage(p.id, { primary_keyword: next })
-                                  }
-                                />
-                              </td>
-
-                              {/* GSC Metrics */}
-                              <td className="px-3 py-3 align-middle">
-                                {(() => {
-                                  const path = p.route_path.toLowerCase().replace(/\/$/, "") || "/";
-                                  const m = gscData[path];
-                                  if (gscLoading) return <span className="text-[11px] text-neutral-300">…</span>;
-                                  if (!m) return <span className="text-[11px] text-neutral-300">—</span>;
-                                  return (
-                                    <div className="flex flex-col gap-0.5">
-                                      <span className="text-[12px] font-semibold text-neutral-800" title="Clicks">
-                                        {m.clicks.toLocaleString()} <span className="text-[10px] font-normal text-neutral-400">clk</span>
-                                      </span>
-                                      <span className="text-[11px] text-neutral-500" title="Impressions">
-                                        {m.impressions.toLocaleString()} <span className="text-[10px] text-neutral-400">imp</span>
-                                      </span>
-                                      <span className="text-[10px] text-neutral-400" title={`Avg position: ${m.position.toFixed(1)}`}>
-                                        pos {m.position.toFixed(1)}
-                                      </span>
-                                    </div>
-                                  );
-                                })()}
-                              </td>
-
-                              {/* Content Editor */}
-                              <td className="px-3 py-3 align-middle" onClick={(e) => e.stopPropagation()}>
-                                <ContentEditorCell
-                                  kind="page"
-                                  row={{
-                                    id: p.id,
-                                    primary_keyword: p.primary_keyword,
-                                    content_editor_id: p.content_editor_id ?? null,
-                                  }}
-                                  compact
-                                  onChange={refetch}
-                                />
-                              </td>
-
-                              {/* Word Count */}
-                              <td className="px-3 py-3 align-middle">
-                                {(() => {
-                                  const wc = wordCounts[p.id];
-                                  if (!wc || wc.status === "idle") {
-                                    return (
-                                      <button type="button" title="Analyze page word count"
-                                        onClick={() => void fetchPageWordCount(p)}
-                                        className="w-6 h-6 flex items-center justify-center rounded-lg text-neutral-300 hover:text-[#3d6f7f] hover:bg-[#3d6f7f]/6 transition-all cursor-pointer">
-                                        <i className="ri-scan-line text-sm" />
-                                      </button>
-                                    );
-                                  }
-                                  if (wc.status === "loading") {
-                                    return <i className="ri-loader-4-line animate-spin text-neutral-300 text-sm" />;
-                                  }
-                                  if (wc.status === "error") {
-                                    return (
-                                      <button type="button" title="Retry" onClick={() => void fetchPageWordCount(p)}
-                                        className="text-[10px] text-red-400 hover:underline cursor-pointer">Err</button>
-                                    );
-                                  }
-                                  const words = wc.words ?? 0;
-                                  const label = words.toLocaleString();
-                                  if (words < 300) return (
-                                    <div className="flex flex-col gap-0.5">
-                                      <span className="text-[13px] font-semibold text-red-600">{label}</span>
-                                      <span className="inline-flex items-center self-start px-1 py-0.5 rounded text-[8px] font-bold uppercase tracking-wider bg-red-50 text-red-500">Thin</span>
-                                    </div>
-                                  );
-                                  if (words < 700) return (
-                                    <div className="flex flex-col gap-0.5">
-                                      <span className="text-[13px] font-semibold text-amber-600">{label}</span>
-                                      <span className="inline-flex items-center self-start px-1 py-0.5 rounded text-[8px] font-bold uppercase tracking-wider bg-amber-50 text-amber-600">Short</span>
-                                    </div>
-                                  );
-                                  return (
-                                    <div className="flex flex-col gap-0.5">
-                                      <span className="text-[13px] font-semibold text-emerald-700">{label}</span>
-                                      <span className="inline-flex items-center self-start px-1 py-0.5 rounded text-[8px] font-bold uppercase tracking-wider bg-emerald-50 text-emerald-600">Good</span>
-                                    </div>
-                                  );
-                                })()}
-                              </td>
-
-                              {/* Status */}
-                              <td className="px-3 py-3 align-middle">
-                                <div className="flex items-center gap-2">
-                                  <button type="button" role="switch" aria-checked={p.is_active}
-                                    disabled={togglingId === p.id}
-                                    onClick={() => void handleToggle(p)}
-                                    className={`flex w-9 h-5 rounded-full p-0.5 transition-colors items-center shrink-0 ${togglingId === p.id ? "opacity-50 cursor-wait" : "cursor-pointer"} ${p.is_active ? "justify-end bg-emerald-500" : "justify-start bg-neutral-300"}`}>
-                                    <span className="h-4 w-4 rounded-full bg-white shadow-sm shrink-0" />
-                                  </button>
-                                  <span className={`text-[11px] font-semibold ${p.is_active ? "text-emerald-600" : "text-neutral-400"}`}>
-                                    {p.is_active ? "Active" : "Off"}
-                                  </span>
-                                </div>
-                              </td>
-
-                              {/* Date Added */}
-                              <td className="px-3 py-3 align-middle overflow-hidden">
-                                <span className="text-[12px] text-neutral-500 block truncate">{fmtDate(p.created_at)}</span>
-                              </td>
-
-                              {/* Actions */}
-                              <td className="px-3 py-3 align-middle text-right">
-                                <div className="flex items-center justify-end gap-1">
-                                  {/* Inline AI Generate Meta Data */}
-                                  {seoStatus?.status === "generating" ? (
-                                    <div className="w-8 h-8 flex items-center justify-center">
-                                      <i className="ri-loader-4-line animate-spin text-violet-500 text-sm" />
-                                    </div>
-                                  ) : (
-                                    <button type="button" title="AI Generate Meta Data" onClick={() => void runSeoForPage(p)}
-                                      className={`w-8 h-8 inline-flex items-center justify-center rounded-lg transition-all cursor-pointer ${
-                                        seoStatus?.status === "done"
-                                          ? "text-violet-600 bg-violet-100 hover:bg-violet-200"
-                                          : seoStatus?.status === "error"
-                                          ? "text-red-500 bg-red-50 hover:bg-red-100"
-                                          : "text-neutral-400 hover:text-violet-600 hover:bg-violet-50"
-                                      }`}>
-                                      <i className="ri-sparkling-2-line text-sm" />
-                                    </button>
-                                  )}
-                                  <button type="button" title="View public page" onClick={() => viewPublicUrl(p.route_path)}
-                                    className="w-8 h-8 inline-flex items-center justify-center rounded-lg text-neutral-400 hover:text-[#3d6f7f] hover:bg-[#3d6f7f]/6 transition-all cursor-pointer">
-                                    <i className="ri-external-link-line text-sm" />
-                                  </button>
-                                  <button type="button" title="Edit" onClick={() => openEdit(p)}
-                                    className="w-8 h-8 inline-flex items-center justify-center rounded-lg border border-neutral-200 text-neutral-600 hover:border-[#3d6f7f]/40 hover:text-[#3d6f7f] hover:bg-[#3d6f7f]/5 transition-all cursor-pointer">
-                                    <i className="ri-edit-line text-sm" />
-                                  </button>
-                                  <button type="button" title="Delete" onClick={() => setDeletingPage(p)}
-                                    className="w-8 h-8 inline-flex items-center justify-center rounded-lg border border-red-100 text-red-400 hover:bg-red-50 hover:border-red-200 transition-all cursor-pointer">
-                                    <i className="ri-delete-bin-line text-sm" />
-                                  </button>
-                                </div>
-                              </td>
-                            </tr>
-
-                            {/* AI Generate Meta Data preview row */}
-                            {seoStatus?.status === "done" && seoStatus.result && (
-                              <tr key={`${p.id}-seo-preview`} className="bg-violet-50 border-b border-violet-100">
-                                <td colSpan={12} className="px-5 py-3">
-                                  <div className="flex items-start gap-4">
-                                    <div className="flex items-center gap-1.5 flex-shrink-0 mt-0.5">
-                                      <i className="ri-sparkling-2-line text-violet-500 text-sm" />
-                                      <span className="text-[11px] font-bold uppercase tracking-[0.1em] text-violet-600 whitespace-nowrap">
-                                        Generated Meta Data
-                                      </span>
-                                    </div>
-                                    <div className="flex-1 min-w-0 grid grid-cols-1 md:grid-cols-3 gap-3">
-                                      {seoStatus.result.page_title && (
-                                        <div className="min-w-0">
-                                          <p className="text-[9px] uppercase tracking-wider text-violet-400 font-bold mb-0.5">
-                                            Page Title ({seoStatus.result.page_title.length} chars)
-                                          </p>
-                                          <p className="text-[12px] text-neutral-800 leading-snug">
-                                            {seoStatus.result.page_title}
-                                          </p>
-                                        </div>
-                                      )}
-                                      {seoStatus.result.seo_title && (
-                                        <div className="min-w-0">
-                                          <p className="text-[9px] uppercase tracking-wider text-violet-400 font-bold mb-0.5">
-                                            SEO Title ({seoStatus.result.seo_title.length} chars)
-                                          </p>
-                                          <p className="text-[12px] text-neutral-800 leading-snug">
-                                            {seoStatus.result.seo_title}
-                                          </p>
-                                        </div>
-                                      )}
-                                      <div className="min-w-0">
-                                        <p className="text-[9px] uppercase tracking-wider text-violet-400 font-bold mb-0.5">
-                                          Meta Description ({seoStatus.result.meta_description.length} chars)
-                                        </p>
-                                        <p className="text-[12px] text-neutral-700 leading-snug">
-                                          {seoStatus.result.meta_description}
-                                        </p>
-                                      </div>
-                                    </div>
-                                    <div className="flex items-center gap-2 flex-shrink-0">
-                                      <button type="button" onClick={() => void applySeoForPage(p, seoStatus.result!)}
-                                        className="flex items-center gap-1.5 bg-violet-600 hover:bg-violet-500 text-white text-[11px] font-bold uppercase tracking-[0.1em] px-3 py-1.5 rounded-lg transition-colors cursor-pointer">
-                                        <i className="ri-check-line text-xs" />Apply
-                                      </button>
-                                      <button type="button" onClick={() => setSeoStatuses((prev) => { const n = { ...prev }; delete n[p.id]; return n; })}
-                                        className="flex items-center gap-1 text-[11px] text-neutral-400 hover:text-neutral-600 cursor-pointer transition-colors">
-                                        <i className="ri-close-line text-xs" />Dismiss
-                                      </button>
-                                    </div>
-                                  </div>
-                                </td>
-                              </tr>
-                            )}
-
-                            {seoStatus?.status === "error" && (
-                              <tr key={`${p.id}-seo-error`} className="bg-red-50 border-b border-red-100">
-                                <td colSpan={12} className="px-5 py-2">
-                                  <div className="flex items-center gap-3">
-                                    <i className="ri-error-warning-line text-red-400 text-sm flex-shrink-0" />
-                                    <p className="text-[12px] text-red-600 flex-1">{seoStatus.error}</p>
-                                    <button type="button" onClick={() => void runSeoForPage(p)}
-                                      className="text-[11px] text-red-500 hover:underline cursor-pointer flex-shrink-0">Retry</button>
-                                    <button type="button" onClick={() => setSeoStatuses((prev) => { const n = { ...prev }; delete n[p.id]; return n; })}
-                                      className="text-neutral-400 hover:text-neutral-600 cursor-pointer flex-shrink-0">
-                                      <i className="ri-close-line text-sm" />
-                                    </button>
-                                  </div>
-                                </td>
-                              </tr>
-                            )}
-                          </>
-                        );
-                      })}
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-
-              {/* Pagination */}
-              {totalPaginatedPages > 1 && (
-                <div className="flex items-center justify-between mt-4 flex-wrap gap-3">
-                  <p className="text-[11px] text-neutral-400">Page {safePage} of {totalPaginatedPages}</p>
-                  <div className="flex items-center gap-1">
-                    <button type="button" onClick={() => setCurrentPage(1)} disabled={safePage === 1}
-                      className="w-8 h-8 flex items-center justify-center rounded-lg text-neutral-500 hover:bg-neutral-100 disabled:opacity-30 disabled:cursor-not-allowed cursor-pointer transition-colors">
-                      <i className="ri-skip-left-line text-sm" />
-                    </button>
-                    <button type="button" onClick={() => setCurrentPage((p) => Math.max(1, p - 1))} disabled={safePage === 1}
-                      className="w-8 h-8 flex items-center justify-center rounded-lg text-neutral-500 hover:bg-neutral-100 disabled:opacity-30 disabled:cursor-not-allowed cursor-pointer transition-colors">
-                      <i className="ri-arrow-left-s-line text-sm" />
-                    </button>
-                    {Array.from({ length: totalPaginatedPages }, (_, i) => i + 1)
-                      .filter((n) => n === 1 || n === totalPaginatedPages || Math.abs(n - safePage) <= 2)
-                      .reduce<(number | "…")[]>((acc, n, idx, arr) => {
-                        if (idx > 0 && (arr[idx - 1] as number) < n - 1) acc.push("…");
-                        acc.push(n);
-                        return acc;
-                      }, [])
-                      .map((item, idx) =>
-                        item === "…" ? (
-                          <span key={`e-${idx}`} className="w-8 text-center text-xs text-neutral-400">…</span>
-                        ) : (
-                          <button key={item} type="button" onClick={() => setCurrentPage(item as number)}
-                            className={`w-8 h-8 flex items-center justify-center rounded-lg text-xs font-semibold transition-colors cursor-pointer ${safePage === item ? "bg-[#3d6f7f] text-white" : "text-neutral-600 hover:bg-neutral-100"}`}>
-                            {item}
-                          </button>
-                        )
-                      )}
-                    <button type="button" onClick={() => setCurrentPage((p) => Math.min(totalPaginatedPages, p + 1))} disabled={safePage === totalPaginatedPages}
-                      className="w-8 h-8 flex items-center justify-center rounded-lg text-neutral-500 hover:bg-neutral-100 disabled:opacity-30 disabled:cursor-not-allowed cursor-pointer transition-colors">
-                      <i className="ri-arrow-right-s-line text-sm" />
-                    </button>
-                    <button type="button" onClick={() => setCurrentPage(totalPaginatedPages)} disabled={safePage === totalPaginatedPages}
-                      className="w-8 h-8 flex items-center justify-center rounded-lg text-neutral-500 hover:bg-neutral-100 disabled:opacity-30 disabled:cursor-not-allowed cursor-pointer transition-colors">
-                      <i className="ri-skip-right-line text-sm" />
-                    </button>
-                  </div>
-                </div>
-              )}
+          <AdminContentPagination
+                currentPage={safePage}
+                totalPages={totalPaginatedPages}
+                onPageChange={setCurrentPage}
+              />
             </>
-          )}
-        </>
-      )}
+          ) : null}
 
       <PageEditModal page={editingPage} isOpen={modalOpen} onClose={closeModal} onSubmit={handleSubmitPage} />
       {deletingPage && (
@@ -1082,9 +626,10 @@ export default function AdminTrackedPagesPage() {
             .map((p) => ({
               id: p.id,
               title: p.page_title || p.route_path,
-              seed: p.page_title || p.route_path,
+              seed: buildPrimaryPageKeywordSeed(p),
               currentKeyword: p.primary_keyword ?? null,
               routePath: p.route_path,
+              pageContext: toPageKeywordSeedContextPayload(p),
             }))}
           onApplyRow={async (row, keyword) =>
             updatePage(row.id, { primary_keyword: keyword })
@@ -1094,7 +639,7 @@ export default function AdminTrackedPagesPage() {
         />
       )}
       {toast && (
-        <div className={`fixed bottom-6 right-6 z-50 flex items-center gap-3 px-5 py-3.5 rounded-2xl transition-all duration-300 ${toast.type === "success" ? "bg-[#3d6f7f] text-white" : "bg-red-500 text-white"}`}>
+        <div className={toast.type === "success" ? adminToastSuccessCls : adminToastErrorCls}>
           <i className={`text-base ${toast.type === "success" ? "ri-check-line" : "ri-error-warning-line"}`} />
           <span className="text-sm font-medium">{toast.message}</span>
         </div>

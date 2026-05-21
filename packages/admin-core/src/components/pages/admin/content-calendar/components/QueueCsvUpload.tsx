@@ -260,7 +260,7 @@ export default function QueueCsvUpload({ batchModelId, createItems, notify }: Qu
   return (
     <div
       className={`rounded-2xl border border-black/[0.06] bg-white/80 p-6 shadow-sm transition-colors ${
-        dragActive ? "ring-2 ring-[#3d6f7f]/40" : ""
+        dragActive ? "ring-2 ring-[#0A1F44]/40" : ""
       }`}
       onDragEnter={(e) => {
         e.preventDefault();
@@ -294,7 +294,7 @@ export default function QueueCsvUpload({ batchModelId, createItems, notify }: Qu
             }}
           />
           <span
-            className="rounded-xl px-4 py-2 shadow-[0_2px_12px_rgba(61,111,127,0.15)]"
+            className="rounded-xl px-4 py-2 shadow-[0_2px_12px_rgba(10,31,68,0.15)]"
             style={{ backgroundColor: ADMIN_OCEAN }}
           >
             Choose file

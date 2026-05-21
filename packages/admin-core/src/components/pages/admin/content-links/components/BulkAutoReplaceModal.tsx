@@ -75,19 +75,19 @@ export default function BulkAutoReplaceModal({ links, onClose, onComplete }: Bul
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/30 p-4">
       <div className="bg-white rounded-2xl max-w-xl w-full max-h-[85vh] flex flex-col overflow-hidden">
-        <div className="flex items-start gap-3 p-6 border-b border-neutral-100">
-          <div className="w-10 h-10 rounded-xl bg-[#3d6f7f]/5 flex items-center justify-center flex-shrink-0">
-            <i className="ri-magic-line text-[#3d6f7f] text-lg"></i>
+        <div className="flex items-start gap-3 p-6 border-b border-[#E2E8F0]">
+          <div className="w-10 h-10 rounded-xl bg-[#0A1F44]/5 flex items-center justify-center flex-shrink-0">
+            <i className="ri-magic-line text-[#0A1F44] text-lg"></i>
           </div>
           <div className="flex-1 min-w-0">
-            <h3 className="text-sm font-semibold text-neutral-900 mb-0.5">Bulk Auto Replace</h3>
-            <p className="text-xs text-neutral-500">
+            <h3 className="text-sm font-semibold text-[#0A1F44] mb-0.5">Bulk Auto Replace</h3>
+            <p className="text-xs text-[#64748B]">
               Searching for the best replacement for each of the <strong>{links.length}</strong> selected link{links.length !== 1 ? "s" : ""}.
               The top result will be applied automatically.
             </p>
           </div>
           {!running && (
-            <button onClick={onClose} className="w-8 h-8 flex items-center justify-center rounded-lg hover:bg-neutral-100 text-neutral-400 transition-colors cursor-pointer flex-shrink-0">
+            <button onClick={onClose} className="w-8 h-8 flex items-center justify-center rounded-lg hover:bg-[#F4F7FB] text-[#94A3B8] transition-colors cursor-pointer flex-shrink-0">
               <i className="ri-close-line text-base"></i>
             </button>
           )}
@@ -107,16 +107,16 @@ export default function BulkAutoReplaceModal({ links, onClose, onComplete }: Bul
             </div>
             <div className="space-y-1.5 max-h-48 overflow-y-auto mb-5">
               {links.map((l) => (
-                <div key={l.uid} className="flex items-center gap-2 px-3 py-2 bg-neutral-50 rounded-lg">
+                <div key={l.uid} className="flex items-center gap-2 px-3 py-2 bg-[#F4F7FB] rounded-lg">
                   <i className={`text-xs flex-shrink-0 ${l.status === "broken" || l.status === "error" ? "ri-error-warning-line text-red-400" : "ri-arrow-right-circle-line text-amber-400"}`}></i>
-                  <span className="text-xs text-neutral-700 font-medium truncate flex-1">{l.anchorText}</span>
-                  <span className="text-[10px] font-mono text-neutral-400 truncate max-w-[140px]">{l.url.length > 35 ? l.url.slice(0, 35) + "…" : l.url}</span>
+                  <span className="text-xs text-[#334155] font-medium truncate flex-1">{l.anchorText}</span>
+                  <span className="text-[10px] font-mono text-[#94A3B8] truncate max-w-[140px]">{l.url.length > 35 ? l.url.slice(0, 35) + "…" : l.url}</span>
                 </div>
               ))}
             </div>
             <div className="flex gap-2">
-              <button onClick={onClose} className="flex-1 border border-neutral-200 text-neutral-600 text-[11px] tracking-[0.12em] uppercase font-bold px-4 py-2.5 rounded-xl hover:bg-neutral-50 transition-colors cursor-pointer whitespace-nowrap">Cancel</button>
-              <button onClick={runBulk} className="flex-1 bg-[#3d6f7f] text-white text-[11px] tracking-[0.12em] uppercase font-bold px-4 py-2.5 rounded-xl hover:bg-[#35636f] transition-colors cursor-pointer whitespace-nowrap flex items-center justify-center gap-2">
+              <button onClick={onClose} className="flex-1 border border-[#E2E8F0] text-[#64748B] text-[11px] tracking-[0.12em] uppercase font-bold px-4 py-2.5 rounded-xl hover:bg-[#F4F7FB] transition-colors cursor-pointer whitespace-nowrap">Cancel</button>
+              <button onClick={runBulk} className="flex-1 bg-[#0A1F44] text-white text-[11px] tracking-[0.12em] uppercase font-bold px-4 py-2.5 rounded-xl hover:bg-[#0d2a5e] transition-colors cursor-pointer whitespace-nowrap flex items-center justify-center gap-2">
                 <i className="ri-magic-line text-xs"></i>Start Auto Replace
               </button>
             </div>
@@ -128,12 +128,12 @@ export default function BulkAutoReplaceModal({ links, onClose, onComplete }: Bul
             <div className="flex-1 overflow-y-auto p-6">
               {running && (
                 <div className="mb-4">
-                  <div className="flex items-center justify-between text-xs text-neutral-500 mb-2">
+                  <div className="flex items-center justify-between text-xs text-[#64748B] mb-2">
                     <span>Processing {currentIdx + 1} of {links.length}...</span>
                     <span>{foundCount} found · {skippedCount} skipped</span>
                   </div>
-                  <div className="w-full h-1.5 bg-neutral-100 rounded-full overflow-hidden">
-                    <div className="h-full bg-[#3d6f7f] rounded-full transition-all duration-500"
+                  <div className="w-full h-1.5 bg-[#F4F7FB] rounded-full overflow-hidden">
+                    <div className="h-full bg-[#0A1F44] rounded-full transition-all duration-500"
                       style={{ width: `${Math.round(((currentIdx + 1) / links.length) * 100)}%` }} />
                   </div>
                 </div>
@@ -152,29 +152,29 @@ export default function BulkAutoReplaceModal({ links, onClose, onComplete }: Bul
                   return (
                     <div key={item.uid} className={`flex items-start gap-3 p-3 rounded-xl border transition-all ${
                       item.state === "found" ? "border-emerald-200 bg-emerald-50/50" :
-                      item.state === "skipped" || item.state === "error" ? "border-neutral-200 bg-neutral-50" :
+                      item.state === "skipped" || item.state === "error" ? "border-[#E2E8F0] bg-[#F4F7FB]" :
                       item.state === "searching" ? "border-amber-200 bg-amber-50/50" :
-                      "border-neutral-100 bg-white"
+                      "border-[#E2E8F0] bg-white"
                     }`}>
                       <div className="w-6 h-6 flex items-center justify-center flex-shrink-0 mt-0.5">
-                        {item.state === "pending" && <i className="ri-time-line text-neutral-300 text-sm"></i>}
+                        {item.state === "pending" && <i className="ri-time-line text-[#CBD5E1] text-sm"></i>}
                         {item.state === "searching" && <i className="ri-loader-4-line text-amber-500 text-sm animate-spin"></i>}
                         {item.state === "found" && <i className="ri-checkbox-circle-line text-emerald-500 text-sm"></i>}
-                        {(item.state === "skipped" || item.state === "error") && <i className="ri-subtract-line text-neutral-400 text-sm"></i>}
+                        {(item.state === "skipped" || item.state === "error") && <i className="ri-subtract-line text-[#94A3B8] text-sm"></i>}
                       </div>
                       <div className="flex-1 min-w-0">
-                        <p className="text-xs font-semibold text-neutral-800 truncate">{link.anchorText}</p>
+                        <p className="text-xs font-semibold text-[#0A1F44] truncate">{link.anchorText}</p>
                         {item.state === "found" && item.bestUrl && (
                           <p className="text-[10px] font-mono text-emerald-700 mt-0.5 truncate">
                             <i className="ri-arrow-right-line mr-1"></i>{item.bestUrl}
                           </p>
                         )}
                         {(item.state === "skipped" || item.state === "error") && item.reason && (
-                          <p className="text-[10px] text-neutral-400 mt-0.5">{item.reason}</p>
+                          <p className="text-[10px] text-[#94A3B8] mt-0.5">{item.reason}</p>
                         )}
                         {item.state === "searching" && <p className="text-[10px] text-amber-600 mt-0.5">Searching...</p>}
                         {item.state === "pending" && (
-                          <p className="text-[10px] text-neutral-400 mt-0.5 font-mono truncate">{link.url.length > 40 ? link.url.slice(0, 40) + "…" : link.url}</p>
+                          <p className="text-[10px] text-[#94A3B8] mt-0.5 font-mono truncate">{link.url.length > 40 ? link.url.slice(0, 40) + "…" : link.url}</p>
                         )}
                       </div>
                     </div>
@@ -183,8 +183,8 @@ export default function BulkAutoReplaceModal({ links, onClose, onComplete }: Bul
               </div>
             </div>
             {done && (
-              <div className="border-t border-neutral-100 p-4">
-                <button onClick={onClose} className="w-full bg-[#3d6f7f] text-white text-[11px] tracking-[0.12em] uppercase font-bold px-4 py-2.5 rounded-xl hover:bg-[#35636f] transition-colors cursor-pointer whitespace-nowrap">
+              <div className="border-t border-[#E2E8F0] p-4">
+                <button onClick={onClose} className="w-full bg-[#0A1F44] text-white text-[11px] tracking-[0.12em] uppercase font-bold px-4 py-2.5 rounded-xl hover:bg-[#0d2a5e] transition-colors cursor-pointer whitespace-nowrap">
                   Done
                 </button>
               </div>

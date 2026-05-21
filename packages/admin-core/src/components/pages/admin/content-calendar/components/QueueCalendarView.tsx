@@ -139,7 +139,7 @@ export default function QueueCalendarView({ items, highlightedId, onChipSelect }
                       title={it.blog_title}
                       onClick={() => onChipSelect(it.id)}
                       className={`truncate rounded-md px-1.5 py-0.5 text-left text-[10px] font-medium leading-snug ring-1 transition-colors ${
-                        isHi ? "bg-[#3d6f7f]/15 ring-[#3d6f7f]/35" : "bg-white/90 ring-black/[0.06] hover:ring-black/15"
+                        isHi ? "bg-[#0A1F44]/15 ring-[#0A1F44]/35" : "bg-white/90 ring-black/[0.06] hover:ring-black/15"
                       }`}
                       style={isHi ? { color: ADMIN_OCEAN } : { color: "rgba(0,0,0,0.65)" }}
                     >

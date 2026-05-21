@@ -50,7 +50,7 @@ interface ApplyResultSummary {
 }
 
 const SCAN_STATUS_CONFIG: Record<SiteScanStatus, { label: string; color: string; bg: string; icon: string }> = {
-  pending: { label: "Pending", color: "text-neutral-400", bg: "bg-neutral-100", icon: "ri-time-line" },
+  pending: { label: "Pending", color: "text-[#94A3B8]", bg: "bg-[#F4F7FB]", icon: "ri-time-line" },
   checking: { label: "Checking...", color: "text-amber-500", bg: "bg-amber-50", icon: "ri-loader-4-line" },
   ok: { label: "OK", color: "text-emerald-600", bg: "bg-emerald-50", icon: "ri-checkbox-circle-line" },
   broken: { label: "Broken", color: "text-red-600", bg: "bg-red-50", icon: "ri-error-warning-line" },
@@ -868,14 +868,14 @@ export default function LinkHealthPage() {
         subtitle="Full-site scanner for broken links, redirects, and redirect chains with suggested next actions."
       />
 
-      <div className="bg-white rounded-2xl border border-neutral-100 p-8 mb-6">
+      <div className="bg-white rounded-2xl border border-[#E2E8F0] p-8 mb-6">
         <div className="flex items-start gap-4 mb-6">
-          <div className="w-12 h-12 rounded-2xl bg-[#3d6f7f]/5 flex items-center justify-center flex-shrink-0">
-            <i className="ri-global-line text-[#3d6f7f] text-xl"></i>
+          <div className="w-12 h-12 rounded-2xl bg-[#0A1F44]/5 flex items-center justify-center flex-shrink-0">
+            <i className="ri-global-line text-[#0A1F44] text-xl"></i>
           </div>
           <div>
-            <h2 className="text-lg font-bold text-neutral-900 mb-1">Full Site Link Scan</h2>
-            <p className="text-sm text-neutral-500 leading-relaxed max-w-2xl">
+            <h2 className="text-lg font-bold text-[#0A1F44] mb-1">Full Site Link Scan</h2>
+            <p className="text-sm text-[#64748B] leading-relaxed max-w-2xl">
               Crawls your sitemap, checks every discovered link, and provides fix guidance for 404 links and redirects.
             </p>
           </div>
@@ -893,12 +893,12 @@ export default function LinkHealthPage() {
             }}
             placeholder="https://yourdomain.com"
             disabled={scanPhase !== "idle" && scanPhase !== "done"}
-            className="flex-1 min-w-[280px] border border-neutral-200 rounded-xl px-4 py-2.5 text-sm text-neutral-800 focus:outline-none focus:border-[#3d6f7f] transition-colors disabled:opacity-50 disabled:bg-neutral-50"
+            className="flex-1 min-w-[280px] border border-[#E2E8F0] rounded-xl px-4 py-2.5 text-sm text-[#0A1F44] focus:outline-none focus:border-[#7B9FD4] transition-colors disabled:opacity-50 disabled:bg-[#F4F7FB]"
           />
           <button
             onClick={startSiteScan}
             disabled={!siteUrl.trim() || (scanPhase !== "idle" && scanPhase !== "done")}
-            className="flex items-center gap-2 bg-[#3d6f7f] text-white text-[11px] tracking-[0.12em] uppercase font-bold px-6 py-2.5 rounded-xl hover:bg-[#35636f] transition-colors cursor-pointer whitespace-nowrap disabled:opacity-50 disabled:cursor-not-allowed"
+            className="flex items-center gap-2 bg-[#0A1F44] text-white text-[11px] tracking-[0.12em] uppercase font-bold px-6 py-2.5 rounded-xl hover:bg-[#0d2a5e] transition-colors cursor-pointer whitespace-nowrap disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {scanPhase !== "idle" && scanPhase !== "done" ? (
               <>
@@ -917,20 +917,20 @@ export default function LinkHealthPage() {
         {(scanPhase === "discovering" || scanPhase === "checking" || scanPhase === "done") && (
           <div className="mt-6 flex flex-col gap-4">
             <div>
-              <div className="flex items-center justify-between text-xs text-neutral-500 mb-1.5">
+              <div className="flex items-center justify-between text-xs text-[#64748B] mb-1.5">
                 <span className="flex items-center gap-1.5">
                   <i
                     className={`ri-map-2-line text-xs ${
-                      scanPhase === "discovering" ? "animate-pulse text-[#3d6f7f]" : "text-emerald-600"
+                      scanPhase === "discovering" ? "animate-pulse text-[#0A1F44]" : "text-emerald-600"
                     }`}
                   ></i>
                   {scanPhase === "discovering"
                     ? "Crawling sitemap and extracting links..."
                     : `Discovered ${discoverProgress?.done ?? 0} unique links`}
                 </span>
-                {discoverProgress && <span className="font-medium text-neutral-700">{discoverProgress.done} links</span>}
+                {discoverProgress && <span className="font-medium text-[#334155]">{discoverProgress.done} links</span>}
               </div>
-              <div className="w-full h-1.5 bg-neutral-100 rounded-full overflow-hidden">
+              <div className="w-full h-1.5 bg-[#F4F7FB] rounded-full overflow-hidden">
                 <div
                   className="h-full bg-emerald-500 rounded-full transition-all duration-500"
                   style={{ width: scanPhase === "discovering" ? "40%" : "100%" }}
@@ -940,24 +940,24 @@ export default function LinkHealthPage() {
 
             {(scanPhase === "checking" || scanPhase === "done") && checkProgress && (
               <div>
-                <div className="flex items-center justify-between text-xs text-neutral-500 mb-1.5">
+                <div className="flex items-center justify-between text-xs text-[#64748B] mb-1.5">
                   <span className="flex items-center gap-1.5">
                     <i
                       className={`ri-shield-check-line text-xs ${
-                        scanPhase === "checking" ? "animate-pulse text-[#3d6f7f]" : "text-emerald-600"
+                        scanPhase === "checking" ? "animate-pulse text-[#0A1F44]" : "text-emerald-600"
                       }`}
                     ></i>
                     {scanPhase === "checking"
                       ? `Checking links... ${checkProgress.done}/${checkProgress.total}`
                       : "All links checked"}
                   </span>
-                  <span className="font-medium text-neutral-700">
+                  <span className="font-medium text-[#334155]">
                     {checkProgress.done} / {checkProgress.total}
                   </span>
                 </div>
-                <div className="w-full h-1.5 bg-neutral-100 rounded-full overflow-hidden">
+                <div className="w-full h-1.5 bg-[#F4F7FB] rounded-full overflow-hidden">
                   <div
-                    className="h-full bg-[#3d6f7f] rounded-full transition-all duration-300"
+                    className="h-full bg-[#0A1F44] rounded-full transition-all duration-300"
                     style={{ width: `${Math.round((checkProgress.done / checkProgress.total) * 100)}%` }}
                   />
                 </div>
@@ -977,7 +977,7 @@ export default function LinkHealthPage() {
       {scanSummary && scanSummary.checked > 0 && (
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3 mb-6">
           {[
-            { label: "Total Links", value: scanSummary.total, icon: "ri-links-line", color: "text-[#3d6f7f]", bg: "bg-[#3d6f7f]/5", filter: "all" as ScanFilter },
+            { label: "Total Links", value: scanSummary.total, icon: "ri-links-line", color: "text-[#0A1F44]", bg: "bg-[#0A1F44]/5", filter: "all" as ScanFilter },
             { label: "Healthy", value: scanSummary.ok, icon: "ri-checkbox-circle-line", color: "text-emerald-600", bg: "bg-emerald-50", filter: "ok" as ScanFilter },
             { label: "Broken", value: scanSummary.broken, icon: "ri-error-warning-line", color: "text-red-600", bg: "bg-red-50", filter: "broken" as ScanFilter },
             { label: "Redirect", value: scanSummary.redirect, icon: "ri-arrow-right-circle-line", color: "text-amber-600", bg: "bg-amber-50", filter: "redirect" as ScanFilter },
@@ -989,16 +989,16 @@ export default function LinkHealthPage() {
               onClick={() => setScanFilter(stat.filter)}
               className={`bg-white rounded-2xl border p-4 flex items-center gap-3 text-left transition-all cursor-pointer ${
                 scanFilter === stat.filter && stat.filter !== "all"
-                  ? "border-[#3d6f7f] ring-1 ring-[#3d6f7f]/20"
-                  : "border-neutral-100 hover:border-neutral-200"
+                  ? "border-[#0A1F44] ring-1 ring-[#0A1F44]/20"
+                  : "border-[#E2E8F0] hover:border-[#E2E8F0]"
               }`}
             >
               <div className={`w-9 h-9 rounded-xl ${stat.bg} flex items-center justify-center flex-shrink-0`}>
                 <i className={`${stat.icon} ${stat.color} text-base`}></i>
               </div>
               <div>
-                <p className="text-xl font-bold text-neutral-900 leading-none">{stat.value}</p>
-                <p className="text-[10px] text-neutral-400 mt-1 tracking-wide leading-tight">{stat.label}</p>
+                <p className="text-xl font-bold text-[#0A1F44] leading-none">{stat.value}</p>
+                <p className="text-[10px] text-[#94A3B8] mt-1 tracking-wide leading-tight">{stat.label}</p>
               </div>
             </button>
           ))}
@@ -1008,20 +1008,20 @@ export default function LinkHealthPage() {
       {scanResults.length > 0 && (
         <>
           {dismissedCount > 0 && (
-            <div className="mb-3 flex items-center justify-between rounded-2xl border border-neutral-200 bg-neutral-50/50 px-4 py-2">
-              <p className="text-xs text-neutral-600">
-                <span className="font-semibold text-neutral-800">{dismissedCount}</span> redirect
+            <div className="mb-3 flex items-center justify-between rounded-2xl border border-[#E2E8F0] bg-[#F4F7FB]/50 px-4 py-2">
+              <p className="text-xs text-[#64748B]">
+                <span className="font-semibold text-[#0A1F44]">{dismissedCount}</span> redirect
                 {dismissedCount !== 1 ? "s" : ""} dismissed and hidden from filters.
               </p>
               <button
                 onClick={() => setShowDismissed((prev) => !prev)}
-                className="text-[11px] tracking-[0.1em] uppercase font-bold text-[#3d6f7f] hover:underline"
+                className="text-[11px] tracking-[0.1em] uppercase font-bold text-[#0A1F44] hover:underline"
               >
                 {showDismissed ? "Hide dismissed" : "Show dismissed"}
               </button>
             </div>
           )}
-          <div className="bg-white rounded-2xl border border-neutral-100 p-1 mb-4 flex gap-1 flex-wrap">
+          <div className="bg-white rounded-2xl border border-[#E2E8F0] p-1 mb-4 flex gap-1 flex-wrap">
             {(["all", "broken", "redirect", "redirect-chain", "ok"] as ScanFilter[]).map((filterKey) => {
               const labels: Record<ScanFilter, string> = {
                 all: "All",
@@ -1042,13 +1042,13 @@ export default function LinkHealthPage() {
                   key={filterKey}
                   onClick={() => setScanFilter(filterKey)}
                   className={`flex items-center gap-1.5 text-[11px] tracking-[0.1em] uppercase font-bold py-2 px-4 rounded-xl transition-colors cursor-pointer whitespace-nowrap ${
-                    scanFilter === filterKey ? "bg-[#3d6f7f] text-white" : "text-neutral-500 hover:bg-neutral-50"
+                    scanFilter === filterKey ? "bg-[#0A1F44] text-white" : "text-[#64748B] hover:bg-[#F4F7FB]"
                   }`}
                 >
                   {labels[filterKey]}
                   <span
                     className={`text-[10px] px-1.5 py-0.5 rounded-full font-bold ${
-                      scanFilter === filterKey ? "bg-white/20 text-white" : "bg-neutral-100 text-neutral-500"
+                      scanFilter === filterKey ? "bg-white/20 text-white" : "bg-[#F4F7FB] text-[#64748B]"
                     }`}
                   >
                     {counts[filterKey]}
@@ -1059,9 +1059,9 @@ export default function LinkHealthPage() {
           </div>
 
           {filteredScanResults.length === 0 ? (
-            <div className="bg-white rounded-2xl border border-neutral-100 p-12 text-center">
+            <div className="bg-white rounded-2xl border border-[#E2E8F0] p-12 text-center">
               <i className="ri-checkbox-circle-line text-4xl text-emerald-200 mb-3 block"></i>
-              <p className="text-sm text-neutral-500">No links in this category.</p>
+              <p className="text-sm text-[#64748B]">No links in this category.</p>
             </div>
           ) : (
             <div className="space-y-2">
@@ -1085,14 +1085,14 @@ export default function LinkHealthPage() {
                       isFlagged
                         ? "border-yellow-300 ring-1 ring-yellow-200"
                         : isDismissed
-                        ? "border-neutral-200 opacity-70"
+                        ? "border-[#E2E8F0] opacity-70"
                         : result.status === "broken" || result.status === "error"
                         ? "border-red-200"
                         : result.status === "redirect-chain"
                         ? "border-orange-200"
                         : result.status === "redirect"
                         ? "border-amber-200"
-                        : "border-neutral-100"
+                        : "border-[#E2E8F0]"
                     }`}
                   >
                     <div className="flex items-start gap-4 px-5 py-4">
@@ -1105,18 +1105,18 @@ export default function LinkHealthPage() {
                         <div className="flex items-center gap-2 flex-wrap">
                           <span
                             className={`text-[10px] px-2 py-0.5 rounded-full font-semibold ${
-                              result.type === "internal" ? "bg-[#3d6f7f]/10 text-[#3d6f7f]" : "bg-violet-100 text-violet-700"
+                              result.type === "internal" ? "bg-[#0A1F44]/10 text-[#0A1F44]" : "bg-violet-100 text-violet-700"
                             }`}
                           >
                             {result.type}
                           </span>
                           {result.statusCode && (
-                            <span className="text-[10px] px-2 py-0.5 rounded-full bg-neutral-100 text-neutral-500 font-mono font-semibold">
+                            <span className="text-[10px] px-2 py-0.5 rounded-full bg-[#F4F7FB] text-[#64748B] font-mono font-semibold">
                               {result.statusCode}
                             </span>
                           )}
                           {decision && (
-                            <span className="text-[10px] px-2 py-0.5 rounded-full bg-[#3d6f7f]/10 text-[#3d6f7f] font-semibold">
+                            <span className="text-[10px] px-2 py-0.5 rounded-full bg-[#0A1F44]/10 text-[#0A1F44] font-semibold">
                               Decision: {DECISION_LABELS[decision]}
                             </span>
                           )}
@@ -1127,7 +1127,7 @@ export default function LinkHealthPage() {
                             </span>
                           )}
                           {dismissedHrefs.has(result.href) && (
-                            <span className="text-[10px] px-2 py-0.5 rounded-full bg-neutral-200 text-neutral-600 font-semibold">
+                            <span className="text-[10px] px-2 py-0.5 rounded-full bg-[#E2E8F0] text-[#64748B] font-semibold">
                               Dismissed
                             </span>
                           )}
@@ -1138,7 +1138,7 @@ export default function LinkHealthPage() {
                             </span>
                           )}
                         </div>
-                        <p className="text-xs font-mono text-neutral-700 mt-1 truncate">{result.href}</p>
+                        <p className="text-xs font-mono text-[#334155] mt-1 truncate">{result.href}</p>
                         {isRedirectRow && result.finalUrl && (
                           <p className="text-[11px] text-amber-700 mt-1">
                             {result.status === "redirect-chain"
@@ -1147,7 +1147,7 @@ export default function LinkHealthPage() {
                           </p>
                         )}
                         {result.sources.length > 0 && (
-                          <p className="text-[10px] text-neutral-400 mt-0.5 truncate">
+                          <p className="text-[10px] text-[#94A3B8] mt-0.5 truncate">
                             Found on: {result.sources[0].sourcePage}
                             {result.sources.length > 1 && ` + ${result.sources.length - 1} more`}
                           </p>
@@ -1190,7 +1190,7 @@ export default function LinkHealthPage() {
                           <button
                             onClick={() => handleRedirectDecision(result, "replace-source")}
                             disabled={Boolean(applyLoadingByHref[result.href])}
-                            className="flex items-center gap-1 bg-[#3d6f7f] text-white text-[10px] tracking-wide font-bold px-3 py-1.5 rounded-lg hover:bg-[#35636f] transition-colors cursor-pointer whitespace-nowrap disabled:opacity-50"
+                            className="flex items-center gap-1 bg-[#0A1F44] text-white text-[10px] tracking-wide font-bold px-3 py-1.5 rounded-lg hover:bg-[#0d2a5e] transition-colors cursor-pointer whitespace-nowrap disabled:opacity-50"
                           >
                             {applyLoadingByHref[result.href] ? (
                               <>
@@ -1208,19 +1208,19 @@ export default function LinkHealthPage() {
                         {hasDetail && (
                           <button
                             onClick={() => setScanExpandedId(isExpanded ? null : result.href)}
-                            className="w-8 h-8 flex items-center justify-center rounded-lg hover:bg-neutral-100 text-neutral-400 hover:text-neutral-600 transition-colors cursor-pointer"
+                            className="w-8 h-8 flex items-center justify-center rounded-lg hover:bg-[#F4F7FB] text-[#94A3B8] hover:text-[#64748B] transition-colors cursor-pointer"
                           >
-                            <i className={`ri-information-line text-sm ${isExpanded ? "text-[#3d6f7f]" : ""}`}></i>
+                            <i className={`ri-information-line text-sm ${isExpanded ? "text-[#0A1F44]" : ""}`}></i>
                           </button>
                         )}
                       </div>
                     </div>
 
                     {isRedirectRow && (
-                      <div className="border-t border-neutral-100 px-5 py-3 bg-amber-50/40 rounded-b-2xl">
+                      <div className="border-t border-[#E2E8F0] px-5 py-3 bg-amber-50/40 rounded-b-2xl">
                         {chainSteps.length > 1 && (
                           <div className="mb-2">
-                            <p className="text-[10px] tracking-[0.15em] uppercase font-semibold text-neutral-400 mb-1.5">
+                            <p className="text-[10px] tracking-[0.15em] uppercase font-semibold text-[#94A3B8] mb-1.5">
                               Redirect Chain Path
                             </p>
                             <div className="flex items-center gap-2 flex-wrap">
@@ -1229,7 +1229,7 @@ export default function LinkHealthPage() {
                                   <span
                                     className={`text-[10px] font-mono px-2 py-1 rounded-lg ${
                                       chainIndex === 0
-                                        ? "bg-neutral-200 text-neutral-700"
+                                        ? "bg-[#E2E8F0] text-[#334155]"
                                         : chainIndex === chainSteps.length - 1
                                         ? "bg-emerald-100 text-emerald-700"
                                         : "bg-amber-100 text-amber-700"
@@ -1238,7 +1238,7 @@ export default function LinkHealthPage() {
                                     {step}
                                   </span>
                                   {chainIndex < chainSteps.length - 1 && (
-                                    <i className="ri-arrow-right-line text-neutral-400 text-xs flex-shrink-0"></i>
+                                    <i className="ri-arrow-right-line text-[#94A3B8] text-xs flex-shrink-0"></i>
                                   )}
                                 </div>
                               ))}
@@ -1255,8 +1255,8 @@ export default function LinkHealthPage() {
                                 disabled={isApplying || (option === "replace-source" && !result.finalUrl)}
                                 className={`flex items-center gap-1 text-[11px] font-semibold px-3 py-1.5 rounded-lg border transition-colors disabled:opacity-50 ${
                                   decision === option
-                                    ? "border-[#3d6f7f] bg-[#3d6f7f]/10 text-[#3d6f7f]"
-                                    : "border-neutral-200 bg-white text-neutral-600 hover:bg-neutral-100"
+                                    ? "border-[#0A1F44] bg-[#0A1F44]/10 text-[#0A1F44]"
+                                    : "border-[#E2E8F0] bg-white text-[#64748B] hover:bg-[#F4F7FB]"
                                 }`}
                               >
                                 {isApplying ? (
@@ -1271,16 +1271,16 @@ export default function LinkHealthPage() {
                             );
                           })}
                         </div>
-                        <p className="text-[11px] text-neutral-500 mt-2">
-                          <span className="font-semibold text-neutral-600">Replace source links</span> updates content,
-                          <span className="font-semibold text-neutral-600"> Keep redirect</span> dismisses this row from the issue list, and
-                          <span className="font-semibold text-neutral-600"> Needs review</span> flags it for follow-up.
+                        <p className="text-[11px] text-[#64748B] mt-2">
+                          <span className="font-semibold text-[#64748B]">Replace source links</span> updates content,
+                          <span className="font-semibold text-[#64748B]"> Keep redirect</span> dismisses this row from the issue list, and
+                          <span className="font-semibold text-[#64748B]"> Needs review</span> flags it for follow-up.
                         </p>
                       </div>
                     )}
 
                     {codeFixHrefs.has(result.href) && (
-                      <div className="border-t border-neutral-100 px-5 py-4 bg-violet-50/50 rounded-b-2xl">
+                      <div className="border-t border-[#E2E8F0] px-5 py-4 bg-violet-50/50 rounded-b-2xl">
                         <div className="rounded-xl border border-violet-200 bg-white p-4 space-y-3">
                           <div className="flex items-start gap-2">
                             <i className="ri-code-line text-violet-700 text-base mt-0.5"></i>
@@ -1293,7 +1293,7 @@ export default function LinkHealthPage() {
                             </div>
                           </div>
                           <div>
-                            <p className="text-[10px] uppercase font-semibold tracking-[0.12em] text-neutral-400 mb-1.5">
+                            <p className="text-[10px] uppercase font-semibold tracking-[0.12em] text-[#94A3B8] mb-1.5">
                               Source pages to edit ({result.sources.length})
                             </p>
                             <ul className="space-y-1">
@@ -1311,18 +1311,18 @@ export default function LinkHealthPage() {
                                 </li>
                               ))}
                               {result.sources.length > 12 && (
-                                <li className="text-[11px] text-neutral-500">
+                                <li className="text-[11px] text-[#64748B]">
                                   + {result.sources.length - 12} more
                                 </li>
                               )}
                             </ul>
                           </div>
-                          <div className="rounded-lg bg-neutral-900/95 px-3 py-2 text-[11px] font-mono text-neutral-100">
+                          <div className="rounded-lg bg-[#0A1F44]/95 px-3 py-2 text-[11px] font-mono text-[#F4F7FB]">
                             grep -RIn {`"${result.href}"`} apps/*/src
                           </div>
                           {result.finalUrl && (
-                            <p className="text-[11px] text-neutral-600">
-                              Replace occurrences with: <span className="font-mono bg-neutral-100 px-1.5 py-0.5 rounded">{result.finalUrl}</span>
+                            <p className="text-[11px] text-[#64748B]">
+                              Replace occurrences with: <span className="font-mono bg-[#F4F7FB] px-1.5 py-0.5 rounded">{result.finalUrl}</span>
                             </p>
                           )}
                           <div className="flex flex-wrap gap-2">
@@ -1362,7 +1362,7 @@ export default function LinkHealthPage() {
                     )}
 
                     {is404Like && replacementState && (
-                      <div className="border-t border-neutral-100 px-5 py-4 bg-red-50/40 rounded-b-2xl">
+                      <div className="border-t border-[#E2E8F0] px-5 py-4 bg-red-50/40 rounded-b-2xl">
                         <div className="rounded-xl border border-red-200 bg-red-50/60 p-4 space-y-3">
                           <p className="text-xs font-semibold text-red-800">404 Replacement Suggestions</p>
                           {replacementState.internalSuggestions.length > 0 ? (
@@ -1385,7 +1385,7 @@ export default function LinkHealthPage() {
                                       <button
                                         onClick={() => applyLinkFix(result, internal.url)}
                                         disabled={Boolean(applyLoadingByHref[result.href])}
-                                        className="inline-flex items-center gap-1 rounded-lg bg-[#3d6f7f] px-2.5 py-1 text-[10px] font-bold tracking-wide text-white hover:bg-[#35636f] disabled:opacity-50"
+                                        className="inline-flex items-center gap-1 rounded-lg bg-[#0A1F44] px-2.5 py-1 text-[10px] font-bold tracking-wide text-white hover:bg-[#0d2a5e] disabled:opacity-50"
                                       >
                                         {applyLoadingByHref[result.href] ? (
                                           <><i className="ri-loader-4-line animate-spin text-xs"></i>Applying...</>
@@ -1445,10 +1445,10 @@ export default function LinkHealthPage() {
                     )}
 
                     {isExpanded && hasDetail && (
-                      <div className="border-t border-neutral-100 px-5 py-4 bg-neutral-50/50 rounded-b-2xl space-y-3">
+                      <div className="border-t border-[#E2E8F0] px-5 py-4 bg-[#F4F7FB]/50 rounded-b-2xl space-y-3">
                         {chainSteps.length > 1 && (
                           <div>
-                            <p className="text-[10px] tracking-[0.15em] uppercase font-semibold text-neutral-400 mb-2">
+                            <p className="text-[10px] tracking-[0.15em] uppercase font-semibold text-[#94A3B8] mb-2">
                               Redirect Chain ({chainSteps.length - 1} hop{chainSteps.length - 1 !== 1 ? "s" : ""})
                             </p>
                             <div className="flex items-center gap-2 flex-wrap">
@@ -1457,7 +1457,7 @@ export default function LinkHealthPage() {
                                   <span
                                     className={`text-xs font-mono px-2.5 py-1 rounded-lg ${
                                       chainIndex === 0
-                                        ? "bg-neutral-200 text-neutral-700"
+                                        ? "bg-[#E2E8F0] text-[#334155]"
                                         : chainIndex === chainSteps.length - 1
                                         ? "bg-emerald-100 text-emerald-700"
                                         : "bg-amber-100 text-amber-700"
@@ -1466,7 +1466,7 @@ export default function LinkHealthPage() {
                                     {step}
                                   </span>
                                   {chainIndex < chainSteps.length - 1 && (
-                                    <i className="ri-arrow-right-line text-neutral-400 text-xs flex-shrink-0"></i>
+                                    <i className="ri-arrow-right-line text-[#94A3B8] text-xs flex-shrink-0"></i>
                                   )}
                                 </div>
                               ))}
@@ -1476,21 +1476,21 @@ export default function LinkHealthPage() {
 
                         {result.sources.length > 1 && (
                           <div>
-                            <p className="text-[10px] tracking-[0.15em] uppercase font-semibold text-neutral-400 mb-2">
+                            <p className="text-[10px] tracking-[0.15em] uppercase font-semibold text-[#94A3B8] mb-2">
                               Found on {result.sources.length} pages
                             </p>
                             <div className="flex flex-col gap-1">
                               {result.sources.slice(0, 10).map((source, sourceIndex) => (
                                 <div key={sourceIndex} className="flex items-center gap-2">
-                                  <i className="ri-file-line text-neutral-300 text-xs flex-shrink-0"></i>
-                                  <span className="text-xs font-mono text-neutral-500 truncate">{source.sourcePage}</span>
+                                  <i className="ri-file-line text-[#CBD5E1] text-xs flex-shrink-0"></i>
+                                  <span className="text-xs font-mono text-[#64748B] truncate">{source.sourcePage}</span>
                                   {source.text && (
-                                    <span className="text-[10px] text-neutral-400 italic truncate">&quot;{source.text}&quot;</span>
+                                    <span className="text-[10px] text-[#94A3B8] italic truncate">&quot;{source.text}&quot;</span>
                                   )}
                                 </div>
                               ))}
                               {result.sources.length > 10 && (
-                                <p className="text-[10px] text-neutral-400">+ {result.sources.length - 10} more pages</p>
+                                <p className="text-[10px] text-[#94A3B8]">+ {result.sources.length - 10} more pages</p>
                               )}
                             </div>
                           </div>
@@ -1510,12 +1510,12 @@ export default function LinkHealthPage() {
       )}
 
       {scanResults.length === 0 && scanPhase === "idle" && (
-        <div className="bg-white rounded-2xl border border-neutral-100 p-16 text-center">
-          <div className="w-16 h-16 rounded-2xl bg-[#3d6f7f]/5 flex items-center justify-center mx-auto mb-4">
-            <i className="ri-global-line text-[#3d6f7f] text-2xl"></i>
+        <div className="bg-white rounded-2xl border border-[#E2E8F0] p-16 text-center">
+          <div className="w-16 h-16 rounded-2xl bg-[#0A1F44]/5 flex items-center justify-center mx-auto mb-4">
+            <i className="ri-global-line text-[#0A1F44] text-2xl"></i>
           </div>
-          <h3 className="text-base font-semibold text-neutral-800 mb-2">Full Site Link Scanner</h3>
-          <p className="text-sm text-neutral-400 max-w-sm mx-auto">
+          <h3 className="text-base font-semibold text-[#0A1F44] mb-2">Full Site Link Scanner</h3>
+          <p className="text-sm text-[#94A3B8] max-w-sm mx-auto">
             Enter your site URL and run a full scan. You will get 404 replacements, redirect guidance, and chain cleanup recommendations.
           </p>
         </div>
@@ -1524,7 +1524,7 @@ export default function LinkHealthPage() {
       {toast && (
         <div
           className={`fixed bottom-6 right-6 z-50 flex items-center gap-3 px-5 py-3.5 rounded-2xl transition-all duration-300 ${
-            toast.type === "success" ? "bg-[#3d6f7f] text-white" : "bg-red-500 text-white"
+            toast.type === "success" ? "bg-[#0A1F44] text-white" : "bg-red-500 text-white"
           }`}
         >
           <i className={`text-base ${toast.type === "success" ? "ri-check-line" : "ri-error-warning-line"}`}></i>

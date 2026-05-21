@@ -42,7 +42,7 @@ function statusColor(status: TermUsage["status"]): string {
     case "under": return "text-orange-500";
     case "over": return "text-rose-500";
     case "missing":
-    default: return "text-neutral-300";
+    default: return "text-[#CBD5E1]";
   }
 }
 
@@ -192,21 +192,21 @@ function PipelineTimeline({
               ? "ri-checkbox-circle-fill text-emerald-600"
               : state === "active"
                 ? "ri-loader-4-line animate-spin text-amber-600"
-                : "ri-circle-line text-neutral-300";
+                : "ri-circle-line text-[#CBD5E1]";
 
           const textColor =
             state === "done"
-              ? "text-neutral-700"
+              ? "text-[#334155]"
               : state === "active"
                 ? "text-amber-900"
-                : "text-neutral-400";
+                : "text-[#94A3B8]";
 
           const descColor =
             state === "done"
-              ? "text-neutral-500"
+              ? "text-[#64748B]"
               : state === "active"
                 ? "text-amber-700"
-                : "text-neutral-400";
+                : "text-[#94A3B8]";
 
           return (
             <li key={phase.id} className="flex items-start gap-3">
@@ -219,7 +219,7 @@ function PipelineTimeline({
                   ) : state === "active" ? (
                     <span className="text-[10px] font-mono text-amber-700">in progress</span>
                   ) : (
-                    <span className="text-[10px] font-mono text-neutral-400">
+                    <span className="text-[10px] font-mono text-[#94A3B8]">
                       ~{formatDuration(phase.eta)}
                     </span>
                   )}
@@ -269,9 +269,9 @@ function PageModeBanner({
           : `${Math.round(ageMs / 3_600_000)}h ago`;
 
   return (
-    <div className="mb-4 rounded-2xl border border-[#3d6f7f]/30 bg-[#3d6f7f]/[0.04] p-5">
+    <div className="mb-4 rounded-2xl border border-[#0A1F44]/30 bg-[#0A1F44]/[0.04] p-5">
       <div className="flex items-start gap-4">
-        <i className="ri-global-line text-2xl text-[#3d6f7f] mt-0.5" />
+        <i className="ri-global-line text-2xl text-[#0A1F44] mt-0.5" />
         <div className="flex-1 min-w-0">
           <div className="flex items-baseline gap-2 flex-wrap">
             <p className="text-sm font-semibold text-[#1f4452]">Page Mode</p>
@@ -279,29 +279,29 @@ function PageModeBanner({
               href={href}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-[12px] font-mono text-[#3d6f7f] hover:underline"
+              className="text-[12px] font-mono text-[#0A1F44] hover:underline"
             >
               {siteUrl ? `${siteUrl}${href === "/" ? "" : href}` : href}
               <i className="ri-external-link-line ml-1 text-[10px]" />
             </a>
           </div>
-          <p className="mt-1 text-[11px] text-neutral-600 leading-snug">
+          <p className="mt-1 text-[11px] text-[#64748B] leading-snug">
             The brief is scoring your <strong>live page</strong> against top-ranking competitors.
             Body content is read-only — the editor surfaces SEO gaps and Auto-Optimize generates
             recommendations you can selectively apply.
           </p>
-          <div className="mt-2 flex flex-wrap items-center gap-3 text-[11px] text-neutral-500">
+          <div className="mt-2 flex flex-wrap items-center gap-3 text-[11px] text-[#64748B]">
             <span>
-              Last scan: <span className="font-mono font-semibold text-neutral-700">{ageLabel}</span>
+              Last scan: <span className="font-mono font-semibold text-[#334155]">{ageLabel}</span>
             </span>
             {snapshot?.word_count != null ? (
               <span>
-                Words: <span className="font-mono font-semibold text-neutral-700">{snapshot.word_count}</span>
+                Words: <span className="font-mono font-semibold text-[#334155]">{snapshot.word_count}</span>
               </span>
             ) : null}
             {snapshot?.computed_content_score != null ? (
               <span>
-                Score: <span className="font-mono font-semibold text-neutral-700">{Math.round(snapshot.computed_content_score)}</span>
+                Score: <span className="font-mono font-semibold text-[#334155]">{Math.round(snapshot.computed_content_score)}</span>
               </span>
             ) : null}
             {snapshot?.status_code != null && snapshot.status_code !== 200 ? (
@@ -310,7 +310,7 @@ function PageModeBanner({
               </span>
             ) : null}
             {scanning ? (
-              <span className="text-[#3d6f7f] flex items-center gap-1">
+              <span className="text-[#0A1F44] flex items-center gap-1">
                 <i className="ri-loader-4-line animate-spin" /> Scanning live page…
               </span>
             ) : null}
@@ -341,7 +341,7 @@ function PageModeBanner({
 function statusBadgeClasses(status: AiOptimizeRun["status"]): string {
   switch (status) {
     case "queued":
-      return "bg-neutral-100 text-neutral-700";
+      return "bg-[#F4F7FB] text-[#334155]";
     case "running":
       return "bg-amber-100 text-amber-800";
     case "pr_opened":
@@ -351,9 +351,9 @@ function statusBadgeClasses(status: AiOptimizeRun["status"]): string {
     case "failed":
       return "bg-rose-100 text-rose-800";
     case "cancelled":
-      return "bg-neutral-200 text-neutral-600";
+      return "bg-[#E2E8F0] text-[#64748B]";
     default:
-      return "bg-neutral-100 text-neutral-700";
+      return "bg-[#F4F7FB] text-[#334155]";
   }
 }
 
@@ -406,7 +406,7 @@ function ScoreLift({
 }) {
   if (previewScore == null) {
     return (
-      <span className="text-[10px] text-neutral-400 italic">
+      <span className="text-[10px] text-[#94A3B8] italic">
         scoring preview…
       </span>
     );
@@ -416,18 +416,18 @@ function ScoreLift({
   const lift = live != null ? prev - live : null;
   const liftColor =
     lift == null
-      ? "text-neutral-500"
+      ? "text-[#64748B]"
       : lift > 0
         ? "text-emerald-700"
         : lift < 0
           ? "text-rose-700"
-          : "text-neutral-500";
+          : "text-[#64748B]";
   return (
     <span className="inline-flex items-center gap-1.5 text-[11px] font-mono">
-      <span className="text-neutral-500">Live:</span>
-      <strong className="text-neutral-700">{live ?? "—"}</strong>
-      <span className="text-neutral-400">→</span>
-      <span className="text-neutral-500">Preview:</span>
+      <span className="text-[#64748B]">Live:</span>
+      <strong className="text-[#334155]">{live ?? "—"}</strong>
+      <span className="text-[#94A3B8]">→</span>
+      <span className="text-[#64748B]">Preview:</span>
       <strong
         className={
           prev >= 75
@@ -468,20 +468,20 @@ function AiOptimizeRunsPanel({
   const [selectedModel, setSelectedModel] = useState<string>(OPTIMIZE_PR_MODELS[0].id);
 
   return (
-    <div className="rounded-2xl border border-[#3d6f7f]/30 bg-[#f9fbfc] shadow-sm overflow-hidden">
-      <div className="px-5 py-3 border-b border-[#3d6f7f]/15 bg-[#3d6f7f]/[0.06] flex items-center justify-between flex-wrap gap-3">
+    <div className="rounded-2xl border border-[#0A1F44]/30 bg-[#f9fbfc] shadow-sm overflow-hidden">
+      <div className="px-5 py-3 border-b border-[#0A1F44]/15 bg-[#0A1F44]/[0.06] flex items-center justify-between flex-wrap gap-3">
         <div className="flex items-center gap-2">
-          <i className="ri-git-pull-request-line text-[#3d6f7f]" />
+          <i className="ri-git-pull-request-line text-[#0A1F44]" />
           <p className="text-[12px] font-bold uppercase tracking-[0.12em] text-[#1f4452]">
             AI optimization PRs
-            <span className="ml-1.5 text-neutral-400 normal-case font-normal tracking-normal">
+            <span className="ml-1.5 text-[#94A3B8] normal-case font-normal tracking-normal">
               ({runs.length})
             </span>
           </p>
         </div>
         <div className="flex items-center gap-2 flex-wrap">
           <label
-            className="text-[10px] font-bold uppercase tracking-[0.1em] text-neutral-500"
+            className="text-[10px] font-bold uppercase tracking-[0.1em] text-[#64748B]"
             htmlFor="optimize-pr-model-select"
           >
             Model
@@ -491,7 +491,7 @@ function AiOptimizeRunsPanel({
             value={selectedModel}
             onChange={(e) => setSelectedModel(e.target.value)}
             disabled={triggering}
-            className="text-[11px] font-mono border border-neutral-200 rounded-md px-2 py-1 bg-white cursor-pointer disabled:opacity-50"
+            className="text-[11px] font-mono border border-[#E2E8F0] rounded-md px-2 py-1 bg-white cursor-pointer disabled:opacity-50"
             title={
               OPTIMIZE_PR_MODELS.find((m) => m.id === selectedModel)?.hint ?? selectedModel
             }
@@ -506,7 +506,7 @@ function AiOptimizeRunsPanel({
             type="button"
             onClick={() => void onTrigger({ model: selectedModel })}
             disabled={triggering}
-            className="px-3 py-1.5 rounded-lg text-[10px] font-bold uppercase tracking-[0.1em] bg-[#3d6f7f] text-white hover:bg-[#2f5a6b] disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-1.5"
+            className="px-3 py-1.5 rounded-lg text-[10px] font-bold uppercase tracking-[0.1em] bg-[#0A1F44] text-white hover:bg-[#2f5a6b] disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-1.5"
             title="Fire a Cursor cloud agent that reads this page's .tsx + the brief, and opens a PR with code-level edits matching the brand design system"
           >
             {triggering ? (
@@ -523,16 +523,16 @@ function AiOptimizeRunsPanel({
       </div>
 
       <div className="px-5 py-4 space-y-2 text-[12px]">
-        <p className="text-[11px] text-neutral-500 leading-relaxed">
+        <p className="text-[11px] text-[#64748B] leading-relaxed">
           Each run fires a Cursor cloud agent that clones the repo, reads this
-          page&apos;s <code className="px-1 py-0.5 rounded bg-neutral-100 font-mono">.tsx</code> files
+          page&apos;s <code className="px-1 py-0.5 rounded bg-[#F4F7FB] font-mono">.tsx</code> files
           + the brand design system rules + the content brief, and opens a real
           GitHub PR with the edits. You review the diff, then merge for Vercel
           to deploy.
         </p>
 
         {runs.length === 0 ? (
-          <p className="rounded-xl border border-neutral-200 bg-white px-4 py-6 text-center text-[12px] text-neutral-500">
+          <p className="rounded-xl border border-[#E2E8F0] bg-white px-4 py-6 text-center text-[12px] text-[#64748B]">
             No runs yet. Click <strong>Open new optimization PR</strong> above
             to fire the first one.
           </p>
@@ -541,7 +541,7 @@ function AiOptimizeRunsPanel({
             {runs.map((run) => (
               <li
                 key={run.id}
-                className="rounded-xl border border-neutral-200 bg-white px-4 py-3 flex flex-col gap-1.5"
+                className="rounded-xl border border-[#E2E8F0] bg-white px-4 py-3 flex flex-col gap-1.5"
               >
                 <div className="flex items-center justify-between gap-2 flex-wrap">
                   <div className="flex items-center gap-2 min-w-0">
@@ -555,23 +555,23 @@ function AiOptimizeRunsPanel({
                         href={run.pr_url}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="font-mono text-[12px] text-[#3d6f7f] hover:underline truncate"
+                        className="font-mono text-[12px] text-[#0A1F44] hover:underline truncate"
                       >
                         #{run.pr_number ?? "?"} ·{" "}
                         {run.branch_name ?? run.pr_url.split("/").pop()}
                         <i className="ri-external-link-line ml-1 text-[10px]" />
                       </a>
                     ) : run.cursor_agent_id ? (
-                      <span className="font-mono text-[11px] text-neutral-500 truncate">
+                      <span className="font-mono text-[11px] text-[#64748B] truncate">
                         agent {run.cursor_agent_id}
                       </span>
                     ) : (
-                      <span className="text-[11px] text-neutral-400 italic">
+                      <span className="text-[11px] text-[#94A3B8] italic">
                         Awaiting agent…
                       </span>
                     )}
                   </div>
-                  <div className="flex items-center gap-2 text-[10px] text-neutral-400">
+                  <div className="flex items-center gap-2 text-[10px] text-[#94A3B8]">
                     <span>{relativeAgo(run.created_at)}</span>
                     {run.status === "running" || run.status === "queued" ? (
                       <button
@@ -592,11 +592,11 @@ function AiOptimizeRunsPanel({
                 </div>
 
                 {run.status_message ? (
-                  <p className="text-[10px] text-neutral-500">{run.status_message}</p>
+                  <p className="text-[10px] text-[#64748B]">{run.status_message}</p>
                 ) : null}
 
                 {run.diff_summary ? (
-                  <p className="text-[11px] text-neutral-600 leading-relaxed line-clamp-3">
+                  <p className="text-[11px] text-[#64748B] leading-relaxed line-clamp-3">
                     {run.diff_summary}
                   </p>
                 ) : null}
@@ -609,13 +609,13 @@ function AiOptimizeRunsPanel({
                 ) : null}
 
                 {run.status === "pr_opened" || run.status === "merged" ? (
-                  <div className="mt-1 flex flex-wrap items-center gap-3 px-2.5 py-2 rounded-lg bg-[#3d6f7f]/[0.04] border border-[#3d6f7f]/15">
+                  <div className="mt-1 flex flex-wrap items-center gap-3 px-2.5 py-2 rounded-lg bg-[#0A1F44]/[0.04] border border-[#0A1F44]/15">
                     {run.preview_url ? (
                       <a
                         href={run.preview_url}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="inline-flex items-center gap-1 text-[10px] font-bold uppercase tracking-[0.1em] text-[#3d6f7f] hover:underline"
+                        className="inline-flex items-center gap-1 text-[10px] font-bold uppercase tracking-[0.1em] text-[#0A1F44] hover:underline"
                         title="Open the Vercel preview deployment for this PR in a new tab"
                       >
                         <i className="ri-eye-line text-[12px]" />
@@ -623,7 +623,7 @@ function AiOptimizeRunsPanel({
                         <i className="ri-external-link-line text-[9px] opacity-70" />
                       </a>
                     ) : (
-                      <span className="text-[10px] text-neutral-400 italic">
+                      <span className="text-[10px] text-[#94A3B8] italic">
                         Locating preview deployment…
                       </span>
                     )}
@@ -643,7 +643,7 @@ function AiOptimizeRunsPanel({
                   </div>
                 ) : null}
 
-                <div className="flex items-center gap-3 text-[10px] text-neutral-400 mt-0.5">
+                <div className="flex items-center gap-3 text-[10px] text-[#94A3B8] mt-0.5">
                   {run.model_id ? <span>{run.model_id}</span> : null}
                   {run.triggered_by_email ? (
                     <span>by {run.triggered_by_email}</span>
@@ -685,13 +685,13 @@ function OptimizingBanner({
       ? "border-amber-300 bg-amber-50"
       : isSlow
         ? "border-amber-200 bg-amber-50/60"
-        : "border-[#3d6f7f]/30 bg-[#3d6f7f]/5";
+        : "border-[#0A1F44]/30 bg-[#0A1F44]/5";
 
   const accentClass = isCertainlyDead
     ? "text-red-700"
     : isLikelyTimedOut || isSlow
       ? "text-amber-700"
-      : "text-[#3d6f7f]";
+      : "text-[#0A1F44]";
 
   return (
     <div className={`rounded-2xl border p-5 mb-4 ${bgClass}`}>
@@ -700,8 +700,8 @@ function OptimizingBanner({
           <i className={`ri-magic-line text-2xl ${accentClass}`} />
           {!isCertainlyDead ? (
             <span className="absolute -top-1 -right-1 inline-flex h-3 w-3">
-              <span className={`animate-ping absolute inline-flex h-full w-full rounded-full opacity-60 ${isLikelyTimedOut ? "bg-amber-600" : isSlow ? "bg-amber-500" : "bg-[#3d6f7f]"}`} />
-              <span className={`relative inline-flex rounded-full h-3 w-3 ${isLikelyTimedOut ? "bg-amber-600" : isSlow ? "bg-amber-500" : "bg-[#3d6f7f]"}`} />
+              <span className={`animate-ping absolute inline-flex h-full w-full rounded-full opacity-60 ${isLikelyTimedOut ? "bg-amber-600" : isSlow ? "bg-amber-500" : "bg-[#0A1F44]"}`} />
+              <span className={`relative inline-flex rounded-full h-3 w-3 ${isLikelyTimedOut ? "bg-amber-600" : isSlow ? "bg-amber-500" : "bg-[#0A1F44]"}`} />
             </span>
           ) : null}
         </div>
@@ -733,7 +733,7 @@ function OptimizingBanner({
               ) : null}
             </div>
           </div>
-          <p className={`mt-1 text-[12px] leading-snug ${isCertainlyDead ? "text-red-800" : isLikelyTimedOut || isSlow ? "text-amber-800" : "text-[#3d6f7f]/90"}`}>
+          <p className={`mt-1 text-[12px] leading-snug ${isCertainlyDead ? "text-red-800" : isLikelyTimedOut || isSlow ? "text-amber-800" : "text-[#0A1F44]/90"}`}>
             {isCertainlyDead
               ? "The background task should have finished by now. Vercel's 5-minute function limit was likely exceeded. Reset and try again — the page brief is unchanged."
               : isLikelyTimedOut
@@ -763,7 +763,7 @@ function structuralColor(status: StructuralCheck["status"]): string {
     case "under": return "text-orange-500";
     case "over": return "text-rose-500";
     case "missing":
-    default: return "text-neutral-300";
+    default: return "text-[#CBD5E1]";
   }
 }
 
@@ -815,7 +815,7 @@ function ScoreRing({ score, label, size = 80 }: { score: number; label?: string;
         </span>
         {label ? (
           <span
-            className="uppercase text-neutral-400 font-semibold"
+            className="uppercase text-[#94A3B8] font-semibold"
             style={{
               fontSize: Math.max(6, Math.round(size * 0.08)),
               letterSpacing: "0.08em",
@@ -858,7 +858,7 @@ function TermsList({
   });
 
   if (!filtered.length) {
-    return <p className="text-[12px] text-neutral-400 italic px-3 py-2">No terms match the filter.</p>;
+    return <p className="text-[12px] text-[#94A3B8] italic px-3 py-2">No terms match the filter.</p>;
   }
 
   return (
@@ -870,21 +870,21 @@ function TermsList({
         return (
           <li
             key={t.id}
-            className="flex items-center justify-between gap-3 py-1.5 px-3 rounded-lg hover:bg-neutral-50 transition-colors"
+            className="flex items-center justify-between gap-3 py-1.5 px-3 rounded-lg hover:bg-[#F4F7FB] transition-colors"
             title={t.is_heading_recommended ? "Recommended for a heading" : undefined}
           >
             <div className="flex items-center gap-1.5 min-w-0">
               {t.is_primary_keyword ? (
                 <i className="ri-star-fill text-amber-500 text-[10px] shrink-0" />
               ) : null}
-              <span className="text-[12px] text-neutral-700 truncate">{t.term}</span>
+              <span className="text-[12px] text-[#334155] truncate">{t.term}</span>
               {t.is_heading_recommended ? (
-                <span className="text-[9px] text-neutral-400 uppercase tracking-wider shrink-0">H</span>
+                <span className="text-[9px] text-[#94A3B8] uppercase tracking-wider shrink-0">H</span>
               ) : null}
             </div>
             <div className="flex items-center gap-2 shrink-0">
               <span className={`font-mono text-[11px] ${statusColor(status)}`}>{value}</span>
-              <span className="text-[10px] text-neutral-400 font-mono">
+              <span className="text-[10px] text-[#94A3B8] font-mono">
                 /{t.min_recommended_uses}–{t.max_recommended_uses}
               </span>
               <i className={`${statusIcon(status)} text-sm ${statusColor(status)}`} />
@@ -906,7 +906,7 @@ function StructuralPanel({
   return (
     <div>
       <div className="flex items-center justify-between mb-3">
-        <p className="text-[10px] font-bold uppercase tracking-[0.12em] text-neutral-400">
+        <p className="text-[10px] font-bold uppercase tracking-[0.12em] text-[#94A3B8]">
           Content structure
         </p>
         <span className="text-[11px] font-bold" style={{ color: scoreColor(score) }}>
@@ -916,10 +916,10 @@ function StructuralPanel({
       <div className="space-y-1.5">
         {checks.map((c) => (
           <div key={c.key} className="flex items-center justify-between text-[12px]">
-            <span className="text-neutral-600 capitalize">{c.key.replace(/_/g, " ")}</span>
+            <span className="text-[#64748B] capitalize">{c.key.replace(/_/g, " ")}</span>
             <div className="flex items-center gap-2">
               <span className={`font-mono text-[12px] ${structuralColor(c.status)}`}>{c.value}</span>
-              <span className="text-[11px] text-neutral-400 font-mono">/{c.min}–{c.max}</span>
+              <span className="text-[11px] text-[#94A3B8] font-mono">/{c.min}–{c.max}</span>
               <i className={`${structuralIcon(c.status)} text-base ${structuralColor(c.status)}`} />
             </div>
           </div>
@@ -934,9 +934,9 @@ function QuestionsPanel({ questions, score }: { questions: ContentEditorQuestion
   return (
     <div>
       <div className="flex items-center justify-between mb-3">
-        <p className="text-[10px] font-bold uppercase tracking-[0.12em] text-neutral-400">
+        <p className="text-[10px] font-bold uppercase tracking-[0.12em] text-[#94A3B8]">
           Questions to answer
-          <span className="ml-1.5 text-neutral-300 normal-case font-normal tracking-normal">
+          <span className="ml-1.5 text-[#CBD5E1] normal-case font-normal tracking-normal">
             ({questions.length})
           </span>
         </p>
@@ -948,8 +948,8 @@ function QuestionsPanel({ questions, score }: { questions: ContentEditorQuestion
       </div>
       <ul className="space-y-2 max-h-72 overflow-y-auto">
         {questions.slice(0, 30).map((q) => (
-          <li key={q.id} className="text-[12px] text-neutral-600 leading-relaxed flex items-start gap-2">
-            <i className="ri-question-line text-[12px] mt-0.5 text-neutral-300 shrink-0" />
+          <li key={q.id} className="text-[12px] text-[#64748B] leading-relaxed flex items-start gap-2">
+            <i className="ri-question-line text-[12px] mt-0.5 text-[#CBD5E1] shrink-0" />
             <span>{q.question}</span>
           </li>
         ))}
@@ -971,21 +971,21 @@ function FactsPanel({ facts }: { facts: ContentEditorFactRow[] }) {
 
   return (
     <div>
-      <p className="text-[10px] font-bold uppercase tracking-[0.12em] text-neutral-400 mb-3">
+      <p className="text-[10px] font-bold uppercase tracking-[0.12em] text-[#94A3B8] mb-3">
         Facts to include
-        <span className="ml-1.5 text-neutral-300 normal-case font-normal tracking-normal">
+        <span className="ml-1.5 text-[#CBD5E1] normal-case font-normal tracking-normal">
           ({facts.length})
         </span>
       </p>
       <div className="space-y-4 max-h-[28rem] overflow-y-auto">
         {Object.entries(grouped).map(([topic, group]) => (
           <div key={topic}>
-            <p className="text-[11px] font-bold text-neutral-700 mb-1.5">{topic}</p>
+            <p className="text-[11px] font-bold text-[#334155] mb-1.5">{topic}</p>
             <ul className="space-y-1.5">
               {group.map((f) => (
                 <li
                   key={f.id}
-                  className="text-[12px] text-neutral-600 leading-relaxed flex items-start gap-2"
+                  className="text-[12px] text-[#64748B] leading-relaxed flex items-start gap-2"
                   title={`${f.source_count} source(s) — ${f.source_domain}`}
                 >
                   <span
@@ -1013,10 +1013,10 @@ function EeatPanel({ eeat }: { eeat: EeatBreakdown }) {
     <div>
       <div className="flex items-center justify-between mb-3">
         <div>
-          <p className="text-[10px] font-bold uppercase tracking-[0.12em] text-neutral-400">
+          <p className="text-[10px] font-bold uppercase tracking-[0.12em] text-[#94A3B8]">
             E-E-A-T (YMYL)
           </p>
-          <p className="text-[10px] text-neutral-400 mt-0.5">
+          <p className="text-[10px] text-[#94A3B8] mt-0.5">
             Expertise · Authoritativeness · Trustworthiness
           </p>
         </div>
@@ -1031,29 +1031,29 @@ function EeatPanel({ eeat }: { eeat: EeatBreakdown }) {
             className="flex items-start justify-between gap-2 text-[12px]"
             title={c.detail}
           >
-            <span className={`flex items-center gap-1.5 ${c.passed ? "text-neutral-700" : "text-neutral-400"}`}>
+            <span className={`flex items-center gap-1.5 ${c.passed ? "text-[#334155]" : "text-[#94A3B8]"}`}>
               <i
                 className={
                   c.passed
                     ? "ri-checkbox-circle-fill text-emerald-500 text-sm"
-                    : "ri-close-circle-line text-neutral-300 text-sm"
+                    : "ri-close-circle-line text-[#CBD5E1] text-sm"
                 }
               />
               {EEAT_CHECK_LABELS[c.key]}
             </span>
-            <span className={`text-[10px] font-mono ${c.passed ? "text-emerald-600" : "text-neutral-300"}`}>
+            <span className={`text-[10px] font-mono ${c.passed ? "text-emerald-600" : "text-[#CBD5E1]"}`}>
               {c.passed ? `+${c.weight}` : `−${c.weight}`}
             </span>
           </li>
         ))}
       </ul>
       {eeat.authoritative_citation_count > 0 ? (
-        <p className="mt-3 pt-3 border-t border-neutral-100 text-[10px] text-neutral-400 leading-relaxed">
+        <p className="mt-3 pt-3 border-t border-[#E2E8F0] text-[10px] text-[#94A3B8] leading-relaxed">
           <span className="font-bold text-emerald-700">{eeat.authoritative_citation_count}</span> unique
           authoritative source{eeat.authoritative_citation_count === 1 ? "" : "s"} cited (.gov, .edu, SAMHSA, NIH, Mayo, etc.)
         </p>
       ) : (
-        <p className="mt-3 pt-3 border-t border-neutral-100 text-[10px] text-neutral-400 leading-relaxed">
+        <p className="mt-3 pt-3 border-t border-[#E2E8F0] text-[10px] text-[#94A3B8] leading-relaxed">
           Link to .gov, .edu, samhsa.gov, nih.gov, apa.org, or mayoclinic.org to boost authority.
         </p>
       )}
@@ -1065,28 +1065,28 @@ function CompetitorsPanel({ competitors }: { competitors: { id: string; serp_pos
   if (!competitors.length) return null;
   return (
     <div>
-      <p className="text-[10px] font-bold uppercase tracking-[0.12em] text-neutral-400 mb-3">
+      <p className="text-[10px] font-bold uppercase tracking-[0.12em] text-[#94A3B8] mb-3">
         Competitors analyzed
       </p>
       <ul className="space-y-1.5 max-h-64 overflow-y-auto -mx-2">
         {competitors.map((c) => (
           <li
             key={c.id}
-            className="px-3 py-1.5 rounded-lg hover:bg-neutral-50 flex items-center justify-between gap-2"
+            className="px-3 py-1.5 rounded-lg hover:bg-[#F4F7FB] flex items-center justify-between gap-2"
           >
             <a
               href={c.url}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-[11px] text-neutral-600 hover:text-[#3d6f7f] flex items-center gap-1.5 min-w-0"
+              className="text-[11px] text-[#64748B] hover:text-[#0A1F44] flex items-center gap-1.5 min-w-0"
             >
-              <span className="font-mono text-neutral-300 shrink-0">#{c.serp_position}</span>
+              <span className="font-mono text-[#CBD5E1] shrink-0">#{c.serp_position}</span>
               <span className="truncate">{c.domain}</span>
               <i className="ri-external-link-line text-[10px] shrink-0 opacity-50" />
             </a>
             <div className="flex items-center gap-2 shrink-0">
               {c.word_count ? (
-                <span className="text-[10px] text-neutral-400 font-mono">{c.word_count}w</span>
+                <span className="text-[10px] text-[#94A3B8] font-mono">{c.word_count}w</span>
               ) : null}
               {c.individual_content_score != null ? (
                 <span
@@ -1097,7 +1097,7 @@ function CompetitorsPanel({ competitors }: { competitors: { id: string; serp_pos
                 </span>
               ) : null}
               {!c.included_in_benchmark ? (
-                <i className="ri-eye-off-line text-[10px] text-neutral-300" title="Excluded from benchmark" />
+                <i className="ri-eye-off-line text-[10px] text-[#CBD5E1]" title="Excluded from benchmark" />
               ) : null}
             </div>
           </li>
@@ -1479,7 +1479,7 @@ export default function AdminContentEditorBriefPage({ briefId: briefIdProp }: Pr
 
   if (loading) {
     return (
-      <div className="p-10 text-center text-sm text-neutral-500">
+      <div className="p-10 text-center text-sm text-[#64748B]">
         <i className="ri-loader-4-line animate-spin mr-2" /> Loading editor…
       </div>
     );
@@ -1488,11 +1488,11 @@ export default function AdminContentEditorBriefPage({ briefId: briefIdProp }: Pr
   if (!state) {
     return (
       <div className="mx-auto max-w-screen-md py-16 text-center">
-        <i className="ri-error-warning-line text-4xl text-neutral-300" />
-        <p className="mt-4 text-sm text-neutral-700">{error ?? "Editor not found."}</p>
+        <i className="ri-error-warning-line text-4xl text-[#CBD5E1]" />
+        <p className="mt-4 text-sm text-[#334155]">{error ?? "Editor not found."}</p>
         <Link
           href="/admin/content-editor"
-          className="mt-6 inline-flex items-center gap-1.5 px-4 py-2 rounded-lg border border-neutral-200 text-[12px] font-semibold text-neutral-700 hover:border-neutral-400"
+          className="mt-6 inline-flex items-center gap-1.5 px-4 py-2 rounded-lg border border-[#E2E8F0] text-[12px] font-semibold text-[#334155] hover:border-[#7B9FD4]"
         >
           <i className="ri-arrow-left-line" /> Back to editors
         </Link>
@@ -1546,7 +1546,7 @@ export default function AdminContentEditorBriefPage({ briefId: briefIdProp }: Pr
                 type="button"
                 onClick={() => void handleAutoOptimize()}
                 disabled={optimizing || processing}
-                className="px-4 py-2 rounded-lg text-[11px] font-bold uppercase tracking-[0.1em] bg-[#3d6f7f] text-white hover:bg-[#2f5a6b] disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-1.5"
+                className="px-4 py-2 rounded-lg text-[11px] font-bold uppercase tracking-[0.1em] bg-[#0A1F44] text-white hover:bg-[#2f5a6b] disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-1.5"
                 title="Generate a fully-optimized draft from this brief using AI"
               >
                 {optimizing ? (
@@ -1561,7 +1561,7 @@ export default function AdminContentEditorBriefPage({ briefId: briefIdProp }: Pr
                 type="button"
                 onClick={() => void handleRescanLivePage()}
                 disabled={livePageScanning || processing}
-                className="px-3 py-2 rounded-lg text-[11px] font-bold uppercase tracking-[0.1em] border border-neutral-200 text-neutral-700 hover:border-neutral-400 disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-1.5"
+                className="px-3 py-2 rounded-lg text-[11px] font-bold uppercase tracking-[0.1em] border border-[#E2E8F0] text-[#334155] hover:border-[#7B9FD4] disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-1.5"
                 title="Re-fetch the live page and re-score against the brief"
               >
                 {livePageScanning ? (
@@ -1574,16 +1574,25 @@ export default function AdminContentEditorBriefPage({ briefId: briefIdProp }: Pr
               <button
                 type="button"
                 onClick={() => void rerun()}
-                className="px-3 py-2 rounded-lg text-[11px] font-bold uppercase tracking-[0.1em] border border-neutral-200 text-neutral-700 hover:border-neutral-400"
+                className="px-3 py-2 rounded-lg text-[11px] font-bold uppercase tracking-[0.1em] border border-[#E2E8F0] text-[#334155] hover:border-[#7B9FD4]"
               >
                 <i className="ri-refresh-line mr-1" /> Re-run
               </button>
             )}
+            {state && !processing && state.editor.status === "ready" ? (
+              <Link
+                href={`/admin/blog-writer?content_editor_id=${encodeURIComponent(editorId ?? "")}&primary_keyword=${encodeURIComponent(state.editor.primary_keyword)}`}
+                className="px-3 py-2 rounded-lg text-[11px] font-bold uppercase tracking-[0.1em] border border-[#E2E8F0] text-[#334155] hover:border-[#7B9FD4] flex items-center gap-1.5"
+                title="Open Blog Writer with this brief synced into custom instructions"
+              >
+                <i className="ri-quill-pen-line" /> Blog Writer
+              </Link>
+            ) : null}
             {state && !processing ? (
               <button
                 type="button"
                 onClick={handleDownloadGuidelines}
-                className="px-3 py-2 rounded-lg text-[11px] font-bold uppercase tracking-[0.1em] border border-neutral-200 text-neutral-700 hover:border-neutral-400 flex items-center gap-1.5"
+                className="px-3 py-2 rounded-lg text-[11px] font-bold uppercase tracking-[0.1em] border border-[#E2E8F0] text-[#334155] hover:border-[#7B9FD4] flex items-center gap-1.5"
                 title="Download this brief as a .txt file"
               >
                 <i className="ri-download-2-line" /> Download brief
@@ -1591,7 +1600,7 @@ export default function AdminContentEditorBriefPage({ briefId: briefIdProp }: Pr
             ) : null}
             <Link
               href="/admin/content-editor"
-              className="px-3 py-2 rounded-lg text-[11px] font-bold uppercase tracking-[0.1em] border border-neutral-200 text-neutral-700 hover:border-neutral-400"
+              className="px-3 py-2 rounded-lg text-[11px] font-bold uppercase tracking-[0.1em] border border-[#E2E8F0] text-[#334155] hover:border-[#7B9FD4]"
             >
               <i className="ri-arrow-left-line mr-1" /> Editors
             </Link>
@@ -1698,47 +1707,47 @@ export default function AdminContentEditorBriefPage({ briefId: briefIdProp }: Pr
         <div className="grid grid-cols-1 lg:grid-cols-[300px_minmax(0,1fr)_320px] gap-6">
           {/* LEFT: score, structure, competitors */}
           <aside className="space-y-4">
-            <div className="rounded-2xl border border-neutral-200 bg-white p-5 shadow-sm">
+            <div className="rounded-2xl border border-[#E2E8F0] bg-white p-5 shadow-sm">
               <div className="flex items-center gap-4">
                 <ScoreRing score={score?.content_score ?? 0} label="Content" />
                 <div>
-                  <p className="text-[10px] font-bold uppercase tracking-[0.12em] text-neutral-400">
+                  <p className="text-[10px] font-bold uppercase tracking-[0.12em] text-[#94A3B8]">
                     Content score
                   </p>
-                  <p className="mt-1 text-[13px] text-neutral-700">
+                  <p className="mt-1 text-[13px] text-[#334155]">
                     Target: <span className="font-bold">{Math.round(editor.target_score ?? 0)}</span>
                   </p>
-                  <p className="mt-0.5 text-[11px] text-neutral-400">
+                  <p className="mt-0.5 text-[11px] text-[#94A3B8]">
                     Competitor avg: {Math.round(editor.competitor_avg_score ?? 0)}
                   </p>
                 </div>
               </div>
-              <div className="mt-3 pt-3 border-t border-neutral-100 grid grid-cols-3 gap-2 text-center">
+              <div className="mt-3 pt-3 border-t border-[#E2E8F0] grid grid-cols-3 gap-2 text-center">
                 <div>
-                  <p className="text-[10px] uppercase tracking-wider text-neutral-400">Coverage</p>
-                  <p className="text-[14px] font-mono font-bold text-neutral-700">{Math.round(score?.coverage_score ?? 0)}</p>
+                  <p className="text-[10px] uppercase tracking-wider text-[#94A3B8]">Coverage</p>
+                  <p className="text-[14px] font-mono font-bold text-[#334155]">{Math.round(score?.coverage_score ?? 0)}</p>
                 </div>
                 <div>
-                  <p className="text-[10px] uppercase tracking-wider text-neutral-400">Freq</p>
-                  <p className="text-[14px] font-mono font-bold text-neutral-700">{Math.round(score?.frequency_score ?? 0)}</p>
+                  <p className="text-[10px] uppercase tracking-wider text-[#94A3B8]">Freq</p>
+                  <p className="text-[14px] font-mono font-bold text-[#334155]">{Math.round(score?.frequency_score ?? 0)}</p>
                 </div>
                 <div>
-                  <p className="text-[10px] uppercase tracking-wider text-neutral-400">Place</p>
-                  <p className="text-[14px] font-mono font-bold text-neutral-700">{Math.round(score?.placement_score ?? 0)}</p>
+                  <p className="text-[10px] uppercase tracking-wider text-[#94A3B8]">Place</p>
+                  <p className="text-[14px] font-mono font-bold text-[#334155]">{Math.round(score?.placement_score ?? 0)}</p>
                 </div>
               </div>
             </div>
 
             {/* AI Search score */}
-            <div className="rounded-2xl border border-neutral-200 bg-white p-5 shadow-sm">
+            <div className="rounded-2xl border border-[#E2E8F0] bg-white p-5 shadow-sm">
               <div className="flex items-center justify-between mb-2">
-                <p className="text-[10px] font-bold uppercase tracking-[0.12em] text-neutral-400">
+                <p className="text-[10px] font-bold uppercase tracking-[0.12em] text-[#94A3B8]">
                   AI Search readiness
                 </p>
                 <button
                   type="button"
                   onClick={() => setFactCoverageEnabled((v) => !v)}
-                  className={`text-[10px] px-2 py-0.5 rounded-md font-semibold ${factCoverageEnabled ? "bg-emerald-50 text-emerald-700" : "text-neutral-400 hover:bg-neutral-100"}`}
+                  className={`text-[10px] px-2 py-0.5 rounded-md font-semibold ${factCoverageEnabled ? "bg-emerald-50 text-emerald-700" : "text-[#94A3B8] hover:bg-[#F4F7FB]"}`}
                   title="Enable embedding-based fact coverage (~$0.001 per score)"
                 >
                   {factCoverageEnabled ? "Facts: ON" : "Facts: OFF"}
@@ -1750,7 +1759,7 @@ export default function AdminContentEditorBriefPage({ briefId: briefIdProp }: Pr
                   label="AI"
                   size={64}
                 />
-                <div className="text-[11px] text-neutral-500 leading-relaxed">
+                <div className="text-[11px] text-[#64748B] leading-relaxed">
                   {score?.question_coverage_score != null ? (
                     <p>Questions: <span className="font-mono font-bold">{Math.round(score.question_coverage_score)}</span></p>
                   ) : null}
@@ -1760,14 +1769,14 @@ export default function AdminContentEditorBriefPage({ briefId: briefIdProp }: Pr
                   {score?.fact_coverage_score != null ? (
                     <p>Facts: <span className="font-mono font-bold">{Math.round(score.fact_coverage_score)}</span></p>
                   ) : factCoverageEnabled ? (
-                    <p className="text-neutral-300">Facts: scoring…</p>
+                    <p className="text-[#CBD5E1]">Facts: scoring…</p>
                   ) : null}
                 </div>
               </div>
             </div>
 
             {score?.structural_checks?.length ? (
-              <div className="rounded-2xl border border-neutral-200 bg-white p-5 shadow-sm">
+              <div className="rounded-2xl border border-[#E2E8F0] bg-white p-5 shadow-sm">
                 <StructuralPanel
                   checks={score.structural_checks}
                   score={score.structural_alignment ?? 0}
@@ -1776,22 +1785,22 @@ export default function AdminContentEditorBriefPage({ briefId: briefIdProp }: Pr
             ) : null}
 
             {score?.eeat ? (
-              <div className="rounded-2xl border border-neutral-200 bg-white p-5 shadow-sm">
+              <div className="rounded-2xl border border-[#E2E8F0] bg-white p-5 shadow-sm">
                 <EeatPanel eeat={score.eeat} />
               </div>
             ) : null}
 
-            <div className="rounded-2xl border border-neutral-200 bg-white p-5 shadow-sm">
+            <div className="rounded-2xl border border-[#E2E8F0] bg-white p-5 shadow-sm">
               <CompetitorsPanel competitors={competitors} />
             </div>
           </aside>
 
           {/* CENTER: editor (or live page view in Page Mode) */}
           <section className="space-y-3">
-            <div className="rounded-2xl border border-neutral-200 bg-white shadow-sm overflow-hidden">
-              <div className="px-5 py-3 border-b border-neutral-100 grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div className="rounded-2xl border border-[#E2E8F0] bg-white shadow-sm overflow-hidden">
+              <div className="px-5 py-3 border-b border-[#E2E8F0] grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div>
-                  <label className="block text-[10px] font-bold uppercase tracking-[0.12em] text-neutral-400 mb-1">
+                  <label className="block text-[10px] font-bold uppercase tracking-[0.12em] text-[#94A3B8] mb-1">
                     {isPageMode ? "Live SEO title" : "Title tag"}
                   </label>
                   <input
@@ -1802,13 +1811,13 @@ export default function AdminContentEditorBriefPage({ briefId: briefIdProp }: Pr
                     placeholder={isPageMode ? "(no SEO title set on tracked page)" : "60-char SEO title…"}
                     className={`w-full px-3 py-2 text-sm border rounded-lg focus:outline-none ${
                       isPageMode
-                        ? "border-neutral-200 bg-neutral-50 text-neutral-600 cursor-default"
-                        : "border-neutral-200 bg-white focus:border-[#3d6f7f]"
+                        ? "border-[#E2E8F0] bg-[#F4F7FB] text-[#64748B] cursor-default"
+                        : "border-[#E2E8F0] bg-white focus:border-[#7B9FD4]"
                     }`}
                   />
                 </div>
                 <div>
-                  <label className="block text-[10px] font-bold uppercase tracking-[0.12em] text-neutral-400 mb-1">
+                  <label className="block text-[10px] font-bold uppercase tracking-[0.12em] text-[#94A3B8] mb-1">
                     {isPageMode ? "Live H1" : "H1"}
                   </label>
                   <input
@@ -1819,13 +1828,13 @@ export default function AdminContentEditorBriefPage({ briefId: briefIdProp }: Pr
                     placeholder={isPageMode ? "(no H1 found on live page)" : "The visible page headline…"}
                     className={`w-full px-3 py-2 text-sm border rounded-lg focus:outline-none ${
                       isPageMode
-                        ? "border-neutral-200 bg-neutral-50 text-neutral-600 cursor-default"
-                        : "border-neutral-200 bg-white focus:border-[#3d6f7f]"
+                        ? "border-[#E2E8F0] bg-[#F4F7FB] text-[#64748B] cursor-default"
+                        : "border-[#E2E8F0] bg-white focus:border-[#7B9FD4]"
                     }`}
                   />
                 </div>
                 <div className="sm:col-span-2">
-                  <label className="block text-[10px] font-bold uppercase tracking-[0.12em] text-neutral-400 mb-1">
+                  <label className="block text-[10px] font-bold uppercase tracking-[0.12em] text-[#94A3B8] mb-1">
                     {isPageMode ? "Live meta description" : "Meta description"}
                   </label>
                   <input
@@ -1836,18 +1845,18 @@ export default function AdminContentEditorBriefPage({ briefId: briefIdProp }: Pr
                     placeholder={isPageMode ? "(no meta description set on tracked page)" : "150-160 char description…"}
                     className={`w-full px-3 py-2 text-sm border rounded-lg focus:outline-none ${
                       isPageMode
-                        ? "border-neutral-200 bg-neutral-50 text-neutral-600 cursor-default"
-                        : "border-neutral-200 bg-white focus:border-[#3d6f7f]"
+                        ? "border-[#E2E8F0] bg-[#F4F7FB] text-[#64748B] cursor-default"
+                        : "border-[#E2E8F0] bg-white focus:border-[#7B9FD4]"
                     }`}
                   />
                 </div>
               </div>
-              <div className="px-5 py-2.5 border-b border-neutral-100 flex items-center justify-between gap-3 text-[11px]">
-                <p className="font-bold uppercase tracking-[0.12em] text-neutral-700">
+              <div className="px-5 py-2.5 border-b border-[#E2E8F0] flex items-center justify-between gap-3 text-[11px]">
+                <p className="font-bold uppercase tracking-[0.12em] text-[#334155]">
                   {isPageMode ? "Live page content" : "Draft"}
                 </p>
-                <div className="flex items-center gap-3 text-neutral-400">
-                  <span>Words: <span className="font-mono font-bold text-neutral-700">
+                <div className="flex items-center gap-3 text-[#94A3B8]">
+                  <span>Words: <span className="font-mono font-bold text-[#334155]">
                     {drafts.bodyMarkdown.trim() ? drafts.bodyMarkdown.trim().split(/\s+/).filter(Boolean).length : 0}
                   </span> / {wordTarget}</span>
                   {scoring ? <span><i className="ri-loader-4-line animate-spin" /> Scoring</span> : null}
@@ -1855,11 +1864,11 @@ export default function AdminContentEditorBriefPage({ briefId: briefIdProp }: Pr
                 </div>
               </div>
               {isPageMode ? (
-                <div className="w-full min-h-[40vh] max-h-[70vh] overflow-y-auto px-6 py-5 text-[13px] leading-relaxed text-neutral-700 font-mono whitespace-pre-wrap bg-neutral-50/40">
+                <div className="w-full min-h-[40vh] max-h-[70vh] overflow-y-auto px-6 py-5 text-[13px] leading-relaxed text-[#334155] font-mono whitespace-pre-wrap bg-[#F4F7FB]/40">
                   {drafts.bodyMarkdown.trim() ? (
                     drafts.bodyMarkdown
                   ) : (
-                    <p className="text-neutral-400 text-center italic mt-10">
+                    <p className="text-[#94A3B8] text-center italic mt-10">
                       {livePageScanning ? "Scanning live page…" : "No live page content yet — click Rescan to fetch."}
                     </p>
                   )}
@@ -1875,7 +1884,7 @@ Start writing the opening paragraph that names the problem and previews the solu
 ## First section heading
 
 Body copy here. Use markdown — \`#\` headings, \`![alt](url)\` images, \`-\` bullets.`}
-                  className="w-full min-h-[70vh] resize-y px-6 py-5 text-[14px] leading-relaxed text-neutral-800 placeholder-neutral-300 focus:outline-none font-mono"
+                  className="w-full min-h-[70vh] resize-y px-6 py-5 text-[14px] leading-relaxed text-[#0A1F44] placeholder-[#94A3B8] focus:outline-none font-mono"
                   spellCheck
                 />
               )}
@@ -1908,11 +1917,11 @@ Body copy here. Use markdown — \`#\` headings, \`![alt](url)\` images, \`-\` b
 
           {/* RIGHT: terms, questions, facts */}
           <aside className="space-y-4">
-            <div className="rounded-2xl border border-neutral-200 bg-white p-5 shadow-sm">
+            <div className="rounded-2xl border border-[#E2E8F0] bg-white p-5 shadow-sm">
               <div className="flex items-center justify-between mb-3">
-                <p className="text-[10px] font-bold uppercase tracking-[0.12em] text-neutral-400">
+                <p className="text-[10px] font-bold uppercase tracking-[0.12em] text-[#94A3B8]">
                   Important terms
-                  <span className="ml-1.5 text-neutral-300 normal-case font-normal tracking-normal">
+                  <span className="ml-1.5 text-[#CBD5E1] normal-case font-normal tracking-normal">
                     ({terms.length})
                   </span>
                 </p>
@@ -1924,8 +1933,8 @@ Body copy here. Use markdown — \`#\` headings, \`![alt](url)\` images, \`-\` b
                       onClick={() => setFilter(f)}
                       className={`px-2 py-0.5 rounded text-[10px] font-semibold capitalize transition-colors cursor-pointer ${
                         filter === f
-                          ? "bg-neutral-900 text-white"
-                          : "text-neutral-500 hover:bg-neutral-100"
+                          ? "bg-[#0A1F44] text-white"
+                          : "text-[#64748B] hover:bg-[#F4F7FB]"
                       }`}
                     >
                       {f}
@@ -1937,7 +1946,7 @@ Body copy here. Use markdown — \`#\` headings, \`![alt](url)\` images, \`-\` b
             </div>
 
             {questions.length > 0 ? (
-              <div className="rounded-2xl border border-neutral-200 bg-white p-5 shadow-sm">
+              <div className="rounded-2xl border border-[#E2E8F0] bg-white p-5 shadow-sm">
                 <QuestionsPanel
                   questions={questions.filter((q) => !q.user_dismissed)}
                   score={score?.question_coverage_score}
@@ -1946,7 +1955,7 @@ Body copy here. Use markdown — \`#\` headings, \`![alt](url)\` images, \`-\` b
             ) : null}
 
             {facts.length > 0 ? (
-              <div className="rounded-2xl border border-neutral-200 bg-white p-5 shadow-sm">
+              <div className="rounded-2xl border border-[#E2E8F0] bg-white p-5 shadow-sm">
                 <FactsPanel facts={facts.filter((f) => !f.user_dismissed)} />
               </div>
             ) : null}
@@ -1969,8 +1978,8 @@ function PlacementBar({ checks }: { checks: ScoreBreakdown["placement_checks"] }
     { key: "primary_kw_in_early_heading", label: "Early H2/H3" },
   ];
   return (
-    <div className="rounded-2xl border border-neutral-200 bg-white p-4 shadow-sm flex items-center gap-3 flex-wrap">
-      <p className="text-[10px] font-bold uppercase tracking-[0.12em] text-neutral-400">
+    <div className="rounded-2xl border border-[#E2E8F0] bg-white p-4 shadow-sm flex items-center gap-3 flex-wrap">
+      <p className="text-[10px] font-bold uppercase tracking-[0.12em] text-[#94A3B8]">
         Primary keyword placement
       </p>
       <div className="flex items-center gap-2 flex-wrap">
@@ -1980,7 +1989,7 @@ function PlacementBar({ checks }: { checks: ScoreBreakdown["placement_checks"] }
             <span
               key={it.key}
               className={`inline-flex items-center gap-1 px-2 py-1 rounded-md text-[11px] font-semibold ${
-                ok ? "bg-emerald-50 text-emerald-700" : "bg-neutral-50 text-neutral-400"
+                ok ? "bg-emerald-50 text-emerald-700" : "bg-[#F4F7FB] text-[#94A3B8]"
               }`}
             >
               <i className={ok ? "ri-checkbox-circle-fill" : "ri-circle-line"} />

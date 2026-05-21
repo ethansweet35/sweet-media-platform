@@ -65,10 +65,10 @@ export default function ContentBlockEditor({ blocks, onChange }: ContentBlockEdi
   return (
     <div className="space-y-3">
       {blocks.length === 0 && (
-        <div className="border-2 border-dashed border-neutral-200 rounded-2xl p-10 text-center">
-          <i className="ri-article-line text-3xl text-neutral-300 mb-3 block"></i>
-          <p className="text-sm text-neutral-400 mb-1">No content blocks yet</p>
-          <p className="text-xs text-neutral-300">Click &ldquo;Add Block&rdquo; below to start writing</p>
+        <div className="border-2 border-dashed border-[#E2E8F0] rounded-2xl p-10 text-center">
+          <i className="ri-article-line text-3xl text-[#CBD5E1] mb-3 block"></i>
+          <p className="text-sm text-[#94A3B8] mb-1">No content blocks yet</p>
+          <p className="text-xs text-[#CBD5E1]">Click &ldquo;Add Block&rdquo; below to start writing</p>
         </div>
       )}
 
@@ -90,9 +90,9 @@ export default function ContentBlockEditor({ blocks, onChange }: ContentBlockEdi
       <div className="relative">
         <button
           onClick={() => setShowMenu((v) => !v)}
-          className="flex items-center gap-2 w-full border-2 border-dashed border-neutral-200 hover:border-[#3d6f7f]/30 rounded-2xl py-3.5 px-5 text-sm text-neutral-400 hover:text-[#3d6f7f] transition-all cursor-pointer group"
+          className="flex items-center gap-2 w-full border-2 border-dashed border-[#E2E8F0] hover:border-[#0A1F44]/30 rounded-2xl py-3.5 px-5 text-sm text-[#94A3B8] hover:text-[#0A1F44] transition-all cursor-pointer group"
         >
-          <div className="w-6 h-6 rounded-full bg-neutral-100 group-hover:bg-[#3d6f7f]/8 flex items-center justify-center transition-colors">
+          <div className="w-6 h-6 rounded-full bg-[#F4F7FB] group-hover:bg-[#0A1F44]/8 flex items-center justify-center transition-colors">
             <i className="ri-add-line text-xs"></i>
           </div>
           <span className="text-[11px] tracking-[0.15em] uppercase font-semibold">Add Block</span>
