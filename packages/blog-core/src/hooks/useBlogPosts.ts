@@ -91,11 +91,11 @@ export function useBlogCategories() {
         const names = await fetchBlogCategoryNames(supabase, {
           siteId: SITE_ID,
           siteKey: SITE_ID,
-          publishedPostsOnly: true,
+          includeFromPosts: false,
         });
         setCategories(["All", ...names]);
       } catch {
-        setCategories(["All", "SEO", "Paid Media", "Web Development", "Social Media", "Compliance", "Strategy"]);
+        setCategories(["All"]);
       } finally {
         setLoading(false);
       }

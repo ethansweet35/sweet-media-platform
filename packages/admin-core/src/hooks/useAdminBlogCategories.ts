@@ -32,8 +32,8 @@ export function useAdminBlogCategories(options?: {
         const list = await fetchBlogCategoryNames(supabase, {
           siteId: SITE_ID,
           siteKey: SITE_ID,
+          includeFromPosts: false,
           ensureValues: options?.ensureValues,
-          publishedPostsOnly: false,
         });
         if (!cancelled) setNames(list);
       } catch {

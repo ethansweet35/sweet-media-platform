@@ -22,6 +22,13 @@ export {
   fetchBlogCategoryNames,
   type FetchBlogCategoryNamesOptions,
 } from "./lib/fetchBlogCategoryNames";
+export {
+  BRAND_BLOG_CATEGORY_DEFAULTS,
+  TEMPLATE_BLOG_CATEGORY_NAMES,
+  getBrandBlogCategoryDefaults,
+  isTemplateBlogCategoryList,
+  blogCategoryNameToSlug,
+} from "./lib/brandBlogCategoryDefaults";
 export { defaultBrandSettings, mergeBrandSettings } from "./lib/brandSettingsFallback";
 
 export {
