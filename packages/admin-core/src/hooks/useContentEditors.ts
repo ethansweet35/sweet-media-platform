@@ -9,6 +9,10 @@ import type {
   ScoreBreakdown,
 } from "../types/content-editor";
 import { STATUS_IS_PROCESSING } from "../types/content-editor";
+import {
+  blogSyncStatusForListRow,
+  resolveContentEditorLink,
+} from "../lib/contentEditorListLink";
 
 // ────────────────────────────────────────────────────────────────────────
 //  List hook
@@ -25,7 +29,7 @@ const LIST_SELECT =
   "recommended_word_count_min, recommended_word_count_max, recommended_word_count_target, " +
   "competitor_avg_score, target_score, blog_post_id, linked_tracked_page_id, " +
   "created_at, updated_at, completed_at, " +
-  "content_editor_drafts(computed_content_score, is_current)";
+  "content_editor_drafts(computed_content_score, body_markdown, updated_at, is_current)";
 
 export function useContentEditors(): UseContentEditorsState & {
   refresh: () => Promise<void>;
@@ -56,12 +60,24 @@ export function useContentEditors(): UseContentEditorsState & {
     // Flatten the joined draft array into a single current_content_score field.
     const rowsRaw = (data as unknown[]) ?? [];
     const pageModeIds: string[] = [];
-    const rowsTmp = rowsRaw.map((raw) => {
+    type RowBase = Record<string, unknown> & {
+      id: string;
+      blog_post_id: string | null;
+      linked_tracked_page_id: string | null;
+      draft_body_present: boolean;
+      draft_updated_at: string | null;
+    };
+
+    const rowsBase: RowBase[] = rowsRaw.map((raw) => {
       const r = raw as Record<string, unknown>;
       const drafts = Array.isArray(r.content_editor_drafts) ? r.content_editor_drafts : [];
-      const currentDraft = drafts.find((d: Record<string, unknown>) => d.is_current);
+      const currentDraft = drafts.find((d: Record<string, unknown>) => d.is_current) as
+        | Record<string, unknown>
+        | undefined;
       const current_content_score =
-        (currentDraft as Record<string, unknown> | undefined)?.computed_content_score as number | null ?? null;
+        (currentDraft?.computed_content_score as number | null | undefined) ?? null;
+      const draftBody = (currentDraft?.body_markdown as string | undefined)?.trim() ?? "";
+      const draft_updated_at = (currentDraft?.updated_at as string | null | undefined) ?? null;
       const linkedTrackedPageId = (r.linked_tracked_page_id as string | null) ?? null;
       const editorId = r.id as string;
       if (linkedTrackedPageId) pageModeIds.push(editorId);
@@ -69,9 +85,122 @@ export function useContentEditors(): UseContentEditorsState & {
       const { content_editor_drafts: _drafts, ...rest } = r;
       return {
         ...rest,
+        id: editorId,
+        blog_post_id: (r.blog_post_id as string | null) ?? null,
         current_content_score,
         linked_tracked_page_id: linkedTrackedPageId,
         live_page_score: null as number | null,
+        draft_body_present: draftBody.length > 0,
+        draft_updated_at,
+      } as RowBase;
+    });
+
+    const editorIds = rowsBase.map((r) => r.id);
+    const blogPostIds = rowsBase.map((r) => r.blog_post_id).filter((id): id is string => !!id);
+    const pageIds = rowsBase
+      .map((r) => r.linked_tracked_page_id)
+      .filter((id): id is string => !!id);
+
+    const blogsByEditorId = new Map<
+      string,
+      {
+        id: string;
+        slug: string;
+        title: string;
+        content_editor_id: string | null;
+        content_editor_synced_at: string | null;
+      }
+    >();
+    const blogsByPostId = new Map<
+      string,
+      {
+        id: string;
+        slug: string;
+        title: string;
+        content_editor_id: string | null;
+        content_editor_synced_at: string | null;
+      }
+    >();
+    const pagesByEditorId = new Map<
+      string,
+      { id: string; route_path: string; page_title: string; content_editor_id: string | null }
+    >();
+    const pagesByPageId = new Map<
+      string,
+      { id: string; route_path: string; page_title: string; content_editor_id: string | null }
+    >();
+
+    if (editorIds.length > 0) {
+      const [blogsByEditorRes, pagesByEditorRes] = await Promise.all([
+        supabase
+          .from("blog_posts")
+          .select("id, slug, title, content_editor_id, content_editor_synced_at")
+          .in("content_editor_id", editorIds),
+        supabase
+          .from("tracked_pages")
+          .select("id, route_path, page_title, content_editor_id")
+          .in("content_editor_id", editorIds),
+      ]);
+      for (const b of blogsByEditorRes.data ?? []) {
+        if (b.content_editor_id) blogsByEditorId.set(b.content_editor_id, b);
+      }
+      for (const p of pagesByEditorRes.data ?? []) {
+        if (p.content_editor_id) pagesByEditorId.set(p.content_editor_id, p);
+      }
+    }
+
+    if (blogPostIds.length > 0) {
+      const { data: blogsById } = await supabase
+        .from("blog_posts")
+        .select("id, slug, title, content_editor_id, content_editor_synced_at")
+        .in("id", blogPostIds);
+      for (const b of blogsById ?? []) {
+        blogsByPostId.set(b.id, b);
+      }
+    }
+
+    if (pageIds.length > 0) {
+      const { data: pagesById } = await supabase
+        .from("tracked_pages")
+        .select("id, route_path, page_title, content_editor_id")
+        .in("id", pageIds);
+      for (const p of pagesById ?? []) {
+        pagesByPageId.set(p.id, p);
+      }
+    }
+
+    const rowsTmp = rowsBase.map((row) => {
+      const link = resolveContentEditorLink(
+        {
+          id: row.id,
+          blog_post_id: row.blog_post_id,
+          linked_tracked_page_id: row.linked_tracked_page_id,
+        },
+        blogsByEditorId,
+        blogsByPostId,
+        pagesByEditorId,
+        pagesByPageId,
+      );
+      const blog =
+        link.blog_post_id != null
+          ? blogsByPostId.get(link.blog_post_id) ?? blogsByEditorId.get(row.id)
+          : null;
+      const blog_synced_at = blog?.content_editor_synced_at ?? null;
+      const blog_sync_status = blogSyncStatusForListRow({
+        link_kind: link.link_kind,
+        draft_body_present: row.draft_body_present,
+        draft_updated_at: row.draft_updated_at,
+        blog_synced_at,
+      });
+
+      return {
+        ...row,
+        link_kind: link.link_kind,
+        link_label: link.link_label,
+        link_title: link.link_title,
+        resolved_blog_post_id: link.blog_post_id,
+        blog_synced_at,
+        blog_sync_status,
       } as ContentEditorListRow;
     });
 

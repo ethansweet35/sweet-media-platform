@@ -30,6 +30,20 @@ export const ADMIN_CHANGELOG_CATEGORY_LABEL: Record<AdminChangelogCategory, stri
 /** Newest first — maintain this order when adding entries. */
 export const ADMIN_CHANGELOG: AdminChangelogEntry[] = [
   {
+    id: "2026-05-21-content-editor-bulk-sync",
+    date: "2026-05-21",
+    category: "new",
+    title: "Content Editor: blog/page labels and bulk sync to blog",
+    summary:
+      "The Content Editor list shows whether each editor is linked to a Blog post or Page, plus blog sync status. Select blog editors with drafts and use Sync to blog to push many drafts at once. Page editors are labeled only — use Apply SEO Meta on the brief (no auto page sync).",
+    href: "/admin/content-editor",
+    hrefLabel: "Content Editor",
+    tips: [
+      "Create editors from Blog Posts or Pages so they stay linked to the right row.",
+      "Bulk sync only applies to blog-linked editors that have draft content.",
+    ],
+  },
+  {
     id: "2026-05-21-dashboard-performance-tab",
     date: "2026-05-21",
     category: "new",

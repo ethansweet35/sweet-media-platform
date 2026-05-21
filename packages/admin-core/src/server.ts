@@ -106,6 +106,8 @@ export {
   runAutoOptimize,
   type AutoOptimizeOptions,
   syncEditorDraftToBlogPost,
+  handleBulkSyncContentEditorsPost,
+  bulkSyncEditorsToBlog,
   type SyncEditorDraftToBlogResult,
   fetchAndScoreLivePage,
   loadLatestSnapshotIgnoreTtl,

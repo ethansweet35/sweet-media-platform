@@ -1,8 +1,10 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import AdminPageHeader from "../components/AdminPageHeader";
+import AdminContentBulkBar from "../components/content-list/AdminContentBulkBar";
+import ContentEditorLinkBadge from "../components/content-editor/ContentEditorLinkBadge";
 import { ADMIN_ACCENT, ADMIN_ACCENT_SOFT, ADMIN_OCEAN } from "../lib/adminTheme";
 import { useContentEditors } from "../hooks/useContentEditors";
 import {
@@ -54,6 +56,10 @@ function wordRangeText(row: ContentEditorListRow): string {
   return "—";
 }
 
+function canBulkSyncRow(row: ContentEditorListRow): boolean {
+  return row.link_kind === "blog" && row.draft_body_present;
+}
+
 export default function AdminContentEditorPage() {
   const { rows, loading, error, createEditor, removeEditor, refresh } = useContentEditors();
   const [keyword, setKeyword] = useState("");
@@ -61,6 +67,79 @@ export default function AdminContentEditorPage() {
   const [submitError, setSubmitError] = useState<string | null>(null);
   const [retryingId, setRetryingId] = useState<string | null>(null);
   const [optimizingIds, setOptimizingIds] = useState<Set<string>>(() => new Set());
+  const [selectedIds, setSelectedIds] = useState<Set<string>>(() => new Set());
+  const [bulkSyncing, setBulkSyncing] = useState(false);
+  const [bulkSyncResult, setBulkSyncResult] = useState<string | null>(null);
+
+  const syncableRows = useMemo(() => rows.filter(canBulkSyncRow), [rows]);
+  const selectedSyncable = useMemo(
+    () => rows.filter((r) => selectedIds.has(r.id) && canBulkSyncRow(r)),
+    [rows, selectedIds],
+  );
+  const allSyncableSelected =
+    syncableRows.length > 0 && syncableRows.every((r) => selectedIds.has(r.id));
+  const someSyncableSelected = syncableRows.some((r) => selectedIds.has(r.id)) && !allSyncableSelected;
+
+  const toggleSelect = useCallback((id: string, checked: boolean) => {
+    setSelectedIds((prev) => {
+      const next = new Set(prev);
+      if (checked) next.add(id);
+      else next.delete(id);
+      return next;
+    });
+  }, []);
+
+  const toggleSelectAllSyncable = useCallback(
+    (checked: boolean) => {
+      if (!checked) {
+        setSelectedIds(new Set());
+        return;
+      }
+      setSelectedIds(new Set(syncableRows.map((r) => r.id)));
+    },
+    [syncableRows],
+  );
+
+  const handleBulkSyncToBlog = useCallback(async () => {
+    const ids = selectedSyncable.map((r) => r.id);
+    if (ids.length === 0) return;
+    const ok = window.confirm(
+      `Sync ${ids.length} blog editor${ids.length === 1 ? "" : "s"} to their linked blog posts? This overwrites each post's title, meta, excerpt, and body.`,
+    );
+    if (!ok) return;
+    setBulkSyncing(true);
+    setBulkSyncResult(null);
+    try {
+      const res = await fetch("/api/admin/content-editor/bulk-sync", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ editorIds: ids }),
+      });
+      const json = (await res.json().catch(() => ({}))) as {
+        ok?: boolean;
+        error?: string;
+        succeeded?: number;
+        failed?: number;
+        skipped?: number;
+        results?: { editorId: string; ok: boolean; error?: string; slug?: string; skipped?: boolean }[];
+      };
+      if (!res.ok || json.ok === false) {
+        throw new Error(json.error ?? `Bulk sync failed (HTTP ${res.status}).`);
+      }
+      const parts = [
+        `${json.succeeded ?? 0} synced`,
+        (json.failed ?? 0) > 0 ? `${json.failed} failed` : null,
+        (json.skipped ?? 0) > 0 ? `${json.skipped} skipped` : null,
+      ].filter(Boolean);
+      setBulkSyncResult(parts.join(" · "));
+      setSelectedIds(new Set());
+      await refresh();
+    } catch (err) {
+      setBulkSyncResult(err instanceof Error ? err.message : "Bulk sync failed.");
+    } finally {
+      setBulkSyncing(false);
+    }
+  }, [selectedSyncable, refresh]);
 
   // Poll sessionStorage for any active auto-optimize flags so the list page
   // can show an "Optimizing" badge for editors whose brief page the user
@@ -205,6 +284,37 @@ export default function AdminContentEditorPage() {
           ) : null}
         </div>
 
+        <AdminContentBulkBar
+          count={selectedSyncable.length}
+          noun="blog editor"
+          detail={
+            selectedIds.size > selectedSyncable.length
+              ? `${selectedIds.size - selectedSyncable.length} non-blog selection ignored`
+              : "Sync draft → linked blog post"
+          }
+        >
+          <button
+            type="button"
+            disabled={bulkSyncing || selectedSyncable.length === 0}
+            onClick={() => void handleBulkSyncToBlog()}
+            className="inline-flex items-center gap-1.5 rounded-xl bg-white px-4 py-2 text-[11px] font-bold uppercase tracking-[0.1em] text-[#0A1F44] transition-opacity hover:bg-white/90 disabled:cursor-not-allowed disabled:opacity-50"
+          >
+            {bulkSyncing ? (
+              <i className="ri-loader-4-line animate-spin" />
+            ) : (
+              <i className="ri-upload-cloud-2-line" />
+            )}
+            Sync to blog
+          </button>
+        </AdminContentBulkBar>
+
+        {bulkSyncResult ? (
+          <p className="mb-4 rounded-xl border border-[#E2E8F0] bg-[#F8FAFC] px-4 py-3 text-[12px] text-[#334155]">
+            <i className="ri-information-line mr-1.5 text-[#64748B]" />
+            {bulkSyncResult}
+          </p>
+        ) : null}
+
         {/* List */}
         <div className="rounded-2xl border border-[#E2E8F0] bg-white shadow-sm overflow-hidden">
           <div className="flex items-center justify-between gap-3 px-5 py-4 border-b border-[#E2E8F0]">
@@ -216,7 +326,7 @@ export default function AdminContentEditorPage() {
                 </span>
               </p>
               <p className="mt-0.5 text-[11px] text-[#94A3B8]">
-                Click an editor to open the workspace.
+                Blog editors can bulk-sync to posts. Page editors use Apply SEO Meta on the brief.
               </p>
             </div>
             <button
@@ -252,6 +362,20 @@ export default function AdminContentEditorPage() {
               <table className="min-w-full text-left text-sm">
                 <thead className="bg-[#F4F7FB] text-[10px] font-bold uppercase tracking-[0.08em] text-[#64748B]">
                   <tr>
+                    <th className="w-10 py-2.5 pl-4 pr-1">
+                      <input
+                        type="checkbox"
+                        checked={allSyncableSelected}
+                        ref={(el) => {
+                          if (el) el.indeterminate = someSyncableSelected;
+                        }}
+                        disabled={syncableRows.length === 0}
+                        onChange={(e) => toggleSelectAllSyncable(e.target.checked)}
+                        title="Select all blog editors with a draft"
+                        className="h-4 w-4 cursor-pointer rounded border-[#CBD5E1] accent-[#0A1F44] disabled:opacity-40"
+                      />
+                    </th>
+                    <th className="px-3 py-2.5">Linked to</th>
                     <th className="px-5 py-2.5">Keyword</th>
                     <th className="px-3 py-2.5">Status</th>
                     <th className="px-3 py-2.5 text-right whitespace-nowrap">Word target</th>
@@ -264,8 +388,39 @@ export default function AdminContentEditorPage() {
                 <tbody className="divide-y divide-[#E2E8F0]">
                   {rows.map((row) => {
                     const processing = STATUS_IS_PROCESSING[row.status];
+                    const bulkOk = canBulkSyncRow(row);
                     return (
                       <tr key={row.id} className="hover:bg-[#F4F7FB]/50 transition-colors">
+                        <td className="py-3 pl-4 pr-1 align-middle">
+                          {bulkOk ? (
+                            <input
+                              type="checkbox"
+                              checked={selectedIds.has(row.id)}
+                              onChange={(e) => toggleSelect(row.id, e.target.checked)}
+                              className="h-4 w-4 cursor-pointer rounded border-[#CBD5E1] accent-[#0A1F44]"
+                              aria-label={`Select ${row.primary_keyword}`}
+                            />
+                          ) : (
+                            <span
+                              className="inline-block h-4 w-4"
+                              title={
+                                row.link_kind === "page"
+                                  ? "Pages are updated manually on the brief"
+                                  : row.link_kind === "blog"
+                                    ? "Run Auto-Optimize or add a draft first"
+                                    : "Link from Blog Posts or Pages first"
+                              }
+                            />
+                          )}
+                        </td>
+                        <td className="px-3 py-3 align-middle max-w-[140px]">
+                          <ContentEditorLinkBadge
+                            linkKind={row.link_kind}
+                            linkLabel={row.link_label}
+                            linkTitle={row.link_title}
+                            blogSyncStatus={row.blog_sync_status}
+                          />
+                        </td>
                         <td className="px-5 py-3">
                           <Link
                             href={`/admin/content-editor/${row.id}`}

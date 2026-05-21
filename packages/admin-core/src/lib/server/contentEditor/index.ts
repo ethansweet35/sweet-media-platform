@@ -57,6 +57,13 @@ export {
 } from "./syncToBlog";
 
 export {
+  bulkSyncEditorsToBlog,
+  handleBulkSyncContentEditorsPost,
+  type BulkSyncEditorResult,
+  type BulkSyncEditorsResponse,
+} from "./bulkSyncToBlog";
+
+export {
   fetchAndScoreLivePage,
   loadLatestSnapshotIgnoreTtl,
   scoreUrlAgainstEditor,

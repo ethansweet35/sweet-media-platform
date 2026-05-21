@@ -16,6 +16,9 @@ export type ContentEditorStatus =
   | "ready"
   | "failed";
 
+import type { BlogEditorSyncStatus } from "../lib/contentEditorSyncStatus";
+import type { ContentEditorLinkKind } from "../lib/contentEditorListLink";
+
 export interface ContentEditorListRow {
   id: string;
   primary_keyword: string;
@@ -35,6 +38,16 @@ export interface ContentEditorListRow {
   linked_tracked_page_id: string | null;
   /** Live-page score for the linked tracked page (only populated in Page Mode). */
   live_page_score: number | null;
+  /** Resolved link target for list UI (blog post, tracked page, or none). */
+  link_kind: ContentEditorLinkKind;
+  link_label: string | null;
+  link_title: string | null;
+  /** Resolved blog_posts.id when link_kind is blog. */
+  resolved_blog_post_id: string | null;
+  draft_body_present: boolean;
+  draft_updated_at: string | null;
+  blog_synced_at: string | null;
+  blog_sync_status: BlogEditorSyncStatus;
   created_at: string;
   updated_at: string;
   completed_at: string | null;
