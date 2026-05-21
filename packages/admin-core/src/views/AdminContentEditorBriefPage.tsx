@@ -392,6 +392,8 @@ function relativeAgo(iso: string | null): string {
 /** Cursor SDK model options surfaced in the panel's per-run model picker. */
 const OPTIMIZE_PR_MODELS: { id: string; label: string; hint: string }[] = [
   { id: "composer-2", label: "Composer 2", hint: "Fastest · cheapest · default" },
+  { id: "composer-2.5", label: "Composer 2.5", hint: "Newer Composer · stronger reasoning, still fast" },
+  { id: "composer-2.5-fast", label: "Composer 2.5 Fast", hint: "Composer 2.5 tuned for speed" },
   { id: "claude-sonnet-4-6", label: "Claude Sonnet 4.6", hint: "Thoughtful · balanced" },
   { id: "claude-opus-4-7", label: "Claude Opus 4.7", hint: "Best reasoning · slowest" },
   { id: "gpt-5-5-pro", label: "GPT-5.5 Pro", hint: "Strong alt opinion" },
