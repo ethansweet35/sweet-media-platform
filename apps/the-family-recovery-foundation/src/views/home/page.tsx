@@ -6,6 +6,7 @@ import StoriesSection from "./components/StoriesSection";
 import HomeSupportCtaSection from "./components/HomeSupportCtaSection";
 import HomePartnersSection from "./components/HomePartnersSection";
 import HomeDonateSection from "./components/HomeDonateSection";
+import NewsletterSignupSection from "@/components/marketing/NewsletterSignupSection";
 
 export default function HomePage() {
   return (
@@ -19,6 +20,7 @@ export default function HomePage() {
         <HomeSupportCtaSection />
         <HomePartnersSection />
         <HomeDonateSection />
+        <NewsletterSignupSection instanceKey="home" sectionClassName="bg-soft-white py-16 md:py-20" />
       </main>
       </div>
   );
