@@ -1,10 +1,9 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import { OKLAHOMA_GALA_DONORBOX_CAMPAIGN } from "@/lib/oklahoma-gala";
 
 export const DONORBOX_WIDGETS_SCRIPT_URL = "https://donorbox.org/widgets.js";
-
-import { OKLAHOMA_GALA_DONORBOX_CAMPAIGN } from "@/lib/oklahoma-gala";
 
 export { OKLAHOMA_GALA_DONORBOX_CAMPAIGN };
 
@@ -13,22 +12,6 @@ interface DonorboxDboxWidgetProps {
   type?: string;
   enableAutoScroll?: boolean;
   className?: string;
-}
-
-declare global {
-  // eslint-disable-next-line @typescript-eslint/no-namespace
-  namespace JSX {
-    interface IntrinsicElements {
-      "dbox-widget": React.DetailedHTMLProps<
-        React.HTMLAttributes<HTMLElement>,
-        HTMLElement
-      > & {
-        campaign?: string;
-        type?: string;
-        "enable-auto-scroll"?: string;
-      };
-    }
-  }
 }
 
 /**
@@ -41,11 +24,12 @@ export default function DonorboxDboxWidget({
   enableAutoScroll = true,
   className = "",
 }: DonorboxDboxWidgetProps) {
-  const loadedRef = useRef(false);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const scriptLoadedRef = useRef(false);
 
   useEffect(() => {
-    if (loadedRef.current) return;
-    loadedRef.current = true;
+    if (scriptLoadedRef.current) return;
+    scriptLoadedRef.current = true;
 
     const existing = document.querySelector(
       `script[src="${DONORBOX_WIDGETS_SCRIPT_URL}"]`,
@@ -59,13 +43,26 @@ export default function DonorboxDboxWidget({
     document.head.appendChild(script);
   }, []);
 
+  useEffect(() => {
+    const container = containerRef.current;
+    if (!container) return;
+
+    const widget = document.createElement("dbox-widget");
+    widget.setAttribute("campaign", campaign);
+    widget.setAttribute("type", type);
+    widget.setAttribute("enable-auto-scroll", enableAutoScroll ? "true" : "false");
+    container.appendChild(widget);
+
+    return () => {
+      container.replaceChildren();
+    };
+  }, [campaign, type, enableAutoScroll]);
+
   return (
-    <div className={`w-full ${className}`.trim()}>
-      <dbox-widget
-        campaign={campaign}
-        type={type}
-        enable-auto-scroll={enableAutoScroll ? "true" : "false"}
-      />
-    </div>
+    <div
+      ref={containerRef}
+      className={`w-full ${className}`.trim()}
+      aria-label="Donation form"
+    />
   );
 }
