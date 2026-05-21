@@ -321,6 +321,12 @@ export default function ContentEditorCell({
     await onChange?.();
   }, [editorId, editor?.status, editor?.linked_tracked_page_id, onChange, fetchJoinedEditor]);
 
+  const openBriefPicker = useCallback(() => {
+    if (noKeyword || action?.status === "loading" || briefSubmitting != null) return;
+    // Defer one frame so the opening click cannot hit a newly mounted button (Analyze).
+    window.requestAnimationFrame(() => setBriefPickerOpen(true));
+  }, [noKeyword, action?.status, briefSubmitting]);
+
   return (
     <div className={`relative flex items-center gap-2 ${compact ? "" : "min-w-[240px]"}`}>
       {/* Score ring */}
@@ -364,7 +370,10 @@ export default function ContentEditorCell({
         <button
           type="button"
           disabled={noKeyword || action?.status === "loading" || briefSubmitting != null}
-          onClick={() => setBriefPickerOpen(true)}
+          onClick={(e) => {
+            e.stopPropagation();
+            openBriefPicker();
+          }}
           title={
             noKeyword
               ? "Set a primary keyword to create a Content Editor"
@@ -461,15 +470,18 @@ export default function ContentEditorCell({
         </span>
       ) : null}
 
-      <ContentEditorBriefModePicker
-        open={briefPickerOpen}
-        keyword={row.primary_keyword?.trim() ?? ""}
-        submitting={briefSubmitting}
-        onClose={() => {
-          if (!briefSubmitting) setBriefPickerOpen(false);
-        }}
-        onSelect={(mode) => void handleBriefModeSelect(mode)}
-      />
+      {briefPickerOpen ? (
+        <ContentEditorBriefModePicker
+          open
+          variant="popover"
+          keyword={row.primary_keyword?.trim() ?? ""}
+          submitting={briefSubmitting}
+          onClose={() => {
+            if (!briefSubmitting) setBriefPickerOpen(false);
+          }}
+          onSelect={(mode) => void handleBriefModeSelect(mode)}
+        />
+      ) : null}
     </div>
   );
 }
