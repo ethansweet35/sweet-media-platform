@@ -57,6 +57,11 @@ export {
 } from "./syncToBlog";
 
 export {
+  syncBlogPostToEditorDraft,
+  type SyncBlogPostToEditorDraftResult,
+} from "./syncFromBlog";
+
+export {
   bulkSyncEditorsToBlog,
   handleBulkSyncContentEditorsPost,
   type BulkSyncEditorResult,

@@ -58,6 +58,20 @@ export const ADMIN_CHANGELOG: AdminChangelogEntry[] = [
     ],
   },
   {
+    id: "2026-05-21-import-blog-to-editor",
+    date: "2026-05-21",
+    category: "new",
+    title: "Import existing blog post into Content Editor",
+    summary:
+      "Blog-linked briefs can pull the live post body into the editor with Import from blog. New briefs created from Blog Posts auto-import when the post already has content. Sync to blog still pushes editor → post (not the other way).",
+    href: "/admin/blogs",
+    hrefLabel: "Blog Posts",
+    tips: [
+      "Workflow for existing posts: Brief → Import from blog → edit/score → Sync to blog.",
+      "Auto-Optimize is optional if you only need to tune an existing article.",
+    ],
+  },
+  {
     id: "2026-05-21-sync-draft-to-blog",
     date: "2026-05-21",
     category: "new",
@@ -68,7 +82,7 @@ export const ADMIN_CHANGELOG: AdminChangelogEntry[] = [
     hrefLabel: "Blog Posts",
     tips: [
       "Create the editor from the blog row (Brief button) so the post stays linked.",
-      "Workflow: set keyword → Brief → Auto-Optimize → Sync to blog.",
+      "Workflow: set keyword → Brief → Import from blog or Auto-Optimize → Sync to blog.",
     ],
   },
   {

@@ -1156,6 +1156,12 @@ export default function AdminContentEditorBriefPage({ briefId: briefIdProp }: Pr
   const [applySeoMetaResult, setApplySeoMetaResult] = useState<{ ok: boolean; message: string } | null>(null);
   const [syncingToBlog, setSyncingToBlog] = useState(false);
   const [syncToBlogResult, setSyncToBlogResult] = useState<{ ok: boolean; message: string } | null>(null);
+  const [importingFromBlog, setImportingFromBlog] = useState(false);
+  const [importFromBlogResult, setImportFromBlogResult] = useState<{
+    ok: boolean;
+    message: string;
+  } | null>(null);
+  const hasLinkedBlog = !isPageMode;
 
   // Hydrate draft from server when state loads / changes.
   //
@@ -1244,6 +1250,46 @@ export default function AdminContentEditorBriefPage({ briefId: briefIdProp }: Pr
     } catch (err) {
       setLivePageScanError(err instanceof Error ? err.message : String(err));
       setLivePageScanning(false);
+    }
+  }
+
+  async function handleImportFromBlog() {
+    if (!editorId || !hasLinkedBlog) return;
+    const hasExistingDraft = !!state?.currentDraft?.body_markdown?.trim();
+    if (hasExistingDraft) {
+      const ok = window.confirm(
+        "Import from the linked blog post? This replaces the current draft text and SEO fields in the editor.",
+      );
+      if (!ok) return;
+    }
+    setImportingFromBlog(true);
+    setImportFromBlogResult(null);
+    try {
+      const res = await fetch(`/api/admin/content-editor/${editorId}/sync-from-blog`, {
+        method: "POST",
+      });
+      const j = (await res.json().catch(() => ({}))) as {
+        ok?: boolean;
+        error?: string;
+        slug?: string;
+        wordCount?: number;
+        scored?: boolean;
+      };
+      if (!res.ok || !j.ok) {
+        throw new Error(j.error ?? `Import failed (HTTP ${res.status}).`);
+      }
+      setImportFromBlogResult({
+        ok: true,
+        message: `Imported from blog post (/blog/${j.slug ?? ""}${j.wordCount != null ? `, ${j.wordCount} words` : ""}${j.scored ? ", scored" : ""}).`,
+      });
+      await refresh({ silent: true });
+    } catch (err) {
+      setImportFromBlogResult({
+        ok: false,
+        message: err instanceof Error ? err.message : String(err),
+      });
+    } finally {
+      setImportingFromBlog(false);
     }
   }
 
@@ -1600,6 +1646,19 @@ export default function AdminContentEditorBriefPage({ briefId: briefIdProp }: Pr
                 </button>
                 <button
                   type="button"
+                  onClick={() => void handleImportFromBlog()}
+                  disabled={importingFromBlog || processing || optimizing || !hasLinkedBlog}
+                  className="px-4 py-2 rounded-lg text-[11px] font-bold uppercase tracking-[0.1em] border border-[#0A1F44]/25 text-[#0A1F44] bg-white hover:bg-[#0A1F44]/6 disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-1.5"
+                  title="Pull the linked blog post body and SEO fields into this editor"
+                >
+                  {importingFromBlog ? (
+                    <><i className="ri-loader-4-line animate-spin" /> Importing…</>
+                  ) : (
+                    <><i className="ri-download-cloud-line" /> Import from blog</>
+                  )}
+                </button>
+                <button
+                  type="button"
                   onClick={() => void handleSyncToBlog()}
                   disabled={
                     syncingToBlog ||
@@ -1678,6 +1737,39 @@ export default function AdminContentEditorBriefPage({ briefId: briefIdProp }: Pr
             <p className="mt-0.5 text-[11px] text-red-700 break-words">{error}</p>
           </div>
           <button type="button" onClick={() => clearError()} className="text-red-400 hover:text-red-600 text-sm shrink-0">
+            <i className="ri-close-line" />
+          </button>
+        </div>
+      ) : null}
+
+      {importFromBlogResult ? (
+        <div
+          className={`rounded-2xl border p-4 flex items-start gap-3 mx-auto max-w-screen-xl mb-4 ${
+            importFromBlogResult.ok
+              ? "border-emerald-200 bg-emerald-50"
+              : "border-red-200 bg-red-50"
+          }`}
+        >
+          <i
+            className={`mt-0.5 ${importFromBlogResult.ok ? "ri-check-line text-emerald-600" : "ri-error-warning-line text-red-600"}`}
+          />
+          <div className="flex-1 min-w-0">
+            <p
+              className={`text-[12px] font-semibold ${importFromBlogResult.ok ? "text-emerald-900" : "text-red-900"}`}
+            >
+              {importFromBlogResult.ok ? "Imported from blog" : "Import from blog failed"}
+            </p>
+            <p
+              className={`mt-0.5 text-[11px] break-words ${importFromBlogResult.ok ? "text-emerald-800" : "text-red-700"}`}
+            >
+              {importFromBlogResult.message}
+            </p>
+          </div>
+          <button
+            type="button"
+            onClick={() => setImportFromBlogResult(null)}
+            className={`text-sm shrink-0 ${importFromBlogResult.ok ? "text-emerald-500 hover:text-emerald-700" : "text-red-400 hover:text-red-600"}`}
+          >
             <i className="ri-close-line" />
           </button>
         </div>

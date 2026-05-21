@@ -7,6 +7,7 @@ export {
   parseEmbeddedHeading,
   isResourceSectionHeading,
 } from "./lib/markdownToSections";
+export { sectionsToMarkdown } from "./lib/sectionsToMarkdown";
 export { supabase } from "./lib/supabase";
 export { useBlogPosts, useBlogPost, useBlogCategories, useSearchBlogPosts, usePaginatedBlogPosts } from "./hooks/useBlogPosts";
 export * from "./lib/autoInternalLinks";

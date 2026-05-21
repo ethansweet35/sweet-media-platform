@@ -222,7 +222,22 @@ export async function createContentEditor(
       { source: "api", status: 500 },
     );
   }
-  return data as ContentEditorRow;
+
+  const row = data as ContentEditorRow;
+  if (input.blogPostId) {
+    try {
+      const { syncBlogPostToEditorDraft } = await import("./syncFromBlog");
+      await syncBlogPostToEditorDraft(row.id, {
+        blogPostId: input.blogPostId,
+        scoreAfterImport: false,
+      });
+    } catch (err) {
+      // Empty or unparsable post bodies should not block brief creation.
+      console.warn("[content-editor] blog import on create skipped:", err);
+    }
+  }
+
+  return row;
 }
 
 // ───────────────────────────────────────────────────────────────────────
