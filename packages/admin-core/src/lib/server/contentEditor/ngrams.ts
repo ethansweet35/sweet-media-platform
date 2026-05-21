@@ -21,6 +21,7 @@
  *      drive the recommended usage range in the UI.
  *   6. Return ranked terms.
  */
+import { isScrapeArtifact, WEB_BOILERPLATE_UNIGRAMS } from "./termQuality";
 import { ENGLISH_STOPWORDS, tokenize } from "./textUtils";
 
 export interface NgramTerm {
@@ -237,6 +238,7 @@ const GENERIC_UNIGRAM_BLOCKLIST = new Set<string>([
  */
 function isUsefulTerm(term: string): boolean {
   if (!term) return false;
+  if (isScrapeArtifact(term)) return false;
   // Reject pure numeric terms
   if (/^[\d\s.,$%-]+$/.test(term)) return false;
   // Reject single-char tokens that snuck through
@@ -255,20 +257,23 @@ function isUsefulTerm(term: string): boolean {
   // For multi-word phrases: require at least one non-stopword token.
   const allStop = tokens.every((t) => ENGLISH_STOPWORDS.has(t));
   if (allStop) return false;
+  const isBlockedToken = (t: string) =>
+    GENERIC_UNIGRAM_BLOCKLIST.has(t) || WEB_BOILERPLATE_UNIGRAMS.has(t);
+
   // Reject standalone generic unigrams that aren't actionable SEO terms.
-  if (tokens.length === 1 && GENERIC_UNIGRAM_BLOCKLIST.has(tokens[0])) return false;
+  if (tokens.length === 1 && isBlockedToken(tokens[0])) return false;
 
   // Multi-word phrases: at least one boundary token must NOT be blocklisted.
   // Bigrams where either boundary is generic are almost always junk
   // ("may involve", "amount money", "groups gamblers", "approach treatment").
   if (tokens.length === 2) {
-    if (GENERIC_UNIGRAM_BLOCKLIST.has(tokens[0]) || GENERIC_UNIGRAM_BLOCKLIST.has(tokens[1])) {
+    if (isBlockedToken(tokens[0]) || isBlockedToken(tokens[1])) {
       return false;
     }
   }
   // Trigrams: require non-blocklist at BOTH ends but allow blocklist in middle.
   if (tokens.length >= 3) {
-    if (GENERIC_UNIGRAM_BLOCKLIST.has(tokens[0]) || GENERIC_UNIGRAM_BLOCKLIST.has(tokens[tokens.length - 1])) {
+    if (isBlockedToken(tokens[0]) || isBlockedToken(tokens[tokens.length - 1])) {
       return false;
     }
   }

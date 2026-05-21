@@ -34,6 +34,13 @@ export const ENGLISH_STOPWORDS = new Set<string>([
   "https", "http", "www",
   // Common words missed from standard stopword lists
   "like", "one", "ones",
+  // Nav / contact / address boilerplate
+  "contact", "phone", "call", "calls", "called", "calling", "email", "emails",
+  "name", "names", "suite", "avenue", "street", "south", "north", "united",
+  "state", "city", "county", "without", "people", "person", "persons",
+  "opens", "open", "opened", "window", "windows", "tab", "tabs",
+  "nbsp", "validation", "purposes", "unchanged", "field", "left",
+  "everyday", "routines", "activities", "delays", "developmental",
   // Generic web verbs
   "us", "uses", "use", "using", "used", "make", "makes", "making", "made",
   "get", "gets", "getting", "got", "go", "goes", "going", "gone",
@@ -148,6 +155,34 @@ export function countTermOccurrences(text: string, term: string): number {
 }
 
 // ─── First-N-words helpers ──────────────────────────────────────────────
+/**
+ * Strip accessibility, form, and HTML-decode artifacts from scraped page text
+ * before n-gram extraction. No API cost — runs on every competitor body.
+ */
+export function sanitizeScrapedPlaintext(text: string): string {
+  if (!text) return "";
+  let s = text
+    .replace(/\u00a0/g, " ")
+    .replace(/&nbsp;/gi, " ")
+    .replace(/\bnbsp\b/gi, " ");
+
+  s = s
+    .replace(/\bopens?\s+(in\s+)?a?\s*new\s+(window|tab)\b/gi, " ")
+    .replace(/\bopen\s+in\s+new\s+tab\b/gi, " ")
+    .replace(/\bfield\s+validation\s+purposes\b/gi, " ")
+    .replace(/\bvalidation\s+purposes\s+left\b/gi, " ")
+    .replace(/\bvalidation\s+purposes\b/gi, " ")
+    .replace(/\bpurposes\s+left\s+unchanged\b/gi, " ")
+    .replace(/\bleft\s+unchanged\b/gi, " ")
+    .replace(/\beveryday\s+routines\s+activities\b/gi, " ")
+    .replace(/\bdevelopmental\s+delays\b/gi, " ")
+    .replace(/\bfamilies\s+receive\s+guidance\b/gi, " ")
+    .replace(/\b\d{4,5}\s+re\b/gi, " ")
+    .replace(/&#?\d+;/g, " ");
+
+  return s.replace(/\s+/g, " ").trim();
+}
+
 export function getFirstNWords(text: string, n: number): string {
   if (!text || n <= 0) return "";
   const words = text.trim().split(/\s+/).slice(0, n);

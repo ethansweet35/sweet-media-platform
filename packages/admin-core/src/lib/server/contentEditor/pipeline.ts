@@ -433,12 +433,22 @@ async function phase3_nlpAndNgrams(
   // Lower thresholds → broader Surfer-style candidate pool; AI curation
   // downstream does the topical pruning.
   const docTexts = competitors.map((c) => c.cleaned_text ?? "");
-  const ngrams = extractNgrams(docTexts, {
-    minDocFreq: 0.25,
-    minTotalFreq: 3,
-    unigramMinAvgFreq: 2,
-    limit: 300,
-  });
+  const ngrams = extractNgrams(
+    docTexts,
+    mode === "lite"
+      ? {
+          minDocFreq: 0.3,
+          minTotalFreq: 4,
+          unigramMinAvgFreq: 3,
+          limit: 250,
+        }
+      : {
+          minDocFreq: 0.25,
+          minTotalFreq: 3,
+          unigramMinAvgFreq: 2,
+          limit: 300,
+        },
+  );
 
   // Merge entities + n-grams. Use lowercase key for dedup.
   const merged = mergeEntitiesAndNgrams(allEntities, ngrams, competitors.length);

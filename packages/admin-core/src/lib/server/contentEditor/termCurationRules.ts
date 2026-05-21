@@ -3,6 +3,13 @@
  * Mirrors the DROP rules from the Sonnet curation prompt without an LLM call.
  */
 
+import {
+  WEB_BOILERPLATE_UNIGRAMS,
+  isScrapeArtifact,
+  isWeakUnigramForTopic,
+  primaryKeywordTokens,
+} from "./termQuality";
+
 export interface MergedTermCandidate {
   term: string;
   type: "entity" | "ngram";
@@ -49,7 +56,10 @@ const TIME_NUMBERS = new Set([
   "minutes", "hour", "hours", "three", "four", "five", "first", "second", "third",
 ]);
 
-const NAV_BOILERPLATE = /\b(about us|contact us|related posts|newsletter|subscribe|privacy policy|terms of service|all rights reserved)\b/i;
+const NAV_BOILERPLATE = /\b(about us|contact us|related posts|newsletter|subscribe|privacy policy|terms of service|all rights reserved|opens? (in )?a? new window)\b/i;
+
+/** Max share of final list that can be single words — Surfer is mostly phrases. */
+const MAX_UNIGRAM_SHARE = 0.22;
 
 function termTokens(term: string): string[] {
   return term.toLowerCase().split(/\s+/).filter((t) => t.length > 0);
@@ -69,13 +79,33 @@ function isDuplicateOfKept(term: string, kept: MergedTermCandidate[]): boolean {
   return false;
 }
 
+function isWeakPhrase(term: string): boolean {
+  const tokens = termTokens(term);
+  if (tokens.length < 2) return false;
+  const weakCount = tokens.filter(
+    (tok) =>
+      WEB_BOILERPLATE_UNIGRAMS.has(tok) ||
+      GENERIC_VERBS.has(tok) ||
+      MODALS.has(tok) ||
+      VAGUE_MODIFIERS.has(tok),
+  ).length;
+  if (weakCount === tokens.length) return true;
+  if (tokens.length === 2 && weakCount >= 1 && tokens.some((tok) => WEB_BOILERPLATE_UNIGRAMS.has(tok))) {
+    return true;
+  }
+  return false;
+}
+
 function shouldDropTerm(term: string): boolean {
   const t = term.toLowerCase().trim();
   if (!t || t.length < 2) return true;
+  if (isScrapeArtifact(t)) return true;
   if (NAV_BOILERPLATE.test(t)) return true;
   const tokens = termTokens(t);
   if (tokens.length === 0) return true;
   if (tokens.every((tok) => GENERIC_VERBS.has(tok) || MODALS.has(tok))) return true;
+  if (tokens.some((tok) => WEB_BOILERPLATE_UNIGRAMS.has(tok)) && tokens.length === 1) return true;
+  if (isWeakPhrase(t)) return true;
   if (tokens.length === 1) {
     const tok = tokens[0];
     if (
@@ -102,19 +132,32 @@ export function curateTermsWithRules(
   maxTerms = 75,
 ): { curated: MergedTermCandidate[]; added: string[] } {
   const pkLower = primaryKeyword.toLowerCase().trim();
+  const pkTokens = primaryKeywordTokens(primaryKeyword);
+  const maxUnigrams = Math.max(8, Math.floor(maxTerms * MAX_UNIGRAM_SHARE));
   const sorted = [...candidates].sort((a, b) => b.relevance - a.relevance);
   const curated: MergedTermCandidate[] = [];
+  let unigramCount = 0;
 
   for (const c of sorted) {
     if (curated.length >= maxTerms) break;
     const lower = c.term.toLowerCase();
+    const tokenCount = termTokens(lower).length;
+
     if (lower === pkLower) {
       curated.push(c);
+      if (tokenCount === 1) unigramCount++;
       continue;
     }
     if (shouldDropTerm(c.term)) continue;
-    if (c.coverage < 0.2 && c.relevance < 0.15) continue;
+    if (c.coverage < 0.25 && c.relevance < 0.2) continue;
     if (isDuplicateOfKept(c.term, curated)) continue;
+
+    if (tokenCount === 1) {
+      if (unigramCount >= maxUnigrams) continue;
+      if (isWeakUnigramForTopic(lower, pkTokens, c.coverage, c.avgFreq)) continue;
+      unigramCount++;
+    }
+
     curated.push(c);
   }
 

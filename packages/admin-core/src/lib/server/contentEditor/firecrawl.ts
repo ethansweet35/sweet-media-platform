@@ -15,6 +15,7 @@
 import { ContentEditorError } from "./errors";
 import { FIRECRAWL_COST_PER_SCRAPE } from "./pricing";
 import { withRetry } from "./retry";
+import { sanitizeScrapedPlaintext } from "./textUtils";
 import type { ScrapeResult, ScrapedHeading, VendorCallResult } from "./types";
 
 const ENDPOINT = "https://api.firecrawl.dev/v1/scrape";
@@ -107,15 +108,15 @@ function countLinks(
 
 /** Strip markdown formatting back to plain text for word counting. */
 function markdownToPlain(md: string): string {
-  return md
-    .replace(/```[\s\S]*?```/g, " ")                  // fenced code blocks
-    .replace(/!\[[^\]]*\]\([^)]*\)/g, " ")            // images
-    .replace(/\[([^\]]+)\]\([^)]+\)/g, "$1")          // links → keep text
-    .replace(/[#>*_~`]+/g, " ")                        // markdown punctuation
-    .replace(/\|/g, " ")                               // table pipes
-    .replace(/[-]{3,}/g, " ")                          // table separators
-    .replace(/\s+/g, " ")
-    .trim();
+  return sanitizeScrapedPlaintext(
+    md
+      .replace(/```[\s\S]*?```/g, " ")                  // fenced code blocks
+      .replace(/!\[[^\]]*\]\([^)]*\)/g, " ")            // images
+      .replace(/\[([^\]]+)\]\([^)]+\)/g, "$1")          // links → keep text
+      .replace(/[#>*_~`]+/g, " ")                        // markdown punctuation
+      .replace(/\|/g, " ")                               // table pipes
+      .replace(/[-]{3,}/g, " "),                         // table separators
+  );
 }
 
 function countWords(text: string): number {
@@ -132,10 +133,11 @@ export function htmlToPlainText(html: string): string {
     .replace(/<nav[\s\S]*?<\/nav>/gi, " ")
     .replace(/<footer[\s\S]*?<\/footer>/gi, " ")
     .replace(/<header[\s\S]*?<\/header>/gi, " ");
-  return stripped
-    .replace(/<[^>]+>/g, " ")
-    .replace(/\s+/g, " ")
-    .trim();
+  return sanitizeScrapedPlaintext(
+    stripped
+      .replace(/<[^>]+>/g, " ")
+      .replace(/\s+/g, " "),
+  );
 }
 
 function extractTitleFromHtml(html: string): string {
