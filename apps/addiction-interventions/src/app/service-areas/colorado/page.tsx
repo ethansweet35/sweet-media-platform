@@ -3,8 +3,9 @@ import { resolveTrackedPageMetadata } from "@sweetmedia/admin-core";
 import ColoradoPage from "@/views/colorado/page";
 
 const fallbackMetadata: Metadata = {
-  title: "Drug & Alcohol Intervention Services in Colorado | Addiction Interventions",
-  description: "Certified interventionists serving Colorado. On-site addiction and mental health interventions — families helped within 24–48 hours. Free confidential consultation: 949-776-7093.",
+  title: "Addiction Intervention Services Colorado | 24/7 Help",
+  description:
+    "Need Addiction Intervention Services Colorado? Confidential support is available statewide, 24/7. Certified interventionists on-site within 48 hours. Get help today.",
   alternates: { canonical: "/service-areas/colorado" },
 };
 
