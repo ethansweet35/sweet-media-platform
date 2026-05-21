@@ -29,12 +29,14 @@ import {
 import ContentEditorCell from "../ContentEditorCell";
 import InlineKeywordCell from "../InlineKeywordCell";
 import RankingKeywordsPopover from "../RankingKeywordsPopover";
+import { formatAdminTableDate } from "../../lib/formatAdminTableDate";
 
 export type TrackedPagesSortCol =
   | "route"
   | "title"
   | "keyword"
   | "created_at"
+  | "updated_at"
   | "status"
   | "wordCount";
 
@@ -57,11 +59,15 @@ function fmtDate(iso: string | null | undefined): string {
 }
 
 function toHeaderSortField(sortCol: TrackedPagesSortCol): ContentTableSortField {
-  return sortCol === "created_at" ? "date" : sortCol;
+  if (sortCol === "created_at") return "date";
+  if (sortCol === "updated_at") return "lastUpdated";
+  return sortCol;
 }
 
 function fromHeaderSortField(field: ContentTableSortField): TrackedPagesSortCol {
-  return field === "date" ? "created_at" : field;
+  if (field === "date") return "created_at";
+  if (field === "lastUpdated") return "updated_at";
+  return field;
 }
 
 const COL_SPAN = contentTableColSpan(false);
@@ -328,6 +334,14 @@ export default function AdminTrackedPagesTable({
                 {p.is_active ? "Active" : "Off"}
               </span>
             </div>
+          </td>
+        );
+      case "lastUpdated":
+        return (
+          <td className="overflow-hidden px-3 py-3 align-middle">
+            <span className="block truncate text-[12px] text-[#64748B]">
+              {formatAdminTableDate(p.updated_at)}
+            </span>
           </td>
         );
       case "date":

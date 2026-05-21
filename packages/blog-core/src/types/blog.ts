@@ -42,6 +42,9 @@ export interface BlogPost {
   published_url?: string | null;
   /** Linked Content Editor row (mirrors blog_posts.content_editor_id). */
   content_editor_id?: string | null;
+  /** When the live post last received the Content Editor draft. */
+  content_editor_synced_at?: string | null;
+  updatedAt?: string;
 }
 
 export interface DbBlogPost {
@@ -71,6 +74,7 @@ export interface DbBlogPost {
   focus_keyword?: string | null;
   published_url?: string | null;
   content_editor_id?: string | null;
+  content_editor_synced_at?: string | null;
 }
 
 export const categories = [
@@ -149,6 +153,8 @@ export function dbToBlogPost(db: DbBlogPost): BlogPost {
     focus_keyword: db.focus_keyword ?? null,
     published_url: db.published_url ?? null,
     content_editor_id: db.content_editor_id ?? null,
+    content_editor_synced_at: db.content_editor_synced_at ?? null,
+    updatedAt: db.updated_at,
   };
 }
 

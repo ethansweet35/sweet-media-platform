@@ -24,6 +24,7 @@ import {
 import GscMetricsCell from "../../../../content-list/table/GscMetricsCell";
 import { useContentTableResize } from "../../../../content-list/table/useContentTableResize";
 import WordCountBadge from "../../../../content-list/table/WordCountBadge";
+import { formatAdminTableDate } from "../../../../../lib/formatAdminTableDate";
 
 function countWords(text: string): number {
   return text.trim().split(/\s+/).filter(Boolean).length;
@@ -146,6 +147,9 @@ export default function AdminBlogTable({
         break;
       case "route":
         cmp = a.slug.localeCompare(b.slug);
+        break;
+      case "lastUpdated":
+        cmp = new Date(a.updatedAt ?? 0).getTime() - new Date(b.updatedAt ?? 0).getTime();
         break;
       case "date":
         cmp = new Date(a.publishedAt).getTime() - new Date(b.publishedAt).getTime();
@@ -373,6 +377,7 @@ export default function AdminBlogTable({
                           id: post.id,
                           primary_keyword: post.focus_keyword ?? null,
                           content_editor_id: post.content_editor_id ?? null,
+                          content_editor_synced_at: post.content_editor_synced_at ?? null,
                         }}
                         onChange={onSeoChange}
                       />
@@ -436,6 +441,13 @@ export default function AdminBlogTable({
                           </button>
                         ) : null}
                       </div>
+                    </td>
+
+                    {/* Last updated */}
+                    <td className="px-3 py-3 align-middle overflow-hidden">
+                      <span className="block truncate text-[12px] text-[#64748B]">
+                        {formatAdminTableDate(post.updatedAt)}
+                      </span>
                     </td>
 
                     {/* Date */}

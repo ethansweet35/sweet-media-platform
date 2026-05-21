@@ -11,6 +11,7 @@ export const CONTENT_TABLE_BASE_COLUMNS = [
   "gsc",
   "contentEditor",
   "status",
+  "lastUpdated",
   "date",
   "actions",
 ] as const;
@@ -30,6 +31,7 @@ export const CONTENT_TABLE_COLUMN_LABELS: Record<ContentTableColumn, string> = {
   gsc: "GSC (28d)",
   contentEditor: "Content Editor",
   status: "Status",
+  lastUpdated: "Last updated",
   date: "Date",
   actions: "Actions",
 };
@@ -46,6 +48,7 @@ export const DEFAULT_CONTENT_COL_WIDTHS: Record<ContentTableColumn, number> = {
   gsc: 112,
   contentEditor: 340,
   status: 130,
+  lastUpdated: 120,
   date: 140,
   actions: 220,
 };

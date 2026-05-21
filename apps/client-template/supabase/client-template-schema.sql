@@ -220,6 +220,7 @@ create table if not exists public.blog_posts (
   -- Content Editor integration (see migrations/2026-05-12_link_blog_pages_to_content_editor.sql).
   -- FK to content_editors is added at the bottom of this file.
   content_editor_id uuid,
+  content_editor_synced_at timestamptz,
   created_at timestamptz not null default now(),
   updated_at timestamptz not null default now()
 );

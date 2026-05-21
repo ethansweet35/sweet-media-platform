@@ -263,6 +263,7 @@ export default function AdminTrackedPagesPage() {
       else if (sortCol === "title") { av = strVal(a.page_title); bv = strVal(b.page_title); }
       else if (sortCol === "keyword") { av = strVal(a.primary_keyword); bv = strVal(b.primary_keyword); }
       else if (sortCol === "created_at") { av = a.created_at ?? ""; bv = b.created_at ?? ""; }
+      else if (sortCol === "updated_at") { av = a.updated_at ?? ""; bv = b.updated_at ?? ""; }
       else if (sortCol === "status") { av = a.is_active ? 1 : 0; bv = b.is_active ? 1 : 0; }
       else if (sortCol === "wordCount") { av = wordCounts[a.id]?.words ?? -1; bv = wordCounts[b.id]?.words ?? -1; }
       if (av < bv) return sortDir === "asc" ? -1 : 1;

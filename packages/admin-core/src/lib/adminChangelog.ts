@@ -30,6 +30,20 @@ export const ADMIN_CHANGELOG_CATEGORY_LABEL: Record<AdminChangelogCategory, stri
 /** Newest first — maintain this order when adding entries. */
 export const ADMIN_CHANGELOG: AdminChangelogEntry[] = [
   {
+    id: "2026-05-21-sync-draft-to-blog",
+    date: "2026-05-21",
+    category: "new",
+    title: "Sync Content Editor draft to blog post",
+    summary:
+      "After Auto-Optimize on a blog-linked brief, use Sync to blog to push the draft into the live blog_posts row. Blog Posts shows Synced / Sync badges in the Content Editor column; Posts and Pages tables include a Last updated column.",
+    href: "/admin/blogs",
+    hrefLabel: "Blog Posts",
+    tips: [
+      "Create the editor from the blog row (Brief button) so the post stays linked.",
+      "Workflow: set keyword → Brief → Auto-Optimize → Sync to blog.",
+    ],
+  },
+  {
     id: "2026-05-20-content-editor-lite-deep",
     date: "2026-05-20",
     category: "new",

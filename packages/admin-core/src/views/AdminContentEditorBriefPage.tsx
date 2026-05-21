@@ -1152,6 +1152,8 @@ export default function AdminContentEditorBriefPage({ briefId: briefIdProp }: Pr
   const [livePageScanError, setLivePageScanError] = useState<string | null>(null);
   const [applyingSeoMeta, setApplyingSeoMeta] = useState(false);
   const [applySeoMetaResult, setApplySeoMetaResult] = useState<{ ok: boolean; message: string } | null>(null);
+  const [syncingToBlog, setSyncingToBlog] = useState(false);
+  const [syncToBlogResult, setSyncToBlogResult] = useState<{ ok: boolean; message: string } | null>(null);
 
   // Hydrate draft from server when state loads / changes.
   //
@@ -1240,6 +1242,44 @@ export default function AdminContentEditorBriefPage({ briefId: briefIdProp }: Pr
     } catch (err) {
       setLivePageScanError(err instanceof Error ? err.message : String(err));
       setLivePageScanning(false);
+    }
+  }
+
+  async function handleSyncToBlog() {
+    if (!editorId || !state?.currentDraft?.body_markdown?.trim()) return;
+    const ok = window.confirm(
+      "Sync this draft to the linked blog post? This overwrites the post title, meta description, excerpt, and body in the admin (and on the site after publish).",
+    );
+    if (!ok) return;
+    setSyncingToBlog(true);
+    setSyncToBlogResult(null);
+    try {
+      const res = await fetch(`/api/admin/content-editor/${editorId}/sync-to-blog`, {
+        method: "POST",
+      });
+      const j = (await res.json().catch(() => ({}))) as {
+        ok?: boolean;
+        error?: string;
+        slug?: string;
+        wordCount?: number;
+      };
+      if (!res.ok || j.ok === false) {
+        throw new Error(j.error ?? `Sync failed (HTTP ${res.status}).`);
+      }
+      setSyncToBlogResult({
+        ok: true,
+        message: j.slug
+          ? `Synced to blog post (/blog/${j.slug}${j.wordCount != null ? `, ${j.wordCount} words` : ""}).`
+          : "Synced to blog post.",
+      });
+      await refresh({ silent: true });
+    } catch (err) {
+      setSyncToBlogResult({
+        ok: false,
+        message: err instanceof Error ? err.message : String(err),
+      });
+    } finally {
+      setSyncingToBlog(false);
     }
   }
 
@@ -1542,19 +1582,39 @@ export default function AdminContentEditorBriefPage({ briefId: briefIdProp }: Pr
                 a Cursor cloud agent to open a real PR against the page's tsx
                 — preserves the brand design system. */}
             {!isPageMode ? (
-              <button
-                type="button"
-                onClick={() => void handleAutoOptimize()}
-                disabled={optimizing || processing}
-                className="px-4 py-2 rounded-lg text-[11px] font-bold uppercase tracking-[0.1em] bg-[#0A1F44] text-white hover:bg-[#2f5a6b] disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-1.5"
-                title="Generate a fully-optimized draft from this brief using AI"
-              >
-                {optimizing ? (
-                  <><i className="ri-loader-4-line animate-spin" /> Optimizing…</>
-                ) : (
-                  <><i className="ri-magic-line" /> Auto-Optimize</>
-                )}
-              </button>
+              <>
+                <button
+                  type="button"
+                  onClick={() => void handleAutoOptimize()}
+                  disabled={optimizing || processing}
+                  className="px-4 py-2 rounded-lg text-[11px] font-bold uppercase tracking-[0.1em] bg-[#0A1F44] text-white hover:bg-[#2f5a6b] disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-1.5"
+                  title="Generate a fully-optimized draft from this brief using AI"
+                >
+                  {optimizing ? (
+                    <><i className="ri-loader-4-line animate-spin" /> Optimizing…</>
+                  ) : (
+                    <><i className="ri-magic-line" /> Auto-Optimize</>
+                  )}
+                </button>
+                <button
+                  type="button"
+                  onClick={() => void handleSyncToBlog()}
+                  disabled={
+                    syncingToBlog ||
+                    processing ||
+                    optimizing ||
+                    !state?.currentDraft?.body_markdown?.trim()
+                  }
+                  className="px-4 py-2 rounded-lg text-[11px] font-bold uppercase tracking-[0.1em] border border-emerald-600 text-emerald-800 bg-emerald-50 hover:bg-emerald-100 disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-1.5"
+                  title="Push the current draft into the linked blog post"
+                >
+                  {syncingToBlog ? (
+                    <><i className="ri-loader-4-line animate-spin" /> Syncing…</>
+                  ) : (
+                    <><i className="ri-upload-cloud-line" /> Sync to blog</>
+                  )}
+                </button>
+              </>
             ) : null}
             {isPageMode ? (
               <button
@@ -1616,6 +1676,39 @@ export default function AdminContentEditorBriefPage({ briefId: briefIdProp }: Pr
             <p className="mt-0.5 text-[11px] text-red-700 break-words">{error}</p>
           </div>
           <button type="button" onClick={() => clearError()} className="text-red-400 hover:text-red-600 text-sm shrink-0">
+            <i className="ri-close-line" />
+          </button>
+        </div>
+      ) : null}
+
+      {syncToBlogResult ? (
+        <div
+          className={`rounded-2xl border p-4 flex items-start gap-3 mx-auto max-w-screen-xl mb-4 ${
+            syncToBlogResult.ok
+              ? "border-emerald-200 bg-emerald-50"
+              : "border-red-200 bg-red-50"
+          }`}
+        >
+          <i
+            className={`mt-0.5 ${syncToBlogResult.ok ? "ri-check-line text-emerald-600" : "ri-error-warning-line text-red-600"}`}
+          />
+          <div className="flex-1 min-w-0">
+            <p
+              className={`text-[12px] font-semibold ${syncToBlogResult.ok ? "text-emerald-900" : "text-red-900"}`}
+            >
+              {syncToBlogResult.ok ? "Synced to blog" : "Sync to blog failed"}
+            </p>
+            <p
+              className={`mt-0.5 text-[11px] break-words ${syncToBlogResult.ok ? "text-emerald-800" : "text-red-700"}`}
+            >
+              {syncToBlogResult.message}
+            </p>
+          </div>
+          <button
+            type="button"
+            onClick={() => setSyncToBlogResult(null)}
+            className={`text-sm shrink-0 ${syncToBlogResult.ok ? "text-emerald-500 hover:text-emerald-700" : "text-red-400 hover:text-red-600"}`}
+          >
             <i className="ri-close-line" />
           </button>
         </div>

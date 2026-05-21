@@ -98,6 +98,8 @@ export {
   runContentEditorPipeline,
   runAutoOptimize,
   type AutoOptimizeOptions,
+  syncEditorDraftToBlogPost,
+  type SyncEditorDraftToBlogResult,
   fetchAndScoreLivePage,
   loadLatestSnapshotIgnoreTtl,
   scoreUrlAgainstEditor,

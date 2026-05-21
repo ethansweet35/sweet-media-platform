@@ -8,6 +8,11 @@ import {
   type ContentEditorRowRef,
 } from "../hooks/useContentEditorRowActions";
 import {
+  computeBlogEditorSyncStatus,
+  BLOG_SYNC_STATUS_LABEL,
+  type BlogEditorSyncStatus,
+} from "../lib/contentEditorSyncStatus";
+import {
   STATUS_IS_PROCESSING,
   STATUS_LABELS,
   type ContentEditorStatus,
@@ -21,6 +26,8 @@ export interface ContentEditorCellRow {
   id: string;
   primary_keyword: string | null;
   content_editor_id: string | null;
+  /** Blog posts only — when the post last received the editor draft. */
+  content_editor_synced_at?: string | null;
 }
 
 interface ContentEditorCellProps {
@@ -103,6 +110,8 @@ interface JoinedEditor {
   /** Live-page score for the linked tracked page (Page Mode only). */
   live_page_score: number | null;
   live_page_fetched_at: string | null;
+  current_draft_updated_at: string | null;
+  current_draft_has_body: boolean;
 }
 
 function relativeAge(iso: string | null): string {
@@ -146,7 +155,7 @@ export default function ContentEditorCell({
       const { data } = await supabase
         .from("content_editors")
         .select(
-          "id, status, status_message, error, target_score, competitor_avg_score, updated_at, linked_tracked_page_id, content_editor_drafts(computed_content_score, is_current)",
+          "id, status, status_message, error, target_score, competitor_avg_score, updated_at, linked_tracked_page_id, content_editor_drafts(computed_content_score, body_markdown, updated_at, is_current)",
         )
         .eq("id", targetId)
         .maybeSingle();
@@ -154,8 +163,15 @@ export default function ContentEditorCell({
       if (data) {
         const raw = data as Record<string, unknown>;
         const drafts = Array.isArray(raw.content_editor_drafts) ? raw.content_editor_drafts : [];
-        const cur = drafts.find((d: Record<string, unknown>) => d.is_current);
-        const current_content_score = (cur as Record<string, unknown> | undefined)?.computed_content_score as number | null ?? null;
+        const cur = drafts.find((d: Record<string, unknown>) => d.is_current) as
+          | Record<string, unknown>
+          | undefined;
+        const current_content_score =
+          (cur?.computed_content_score as number | null | undefined) ?? null;
+        const draftMd = typeof cur?.body_markdown === "string" ? cur.body_markdown : "";
+        const current_draft_has_body = draftMd.trim().length > 0;
+        const current_draft_updated_at =
+          typeof cur?.updated_at === "string" ? cur.updated_at : null;
         const linked_tracked_page_id = (raw.linked_tracked_page_id as string | null) ?? null;
 
         // Page Mode: pull the most recent live-page snapshot for this editor.
@@ -182,6 +198,8 @@ export default function ContentEditorCell({
           current_content_score,
           live_page_score,
           live_page_fetched_at,
+          current_draft_updated_at,
+          current_draft_has_body,
         } as JoinedEditor;
         setEditor(result);
       } else {
@@ -225,6 +243,16 @@ export default function ContentEditorCell({
   const displayScore = currentScore ?? targetScore;
 
   const liveScanAge = isPageMode ? relativeAge(editor?.live_page_fetched_at ?? null) : null;
+
+  const blogSyncStatus: BlogEditorSyncStatus =
+    kind === "blog"
+      ? computeBlogEditorSyncStatus({
+          hasEditor: hasEditor && !!editor,
+          hasDraftBody: editor?.current_draft_has_body ?? false,
+          draftUpdatedAt: editor?.current_draft_updated_at,
+          syncedAt: row.content_editor_synced_at,
+        })
+      : "none";
 
   const statusTitle = hasEditor && editor
     ? isPageMode
@@ -343,6 +371,35 @@ export default function ContentEditorCell({
           Brief
         </button>
       )}
+
+      {/* Blog sync status */}
+      {kind === "blog" && hasEditor && blogSyncStatus !== "none" ? (
+        <span
+          title={
+            blogSyncStatus === "synced"
+              ? "Draft matches what was last pushed to this blog post"
+              : blogSyncStatus === "needs_sync"
+                ? "Draft is newer than the live post — open the brief and use Sync to blog"
+                : "Run Auto-Optimize on the brief to generate a draft first"
+          }
+          className={`inline-flex items-center gap-1 px-2 h-7 rounded-lg text-[10px] font-bold uppercase tracking-[0.1em] whitespace-nowrap ${
+            blogSyncStatus === "synced"
+              ? "border border-emerald-200 bg-emerald-50 text-emerald-700"
+              : blogSyncStatus === "needs_sync"
+                ? "border border-amber-200 bg-amber-50 text-amber-800"
+                : "border border-[#E2E8F0] bg-[#F4F7FB] text-[#94A3B8]"
+          }`}
+        >
+          {blogSyncStatus === "synced" ? (
+            <i className="ri-check-double-line text-xs" />
+          ) : blogSyncStatus === "needs_sync" ? (
+            <i className="ri-upload-cloud-line text-xs" />
+          ) : (
+            <i className="ri-file-text-line text-xs" />
+          )}
+          {BLOG_SYNC_STATUS_LABEL[blogSyncStatus]}
+        </span>
+      ) : null}
 
       {/* Re-run */}
       <button

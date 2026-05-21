@@ -52,6 +52,11 @@ export {
 } from "./autoOptimize";
 
 export {
+  syncEditorDraftToBlogPost,
+  type SyncEditorDraftToBlogResult,
+} from "./syncToBlog";
+
+export {
   fetchAndScoreLivePage,
   loadLatestSnapshotIgnoreTtl,
   scoreUrlAgainstEditor,

@@ -133,6 +133,7 @@ export type ContentTableSortField =
   | "title"
   | "keyword"
   | "status"
+  | "lastUpdated"
   | "date";
 
 export function AdminContentTableHeaderRow({
@@ -164,6 +165,7 @@ export function AdminContentTableHeaderRow({
     "title",
     "keyword",
     "status",
+    "lastUpdated",
     "date",
   ]);
 
