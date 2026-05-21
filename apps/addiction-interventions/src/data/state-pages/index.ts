@@ -6,6 +6,7 @@ import { georgiaStatePage } from "./georgia";
 import { hawaiiStatePage } from "./hawaii";
 import { illinoisStatePage } from "./illinois";
 import { indianaStatePage } from "./indiana";
+import { coloradoStatePage } from "./colorado";
 
 export const STATE_PAGES: Record<string, StatePageConfig> = {
   ...builtInStatePages,
@@ -18,4 +19,6 @@ export const STATE_PAGES: Record<string, StatePageConfig> = {
   illinois: illinoisStatePage,
   // Indiana has a dedicated SEO-optimised file — overrides additional-us-states spread
   indiana: indianaStatePage,
+  // Colorado has a dedicated SEO-optimised file — overrides built-in spread
+  colorado: coloradoStatePage,
 };
