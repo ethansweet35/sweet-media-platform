@@ -22,8 +22,11 @@ It must always reflect the **exact** infrastructure every new client needs.
 - If a secret comes from `.env`, add a corresponding read from `loadEnvFile()` and a `warn()` if missing
 
 ### Schema Changes
-- Any new table, column, index, or RLS policy change → update `apps/client-template/supabase/client-template-schema.sql`
-- Also provide migration SQL for existing brands (inner-peak-colorado, sweet-media, mental-health-for-teens) so they can be brought up to date manually
+- Any new table, column, index, or RLS policy change → **both**:
+  1. Update `apps/client-template/supabase/client-template-schema.sql` (full baseline for net-new projects)
+  2. Add an idempotent `.sql` file under `apps/client-template/supabase/migrations/` (applied by `setup-new-client.mjs` step 7b on new projects and manually / via Supabase MCP on existing brands)
+- `setup-new-client.mjs` runs the canonical schema, then every migration file in filename order — keep them aligned so new clients never miss a column that only exists in a migration file.
+- For existing brands: apply the same migration SQL (or use Supabase MCP `apply_migration` per project). Do not rely on per-app copies of `client-template-schema.sql` under other `apps/*` dirs — only `apps/client-template` is the source of truth for provisioning.
 
 ### Storage Buckets
 - Add a new bucket → add a creation block to step 10 of the script (pattern: retry loop with 409 check)

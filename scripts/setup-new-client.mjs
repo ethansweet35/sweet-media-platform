@@ -27,6 +27,12 @@
  *       GOOGLE_INDEXING_CLIENT_EMAIL, GOOGLE_INDEXING_PRIVATE_KEY,
  *       VERCEL_TOKEN, GITHUB_REPO, SEMRUSH_API_KEY
  *
+ * Supabase schema for new projects:
+ *   1. `apps/client-template/supabase/client-template-schema.sql` (full baseline)
+ *   2. Every `apps/client-template/supabase/migrations/*.sql` file in order (idempotent
+ *      ALTERs for features added after the baseline — keep both in sync when shipping
+ *      admin/DB changes; see .cursor/rules/platform-client-provisioning.mdc)
+ *
  * After this script:
  *   - Run `node scripts/publish-client-to-vercel.mjs --slug <slug> --name "<name>"
  *     [--project <vercel-project-name>] [--domain <example.com>]` to create the
@@ -34,7 +40,7 @@
  *     and trigger the first deploy.
  */
 
-import { readFileSync, existsSync, appendFileSync, writeFileSync, unlinkSync } from 'fs';
+import { readFileSync, existsSync, appendFileSync, writeFileSync, unlinkSync, readdirSync } from 'fs';
 import { join, dirname } from 'path';
 import { fileURLToPath } from 'url';
 import { execSync } from 'child_process';
@@ -322,6 +328,24 @@ async function main() {
     schemaSql = schemaSql.replace(/\ninsert into public\.[\s\S]*?on conflict[\s\S]*?;\n/gi, '\n');
     await runSQL(token, ref, schemaSql);
     log('Schema applied');
+
+    // ── 7b. Incremental migrations (idempotent; same folder as existing-brand upgrades)
+    const migrationsDir = join(REPO_ROOT, 'apps/client-template/supabase/migrations');
+    if (existsSync(migrationsDir)) {
+      const migrationFiles = readdirSync(migrationsDir)
+        .filter((f) => f.endsWith('.sql'))
+        .sort();
+      if (migrationFiles.length > 0) {
+        step(`Applying ${migrationFiles.length} client-template migration(s)`);
+        for (const file of migrationFiles) {
+          const migrationSql = readFileSync(join(migrationsDir, file), 'utf8');
+          await runSQL(token, ref, migrationSql);
+          log(`Migration applied: ${file}`);
+        }
+      }
+    } else {
+      warn(`No migrations directory at ${migrationsDir} — skipped incremental migrations`);
+    }
 
     // ── 8. Seed brand_settings ──────────────────────────────────────────────
     step('Seeding brand_settings');
