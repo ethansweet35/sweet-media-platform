@@ -21,7 +21,7 @@
  *      drive the recommended usage range in the UI.
  *   6. Return ranked terms.
  */
-import { isScrapeArtifact, WEB_BOILERPLATE_UNIGRAMS } from "./termQuality";
+import { isBoundaryBlocked, isScrapeArtifact } from "./termQuality";
 import { ENGLISH_STOPWORDS, tokenize } from "./textUtils";
 
 export interface NgramTerm {
@@ -257,23 +257,30 @@ function isUsefulTerm(term: string): boolean {
   // For multi-word phrases: require at least one non-stopword token.
   const allStop = tokens.every((t) => ENGLISH_STOPWORDS.has(t));
   if (allStop) return false;
-  const isBlockedToken = (t: string) =>
-    GENERIC_UNIGRAM_BLOCKLIST.has(t) || WEB_BOILERPLATE_UNIGRAMS.has(t);
+  // A token that can never carry topical meaning at a phrase boundary:
+  // strict boilerplate (UI/form/contact) OR the legacy generic blocklist
+  // (modal/aux verbs, abstract filler, numbers, etc.).
+  //
+  // Notably this does NOT include the WEAK_STANDALONE_UNIGRAMS set —
+  // words like `services`, `support`, `care`, `options`, `provider`
+  // are valuable at boundaries: `intervention services`,
+  // `family support`, `care plan`, `treatment options`,
+  // `care provider`. Suppressing them killed the phrase output entirely.
+  const isBlockedBoundary = (t: string) =>
+    isBoundaryBlocked(t) || GENERIC_UNIGRAM_BLOCKLIST.has(t);
 
-  // Reject standalone generic unigrams that aren't actionable SEO terms.
-  if (tokens.length === 1 && isBlockedToken(tokens[0])) return false;
-
-  // Multi-word phrases: at least one boundary token must NOT be blocklisted.
-  // Bigrams where either boundary is generic are almost always junk
-  // ("may involve", "amount money", "groups gamblers", "approach treatment").
+  if (tokens.length === 1) {
+    if (isBlockedBoundary(tokens[0])) return false;
+  }
   if (tokens.length === 2) {
-    if (isBlockedToken(tokens[0]) || isBlockedToken(tokens[1])) {
+    if (isBlockedBoundary(tokens[0]) || isBlockedBoundary(tokens[1])) {
       return false;
     }
   }
-  // Trigrams: require non-blocklist at BOTH ends but allow blocklist in middle.
   if (tokens.length >= 3) {
-    if (isBlockedToken(tokens[0]) || isBlockedToken(tokens[tokens.length - 1])) {
+    // Trigrams: only the outer boundaries must be clean. Interior
+    // tokens may be in the blocklist ("verification of benefits").
+    if (isBlockedBoundary(tokens[0]) || isBlockedBoundary(tokens[tokens.length - 1])) {
       return false;
     }
   }
