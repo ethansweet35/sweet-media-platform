@@ -6,6 +6,7 @@ import { useSearchParams } from "next/navigation";
 import AdminPageHeader from "../components/AdminPageHeader";
 import BlogWriterCustomInstructions from "../components/BlogWriterCustomInstructions";
 import KeywordSuggestPopover from "../components/KeywordSuggestPopover";
+import { useAdminBlogCategories } from "../hooks/useAdminBlogCategories";
 import { supabase } from "../lib/supabase";
 import { AI_MODELS, DEFAULT_MODEL_ID } from "../lib/aiModels";
 import { adminInputCls, adminPrimaryBtnCls, ADMIN_NAVY } from "../lib/adminTheme";
@@ -97,30 +98,9 @@ export default function BlogWriterPage() {
   const [generationStage, setGenerationStage] = useState<GenerationStage>(null);
   const [postError, setPostError] = useState<string | null>(null);
   const [result, setResult] = useState<DoneResult | null>(null);
-  const [categoryOptions, setCategoryOptions] = useState<{ value: string; label: string }[]>([
-    { value: "", label: "Let AI decide" },
-  ]);
-
-  useEffect(() => {
-    supabase
-      .from("blog_posts")
-      .select("category")
-      .neq("category", null)
-      .then(({ data }) => {
-        if (!data) return;
-        const unique = Array.from(
-          new Set(
-            (data as { category: string | null }[])
-              .map((r) => r.category)
-              .filter((c): c is string => typeof c === "string" && c.trim().length > 0)
-          )
-        ).sort();
-        setCategoryOptions([
-          { value: "", label: "Let AI decide" },
-          ...unique.map((c) => ({ value: c, label: c })),
-        ]);
-      });
-  }, []);
+  const { categoryOptions } = useAdminBlogCategories({
+    emptyOption: { value: "", label: "Let AI decide" },
+  });
 
   const disableForm =
     generationStage === "post" || generationStage === "image";

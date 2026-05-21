@@ -1,5 +1,7 @@
+"use client";
+
 import Image from "next/image";
-import { categories } from "@sweetmedia/blog-core";
+import { useAdminBlogCategories } from "../../../../../hooks/useAdminBlogCategories";
 
 interface SidebarForm {
   slug: string;
@@ -30,6 +32,9 @@ const labelCls = "block text-[10px] tracking-[0.15em] uppercase font-semibold te
 
 export default function BlogEditorSidebar({ form, onChange, postDate, slugError }: BlogEditorSidebarProps) {
   const slugHasError = !!slugError;
+  const { names: categoryNames, loading: categoriesLoading } = useAdminBlogCategories({
+    ensureValues: form.category ? [form.category] : [],
+  });
 
   return (
     <aside className="w-72 flex-shrink-0 space-y-4">
@@ -121,10 +126,15 @@ export default function BlogEditorSidebar({ form, onChange, postDate, slugError 
             value={form.category}
             onChange={(e) => onChange("category", e.target.value)}
             className={`${inputCls} cursor-pointer`}
+            disabled={categoriesLoading && categoryNames.length === 0}
           >
-            {categories.filter((c) => c !== "All").map((cat) => (
-              <option key={cat} value={cat}>{cat}</option>
-            ))}
+            {categoriesLoading && categoryNames.length === 0 ? (
+              <option value={form.category}>Loading categories…</option>
+            ) : (
+              categoryNames.map((cat) => (
+                <option key={cat} value={cat}>{cat}</option>
+              ))
+            )}
           </select>
         </div>
 

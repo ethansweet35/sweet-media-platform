@@ -62,6 +62,7 @@ export { AdminCommandPaletteProvider, useAdminCommandPalette } from "./component
 export { useContentPipeline } from "./hooks/useContentPipeline";
 export { useDashboardData, formatDashboardDate, relativeTimeSince } from "./hooks/useDashboardData";
 export { useAdminBlogPosts } from "./hooks/useAdminBlogPosts";
+export { useAdminBlogCategories } from "./hooks/useAdminBlogCategories";
 export { useSearchConsoleData, type GscMetrics } from "./hooks/useSearchConsoleData";
 export { usePerformanceOverview } from "./hooks/usePerformanceOverview";
 export type { PerformanceOverviewPayload } from "./types/performance-overview";

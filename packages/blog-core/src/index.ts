@@ -18,6 +18,10 @@ export { AutoLinkedTextClient } from "./components/AutoLinkedTextClient";
 
 export * from "./types/brandSettings";
 export { getBrandSettings } from "./lib/getBrandSettings";
+export {
+  fetchBlogCategoryNames,
+  type FetchBlogCategoryNamesOptions,
+} from "./lib/fetchBlogCategoryNames";
 export { defaultBrandSettings, mergeBrandSettings } from "./lib/brandSettingsFallback";
 
 export {

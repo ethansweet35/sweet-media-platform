@@ -1,8 +1,11 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
+import { fetchBlogCategoryNames } from "../lib/fetchBlogCategoryNames";
 import { supabase } from "../lib/supabase";
 import { dbToBlogPost, type BlogPost, type DbBlogPost } from "../types/blog";
+
+const SITE_ID = process.env.NEXT_PUBLIC_SITE_ID ?? "client-template";
 
 export function useBlogPosts() {
   const [posts, setPosts] = useState<BlogPost[]>([]);
@@ -83,24 +86,20 @@ export function useBlogCategories() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const fetchCategories = async () => {
+    void (async () => {
       try {
-        const { data, error } = await supabase
-          .from("blog_posts")
-          .select("category")
-          .eq("status", "published");
-
-        if (error) throw error;
-        const uniqueCats = Array.from(new Set((data || []).map((d) => d.category)));
-        setCategories(["All", ...uniqueCats]);
+        const names = await fetchBlogCategoryNames(supabase, {
+          siteId: SITE_ID,
+          siteKey: SITE_ID,
+          publishedPostsOnly: true,
+        });
+        setCategories(["All", ...names]);
       } catch {
         setCategories(["All", "SEO", "Paid Media", "Web Development", "Social Media", "Compliance", "Strategy"]);
       } finally {
         setLoading(false);
       }
-    };
-
-    fetchCategories();
+    })();
   }, []);
 
   return { categories, loading };
