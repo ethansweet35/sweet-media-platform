@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from "react";
-import { OKLAHOMA_GALA_SPONSOR_PATH } from "@/lib/oklahoma-gala";
+import { OKLAHOMA_GALA_TICKETS_URL } from "@/lib/oklahoma-gala";
 import { cn } from "@/lib/utils";
 
 export default function GalaDetailsSection() {
@@ -143,10 +143,12 @@ export default function GalaDetailsSection() {
                 </div>
 
                 <a
-                  href={OKLAHOMA_GALA_SPONSOR_PATH}
+                  href={OKLAHOMA_GALA_TICKETS_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="inline-flex items-center justify-center w-full px-6 py-4 bg-[#C9A44A] hover:bg-[#b8943f] text-deep-navy font-body font-semibold text-[14px] uppercase tracking-[0.06em] rounded-lg transition-colors duration-200 whitespace-nowrap cursor-pointer mt-auto"
                 >
-                  Become a Sponsor
+                  Purchase Tickets
                 </a>
               </div>
             </div>
