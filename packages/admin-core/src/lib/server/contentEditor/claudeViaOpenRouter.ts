@@ -16,7 +16,7 @@
  * returned by OpenRouter, using `claudeCallCost()` in pricing.ts.
  */
 import { ContentEditorError } from "./errors";
-import { CLAUDE_MODELS, claudeCallCost } from "./pricing";
+import { claudeCallCost, resolveOpenRouterModelId } from "./pricing";
 import { withRetry } from "./retry";
 import type {
   ClaudeCallOptions,
@@ -121,7 +121,7 @@ async function rawCall(
   temperature: number,
 ): Promise<RawCallResult> {
   const apiKey = getApiKey();
-  const modelId = CLAUDE_MODELS[alias].id;
+  const modelId = resolveOpenRouterModelId(alias);
 
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL?.trim() || "https://sweetmediaservices.com";
   const siteId = process.env.NEXT_PUBLIC_SITE_ID?.trim() || "admin";

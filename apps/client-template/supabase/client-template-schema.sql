@@ -408,6 +408,7 @@ create table if not exists public.content_editors (
   language_code text not null default 'en',
   device text not null default 'desktop',
   competitor_pool_size int not null default 20,
+  analysis_mode text not null default 'lite' check (analysis_mode in ('lite', 'deep')),
   status text not null default 'pending',
   status_message text,
   error text,

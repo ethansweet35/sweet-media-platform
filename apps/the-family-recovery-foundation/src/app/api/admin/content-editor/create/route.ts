@@ -19,6 +19,7 @@ interface CreateRequest {
   languageCode?: string;
   device?: "desktop" | "mobile";
   competitorPoolSize?: number;
+  analysisMode?: "lite" | "deep";
   blogPostId?: string | null;
   trackedPageId?: string | null;
 }
@@ -47,6 +48,7 @@ export async function POST(request: Request) {
       languageCode: body.languageCode,
       device: body.device,
       competitorPoolSize: body.competitorPoolSize,
+      analysisMode: body.analysisMode === "deep" ? "deep" : "lite",
       blogPostId: body.blogPostId ?? null,
       trackedPageId: body.trackedPageId ?? null,
     });

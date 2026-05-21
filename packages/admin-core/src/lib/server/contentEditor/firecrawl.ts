@@ -47,7 +47,7 @@ function getApiKey(): string {
   return key;
 }
 
-function extractDomain(url: string): string {
+export function extractDomain(url: string): string {
   try {
     return new URL(url).hostname.replace(/^www\./, "");
   } catch {
@@ -124,6 +124,70 @@ function countWords(text: string): number {
   return trimmed.split(/\s+/).filter(Boolean).length;
 }
 
+/** Plain text from raw HTML when markdown is unavailable (server fetch path). */
+export function htmlToPlainText(html: string): string {
+  const stripped = html
+    .replace(/<script[\s\S]*?<\/script>/gi, " ")
+    .replace(/<style[\s\S]*?<\/style>/gi, " ")
+    .replace(/<nav[\s\S]*?<\/nav>/gi, " ")
+    .replace(/<footer[\s\S]*?<\/footer>/gi, " ")
+    .replace(/<header[\s\S]*?<\/header>/gi, " ");
+  return stripped
+    .replace(/<[^>]+>/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+function extractTitleFromHtml(html: string): string {
+  const m = html.match(/<title[^>]*>([\s\S]*?)<\/title>/i);
+  return m ? m[1].replace(/<[^>]*>/g, "").trim() : "";
+}
+
+function extractMetaDescriptionFromHtml(html: string): string {
+  const m = html.match(
+    /<meta[^>]+name=["']description["'][^>]+content=["']([^"']+)["']/i,
+  );
+  return m ? m[1].trim() : "";
+}
+
+/** Build a ScrapeResult from HTML (Firecrawl response or direct fetch). */
+export function buildScrapeResultFromHtml(opts: {
+  url: string;
+  html: string;
+  finalUrl?: string;
+  title?: string;
+  metaDescription?: string;
+  markdown?: string;
+}): ScrapeResult {
+  const html = opts.html;
+  const finalUrl = opts.finalUrl ?? opts.url;
+  const pageDomain = extractDomain(finalUrl);
+  const { internal, external } = countLinks(html, pageDomain);
+  const markdown = opts.markdown ?? "";
+  const cleanedText = markdown
+    ? markdownToPlain(markdown)
+    : htmlToPlainText(html);
+
+  return {
+    url: opts.url,
+    finalUrl,
+    title: (opts.title ?? extractTitleFromHtml(html)).trim(),
+    metaDescription: (opts.metaDescription ?? extractMetaDescriptionFromHtml(html)).trim(),
+    cleanedText,
+    cleanedHtml: html,
+    cleanedMarkdown: markdown,
+    wordCount: countWords(cleanedText),
+    h1Text: extractFirstH1(html),
+    h2Count: countMatches(html, /<h2[\s>]/gi),
+    h3Count: countMatches(html, /<h3[\s>]/gi),
+    paragraphCount: countMatches(html, /<p[\s>]/gi),
+    imageCount: countMatches(html, /<img[\s>]/gi),
+    internalLinkCount: internal,
+    externalLinkCount: external,
+    headings: extractHeadings(html),
+  };
+}
+
 export interface ScrapeOptions {
   url: string;
   /** Wait this many ms after page load before reading DOM. Defaults to 1500. */
@@ -181,31 +245,14 @@ export async function scrapePage(
     );
   }
 
-  const html = json.data.html ?? "";
-  const markdown = json.data.markdown ?? "";
-  const cleanedText = markdownToPlain(markdown);
-  const finalUrl = json.data.metadata?.sourceURL ?? json.data.metadata?.url ?? url;
-  const pageDomain = extractDomain(finalUrl);
-  const { internal, external } = countLinks(html, pageDomain);
-
-  const result: ScrapeResult = {
+  const result = buildScrapeResultFromHtml({
     url,
-    finalUrl,
-    title: (json.data.metadata?.title ?? "").trim(),
-    metaDescription: (json.data.metadata?.description ?? "").trim(),
-    cleanedText,
-    cleanedHtml: html,
-    cleanedMarkdown: markdown,
-    wordCount: countWords(cleanedText),
-    h1Text: extractFirstH1(html),
-    h2Count: countMatches(html, /<h2[\s>]/gi),
-    h3Count: countMatches(html, /<h3[\s>]/gi),
-    paragraphCount: countMatches(html, /<p[\s>]/gi),
-    imageCount: countMatches(html, /<img[\s>]/gi),
-    internalLinkCount: internal,
-    externalLinkCount: external,
-    headings: extractHeadings(html),
-  };
+    html: json.data.html ?? "",
+    markdown: json.data.markdown ?? "",
+    finalUrl: json.data.metadata?.sourceURL ?? json.data.metadata?.url ?? url,
+    title: json.data.metadata?.title ?? "",
+    metaDescription: json.data.metadata?.description ?? "",
+  });
 
   return { data: result, cost_usd: FIRECRAWL_COST_PER_SCRAPE };
 }

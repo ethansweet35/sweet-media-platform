@@ -95,7 +95,7 @@ export interface NlpEntity {
 // ────────────────────────────────────────────────────────────────────────
 
 /** High-level model alias; mapped to a specific OpenRouter model id in the wrapper. */
-export type ClaudeModelAlias = "sonnet" | "haiku";
+export type ClaudeModelAlias = "sonnet" | "haiku" | "questions";
 
 export interface ClaudeCallOptions {
   systemPrompt?: string;

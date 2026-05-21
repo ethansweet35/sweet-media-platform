@@ -34,6 +34,8 @@ import { sha256, splitSentences } from "./textUtils";
 //  Types
 // ───────────────────────────────────────────────────────────────────────
 
+export type ContentEditorAnalysisMode = "lite" | "deep";
+
 export interface CreateContentEditorInput {
   primaryKeyword: string;
   secondaryKeywords?: string[];
@@ -41,6 +43,8 @@ export interface CreateContentEditorInput {
   languageCode?: string;
   device?: "desktop" | "mobile";
   competitorPoolSize?: number;
+  /** lite (~$0.08–0.15) or deep (~$0.30). Defaults to lite. */
+  analysisMode?: ContentEditorAnalysisMode;
   blogPostId?: string | null;
   /** When set, the editor is created in Page Mode linked to this tracked_pages.id. */
   trackedPageId?: string | null;
@@ -187,13 +191,19 @@ export async function createContentEditor(
 
   const client = getAdminClient();
 
+  const analysisMode: ContentEditorAnalysisMode =
+    input.analysisMode === "deep" ? "deep" : "lite";
+  const defaultPool = analysisMode === "deep" ? 20 : 10;
+  const poolSize = input.competitorPoolSize ?? defaultPool;
+
   const payload = {
     primary_keyword: keyword,
     secondary_keywords: input.secondaryKeywords ?? [],
     location_code: input.locationCode ?? 2840,
     language_code: input.languageCode ?? "en",
     device: input.device ?? "desktop",
-    competitor_pool_size: Math.min(50, Math.max(10, input.competitorPoolSize ?? 20)),
+    analysis_mode: analysisMode,
+    competitor_pool_size: Math.min(50, Math.max(5, poolSize)),
     status: "pending",
     blog_post_id: input.blogPostId ?? null,
     linked_tracked_page_id: input.trackedPageId ?? null,

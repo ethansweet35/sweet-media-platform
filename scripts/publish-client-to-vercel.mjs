@@ -194,6 +194,7 @@ async function main() {
     'CONTACT_FROM_EMAIL',
     'CONTACT_BRAND_NAME',
     'OPENROUTER_API_KEY',
+    'OPENROUTER_QUESTIONS_MODEL',
     'OPENAI_API_KEY',
     'SEMRUSH_API_KEY',
     'DATAFORSEO_LOGIN',
@@ -209,6 +210,7 @@ async function main() {
   // Shared platform secrets live in repo-root .env; per-brand values stay in apps/<slug>/.env.local.
   const ROOT_SHARED_SECRETS = new Set([
     'OPENROUTER_API_KEY',
+    'OPENROUTER_QUESTIONS_MODEL',
     'OPENAI_API_KEY',
     'SEMRUSH_API_KEY',
     'DATAFORSEO_LOGIN',

@@ -19,6 +19,8 @@ export {
   type ScrapeOptions,
 } from "./firecrawl";
 
+export { scrapePageHybrid } from "./hybridScrape";
+
 export { analyzeEntities } from "./googleNlp";
 
 export { callClaude } from "./claudeViaOpenRouter";

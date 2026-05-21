@@ -25,6 +25,8 @@ export interface ContentEditorRow {
   language_code: string;
   device: string;
   competitor_pool_size: number;
+  /** lite = fast/cheaper pipeline; deep = full Surfer-style analysis. */
+  analysis_mode: "lite" | "deep";
   status: ContentEditorStatus;
   status_message: string | null;
   error: string | null;

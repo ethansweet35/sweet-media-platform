@@ -31,6 +31,17 @@ import {
   fetchSerpResults,
   scrapePage,
 } from "./index";
+import { scrapePageHybrid } from "./hybridScrape";
+import {
+  getAnalysisMode,
+  LITE_FACT_SOURCE_PAGES,
+  LITE_FACT_WORDS_PER_PAGE,
+  LITE_NLP_WORD_CAP,
+  RULES_CURATION_AI_THRESHOLD,
+  type ContentEditorAnalysisMode,
+} from "./analysisMode";
+import { curateTermsWithRules } from "./termCurationRules";
+import { buildHeuristicOutline } from "./heuristicOutline";
 import {
   type ContentEditorStatus,
   ContentEditorRow,
@@ -47,6 +58,7 @@ import { ContentEditorError } from "./errors";
 import { isAuthoritativeDomain } from "./eeat";
 import { extractNgrams, termAppearsInHeadings, type NgramTerm } from "./ngrams";
 import {
+  buildBatchedFactExtractionPrompt,
   buildFactExtractionPrompt,
   buildOutlinePrompt,
   buildQuestionSynthesisPrompt,
@@ -57,6 +69,7 @@ import {
 import { computeTargetScore, scoreDocument, type ScoringTerm } from "./scoring";
 import {
   extractDomain,
+  getFirstNWords,
   looksLikeQuestion,
   mean,
   percentile,
@@ -151,11 +164,12 @@ export async function runContentEditorPipeline(opts: RunPipelineOptions): Promis
       );
     }
 
-    const terms = await phase3_nlpAndNgrams(client, editor, benchmark);
+    const mode = getAnalysisMode(editor);
+    const terms = await phase3_nlpAndNgrams(client, editor, benchmark, mode);
     await phase4_structuralBenchmark(client, editor, benchmark);
-    await phase5_outlineSynthesis(client, editor, benchmark);
-    await phase6_questionSynthesis(client, editor, benchmark);
-    await phase7_factsExtraction(client, editor, benchmark);
+    await phase5_outlineSynthesis(client, editor, benchmark, mode);
+    await phase6_questionSynthesis(client, editor, benchmark, mode);
+    await phase7_factsExtraction(client, editor, benchmark, mode);
 
     // Reload competitors again so phase 8 sees any updates from earlier phases.
     competitors = await loadCompetitors(client, editor.id);
@@ -283,18 +297,28 @@ async function phase2_contentExtraction(
   client: SupabaseClient,
   editor: ContentEditorRow,
 ): Promise<void> {
+  const mode = getAnalysisMode(editor);
+  const scrape = mode === "lite" ? scrapePageHybrid : scrapePage;
+
   const all = await loadCompetitors(client, editor.id);
   const pending = all.filter((c) => c.fetch_status !== "scraped" && c.fetch_status !== "failed");
   if (pending.length === 0) return; // already done
 
-  await setStatus(client, editor.id, "extracting_content", `Scraping ${pending.length} pages…`);
+  await setStatus(
+    client,
+    editor.id,
+    "extracting_content",
+    mode === "lite"
+      ? `Fetching ${pending.length} pages (hybrid)…`
+      : `Scraping ${pending.length} pages…`,
+  );
 
   // Process in chunks of SCRAPE_CONCURRENCY in parallel.
   for (let i = 0; i < pending.length; i += SCRAPE_CONCURRENCY) {
     const chunk = pending.slice(i, i + SCRAPE_CONCURRENCY);
     const results = await Promise.allSettled(
       chunk.map(async (c) => {
-        const out = await scrapePage({ url: c.url });
+        const out = await scrape({ url: c.url });
         await addCost(client, editor.id, out.cost_usd);
         return { competitor: c, scrape: out.data };
       }),
@@ -348,6 +372,7 @@ async function phase3_nlpAndNgrams(
   client: SupabaseClient,
   editor: ContentEditorRow,
   competitors: CompetitorRow[],
+  mode: ContentEditorAnalysisMode,
 ): Promise<ScoringTerm[]> {
   // Short-circuit if terms already exist.
   const { count } = await client
@@ -368,7 +393,11 @@ async function phase3_nlpAndNgrams(
     const results = await Promise.allSettled(
       chunk.map(async (c) => {
         if (!c.cleaned_text) return [];
-        const out = await analyzeEntities(c.cleaned_text, { languageCode: editor.language_code });
+        const nlpText =
+          mode === "lite"
+            ? getFirstNWords(c.cleaned_text, LITE_NLP_WORD_CAP)
+            : c.cleaned_text;
+        const out = await analyzeEntities(nlpText, { languageCode: editor.language_code });
         await addCost(client, editor.id, out.cost_usd);
         return out.data;
       }),
@@ -414,16 +443,38 @@ async function phase3_nlpAndNgrams(
   // Merge entities + n-grams. Use lowercase key for dedup.
   const merged = mergeEntitiesAndNgrams(allEntities, ngrams, competitors.length);
 
-  // AI curation pass: drop low-quality terms, surface important missing ones.
-  await setStatus(client, editor.id, "analyzing_nlp", "Curating terms for topical authority…");
   const allHeadingsForCuration = competitors.flatMap((c) => c.headings ?? []);
-  const { curated: curatedMerged, added: aiAddedTerms, cost_usd: curationCost } =
-    await curateTermsWithAI(
+  let curatedMerged: MergedTerm[];
+  let aiAddedTerms: string[] = [];
+  if (mode === "lite") {
+    await setStatus(client, editor.id, "analyzing_nlp", "Curating terms (rules)…");
+    const rulesResult = curateTermsWithRules(editor.primary_keyword, merged);
+    curatedMerged = rulesResult.curated;
+    aiAddedTerms = rulesResult.added;
+    if (curatedMerged.length > RULES_CURATION_AI_THRESHOLD) {
+      await setStatus(client, editor.id, "analyzing_nlp", "Refining term list…");
+      const aiResult = await curateTermsWithAI(
+        editor.primary_keyword,
+        curatedMerged,
+        allHeadingsForCuration,
+        "haiku",
+      );
+      curatedMerged = aiResult.curated;
+      aiAddedTerms = [...aiAddedTerms, ...aiResult.added];
+      await addCost(client, editor.id, aiResult.cost_usd);
+    }
+  } else {
+    await setStatus(client, editor.id, "analyzing_nlp", "Curating terms for topical authority…");
+    const aiResult = await curateTermsWithAI(
       editor.primary_keyword,
       merged,
       allHeadingsForCuration,
+      "sonnet",
     );
-  await addCost(client, editor.id, curationCost);
+    curatedMerged = aiResult.curated;
+    aiAddedTerms = aiResult.added;
+    await addCost(client, editor.id, aiResult.cost_usd);
+  }
 
   // Compute recommended use range per term based on competitor pool size.
   const avgWordCount = mean(competitors.map((c) => c.word_count ?? 0).filter((w) => w > 0)) || 2000;
@@ -573,6 +624,7 @@ async function curateTermsWithAI(
   primaryKeyword: string,
   candidates: MergedTerm[],
   competitorHeadings: Array<{ text: string }>,
+  model: "sonnet" | "haiku" = "sonnet",
 ): Promise<{ curated: MergedTerm[]; added: string[]; cost_usd: number }> {
   // Review a focused pool — too large and Sonnet over-keeps; ~140 candidates
   // covers Surfer's full term universe without overwhelming.
@@ -638,10 +690,10 @@ async function curateTermsWithAI(
 
   try {
     const result = await callClaude<{ keep: string[]; add: string[] }>({
-      model: "sonnet",
+      model,
       systemPrompt,
       userPrompt,
-      maxTokens: 3000,
+      maxTokens: model === "haiku" ? 2000 : 3000,
       temperature: 0.1,
       expectJson: true,
     });
@@ -817,6 +869,7 @@ async function phase5_outlineSynthesis(
   client: SupabaseClient,
   editor: ContentEditorRow,
   competitors: CompetitorRow[],
+  mode: ContentEditorAnalysisMode,
 ): Promise<void> {
   const { count } = await client
     .from("content_editor_outlines")
@@ -837,22 +890,29 @@ async function phase5_outlineSynthesis(
 
   const targetWord = editor.recommended_word_count_target ?? 2000;
 
-  const prompt = buildOutlinePrompt({
-    primaryKeyword: editor.primary_keyword,
-    targetWordCount: targetWord,
-    competitorHeadings,
-  });
-
-  const result = await callClaude<OutlineResponse>({
-    model: "sonnet",
-    userPrompt: prompt,
-    expectJson: true,
-    maxTokens: 4000,
-    temperature: 0.4,
-  });
-  await addCost(client, editor.id, result.cost_usd);
-
-  const outline = result.data.data.outline ?? [];
+  let outline: OutlineResponse["outline"];
+  if (mode === "lite") {
+    outline = buildHeuristicOutline({
+      primaryKeyword: editor.primary_keyword,
+      targetWordCount: targetWord,
+      competitorHeadings,
+    });
+  } else {
+    const prompt = buildOutlinePrompt({
+      primaryKeyword: editor.primary_keyword,
+      targetWordCount: targetWord,
+      competitorHeadings,
+    });
+    const result = await callClaude<OutlineResponse>({
+      model: "sonnet",
+      userPrompt: prompt,
+      expectJson: true,
+      maxTokens: 4000,
+      temperature: 0.4,
+    });
+    await addCost(client, editor.id, result.cost_usd);
+    outline = result.data.data.outline ?? [];
+  }
   if (!outline.length) return;
 
   const rows = outline.map((section, idx) => ({
@@ -875,6 +935,7 @@ async function phase6_questionSynthesis(
   client: SupabaseClient,
   editor: ContentEditorRow,
   competitors: CompetitorRow[],
+  mode: ContentEditorAnalysisMode,
 ): Promise<void> {
   // Load existing questions (PAA was inserted in phase 1).
   const { data: existing } = await client
@@ -933,10 +994,10 @@ async function phase6_questionSynthesis(
     existingQuestions: allKnown,
   });
   const result = await callClaude<QuestionResponse>({
-    model: "sonnet",
+    model: mode === "lite" ? "questions" : "sonnet",
     userPrompt: prompt,
     expectJson: true,
-    maxTokens: 1500,
+    maxTokens: mode === "lite" ? 1200 : 1500,
     temperature: 0.5,
   });
   await addCost(client, editor.id, result.cost_usd);
@@ -964,6 +1025,7 @@ async function phase7_factsExtraction(
   client: SupabaseClient,
   editor: ContentEditorRow,
   competitors: CompetitorRow[],
+  mode: ContentEditorAnalysisMode,
 ): Promise<void> {
   const { count } = await client
     .from("content_editor_facts")
@@ -983,37 +1045,73 @@ async function phase7_factsExtraction(
   }
   const allFacts: RawFact[] = [];
 
-  for (let i = 0; i < competitors.length; i += FACT_EXTRACTION_CONCURRENCY) {
-    const chunk = competitors.slice(i, i + FACT_EXTRACTION_CONCURRENCY);
-    const results = await Promise.allSettled(
-      chunk.map(async (c) => {
-        if (!c.cleaned_text || c.cleaned_text.length < 500) return [];
-        const prompt = buildFactExtractionPrompt({
-          primaryKeyword: editor.primary_keyword,
-          competitorText: c.cleaned_text,
-        });
-        const out = await callClaude<FactsResponse>({
-          model: "haiku",
-          userPrompt: prompt,
-          expectJson: true,
-          maxTokens: 3000,
-          temperature: 0.1,
-        });
-        await addCost(client, editor.id, out.cost_usd);
-        return (out.data.data.facts ?? []).map((f): RawFact => ({
+  if (mode === "lite") {
+    const sources = competitors
+      .filter((c) => c.cleaned_text && c.cleaned_text.length >= 500)
+      .sort((a, b) => a.serp_position - b.serp_position)
+      .slice(0, LITE_FACT_SOURCE_PAGES);
+
+    if (sources.length > 0) {
+      const prompt = buildBatchedFactExtractionPrompt({
+        primaryKeyword: editor.primary_keyword,
+        pages: sources.map((c) => ({
+          domain: c.domain,
+          excerpt: getFirstNWords(c.cleaned_text!, LITE_FACT_WORDS_PER_PAGE),
+        })),
+      });
+      const out = await callClaude<FactsResponse>({
+        model: "haiku",
+        userPrompt: prompt,
+        expectJson: true,
+        maxTokens: 4000,
+        temperature: 0.1,
+      });
+      await addCost(client, editor.id, out.cost_usd);
+      const primary = sources[0];
+      for (const f of out.data.data.facts ?? []) {
+        allFacts.push({
           text: f.text,
           topic: f.topic ?? "General",
           importance: typeof f.importance === "number" ? f.importance : 50,
-          source_url: c.url,
-          source_domain: c.domain,
-          source_position: c.serp_position,
-        }));
-      }),
-    );
+          source_url: primary.url,
+          source_domain: primary.domain,
+          source_position: primary.serp_position,
+        });
+      }
+    }
+  } else {
+    for (let i = 0; i < competitors.length; i += FACT_EXTRACTION_CONCURRENCY) {
+      const chunk = competitors.slice(i, i + FACT_EXTRACTION_CONCURRENCY);
+      const results = await Promise.allSettled(
+        chunk.map(async (c) => {
+          if (!c.cleaned_text || c.cleaned_text.length < 500) return [];
+          const prompt = buildFactExtractionPrompt({
+            primaryKeyword: editor.primary_keyword,
+            competitorText: c.cleaned_text,
+          });
+          const out = await callClaude<FactsResponse>({
+            model: "haiku",
+            userPrompt: prompt,
+            expectJson: true,
+            maxTokens: 3000,
+            temperature: 0.1,
+          });
+          await addCost(client, editor.id, out.cost_usd);
+          return (out.data.data.facts ?? []).map((f): RawFact => ({
+            text: f.text,
+            topic: f.topic ?? "General",
+            importance: typeof f.importance === "number" ? f.importance : 50,
+            source_url: c.url,
+            source_domain: c.domain,
+            source_position: c.serp_position,
+          }));
+        }),
+      );
 
-    for (const r of results) {
-      if (r.status === "fulfilled" && Array.isArray(r.value)) {
-        allFacts.push(...r.value);
+      for (const r of results) {
+        if (r.status === "fulfilled" && Array.isArray(r.value)) {
+          allFacts.push(...r.value);
+        }
       }
     }
   }

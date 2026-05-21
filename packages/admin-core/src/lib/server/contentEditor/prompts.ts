@@ -141,6 +141,38 @@ ${truncated}
 """`;
 }
 
+export function buildBatchedFactExtractionPrompt(opts: {
+  primaryKeyword: string;
+  pages: Array<{ domain: string; excerpt: string }>;
+}): string {
+  const blocks = opts.pages
+    .map(
+      (p, i) =>
+        `=== Page ${i + 1} (${p.domain}) ===\n${p.excerpt}`,
+    )
+    .join("\n\n");
+
+  return `You are extracting factual claims from competitor articles for the topic "${opts.primaryKeyword}".
+
+Read ALL page excerpts below. Return the 20 most important atomic facts across the set (not per-page duplicates).
+
+Criteria for each fact:
+- Specific number, date, percentage, named entity, or verifiable claim
+- NOT promotional or opinion
+- Self-contained (no "According to...")
+- Relevant to "${opts.primaryKeyword}"
+
+Output JSON ONLY:
+{
+  "facts": [
+    { "text": "...", "topic": "2-4 word label", "importance": 1-100 }
+  ]
+}
+
+Excerpts:
+${blocks}`;
+}
+
 // ─── Phase 2 fallback: structural metrics from raw text ────────────────
 // Used only if Firecrawl returns a page that doesn't expose clean HTML
 // (rare, but we want graceful degradation).

@@ -49,14 +49,31 @@ export const CLAUDE_MODELS = {
     inputCostPerMtoken: 1.0,
     outputCostPerMtoken: 5.0,
   },
+  /** Lite question synthesis — override via OPENROUTER_QUESTIONS_MODEL (e.g. Composer 2.5). */
+  questions: {
+    id: "anthropic/claude-haiku-4.5",
+    inputCostPerMtoken: 1.0,
+    outputCostPerMtoken: 5.0,
+  },
 } as const;
 
+export type ClaudePricingAlias = keyof typeof CLAUDE_MODELS;
+
+/** Resolve OpenRouter model id; questions alias reads OPENROUTER_QUESTIONS_MODEL. */
+export function resolveOpenRouterModelId(alias: ClaudePricingAlias): string {
+  if (alias === "questions") {
+    const custom = process.env.OPENROUTER_QUESTIONS_MODEL?.trim();
+    if (custom) return custom;
+  }
+  return CLAUDE_MODELS[alias].id;
+}
+
 export function claudeCallCost(
-  alias: keyof typeof CLAUDE_MODELS,
+  alias: ClaudePricingAlias,
   promptTokens: number,
   completionTokens: number,
 ): number {
-  const pricing = CLAUDE_MODELS[alias];
+  const pricing = CLAUDE_MODELS[alias === "questions" ? "questions" : alias];
   return (
     (promptTokens / 1_000_000) * pricing.inputCostPerMtoken +
     (completionTokens / 1_000_000) * pricing.outputCostPerMtoken

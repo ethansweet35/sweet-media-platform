@@ -29,7 +29,11 @@ const LIST_SELECT =
 
 export function useContentEditors(): UseContentEditorsState & {
   refresh: () => Promise<void>;
-  createEditor: (input: { primaryKeyword: string; blogPostId?: string | null }) => Promise<ContentEditorListRow | null>;
+  createEditor: (input: {
+    primaryKeyword: string;
+    blogPostId?: string | null;
+    analysisMode?: "lite" | "deep";
+  }) => Promise<ContentEditorListRow | null>;
   removeEditor: (id: string) => Promise<boolean>;
 } {
   const [state, setState] = useState<UseContentEditorsState>({
@@ -109,7 +113,11 @@ export function useContentEditors(): UseContentEditorsState & {
   }, [state.rows, refresh]);
 
   const createEditor = useCallback(
-    async (input: { primaryKeyword: string; blogPostId?: string | null }) => {
+    async (input: {
+      primaryKeyword: string;
+      blogPostId?: string | null;
+      analysisMode?: "lite" | "deep";
+    }) => {
       const cleaned = input.primaryKeyword.trim();
       if (!cleaned) return null;
       const res = await fetch("/api/admin/content-editor/create", {
@@ -118,6 +126,7 @@ export function useContentEditors(): UseContentEditorsState & {
         body: JSON.stringify({
           primaryKeyword: cleaned,
           blogPostId: input.blogPostId ?? null,
+          analysisMode: input.analysisMode ?? "lite",
         }),
       });
       const json = (await res.json().catch(() => ({}))) as {

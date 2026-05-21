@@ -57,7 +57,7 @@ function wordRangeText(row: ContentEditorListRow): string {
 export default function AdminContentEditorPage() {
   const { rows, loading, error, createEditor, removeEditor, refresh } = useContentEditors();
   const [keyword, setKeyword] = useState("");
-  const [submitting, setSubmitting] = useState(false);
+  const [submittingMode, setSubmittingMode] = useState<"lite" | "deep" | null>(null);
   const [submitError, setSubmitError] = useState<string | null>(null);
   const [retryingId, setRetryingId] = useState<string | null>(null);
   const [optimizingIds, setOptimizingIds] = useState<Set<string>>(() => new Set());
@@ -109,14 +109,13 @@ export default function AdminContentEditorPage() {
     }
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const startAnalysis = async (mode: "lite" | "deep") => {
     const cleaned = keyword.trim();
-    if (!cleaned || submitting) return;
-    setSubmitting(true);
+    if (!cleaned || submittingMode) return;
+    setSubmittingMode(mode);
     setSubmitError(null);
-    const created = await createEditor({ primaryKeyword: cleaned });
-    setSubmitting(false);
+    const created = await createEditor({ primaryKeyword: cleaned, analysisMode: mode });
+    setSubmittingMode(null);
     if (!created) {
       setSubmitError(error ?? "Failed to start the analysis.");
       return;
@@ -138,10 +137,7 @@ export default function AdminContentEditorPage() {
 
       <div className="mx-auto max-w-screen-xl py-6 space-y-6">
         {/* New editor form */}
-        <form
-          onSubmit={handleSubmit}
-          className="rounded-2xl border border-[#E2E8F0] bg-white p-5 shadow-sm"
-        >
+        <div className="rounded-2xl border border-[#E2E8F0] bg-white p-5 shadow-sm">
           <label className="block text-[11px] font-bold tracking-[0.12em] uppercase text-[#64748B] mb-1.5">
             Target keyword
           </label>
@@ -153,35 +149,61 @@ export default function AdminContentEditorPage() {
               placeholder='e.g. "intensive outpatient program orange county"'
               className={inputCls}
               autoFocus
-              disabled={submitting}
+              disabled={Boolean(submittingMode)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") {
+                  e.preventDefault();
+                  void startAnalysis("lite");
+                }
+              }}
             />
-            <button
-              type="submit"
-              disabled={submitting || !keyword.trim()}
-              className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl text-[12px] font-bold uppercase tracking-[0.12em] text-white transition-opacity disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer shrink-0"
-              style={{ backgroundColor: ADMIN_OCEAN }}
-            >
-              {submitting ? (
-                <>
-                  <i className="ri-loader-4-line animate-spin" /> Starting
-                </>
-              ) : (
-                <>
-                  <i className="ri-sparkling-2-line" /> Analyze
-                </>
-              )}
-            </button>
+            <div className="flex flex-col gap-2 sm:flex-row shrink-0">
+              <button
+                type="button"
+                disabled={Boolean(submittingMode) || !keyword.trim()}
+                onClick={() => void startAnalysis("lite")}
+                className="inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl text-[12px] font-bold uppercase tracking-[0.12em] text-white transition-opacity disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer"
+                style={{ backgroundColor: ADMIN_OCEAN }}
+              >
+                {submittingMode === "lite" ? (
+                  <>
+                    <i className="ri-loader-4-line animate-spin" /> Starting
+                  </>
+                ) : (
+                  <>
+                    <i className="ri-sparkling-2-line" /> Analyze
+                  </>
+                )}
+              </button>
+              <button
+                type="button"
+                disabled={Boolean(submittingMode) || !keyword.trim()}
+                onClick={() => void startAnalysis("deep")}
+                className="inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl text-[12px] font-bold uppercase tracking-[0.12em] border border-[#7B9FD4] text-[#0A1F44] bg-white transition-opacity hover:bg-[#F4F7FB] disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer"
+              >
+                {submittingMode === "deep" ? (
+                  <>
+                    <i className="ri-loader-4-line animate-spin" /> Starting
+                  </>
+                ) : (
+                  <>
+                    <i className="ri-flask-line" /> Deep analyze
+                  </>
+                )}
+              </button>
+            </div>
           </div>
           <p className="mt-2 text-[11px] text-[#94A3B8] leading-relaxed">
-            Scans the top organic results in Google US, scrapes each page with Firecrawl, extracts NLP entities + n-grams + facts, and builds a content brief.
-            Typically 90–180 seconds. Cost: ~$0.30 per editor.
+            <strong className="text-[#64748B] font-semibold">Analyze</strong> — top 10 SERP, hybrid fetch + Firecrawl fallback, rules-based terms, heuristic outline, batched facts. ~60–120s, ~$0.08–0.15.
+            {" "}
+            <strong className="text-[#64748B] font-semibold">Deep analyze</strong> — top 20, Firecrawl on every page, Sonnet curation + outline, per-page fact extraction. ~90–180s, ~$0.30.
           </p>
           {submitError ? (
             <p className="mt-2 text-[12px] text-red-600 flex items-center gap-1.5">
               <i className="ri-error-warning-line" /> {submitError}
             </p>
           ) : null}
-        </form>
+        </div>
 
         {/* List */}
         <div className="rounded-2xl border border-[#E2E8F0] bg-white shadow-sm overflow-hidden">

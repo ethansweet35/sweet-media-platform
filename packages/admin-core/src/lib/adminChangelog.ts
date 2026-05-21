@@ -30,6 +30,20 @@ export const ADMIN_CHANGELOG_CATEGORY_LABEL: Record<AdminChangelogCategory, stri
 /** Newest first — maintain this order when adding entries. */
 export const ADMIN_CHANGELOG: AdminChangelogEntry[] = [
   {
+    id: "2026-05-20-content-editor-lite-deep",
+    date: "2026-05-20",
+    category: "new",
+    title: "Content Editor: Analyze vs Deep analyze",
+    summary:
+      "Two run modes on Content Editor — fast Analyze (~$0.08–0.15, top 10 SERP, hybrid scrape) and full Deep analyze (~$0.30, top 20, Firecrawl + Sonnet). Set OPENROUTER_QUESTIONS_MODEL on Vercel for the lite questions step (e.g. Composer 2.5).",
+    href: "/admin/content-editor",
+    hrefLabel: "Content Editor",
+    tips: [
+      "Use Analyze for routine briefs; Deep analyze when you need maximum competitor coverage.",
+      "Optional env: OPENROUTER_QUESTIONS_MODEL for lite question synthesis.",
+    ],
+  },
+  {
     id: "2026-05-21-seo-impact-timeline",
     date: "2026-05-21",
     category: "new",
