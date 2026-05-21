@@ -3,7 +3,6 @@
 import { useRef, useState } from "react";
 import { supabase } from "../../../../../lib/supabase";
 import { AI_MODELS, DEFAULT_MODEL_ID } from "../../../../../lib/aiModels";
-import { formatContentEditorBrief } from "../../../../../lib/formatContentEditorBrief";
 import type { BlogPost } from "@sweetmedia/blog-core";
 import type { BlogSection } from "@sweetmedia/blog-core";
 
@@ -14,9 +13,19 @@ type RowStatus =
   | "creating_brief"
   | "brief_running"
   | "brief_failed"
+  | "optimizing"
   | "writing"
   | "done"
   | "error";
+
+const PIPELINE_BUSY = new Set([
+  "pending",
+  "fetching_serp",
+  "extracting_content",
+  "analyzing_nlp",
+  "extracting_facts",
+  "computing_guidelines",
+]);
 
 interface RowState {
   keyword: string;
@@ -68,6 +77,10 @@ interface ContentEditorStateResponse {
   questions: ContentEditorQuestionRow[];
   facts: ContentEditorFactRow[];
   outline: ContentEditorOutlineRow[];
+  currentDraft?: {
+    body_markdown?: string | null;
+    updated_at?: string | null;
+  } | null;
   error?: string;
 }
 
@@ -157,6 +170,108 @@ export default function BulkRewriteModal({ posts, onClose, onComplete }: BulkRew
     throw new Error("Brief pipeline timed out after 6 minutes.");
   }
 
+  /** Reuse linked editor or create one tied to this blog post. */
+  async function ensureEditorForPost(post: BlogPost, keyword: string): Promise<string> {
+    if (post.content_editor_id) {
+      const res = await fetch(`/api/admin/content-editor/${post.content_editor_id}`);
+      const json = (await res.json()) as ContentEditorStateResponse;
+      if (json.ok) {
+        const status = json.editor.status;
+        if (status === "ready") return post.content_editor_id;
+        if (PIPELINE_BUSY.has(status)) {
+          updateRow(post.id, {
+            status: "brief_running",
+            editorId: post.content_editor_id,
+            briefStatusMsg: json.editor.status_message ?? "Brief running…",
+          });
+          await pollUntilReady(post.id, post.content_editor_id);
+          return post.content_editor_id;
+        }
+        if (status === "failed") {
+          updateRow(post.id, {
+            status: "brief_running",
+            editorId: post.content_editor_id,
+            briefStatusMsg: "Retrying brief…",
+          });
+          await fetch(`/api/admin/content-editor/${post.content_editor_id}/run`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ force: true }),
+          });
+          await pollUntilReady(post.id, post.content_editor_id);
+          return post.content_editor_id;
+        }
+      }
+    }
+
+    updateRow(post.id, { status: "creating_brief", briefStatusMsg: "Creating brief…" });
+    const createRes = await fetch("/api/admin/content-editor/create", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        primaryKeyword: keyword.trim(),
+        blogPostId: post.id,
+        analysisMode: "lite",
+      }),
+    });
+    const createJson = (await createRes.json()) as {
+      ok: boolean;
+      editor?: { id: string };
+      error?: string;
+    };
+    if (!createRes.ok || !createJson.ok || !createJson.editor?.id) {
+      throw new Error(createJson.error ?? "Failed to create brief.");
+    }
+    const editorId = createJson.editor.id;
+    await supabase
+      .from("blog_posts")
+      .update({ content_editor_id: editorId, updated_at: new Date().toISOString() })
+      .eq("id", post.id);
+    updateRow(post.id, {
+      status: "brief_running",
+      editorId,
+      briefStatusMsg: "Analyzing competitors…",
+    });
+    await pollUntilReady(post.id, editorId);
+    return editorId;
+  }
+
+  async function pollUntilOptimized(
+    postId: string,
+    editorId: string,
+    optimizeStartedAt: number,
+  ): Promise<void> {
+    const MAX_POLLS = 72;
+    for (let i = 0; i < MAX_POLLS; i++) {
+      await new Promise((r) => setTimeout(r, 5000));
+      const res = await fetch(`/api/admin/content-editor/${editorId}`);
+      const json = (await res.json()) as ContentEditorStateResponse;
+      if (!json.ok) throw new Error(json.error ?? "Failed to fetch editor status.");
+      const draft = json.currentDraft;
+      const body = draft?.body_markdown?.trim() ?? "";
+      const updatedAt = draft?.updated_at ? Date.parse(draft.updated_at) : NaN;
+      if (body && Number.isFinite(updatedAt) && updatedAt > optimizeStartedAt) {
+        return;
+      }
+      updateRow(postId, {
+        briefStatusMsg: "Auto-Optimize running…",
+      });
+    }
+    throw new Error("Auto-Optimize timed out after 6 minutes.");
+  }
+
+  async function markPostDraftForReview(postId: string): Promise<void> {
+    const { error } = await supabase
+      .from("blog_posts")
+      .update({
+        status: "draft",
+        approved_for_publish: false,
+        updated_at: new Date().toISOString(),
+      })
+      .eq("id", postId);
+    if (error) throw new Error(error.message);
+  }
+
   async function processPost(post: BlogPost): Promise<void> {
     const row = rows[post.id];
     if (!row.keyword.trim()) {
@@ -164,98 +279,93 @@ export default function BulkRewriteModal({ posts, onClose, onComplete }: BulkRew
       return;
     }
 
-    let seoGuidelines: string | undefined;
-
-    // ── Step 1: Auto-generate brief (skip if user uploaded one manually) ──
+    // ── Manual brief override: legacy rewrite API (no Content Editor pipeline) ──
     if (row.manualBrief.trim()) {
-      seoGuidelines = row.manualBrief.trim();
-    } else {
       try {
-        // Create the content editor
-        updateRow(post.id, { status: "creating_brief", briefStatusMsg: "Creating brief…" });
-        const createRes = await fetch("/api/admin/content-editor/create", {
+        updateRow(post.id, { status: "writing", briefStatusMsg: "Writing from uploaded brief…" });
+        const res = await fetch("/api/admin/rewrite-blog-post", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
+            topic: post.title,
             primaryKeyword: row.keyword.trim(),
-            blogPostId: post.id,
+            category: post.category || undefined,
+            targetWordCount: wordCount,
+            seoGuidelines: row.manualBrief.trim(),
+            model,
           }),
         });
-        const createJson = (await createRes.json()) as {
-          ok: boolean;
-          editor?: { id: string };
-          error?: string;
-        };
-        if (!createRes.ok || !createJson.ok || !createJson.editor?.id) {
-          throw new Error(createJson.error ?? "Failed to create brief.");
+        let json: Record<string, unknown>;
+        try {
+          json = (await res.json()) as Record<string, unknown>;
+        } catch {
+          throw new Error(
+            res.status === 504
+              ? "Request timed out — try a shorter word count."
+              : `Server returned an empty response (HTTP ${res.status}).`,
+          );
         }
-        const editorId = createJson.editor.id;
-        updateRow(post.id, {
-          status: "brief_running",
-          editorId,
-          briefStatusMsg: "Analyzing competitors…",
-        });
-
-        // Poll until ready
-        const state = await pollUntilReady(post.id, editorId);
-        seoGuidelines = formatContentEditorBrief(state);
+        if (!res.ok || !json.ok) {
+          throw new Error(typeof json.error === "string" ? json.error : "Generation failed.");
+        }
+        const content = json.content as BlogSection[];
+        const { error: saveErr } = await supabase
+          .from("blog_posts")
+          .update({
+            title: String(json.title ?? post.title),
+            excerpt: String(json.excerpt ?? post.excerpt),
+            meta_description: String(json.metaDescription ?? post.metaDescription ?? ""),
+            content: JSON.stringify(content),
+            read_time: estimateReadTime(content as unknown[]),
+            status: "draft",
+            approved_for_publish: false,
+          })
+          .eq("id", post.id);
+        if (saveErr) throw new Error(saveErr.message);
+        updateRow(post.id, { status: "done" });
       } catch (err) {
         updateRow(post.id, {
-          status: "brief_failed",
-          error: err instanceof Error ? err.message : "Brief generation failed.",
+          status: "error",
+          error: err instanceof Error ? err.message : "Unknown error.",
         });
-        return;
       }
+      return;
     }
 
-    // ── Step 2: Rewrite the post using the brief ──────────────────────────
+    // ── Default: Content Editor brief → Auto-Optimize → sync to blog post ──
     try {
-      updateRow(post.id, { status: "writing", briefStatusMsg: undefined });
+      const editorId = await ensureEditorForPost(post, row.keyword.trim());
+      updateRow(post.id, {
+        status: "optimizing",
+        editorId,
+        briefStatusMsg: "Starting Auto-Optimize…",
+      });
 
-      const res = await fetch("/api/admin/rewrite-blog-post", {
+      const optimizeStartedAt = Date.now();
+      const optimizeRes = await fetch(`/api/admin/content-editor/${editorId}/auto-optimize`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          topic: post.title,
-          primaryKeyword: row.keyword.trim(),
-          category: post.category || undefined,
-          targetWordCount: wordCount,
-          seoGuidelines,
           model,
+          autoPublish: true,
+          publishTarget: "blog",
+          customInstructions:
+            wordCount > 0
+              ? `Target word count for this article: approximately ${wordCount} words.`
+              : undefined,
         }),
       });
-
-      let json: Record<string, unknown>;
-      try {
-        json = (await res.json()) as Record<string, unknown>;
-      } catch {
-        throw new Error(
-          res.status === 504
-            ? "Request timed out — try a shorter word count."
-            : `Server returned an empty response (HTTP ${res.status}).`,
-        );
-      }
-      if (!res.ok || !json.ok) {
-        throw new Error(typeof json.error === "string" ? json.error : "Generation failed.");
+      const optimizeJson = (await optimizeRes.json()) as { ok?: boolean; error?: string };
+      if (!optimizeRes.ok || optimizeJson.ok === false) {
+        throw new Error(optimizeJson.error ?? "Auto-Optimize failed to start.");
       }
 
-      const content = json.content as BlogSection[];
-      const { error: saveErr } = await supabase
-        .from("blog_posts")
-        .update({
-          title: String(json.title ?? post.title),
-          excerpt: String(json.excerpt ?? post.excerpt),
-          meta_description: String(json.metaDescription ?? post.metaDescription ?? ""),
-          content: JSON.stringify(content),
-          read_time: estimateReadTime(content as unknown[]),
-        })
-        .eq("id", post.id);
-
-      if (saveErr) throw new Error(saveErr.message);
-      updateRow(post.id, { status: "done" });
+      await pollUntilOptimized(post.id, editorId, optimizeStartedAt);
+      await markPostDraftForReview(post.id);
+      updateRow(post.id, { status: "done", briefStatusMsg: "Synced · set to draft" });
     } catch (err) {
       updateRow(post.id, {
-        status: "error",
+        status: err instanceof Error && err.message.includes("brief") ? "brief_failed" : "error",
         error: err instanceof Error ? err.message : "Unknown error.",
       });
     }
@@ -277,6 +387,7 @@ export default function BulkRewriteModal({ posts, onClose, onComplete }: BulkRew
       case "creating_brief": return "Creating brief…";
       case "brief_running": return row.briefStatusMsg ?? "Analyzing…";
       case "brief_failed": return row.error ?? "Brief failed";
+      case "optimizing": return row.briefStatusMsg ?? "Auto-Optimizing…";
       case "writing": return "Writing content…";
       case "done": return "Done";
       case "error": return row.error ?? "Error";
@@ -285,7 +396,12 @@ export default function BulkRewriteModal({ posts, onClose, onComplete }: BulkRew
   }
 
   function statusIcon(row: RowState) {
-    if (row.status === "creating_brief" || row.status === "brief_running" || row.status === "writing") {
+    if (
+      row.status === "creating_brief" ||
+      row.status === "brief_running" ||
+      row.status === "optimizing" ||
+      row.status === "writing"
+    ) {
       return <i className="ri-loader-4-line animate-spin text-violet-500 text-base"></i>;
     }
     if (row.status === "done") {
@@ -298,7 +414,14 @@ export default function BulkRewriteModal({ posts, onClose, onComplete }: BulkRew
   }
 
   function rowBg(row: RowState): string {
-    if (row.status === "creating_brief" || row.status === "brief_running" || row.status === "writing") return "bg-violet-50/40";
+    if (
+      row.status === "creating_brief" ||
+      row.status === "brief_running" ||
+      row.status === "optimizing" ||
+      row.status === "writing"
+    ) {
+      return "bg-violet-50/40";
+    }
     if (row.status === "done") return "bg-emerald-50/30";
     if (row.status === "error" || row.status === "brief_failed") return "bg-red-50/30";
     return "";
@@ -311,7 +434,11 @@ export default function BulkRewriteModal({ posts, onClose, onComplete }: BulkRew
       const done = posts.filter((p) => !briefPhases.includes(rows[p.id].status) && rows[p.id].status !== "pending").length;
       return `Building briefs — ${done} of ${posts.length} complete…`;
     }
-    return `Writing content — ${completedCount + errorCount} of ${posts.length} complete…`;
+    if (posts.some((p) => rows[p.id].status === "optimizing")) {
+      const done = posts.filter((p) => rows[p.id].status === "done" || rows[p.id].status === "error").length;
+      return `Auto-Optimizing — ${done} of ${posts.length} complete…`;
+    }
+    return `Processing — ${completedCount + errorCount} of ${posts.length} complete…`;
   }
 
   // ── Render ─────────────────────────────────────────────────────────────────
@@ -327,9 +454,10 @@ export default function BulkRewriteModal({ posts, onClose, onComplete }: BulkRew
             <i className="ri-sparkling-2-line text-violet-600 text-lg"></i>
           </div>
           <div className="flex-1">
-            <h2 className="text-base font-semibold text-[#0A1F44]">Bulk AI Rewrite</h2>
+            <h2 className="text-base font-semibold text-[#0A1F44]">Bulk Auto-Optimize</h2>
             <p className="text-[12px] text-[#94A3B8]">
-              Rewrites {posts.length} post{posts.length !== 1 ? "s" : ""} — auto-generates an SEO brief per post, then writes the content
+              {posts.length} post{posts.length !== 1 ? "s" : ""}: creates or reuses a Content Editor brief per post, runs
+              Auto-Optimize, syncs to the blog, and sets each post to <strong>draft</strong> (clears publish approval).
             </p>
           </div>
           {!running && (
@@ -373,7 +501,7 @@ export default function BulkRewriteModal({ posts, onClose, onComplete }: BulkRew
           {/* Info chip */}
           <div className="ml-auto flex items-center gap-1.5 text-[11px] text-[#94A3B8]">
             <i className="ri-information-line text-xs"></i>
-            <span>Brief auto-generated per post · ~2–3 min each</span>
+            <span>~3–5 min per post (brief + optimize)</span>
           </div>
           {done && (
             <span className="text-[12px] font-medium text-emerald-600">
@@ -386,7 +514,9 @@ export default function BulkRewriteModal({ posts, onClose, onComplete }: BulkRew
         <div className="flex-1 overflow-y-auto divide-y divide-[#F4F7FB]">
           {posts.map((post) => {
             const row = rows[post.id];
-            const isActive = ["creating_brief", "brief_running", "writing"].includes(row.status);
+            const isActive = ["creating_brief", "brief_running", "optimizing", "writing"].includes(
+              row.status,
+            );
             const isTerminal = row.status === "done" || row.status === "error" || row.status === "brief_failed";
             const isPending = row.status === "pending";
             return (

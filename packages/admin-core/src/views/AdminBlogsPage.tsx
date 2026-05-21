@@ -705,13 +705,14 @@ export default function AdminBlogDashboard() {
                 </button>
               )}
 
-              {/* Bulk AI Rewrite */}
+              {/* Bulk Auto-Optimize (Content Editor brief + sync) */}
               <button
                 onClick={() => setBulkRewriteOpen(true)}
                 className="flex items-center gap-1.5 bg-violet-500 hover:bg-violet-400 text-white text-[11px] tracking-[0.12em] uppercase font-bold px-4 py-2 rounded-xl transition-colors cursor-pointer whitespace-nowrap"
+                title="Create/reuse Content Editor briefs, Auto-Optimize, sync to posts, set to draft"
               >
-                <i className="ri-sparkling-2-line text-xs"></i>
-                AI Rewrite
+                <i className="ri-magic-line text-xs"></i>
+                Auto-Optimize
               </button>
 
               {/* Auto-pick Primary Keywords */}
