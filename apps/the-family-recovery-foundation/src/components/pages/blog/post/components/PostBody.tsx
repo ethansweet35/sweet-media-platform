@@ -8,6 +8,7 @@ import {
 } from "@sweetmedia/blog-core";
 import { parseInlineLinks, type InlineSegment } from "@/lib/markdownToBlog";
 import { autoLinkText, type LinkSegment, type AutoLinkMapping } from "@sweetmedia/blog-core";
+import { sanitizeBlogImageSrc, shouldUnoptimizeBlogImage } from "@/lib/blogImages";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -389,7 +390,7 @@ export default function PostBody({ sections, autoLinkMap, currentSlug, usedHrefs
             break;
 
           case "image": {
-            const src = section.text?.trim();
+            const src = sanitizeBlogImageSrc(section.text?.trim());
             if (!src) break;
             const alt = section.alt?.trim() || "Blog illustration";
             elements.push(
@@ -401,6 +402,7 @@ export default function PostBody({ sections, autoLinkMap, currentSlug, usedHrefs
                     width={1024}
                     height={1536}
                     sizes="(max-width: 768px) 100vw, 720px"
+                    unoptimized={shouldUnoptimizeBlogImage(src)}
                     className="mx-auto h-auto w-full max-w-2xl"
                   />
                 </div>

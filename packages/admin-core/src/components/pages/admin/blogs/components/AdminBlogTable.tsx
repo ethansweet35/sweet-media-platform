@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useState, useRef, useCallback } from "react";
+import { Fragment, useState, useRef, useCallback } from "react";
 import { ADMIN_OCEAN } from "../../../../../lib/adminTheme";
 import type { BlogPost } from "@sweetmedia/blog-core";
 import type { GscMetrics } from "../../../../../hooks/useSearchConsoleData";
@@ -269,9 +269,8 @@ export default function AdminBlogTable({
               const isSelected = selectedIds.has(post.id);
 
               return (
-                <>
+                <Fragment key={post.id}>
                 <tr
-                  key={post.id}
                   className={`border-b border-neutral-50 transition-colors group ${
                     seoStatus?.status === "done" ? "bg-violet-50/60" : isSelected ? "bg-[#3d6f7f]/3" : "hover:bg-neutral-50/60"
                   }`}
@@ -640,7 +639,7 @@ export default function AdminBlogTable({
 
                 {/* AI Generate Meta Data preview row */}
                 {seoStatus?.status === "done" && seoStatus.result && (
-                  <tr key={`${post.id}-seo-preview`} className="bg-violet-50 border-b border-violet-100">
+                  <tr className="bg-violet-50 border-b border-violet-100">
                     <td colSpan={13} className="px-5 py-3">
                       <div className="flex items-start gap-4">
                         <div className="flex items-center gap-1.5 flex-shrink-0 mt-0.5">
@@ -695,7 +694,7 @@ export default function AdminBlogTable({
                 )}
 
                 {seoStatus?.status === "error" && (
-                  <tr key={`${post.id}-seo-error`} className="bg-red-50 border-b border-red-100">
+                  <tr className="bg-red-50 border-b border-red-100">
                     <td colSpan={13} className="px-5 py-2">
                       <div className="flex items-center gap-3">
                         <i className="ri-error-warning-line text-red-400 text-sm flex-shrink-0"></i>
@@ -708,7 +707,7 @@ export default function AdminBlogTable({
                     </td>
                   </tr>
                 )}
-                </>
+                </Fragment>
               );
             })}
           </tbody>

@@ -24,8 +24,7 @@ function resolveOpenRouterModel(bodyModel: unknown): string {
   return ALLOWED_MODEL_IDS.has(trimmed) ? trimmed : DEFAULT_MODEL_ID;
 }
 
-const DEFAULT_AUTHOR_PHOTO =
-  "https://ynmldknprfusujudvutq.supabase.co/storage/v1/object/public/public_bucket/img2.png";
+const DEFAULT_AUTHOR_PHOTO = "";
 
 function resolveAuthor() {
   return {

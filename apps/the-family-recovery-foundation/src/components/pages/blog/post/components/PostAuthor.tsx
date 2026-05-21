@@ -1,25 +1,29 @@
 import Image from "next/image";
 import type { BlogPost } from "@sweetmedia/blog-core";
+import { sanitizeBlogImageSrc, shouldUnoptimizeBlogImage } from "@/lib/blogImages";
 
 interface PostAuthorProps {
   post: BlogPost;
 }
 
 export default function PostAuthor({ post }: PostAuthorProps) {
+  const authorPhoto = sanitizeBlogImageSrc(post.authorPhoto);
+
   return (
     <div className="mt-14 rounded-2xl border border-mist bg-pure-white p-6 md:p-8 shadow-sm">
       <p className="text-eyebrow font-body font-semibold uppercase tracking-[0.2em] text-tfrf-blue mb-5">
         About the Author
       </p>
       <div className="flex flex-col items-start gap-5 sm:flex-row">
-        {post.authorPhoto ? (
+        {authorPhoto ? (
           <div className="relative h-20 w-20 shrink-0 overflow-hidden rounded-2xl ring-2 ring-mist">
             <Image
-              src={post.authorPhoto}
+              src={authorPhoto}
               alt={post.author}
               width={80}
               height={80}
               loading="lazy"
+              unoptimized={shouldUnoptimizeBlogImage(authorPhoto)}
               className="h-full w-full object-cover object-top"
             />
           </div>

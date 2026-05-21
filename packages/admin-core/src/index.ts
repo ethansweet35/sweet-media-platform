@@ -7,6 +7,8 @@ export * from "./types/knowledge-base";
 export * from "./types/tracked-page";
 export * from "./types/semrush";
 
+export { cleanSeedPhrase, stripBrandSuffix } from "./lib/seedCleaner";
+
 export { AnalyticsWrapper } from "./components/AnalyticsWrapper";
 export { default as AdminPageHeader } from "./components/AdminPageHeader";
 export { default as OptimizationStatusBanner } from "./components/OptimizationStatusBanner";

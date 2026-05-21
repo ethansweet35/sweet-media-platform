@@ -72,10 +72,26 @@ function parseBackendError(payload: Record<string, unknown>, fallback: string): 
 export default function BlogWriterPage() {
   const searchParams = useSearchParams();
   const seededKeyword = searchParams?.get("primary_keyword") ?? "";
+  const seededTopic = searchParams?.get("topic") ?? "";
 
-  const [form, setForm] = useState<FormState>(() =>
-    seededKeyword ? { ...INITIAL_FORM, primaryKeyword: seededKeyword } : INITIAL_FORM,
-  );
+  const [form, setForm] = useState<FormState>(() => {
+    if (!seededKeyword && !seededTopic) return INITIAL_FORM;
+    const primaryKeyword = seededKeyword.trim();
+    const topic =
+      seededTopic.trim() ||
+      (primaryKeyword
+        ? primaryKeyword
+            .split(/\s+/)
+            .filter(Boolean)
+            .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+            .join(" ")
+        : "");
+    return {
+      ...INITIAL_FORM,
+      primaryKeyword,
+      topic,
+    };
+  });
   const [generationStage, setGenerationStage] = useState<GenerationStage>(null);
   const [postError, setPostError] = useState<string | null>(null);
   const [result, setResult] = useState<DoneResult | null>(null);

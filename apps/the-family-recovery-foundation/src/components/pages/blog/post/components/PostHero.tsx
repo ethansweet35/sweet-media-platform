@@ -2,21 +2,26 @@ import Image from "next/image";
 import Link from "next/link";
 import type { BlogPost } from "@sweetmedia/blog-core";
 import { PAGE_TOP_NAV_PADDING } from "@/lib/layout";
+import { sanitizeBlogImageSrc, shouldUnoptimizeBlogImage } from "@/lib/blogImages";
 
 interface PostHeroProps {
   post: BlogPost;
 }
 
 export default function PostHero({ post }: PostHeroProps) {
+  const heroImage = sanitizeBlogImageSrc(post.image);
+  const authorPhoto = sanitizeBlogImageSrc(post.authorPhoto);
+
   return (
     <section className="relative min-h-[420px] md:min-h-[480px] w-full overflow-hidden bg-deep-navy">
-      {post.image ? (
+      {heroImage ? (
         <>
           <Image
-            src={post.image}
+            src={heroImage}
             alt=""
             fill
             priority
+            unoptimized={shouldUnoptimizeBlogImage(heroImage)}
             className="object-cover object-center"
             sizes="100vw"
           />
@@ -55,9 +60,16 @@ export default function PostHero({ post }: PostHeroProps) {
 
           <div className="flex flex-wrap items-center gap-4 md:gap-6 border-t border-pure-white/15 pt-6">
             <div className="flex items-center gap-3">
-              {post.authorPhoto ? (
+              {authorPhoto ? (
                 <div className="relative h-11 w-11 shrink-0 overflow-hidden rounded-full ring-2 ring-pure-white/25">
-                  <Image src={post.authorPhoto} alt="" fill sizes="44px" className="object-cover" />
+                  <Image
+                    src={authorPhoto}
+                    alt=""
+                    fill
+                    sizes="44px"
+                    unoptimized={shouldUnoptimizeBlogImage(authorPhoto)}
+                    className="object-cover"
+                  />
                 </div>
               ) : (
                 <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-tfrf-blue/40 text-pure-white">
