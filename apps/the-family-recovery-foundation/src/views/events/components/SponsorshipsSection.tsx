@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from "react";
+import { OKLAHOMA_GALA_SPONSOR_PATH } from "@/lib/oklahoma-gala";
 import { cn } from "@/lib/utils";
 
 interface SponsorTier {
@@ -155,7 +156,7 @@ export default function SponsorshipsSection() {
         {/* CTA */}
         <div className="text-center">
           <a
-            href="mailto:hello@tfrfoundation.org?subject=Gala Sponsorship Inquiry"
+            href={OKLAHOMA_GALA_SPONSOR_PATH}
             className="inline-flex items-center justify-center px-10 py-4 bg-deep-navy hover:bg-tfrf-blue text-pure-white font-body font-semibold text-[14px] uppercase tracking-[0.06em] rounded-lg transition-colors duration-200 whitespace-nowrap cursor-pointer"
           >
             Become a Sponsor

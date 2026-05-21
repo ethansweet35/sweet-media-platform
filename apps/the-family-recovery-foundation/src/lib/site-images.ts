@@ -12,8 +12,10 @@ export const SITE_IMAGES = {
   lifeLinesGreyBannerPng: `${IMG}/tfrf_sq_8d7904a2_LifeLinesGrey_Banner.png`,
   aboutLifeLines: `${IMG}/tfrf_sq_71278bf2_AboutLifeLines-Image.jpg`,
   partnership: `${IMG}/tfrf_sq_dc054bf9_Partnership.jpg`,
-  /** Community / gala photography used on live events + homepage */
+  /** Community / gala photography used on Nashville + homepage */
   galaCommunity: `${IMG}/tfrf_sq_2c2c8470_IMG_8264.jpg`,
+  /** Oklahoma City annual gala hero */
+  galaOklahomaHero: `${IMG}/tfrf_gala_okc_hero01.jpg`,
   eventPhotoA: `${IMG}/tfrf_sq_17134601_image-asset.jpg`,
   eventPhotoB: `${IMG}/tfrf_sq_17134603_image-asset.jpg`,
   eventPhotoC: `${IMG}/tfrf_sq_17144993_image-asset.jpg`,

@@ -1,4 +1,8 @@
 import { PAGE_TOP_NAV_PADDING } from "@/lib/layout";
+import {
+  OKLAHOMA_GALA_SPONSOR_PATH,
+  OKLAHOMA_GALA_TICKETS_URL,
+} from "@/lib/oklahoma-gala";
 import { SITE_IMAGES } from "@/lib/site-images";
 
 export default function GalaHeroSection() {
@@ -11,8 +15,8 @@ export default function GalaHeroSection() {
         {/* Hero image with overlaid text */}
         <div className="relative rounded-2xl overflow-hidden">
           <img
-            src={SITE_IMAGES.galaCommunity}
-            alt="Guests at The Family Recovery Foundation annual gala"
+            src={SITE_IMAGES.galaOklahomaHero}
+            alt="Oklahoma City skyline at golden hour"
             className="w-full h-[300px] sm:h-[380px] md:h-[460px] lg:h-[520px] object-cover object-center"
           />
           {/* Gradient overlay for text readability */}
@@ -40,13 +44,15 @@ export default function GalaHeroSection() {
             </div>
             <div className="flex flex-col sm:flex-row items-center gap-3">
               <a
-                href="#tickets"
+                href={OKLAHOMA_GALA_TICKETS_URL}
+                target="_blank"
+                rel="noopener noreferrer"
                 className="inline-flex items-center justify-center px-8 py-3.5 bg-[#C9A44A] hover:bg-[#b8943f] text-deep-navy font-body font-semibold text-[14px] uppercase tracking-[0.06em] rounded-lg transition-all duration-200 whitespace-nowrap cursor-pointer shadow-lg shadow-black/20"
               >
                 Purchase Tickets
               </a>
               <a
-                href="#sponsorships"
+                href={OKLAHOMA_GALA_SPONSOR_PATH}
                 className="inline-flex items-center justify-center px-8 py-3.5 border-2 border-pure-white/60 text-pure-white hover:bg-pure-white/10 font-body font-semibold text-[14px] uppercase tracking-[0.06em] rounded-lg transition-all duration-200 whitespace-nowrap cursor-pointer"
               >
                 Become a Sponsor
