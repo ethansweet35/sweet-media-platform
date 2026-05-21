@@ -62,6 +62,17 @@ export {
 } from "./syncFromBlog";
 
 export {
+  resolveEditorPublishLink,
+  ensureBlogPostForEditor,
+  linkEditorToTrackedPage,
+  ensurePublishTargetForAutoOptimize,
+  applyTrackedPageSeoFromEditorDraft,
+  slugFromKeyword,
+  type EditorPublishLink,
+  type PublishTargetKind,
+} from "./ensurePublishTarget";
+
+export {
   bulkSyncEditorsToBlog,
   handleBulkSyncContentEditorsPost,
   type BulkSyncEditorResult,

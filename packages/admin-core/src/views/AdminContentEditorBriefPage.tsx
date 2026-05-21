@@ -12,6 +12,9 @@ import {
   type DraftInputs,
 } from "../hooks/useContentEditors";
 import { useAiOptimizeRuns, type AiOptimizeRun } from "../hooks/useAiOptimizeRuns";
+import ContentEditorPublishTargetPicker, {
+  type PublishTargetChoice,
+} from "../components/content-editor/ContentEditorPublishTargetPicker";
 import {
   EEAT_CHECK_LABELS,
   STATUS_IS_PROCESSING,
@@ -1167,6 +1170,12 @@ export default function AdminContentEditorBriefPage({ briefId: briefIdProp }: Pr
     message: string;
   } | null>(null);
   const hasLinkedBlog = !isPageMode;
+  const hasPublishTarget = !!state?.linkedPage || !!state?.editor.blog_post_id;
+  const [publishPickerOpen, setPublishPickerOpen] = useState(false);
+  const [autoPublishResult, setAutoPublishResult] = useState<{
+    ok: boolean;
+    message: string;
+  } | null>(null);
 
   // Hydrate draft from server when state loads / changes.
   //
@@ -1433,8 +1442,22 @@ export default function AdminContentEditorBriefPage({ briefId: briefIdProp }: Pr
         window.sessionStorage.removeItem(`content-editor-optimize-start:${editorId}`);
         window.sessionStorage.removeItem(`content-editor-optimize-baseline:${editorId}`);
       }
+      void refresh({ silent: true }).then(() => {
+        setAutoPublishResult({
+          ok: true,
+          message:
+            "Auto-Optimize finished. The draft was saved and synced to your blog post or page SEO — review below.",
+        });
+      });
     }
-  }, [optimizing, state?.currentDraft?.updated_at, optimizeBaselineUpdatedAt, optimizeStartedAt, editorId]);
+  }, [
+    optimizing,
+    state?.currentDraft?.updated_at,
+    optimizeBaselineUpdatedAt,
+    optimizeStartedAt,
+    editorId,
+    refresh,
+  ]);
 
   // While optimizing, poll the server every 4s so we pick up the new draft.
   useEffect(() => {
@@ -1533,22 +1556,30 @@ export default function AdminContentEditorBriefPage({ briefId: briefIdProp }: Pr
     }
   }
 
-  async function handleAutoOptimize() {
+  async function startAutoOptimize(opts?: {
+    publishTarget?: PublishTargetChoice;
+    trackedPageId?: string;
+  }) {
     if (!state || !editorId) return;
-    const confirmed = window.confirm(
-      "Auto-Optimize will replace your current draft with an AI-written version optimized against this brief. The optimization runs in the background — you can navigate away and come back. Continue?",
-    );
-    if (!confirmed) return;
     setOptimizeError(null);
+    setAutoPublishResult(null);
 
-    const baselineUpdatedAt = state.currentDraft?.updated_at ?? new Date().toISOString();
+    const baselineUpdatedAt = state.currentDraft?.updated_at ?? null;
     const startedAt = Date.now();
 
     try {
       const res = await fetch(`/api/admin/content-editor/${editorId}/auto-optimize`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({}),
+        body: JSON.stringify({
+          autoPublish: true,
+          ...(opts?.publishTarget
+            ? {
+                publishTarget: opts.publishTarget,
+                trackedPageId: opts.trackedPageId,
+              }
+            : {}),
+        }),
       });
       const data = (await res.json().catch(() => ({}))) as { ok?: boolean; error?: string };
       if (!res.ok || data.ok === false) {
@@ -1564,13 +1595,31 @@ export default function AdminContentEditorBriefPage({ briefId: briefIdProp }: Pr
         );
         window.sessionStorage.setItem(
           `content-editor-optimize-baseline:${editorId}`,
-          baselineUpdatedAt,
+          baselineUpdatedAt ?? "",
         );
       }
+      setPublishPickerOpen(false);
     } catch (err) {
       setOptimizeError(err instanceof Error ? err.message : String(err));
       setOptimizing(false);
     }
+  }
+
+  async function handleAutoOptimize() {
+    if (!state || !editorId) return;
+    const publishNote = hasPublishTarget
+      ? "When it finishes, the draft will sync to your linked blog or page."
+      : "You will choose Blog or Page first; we will create the post or link the page, then sync automatically.";
+    const confirmed = window.confirm(
+      `Auto-Optimize will replace your current draft with an AI-written version optimized against this brief. ${publishNote} The run takes a few minutes in the background. Continue?`,
+    );
+    if (!confirmed) return;
+
+    if (!hasPublishTarget) {
+      setPublishPickerOpen(true);
+      return;
+    }
+    await startAutoOptimize();
   }
 
   if (loading) {
@@ -1827,6 +1876,47 @@ export default function AdminContentEditorBriefPage({ briefId: briefIdProp }: Pr
             type="button"
             onClick={() => setOptimizeError(null)}
             className="text-red-400 hover:text-red-600 text-sm"
+          >
+            <i className="ri-close-line" />
+          </button>
+        </div>
+      ) : null}
+
+      {publishPickerOpen ? (
+        <ContentEditorPublishTargetPicker
+          open
+          keyword={editor.primary_keyword}
+          editorId={editor.id}
+          submitting={optimizing}
+          onClose={() => {
+            if (!optimizing) setPublishPickerOpen(false);
+          }}
+          onConfirm={(choice) => {
+            void startAutoOptimize(choice);
+          }}
+        />
+      ) : null}
+
+      {autoPublishResult ? (
+        <div
+          className={`rounded-2xl border p-4 flex items-start gap-3 mx-auto max-w-screen-xl mb-4 ${
+            autoPublishResult.ok
+              ? "border-emerald-200 bg-emerald-50"
+              : "border-red-200 bg-red-50"
+          }`}
+        >
+          <i
+            className={`mt-0.5 ${autoPublishResult.ok ? "ri-check-line text-emerald-600" : "ri-error-warning-line text-red-600"}`}
+          />
+          <p
+            className={`flex-1 text-[12px] ${autoPublishResult.ok ? "text-emerald-900" : "text-red-900"}`}
+          >
+            {autoPublishResult.message}
+          </p>
+          <button
+            type="button"
+            onClick={() => setAutoPublishResult(null)}
+            className="text-sm shrink-0 text-emerald-500 hover:text-emerald-700"
           >
             <i className="ri-close-line" />
           </button>

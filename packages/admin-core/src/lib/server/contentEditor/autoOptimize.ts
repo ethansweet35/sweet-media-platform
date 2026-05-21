@@ -17,6 +17,7 @@
  * On failure the existing draft is left untouched so the user doesn't lose
  * their work.
  */
+import { revalidatePath } from "next/cache";
 import { ContentEditorError } from "./errors";
 import { getAdminClient, loadEditor } from "./db";
 import { saveDraft, scoreDraft } from "./api";
@@ -26,6 +27,11 @@ import type {
   ContentEditorFactRow,
 } from "./api";
 import { loadLatestSnapshotIgnoreTtl, type TrackedPageLiveSnapshot } from "./livePageAnalysis";
+import {
+  applyTrackedPageSeoFromEditorDraft,
+  ensurePublishTargetForAutoOptimize,
+  resolveEditorPublishLink,
+} from "./ensurePublishTarget";
 
 const DEFAULT_MODEL = "anthropic/claude-sonnet-4.6";
 const ALLOWED_MODELS = new Set([
@@ -42,6 +48,11 @@ export interface AutoOptimizeOptions {
   editorId: string;
   model?: string;
   customInstructions?: string;
+  /** Required when the editor has no linked blog post or page yet. */
+  publishTarget?: "blog" | "page";
+  trackedPageId?: string;
+  /** After optimize, push draft → blog or SEO meta → page (default true). */
+  autoPublish?: boolean;
 }
 
 interface BlockShape {
@@ -523,9 +534,30 @@ export async function runAutoOptimize(opts: AutoOptimizeOptions): Promise<void> 
   const model = opts.model && ALLOWED_MODELS.has(opts.model) ? opts.model : DEFAULT_MODEL;
 
   const client = getAdminClient();
-  const editor = await loadEditor(client, editorId);
+  let editor = await loadEditor(client, editorId);
   if (!editor) {
     throw new ContentEditorError("Editor not found.", { source: "api", status: 404 });
+  }
+
+  const existingLink = await resolveEditorPublishLink(editorId, editor);
+  if (!existingLink) {
+    if (!opts.publishTarget) {
+      throw new ContentEditorError(
+        "No blog post or page is linked. Choose Blog or Page when starting Auto-Optimize.",
+        { source: "api", status: 400 },
+      );
+    }
+    await ensurePublishTargetForAutoOptimize(editorId, {
+      publishTarget: opts.publishTarget,
+      trackedPageId: opts.trackedPageId,
+    });
+    editor = await loadEditor(client, editorId);
+    if (!editor) {
+      throw new ContentEditorError("Editor not found after linking publish target.", {
+        source: "api",
+        status: 500,
+      });
+    }
   }
 
   // Load brief data in parallel.
@@ -744,5 +776,28 @@ export async function runAutoOptimize(opts: AutoOptimizeOptions): Promise<void> 
     });
   } catch (err) {
     console.warn("[content-editor] post-optimize scoring failed (non-fatal):", err);
+  }
+
+  if (opts.autoPublish === false) return;
+
+  try {
+    const link = await resolveEditorPublishLink(editorId);
+    if (link?.kind === "blog") {
+      const { syncEditorDraftToBlogPost } = await import("./syncToBlog");
+      const synced = await syncEditorDraftToBlogPost(editorId);
+      revalidatePath(`/blog/${synced.slug}`);
+      revalidatePath("/blog");
+    } else if (link?.kind === "page") {
+      const applied = await applyTrackedPageSeoFromEditorDraft(editorId);
+      revalidatePath(applied.routePath);
+    }
+  } catch (err) {
+    console.error("[content-editor] post-optimize auto-publish failed:", err);
+    throw err instanceof ContentEditorError
+      ? err
+      : new ContentEditorError(
+          err instanceof Error ? err.message : "Auto-publish after optimize failed.",
+          { source: "api", status: 500 },
+        );
   }
 }

@@ -4,6 +4,7 @@ import {
   ContentEditorError,
   getContentEditorAdminClient,
   loadContentEditor,
+  resolveEditorPublishLink,
   runAutoOptimize,
 } from "@sweetmedia/admin-core/server";
 
@@ -15,6 +16,14 @@ interface RouteContext {
   params: Promise<{ id: string }>;
 }
 
+interface AutoOptimizeRequest {
+  model?: string;
+  customInstructions?: string;
+  publishTarget?: "blog" | "page";
+  trackedPageId?: string;
+  autoPublish?: boolean;
+}
+
 /**
  * Kick off an AI Auto-Optimize run for the editor.
  *
@@ -23,7 +32,7 @@ interface RouteContext {
  * persisted to `content_editor_drafts` (a new is_current row is created).
  * The brief page polls for the new draft id to detect completion.
  *
- * Optional body: { model?: string, customInstructions?: string }
+ * Optional body: { model?, customInstructions?, publishTarget?, trackedPageId?, autoPublish? }
  */
 export async function POST(request: Request, ctx: RouteContext) {
   const { id } = await ctx.params;
@@ -31,14 +40,11 @@ export async function POST(request: Request, ctx: RouteContext) {
     return NextResponse.json({ ok: false, error: "id is required." }, { status: 400 });
   }
 
-  let model: string | undefined;
-  let customInstructions: string | undefined;
+  let body: AutoOptimizeRequest = {};
   try {
     const parsed = (await request.json()) as unknown;
     if (parsed && typeof parsed === "object") {
-      const obj = parsed as Record<string, unknown>;
-      if (typeof obj.model === "string") model = obj.model;
-      if (typeof obj.customInstructions === "string") customInstructions = obj.customInstructions;
+      body = parsed as AutoOptimizeRequest;
     }
   } catch {
     /* Empty body is fine — server picks defaults. */
@@ -67,10 +73,36 @@ export async function POST(request: Request, ctx: RouteContext) {
     );
   }
 
+  const existingLink = await resolveEditorPublishLink(id, editor);
+  if (!existingLink) {
+    if (body.publishTarget !== "blog" && body.publishTarget !== "page") {
+      return NextResponse.json(
+        {
+          ok: false,
+          error: "Choose Blog or Page as the publish target before Auto-Optimize.",
+        },
+        { status: 400 },
+      );
+    }
+    if (body.publishTarget === "page" && !body.trackedPageId?.trim()) {
+      return NextResponse.json(
+        { ok: false, error: "Select a marketing page to link before Auto-Optimize." },
+        { status: 400 },
+      );
+    }
+  }
+
   try {
     after(async () => {
       try {
-        await runAutoOptimize({ editorId: id, model, customInstructions });
+        await runAutoOptimize({
+          editorId: id,
+          model: body.model,
+          customInstructions: body.customInstructions,
+          publishTarget: body.publishTarget,
+          trackedPageId: body.trackedPageId,
+          autoPublish: body.autoPublish,
+        });
       } catch (err) {
         console.error("[content-editor] auto-optimize failed:", err);
       }
