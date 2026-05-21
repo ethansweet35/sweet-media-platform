@@ -1,14 +1,13 @@
 'use client';
 
-import Link from "next/link";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
 import { programsList } from "@/mocks/family-programming";
 import { PAGE_TOP_NAV_PADDING } from "@/lib/layout";
+import FlodeskFormEmbed from "@/components/marketing/FlodeskFormEmbed";
 
 export default function FamilyProgrammingHeroSection() {
   const [openPrograms, setOpenPrograms] = useState<Set<string>>(new Set());
-  const [formStatus, setFormStatus] = useState<"idle" | "submitting" | "success">("idle");
 
   const toggleProgram = (id: string) => {
     setOpenPrograms((prev) => {
@@ -22,41 +21,9 @@ export default function FamilyProgrammingHeroSection() {
     });
   };
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    setFormStatus("submitting");
-    const form = e.currentTarget;
-    const formData = new FormData(form);
-    const payload = {
-      form_type: "Family Programming Registration",
-      name: [formData.get("firstName"), formData.get("lastName")].filter(Boolean).join(" "),
-      email: String(formData.get("email") ?? ""),
-      phone: String(formData.get("phone") ?? ""),
-      hearAbout: String(formData.get("hearAbout") ?? ""),
-      message: "Family programming registration — Zoom details to be sent.",
-    };
-
-    try {
-      const response = await fetch("/api/contact", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
-      });
-      if (response.ok) {
-        setFormStatus("success");
-        form.reset();
-      } else {
-        setFormStatus("idle");
-      }
-    } catch {
-      setFormStatus("idle");
-    }
-  };
-
   return (
     <section className={`bg-pure-white ${PAGE_TOP_NAV_PADDING} pb-16 md:pb-24 overflow-hidden`}>
       <div className="max-w-content mx-auto px-6 lg:px-16">
-        {/* Header */}
         <div className="text-center mb-10 md:mb-14">
           <p className="text-eyebrow font-body font-semibold uppercase tracking-[0.2em] text-tfrf-blue mb-4">
             Our Programs
@@ -71,9 +38,7 @@ export default function FamilyProgrammingHeroSection() {
           </p>
         </div>
 
-        {/* Two column layout: Programs + Register Form */}
         <div className="flex flex-col lg:flex-row gap-6 lg:gap-8">
-          {/* Programs list */}
           <div className="flex-1 min-w-0">
             <div className="flex flex-col gap-2">
               {programsList.map((program) => {
@@ -118,9 +83,11 @@ export default function FamilyProgrammingHeroSection() {
             </div>
           </div>
 
-          {/* Register Now form */}
           <div className="lg:w-[380px] xl:w-[420px] shrink-0 self-start">
-            <div className="bg-tfrf-blue rounded-2xl p-6 md:p-7 text-pure-white sticky top-28">
+            <div
+              id="family-programming-registration"
+              className="bg-tfrf-blue rounded-2xl p-6 md:p-7 text-pure-white sticky top-28"
+            >
               <h2 className="text-display-s font-display text-pure-white mb-2">
                 Register Now
               </h2>
@@ -128,85 +95,17 @@ export default function FamilyProgrammingHeroSection() {
                 Your Zoom login details will be sent after registration.
               </p>
 
-              {formStatus === "success" ? (
-                <div className="text-center py-8">
-                  <div className="w-14 h-14 rounded-full bg-pure-white/20 flex items-center justify-center mx-auto mb-4">
-                    <i className="ri-check-line w-7 h-7 flex items-center justify-center text-2xl text-pure-white" />
-                  </div>
-                  <p className="text-[16px] font-body font-semibold text-pure-white">
-                    Thank you for registering!
-                  </p>
-                  <p className="text-[13px] font-body text-pure-white/80 mt-2">
-                    We will send your Zoom login details shortly.
-                  </p>
-                  <button
-                    onClick={() => setFormStatus("idle")}
-                    className="mt-5 text-[13px] font-body text-pure-white/70 hover:text-pure-white transition-colors underline cursor-pointer"
-                  >
-                    Register another person
-                  </button>
-                </div>
-              ) : (
-                <>
-                  <form
-                    id="family-programming-registration"
-                    onSubmit={handleSubmit}
-                    className="flex flex-col gap-3"
-                  >
-                    <input
-                      type="text"
-                      name="firstName"
-                      placeholder="First Name"
-                      required
-                      className="w-full px-4 py-3 rounded-lg bg-pure-white/15 border border-pure-white/20 text-pure-white placeholder-pure-white/60 text-[14px] font-body focus:outline-none focus:border-pure-white/40 transition-colors"
-                    />
-                    <input
-                      type="text"
-                      name="lastName"
-                      placeholder="Last Name"
-                      required
-                      className="w-full px-4 py-3 rounded-lg bg-pure-white/15 border border-pure-white/20 text-pure-white placeholder-pure-white/60 text-[14px] font-body focus:outline-none focus:border-pure-white/40 transition-colors"
-                    />
-                    <input
-                      type="email"
-                      name="email"
-                      placeholder="Email Address"
-                      required
-                      className="w-full px-4 py-3 rounded-lg bg-pure-white/15 border border-pure-white/20 text-pure-white placeholder-pure-white/60 text-[14px] font-body focus:outline-none focus:border-pure-white/40 transition-colors"
-                    />
-                    <input
-                      type="text"
-                      name="hearAbout"
-                      placeholder="How did you hear about us?"
-                      required
-                      className="w-full px-4 py-3 rounded-lg bg-pure-white/15 border border-pure-white/20 text-pure-white placeholder-pure-white/60 text-[14px] font-body focus:outline-none focus:border-pure-white/40 transition-colors"
-                    />
-                    <input
-                      type="tel"
-                      name="phone"
-                      placeholder="Phone Number"
-                      required
-                      className="w-full px-4 py-3 rounded-lg bg-pure-white/15 border border-pure-white/20 text-pure-white placeholder-pure-white/60 text-[14px] font-body focus:outline-none focus:border-pure-white/40 transition-colors"
-                    />
-                    <button
-                      type="submit"
-                      disabled={formStatus === "submitting"}
-                      className="w-full py-3.5 rounded-lg bg-pure-white text-tfrf-blue font-body font-semibold text-[14px] hover:bg-pure-white/90 transition-colors disabled:opacity-60 cursor-pointer"
-                    >
-                      {formStatus === "submitting" ? "Registering..." : "Register Now"}
-                    </button>
-                  </form>
-                  <p className="mt-4 text-center text-[12px] md:text-[13px] font-body text-pure-white/60 leading-relaxed">
-                    Having trouble registering? Contact our support tech{" "}
-                    <a
-                      href="tel:8889648825"
-                      className="text-pure-white/90 hover:text-pure-white transition-colors font-semibold"
-                    >
-                      888-964-8825
-                    </a>
-                  </p>
-                </>
-              )}
+              <FlodeskFormEmbed instanceKey="family-programming" />
+
+              <p className="mt-4 text-center text-[12px] md:text-[13px] font-body text-pure-white/60 leading-relaxed">
+                Having trouble registering? Contact our support tech{" "}
+                <a
+                  href="tel:8889648825"
+                  className="text-pure-white/90 hover:text-pure-white transition-colors font-semibold"
+                >
+                  888-964-8825
+                </a>
+              </p>
             </div>
           </div>
         </div>
