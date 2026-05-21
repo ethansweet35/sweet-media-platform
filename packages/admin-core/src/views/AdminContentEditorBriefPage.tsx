@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import AdminPageHeader from "../components/AdminPageHeader";
@@ -1125,6 +1125,13 @@ export default function AdminContentEditorBriefPage({ briefId: briefIdProp }: Pr
     h1Text: "",
     bodyMarkdown: "",
   });
+  const isPageMode = !!state?.linkedPage;
+  const skipAutosaveAfterImportRef = useRef(false);
+  const { saving, saved, markDraftSaved } = useDraftAutosave(
+    drafts,
+    isPageMode ? null : editorId,
+    4000,
+  );
   const [filter, setFilter] = useState<"all" | "missing" | "good" | "over">("all");
   const [factCoverageEnabled, setFactCoverageEnabled] = useState(false);
   const [optimizing, setOptimizing] = useState(false);
@@ -1139,8 +1146,6 @@ export default function AdminContentEditorBriefPage({ briefId: briefIdProp }: Pr
    */
   const [optimizeBaselineUpdatedAt, setOptimizeBaselineUpdatedAt] = useState<string | null>(null);
 
-  // Page Mode state — when the editor is linked to a tracked page.
-  const isPageMode = !!state?.linkedPage;
   const trackedPageIdForRuns = state?.linkedPage?.id ?? null;
   const {
     runs: aiOptimizeRuns,
@@ -1181,13 +1186,18 @@ export default function AdminContentEditorBriefPage({ briefId: briefIdProp }: Pr
       return;
     }
     if (!state?.currentDraft) return;
-    setDrafts({
+    const next: DraftInputs = {
       titleTag: state.currentDraft.title_tag ?? "",
       metaDescription: state.currentDraft.meta_description ?? "",
       h1Text: state.currentDraft.h1_text ?? "",
       bodyMarkdown: state.currentDraft.body_markdown ?? "",
-    });
-  }, [state?.currentDraft, state?.linkedPage]);
+    };
+    setDrafts(next);
+    if (skipAutosaveAfterImportRef.current) {
+      markDraftSaved(next);
+      skipAutosaveAfterImportRef.current = false;
+    }
+  }, [state?.currentDraft, state?.linkedPage, markDraftSaved]);
 
   // Page Mode: auto-trigger an initial live scan once the editor is Ready
   // and we don't have a snapshot yet. (Don't fire while the pipeline is
@@ -1282,6 +1292,7 @@ export default function AdminContentEditorBriefPage({ briefId: briefIdProp }: Pr
         ok: true,
         message: `Imported from blog post (/blog/${j.slug ?? ""}${j.wordCount != null ? `, ${j.wordCount} words` : ""}${j.scored ? ", scored" : ""}).`,
       });
+      skipAutosaveAfterImportRef.current = true;
       await refresh({ silent: true });
     } catch (err) {
       setImportFromBlogResult({
@@ -1443,9 +1454,6 @@ export default function AdminContentEditorBriefPage({ briefId: briefIdProp }: Pr
     debounceMs: 1200,
     persist: !isPageMode,
   });
-  // No autosave in Page Mode — there is no editable draft.
-  const { saving, saved } = useDraftAutosave(drafts, isPageMode ? null : editorId, 4000);
-
   function handleDownloadGuidelines() {
     if (!state) return;
     const { editor, terms, questions, facts } = state;

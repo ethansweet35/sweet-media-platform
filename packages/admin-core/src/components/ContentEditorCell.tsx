@@ -401,9 +401,9 @@ export default function ContentEditorCell({
         <span
           title={
             blogSyncStatus === "synced"
-              ? "Draft matches what was last pushed to this blog post"
+              ? "Draft matches the live blog post (imported or last pushed)"
               : blogSyncStatus === "needs_sync"
-                ? "Draft is newer than the live post — open the brief and use Sync to blog"
+                ? "Draft has unsaved changes — open the brief and use Sync to blog to update the post"
                 : "Open the brief and use Import from blog, or run Auto-Optimize to generate a draft"
           }
           className={`inline-flex items-center gap-1 px-2 h-7 rounded-lg text-[10px] font-bold uppercase tracking-[0.1em] whitespace-nowrap ${

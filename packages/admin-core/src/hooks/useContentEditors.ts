@@ -560,12 +560,24 @@ export function useDraftAutosave(
   drafts: DraftInputs,
   editorId: string | null,
   debounceMs = 4000,
-): { saving: boolean; saved: boolean; error: string | null } {
+): {
+  saving: boolean;
+  saved: boolean;
+  error: string | null;
+  /** Call after server-side import so debounced save does not bump draft ahead of sync marker. */
+  markDraftSaved: (snapshot: DraftInputs) => void;
+} {
   const [saving, setSaving] = useState(false);
   const [saved, setSaved] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const lastSavedRef = useRef<string>("");
+
+  const markDraftSaved = useCallback((snapshot: DraftInputs) => {
+    lastSavedRef.current = JSON.stringify(snapshot);
+    setSaved(true);
+    setError(null);
+  }, []);
 
   useEffect(() => {
     if (!editorId) return;
@@ -610,7 +622,7 @@ export function useDraftAutosave(
     };
   }, [drafts, editorId, debounceMs]);
 
-  return { saving, saved, error };
+  return { saving, saved, error, markDraftSaved };
 }
 
 // ────────────────────────────────────────────────────────────────────────

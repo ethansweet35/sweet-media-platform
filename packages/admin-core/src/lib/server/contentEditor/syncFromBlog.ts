@@ -74,7 +74,7 @@ export async function syncBlogPostToEditorDraft(
   const h1Text = blog.title.trim();
   const metaDescription = (blog.metaDescription ?? "").trim();
 
-  await saveDraft({
+  const draft = await saveDraft({
     editorId,
     titleTag: titleTag || null,
     metaDescription: metaDescription || null,
@@ -83,10 +83,31 @@ export async function syncBlogPostToEditorDraft(
     bodyPlaintext: bodyMarkdown,
   });
 
+  // Draft now matches the live post — align sync marker so Blog Posts does not
+  // show "Sync" until the user edits the draft again.
+  const alignedAt =
+    (typeof draft.updated_at === "string" ? draft.updated_at : null) ??
+    new Date().toISOString();
+
+  const { error: syncMarkerErr } = await client
+    .from("blog_posts")
+    .update({
+      content_editor_id: editorId,
+      content_editor_synced_at: alignedAt,
+    })
+    .eq("id", blogPostId);
+
+  if (syncMarkerErr) {
+    throw new ContentEditorError(
+      `Draft imported but failed to update sync status: ${syncMarkerErr.message}`,
+      { source: "api", status: 500 },
+    );
+  }
+
   if (!editor.blog_post_id) {
     await client
       .from("content_editors")
-      .update({ blog_post_id: blogPostId, updated_at: new Date().toISOString() })
+      .update({ blog_post_id: blogPostId, updated_at: alignedAt })
       .eq("id", editorId);
   }
 
