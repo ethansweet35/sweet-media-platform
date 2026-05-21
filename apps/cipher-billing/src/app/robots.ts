@@ -1,4 +1,5 @@
 import type { MetadataRoute } from "next";
+import { mergeRobotsDisallow } from "@sweetmedia/admin-core";
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL!;
 
@@ -13,7 +14,7 @@ export default function robots(): MetadataRoute.Robots {
       {
         userAgent: "*",
         allow: "/",
-        disallow: ["/admin", "/admin/", "/api/"],
+        disallow: mergeRobotsDisallow(["/admin", "/admin/", "/api/"]),
       },
     ],
     sitemap: `${SITE_URL}/sitemap.xml`,

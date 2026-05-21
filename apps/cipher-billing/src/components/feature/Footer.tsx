@@ -76,7 +76,15 @@ export default function Footer() {
       <div className="bg-[var(--color-dark-blue)]">
         <div className="mx-auto flex max-w-[1200px] flex-col gap-3 px-6 py-3 text-[10px] uppercase tracking-[0.16em] text-white/80 md:flex-row md:items-center md:justify-between">
           <p>Cipher Billing © 2026 All Rights Reserved.</p>
-          <p>Terms &amp; Service | Privacy Policy</p>
+          <p className="flex flex-wrap items-center gap-x-2 gap-y-1">
+            <span>Terms &amp; Service</span>
+            <span className="text-white/40" aria-hidden>
+              |
+            </span>
+            <Link href="/privacy-policy" className="transition hover:text-white">
+              Privacy Policy
+            </Link>
+          </p>
         </div>
       </div>
     </footer>

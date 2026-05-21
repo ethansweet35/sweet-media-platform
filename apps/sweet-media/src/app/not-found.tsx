@@ -1,4 +1,7 @@
 import Link from "next/link";
+import { NOT_FOUND_PAGE_METADATA } from "@sweetmedia/admin-core";
+
+export const metadata = NOT_FOUND_PAGE_METADATA;
 
 export default function NotFound() {
   return (

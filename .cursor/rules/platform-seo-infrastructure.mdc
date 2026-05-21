@@ -50,6 +50,12 @@ Blog index and blog slug routes use `export const revalidate = 3600` and `genera
 
 Each app's `src/app/robots.ts` generates the robots config dynamically. Do not replace it with a static `robots.txt`.
 
+Brand `disallow` lists must use `mergeRobotsDisallow()` from `@sweetmedia/admin-core` so WordPress legacy paths (`/tag/`, `/category/`, `/feed/`, `/author/`, `/wp-admin/`, etc.) stay blocked on every client.
+
+## 6b. `not-found.tsx` must export noindex metadata
+
+Each app's `src/app/not-found.tsx` must export `metadata` using `NOT_FOUND_PAGE_METADATA` from `@sweetmedia/admin-core` so 404s (including dead WP URLs) send `noindex, nofollow`.
+
 ## 7. Root `layout.tsx` is the only place static metadata is allowed
 
 `src/app/layout.tsx` uses `export const metadata` for the site-wide defaults (`metadataBase`, `title.template`). This is correct and must not be changed to `generateMetadata`.

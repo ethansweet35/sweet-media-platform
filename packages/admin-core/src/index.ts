@@ -69,6 +69,11 @@ export { useBlogPostBySlug } from "./hooks/useBlogPostBySlug";
 export { useLinkUtilization, type LinkUtilization, type UtilizationStatus } from "./hooks/useLinkUtilization";
 export { getPublicSiteOrigin, canonicalBlogPostUrl } from "./lib/publicSiteUrl";
 export { resolveTrackedPageMetadata } from "./lib/resolveTrackedPageMetadata";
+export {
+  mergeRobotsDisallow,
+  NOT_FOUND_PAGE_METADATA,
+  WP_LEGACY_ROBOTS_DISALLOW,
+} from "./lib/wpLegacySeo";
 // scanAppRoutes / syncTrackedPages are server-only (use node:fs).
 // Import them from "@sweetmedia/admin-core/server" in Node.js scripts.
 export {
