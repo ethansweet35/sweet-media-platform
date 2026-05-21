@@ -147,8 +147,8 @@ export function buildSiteCandidates(siteUrl: string): string[] {
 // ─── Access token resolution ──────────────────────────────────────────────────
 
 export type GscAuthResult =
-  | { accessToken: string; method: "oauth" | "service_account" }
-  | { accessToken: null; needsOAuth: true };
+  | { accessToken: string; method: "oauth" | "service_account"; connectedEmail?: string | null }
+  | { accessToken: null; needsOAuth: true; connectedEmail?: string | null };
 
 /**
  * Resolve a Google access token using the same priority order as all app routes:
@@ -166,16 +166,29 @@ export async function resolveGscAccessToken(): Promise<GscAuthResult> {
       const admin = createClient(supabaseUrl, serviceKey, {
         auth: { persistSession: false, autoRefreshToken: false },
       });
-      const { data } = await admin
+      const { data: rows } = await admin
         .from("system_settings")
-        .select("value")
-        .eq("key", "google_search_console_refresh_token")
-        .maybeSingle();
+        .select("key, value")
+        .in("key", [
+          "google_search_console_refresh_token",
+          "google_search_console_connected_email",
+        ]);
 
-      const refreshToken = typeof data?.value === "string" ? data.value : null;
+      const settings = new Map(
+        (rows ?? []).map((r) => [r.key as string, r.value]),
+      );
+      const refreshToken =
+        typeof settings.get("google_search_console_refresh_token") === "string"
+          ? (settings.get("google_search_console_refresh_token") as string)
+          : null;
+      const connectedEmail =
+        typeof settings.get("google_search_console_connected_email") === "string"
+          ? (settings.get("google_search_console_connected_email") as string)
+          : null;
+
       if (refreshToken) {
         const accessToken = await getOAuthAccessToken(refreshToken);
-        return { accessToken, method: "oauth" };
+        return { accessToken, method: "oauth", connectedEmail };
       }
     } catch {
       // fall through to service account
@@ -594,6 +607,185 @@ async function queryGscPageDailySeries(
       position: r.position,
     }))
     .sort((a, b) => a.date.localeCompare(b.date));
+}
+
+// ─── Site-wide analytics (dashboard Performance tab) ───────────────────────────
+
+/** GSC reporting lag: end date is today minus 3 days; current/previous windows are equal length. */
+export function gscComparisonDateRanges(periodDays: number): {
+  curStart: string;
+  curEnd: string;
+  prevStart: string;
+  prevEnd: string;
+} {
+  const end = new Date();
+  end.setDate(end.getDate() - 3);
+  const currentStart = new Date(end);
+  currentStart.setDate(currentStart.getDate() - periodDays + 1);
+  const previousEnd = new Date(currentStart);
+  previousEnd.setDate(previousEnd.getDate() - 1);
+  const previousStart = new Date(previousEnd);
+  previousStart.setDate(previousStart.getDate() - periodDays + 1);
+  const fmt = (d: Date) => d.toISOString().slice(0, 10);
+  return {
+    curStart: fmt(currentStart),
+    curEnd: fmt(end),
+    prevStart: fmt(previousStart),
+    prevEnd: fmt(previousEnd),
+  };
+}
+
+async function resolveWorkingGscSiteCandidate(
+  accessToken: string,
+  siteUrl: string,
+  startDate: string,
+  endDate: string,
+): Promise<string | null> {
+  const candidates = buildSiteCandidates(siteUrl);
+  for (const candidate of candidates) {
+    const res = await fetch(
+      `https://searchconsole.googleapis.com/webmasters/v3/sites/${encodeURIComponent(candidate)}/searchAnalytics/query`,
+      {
+        method: "POST",
+        headers: { Authorization: `Bearer ${accessToken}`, "Content-Type": "application/json" },
+        body: JSON.stringify({
+          startDate,
+          endDate,
+          dimensions: [],
+          rowLimit: 1,
+          dataState: "final",
+        }),
+      },
+    );
+    if (res.ok) return candidate;
+  }
+  return null;
+}
+
+/** Site-wide daily clicks/impressions (no page filter). */
+export async function queryGscSiteDailySeries(
+  accessToken: string,
+  siteUrl: string,
+  startDate: string,
+  endDate: string,
+): Promise<GscDailyMetric[]> {
+  const candidate = await resolveWorkingGscSiteCandidate(accessToken, siteUrl, startDate, endDate);
+  if (!candidate) return [];
+
+  const res = await fetch(
+    `https://searchconsole.googleapis.com/webmasters/v3/sites/${encodeURIComponent(candidate)}/searchAnalytics/query`,
+    {
+      method: "POST",
+      headers: { Authorization: `Bearer ${accessToken}`, "Content-Type": "application/json" },
+      body: JSON.stringify({
+        startDate,
+        endDate,
+        dimensions: ["date"],
+        rowLimit: 1000,
+        dataState: "final",
+      }),
+    },
+  );
+
+  if (!res.ok) return [];
+  const json = (await res.json()) as {
+    rows?: { keys: string[]; clicks: number; impressions: number; position: number }[];
+  };
+  return (json.rows ?? [])
+    .map((r) => ({
+      date: r.keys[0] ?? "",
+      clicks: r.clicks,
+      impressions: r.impressions,
+      position: r.position,
+    }))
+    .sort((a, b) => a.date.localeCompare(b.date));
+}
+
+/** Site-wide totals for a date range (no dimensions). */
+export async function queryGscSiteTotals(
+  accessToken: string,
+  siteUrl: string,
+  startDate: string,
+  endDate: string,
+): Promise<GscPeriodMetrics | null> {
+  const candidate = await resolveWorkingGscSiteCandidate(accessToken, siteUrl, startDate, endDate);
+  if (!candidate) return null;
+
+  const res = await fetch(
+    `https://searchconsole.googleapis.com/webmasters/v3/sites/${encodeURIComponent(candidate)}/searchAnalytics/query`,
+    {
+      method: "POST",
+      headers: { Authorization: `Bearer ${accessToken}`, "Content-Type": "application/json" },
+      body: JSON.stringify({
+        startDate,
+        endDate,
+        dimensions: [],
+        rowLimit: 1,
+        dataState: "final",
+      }),
+    },
+  );
+
+  if (!res.ok) return null;
+  const json = (await res.json()) as {
+    rows?: { clicks: number; impressions: number; ctr: number; position: number }[];
+  };
+  const row = json.rows?.[0];
+  if (!row) {
+    return { clicks: 0, impressions: 0, ctr: 0, position: 0, startDate, endDate };
+  }
+  return {
+    clicks: row.clicks,
+    impressions: row.impressions,
+    ctr: row.ctr,
+    position: row.position,
+    startDate,
+    endDate,
+  };
+}
+
+/** All search queries for the property in a date range. */
+export async function queryGscByQuery(
+  accessToken: string,
+  siteUrl: string,
+  startDate: string,
+  endDate: string,
+  rowLimit = 5000,
+): Promise<GscQueryRow[] | null> {
+  const candidates = buildSiteCandidates(siteUrl);
+
+  for (const candidate of candidates) {
+    const res = await fetch(
+      `https://searchconsole.googleapis.com/webmasters/v3/sites/${encodeURIComponent(candidate)}/searchAnalytics/query`,
+      {
+        method: "POST",
+        headers: { Authorization: `Bearer ${accessToken}`, "Content-Type": "application/json" },
+        body: JSON.stringify({
+          startDate,
+          endDate,
+          dimensions: ["query"],
+          rowLimit,
+          dataState: "final",
+        }),
+      },
+    );
+
+    if (!res.ok) continue;
+
+    const json = (await res.json()) as {
+      rows?: { keys: string[]; clicks: number; impressions: number; ctr: number; position: number }[];
+    };
+
+    return (json.rows ?? []).map((r) => ({
+      query: r.keys[0] ?? "",
+      clicks: r.clicks,
+      impressions: r.impressions,
+      ctr: r.ctr,
+      position: r.position,
+    }));
+  }
+
+  return null;
 }
 
 export function computeMetricDeltas(

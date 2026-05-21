@@ -30,6 +30,20 @@ export const ADMIN_CHANGELOG_CATEGORY_LABEL: Record<AdminChangelogCategory, stri
 /** Newest first — maintain this order when adding entries. */
 export const ADMIN_CHANGELOG: AdminChangelogEntry[] = [
   {
+    id: "2026-05-21-dashboard-performance-tab",
+    date: "2026-05-21",
+    category: "new",
+    title: "Dashboard Performance tab",
+    summary:
+      "New Performance tab on the admin dashboard syncs with Google Search Console: traffic line chart (clicks/impressions), period-over-period KPIs, emerging and lost keywords, top movers, and a feed of recent content/SEO changes.",
+    href: "/admin",
+    hrefLabel: "Dashboard",
+    tips: [
+      "Connect Search Console under Admin → Search Console if you see the connect prompt.",
+      "Data uses a 28-day window vs the prior 28 days (GSC final data, 3-day lag).",
+    ],
+  },
+  {
     id: "2026-05-21-sync-draft-to-blog",
     date: "2026-05-21",
     category: "new",

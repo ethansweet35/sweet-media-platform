@@ -63,6 +63,8 @@ export { useContentPipeline } from "./hooks/useContentPipeline";
 export { useDashboardData, formatDashboardDate, relativeTimeSince } from "./hooks/useDashboardData";
 export { useAdminBlogPosts } from "./hooks/useAdminBlogPosts";
 export { useSearchConsoleData, type GscMetrics } from "./hooks/useSearchConsoleData";
+export { usePerformanceOverview } from "./hooks/usePerformanceOverview";
+export type { PerformanceOverviewPayload } from "./types/performance-overview";
 export { useBlogPostBySlug } from "./hooks/useBlogPostBySlug";
 export { useLinkUtilization, type LinkUtilization, type UtilizationStatus } from "./hooks/useLinkUtilization";
 export { getPublicSiteOrigin, canonicalBlogPostUrl } from "./lib/publicSiteUrl";

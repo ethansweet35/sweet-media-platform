@@ -67,6 +67,7 @@ export function getContentTableColumns(includeImage: boolean): ContentTableColum
     "gsc",
     "contentEditor",
     "status",
+    "lastUpdated",
     "date",
     "actions",
   ];

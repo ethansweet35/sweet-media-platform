@@ -22,6 +22,9 @@ import {
 } from "../hooks/useDashboardData";
 import { useAutoPublishEnabled } from "../hooks/useSystemSettings";
 import AdminWhatsNew from "../components/AdminWhatsNew";
+import DashboardPerformanceTab from "../components/dashboard/DashboardPerformanceTab";
+
+type DashboardTab = "overview" | "performance";
 
 function firstNameFromUser(email: string | undefined, meta?: Record<string, unknown> | undefined) {
   if (typeof meta?.first_name === "string" && meta.first_name.trim()) {
@@ -57,6 +60,7 @@ export default function AdminDashboardPage() {
     useDashboardData();
   const autoPub = useAutoPublishEnabled();
   const [toggleBusy, setToggleBusy] = useState(false);
+  const [activeTab, setActiveTab] = useState<DashboardTab>("overview");
 
   const firstName = useMemo(
     () => firstNameFromUser(user?.email, user?.user_metadata),
@@ -124,18 +128,53 @@ export default function AdminDashboardPage() {
         </div>
       </section>
 
-      {error ? (
+      <div
+        className="mb-8 inline-flex rounded-xl border bg-white p-1"
+        style={{ borderColor: ADMIN_BORDER }}
+        role="tablist"
+        aria-label="Dashboard sections"
+      >
+        {(
+          [
+            { id: "overview" as const, label: "Overview", icon: "ri-dashboard-line" },
+            { id: "performance" as const, label: "Performance", icon: "ri-line-chart-line" },
+          ] as const
+        ).map((tab) => (
+          <button
+            key={tab.id}
+            type="button"
+            role="tab"
+            aria-selected={activeTab === tab.id}
+            onClick={() => setActiveTab(tab.id)}
+            className={`inline-flex items-center gap-2 rounded-lg px-4 py-2.5 text-[11px] font-bold uppercase tracking-[0.1em] transition ${
+              activeTab === tab.id ? "text-white shadow-sm" : ""
+            }`}
+            style={
+              activeTab === tab.id
+                ? { backgroundColor: ADMIN_NAVY }
+                : { color: ADMIN_TEXT_MUTED }
+            }
+          >
+            <i className={tab.icon} />
+            {tab.label}
+          </button>
+        ))}
+      </div>
+
+      {activeTab === "performance" ? <DashboardPerformanceTab /> : null}
+
+      {activeTab === "overview" && error ? (
         <div className="mb-6 rounded-2xl border border-red-200 bg-red-50 px-5 py-4 text-sm text-red-700">
           {error}
         </div>
       ) : null}
 
-      {loading ? (
+      {activeTab === "overview" && loading ? (
         <div className={`flex items-center justify-center gap-3 ${adminCardCls} py-24`} style={{ color: ADMIN_TEXT_MUTED }}>
           <i className="ri-loader-4-line animate-spin text-2xl" />
           Loading pipeline…
         </div>
-      ) : (
+      ) : activeTab === "overview" ? (
         <>
           {/* Needs attention */}
           <section className="mb-10">
@@ -253,7 +292,7 @@ export default function AdminDashboardPage() {
             </dl>
           </article>
         </>
-      )}
+      ) : null}
     </div>
   );
 }

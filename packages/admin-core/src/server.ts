@@ -44,13 +44,20 @@ export {
 export {
   insertContentChangeLogEntries,
   fetchContentChangeLog,
+  fetchRecentSiteContentChanges,
   handleContentChangeLogPost,
 } from "./lib/server/contentChangeLogServer";
 
 export { handleSeoImpactGet } from "./lib/server/seoImpact";
 
+export { handlePerformanceOverviewGet, fetchPerformanceOverview } from "./lib/server/performanceOverview";
+
 export {
   queryGscPagePeriodComparison,
+  queryGscSiteDailySeries,
+  queryGscSiteTotals,
+  queryGscByQuery,
+  gscComparisonDateRanges,
   computeMetricDeltas,
   resolveCanonicalGscPageUrl,
   type GscPeriodMetrics,

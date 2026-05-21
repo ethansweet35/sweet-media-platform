@@ -78,6 +78,24 @@ export async function fetchContentChangeLog(
   return data as ContentChangeLogRow[];
 }
 
+/** Recent SEO/content edits across the whole site (dashboard Performance tab). */
+export async function fetchRecentSiteContentChanges(limit = 12): Promise<ContentChangeLogRow[]> {
+  const client = getAdminClient();
+  if (!client) return [];
+
+  const { data, error } = await client
+    .from("content_change_log")
+    .select(
+      "id, entity_type, entity_id, route_path, field_key, field_label, summary, old_value, new_value, changed_by, created_at",
+    )
+    .eq("site_id", siteId())
+    .order("created_at", { ascending: false })
+    .limit(limit);
+
+  if (error || !data) return [];
+  return data as ContentChangeLogRow[];
+}
+
 export async function handleContentChangeLogPost(request: Request): Promise<Response> {
   let body: {
     entity_type?: ContentEntityType;
