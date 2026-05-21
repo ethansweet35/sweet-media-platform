@@ -17,6 +17,9 @@ import {
   STATUS_LABELS,
   type ContentEditorStatus,
 } from "../types/content-editor";
+import ContentEditorBriefModePicker, {
+  type ContentEditorAnalysisModeChoice,
+} from "./content-editor/ContentEditorBriefModePicker";
 
 /**
  * The minimum row shape this cell needs. Both blog_posts and tracked_pages
@@ -143,6 +146,9 @@ export default function ContentEditorCell({
 
   const [editor, setEditor] = useState<JoinedEditor | null>(null);
   const [editorLoading, setEditorLoading] = useState(false);
+  const [briefPickerOpen, setBriefPickerOpen] = useState(false);
+  const [briefSubmitting, setBriefSubmitting] =
+    useState<ContentEditorAnalysisModeChoice | null>(null);
 
   const editorId = row.content_editor_id;
   const hasEditor = !!editorId;
@@ -262,11 +268,20 @@ export default function ContentEditorCell({
       ? "Set a primary keyword to generate a content editor"
       : "Generate a Content Editor brief for this keyword";
 
-  const handleCreate = useCallback(async () => {
-    if (!row.primary_keyword?.trim()) return;
-    await createEditorForRow(ref, row.primary_keyword);
-    await onChange?.();
-  }, [createEditorForRow, onChange, ref, row.primary_keyword]);
+  const handleBriefModeSelect = useCallback(
+    async (mode: ContentEditorAnalysisModeChoice) => {
+      const kw = row.primary_keyword?.trim();
+      if (!kw) return;
+      setBriefSubmitting(mode);
+      const result = await createEditorForRow(ref, kw, mode);
+      setBriefSubmitting(null);
+      if (result) {
+        setBriefPickerOpen(false);
+        await onChange?.();
+      }
+    },
+    [createEditorForRow, onChange, ref, row.primary_keyword],
+  );
 
   const handleRerun = useCallback(async () => {
     if (!editorId) return;
@@ -348,12 +363,12 @@ export default function ContentEditorCell({
       ) : (
         <button
           type="button"
-          disabled={noKeyword || action?.status === "loading"}
-          onClick={() => void handleCreate()}
+          disabled={noKeyword || action?.status === "loading" || briefSubmitting != null}
+          onClick={() => setBriefPickerOpen(true)}
           title={
             noKeyword
               ? "Set a primary keyword to create a Content Editor"
-              : "Create Content Editor brief"
+              : "Create Content Editor brief (choose Analyze or Deep analyze)"
           }
           className={`inline-flex items-center gap-1 px-2 h-7 rounded-lg border text-[10px] font-bold uppercase tracking-[0.1em] transition-colors whitespace-nowrap ${
             noKeyword
@@ -445,6 +460,16 @@ export default function ContentEditorCell({
           {editor.error.length > 36 ? editor.error.slice(0, 36) + "…" : editor.error}
         </span>
       ) : null}
+
+      <ContentEditorBriefModePicker
+        open={briefPickerOpen}
+        keyword={row.primary_keyword?.trim() ?? ""}
+        submitting={briefSubmitting}
+        onClose={() => {
+          if (!briefSubmitting) setBriefPickerOpen(false);
+        }}
+        onSelect={(mode) => void handleBriefModeSelect(mode)}
+      />
     </div>
   );
 }

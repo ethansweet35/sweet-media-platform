@@ -36,6 +36,7 @@ async function postCreate(body: {
   primaryKeyword: string;
   blogPostId?: string | null;
   trackedPageId?: string | null;
+  analysisMode?: "lite" | "deep";
 }): Promise<ContentEditorListRow> {
   const res = await fetch("/api/admin/content-editor/create", {
     method: "POST",
@@ -83,6 +84,7 @@ export function useContentEditorRowActions() {
     async (
       ref: ContentEditorRowRef,
       keyword: string,
+      analysisMode: "lite" | "deep" = "lite",
     ): Promise<{ editorId: string } | null> => {
       const trimmed = keyword.trim();
       if (!trimmed) {
@@ -95,6 +97,7 @@ export function useContentEditorRowActions() {
           primaryKeyword: trimmed,
           blogPostId: ref.kind === "blog" ? ref.id : null,
           trackedPageId: ref.kind === "page" ? ref.id : null,
+          analysisMode,
         });
         // Link the new editor back to the row.
         const { error } = await supabase
