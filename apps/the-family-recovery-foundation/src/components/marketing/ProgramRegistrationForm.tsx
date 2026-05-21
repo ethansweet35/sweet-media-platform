@@ -77,21 +77,13 @@ export default function ProgramRegistrationForm({
       </div>
       <input type="email" name="email" placeholder="Email Address" required className={inputClass} />
       <input type="tel" name="phone" placeholder="Phone Number" required className={inputClass} />
-      <select
+      <input
+        type="text"
         name="hearAbout"
+        placeholder="How did you hear about us?"
         required
-        defaultValue=""
-        className={`${inputClass} appearance-none cursor-pointer`}
-      >
-        <option value="" disabled>
-          How did you hear about us?
-        </option>
-        <option value="Treatment Center">Treatment Center</option>
-        <option value="Friend / Family">Friend / Family</option>
-        <option value="Social Media">Social Media</option>
-        <option value="Google Search">Google Search</option>
-        <option value="Other">Other</option>
-      </select>
+        className={inputClass}
+      />
       <button
         type="submit"
         disabled={status === "submitting"}

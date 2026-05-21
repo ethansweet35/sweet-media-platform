@@ -174,21 +174,13 @@ export default function FamilyProgrammingHeroSection() {
                       required
                       className="w-full px-4 py-3 rounded-lg bg-pure-white/15 border border-pure-white/20 text-pure-white placeholder-pure-white/60 text-[14px] font-body focus:outline-none focus:border-pure-white/40 transition-colors"
                     />
-                    <select
+                    <input
+                      type="text"
                       name="hearAbout"
+                      placeholder="How did you hear about us?"
                       required
-                      defaultValue=""
-                      className="w-full px-4 py-3 rounded-lg bg-pure-white/15 border border-pure-white/20 text-pure-white/60 text-[14px] font-body focus:outline-none focus:border-pure-white/40 transition-colors appearance-none cursor-pointer"
-                    >
-                      <option value="" disabled>
-                        How did you hear about us?
-                      </option>
-                      <option value="search">Search Engine</option>
-                      <option value="social">Social Media</option>
-                      <option value="referral">Friend/Family Referral</option>
-                      <option value="treatment">Treatment Center</option>
-                      <option value="other">Other</option>
-                    </select>
+                      className="w-full px-4 py-3 rounded-lg bg-pure-white/15 border border-pure-white/20 text-pure-white placeholder-pure-white/60 text-[14px] font-body focus:outline-none focus:border-pure-white/40 transition-colors"
+                    />
                     <input
                       type="tel"
                       name="phone"
