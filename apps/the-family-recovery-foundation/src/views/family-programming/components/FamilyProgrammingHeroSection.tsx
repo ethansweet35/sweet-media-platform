@@ -83,30 +83,19 @@ export default function FamilyProgrammingHeroSection() {
             </div>
           </div>
 
-          <div className="lg:w-[380px] xl:w-[420px] shrink-0 self-start">
-            <div
-              id="family-programming-registration"
-              className="bg-tfrf-blue rounded-2xl p-6 md:p-7 text-pure-white sticky top-28"
-            >
-              <h2 className="text-display-s font-display text-pure-white mb-2">
-                Register Now
-              </h2>
-              <p className="text-[13px] md:text-[14px] font-body text-pure-white/80 mb-5 leading-relaxed">
-                Your Zoom login details will be sent after registration.
-              </p>
-
+          <div className="lg:w-[380px] xl:w-[420px] shrink-0 self-start sticky top-28">
+            <div id="family-programming-registration">
               <FlodeskFormEmbed instanceKey="family-programming" />
-
-              <p className="mt-4 text-center text-[12px] md:text-[13px] font-body text-pure-white/60 leading-relaxed">
-                Having trouble registering? Contact our support tech{" "}
-                <a
-                  href="tel:8889648825"
-                  className="text-pure-white/90 hover:text-pure-white transition-colors font-semibold"
-                >
-                  888-964-8825
-                </a>
-              </p>
             </div>
+            <p className="mt-4 text-center text-[12px] md:text-[13px] font-body text-slate leading-relaxed">
+              Having trouble registering? Contact our support tech{" "}
+              <a
+                href="tel:8889648825"
+                className="text-tfrf-blue hover:text-deep-navy transition-colors font-semibold"
+              >
+                888-964-8825
+              </a>
+            </p>
           </div>
         </div>
       </div>

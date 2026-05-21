@@ -32,8 +32,7 @@ export default function ProgramRegistrationPage({ program }: ProgramRegistration
 
       <section className="pb-16 md:pb-24">
         <div className="max-w-content mx-auto px-6 lg:px-16">
-          <div className="max-w-md mx-auto rounded-2xl bg-pure-white border border-mist/60 p-6 md:p-8 shadow-sm">
-            <h2 className="text-[22px] font-display text-deep-navy mb-6">Register for {program.title}</h2>
+          <div className="max-w-md mx-auto">
             <ProgramRegistrationForm programSlug={program.slug} />
           </div>
         </div>
