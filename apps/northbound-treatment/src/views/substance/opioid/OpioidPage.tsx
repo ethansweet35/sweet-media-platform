@@ -110,7 +110,7 @@ const data: SubstancePageData = {
     {
       icon: "ri-award-line",
       title: "Multiple SoCal Locations + Insurance",
-      body: "With locations in Garden Grove and Newport Beach, Northbound offers beautiful Southern California settings for healing — with access to beaches and nature as part of the experiential recovery approach. DHCS licensed and in-network with 15+ major insurance plans.",
+      body: "With detox and residential treatment at Garden Grove and PHP at Newport Beach, Northbound offers distinct Southern California campuses for each level of care — with access to beaches and nature as part of the experiential recovery approach. DHCS licensed and in-network with 15+ major insurance plans.",
     },
   ],
 

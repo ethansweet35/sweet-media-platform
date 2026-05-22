@@ -74,7 +74,7 @@ const FAQ_CATEGORIES = [
     faqs: [
       {
         q: "What levels of care does Northbound offer?",
-        a: "We offer a full continuum: medically supervised detox, residential treatment, partial hospitalization (PHP), virtual IOP (HomeBound telehealth for CA & WA), and long-term aftercare and alumni support. Northbound does not offer standalone in-person IOP or sober living programs.",
+        a: "We offer a full continuum: medically supervised detox, residential treatment, partial hospitalization (PHP), virtual IOP (HomeBound telehealth for California residents), and long-term aftercare and alumni support. Northbound does not offer standalone in-person IOP or sober living programs.",
       },
       {
         q: "How do I know which program is right for me?",

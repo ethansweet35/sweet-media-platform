@@ -18,6 +18,9 @@ const nextConfig: NextConfig = {
       { source: "/about/leadership/", destination: "/team/", permanent: true },
       { source: "/staff/", destination: "/team/", permanent: true },
       { source: "/our-staff/", destination: "/team/", permanent: true },
+      { source: "/wahler-scholarship/", destination: "/financial-assistance/", permanent: true },
+      { source: "/treatment/transitional-living-programs/", destination: "/programs/aftercare/", permanent: true },
+      { source: "/treatment/transitional-living-programs/sober-living/", destination: "/programs/aftercare/", permanent: true },
       ...wpRedirects,
     ];
   },

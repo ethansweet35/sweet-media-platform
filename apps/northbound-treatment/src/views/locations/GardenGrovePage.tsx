@@ -53,16 +53,10 @@ const programs = [
     desc: "Immersive, around-the-clock inpatient care at The Grove — our Garden Grove flagship. Full clinical programming, therapy, and community support daily.",
   },
   {
-    icon: "ri-hospital-line",
-    name: "Partial Hospitalization (PHP)",
-    duration: "4–8 hrs/day",
-    desc: "Structured day-treatment for those stepping down from residential or who need intensive support without overnight stays.",
-  },
-  {
     icon: "ri-wifi-line",
     name: "Virtual IOP (HomeBound)",
     duration: "Flexible",
-    desc: "Northbound's only outpatient intensive level of care — delivered via secure telehealth for California and Washington residents.",
+    desc: "Northbound's virtual intensive outpatient program for California residents — delivered from our Garden Grove clinical hub.",
   },
 ];
 
@@ -89,7 +83,7 @@ const faqs = [
   },
   {
     q: "What happens after I leave the Garden Grove facility?",
-    a: "We provide comprehensive aftercare planning: virtual IOP step-down, ongoing alumni support groups (weekly meetings and BBQs), and relapse-prevention strategies. Recovery is lifelong — and so is our support.",
+    a: "Most clients step down to PHP at our Newport Beach campus, then continue with virtual IOP (HomeBound) and our alumni program. Our team coordinates every transition — including transportation between campuses when needed.",
   },
 ];
 

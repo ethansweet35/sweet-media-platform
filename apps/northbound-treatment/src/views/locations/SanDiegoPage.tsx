@@ -18,22 +18,10 @@ const IMAGES = {
 
 const programs = [
   {
-    icon: "ri-hospital-line",
-    name: "Partial Hospitalization (PHP)",
-    duration: "4–8 hrs/day",
-    desc: "Intensive day-treatment with on-site counseling, psychoeducation, and support groups. The most structured option at our La Jolla location.",
-  },
-  {
     icon: "ri-wifi-line",
     name: "Virtual IOP (HomeBound)",
     duration: "Flexible",
     desc: "Northbound's virtual intensive outpatient program for California residents — the same clinical quality without the commute.",
-  },
-  {
-    icon: "ri-mental-health-line",
-    name: "Dual Diagnosis",
-    duration: "Integrated",
-    desc: "Co-occurring mental health conditions are treated alongside addiction — depression, anxiety, PTSD, and more — using CBT, DBT, EMDR, and other evidence-based approaches.",
   },
   {
     icon: "ri-briefcase-4-line",
@@ -41,12 +29,18 @@ const programs = [
     duration: "During treatment",
     desc: "Vocational support and career reintegration resources built into the recovery process — helping clients plan their professional future from within treatment.",
   },
+  {
+    icon: "ri-mental-health-line",
+    name: "Dual Diagnosis",
+    duration: "Integrated",
+    desc: "Co-occurring mental health conditions are treated alongside addiction — depression, anxiety, PTSD, and more — using CBT, DBT, EMDR, and other evidence-based approaches.",
+  },
 ];
 
 const faqs = [
   {
     q: "Does the San Diego location offer detox or residential care?",
-    a: "Our La Jolla location focuses on PHP and standard outpatient levels of care, plus virtual IOP via telehealth. For medically supervised detox and residential treatment, we refer clients to our Garden Grove or Newport Beach campuses, then welcome them back to San Diego for step-down care.",
+    a: "Our La Jolla office supports virtual IOP and regional outreach. For medically supervised detox and residential treatment, clients are admitted to our Garden Grove campus. PHP is offered at our Newport Beach campus.",
   },
   {
     q: "What is the address?",
@@ -62,7 +56,7 @@ const faqs = [
   },
   {
     q: "Can I start treatment in San Diego without going through detox?",
-    a: "In some cases, yes. If you've already completed detox or don't require medical withdrawal management, you may be able to begin directly in our PHP program or virtual IOP. An intake specialist will assess your clinical needs and recommend the right starting point.",
+    a: "In some cases, yes. If you've already completed detox or don't require medical withdrawal management, you may be able to begin directly in virtual IOP or continue care after PHP at Newport Beach. An intake specialist will assess your clinical needs and recommend the right starting point.",
   },
 ];
 
@@ -113,14 +107,14 @@ export default function SanDiegoPage() {
               <span className="italic text-terracotta">San Diego</span>
             </h1>
             <p className="mt-6 max-w-2xl text-lg leading-relaxed text-white/80">
-              <AutoLinkedTextClient>{"Northbound's La Jolla center offers boutique PHP and virtual IOP — set in one of California's most beautiful coastal neighborhoods, with 7 miles of cliffs, coves, and surf-swept beaches surrounding you."}</AutoLinkedTextClient>
+              <AutoLinkedTextClient>{"Northbound's La Jolla office supports virtual IOP and regional outreach — set in one of California's most beautiful coastal neighborhoods, with 7 miles of cliffs, coves, and surf-swept beaches surrounding you."}</AutoLinkedTextClient>
             </p>
 
             <div className="mt-8 flex flex-wrap gap-x-8 gap-y-4 border-t border-white/15 pt-8">
               {[
                 { icon: "ri-map-pin-2-line", label: "7924 Ivanhoe Ave, Suite 7, La Jolla, CA" },
                 { icon: "ri-user-line", label: "Ages 18+" },
-                { icon: "ri-calendar-line", label: "PHP & Virtual IOP" },
+                { icon: "ri-calendar-line", label: "Virtual IOP & Regional Support" },
                 { icon: "ri-computer-line", label: "Telehealth Available" },
               ].map((f) => (
                 <div key={f.label} className="flex items-center gap-2 text-sm text-white/75">
@@ -156,7 +150,7 @@ export default function SanDiegoPage() {
                 <AutoLinkedTextClient>{"Our San Diego location sits in the heart of La Jolla Village — surrounded by 7 miles of sun-kissed beaches, dramatic sandstone cliffs, scenic coastal trails, and a vibrant recovery community. It's a setting that makes showing up to treatment feel like showing up to a better life."}</AutoLinkedTextClient>
               </p>
               <p className="mt-4 text-base leading-relaxed text-espresso/80">
-                <AutoLinkedTextClient>{"This location specializes in outpatient care: PHP, virtual IOP (HomeBound), and telehealth. It's ideal for clients stepping down from our Garden Grove or Newport Beach residential programs, those beginning recovery from a stable living situation, or anyone who needs intensive support without leaving home."}</AutoLinkedTextClient>
+                <AutoLinkedTextClient>{"This location specializes in virtual IOP (HomeBound) and regional support. Detox and residential treatment are provided at our Garden Grove campus; PHP is at Newport Beach."}</AutoLinkedTextClient>
               </p>
               <p className="mt-4 text-base leading-relaxed text-espresso/80">
                 <AutoLinkedTextClient>{"The Careerbound® resource center is available at this location — helping clients build career and educational plans as part of a recovery process that prepares them for a full life beyond treatment."}</AutoLinkedTextClient>

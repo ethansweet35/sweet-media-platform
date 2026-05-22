@@ -22,8 +22,8 @@ const data: TreatmentPageData = {
   /* ── Overview ─────────────────────────────────────────────── */
   overviewHeadline: "What Is an Intensive Outpatient Program?",
   overviewBody: [
-    "An Intensive Outpatient Program (IOP) is a structured level of addiction treatment in which clients attend clinical programming for 6 to 12 hours per week while living independently at home or in sober housing. IOP sits between Partial Hospitalization (PHP) and ongoing outpatient support on the continuum of care, and is appropriate for those who have a stable, sober living environment and are ready to begin reintegrating into daily life with continued clinical accountability.",
-    "At Northbound, IOP is not a lesser version of residential care — it is the phase where clients apply everything learned in earlier treatment to real-world situations: careers, relationships, routines, and triggers. With flexible scheduling options and access to Northbound's signature programs — Collegebound®, Careerbound®, music therapy, trauma tracks, and DBT — IOP is individualized to meet each client exactly where they are.",
+    "An Intensive Outpatient Program (IOP) is a structured level of addiction treatment in which clients attend clinical programming for 6 to 12 hours per week while continuing daily life outside of treatment sessions. IOP sits between Partial Hospitalization (PHP) and ongoing outpatient support on the continuum of care, and is appropriate for those who are ready to begin reintegrating into daily life with continued clinical accountability.",
+    "At Northbound, IOP is not a lesser version of residential care — it is the phase where clients apply everything learned in earlier treatment to real-world situations: careers, relationships, routines, and triggers. With flexible scheduling options and access to Northbound's signature programs — Collegebound®, Careerbound®, trauma tracks, and DBT — IOP is individualized to meet each client exactly where they are.",
   ],
   keyFacts: [
     { icon: "ri-time-line", label: "Hours per Week", value: "6–12 Hours" },
@@ -31,7 +31,7 @@ const data: TreatmentPageData = {
     { icon: "ri-hospital-line", label: "Level of Care", value: "Intensive Outpatient" },
     { icon: "ri-map-pin-2-line", label: "Location", value: "Orange County, CA" },
     { icon: "ri-shield-check-line", label: "Insurance", value: "15+ Major Plans Accepted" },
-    { icon: "ri-home-2-line", label: "Residency", value: "Home or Sober Living" },
+    { icon: "ri-wifi-line", label: "Also Available", value: "Virtual IOP (HomeBound)" },
   ],
 
   /* ── Steps ────────────────────────────────────────────────── */
@@ -55,7 +55,7 @@ const data: TreatmentPageData = {
       number: "03",
       title: "Specialty Tracks & Signature Services",
       icon: "ri-award-line",
-      body: "IOP clients have full access to Northbound's signature programs: Collegebound® (academic reintegration), Careerbound® (employment support), DBT skills groups, our Music Recovery program, the faith-based LINKS track, and trauma-focused therapy — tailored to your treatment plan.",
+      body: "IOP clients have full access to Northbound's signature programs: Collegebound® (academic reintegration), Careerbound® (employment support), DBT skills groups, the faith-based LINKS track, and trauma-focused therapy — tailored to your treatment plan.",
     },
     {
       number: "04",
@@ -67,7 +67,7 @@ const data: TreatmentPageData = {
       number: "05",
       title: "12-Step Engagement & Community",
       icon: "ri-community-line",
-      body: "IOP integrates 12-Step engagement, alumni connection, and sober peer community as core components. Recovery is a team sport — and Northbound's alumni network, combined with the accountability of the IOP community, significantly improves long-term outcomes.",
+      body: "IOP integrates 12-Step engagement, alumni connection, and peer recovery community as core components. Recovery is a team sport — and Northbound's alumni network, combined with the accountability of the IOP community, significantly improves long-term outcomes.",
     },
     {
       number: "06",
@@ -105,9 +105,9 @@ const data: TreatmentPageData = {
       body: "Transitioning to IOP doesn't mean starting over. Northbound's clinical team maintains relationships built through residential and PHP — preserving therapeutic momentum, trust, and insight through every step of the continuum.",
     },
     {
-      icon: "ri-music-line",
-      title: "Music Recovery & Experiential Therapy",
-      body: "Our Music Recovery program and experiential modalities — yoga, meditation, art therapy — remain available in IOP. These non-traditional therapeutic tools provide meaningful emotional outlets and positive coping mechanisms that serve clients well beyond treatment.",
+      icon: "ri-leaf-line",
+      title: "Experiential Therapy",
+      body: "Experiential modalities — yoga, meditation, and art therapy — remain available in IOP. These non-traditional therapeutic tools provide meaningful emotional outlets and positive coping mechanisms that serve clients well beyond treatment.",
     },
   ],
 
@@ -116,8 +116,7 @@ const data: TreatmentPageData = {
     { label: "Medical Detox", href: "/programs/detox/", icon: "ri-capsule-line" },
     { label: "Residential", href: "/programs/residential-treatment-center/", icon: "ri-home-heart-line" },
     { label: "PHP", href: "/programs/partial-hospitalization-program/", icon: "ri-hospital-line" },
-    { label: "IOP", href: "/programs/intensive-outpatient-treatment/", icon: "ri-calendar-check-line", current: true },
-    { label: "Sober Living", href: "/treatment/transitional-living-programs/sober-living/", icon: "ri-building-2-line" },
+    { label: "Virtual IOP", href: "/telehealth-iop-services/", icon: "ri-wifi-line", current: true },
     { label: "Aftercare", href: "/programs/aftercare/", icon: "ri-refresh-line" },
   ],
 
@@ -125,7 +124,7 @@ const data: TreatmentPageData = {
   faqs: [
     {
       q: "Who is IOP appropriate for?",
-      a: "IOP is ideal for individuals who have completed residential treatment or PHP and are ready for greater independence, those stepping down from a higher level of care, or those who need structured clinical support but have a stable, sober home environment. Clients must be safely detoxed prior to entering IOP. It is also appropriate following a relapse as a re-entry point to treatment.",
+      a: "IOP is ideal for individuals who have completed residential treatment or PHP and are ready for a step-down level of care, those transitioning from a higher level of care, or those who need structured clinical support while maintaining work, school, or family commitments. Clients must be safely detoxed prior to entering IOP. It is also appropriate following a relapse as a re-entry point to treatment.",
     },
     {
       q: "How many hours per week is Northbound's IOP?",
@@ -141,7 +140,7 @@ const data: TreatmentPageData = {
     },
     {
       q: "What therapies are offered in IOP?",
-      a: "Northbound's IOP includes individual therapy, group counseling, DBT skills groups, trauma-focused therapy, psychoeducation, 12-step engagement, psychiatric services as needed, drug testing, case management, and access to all signature programs (Collegebound®, Careerbound®, Music Recovery, LINKS, family program).",
+      a: "Northbound's IOP includes individual therapy, group counseling, DBT skills groups, trauma-focused therapy, psychoeducation, 12-step engagement, psychiatric services as needed, drug testing, case management, and access to signature programs (Collegebound®, Careerbound®, LINKS, family program).",
     },
     {
       q: "What happens after IOP is complete?",

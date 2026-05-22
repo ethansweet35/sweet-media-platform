@@ -20,7 +20,6 @@ const SKIP_EXACT = new Set([
   "/contact-us",
   "/admissions/faqs",
   "/community/alumni",
-  "/wahler-scholarship",
   "/referring-professionals",
   "/resources",
   "/virtual-lp",

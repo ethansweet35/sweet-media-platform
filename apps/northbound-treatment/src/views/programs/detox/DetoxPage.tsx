@@ -1,17 +1,18 @@
 import TreatmentPageTemplate, { type TreatmentPageData } from "@/views/shared/TreatmentPageTemplate";
+import { GARDEN_GROVE_IMAGES } from "@/views/home/assets";
 
-const HERO = "https://ahufsygjwpbymomfdazb.supabase.co/storage/v1/object/public/site-assets/images/nbt_detox_hero01.jpg";
+const HERO = GARDEN_GROVE_IMAGES.bedroom;
 
 const data: TreatmentPageData = {
   /* ── Hero ─────────────────────────────────────────────────── */
   heroImage: HERO,
-  heroImageAlt: "Medically supervised detox room with coastal view at Northbound Treatment's Orange County facility",
+  heroImageAlt: "Comfortable residential bedroom at Northbound's Garden Grove detox and treatment campus in Orange County, California",
   eyebrow: "Addiction Treatment Programs",
   programName: "Drug & Alcohol Medical Detox Program",
   italicWord: "Detox",
-  tagline: "Safe, supervised withdrawal management in Orange County, CA",
+  tagline: "Safe, supervised withdrawal management at The Grove — Garden Grove, CA",
   heroBody:
-    "Northbound is proud to offer a fully licensed medical detox center in Orange County, California. This sub-acute residential detox center provides a safe, supervised environment where clients can achieve abstinence, overcome the symptoms of withdrawal, and begin the healing process.",
+    "Northbound is proud to offer a fully licensed medical detox center at our Garden Grove campus in Orange County, California. This sub-acute residential detox center provides a safe, supervised environment where clients can achieve abstinence, overcome the symptoms of withdrawal, and begin the healing process.",
   breadcrumbs: [
     { label: "Treatment Services", href: "/treatment/" },
     { label: "Drug & Alcohol Detox" },
@@ -21,7 +22,7 @@ const data: TreatmentPageData = {
   overviewHeadline: "What Are Medical Detoxification Services?",
   overviewBody: [
     "Medical detoxification is the process of safely clearing substances from the body while managing withdrawal symptoms through 24/7 clinical monitoring, medication-assisted treatment (MAT) when indicated, and therapeutic support — so your mind and body can begin healing simultaneously. At Northbound, detox is not an endpoint; it is a carefully designed bridge into the next phase of your recovery.",
-    "Our Orange County detox center is led by Dr. Venice Sanchez, MD — double board-certified in Psychiatry and Addiction Medicine (UCLA, MSU, UCI), named Women in Medicine Top Doctor 2024 and Best of Newport Beach Psychiatrist 2024. We hold IMS (Incidental Medical Services) certification and DHCS licensure, with 24/7 physician access and the ability to coordinate lab work off-site at multiple locations when clinically needed.",
+    "Our Garden Grove detox center is led by Dr. Venice Sanchez, MD — double board-certified in Psychiatry and Addiction Medicine (UCLA, MSU, UCI), named Women in Medicine Top Doctor 2024 and Best of Newport Beach Psychiatrist 2024. We hold IMS (Incidental Medical Services) certification and DHCS licensure, with 24/7 physician access and the ability to coordinate lab work off-site at multiple locations when clinically needed.",
   ],
   keyFacts: [
     { icon: "ri-time-line", label: "Typical Duration", value: "5–10 Days (ASAM-guided)" },

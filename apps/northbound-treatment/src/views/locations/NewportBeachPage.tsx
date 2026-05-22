@@ -19,73 +19,44 @@ const IMAGES = {
 
 const programs = [
   {
-    icon: "ri-first-aid-kit-line",
-    name: "Medical Detox",
-    duration: "7–10 days",
-    desc: "24/7 medically supervised withdrawal management. Our clinical team safely stabilizes your body with medication management so you can begin the healing process with clarity and comfort.",
-    highlight: true,
-  },
-  {
-    icon: "ri-home-heart-line",
-    name: "Residential Treatment",
-    duration: "30–90 days",
-    desc: "Gender-specific, around-the-clock inpatient care across seven integrated buildings. Daily individual therapy, group sessions, 12-step immersion, family programming, and holistic activities.",
-    highlight: false,
-  },
-  {
     icon: "ri-hospital-line",
     name: "Partial Hospitalization (PHP)",
     duration: "4–8 hrs/day",
-    desc: "Structured day-treatment with on-site counseling, psychoeducation, and support groups. Ideal as a step-down from residential or as a primary program for those who can't commit to full inpatient.",
-    highlight: false,
+    desc: "Structured day-treatment with on-site counseling, psychoeducation, and support groups at our Newport Beach campus. Ideal as a step-down from residential care at Garden Grove or as a primary program for those who cannot commit to full inpatient.",
+    highlight: true,
   },
   {
-    icon: "ri-wifi-line",
-    name: "Virtual IOP (HomeBound)",
-    duration: "Flexible",
-    desc: "Intensive clinical support delivered via secure telehealth while you live at home — Northbound's outpatient intensive level of care.",
-    highlight: false,
-  },
-  {
-    icon: "ri-community-line",
-    name: "Outpatient Treatment",
-    duration: "Flexible",
-    desc: "For those transitioning from higher levels of care. Ongoing individual and group therapy, therapeutic toxicology, vocational and academic support, and relapse prevention.",
-    highlight: false,
-  },
-  {
-    icon: "ri-user-heart-line",
-    name: "Aftercare & Alumni",
-    duration: "Ongoing",
-    desc: "Recovery doesn't end at discharge. Northbound's alumni program includes weekly meetings, BBQs, and a lifelong support community.",
+    icon: "ri-arrow-right-line",
+    name: "Other Levels of Care",
+    duration: "Garden Grove campus",
+    desc: "Medically supervised detox, residential treatment, and virtual IOP (HomeBound) are offered at our Garden Grove campus — The Grove. Our admissions team coordinates transfers between campuses as you step through the continuum.",
     highlight: false,
   },
 ];
 
 const campusFeatures = [
-  { icon: "ri-building-2-line", label: "7 Integrated Buildings", desc: "Detox, residential homes, and a modern clinical hub" },
+  { icon: "ri-building-2-line", label: "Coastal Clinical Campus", desc: "PHP programming in a calm, coastal Orange County setting" },
   { icon: "ri-leaf-line", label: "Peaceful Gardens", desc: "Meditation gardens, outdoor yoga spaces, and nature-rich common areas" },
-  { icon: "ri-music-line", label: "Music Rooms", desc: "Creative expression as part of holistic, experiential healing" },
-  { icon: "ri-run-line", label: "On-Site Gym", desc: "Daily fitness access for all residents" },
   { icon: "ri-sun-line", label: "Beach Access", desc: "Surfing twice per week; regular beach bonfires and coastal outings" },
+  { icon: "ri-run-line", label: "On-Site Gym", desc: "Daily fitness access for PHP clients" },
 ];
 
 const faqs = [
   {
     q: "What types of addiction do you treat at Newport Beach?",
-    a: "We treat alcohol addiction, opioids, prescription drugs, cocaine, methamphetamine, benzodiazepines, and all substance use disorders — including dual diagnosis care for co-occurring conditions like depression, anxiety, PTSD, and bipolar disorder.",
+    a: "Our Newport Beach PHP program treats alcohol addiction, opioids, prescription drugs, cocaine, methamphetamine, benzodiazepines, and all substance use disorders — including dual diagnosis care for co-occurring conditions like depression, anxiety, PTSD, and bipolar disorder.",
   },
   {
-    q: "How does the gender-specific program work?",
-    a: "Our Newport Beach campus has separate residential homes for men and women, with gender-specific group sessions and peer communities. This environment fosters deeper trust, reduces distractions, and creates a more focused clinical experience.",
+    q: "Where are detox and residential treatment offered?",
+    a: "Medically supervised detox and residential treatment are provided at our Garden Grove campus — The Grove. Many clients begin there and step down to PHP at Newport Beach as clinically appropriate. Our team coordinates every campus transfer.",
   },
   {
-    q: "How long is the Newport Beach program?",
-    a: "Residential programs typically run 30–90 days depending on clinical need. Many clients transition through multiple levels of care — detox, residential, PHP, and virtual IOP — which can extend total treatment time. A specialist will work with you to design the right plan.",
+    q: "How long is PHP at Newport Beach?",
+    a: "PHP typically runs several weeks depending on clinical need, with up to 6 hours of programming per day most days of the week. Many clients continue through virtual IOP (HomeBound) after PHP. A specialist will work with you to design the right plan.",
   },
   {
     q: "Do you offer a family program?",
-    a: "Yes. Our 4-day intensive family program is integrated into residential treatment. Family therapy, psychoeducation, and communication skill-building are central to our model — because lasting recovery involves the whole family system.",
+    a: "Yes. Family therapy, psychoeducation, and communication skill-building are central to our model — because lasting recovery involves the whole family system. Family programming is integrated throughout the continuum, including during PHP at Newport Beach and residential care at Garden Grove.",
   },
   {
     q: "Do you accept insurance at Newport Beach?",
@@ -157,15 +128,15 @@ export default function NewportBeachPage() {
               in Newport Beach
             </h1>
             <p className="mt-6 max-w-2xl text-lg leading-relaxed text-white/80">
-              <AutoLinkedTextClient>{"Northbound's Newport Beach campus is our flagship multi-building treatment center — nestled in one of Southern California's most stunning coastal communities, 42 miles of pristine Pacific beach as your backdrop for healing."}</AutoLinkedTextClient>
+              <AutoLinkedTextClient>{"Northbound's Newport Beach campus is home to our partial hospitalization (PHP) program — nestled in one of Southern California's most stunning coastal communities, with 42 miles of pristine Pacific beach as your backdrop for healing."}</AutoLinkedTextClient>
             </p>
 
             <div className="mt-8 flex flex-wrap gap-x-8 gap-y-4 border-t border-white/15 pt-8">
               {[
                 { icon: "ri-map-pin-2-line", label: "3822 Campus Dr, Suite 200, Newport Beach, CA" },
                 { icon: "ri-user-line", label: "Ages 18+" },
-                { icon: "ri-calendar-line", label: "30–90 Day Programs" },
-                { icon: "ri-building-2-line", label: "7 Integrated Buildings" },
+                { icon: "ri-calendar-line", label: "Partial Hospitalization (PHP)" },
+                { icon: "ri-building-2-line", label: "Coastal Clinical Campus" },
               ].map((f) => (
                 <div key={f.label} className="flex items-center gap-2 text-sm text-white/75">
                   <i className={`${f.icon} text-terracotta`}></i>
@@ -200,7 +171,7 @@ export default function NewportBeachPage() {
                 <AutoLinkedTextClient>{"Situated between San Diego to the south and Los Angeles to the north, Newport Beach offers some of the most stunning landscapes in all of California. Reminiscent of the Mediterranean — 42 miles of pristine beaches, natural beauty, and a casually sophisticated coastal vibe — it's a setting purpose-built for healing."}</AutoLinkedTextClient>
               </p>
               <p className="mt-4 text-base leading-relaxed text-espresso/80">
-                <AutoLinkedTextClient>{"Our Newport Beach campus spans seven integrated buildings in close proximity to the beach and nature preserves. Each space — from gender-specific residential homes to our modern clinical hub — is well-appointed, private, and designed to reduce stress while maximizing focus on recovery."}</AutoLinkedTextClient>
+                <AutoLinkedTextClient>{"Our Newport Beach campus provides a calm coastal setting for PHP — clinical spaces, healing gardens, and outdoor programming just minutes from the Pacific."}</AutoLinkedTextClient>
               </p>
               <p className="mt-4 text-base leading-relaxed text-espresso/80">
                 <AutoLinkedTextClient>{"Interacting with the outside world is part of treatment here: surf sessions twice per week, trips to Sequoia National Park, grocery outings, and community barbecues. Real life, practiced safely."}</AutoLinkedTextClient>
@@ -222,7 +193,7 @@ export default function NewportBeachPage() {
 
             <div className="relative">
               <div className="aspect-[4/3] overflow-hidden rounded-3xl shadow-2xl">
-                <Image src={IMAGES.interior} alt="Serene residential room at Northbound's Newport Beach campus — warm, home-like recovery environment" fill className="object-cover" />
+                <Image src={IMAGES.interior} alt="Bright clinical group room at Northbound's Newport Beach PHP campus — warm, focused recovery environment" fill className="object-cover" />
               </div>
               <div className="absolute -bottom-6 -left-6 rounded-2xl bg-navy px-6 py-5 shadow-xl">
                 <p className="font-heading text-3xl font-bold text-white">Gender-Specific</p>
@@ -319,7 +290,7 @@ export default function NewportBeachPage() {
           <div className="mx-auto mb-14 max-w-2xl text-center">
             <p className="mb-3 text-sm font-semibold uppercase tracking-[0.16em] text-terracotta">Levels of Care</p>
             <h2 className="font-heading text-4xl font-bold text-navy md:text-5xl">Programs at Newport Beach</h2>
-            <p className="mt-4 text-espresso/80"><AutoLinkedTextClient>{"A full continuum from detox through alumni support — all under one clinical team."}</AutoLinkedTextClient></p>
+            <p className="mt-4 text-espresso/80"><AutoLinkedTextClient>{"PHP at Newport Beach connects to detox and residential at Garden Grove — and virtual IOP afterward — all under one clinical team."}</AutoLinkedTextClient></p>
           </div>
 
           <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
@@ -383,7 +354,7 @@ export default function NewportBeachPage() {
         eyebrow="Inside the Campus"
         heading="A Closer Look at Newport Beach"
         italicWord="Newport"
-        intro="Take a tour through our flagship coastal campus — seven integrated buildings, gender-specific homes, healing gardens, and modern clinical spaces just minutes from the Pacific."
+        intro="Take a tour through our coastal PHP campus — healing gardens, outdoor programming spaces, and modern clinical rooms just minutes from the Pacific."
       />
 
       <CtaBanner

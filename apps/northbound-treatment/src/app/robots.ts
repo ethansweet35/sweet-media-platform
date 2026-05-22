@@ -17,7 +17,6 @@ export default function robots(): MetadataRoute.Robots {
           "/veterans-track-program/",
           "/treatment/music-program/",
           "/programs/intensive-outpatient-treatment/",
-          "/treatment/transitional-living-programs/",
         ]),
       },
     ],

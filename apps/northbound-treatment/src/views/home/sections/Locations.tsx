@@ -41,13 +41,13 @@ const LOCATIONS = [
     name: "Newport Beach",
     state: "California",
     description:
-      "Located just steps from the coastline, our Newport Beach campus offers a calm, restorative Southern California setting. Designed to seamlessly blend indoor and outdoor living to maximize natural sunlight and ocean breezes.",
+      "Located just steps from the coastline, our Newport Beach campus is home to Northbound's partial hospitalization (PHP) program — a calm, restorative Southern California setting for structured daytime clinical care.",
     image: LOCATION_IMAGES.newportBeach,
-    alt: "Sun-drenched Spanish-Mediterranean Northbound campus exterior in Newport Beach with palm trees and ocean view.",
+    alt: "Sun-drenched Northbound PHP campus exterior in Newport Beach with palm trees and ocean view.",
     features: [
-      "Executive En-Suite Rooms",
-      "Private On-Site Chef",
+      "Partial Hospitalization (PHP)",
       "Oceanview Meditation Spaces",
+      "Coastal Outdoor Programming",
     ],
     href: "/locations/california/newport-beach/",
     badge: TONES.terracotta,
@@ -56,7 +56,7 @@ const LOCATIONS = [
     name: "Garden Grove",
     state: "California",
     description:
-      "Nestled in the heart of Orange County, this expansive campus provides a welcoming and nurturing space. It serves as our primary hub for comprehensive medical detoxification and residential care.",
+      "Nestled in the heart of Orange County, The Grove is our hub for medically supervised detox, residential treatment, and virtual IOP (HomeBound).",
     image: LOCATION_IMAGES.gardenGrove,
     alt: "Modern stone-clad Northbound treatment campus in Garden Grove, Orange County, with mature olive trees and warm afternoon light.",
     features: [
@@ -71,7 +71,7 @@ const LOCATIONS = [
     name: "San Diego",
     state: "La Jolla, CA",
     description:
-      "Situated in beautiful La Jolla, surrounded by coastal calm and a strong, vibrant local recovery community. This boutique facility specializes in personalized outpatient and transitional living programs.",
+      "Situated in beautiful La Jolla with coastal calm and a strong local recovery community. This office supports virtual IOP and regional outreach — detox, residential, and PHP are at our Garden Grove and Newport Beach campuses.",
     image: LOCATION_IMAGES.sanDiego,
     alt: "Coastal Northbound boutique facility exterior in La Jolla with Pacific ocean view, terracotta planters, and sage green coastal landscaping.",
     features: [

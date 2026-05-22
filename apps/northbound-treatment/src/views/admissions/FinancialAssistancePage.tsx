@@ -17,8 +17,8 @@ const options = [
   {
     icon: "ri-heart-line",
     title: "Scholarships & Grants",
-    body: "Northbound can help potential clients apply for scholarships with several non-profit foundations affiliated with our program, including the Wahler Scholarship. Financial assistance is available for those who qualify.",
-    cta: { label: "Wahler Scholarship", href: "/wahler-scholarship/" },
+    body: "Northbound can help potential clients apply for scholarships with several non-profit foundations affiliated with our program. Financial assistance is available for those who qualify.",
+    cta: null,
   },
   {
     icon: "ri-calendar-line",

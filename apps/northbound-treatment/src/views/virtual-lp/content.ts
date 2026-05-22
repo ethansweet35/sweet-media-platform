@@ -85,7 +85,7 @@ export const PATHWAY_CARDS: PathwayCard[] = [
       "Psychiatry and medication management when clinically appropriate",
       "Dual-diagnosis care for co-occurring mental health concerns",
       "Aftercare and relapse prevention planning",
-      "Available in California and Washington",
+      "Available in California",
     ],
     ctaLabel: "Verify Insurance for This Program",
     icon: "ri-capsule-line",

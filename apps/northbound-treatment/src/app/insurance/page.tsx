@@ -157,11 +157,11 @@ export default function Page() {
             Cost should never prevent someone from getting <span className="italic text-[#e97a52]">help.</span>
           </h2>
           <p className="mx-auto mt-4 max-w-xl text-sm leading-relaxed text-white/50">
-            If your insurance doesn&apos;t cover the full cost of treatment, ask about the{" "}
-            <Link href="/wahler-scholarship/" className="text-[#e97a52] underline underline-offset-2 hover:text-white">
-              Wahler Scholarship
-            </Link>{" "}
-            and our flexible financial assistance programs.
+            If your insurance doesn&apos;t cover the full cost of treatment, ask about our{" "}
+            <Link href="/financial-assistance/" className="text-[#e97a52] underline underline-offset-2 hover:text-white">
+              financial assistance programs
+            </Link>
+            .
           </p>
           <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
             <a

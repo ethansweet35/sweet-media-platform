@@ -5,7 +5,7 @@ const programs = [
   { icon: "ri-first-aid-kit-line", label: "Medical Detox", href: "/programs/detox/", desc: "Safe, 24/7 medically supervised withdrawal management." },
   { icon: "ri-home-heart-line", label: "Residential Treatment", href: "/programs/residential-treatment-center/", desc: "Immersive inpatient care — 28 to 90 days." },
   { icon: "ri-hospital-line", label: "Partial Hospitalization (PHP)", href: "/programs/partial-hospitalization-program/", desc: "4–8 hours of structured day treatment daily." },
-  { icon: "ri-wifi-line", label: "Virtual IOP (HomeBound)", href: "/telehealth-iop-services/", desc: "Licensed online intensive outpatient treatment in California and Washington." },
+  { icon: "ri-wifi-line", label: "Virtual IOP (HomeBound)", href: "/telehealth-iop-services/", desc: "Licensed online intensive outpatient treatment in California." },
   { icon: "ri-refresh-line", label: "Aftercare", href: "/programs/aftercare/", desc: "Continued support after primary treatment ends." },
   { icon: "ri-team-line", label: "Alumni Program", href: "/community/alumni/", desc: "Ongoing community, events, and peer support." },
 ];

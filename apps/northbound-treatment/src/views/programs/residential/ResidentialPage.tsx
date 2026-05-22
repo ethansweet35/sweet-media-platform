@@ -11,9 +11,9 @@ const data: TreatmentPageData = {
   eyebrow: "Addiction Treatment Programs",
   programName: "Residential Inpatient Treatment",
   italicWord: "Residential",
-  tagline: "Immersive, 24/7 inpatient care for lasting recovery in Orange County, CA",
+  tagline: "Immersive, 24/7 inpatient care at The Grove — Garden Grove, CA",
   heroBody:
-    "Northbound's residential treatment program provides a structured, full-immersion environment where clients can step away from triggers and focus entirely on healing — supported by a clinical team with over 200 years of combined expertise.",
+    "Northbound's residential treatment program at our Garden Grove campus provides a structured, full-immersion environment where clients can step away from triggers and focus entirely on healing — supported by a clinical team with over 200 years of combined expertise.",
   breadcrumbs: [
     { label: "Treatment Services", href: "/treatment/" },
     { label: "Residential Treatment" },
@@ -22,14 +22,14 @@ const data: TreatmentPageData = {
   /* ── Overview ─────────────────────────────────────────────── */
   overviewHeadline: "What Is Residential Treatment?",
   overviewBody: [
-    "Residential inpatient treatment is an immersive level of care in which clients live on-site at a structured treatment facility and receive clinical programming daily. It is typically recommended following medically supervised detox and before stepping down to a partial hospitalization program (PHP). At Northbound, residential care goes far beyond stabilization — it is where the foundational work of recovery happens.",
-    "Our Orange County residential program is built around the InVivo® (\"in life\") philosophy — Northbound's signature model of care in which clients actively practice living life on life's terms within a safe, supported treatment environment. Rather than isolating clients from the real world, we gradually introduce real-world responsibilities, activities, and choices as clients progress. From evidence-based therapy to co-ed community programming to experiential modalities, every element of care is designed to build real-world skills alongside clinical insight.",
+    "Residential inpatient treatment is an immersive level of care in which clients live on-site at Northbound's Garden Grove campus (The Grove) and receive clinical programming daily. It is typically recommended following medically supervised detox at the same campus and before stepping down to partial hospitalization (PHP) at our Newport Beach location. At Northbound, residential care goes far beyond stabilization — it is where the foundational work of recovery happens.",
+    "Our Garden Grove residential program is built around the InVivo® (\"in life\") philosophy — Northbound's signature model of care in which clients actively practice living life on life's terms within a safe, supported treatment environment. Rather than isolating clients from the real world, we gradually introduce real-world responsibilities, activities, and choices as clients progress. From evidence-based therapy to co-ed community programming to experiential modalities, every element of care is designed to build real-world skills alongside clinical insight.",
   ],
   keyFacts: [
     { icon: "ri-time-line", label: "Typical Duration", value: "30–90 Days" },
     { icon: "ri-home-heart-line", label: "Level of Care", value: "24/7 Residential Inpatient" },
     { icon: "ri-team-line", label: "Staffing", value: "2:1 Staff-to-Client Ratio" },
-    { icon: "ri-map-pin-2-line", label: "Locations", value: "Orange County, San Diego, Seattle" },
+    { icon: "ri-map-pin-2-line", label: "Location", value: "Garden Grove, Orange County CA" },
     { icon: "ri-shield-check-line", label: "Insurance", value: "15+ Major Plans Accepted" },
     { icon: "ri-award-line", label: "Accreditation", value: "DHCS Licensed · NAATP Member" },
   ],
@@ -102,7 +102,7 @@ const data: TreatmentPageData = {
     {
       icon: "ri-home-heart-line",
       title: "A True Home Environment",
-      body: "Our residential facilities across Orange County and beyond are designed to feel like home, not a hospital. Comfortable furnishings, communal spaces, and peaceful settings create the psychological safety needed for genuine healing and community.",
+      body: "Our Garden Grove residential facility is designed to feel like home, not a hospital. Comfortable furnishings, communal spaces, and peaceful settings create the psychological safety needed for genuine healing and community.",
     },
     {
       icon: "ri-graduation-cap-line",
@@ -151,7 +151,7 @@ const data: TreatmentPageData = {
   /* ── CTA ──────────────────────────────────────────────────── */
   ctaHeadline: "Ready to Begin Residential Treatment?",
   ctaBody:
-    "Our residential program in Orange County provides the clinical depth, community, and structure that lasting recovery requires. Verify your benefits today — most major insurance plans cover care.",
+    "Our residential program at The Grove in Garden Grove provides the clinical depth, community, and structure that lasting recovery requires. Verify your benefits today — most major insurance plans cover care.",
 };
 
 export default function ResidentialPage() {

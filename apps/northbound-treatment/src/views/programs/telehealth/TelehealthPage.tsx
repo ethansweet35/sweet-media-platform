@@ -13,7 +13,7 @@ const data: TreatmentPageData = {
   italicWord: "Online",
   tagline: "Northbound's full-spectrum IOP and outpatient care — from the safety of your home",
   heroBody:
-    "Northbound's HomeBound program delivers evidence-based individual therapy, group counseling, psychiatry, and case management virtually — available to clients in California and Washington with the same clinical rigor as our in-person programs.",
+    "Northbound's HomeBound program delivers evidence-based individual therapy, group counseling, psychiatry, and case management virtually — available to clients in California with the same clinical rigor as our in-person programs.",
   breadcrumbs: [
     { label: "Treatment Services", href: "/treatment/" },
     { label: "Online IOP & Telehealth" },
@@ -22,14 +22,15 @@ const data: TreatmentPageData = {
   /* ── Overview ─────────────────────────────────────────────── */
   overviewHeadline: "What Is Northbound's HomeBound Virtual Program?",
   overviewBody: [
-    "Northbound's HomeBound online treatment program has been operating since January 2016 — well before virtual care became mainstream. HomeBound offers IOP (Intensive Outpatient), OP (Outpatient), and Addiction Support Services levels of care through secure video sessions, providing clients in California and Washington access to the same clinical quality as our in-person programs without requiring them to leave their homes.",
+    "Northbound's HomeBound online treatment program has been operating since January 2016 — well before virtual care became mainstream. HomeBound offers IOP (Intensive Outpatient), OP (Outpatient), and Addiction Support Services through secure video sessions from our Garden Grove clinical hub, serving clients in California with the same clinical quality as our in-person programs.",
     "Online substance abuse treatment removes the barriers of geography, stigma, and scheduling. Whether you've just completed residential treatment and need to continue care, are managing a relapse, or are seeking a first-step intervention without disrupting work or family, HomeBound meets you where you are. All you need is a phone, computer, or tablet — and our team handles the rest through an easy-to-navigate video conferencing platform.",
   ],
   keyFacts: [
     { icon: "ri-computer-line", label: "Format", value: "Secure Video (Zoom-Based)" },
     { icon: "ri-calendar-check-line", label: "Frequency", value: "Flexible Scheduling" },
     { icon: "ri-hospital-line", label: "Levels of Care", value: "IOP, OP, Support Services" },
-    { icon: "ri-map-pin-2-line", label: "Available In", value: "California & Washington" },
+    { icon: "ri-map-pin-2-line", label: "Available In", value: "California" },
+    { icon: "ri-home-2-line", label: "Clinical Hub", value: "Garden Grove, CA" },
     { icon: "ri-shield-check-line", label: "Insurance", value: "Most Major Plans Accepted" },
     { icon: "ri-time-line", label: "Program Start", value: "Since January 2016" },
   ],
@@ -73,7 +74,7 @@ const data: TreatmentPageData = {
       number: "06",
       title: "Step-Down & Aftercare Planning",
       icon: "ri-map-line",
-      body: "As you progress through virtual IOP, your clinical team builds your aftercare plan — connecting you with alumni programming, ongoing therapy referrals, sober support networks, and the resources needed to sustain recovery beyond formal treatment.",
+      body: "As you progress through virtual IOP, your clinical team builds your aftercare plan — connecting you with alumni programming, ongoing therapy referrals, recovery support networks, and the resources needed to sustain recovery beyond formal treatment.",
     },
   ],
 
@@ -82,7 +83,7 @@ const data: TreatmentPageData = {
     {
       icon: "ri-map-pin-2-line",
       title: "Geographic Freedom",
-      body: "Northbound's HomeBound program serves clients across California and Washington — removing the limit of distance from high-quality, specialized addiction care. Clients in rural areas, those unable to drive, or those who simply prefer home-based care all access the same clinical rigor.",
+      body: "Northbound's HomeBound program serves clients across California — removing the limit of distance from high-quality, specialized addiction care. Clients in rural areas, those unable to drive, or those who simply prefer home-based care all access the same clinical rigor.",
     },
     {
       icon: "ri-eye-off-line",
@@ -132,7 +133,7 @@ const data: TreatmentPageData = {
     },
     {
       q: "Who is virtual IOP appropriate for?",
-      a: "HomeBound is appropriate for clients who have a safe, stable, and substance-free home environment; those stepping down from residential or PHP care; those who need IOP but cannot attend in person due to geography, work, family, or health constraints; and those who want privacy from the stigma of attending an in-person facility. It is not appropriate for clients in active crisis or unstable living situations.",
+      a: "HomeBound is appropriate for clients stepping down from residential or PHP care; those who need IOP but cannot attend in person due to geography, work, family, or health constraints; and those who want privacy from the stigma of attending an in-person facility. It is not appropriate for clients in active crisis or who lack adequate support between sessions.",
     },
     {
       q: "Is online addiction treatment covered by insurance?",
@@ -140,7 +141,7 @@ const data: TreatmentPageData = {
     },
     {
       q: "What states is HomeBound available in?",
-      a: "Northbound's HomeBound virtual IOP is currently available to residents of California and Washington. If you are located in another state, please call our admissions team — we will help identify appropriate treatment resources in your area.",
+      a: "Northbound's HomeBound virtual IOP is currently available to residents of California. If you are located in another state, please call our admissions team — we will help identify appropriate treatment resources in your area.",
     },
     {
       q: "Can I transition from virtual to in-person treatment?",
@@ -151,7 +152,7 @@ const data: TreatmentPageData = {
   /* ── CTA ──────────────────────────────────────────────────── */
   ctaHeadline: "Start Virtual Treatment Today",
   ctaBody:
-    "Northbound's HomeBound program brings clinically rigorous IOP and outpatient care directly to you — no travel required. Most insurance accepted. Available in California and Washington.",
+    "Northbound's HomeBound program brings clinically rigorous IOP and outpatient care directly to you — no travel required. Most insurance accepted. Available in California.",
 };
 
 export default function TelehealthPage() {

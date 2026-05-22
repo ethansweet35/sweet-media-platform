@@ -217,7 +217,6 @@ export const PRIMARY_NAV: TopLevelItem[] = [
           { label: "Our Team", href: "/team/", icon: "ri-team-line" },
           { label: "Our History", href: "/about/our-history/", icon: "ri-history-line" },
           { label: "Reviews & Testimonials", href: "/impact-reach/reviews-testimonials/", icon: "ri-star-line" },
-          { label: "Wahler Scholarship", href: "/wahler-scholarship/", icon: "ri-medal-line" },
           { label: "Addiction Resources", href: "/addiction-treatment-resources/", icon: "ri-book-open-line" },
         ],
       },

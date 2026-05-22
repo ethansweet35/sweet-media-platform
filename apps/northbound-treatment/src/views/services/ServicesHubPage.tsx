@@ -31,7 +31,7 @@ const LEVELS = [
     icon: "ri-wifi-line",
     label: "Virtual IOP (HomeBound)",
     href: "/telehealth-iop-services/",
-    desc: "Evidence-based virtual IOP available throughout California and Washington — therapy from home.",
+    desc: "Evidence-based virtual IOP available throughout California — therapy from home.",
   },
   {
     icon: "ri-refresh-line",

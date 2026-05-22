@@ -50,10 +50,9 @@ const services = [
 ];
 
 const treatmentPrograms = [
-  { icon: "ri-first-aid-kit-line", name: "Medical Detox", location: "Garden Grove & Newport Beach, CA", desc: "Washington clients travel to our fully licensed medical detox and residential centers in sunny Orange County, California." },
-  { icon: "ri-home-heart-line", name: "Residential Treatment", location: "Garden Grove & Newport Beach, CA", desc: "30–90 day inpatient programs with daily therapy, holistic activities, and 24/7 clinical support in Southern California." },
-  { icon: "ri-hospital-line", name: "Partial Hospitalization (PHP)", location: "Orange County, CA", desc: "Structured day-treatment available at our California campuses for step-down from residential care." },
-  { icon: "ri-wifi-line", name: "Virtual IOP (HomeBound)", location: "Washington & California (Telehealth)", desc: "Intensive outpatient care for Washington and California residents via Northbound's secure virtual HomeBound program." },
+  { icon: "ri-first-aid-kit-line", name: "Medical Detox", location: "Garden Grove, CA", desc: "Washington clients travel to our fully licensed medical detox center at The Grove in Garden Grove, Orange County." },
+  { icon: "ri-home-heart-line", name: "Residential Treatment", location: "Garden Grove, CA", desc: "30–90 day inpatient programs with daily therapy, holistic activities, and 24/7 clinical support at our Garden Grove campus." },
+  { icon: "ri-hospital-line", name: "Partial Hospitalization (PHP)", location: "Newport Beach, CA", desc: "Structured day-treatment at our Newport Beach campus for step-down from residential care at Garden Grove." },
 ];
 
 const therapies = [
@@ -79,19 +78,15 @@ const alumniActivities = [
 const faqs = [
   {
     q: "Do you have a physical treatment facility in Seattle?",
-    a: "Yes. Our Seattle office is located in the Lower Queen Anne (Uptown) neighborhood at 2120 1st Ave N, Unit 313 — near the Space Needle and Puget Sound. It serves as an assessment and community hub. For detox and residential treatment, Washington clients travel to our Orange County campuses; virtual IOP is available throughout Washington.",
+    a: "Yes. Our Seattle office is located in the Lower Queen Anne (Uptown) neighborhood at 2120 1st Ave N, Unit 313 — near the Space Needle and Puget Sound. It serves as an assessment and community hub. For detox, residential treatment, and PHP, Washington clients travel to our Orange County campuses.",
   },
   {
     q: "Why do Seattle clients travel to California for residential treatment?",
-    a: "Our medically licensed detox and residential facilities are in Garden Grove and Newport Beach, California. The Southern California environment — coastal weather, access to beaches, and a strong recovery culture — is itself a therapeutic asset. More than half of Northbound's clients historically travel from out of state.",
+    a: "Our medically licensed detox and residential facilities are in Garden Grove, California. PHP is offered at our Newport Beach campus. The Southern California environment — coastal weather, access to beaches, and a strong recovery culture — is itself a therapeutic asset. More than half of Northbound's clients historically travel from out of state.",
   },
   {
     q: "What is the drug crisis like in Washington / Seattle?",
     a: "Washington is facing a serious crisis. In 2022, 2,706 Washington residents died from drug overdose — a rate of 32.6 per 100,000, more than double from a decade prior. King County alone saw 1,312 overdose deaths in 2023, a 16% increase from 2022. Northbound is committed to serving Washington residents with the highest level of clinical care available.",
-  },
-  {
-    q: "Do you offer telehealth services for Washington residents?",
-    a: "Yes. Virtual IOP (HomeBound) is available for Washington state residents who cannot travel or prefer to receive treatment remotely — the same clinical quality and structured programming as our licensed telehealth program in California.",
   },
   {
     q: "What is alternative sentencing?",
@@ -150,15 +145,15 @@ export default function SeattlePage() {
               <span className="italic text-terracotta">in Seattle</span>
             </h1>
             <p className="mt-6 max-w-2xl text-lg leading-relaxed text-white/80">
-              <AutoLinkedTextClient>{"Northbound's Seattle hub serves Washington state residents with clinical assessments, family support, alumni programming, and alternative sentencing services — connecting Pacific Northwest clients to Northbound's full treatment continuum and virtual IOP."}</AutoLinkedTextClient>
+              <AutoLinkedTextClient>{"Northbound's Seattle hub serves Washington state residents with clinical assessments, family support, alumni programming, and alternative sentencing services — connecting Pacific Northwest clients to Northbound's California treatment campuses and ongoing alumni support."}</AutoLinkedTextClient>
             </p>
 
             <div className="mt-8 flex flex-wrap gap-x-8 gap-y-4 border-t border-white/15 pt-8">
               {[
                 { icon: "ri-map-pin-2-line", label: "2120 1st Ave N, Unit 313, Seattle, WA" },
                 { icon: "ri-user-line", label: "Ages 18+" },
-                { icon: "ri-calendar-line", label: "Detox, Residential & Virtual IOP" },
-                { icon: "ri-computer-line", label: "Telehealth Available Across WA" },
+                { icon: "ri-calendar-line", label: "Detox, Residential & PHP in CA" },
+                { icon: "ri-shield-check-line", label: "Insurance Verification Available" },
               ].map((f) => (
                 <div key={f.label} className="flex items-center gap-2 text-sm text-white/75">
                   <i className={`${f.icon} text-terracotta`}></i>
@@ -193,7 +188,7 @@ export default function SeattlePage() {
                 <AutoLinkedTextClient>{"Our Seattle services center is located in the vibrant Lower Queen Anne (Uptown) neighborhood — a walkable community of historic houses and boutique shops, right on Puget Sound and steps from the Space Needle. It's an inspiring, community-rooted setting for taking the first steps toward recovery."}</AutoLinkedTextClient>
               </p>
               <p className="mt-4 text-base leading-relaxed text-espresso/80">
-                <AutoLinkedTextClient>{"Seattle clients begin with a comprehensive clinical assessment at our local office. For those requiring medically supervised detox or residential treatment, we facilitate a smooth transition to our fully licensed Orange County facilities — where the Southern California environment becomes part of the healing. Clients then step down to virtual IOP (HomeBound) or alumni support to complete their continuum of care."}</AutoLinkedTextClient>
+                <AutoLinkedTextClient>{"Seattle clients begin with a comprehensive clinical assessment at our local office. For those requiring medically supervised detox or residential treatment, we facilitate a smooth transition to our fully licensed Orange County facilities — where the Southern California environment becomes part of the healing. Clients then step down through PHP and alumni support to complete their continuum of care."}</AutoLinkedTextClient>
               </p>
 
               <div className="mt-8 rounded-2xl border border-sand-dark bg-sand p-6">
@@ -209,8 +204,8 @@ export default function SeattlePage() {
                 <Image src={IMAGES.neighborhood} alt="Lower Queen Anne neighborhood in Seattle — historic brownstones, tree-lined streets near Northbound's Seattle office" fill className="object-cover" />
               </div>
               <div className="absolute -bottom-6 -left-6 rounded-2xl bg-navy px-6 py-5 shadow-xl">
-                <p className="font-heading text-2xl font-bold text-white">WA & CA</p>
-                <p className="mt-0.5 text-xs font-semibold uppercase tracking-widest text-terracotta">Serving Both States</p>
+                <p className="font-heading text-2xl font-bold text-white">CA Care</p>
+                <p className="mt-0.5 text-xs font-semibold uppercase tracking-widest text-terracotta">From Seattle Intake</p>
               </div>
             </div>
           </div>
@@ -362,7 +357,7 @@ export default function SeattlePage() {
 
       <CtaBanner
         headline="Washington Residents: Help Is Available Now"
-        body="Our admissions team is available 24/7. We'll assess your needs, verify your insurance, and connect you with the right level of care — whether that's our Seattle hub, California campuses, or telehealth."
+        body="Our admissions team is available 24/7. We'll assess your needs, verify your insurance, and connect you with the right level of care — whether that's our Seattle hub or California campuses."
         primaryCta={{ label: "Call (866) 311-0003", href: "tel:8663110003" }}
         secondaryCta={{ label: "Verify Insurance", href: "/insurance/" }}
       />

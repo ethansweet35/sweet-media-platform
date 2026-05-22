@@ -61,7 +61,7 @@ const leadership: Member[] = [
     photo: `${SUPABASE}/nbt_team_erick-holbeck.jpg`,
   },
   {
-    name: "Anna Trusk",
+    name: "Anna McCabe",
     title: "Director of Finance",
     photo: `${SUPABASE}/nbt_team_anna-trusk.jpg`,
   },
@@ -71,7 +71,7 @@ const leadership: Member[] = [
     photo: `${SUPABASE}/nbt_team_ryan-lamb.jpg`,
   },
   {
-    name: "Wendy Baugh",
+    name: "Wender Sterner",
     title: "Program Manager",
     photo: `${SUPABASE}/nbt_team_wendy-baugh.jpg`,
   },

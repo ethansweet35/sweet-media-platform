@@ -73,7 +73,7 @@ const PROGRAMS = [
   { icon: "ri-capsule-line", label: "Medically Supervised Detox (MAT available)" },
   { icon: "ri-home-heart-line", label: "Residential Treatment" },
   { icon: "ri-hospital-line", label: "Partial Hospitalization (PHP)" },
-  { icon: "ri-wifi-line", label: "Virtual IOP (HomeBound) — CA & WA" },
+  { icon: "ri-wifi-line", label: "Virtual IOP (HomeBound) — California" },
   { icon: "ri-brain-line", label: "Dual Diagnosis / Co-Occurring Disorders" },
   { icon: "ri-family-line", label: "Family Therapy & Education" },
   { icon: "ri-graduation-cap-line", label: "Collegebound® & Careerbound® Programs" },

@@ -7,13 +7,13 @@ const data: TreatmentPageData = {
   /* ── Hero ─────────────────────────────────────────────────── */
   heroImage: HERO,
   heroImageAlt:
-    "Small group therapy session at Northbound Treatment's partial hospitalization program in Orange County",
+    "Small group therapy session at Northbound Treatment's partial hospitalization program in Newport Beach, California",
   eyebrow: "Addiction Treatment Programs",
   programName: "Partial Hospitalization Program (PHP)",
   italicWord: "Partial",
-  tagline: "Structured daytime care with growing independence — Orange County, CA",
+  tagline: "Structured daytime clinical care — Newport Beach, CA",
   heroBody:
-    "Northbound's PHP provides up to 6 hours of clinical programming per day, most days of the week — keeping the intensity of residential care while allowing clients to begin taking on real-world responsibility.",
+    "Northbound's PHP at our Newport Beach campus provides up to 6 hours of clinical programming per day, most days of the week — keeping the intensity of residential care while clients begin applying recovery skills to everyday life.",
   breadcrumbs: [
     { label: "Treatment Services", href: "/treatment/" },
     { label: "Partial Hospitalization" },
@@ -22,22 +22,22 @@ const data: TreatmentPageData = {
   /* ── Overview ─────────────────────────────────────────────── */
   overviewHeadline: "What Is a Partial Hospitalization Program?",
   overviewBody: [
-    "A Partial Hospitalization Program (PHP) is a highly structured level of care that sits between residential treatment and virtual IOP on the continuum of care. Clients attend treatment most days of the week — up to 6 hours per day — while living at home or in another stable, supportive environment. It is the ideal next step for those completing residential treatment who need continued clinical intensity without full-time inpatient admission.",
-    "At Northbound, PHP is not simply a reduction in residential hours. It is a deliberate, skills-building phase where clients begin applying therapeutic gains to everyday life — testing coping strategies in real situations with clinical guidance close at hand. Individual therapy, group programming, and specialty modalities continue uninterrupted through this phase.",
+    "A Partial Hospitalization Program (PHP) is a highly structured level of care that sits between residential treatment and virtual IOP on the continuum of care. Clients attend treatment most days of the week — up to 6 hours per day — while continuing to practice therapeutic skills between sessions. It is the ideal next step for those completing residential treatment who need continued clinical intensity without full-time inpatient admission.",
+    "At Northbound, PHP is delivered at our Newport Beach campus — a deliberate, skills-building phase where clients begin applying therapeutic gains to everyday life, testing coping strategies in real situations with clinical guidance close at hand. Individual therapy, group programming, and specialty modalities continue uninterrupted through this phase.",
   ],
   keyFacts: [
     { icon: "ri-time-line", label: "Hours per Day", value: "Up to 6 Hours" },
     { icon: "ri-calendar-check-line", label: "Frequency", value: "5–6 Days per Week" },
     { icon: "ri-hospital-line", label: "Level of Care", value: "Partial Hospitalization" },
-    { icon: "ri-map-pin-2-line", label: "Location", value: "Orange County, CA" },
+    { icon: "ri-map-pin-2-line", label: "Location", value: "Newport Beach, CA" },
     { icon: "ri-shield-check-line", label: "Insurance", value: "15+ Major Plans Accepted" },
-    { icon: "ri-home-2-line", label: "Housing", value: "Home-Based or Stable Support" },
+    { icon: "ri-hospital-line", label: "Format", value: "Day Treatment Program" },
   ],
 
   /* ── Steps ────────────────────────────────────────────────── */
   stepsHeadline: "What to Expect in PHP",
   stepsIntro:
-    "PHP is a structured bridge between immersive residential care and independent outpatient treatment — every phase is designed to build confidence, skills, and accountability.",
+    "PHP is a structured bridge between immersive residential care and virtual outpatient treatment — every phase is designed to build confidence, skills, and accountability.",
   steps: [
     {
       number: "01",
@@ -65,9 +65,9 @@ const data: TreatmentPageData = {
     },
     {
       number: "05",
-      title: "Independent Living Practice",
+      title: "Real-World Skills Practice",
       icon: "ri-home-2-line",
-      body: "Outside of programming hours, clients return to a stable home or supportive living environment — practicing the coping skills, routines, and emotional regulation tools built during residential care. Recovery is lived in the real world, and PHP is where that begins.",
+      body: "Outside of programming hours, clients practice the coping skills, routines, and emotional regulation tools built during residential care — applying what they learn in therapy to everyday situations with clinical guidance close at hand.",
     },
     {
       number: "06",
@@ -82,7 +82,7 @@ const data: TreatmentPageData = {
     {
       icon: "ri-refresh-line",
       title: "Real-World Integration with Clinical Backup",
-      body: "PHP is where clinical gains from residential care get applied to real life. Clients spend structured hours in programming and the remainder of the day navigating work, family, or independent routines — applying therapeutic tools in actual situations, with their clinical team a call away.",
+      body: "PHP is where clinical gains from residential care get applied to real life. Clients spend structured hours in programming and the remainder of the day navigating work, family, and daily routines — applying therapeutic tools in actual situations, with their clinical team a call away.",
     },
     {
       icon: "ri-brain-line",
@@ -124,15 +124,11 @@ const data: TreatmentPageData = {
   faqs: [
     {
       q: "Who is PHP appropriate for?",
-      a: "PHP is ideal for individuals who have completed residential treatment and are ready for more independence but still need significant clinical support. It is also appropriate as a primary level of care for those whose living situation is stable and supportive, who have a lower severity of addiction, or who cannot commit to full-time inpatient care.",
+      a: "PHP is ideal for individuals who have completed residential treatment and are ready for a step-down level of care but still need significant clinical support. It is also appropriate as a primary level of care for those with a lower severity of addiction or who cannot commit to full-time inpatient care.",
     },
     {
       q: "How many hours per day and days per week is PHP?",
-      a: "Northbound's PHP provides up to 6 hours of treatment per day, most days of the week — typically 5 to 6 days. This allows clients to maintain intensive clinical programming while practicing independent living in structured housing or at home.",
-    },
-    {
-      q: "Where do clients live during PHP?",
-      a: "PHP clients typically live at home or in another stable, supportive residence while attending daytime programming. Your clinical team helps confirm that your living environment supports recovery during PHP.",
+      a: "Northbound's PHP provides up to 6 hours of treatment per day, most days of the week — typically 5 to 6 days. This allows clients to maintain intensive clinical programming while balancing treatment with work, family, and other daily responsibilities.",
     },
     {
       q: "What therapies are offered in PHP?",
@@ -151,7 +147,7 @@ const data: TreatmentPageData = {
   /* ── CTA ──────────────────────────────────────────────────── */
   ctaHeadline: "Take the Next Step with PHP",
   ctaBody:
-    "Whether you're stepping down from residential care or beginning your recovery journey, Northbound's Partial Hospitalization Program provides the clinical intensity you need with the independence you're ready to practice.",
+    "Whether you're stepping down from residential care or beginning your recovery journey, Northbound's Partial Hospitalization Program provides the clinical intensity you need while you build real-world recovery skills.",
 };
 
 export default function PhpPage() {

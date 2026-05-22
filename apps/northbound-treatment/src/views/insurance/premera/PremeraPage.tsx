@@ -64,7 +64,7 @@ const data: InsurancePageData = {
       icon: "ri-calendar-check-line",
       label: "Virtual IOP (Telehealth)",
       detail:
-        "Northbound's virtual IOP (HomeBound) is covered by most Premera plans. For Washington-based Premera members, Northbound's telehealth IOP option allows continuation of care remotely after residential treatment in California.",
+        "Northbound's virtual IOP (HomeBound) is covered by most Premera plans for California residents. Washington-based Premera members typically step down through PHP in California, then transition to local aftercare resources near home with support from Northbound's discharge planning team.",
     },
     {
       icon: "ri-brain-line",
@@ -121,7 +121,7 @@ const data: InsurancePageData = {
     },
     {
       q: "Can Northbound coordinate aftercare back in Washington after treatment?",
-      a: "Yes. Northbound's discharge planning team helps Pacific Northwest clients identify aftercare providers and outpatient resources near their home. Virtual IOP (HomeBound) is available for Washington state residents following residential treatment.",
+      a: "Yes. Northbound's discharge planning team helps Pacific Northwest clients identify aftercare providers and outpatient resources near their home after completing treatment in California.",
     },
     {
       q: "Does Premera cover mental health treatment alongside addiction?",
@@ -129,7 +129,7 @@ const data: InsurancePageData = {
     },
     {
       q: "Does Premera cover telehealth addiction treatment?",
-      a: "Yes. Premera Blue Cross covers telehealth services for behavioral health, including telehealth IOP. Northbound offers a telehealth IOP program available to residents of Washington and California — a seamless step-down option for Premera members following residential treatment at Northbound.",
+      a: "Yes. Premera Blue Cross covers telehealth services for behavioral health, including telehealth IOP. Northbound's HomeBound program is available to California residents — a seamless step-down option for Premera members following residential treatment at Northbound.",
     },
   ],
 

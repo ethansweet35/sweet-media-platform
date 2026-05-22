@@ -51,7 +51,7 @@ const SERVICES = [
     title: "Virtual IOP (HomeBound)",
     href: "/telehealth-iop-services/",
     description:
-      "Evidence-based intensive outpatient care delivered online — the flexible outpatient option for clients in California and Washington.",
+      "Evidence-based intensive outpatient care delivered online — the flexible outpatient option for clients in California.",
     features: [
       "Live virtual group and individual sessions",
       "Same clinical team and specialty programming",
