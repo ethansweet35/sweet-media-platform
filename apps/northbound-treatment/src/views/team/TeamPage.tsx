@@ -80,6 +80,11 @@ const leadership: Member[] = [
     title: "Director of Discharge & Client Care",
     photo: `${SUPABASE}/nbt_team_dustin-helvig.jpg`,
   },
+  {
+    name: "Craig Sterner",
+    title: "Senior Director Of Operations",
+    photo: `${SUPABASE}/nbt_team_craig-sterner.png`,
+  },
 ];
 
 function MemberCard({ member }: { member: Member }) {
