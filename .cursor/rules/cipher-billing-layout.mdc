@@ -1,0 +1,118 @@
+---
+description: Cipher Billing layout and spatial composition — columns, dead space, section rhythm, responsive checks
+globs: apps/cipher-billing/**/*
+alwaysApply: false
+---
+
+# Cipher Billing — Layout Integrity
+
+These rules govern **layout and spatial composition only** for `apps/cipher-billing`.
+Design tokens (Marcellus + Montserrat, navy `#101E3F`, accent `#166C96`, slate `#F5F7FA`) and platform SEO/admin patterns live in other workspace rules — do not override them here.
+
+You have full creative freedom on visual treatment, motion, and section concepts.
+You do **not** have freedom to leave accidental dead space, broken alignment, or unbalanced columns.
+
+---
+
+## 1. Core principle
+
+Every pixel of a section must be intentional. Empty regions must be empty **by design**, not because content ended before the container did.
+
+**Never ship** a two-column grid where one column is shorter, both columns stretch to equal height, and the shorter column shows a tall void below its content.
+
+---
+
+## 2. Two-column sections (decision tree)
+
+When side-by-side columns have unequal content height, follow **in order**:
+
+### Step 1 — Vertically center the shorter column?
+
+If the shorter column is eyebrow + heading + 1–2 paragraphs and the taller column is cards, a list, or a feature grid:
+→ Use `items-center` on the grid/flex parent, or `self-center` on the shorter column.
+→ Do **not** use `items-start` or `items-stretch` for this pattern.
+
+### Step 2 — Add one supporting element under the text?
+
+If centering alone feels thin, add **one** of (priority order):
+1. Stat block, badge row, or trust signal
+2. Subtle on-brand decorative element (icon cluster, labeled divider)
+3. Pull-quote, credential line, or short supporting list
+4. CTA group — only when the section goal is conversion, not framing/education
+
+Do not stack multiple fillers.
+
+### Step 3 — Change the layout
+
+→ Single-column stack, or rebalance so columns are naturally similar height.
+→ **Never** top-align stretched columns with visible vertical voids.
+
+---
+
+## 3. Grid, flex, and section rhythm
+
+- Grid/flex children must not use `max-w-md` / `max-w-lg` narrower than their column unless line-length is intentional (`max-w-prose` with clear alignment).
+- Section horizontal padding must be symmetrical unless full-bleed/asymmetric bleed — comment: `{/* intentional asymmetric bleed */}`.
+- **Landing pages** (`src/views/**/page.tsx`, `*-lp`, IOP/service landers): use `LANDING_SECTION_PY` from `src/views/services/components/servicePageConstants.ts` — currently `py-[100px]` (100px top and bottom per section). Do not invent new per-section vertical padding on landings.
+- **Marketing sections** elsewhere: match rhythm already on the page; prefer `SERVICE_CONTAINER` (`max-w-[1140px] px-5 md:px-6`).
+
+---
+
+## 4. Card grids and feature lists
+
+- Cards in a row should feel equal height (`h-full` / `min-height` on cards when copy length varies).
+- Icons in cards: identical size, same baseline across the row.
+- A stacked card column beside a text column must align top/bottom with its partner when they read as parallel.
+
+---
+
+## 5. Responsive integrity
+
+Verify at **375px, 768px, 1024px, 1280px, 1536px**.
+
+- Below 768px: multi-column → single column; body copy **left-aligned** (Cipher voice — do not center body on mobile).
+- Stacked two-column sections: text column first, visual/support second, unless intentionally reversed (comment why).
+- No horizontal scroll — fix the layout; do not mask with `overflow-hidden`.
+
+---
+
+## 6. Floating UI safe area
+
+A persistent **Call Now** pill sits bottom-right on viewport.
+
+- Desktop: keep ~**80px** tall × ~**280px** wide bottom-right clear of critical CTAs.
+- Mobile: do not place primary CTAs in the bottom **80px** where the pill conflicts.
+
+---
+
+## 7. Design freedom (intentional asymmetry)
+
+Allowed when balanced:
+- 5/7 or similar splits with visual column bleeding to edge
+- Gradients, textures, layered cards, off-grid accents
+- Editorial overlap and motion
+
+Not allowed:
+- 6/6 split with unexplained void in one column
+- “Safe” layouts that are accidentally unbalanced
+
+---
+
+## 8. Landing page patterns (Cipher)
+
+- Hero: two-column **copy + embedded lead form** is the default LP hero pattern (`IopLandingHero` reference).
+- Reuse shared layout primitives under `src/views/services/components/` when they fit (`ServiceWorkflowSteps`, `ServiceVsCompare`, etc.) — extend, do not duplicate grid logic blindly.
+- Forms in heroes: keep fields minimal; prominent submit with brand accent (`#166C96` / `#1a8fd4`).
+
+---
+
+## 9. Pre-ship self-check
+
+Before marking a section done:
+
+1. Is any emptiness unexplained?
+2. Do all columns feel part of one composition?
+3. Clean at every breakpoint — no orphans?
+4. If content were gray boxes, would the silhouette still balance?
+
+If any answer is **no**, fix before moving on.

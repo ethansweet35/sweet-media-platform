@@ -32,3 +32,14 @@ export const NOT_FOUND_PAGE_METADATA: Metadata = {
   title: "Page not found",
   robots: { index: false, follow: false },
 };
+
+/** Robots directive for pre-launch pages (still reachable by URL, excluded from sitemap via `is_active`). */
+export const DRAFT_PAGE_ROBOTS: NonNullable<Metadata["robots"]> = {
+  index: false,
+  follow: false,
+};
+
+/** Merge draft robots into metadata returned from `generateMetadata`. */
+export function withDraftPageRobots(metadata: Metadata): Metadata {
+  return { ...metadata, robots: DRAFT_PAGE_ROBOTS };
+}

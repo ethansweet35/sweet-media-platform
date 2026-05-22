@@ -73,6 +73,8 @@ export { resolveTrackedPageMetadata } from "./lib/resolveTrackedPageMetadata";
 export {
   mergeRobotsDisallow,
   NOT_FOUND_PAGE_METADATA,
+  DRAFT_PAGE_ROBOTS,
+  withDraftPageRobots,
   WP_LEGACY_ROBOTS_DISALLOW,
 } from "./lib/wpLegacySeo";
 // scanAppRoutes / syncTrackedPages are server-only (use node:fs).

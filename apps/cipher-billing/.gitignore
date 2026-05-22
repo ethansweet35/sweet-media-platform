@@ -40,6 +40,9 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
+# Local image upload staging
+/service-image-staging/
+
 # Local upload secrets
 .upload.env
 .env.local

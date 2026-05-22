@@ -11,9 +11,8 @@ import {
 import HomeHeroVideo from "./components/HomeHeroVideo";
 import HomeLeadForm from "./components/HomeLeadForm";
 import HomeMetricsGrid from "./components/HomeMetricsGrid";
-import HomeTestimonialRotator, {
-  type HomeTestimonial,
-} from "./components/HomeTestimonialRotator";
+import { cipherHomeTestimonials } from "@/lib/cipherHomeSocialProof";
+import HomeTestimonialRotator from "./components/HomeTestimonialRotator";
 
 const HERO_VIDEO =
   "https://nstzjqmtsqgeihkyvkqq.supabase.co/storage/v1/object/public/site-assets/images/video2-compressed.mp4";
@@ -77,20 +76,6 @@ const processIntro =
 /** Homepage lead strip — matches live footer CTA (cipherbilling.com) */
 const leadIntro =
   "Schedule a complimentary consultation with our billing experts to review your current revenue cycle and identify opportunities for improvement.";
-
-/** Verbatim from cipherbilling.com homepage rotator. */
-const leadTestimonials: readonly HomeTestimonial[] = [
-  {
-    quote:
-      "We needed a billing company that conducted business similarly to how we do, prompt and intentional. Cipher has exceeded our expectations. They've continued to be easily accessible & helpful with all our billing needs!",
-    attribution: "Tony H.",
-  },
-  {
-    quote:
-      "My business was nearly in jeopardy because of the lackluster service from our billing company. Then I switched to Cipher, and they helped turn around our revenue, allowing us to flourish. I am a clinician, not a business person. I needed a billing company that would handle everything billing-related so that I could focus on what mattered — providing exceptional clinical care to patients. Cipher has been that partner for me.",
-    attribution: "Dr. Matthew T.",
-  },
-];
 
 const contactPhoneDisplay = "949-676-2252";
 const contactPhoneHref = "tel:949-676-2252";
@@ -340,7 +325,7 @@ function HomePageBody({ mappings, registry }: HomePageBodyProps) {
               <p className="mt-6 text-sm leading-[1.42] text-white/90"><LinkText>{leadIntro}</LinkText></p>
 
               <div className="mt-10">
-                <HomeTestimonialRotator testimonials={leadTestimonials} />
+                <HomeTestimonialRotator testimonials={cipherHomeTestimonials} />
               </div>
 
               <div className="mt-12">
