@@ -111,7 +111,6 @@ export default function MATPage() {
           <Image
             src={GARDEN_GROVE_IMAGES.bedroom}
             alt="Residential room at The Grove — medically supervised MAT at Northbound's Garden Grove campus"
-            alt="Doctor explaining medication-assisted treatment options to a patient at Northbound Treatment"
             fill
             className="object-cover object-center opacity-20"
             priority
