@@ -392,7 +392,9 @@ function isUsefulTerm(term: string): boolean {
     // allowed at boundaries ("mental health services", "county rates").
     const first = tokens[0];
     const last = tokens[tokens.length - 1];
-    if (last === "per") return false;
+    if (last === "per" || first === "only" || first === "when" || first === "where" || first === "within") {
+      return false;
+    }
     if (isBoundaryBlocked(first) || isBoundaryBlocked(last)) return false;
     if (PHRASE_BOUNDARY_BLOCKLIST.has(first) || PHRASE_BOUNDARY_BLOCKLIST.has(last)) return false;
     if ((/^\d/.test(first) || /^\d/.test(last)) && !hasAllowedNumericContext(tokens)) return false;
