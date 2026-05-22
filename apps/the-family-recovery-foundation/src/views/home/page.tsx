@@ -14,8 +14,8 @@ export default function HomePage() {
       <main>
         <HeroSection />
         <AboutSection />
-        <PillarsSection />
         <ServicesSection />
+        <PillarsSection />
         <StoriesSection />
         <HomeSupportCtaSection />
         <HomePartnersSection />
