@@ -5,7 +5,7 @@ import SanDiegoPage from "@/views/locations/SanDiegoPage";
 const fallback: Metadata = {
   title: "Drug Rehab in San Diego (La Jolla)",
   description:
-    "Northbound's La Jolla outpatient center offers PHP, IOP, and standard outpatient treatment in San Diego County — set among 7 miles of California coastline. Careerbound® career reintegration program. Telehealth available. Call (866) 311-0003.",
+    "Northbound's La Jolla office supports virtual IOP and regional outreach in San Diego County — set among 7 miles of California coastline. Detox and residential care are at Garden Grove; PHP is at Newport Beach. Call (866) 311-0003.",
   alternates: { canonical: '/locations/california/san-diego' },
 };
 

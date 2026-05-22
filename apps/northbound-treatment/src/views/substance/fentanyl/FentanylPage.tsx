@@ -72,7 +72,7 @@ const data: SubstancePageData = {
       phase: "Ongoing",
       title: "Aftercare & Alumni Community",
       icon: "ri-refresh-line",
-      body: "Long-term sobriety depends on community and accountability. Northbound's alumni network, continuing care plan, and specialized tracks — Collegebound® and Careerbound® — help clients rebuild the lives that addiction threatened, with support that doesn't end at discharge.",
+      body: "Long-term sobriety depends on community and accountability. Northbound's alumni network and continuing care plan help clients rebuild the lives that addiction threatened, with support that doesn't end at discharge.",
     },
   ],
 

@@ -72,7 +72,7 @@ const data: SubstancePageData = {
       phase: "Ongoing",
       title: "Aftercare & Alumni Community",
       icon: "ri-refresh-line",
-      body: "Long-term recovery from opioid addiction requires ongoing community and structure. Northbound's alumni network, continued case management, and Careerbound® and Collegebound® programs provide the support needed to rebuild what addiction threatened.",
+      body: "Long-term recovery from opioid addiction requires ongoing community and structure. Northbound's alumni network and continued case management provide the support needed to rebuild what addiction threatened.",
     },
   ],
 

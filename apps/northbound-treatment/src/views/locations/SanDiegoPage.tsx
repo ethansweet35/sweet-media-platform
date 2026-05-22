@@ -24,10 +24,10 @@ const programs = [
     desc: "Northbound's virtual intensive outpatient program for California residents — the same clinical quality without the commute.",
   },
   {
-    icon: "ri-briefcase-4-line",
-    name: "Careerbound® Program",
-    duration: "During treatment",
-    desc: "Vocational support and career reintegration resources built into the recovery process — helping clients plan their professional future from within treatment.",
+    icon: "ri-map-pin-2-line",
+    name: "Regional Outreach",
+    duration: "Ongoing",
+    desc: "Local intake support, family coordination, and admissions guidance connecting San Diego County clients to Northbound's California treatment campuses.",
   },
   {
     icon: "ri-mental-health-line",
@@ -49,10 +49,6 @@ const faqs = [
   {
     q: "Do you accept insurance in San Diego?",
     a: "Yes. We are in-network with 15+ major carriers including Aetna, Anthem/BCBS, Cigna, Tricare, MHN, and more. Our team verifies your benefits quickly and confidentially at no cost to you.",
-  },
-  {
-    q: "What is the Careerbound® program?",
-    a: "Careerbound® is a specialized track for clients who want to reintegrate into a career or education while in treatment. It includes vocational guidance, academic support, goal-setting, and professional skills development — all within the recovery framework.",
   },
   {
     q: "Can I start treatment in San Diego without going through detox?",
@@ -150,10 +146,7 @@ export default function SanDiegoPage() {
                 <AutoLinkedTextClient>{"Our San Diego location sits in the heart of La Jolla Village — surrounded by 7 miles of sun-kissed beaches, dramatic sandstone cliffs, scenic coastal trails, and a vibrant recovery community. It's a setting that makes showing up to treatment feel like showing up to a better life."}</AutoLinkedTextClient>
               </p>
               <p className="mt-4 text-base leading-relaxed text-espresso/80">
-                <AutoLinkedTextClient>{"This location specializes in virtual IOP (HomeBound) and regional support. Detox and residential treatment are provided at our Garden Grove campus; PHP is at Newport Beach."}</AutoLinkedTextClient>
-              </p>
-              <p className="mt-4 text-base leading-relaxed text-espresso/80">
-                <AutoLinkedTextClient>{"The Careerbound® resource center is available at this location — helping clients build career and educational plans as part of a recovery process that prepares them for a full life beyond treatment."}</AutoLinkedTextClient>
+                <AutoLinkedTextClient>{"This location specializes in virtual IOP (HomeBound) and regional support. Detox and residential treatment are provided at our Garden Grove campus; PHP is at Newport Beach. Collegebound® and Careerbound® are available exclusively during residential treatment at Garden Grove."}</AutoLinkedTextClient>
               </p>
             </div>
 
@@ -162,8 +155,8 @@ export default function SanDiegoPage() {
                 <Image src={IMAGES.office} alt="One-on-one therapy session at Northbound's La Jolla San Diego outpatient center with ocean view" fill className="object-cover" />
               </div>
               <div className="absolute -bottom-6 -left-6 rounded-2xl bg-navy px-6 py-5 shadow-xl">
-                <p className="font-heading text-2xl font-bold text-white">Careerbound®</p>
-                <p className="mt-0.5 text-xs font-semibold uppercase tracking-widest text-terracotta"><AutoLinkedTextClient>{"Career Reintegration Program"}</AutoLinkedTextClient></p>
+                <p className="font-heading text-2xl font-bold text-white">Garden Grove</p>
+                <p className="mt-0.5 text-xs font-semibold uppercase tracking-widest text-terracotta"><AutoLinkedTextClient>{"Residential Campus"}</AutoLinkedTextClient></p>
               </div>
             </div>
           </div>

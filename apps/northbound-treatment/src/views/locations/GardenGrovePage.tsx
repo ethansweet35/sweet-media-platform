@@ -4,9 +4,10 @@ import Image from "next/image";
 import { heroContentPad, heroLocationSection } from "@/lib/heroSpacing";
 import Link from "next/link";
 import { useState } from "react";
-import { GARDEN_GROVE_IMAGES } from "@/views/home/assets";
+import { GARDEN_GROVE_CAROUSEL, GARDEN_GROVE_IMAGES } from "@/views/home/assets";
 import CtaBanner from "@/views/shared/CtaBanner";
 import FacilityGallery from "@/views/shared/FacilityGallery";
+import FacilityPhotoCarousel from "@/views/shared/FacilityPhotoCarousel";
 import { AutoLinkedTextClient } from "@sweetmedia/blog-core";
 
 const therapyServices = [
@@ -216,14 +217,10 @@ export default function GardenGrovePage() {
             </div>
 
             <div className="relative">
-              <div className="aspect-[4/3] overflow-hidden rounded-3xl shadow-2xl">
-                <Image
-                  src={GARDEN_GROVE_IMAGES.interior}
-                  alt="Comfortable communal lounge at The Grove — Northbound's Garden Grove residential treatment facility"
-                  fill
-                  className="object-cover"
-                />
-              </div>
+              <FacilityPhotoCarousel
+                slides={[...GARDEN_GROVE_CAROUSEL]}
+                ariaLabel="The Grove facility photos"
+              />
               {/* floating badge */}
               <div className="absolute -bottom-6 -left-6 rounded-2xl bg-navy px-6 py-5 shadow-xl">
                 <p className="font-heading text-3xl font-bold text-white">38+</p>
@@ -288,7 +285,7 @@ export default function GardenGrovePage() {
               <div className="aspect-[4/3] overflow-hidden rounded-3xl shadow-xl">
                 <Image
                   src={GARDEN_GROVE_IMAGES.activities}
-                  alt="Group yoga class on the lawn at Northbound's Garden Grove rehab — wellness in recovery"
+                  alt="Clients in guided outdoor meditation on the lawn at Northbound's Garden Grove campus — wellness in recovery"
                   fill
                   className="object-cover"
                 />
@@ -423,7 +420,7 @@ export default function GardenGrovePage() {
               <div className="aspect-[4/3] overflow-hidden rounded-3xl shadow-xl">
                 <Image
                   src={GARDEN_GROVE_IMAGES.community}
-                  alt="Aerial view of Garden Grove, Orange County California at dusk — Northbound's home community"
+                  alt="Commons area at Northbound's Garden Grove campus with GROVE marquee sign — shared space for community and recovery"
                   fill
                   className="object-cover"
                 />

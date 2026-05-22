@@ -1,10 +1,9 @@
 import SignaturePageTemplate, { type SignaturePageData } from "@/views/shared/SignaturePageTemplate";
-
-const BASE = "https://ahufsygjwpbymomfdazb.supabase.co/storage/v1/object/public/site-assets/images";
+import { SERVICE_IMAGES, SIGNATURE_PAGE_IMAGES } from "@/views/home/assets";
 
 const data: SignaturePageData = {
-  heroImage: `${BASE}/nbt_music_hero01.jpg`,
-  heroImageAlt: "Group music therapy session at Northbound Treatment with guitars and percussion instruments in a warm loft space",
+  heroImage: SIGNATURE_PAGE_IMAGES.musicHero,
+  heroImageAlt: "Communal lounge at The Grove — a gathering space for Northbound's Music Recovery Program",
   serviceName: "Music Recovery Program",
   heroItalicWord: "Music",
   heroBody:
@@ -29,8 +28,8 @@ const data: SignaturePageData = {
     "Music-oriented community outings in real-world settings",
     "Available in both residential and outpatient programs",
   ],
-  whatItIsImage: `${BASE}/nbt_music_lyrics01.jpg`,
-  whatItIsImageAlt: "Client writing original lyrics with guitar in their lap during Northbound's Music Recovery Program",
+  whatItIsImage: SERVICE_IMAGES.supportGroup,
+  whatItIsImageAlt: "Support group session at The Grove — community connection through Northbound's Music Recovery Program",
   whatItIsFloatingHeadline: "Composition,\nRecording & Expression",
 
   featuresEyebrow: "Program Elements",
@@ -44,8 +43,8 @@ const data: SignaturePageData = {
       focus: "Expression & Emotion",
       description:
         "Once a week, each gender-specific group explores the intersection of music and addiction — examining the role music has played in their lives and discovering new ways to engage with it in recovery.",
-      image: `${BASE}/nbt_music_studio01.jpg`,
-      imageAlt: "Clients in a professional recording studio during Northbound's monthly music session",
+      image: SERVICE_IMAGES.communalLounge,
+      imageAlt: "Communal lounge at The Grove used for group music experiential sessions",
       tag: "Core Program",
       tagIcon: "ri-music-2-line",
     },
@@ -144,8 +143,8 @@ const data: SignaturePageData = {
   closingQuote:
     "It is possible to be a career or recreational musician while staying sober. Northbound helps you find that version of yourself.",
   closingQuoteAttribution: "Northbound Treatment Services",
-  closingImage: `${BASE}/nbt_music_lyrics01.jpg`,
-  closingImageAlt: "Client writing song lyrics as an act of creative recovery at Northbound",
+  closingImage: SERVICE_IMAGES.outdoorMeditation,
+  closingImageAlt: "Clients in guided outdoor meditation at The Grove — wellness and community in recovery",
   closingPrimaryCta: { label: "Start the Admissions Process", href: "/admissions/" },
   closingSecondaryCta: { label: "View Gallery", href: "/locations/" },
 
@@ -158,7 +157,7 @@ const data: SignaturePageData = {
 
   ctaHeadline: "Find Your Voice in Recovery",
   ctaBody:
-    "The Music Recovery Program is available to residential and outpatient clients at Northbound. Our admissions team is available 24/7.",
+    "Northbound's Music Recovery Program is available in residential and outpatient care. Call our admissions team 24/7 to learn how music fits into your treatment plan.",
 };
 
 export default function MusicPage() {

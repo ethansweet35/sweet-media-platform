@@ -1,7 +1,7 @@
 import TreatmentPageTemplate, { type TreatmentPageData } from "@/views/shared/TreatmentPageTemplate";
+import { GARDEN_GROVE_IMAGES } from "@/views/home/assets";
 
-const HERO =
-  "https://ahufsygjwpbymomfdazb.supabase.co/storage/v1/object/public/site-assets/images/nbt_telehealth_hero01.jpg";
+const HERO = GARDEN_GROVE_IMAGES.interior;
 
 const data: TreatmentPageData = {
   /* ── Hero ─────────────────────────────────────────────────── */

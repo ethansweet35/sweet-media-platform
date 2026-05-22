@@ -4,9 +4,8 @@ import { useState } from "react";
 import Image from "next/image";
 import { heroContentPad } from "@/lib/heroSpacing";
 import Link from "next/link";
+import { GARDEN_GROVE_IMAGES } from "@/views/home/assets";
 import { AutoLinkedTextClient } from "@sweetmedia/blog-core";
-
-const BASE = "https://ahufsygjwpbymomfdazb.supabase.co/storage/v1/object/public/site-assets/images";
 
 const MEDICATIONS = [
   {
@@ -110,7 +109,8 @@ export default function MATPage() {
       <section className="relative overflow-hidden bg-[#3a6697]">
         <div className="absolute inset-0">
           <Image
-            src={`${BASE}/nbt_mat_hero01.jpg`}
+            src={GARDEN_GROVE_IMAGES.bedroom}
+            alt="Residential room at The Grove — medically supervised MAT at Northbound's Garden Grove campus"
             alt="Doctor explaining medication-assisted treatment options to a patient at Northbound Treatment"
             fill
             className="object-cover object-center opacity-20"
@@ -191,8 +191,8 @@ export default function MATPage() {
             <div className="relative">
               <div className="relative aspect-[4/3] overflow-hidden">
                 <Image
-                  src={`${BASE}/nbt_mat_hero01.jpg`}
-                  alt="Physician reviewing medication-assisted treatment plan with patient at Northbound"
+                  src={GARDEN_GROVE_IMAGES.bedroom}
+                  alt="Residential room at The Grove — medically supervised MAT at Northbound's Garden Grove campus"
                   fill
                   className="object-cover"
                   sizes="(max-width: 1024px) 100vw, 50vw"

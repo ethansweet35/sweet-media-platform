@@ -1,7 +1,7 @@
 import TreatmentPageTemplate, { type TreatmentPageData } from "@/views/shared/TreatmentPageTemplate";
+import { SERVICE_IMAGES } from "@/views/home/assets";
 
-const HERO =
-  "https://ahufsygjwpbymomfdazb.supabase.co/storage/v1/object/public/site-assets/images/nbt_iop_hero01.jpg";
+const HERO = SERVICE_IMAGES.supportGroup;
 
 const data: TreatmentPageData = {
   /* ── Hero ─────────────────────────────────────────────────── */
@@ -23,7 +23,7 @@ const data: TreatmentPageData = {
   overviewHeadline: "What Is an Intensive Outpatient Program?",
   overviewBody: [
     "An Intensive Outpatient Program (IOP) is a structured level of addiction treatment in which clients attend clinical programming for 6 to 12 hours per week while continuing daily life outside of treatment sessions. IOP sits between Partial Hospitalization (PHP) and ongoing outpatient support on the continuum of care, and is appropriate for those who are ready to begin reintegrating into daily life with continued clinical accountability.",
-    "At Northbound, IOP is not a lesser version of residential care — it is the phase where clients apply everything learned in earlier treatment to real-world situations: careers, relationships, routines, and triggers. With flexible scheduling options and access to Northbound's signature programs — Collegebound®, Careerbound®, trauma tracks, and DBT — IOP is individualized to meet each client exactly where they are.",
+    "At Northbound, IOP is not a lesser version of residential care — it is the phase where clients apply everything learned in earlier treatment to real-world situations: careers, relationships, routines, and triggers. With flexible scheduling options and access to trauma-focused therapy, DBT skills groups, and the faith-based LINKS track where clinically appropriate, IOP is individualized to meet each client exactly where they are.",
   ],
   keyFacts: [
     { icon: "ri-time-line", label: "Hours per Week", value: "6–12 Hours" },
@@ -55,7 +55,7 @@ const data: TreatmentPageData = {
       number: "03",
       title: "Specialty Tracks & Signature Services",
       icon: "ri-award-line",
-      body: "IOP clients have full access to Northbound's signature programs: Collegebound® (academic reintegration), Careerbound® (employment support), DBT skills groups, the faith-based LINKS track, and trauma-focused therapy — tailored to your treatment plan.",
+      body: "IOP clients have access to DBT skills groups, the faith-based LINKS track, trauma-focused therapy, and dual-diagnosis psychiatric care — tailored to your treatment plan. Collegebound® and Careerbound® are available only during residential treatment.",
     },
     {
       number: "04",
@@ -83,11 +83,6 @@ const data: TreatmentPageData = {
       icon: "ri-calendar-check-line",
       title: "Flexible Scheduling for Real Life",
       body: "Northbound's IOP offers day, evening, and combination schedules — because recovery shouldn't require leaving your job, family, or responsibilities. Flexible programming removes the barriers to treatment so that more people can access the care they need.",
-    },
-    {
-      icon: "ri-graduation-cap-line",
-      title: "Collegebound® & Careerbound®",
-      body: "Northbound's proprietary tracks for education and career reintegration run concurrently with IOP. For young adults or working professionals whose addiction has disrupted their academic or professional trajectory, these programs provide targeted mentorship, counseling, and practical guidance.",
     },
     {
       icon: "ri-refresh-line",
@@ -132,7 +127,7 @@ const data: TreatmentPageData = {
     },
     {
       q: "Can I work or go to school while in IOP?",
-      a: "Yes — that is one of IOP's primary design goals. Flexible scheduling allows most clients to maintain employment or academic commitments while attending treatment. Northbound's Careerbound® and Collegebound® programs provide additional support for those re-entering the workforce or continuing their education.",
+      a: "Yes — that is one of IOP's primary design goals. Flexible scheduling allows most clients to maintain employment or academic commitments while attending treatment.",
     },
     {
       q: "Does insurance cover IOP?",
@@ -140,7 +135,7 @@ const data: TreatmentPageData = {
     },
     {
       q: "What therapies are offered in IOP?",
-      a: "Northbound's IOP includes individual therapy, group counseling, DBT skills groups, trauma-focused therapy, psychoeducation, 12-step engagement, psychiatric services as needed, drug testing, case management, and access to signature programs (Collegebound®, Careerbound®, LINKS, family program).",
+      a: "Northbound's IOP includes individual therapy, group counseling, DBT skills groups, trauma-focused therapy, psychoeducation, 12-step engagement, psychiatric services as needed, drug testing, case management, and access to signature programs such as LINKS and the family program where clinically appropriate.",
     },
     {
       q: "What happens after IOP is complete?",

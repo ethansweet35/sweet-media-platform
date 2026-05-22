@@ -1,16 +1,12 @@
 import type { ReactNode } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { SIGNATURE_IMAGES } from "../assets";
+import { SIGNATURE_IMAGES, SIGNATURE_PAGE_IMAGES } from "../assets";
 import { AutoLinkedText } from "@sweetmedia/blog-core";
 
 /**
- * Signature Services — espresso bg, 6-tile editorial grid using a 12-column
- * grid with mixed widths to create a magazine-style layout. Per Figma
- * SignatureServices.tsx.
- *
- * Tailwind v4 cannot resolve `text-${badgeColor}` dynamically, so each tile
- * carries explicit literal class strings.
+ * Signature Services — navy section with a balanced 3+2 grid on desktop:
+ * three equal tiles on row one, two wider tiles on row two (no orphan gap).
  */
 
 type Tile = {
@@ -22,12 +18,8 @@ type Tile = {
   image: string;
   alt: string;
   href?: string;
-  /** column-span class (applies on md+) */
-  span: string;
-  /** card height */
-  height: string;
-  /** larger headline class for the wider tiles */
-  headline: string;
+  /** "third" = 1/3 width on md+; "half" = 1/2 width on md+ */
+  layout: "third" | "half";
 };
 
 const TILES: Tile[] = [
@@ -40,36 +32,8 @@ const TILES: Tile[] = [
     description:
       "Rebuilding confidence, resilience, and trust through guided outdoor challenges, hiking, and deep nature connection in the California landscape.",
     image: SIGNATURE_IMAGES.adventureTherapy,
-    alt: "Northbound clients hiking a Southern California coastal trail at golden hour as part of adventure therapy.",
-    span: "md:col-span-8",
-    height: "h-[400px]",
-    headline: "text-3xl",
-  },
-  {
-    title: "Sound Bath Healing",
-    badge: "Holistic",
-    badgeText: "text-sand-light",
-    badgeBar: "bg-sand-dark",
-    description:
-      "Utilizing vibrational frequencies to guide the mind into deep meditative states, drastically reducing clinical anxiety.",
-    image: SIGNATURE_IMAGES.soundBath,
-    alt: "Bronze and crystal singing bowls arranged for a sound bath session at Northbound.",
-    span: "md:col-span-4",
-    height: "h-[400px]",
-    headline: "text-2xl",
-  },
-  {
-    title: "Art Therapy",
-    badge: "Expressive",
-    badgeText: "text-terracotta",
-    badgeBar: "bg-terracotta",
-    description:
-      "A non-verbal outlet allowing clients to safely process complex emotions and trauma through painting and creative design.",
-    image: SIGNATURE_IMAGES.artTherapy,
-    alt: "Half-finished abstract painting on an easel inside Northbound's warm sunlit art therapy studio.",
-    span: "md:col-span-5",
-    height: "h-[400px]",
-    headline: "text-2xl",
+    alt: "Outdoor meditation circle with Adirondack seating at The Grove during adventure therapy.",
+    layout: "third",
   },
   {
     title: "Wolf Assisted Therapy",
@@ -80,25 +44,111 @@ const TILES: Tile[] = [
     description:
       "A profound experiential therapy utilizing the highly intuitive pack-nature of wolves to mirror emotions, build boundaries, and address deep-seated trauma safely.",
     image: SIGNATURE_IMAGES.wolfTherapy,
-    alt: "Calm gray timber wolf in a sunlit forest clearing during a Northbound wolf-assisted therapy session.",
-    span: "md:col-span-7",
-    height: "h-[400px]",
-    headline: "text-3xl",
+    alt: "Wolf ambassador during a supervised wolf-assisted therapy session at Northbound.",
+    layout: "third",
   },
   {
-    title: "Mindfulness & Somatic Yoga",
+    title: "Spiritual Track",
+    badge: "Holistic",
+    badgeText: "text-sand-light",
+    badgeBar: "bg-sand-dark",
+    href: "/spiritual-track/",
+    description:
+      "Sound therapy, breathwork, meditation, and somatic yoga at our Garden Grove campus — integrated practices that regulate the nervous system and support lasting recovery.",
+    image: SIGNATURE_PAGE_IMAGES.spiritualWellness,
+    alt: "Outdoor meditation circle on the lawn at Northbound's Garden Grove campus.",
+    layout: "third",
+  },
+  {
+    title: "Art Therapy",
+    badge: "Expressive",
+    badgeText: "text-terracotta",
+    badgeBar: "bg-terracotta",
+    description:
+      "A non-verbal outlet allowing clients to safely process complex emotions and trauma through painting and creative design.",
+    image: SIGNATURE_IMAGES.artTherapy,
+    alt: "Commons area at The Grove with GROVE marquee sign — expressive arts and community spaces.",
+    layout: "half",
+  },
+  {
+    title: "Sound Bath Healing",
     badge: "Holistic",
     badgeText: "text-sand-light",
     badgeBar: "bg-sand-dark",
     description:
-      "Integrating breathwork and physical movement to reconnect the mind and body, establishing a foundation for emotional regulation.",
-    image: SIGNATURE_IMAGES.yoga,
-    alt: "Sage green yoga mat unrolled on warm wood floor in Northbound's mindfulness and somatic yoga studio.",
-    span: "md:col-span-6",
-    height: "h-[350px]",
-    headline: "text-2xl",
+      "Utilizing vibrational frequencies to guide the mind into deep meditative states, drastically reducing clinical anxiety.",
+    image: SIGNATURE_IMAGES.soundBath,
+    alt: "Calming lounge with meditation décor at The Grove — sound and mindfulness programming.",
+    layout: "half",
   },
 ];
+
+const LAYOUT_CLASS: Record<Tile["layout"], string> = {
+  third: "md:col-span-2",
+  half: "md:col-span-3",
+};
+
+function ServiceTile({ tile }: { tile: Tile }) {
+  const layoutClass = LAYOUT_CLASS[tile.layout];
+  const cardClass = `group relative h-[360px] overflow-hidden border border-white/10 bg-navy md:h-[400px] ${layoutClass}`;
+
+  const content = (
+    <>
+      <Image
+        src={tile.image}
+        alt={tile.alt}
+        fill
+        sizes={
+          tile.layout === "half"
+            ? "(min-width: 768px) 50vw, 100vw"
+            : "(min-width: 768px) 33vw, 100vw"
+        }
+        className="object-cover opacity-85 transition-transform duration-700 group-hover:scale-105"
+      />
+      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-[58%] bg-gradient-to-t from-navy/80 via-navy/25 to-transparent"></div>
+      <div className="absolute bottom-0 left-0 w-full p-6 md:p-8">
+        <div className="mb-3 flex items-center gap-4">
+          <span className={`h-px w-8 ${tile.badgeBar}`}></span>
+          <span
+            className={`text-xs font-bold uppercase tracking-[0.22em] ${tile.badgeText}`}
+          >
+            {tile.badge}
+          </span>
+        </div>
+        <h3
+          className={`mb-3 font-serif text-sand-light ${
+            tile.layout === "half" ? "text-3xl" : "text-2xl md:text-3xl"
+          }`}
+        >
+          {tile.title}
+        </h3>
+        <p
+          className={`text-sm font-light text-white/70 ${
+            tile.layout === "half" ? "max-w-xl" : "max-w-sm"
+          }`}
+        >
+          <AutoLinkedText>{tile.description}</AutoLinkedText>
+        </p>
+        {tile.href ? (
+          <span className="mt-4 inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[0.22em] text-terracotta opacity-0 transition-all duration-300 group-hover:opacity-100 group-hover:gap-3">
+            Learn More
+            <span aria-hidden="true">&rarr;</span>
+          </span>
+        ) : null}
+      </div>
+    </>
+  );
+
+  if (tile.href) {
+    return (
+      <Link href={tile.href} className={cardClass}>
+        {content}
+      </Link>
+    );
+  }
+
+  return <div className={cardClass}>{content}</div>;
+}
 
 export default function SignatureServices() {
   return (
@@ -109,8 +159,7 @@ export default function SignatureServices() {
       <div
         className="absolute inset-0 z-0 opacity-[0.03]"
         style={{
-          backgroundImage:
-            "radial-gradient(#F4EFE6 2px, transparent 2px)",
+          backgroundImage: "radial-gradient(#F4EFE6 2px, transparent 2px)",
           backgroundSize: "30px 30px",
         }}
       ></div>
@@ -125,7 +174,11 @@ export default function SignatureServices() {
               Signature Services.
             </h2>
             <p className="font-light leading-relaxed text-white/60">
-              <AutoLinkedText>{"Because no two paths to recovery are identical, we offer unique,\n              highly specialized therapeutic modalities. We integrate\n              progressive holistic and experiential methods to help you\n              reconnect your mind, body, and spirit."}</AutoLinkedText>
+              <AutoLinkedText>
+                {
+                  "Because no two paths to recovery are identical, we offer unique,\n              highly specialized therapeutic modalities. We integrate\n              progressive holistic and experiential methods to help you\n              reconnect your mind, body, and spirit."
+                }
+              </AutoLinkedText>
             </p>
           </div>
           <div className="flex-shrink-0 pb-2">
@@ -135,63 +188,18 @@ export default function SignatureServices() {
           </div>
         </div>
 
-        <div className="grid grid-cols-1 gap-6 md:grid-cols-12">
-          {TILES.map((tile) => {
-            const Wrapper = tile.href
-              ? ({ children }: { children: ReactNode }) => (
-                  <Link href={tile.href!} className={`group relative overflow-hidden border border-white/10 bg-navy ${tile.span} ${tile.height}`}>
-                    {children}
-                  </Link>
-                )
-              : ({ children }: { children: ReactNode }) => (
-                  <div className={`group relative overflow-hidden border border-white/10 bg-navy ${tile.span} ${tile.height}`}>
-                    {children}
-                  </div>
-                );
-            return (
-            <Wrapper key={tile.title}>
-              <Image
-                src={tile.image}
-                alt={tile.alt}
-                fill
-                sizes="(min-width: 1024px) 50vw, 100vw"
-                className="object-cover opacity-85 grayscale-0 transition-transform duration-700 group-hover:scale-105"
-              />
-              {/* Gradient only on lower ~55% so photography stays visible; lighter stops for readability */}
-              <div className="pointer-events-none absolute inset-x-0 bottom-0 h-[55%] bg-gradient-to-t from-navy/75 via-navy/20 to-transparent"></div>
-              <div className="absolute bottom-0 left-0 w-full p-8">
-                <div className="mb-3 flex items-center gap-4">
-                  <span className={`h-[1px] w-8 ${tile.badgeBar}`}></span>
-                  <span
-                    className={`text-xs font-bold uppercase tracking-[0.22em] ${tile.badgeText}`}
-                  >
-                    {tile.badge}
-                  </span>
-                </div>
-                <h3
-                  className={`mb-3 font-serif text-sand-light ${tile.headline}`}
-                >
-                  {tile.title}
-                </h3>
-                <p
-                  className={`text-sm font-light text-white/70 ${
-                    tile.span === "md:col-span-8" ||
-                    tile.span === "md:col-span-7"
-                      ? "max-w-lg"
-                      : ""
-                  }`}
-                ><AutoLinkedText>{tile.description}</AutoLinkedText></p>
-              </div>
-            </Wrapper>
-            );
-          })}
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-6">
+          {TILES.map((tile) => (
+            <ServiceTile key={tile.title} tile={tile} />
+          ))}
         </div>
 
         <div className="mt-16 border-t border-white/10 pt-8 text-center">
           <p className="text-sm font-light text-white/50">
             Also offering:{" "}
             <span className="font-medium text-white">
-              Faith-Based Recovery, EMDR, Careerbound&reg; & Collegebound&reg;.
+              Faith-Based Recovery, EMDR, Careerbound&reg; & Collegebound&reg;
+              (residential only).
             </span>
           </p>
         </div>

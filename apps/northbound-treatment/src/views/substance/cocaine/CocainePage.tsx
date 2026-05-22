@@ -72,7 +72,7 @@ const data: SubstancePageData = {
       phase: "Ongoing",
       title: "Aftercare & Alumni Network",
       icon: "ri-refresh-line",
-      body: "Cocaine cravings can resurface months after cessation. Northbound's alumni community, continued case management, and specialized programs — Collegebound® and Careerbound® — provide the long-term structure and community that support lasting sobriety.",
+      body: "Cocaine cravings can resurface months after cessation. Northbound's alumni community and continued case management provide the long-term structure and community that support lasting sobriety.",
     },
   ],
 

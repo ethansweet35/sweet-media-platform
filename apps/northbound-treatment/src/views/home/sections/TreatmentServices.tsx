@@ -1,9 +1,9 @@
 import Link from "next/link";
 import { AutoLinkedText } from "@sweetmedia/blog-core";
 /**
- * Treatment Services — 6 program cards in a 3-col grid on desktop. Sand bg
+ * Treatment Services — 6 program cards in a 3×2 grid on desktop. Sand bg
  * with a giant ghost number behind each card and a terracotta bottom-bar
- * reveal on hover. Per Figma TreatmentServices.tsx.
+ * reveal on hover. Matches Levels of Care in primary nav.
  */
 const SERVICES = [
   {
@@ -60,15 +60,28 @@ const SERVICES = [
   },
   {
     number: "05",
-    badge: "Long-Term Success",
-    title: "Aftercare Support",
-    href: "/programs/aftercare/",
+    badge: "Integrated Care",
+    title: "Dual Diagnosis",
+    href: "/treatment/dual-diagnosis/",
     description:
-      "Recovery is a lifelong journey. Our comprehensive aftercare and alumni programs provide a continuous support system to help you maintain long-term health and sobriety.",
+      "Addiction and mental illness rarely travel alone. We treat substance use and co-occurring disorders simultaneously — because addressing one without the other is not treatment, it's postponement.",
     features: [
-      "Ongoing alumni events and groups",
-      "Relapse prevention planning",
-      "Continued access to recovery resources",
+      "Psychiatric evaluation and ongoing psychiatric care",
+      "Coordinated therapist, case manager, and medical team",
+      "Evidence-based therapies matched to each client's needs",
+    ],
+  },
+  {
+    number: "06",
+    badge: "Holistic & Experiential",
+    title: "Signature Services",
+    href: "/#services",
+    description:
+      "Because no two paths to recovery are identical, we offer specialized therapeutic modalities — adventure therapy, wolf-assisted therapy, spiritual track, and more — to reconnect mind, body, and spirit.",
+    features: [
+      "Adventure therapy and experiential outdoor programming",
+      "Wolf-assisted therapy and expressive arts",
+      "Spiritual track with meditation, breathwork, and yoga",
     ],
   },
 ] as const;

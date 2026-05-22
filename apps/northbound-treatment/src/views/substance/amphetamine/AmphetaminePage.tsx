@@ -72,7 +72,7 @@ const data: SubstancePageData = {
       phase: "Ongoing",
       title: "Aftercare & Alumni Support",
       icon: "ri-refresh-line",
-      body: "Amphetamine cravings and anhedonia can resurface months after cessation. Northbound's aftercare program provides ongoing psychiatric monitoring, alumni community accountability, and Collegebound® and Careerbound® tracks for rebuilding educational and professional trajectories.",
+      body: "Amphetamine cravings and anhedonia can resurface months after cessation. Northbound's aftercare program provides ongoing psychiatric monitoring and alumni community accountability.",
     },
   ],
 
@@ -90,7 +90,7 @@ const data: SubstancePageData = {
     {
       icon: "ri-graduation-cap-line",
       title: "Collegebound® & Careerbound® Programs",
-      body: "Amphetamine addiction disproportionately affects students and high-achieving professionals. Northbound's specialized programs address the unique pressures and trajectories that drive stimulant use in these populations.",
+      body: "Amphetamine addiction disproportionately affects students and high-achieving professionals. Collegebound® and Careerbound® — available exclusively during residential treatment — address the unique pressures and trajectories that drive stimulant use in these populations.",
     },
     {
       icon: "ri-refresh-line",

@@ -72,7 +72,7 @@ const data: SubstancePageData = {
       phase: "Ongoing",
       title: "Aftercare & Alumni Support",
       icon: "ri-refresh-line",
-      body: "OxyContin cravings and post-acute withdrawal symptoms can persist long after detox. Northbound's aftercare program includes ongoing psychiatric care, community accountability, and access to specialized tracks — Careerbound® and Collegebound® — for rebuilding life after addiction.",
+      body: "OxyContin cravings and post-acute withdrawal symptoms can persist long after detox. Northbound's aftercare program includes ongoing psychiatric care, community accountability, and alumni support for rebuilding life after addiction.",
     },
   ],
 

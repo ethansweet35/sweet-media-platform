@@ -1,7 +1,7 @@
 import TreatmentPageTemplate, { type TreatmentPageData } from "@/views/shared/TreatmentPageTemplate";
+import { SERVICE_IMAGES } from "@/views/home/assets";
 
-const HERO =
-  "https://ahufsygjwpbymomfdazb.supabase.co/storage/v1/object/public/site-assets/images/nbt_interventions_hero01.jpg";
+const HERO = SERVICE_IMAGES.supportGroup;
 
 const data: TreatmentPageData = {
   /* ── Hero ─────────────────────────────────────────────────── */

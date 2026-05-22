@@ -1,10 +1,9 @@
 import SignaturePageTemplate, { type SignaturePageData } from "@/views/shared/SignaturePageTemplate";
-
-const BASE = "https://ahufsygjwpbymomfdazb.supabase.co/storage/v1/object/public/site-assets/images";
+import { SERVICE_IMAGES, SIGNATURE_PAGE_IMAGES } from "@/views/home/assets";
 
 const data: SignaturePageData = {
-  heroImage: `${BASE}/nbt_family_hero01.jpg`,
-  heroImageAlt: "Family group session at Northbound Treatment — parents and adult children reconnecting in a warm therapy circle",
+  heroImage: SIGNATURE_PAGE_IMAGES.familyHero,
+  heroImageAlt: "Support group at The Grove — families healing together in Northbound's Family Program",
   serviceName: "Family Therapy Program",
   heroItalicWord: "Family",
   heroBody:
@@ -30,8 +29,8 @@ const data: SignaturePageData = {
     "Al-Anon step work integrated into the program structure",
     "Ongoing family counseling and updates with the primary clinician",
   ],
-  whatItIsImage: `${BASE}/nbt_family_session01.jpg`,
-  whatItIsImageAlt: "Family member speaking openly during a therapy session at Northbound's Family Program",
+  whatItIsImage: SERVICE_IMAGES.mindfulnessCircle,
+  whatItIsImageAlt: "Mindfulness circle at The Grove — families reconnecting through Northbound's Family Program",
   whatItIsFloatingHeadline: "At No Additional\nCost to Family",
 
   featuresEyebrow: "Program Elements",
@@ -45,8 +44,8 @@ const data: SignaturePageData = {
       focus: "Education & Foundation",
       description:
         "A foundational session introducing family members to the disease model of addiction, the impact on family systems, and the principles that guide Northbound's approach to recovery.",
-      image: `${BASE}/nbt_family_walk01.jpg`,
-      imageAlt: "Family walking together along the California coast — reconnecting through Northbound's program",
+      image: SERVICE_IMAGES.outdoorCircle,
+      imageAlt: "Outdoor reflection circle at The Grove — families building connection at Northbound",
       tag: "Day 1 Session",
       tagIcon: "ri-book-open-line",
     },
@@ -145,8 +144,8 @@ const data: SignaturePageData = {
   closingQuote:
     "Our family here at Northbound is committed to providing families impacted by addiction with the tools to guide them along their recovery journey — leaving no stone unturned.",
   closingQuoteAttribution: "Northbound Treatment Services",
-  closingImage: `${BASE}/nbt_family_walk01.jpg`,
-  closingImageAlt: "Family walking together along the California coast — the journey of reconnection at Northbound",
+  closingImage: SERVICE_IMAGES.supportGroup,
+  closingImageAlt: "Support group at The Grove — families healing together at Northbound",
   closingPrimaryCta: { label: "Start the Admissions Process", href: "/admissions/" },
   closingSecondaryCta: { label: "Call (866) 311-0003", href: "tel:8663110003" },
 
@@ -158,7 +157,7 @@ const data: SignaturePageData = {
 
   ctaHeadline: "Your Family's Healing Starts Here",
   ctaBody:
-    "Northbound's Family Program is available monthly at no cost to family members. Call our admissions team 24/7 to ask about upcoming program dates.",
+    "Northbound's Family Program is offered monthly at no additional cost to family members. Call our admissions team 24/7 to learn how your family can participate.",
 };
 
 export default function FamilyPage() {

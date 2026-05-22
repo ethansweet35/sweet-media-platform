@@ -76,7 +76,7 @@ const data: SubstancePageData = {
       phase: "Ongoing",
       title: "Aftercare & Alumni",
       icon: "ri-refresh-line",
-      body: "Long-term meth recovery requires long-term support. Northbound's aftercare and alumni program provides ongoing community and accountability. Careerbound® and Collegebound® programs help clients rebuild their professional and educational lives — disrupted by meth addiction — while in treatment.",
+      body: "Long-term meth recovery requires long-term support. Northbound's aftercare and alumni program provides ongoing community and accountability.",
     },
   ],
 
@@ -100,7 +100,7 @@ const data: SubstancePageData = {
     {
       icon: "ri-graduation-cap-line",
       title: "Collegebound® & Careerbound®",
-      body: "Meth destroys careers, education, and productive life trajectories. Northbound's specialized programs help clients rebuild their professional and academic goals while in treatment — providing structure, motivation, and accountability alongside clinical care.",
+      body: "Meth destroys careers, education, and productive life trajectories. Collegebound® and Careerbound® — available exclusively during residential treatment — help clients rebuild professional and academic goals with structure, motivation, and accountability alongside clinical care.",
     },
     {
       icon: "ri-family-line",

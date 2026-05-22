@@ -1,17 +1,17 @@
 import Image from "next/image";
 import { heroBottomPad, heroCinematicSection, heroTopPad } from "@/lib/heroSpacing";
 import Link from "next/link";
+import {
+  SIGNATURE_PAGE_IMAGES,
+} from "@/views/home/assets";
 import CtaBanner from "@/views/shared/CtaBanner";
 import { AutoLinkedText } from "@sweetmedia/blog-core";
 
-const BASE =
-  "https://ahufsygjwpbymomfdazb.supabase.co/storage/v1/object/public/site-assets/images";
-
 const IMAGES = {
-  hero: `${BASE}/nbt_adventure_hero01.jpg`,
-  canyon: `${BASE}/nbt_adventure_canyon01.jpg`,
-  garden: `${BASE}/nbt_adventure_garden01.jpg`,
-  art: `${BASE}/nbt_adventure_art01.jpg`,
+  hero: SIGNATURE_PAGE_IMAGES.adventureHero,
+  canyon: SIGNATURE_PAGE_IMAGES.adventureCanyon,
+  garden: SIGNATURE_PAGE_IMAGES.adventureGarden,
+  art: SIGNATURE_PAGE_IMAGES.adventureArt,
 };
 
 /* ─── Types ────────────────────────────────────────────────────────────── */
@@ -35,7 +35,7 @@ const EXPERIENCES: Experience[] = [
     description:
       "Engage with contemporary art to explore authenticity, self-expression, and the creative voice that addiction often silences.",
     image: IMAGES.art,
-    imageAlt: "Group exploring contemporary art at the Orange County Modern Art Museum",
+    imageAlt: "Commons area at The Grove with GROVE marquee sign",
     tag: "Art & Identity",
     tagIcon: "ri-palette-line",
     dark: false,
@@ -46,7 +46,7 @@ const EXPERIENCES: Experience[] = [
     description:
       "Navigate intrusive thoughts amidst the open trails of Peters Canyon — learning to anchor in the present moment.",
     image: IMAGES.canyon,
-    imageAlt: "Group hiking through Peters Canyon, California",
+    imageAlt: "Outdoor reflection space at The Grove at dusk",
     tag: "Nature & Grounding",
     tagIcon: "ri-leaf-line",
     dark: false,
@@ -57,7 +57,7 @@ const EXPERIENCES: Experience[] = [
     description:
       "Embrace meditation techniques in the serene, intentional beauty of a Japanese garden — quieting the mind and building emotional resilience.",
     image: IMAGES.garden,
-    imageAlt: "Person meditating at a serene Japanese garden with koi pond",
+    imageAlt: "Clients in guided outdoor meditation on the lawn at The Grove",
     tag: "Stillness & Breath",
     tagIcon: "ri-mental-health-line",
     dark: false,
@@ -157,7 +157,7 @@ export default function AdventurePage() {
         <div className="absolute inset-0">
           <Image
             src={IMAGES.hero}
-            alt="Group walking along a California ridge trail at golden sunset during adventure therapy"
+            alt="Outdoor meditation circle with Adirondack seating at The Grove during adventure therapy"
             fill
             className="object-cover object-center"
             priority
@@ -247,7 +247,7 @@ export default function AdventurePage() {
               <div className="relative aspect-[4/5] overflow-hidden">
                 <Image
                   src={IMAGES.canyon}
-                  alt="Group hiking through Peters Canyon during adventure therapy"
+                  alt="Outdoor reflection space at The Grove — shaded lawn with group seating"
                   fill
                   className="object-cover"
                   sizes="(max-width: 1024px) 100vw, 50vw"
@@ -444,7 +444,7 @@ export default function AdventurePage() {
               <div className="relative aspect-[4/5] overflow-hidden">
                 <Image
                   src={IMAGES.garden}
-                  alt="Person in peaceful meditation at the Japanese garden during adventure therapy"
+                  alt="Clients in guided outdoor meditation on the lawn at The Grove"
                   fill
                   className="object-cover"
                   sizes="(max-width: 1024px) 100vw, 50vw"

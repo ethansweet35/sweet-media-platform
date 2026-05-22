@@ -76,7 +76,7 @@ const PROGRAMS = [
   { icon: "ri-wifi-line", label: "Virtual IOP (HomeBound) — California" },
   { icon: "ri-brain-line", label: "Dual Diagnosis / Co-Occurring Disorders" },
   { icon: "ri-family-line", label: "Family Therapy & Education" },
-  { icon: "ri-graduation-cap-line", label: "Collegebound® & Careerbound® Programs" },
+  { icon: "ri-graduation-cap-line", label: "Collegebound® & Careerbound® (Residential)" },
 ];
 
 /* ─── Page ─────────────────────────────────────────────────── */
@@ -182,7 +182,7 @@ export default function ReferralsPage() {
                 <AutoLinkedText>{"We provide a full continuum of care so you can refer patients at any stage\n                of their journey. From acute medically supervised detox to outpatient\n                alumni support, we have a clinically appropriate placement for virtually\n                every presentation."}</AutoLinkedText>
               </p>
               <p className="mt-4 text-base leading-relaxed text-espresso/70">
-                <AutoLinkedText>{"We specialize in complex dual-diagnosis cases, co-occurring trauma,\n                young adults (Collegebound® and Careerbound®), veterans, and clients\n                with high treatment resistance."}</AutoLinkedText>
+                <AutoLinkedText>{"We specialize in complex dual-diagnosis cases, co-occurring trauma,\n                young adults in residential (Collegebound® and Careerbound®), and clients\n                with high treatment resistance."}</AutoLinkedText>
               </p>
               <a
                 href="tel:8663110003"

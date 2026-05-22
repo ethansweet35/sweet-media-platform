@@ -100,7 +100,7 @@ const data: SubstancePageData = {
     {
       icon: "ri-graduation-cap-line",
       title: "Collegebound® for Young Adults",
-      body: "Many marijuana-dependent clients are young adults whose educational trajectories have been disrupted. Northbound's Collegebound® program helps them pursue academic goals while in treatment — addressing two of the most common consequences of cannabis dependency at once.",
+      body: "Many marijuana-dependent clients are young adults whose educational trajectories have been disrupted. Collegebound® and Careerbound® — available exclusively during residential treatment at Garden Grove — help them pursue academic and career goals while in the residential program.",
     },
     {
       icon: "ri-family-line",
@@ -155,7 +155,7 @@ const data: SubstancePageData = {
     {
       question: "Is Northbound able to help a young adult with marijuana addiction?",
       answer:
-        "Northbound specializes in helping young adults. Our Collegebound® and Careerbound® programs specifically help young adults pursue education or career goals while in treatment — addressing two of the most common areas disrupted by cannabis dependency in this age group. One-third of our staff are alumni who understand the specific challenges young adults face in recovery.",
+        "Northbound specializes in helping young adults. Collegebound® and Careerbound® — available exclusively during residential treatment — help young adults pursue education or career goals while in the residential program. One-third of our staff are alumni who understand the specific challenges young adults face in recovery.",
     },
   ],
 

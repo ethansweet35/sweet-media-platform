@@ -44,7 +44,7 @@ const STEPS: Array<{
     description:
       "Our detox services give clients a safe, medically supervised start to recovery. This phase focuses on stabilizing the body, reducing cravings, and preparing each individual to transition smoothly into residential care utilizing Medication-Assisted Treatment (MAT).",
     image: PROCESS_IMAGES.feelBetter,
-    alt: "Calm sun-drenched detox bedroom in a Northbound Southern California treatment center, prepared for a new client.",
+    alt: "Private residential bedroom at The Grove — Northbound's Garden Grove campus, prepared for a comfortable start to recovery.",
     tone: {
       label: "text-terracotta",
       ring: "border-terracotta/30",
@@ -63,7 +63,7 @@ const STEPS: Array<{
     description:
       "In our residential, PHP, and IOP programs, clients begin the deeper therapeutic work. We address underlying trauma, build coping tools, repair emotional health, and develop the foundation needed for personal insight and sustainable habits.",
     image: PROCESS_IMAGES.discoverYourself,
-    alt: "Quiet one-on-one therapy room with mid-century lounge chairs and warm afternoon light at Northbound.",
+    alt: "Clients in a guided outdoor mindfulness circle at The Grove — deeper therapeutic work on Northbound's Garden Grove campus.",
     tone: {
       label: "text-navy",
       ring: "border-navy/30",
@@ -81,7 +81,7 @@ const STEPS: Array<{
     description:
       "Through aftercare and alumni support, clients receive ongoing structure and accountability. Our team provides relapse-prevention planning and lifelong recovery resources to maintain momentum long after treatment ends.",
     image: PROCESS_IMAGES.liveFree,
-    alt: "Northbound alumni walking together along a coastal path at golden hour, embodying long-term recovery.",
+    alt: "Outdoor reflection space at The Grove — shaded lawn and group seating at dusk on Northbound's Garden Grove campus.",
     tone: {
       label: "text-espresso",
       ring: "border-espresso/30",

@@ -76,7 +76,7 @@ const data: SubstancePageData = {
       phase: "Ongoing",
       title: "Aftercare & Alumni",
       icon: "ri-refresh-line",
-      body: "Northbound's aftercare and alumni program provides the long-term community, accountability, and support that sustain sobriety beyond treatment. Clients also have access to Collegebound® and Careerbound® programs — helping them rebuild educational and professional trajectories disrupted by addiction.",
+      body: "Northbound's aftercare and alumni program provides the long-term community, accountability, and support that sustain sobriety beyond treatment.",
     },
   ],
 
@@ -95,7 +95,7 @@ const data: SubstancePageData = {
     {
       icon: "ri-graduation-cap-line",
       title: "Collegebound® & Careerbound®",
-      body: "Many Adderall-dependent clients are students or young professionals whose education or careers have been disrupted. Northbound's programs help them get back on track — academically and professionally — while in treatment.",
+      body: "Many Adderall-dependent clients are students or young professionals whose education or careers have been disrupted. Collegebound® and Careerbound® — available exclusively during residential treatment — help them get back on track academically and professionally while in the residential program.",
     },
     {
       icon: "ri-shield-check-line",
@@ -155,7 +155,7 @@ const data: SubstancePageData = {
     {
       question: "Can I continue school or work during outpatient treatment?",
       answer:
-        "Many clients do continue educational or professional commitments during virtual IOP (HomeBound). Northbound's Collegebound® program is specifically designed to help clients pursue education while in treatment, with academic advising and accountability built in.",
+        "Many clients do continue educational or professional commitments during virtual IOP (HomeBound). Collegebound® and Careerbound® are available only during residential treatment — not in IOP or outpatient care.",
     },
   ],
 

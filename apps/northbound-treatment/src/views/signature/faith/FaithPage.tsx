@@ -1,10 +1,9 @@
 import SignaturePageTemplate, { type SignaturePageData } from "@/views/shared/SignaturePageTemplate";
-
-const BASE = "https://ahufsygjwpbymomfdazb.supabase.co/storage/v1/object/public/site-assets/images";
+import { GARDEN_GROVE_IMAGES, SERVICE_IMAGES } from "@/views/home/assets";
 
 const data: SignaturePageData = {
-  heroImage: `${BASE}/nbt_faith_hero01.jpg`,
-  heroImageAlt: "Person in quiet prayer inside a chapel with stained glass light — faith as a foundation for recovery",
+  heroImage: SERVICE_IMAGES.campusExterior,
+  heroImageAlt: "The Grove campus exterior — Northbound's faith-based LINKS residential program in Orange County",
   serviceName: "Faith-Based Recovery",
   heroItalicWord: "Faith-Based",
   heroBody:
@@ -27,11 +26,11 @@ const data: SignaturePageData = {
     "Weekly local church attendance with clinical support",
     "LINKS name reflects the bridge between addiction medicine and Christianity",
     "Gender-specific residential program in Orange County, CA",
-    "Access to all Northbound Signature Services, including Collegebound® and Careerbound®",
+    "Collegebound® and Careerbound® during residential treatment",
     "Interdisciplinary treatment team including Masters-prepared trauma therapist and music therapist",
   ],
-  whatItIsImage: `${BASE}/nbt_faith_group01.jpg`,
-  whatItIsImageAlt: "Faith-based recovery group on the California coastline during Northbound's LINKS program",
+  whatItIsImage: SERVICE_IMAGES.mindfulnessCircle,
+  whatItIsImageAlt: "Mindfulness circle at The Grove — faith and reflection in Northbound's LINKS program",
   whatItIsFloatingHeadline: "Where Recovery\nMeets Redemption",
 
   featuresEyebrow: "Program Elements",
@@ -45,8 +44,8 @@ const data: SignaturePageData = {
       focus: "Faith-Integrated Therapy",
       description:
         "All participants engage in counseling, with LINKS placing particular emphasis on Christ-centered approaches — exploring how faith can be a source of strength in problem-solving, forgiveness, and working through challenges.",
-      image: `${BASE}/nbt_faith_hero01.jpg`,
-      imageAlt: "Quiet moment of prayer and reflection in the LINKS faith-based recovery program at Northbound",
+      image: SERVICE_IMAGES.supportGroup,
+      imageAlt: "Support group at The Grove — fellowship and reflection in the LINKS program",
       tag: "Core Element",
       tagIcon: "ri-heart-2-line",
     },
@@ -74,7 +73,7 @@ const data: SignaturePageData = {
       title: "Collegebound® & Careerbound®",
       focus: "Education & Career Reintegration",
       description:
-        "LINKS participants have full access to Northbound's signature programs — including Collegebound® for educational reintegration and Careerbound® for career building — all within the recovery environment.",
+        "LINKS participants in residential treatment have access to Collegebound® for educational reintegration and Careerbound® for career building — both available exclusively during the residential program at Garden Grove.",
       image: null,
       tag: "Signature Programs",
       tagIcon: "ri-graduation-cap-line",
@@ -145,8 +144,8 @@ const data: SignaturePageData = {
   closingQuote:
     "Recovering alongside a close-knit community of individuals engaging in parallel religious and recovery development provides rich and lasting fellowship.",
   closingQuoteAttribution: "Northbound Treatment Services",
-  closingImage: `${BASE}/nbt_faith_walk01.jpg`,
-  closingImageAlt: "Two individuals walking through a California garden together — fellowship and new beginnings in the LINKS program",
+  closingImage: GARDEN_GROVE_IMAGES.exterior,
+  closingImageAlt: "The Grove — Northbound's Garden Grove residential campus in Orange County",
   closingPrimaryCta: { label: "Start the Admissions Process", href: "/admissions/" },
   closingSecondaryCta: { label: "Call (866) 311-0003", href: "tel:8663110003" },
 
@@ -158,7 +157,7 @@ const data: SignaturePageData = {
 
   ctaHeadline: "Ready to Begin the LINKS Journey?",
   ctaBody:
-    "Our admissions team is available 24/7 to answer your questions about the LINKS program, verify your insurance, and help you take the first step.",
+    "Northbound's LINKS program integrates Christ-centered care with evidence-based addiction treatment. Call our admissions team 24/7 to learn more.",
 };
 
 export default function FaithPage() {

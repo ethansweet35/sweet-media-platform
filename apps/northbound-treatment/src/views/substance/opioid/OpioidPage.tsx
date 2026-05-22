@@ -76,7 +76,7 @@ const data: SubstancePageData = {
       phase: "Ongoing",
       title: "Aftercare & Alumni",
       icon: "ri-refresh-line",
-      body: "Northbound's alumni program provides the lifelong community, accountability, and support events that sustain long-term opioid recovery. Careerbound® and Collegebound® programs help clients rebuild the trajectories — professional and educational — that opioid addiction disrupted.",
+      body: "Northbound's alumni program provides the lifelong community, accountability, and support events that sustain long-term opioid recovery.",
     },
   ],
 

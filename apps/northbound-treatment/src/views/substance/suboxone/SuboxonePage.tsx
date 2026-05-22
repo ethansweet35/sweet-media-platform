@@ -100,7 +100,7 @@ const data: SubstancePageData = {
     {
       icon: "ri-graduation-cap-line",
       title: "Collegebound® & Careerbound®",
-      body: "Many clients coming off Suboxone are in the process of rebuilding educational or professional trajectories disrupted by years of opiate dependency. Northbound's specialized programs provide academic advising and career support alongside clinical care.",
+      body: "Many clients coming off Suboxone are in the process of rebuilding educational or professional trajectories disrupted by years of opiate dependency. Collegebound® and Careerbound® — available exclusively during residential treatment — provide academic advising and career support alongside clinical care.",
     },
     {
       icon: "ri-leaf-line",

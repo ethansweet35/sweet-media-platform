@@ -77,7 +77,7 @@ const LOCATIONS = [
     features: [
       "Somatic Yoga Studio",
       "Outdoor Therapy Lounges",
-      "Careerbound® Resource Center",
+      "Regional Outreach & Virtual IOP",
     ],
     href: "/locations/california/san-diego/",
     badge: TONES.terracotta,

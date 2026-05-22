@@ -10,31 +10,51 @@ export const NB_LOGO = `${SUPABASE_BASE}/logos/northbound-logo.png`;
 
 export const HERO_BG = `${SUPABASE_BASE}/images/nbt_hero_bg01.jpg`;
 
+/** Real Grove campus photography for the homepage three-step process timeline. */
 export const PROCESS_IMAGES = {
-  feelBetter: `${SUPABASE_BASE}/images/nbt_process_step01_feel-better_v2.jpg`,
-  discoverYourself: `${SUPABASE_BASE}/images/nbt_process_step02_discover-yourself.jpg`,
-  liveFree: `${SUPABASE_BASE}/images/nbt_process_step03_live-free.jpg`,
+  feelBetter: `${SUPABASE_BASE}/images/facility/grove/6.webp`,
+  discoverYourself: `${SUPABASE_BASE}/images/facility/grove/carousel-06.jpg`,
+  liveFree: `${SUPABASE_BASE}/images/facility/grove/carousel-04.webp`,
 } as const;
 
 export const SIGNATURE_IMAGES = {
-  adventureTherapy: `${SUPABASE_BASE}/images/nbt_signature_adventure-therapy.jpg`,
-  soundBath: `${SUPABASE_BASE}/images/nbt_signature_sound-bath.jpg`,
-  artTherapy: `${SUPABASE_BASE}/images/nbt_signature_art-therapy.jpg`,
-  wolfTherapy: `${SUPABASE_BASE}/images/nbt_signature_wolf-therapy.jpg`,
-  musicRecovery: `${SUPABASE_BASE}/images/nbt_signature_music-recovery.jpg`,
-  yoga: `${SUPABASE_BASE}/images/nbt_signature_yoga.jpg`,
+  adventureTherapy: `${SUPABASE_BASE}/images/facility/grove/carousel-02.webp`,
+  soundBath: `${SUPABASE_BASE}/images/facility/grove/4.webp`,
+  artTherapy: `${SUPABASE_BASE}/images/facility/grove/carousel-05.webp`,
+  wolfTherapy: `${SUPABASE_BASE}/images/facility/wolf/1.jpg`,
+  musicRecovery: `${SUPABASE_BASE}/images/facility/grove/carousel-03.webp`,
+  yoga: `${SUPABASE_BASE}/images/nbt_spiritual_wellness04.jpg`,
 } as const;
 
-export const WHY_US_IMAGE = `${SUPABASE_BASE}/images/nbt_why_us_hero.jpg`;
+export const WHY_US_IMAGE = `${SUPABASE_BASE}/images/facility/grove/carousel-01.webp`;
 
 export const SIGNATURE_PAGE_IMAGES = {
-  adventureHero: `${SUPABASE_BASE}/images/nbt_adventure_hero01.jpg`,
-  adventureGarden: `${SUPABASE_BASE}/images/nbt_adventure_garden01.jpg`,
-  adventureCanyon: `${SUPABASE_BASE}/images/nbt_adventure_canyon01.jpg`,
-  adventureArt: `${SUPABASE_BASE}/images/nbt_adventure_art01.jpg`,
-  wolfHero: `${SUPABASE_BASE}/images/nbt_wolf_hero01.jpg`,
-  musicHero: `${SUPABASE_BASE}/images/nbt_music_hero01.jpg`,
-  familyHero: `${SUPABASE_BASE}/images/nbt_family_hero01.jpg`,
+  adventureHero: `${SUPABASE_BASE}/images/facility/grove/carousel-02.webp`,
+  adventureGarden: `${SUPABASE_BASE}/images/nbt_spiritual_wellness04.jpg`,
+  adventureCanyon: `${SUPABASE_BASE}/images/facility/grove/carousel-04.webp`,
+  adventureArt: `${SUPABASE_BASE}/images/facility/grove/carousel-05.webp`,
+  spiritualHero: `${SUPABASE_BASE}/images/facility/grove/carousel-02.webp`,
+  spiritualBreathwork: `${SUPABASE_BASE}/images/facility/grove/carousel-06.jpg`,
+  spiritualWellness: `${SUPABASE_BASE}/images/nbt_spiritual_wellness04.jpg`,
+  musicHero: `${SUPABASE_BASE}/images/facility/grove/carousel-03.webp`,
+  familyHero: `${SUPABASE_BASE}/images/facility/grove/carousel-07.webp`,
+} as const;
+
+/** Real facility and program photography for Treatment Services pages (no AI-generated assets). */
+export const SERVICE_IMAGES = {
+  wolfHero: `${SUPABASE_BASE}/images/facility/wolf/1.jpg`,
+  wolfSession: `${SUPABASE_BASE}/images/facility/wolf/2.jpg`,
+  wolfEncounter: `${SUPABASE_BASE}/images/facility/wolf/3.jpg`,
+  wolfGroup: `${SUPABASE_BASE}/images/facility/wolf/4.jpg`,
+  supportGroup: `${SUPABASE_BASE}/images/facility/grove/carousel-07.webp`,
+  mindfulnessCircle: `${SUPABASE_BASE}/images/facility/grove/carousel-06.jpg`,
+  outdoorMeditation: `${SUPABASE_BASE}/images/nbt_spiritual_wellness04.jpg`,
+  campusExterior: `${SUPABASE_BASE}/images/facility/grove/carousel-01.webp`,
+  communalLounge: `${SUPABASE_BASE}/images/facility/grove/carousel-03.webp`,
+  outdoorCircle: `${SUPABASE_BASE}/images/facility/grove/carousel-02.webp`,
+  meditationLounge: `${SUPABASE_BASE}/images/facility/grove/4.webp`,
+  residentialBedroom: `${SUPABASE_BASE}/images/facility/grove/6.webp`,
+  commons: `${SUPABASE_BASE}/images/facility/grove/carousel-05.webp`,
 } as const;
 
 export const DUAL_DIAGNOSIS_IMAGES = {
@@ -109,9 +129,41 @@ export const SEATTLE_IMAGES = {
 } as const;
 
 export const GARDEN_GROVE_IMAGES = {
-  exterior: `${SUPABASE_BASE}/images/facility/grove/1.webp`,
+  exterior: `${SUPABASE_BASE}/images/facility/grove/2.webp`,
   bedroom: `${SUPABASE_BASE}/images/facility/grove/6.webp`,
   interior: `${SUPABASE_BASE}/images/facility/grove/4.webp`,
-  activities: `${SUPABASE_BASE}/images/nbt_gg_activities01_v2.jpg`,
+  activities: `${SUPABASE_BASE}/images/nbt_spiritual_wellness04.jpg`,
   community: `${SUPABASE_BASE}/images/facility/grove/12.webp`,
 } as const;
+
+/** Garden Grove intro carousel — matches live site gallery order. */
+export const GARDEN_GROVE_CAROUSEL = [
+  {
+    src: `${SUPABASE_BASE}/images/facility/grove/carousel-01.webp`,
+    alt: "The Grove campus exterior — Northbound's Garden Grove residential treatment facility",
+  },
+  {
+    src: `${SUPABASE_BASE}/images/facility/grove/carousel-02.webp`,
+    alt: "Outdoor meditation circle with Adirondack seating on The Grove campus lawn",
+  },
+  {
+    src: `${SUPABASE_BASE}/images/facility/grove/carousel-03.webp`,
+    alt: "Comfortable communal lounge at The Grove — Northbound's Garden Grove residential treatment facility",
+  },
+  {
+    src: `${SUPABASE_BASE}/images/facility/grove/carousel-04.webp`,
+    alt: "Outdoor reflection space at The Grove — shaded lawn with group seating at dusk",
+  },
+  {
+    src: `${SUPABASE_BASE}/images/facility/grove/carousel-05.webp`,
+    alt: "Commons area at The Grove with GROVE marquee sign — shared campus gathering space",
+  },
+  {
+    src: `${SUPABASE_BASE}/images/facility/grove/carousel-06.jpg`,
+    alt: "Mindfulness circle at The Grove — clients holding hands during guided outdoor meditation",
+  },
+  {
+    src: `${SUPABASE_BASE}/images/facility/grove/carousel-07.webp`,
+    alt: "Support group at The Grove — participants joined in a recovery circle",
+  },
+] as const;

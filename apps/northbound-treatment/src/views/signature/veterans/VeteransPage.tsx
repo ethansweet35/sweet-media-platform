@@ -1,10 +1,9 @@
 import SignaturePageTemplate, { type SignaturePageData } from "@/views/shared/SignaturePageTemplate";
-
-const BASE = "https://ahufsygjwpbymomfdazb.supabase.co/storage/v1/object/public/site-assets/images";
+import { GARDEN_GROVE_IMAGES, SERVICE_IMAGES } from "@/views/home/assets";
 
 const data: SignaturePageData = {
-  heroImage: `${BASE}/nbt_veterans_hero01.jpg`,
-  heroImageAlt: "Veteran in therapy session at Northbound Treatment — focused, calm, and engaged in recovery",
+  heroImage: SERVICE_IMAGES.campusExterior,
+  heroImageAlt: "The Grove campus — Northbound's Veterans Track program in Orange County",
   serviceName: "Veterans Track Program",
   heroItalicWord: "Veterans",
   heroBody:
@@ -30,8 +29,8 @@ const data: SignaturePageData = {
     "Readjustment and civilian reintegration support",
     "Dedicated aftercare and alumni community connection",
   ],
-  whatItIsImage: `${BASE}/nbt_veterans_outdoor01.jpg`,
-  whatItIsImageAlt: "Veteran hiking through a California eucalyptus forest — healing through movement and nature",
+  whatItIsImage: SERVICE_IMAGES.outdoorCircle,
+  whatItIsImageAlt: "Outdoor reflection circle at The Grove — veterans healing through community at Northbound",
   whatItIsFloatingHeadline: "Tricare-Contracted\nVeterans Care",
 
   featuresEyebrow: "What We Address",
@@ -45,8 +44,8 @@ const data: SignaturePageData = {
       focus: "EMDR · Trauma-Focused CBT",
       description:
         "Combat trauma leaves imprints that don't respond to standard treatment. Northbound's specialized therapists use EMDR and trauma-focused CBT to process and integrate even the most difficult experiences.",
-      image: `${BASE}/nbt_veterans_group01.jpg`,
-      imageAlt: "Veterans seated in a circle on a wooded deck — a brotherhood built on shared healing at Northbound",
+      image: SERVICE_IMAGES.supportGroup,
+      imageAlt: "Support group at The Grove — veterans in shared healing at Northbound",
       tag: "Core Focus",
       tagIcon: "ri-shield-star-line",
     },
@@ -145,8 +144,8 @@ const data: SignaturePageData = {
   closingQuote:
     "We stand ready to support our veterans and active military personnel with the care, respect, and excellence they deserve.",
   closingQuoteAttribution: "Paul Alexander, CEO — Northbound Treatment Services",
-  closingImage: `${BASE}/nbt_veterans_outdoor01.jpg`,
-  closingImageAlt: "Veteran walking a California forest path — strength, solitude, and a new beginning",
+  closingImage: GARDEN_GROVE_IMAGES.exterior,
+  closingImageAlt: "The Grove — Northbound's Garden Grove campus serving veterans in Orange County",
   closingPrimaryCta: { label: "Start the Admissions Process", href: "/admissions/" },
   closingSecondaryCta: { label: "Verify Tricare Benefits", href: "/insurance/" },
 
@@ -159,7 +158,7 @@ const data: SignaturePageData = {
 
   ctaHeadline: "Ready to Begin the Journey Home?",
   ctaBody:
-    "Northbound's admissions team is available 24/7. We'll verify your Tricare benefits and answer every question — at no cost or obligation.",
+    "Northbound's Veterans Track is Tricare-contracted and built for those who served. Call our admissions team 24/7 to verify your benefits.",
 };
 
 export default function VeteransPage() {

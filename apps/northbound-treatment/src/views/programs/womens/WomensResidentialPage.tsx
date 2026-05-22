@@ -1,9 +1,8 @@
 import Image from "next/image";
 import { heroContentPad } from "@/lib/heroSpacing";
 import Link from "next/link";
+import { GARDEN_GROVE_IMAGES, SERVICE_IMAGES } from "@/views/home/assets";
 import { AutoLinkedText } from "@sweetmedia/blog-core";
-
-const BASE = "https://ahufsygjwpbymomfdazb.supabase.co/storage/v1/object/public/site-assets/images";
 
 const WHY_GENDER = [
   {
@@ -46,8 +45,8 @@ export default function WomensResidentialPage() {
       <section className="relative overflow-hidden bg-[#3a6697]">
         <div className="absolute inset-0">
           <Image
-            src={`${BASE}/nbt_womens_hero01.jpg`}
-            alt="Women's recovery group at Northbound Treatment — community, empowerment, and healing"
+            src={GARDEN_GROVE_IMAGES.bedroom}
+            alt="Residential bedroom at The Grove — women's residential treatment at Northbound"
             fill
             className="object-cover object-center opacity-20"
             priority
@@ -109,8 +108,8 @@ export default function WomensResidentialPage() {
             <div className="relative">
               <div className="relative aspect-[4/3] overflow-hidden">
                 <Image
-                  src={`${BASE}/nbt_womens_hero01.jpg`}
-                  alt="Women's recovery community at Northbound Treatment — trust, healing, and shared experience"
+                  src={SERVICE_IMAGES.outdoorMeditation}
+                  alt="Guided outdoor meditation at The Grove — women's residential wellness at Northbound"
                   fill
                   className="object-cover"
                   sizes="(max-width: 1024px) 100vw, 50vw"

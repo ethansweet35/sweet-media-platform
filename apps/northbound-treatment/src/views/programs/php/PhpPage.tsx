@@ -1,7 +1,7 @@
 import TreatmentPageTemplate, { type TreatmentPageData } from "@/views/shared/TreatmentPageTemplate";
+import { NEWPORT_BEACH_IMAGES } from "@/views/home/assets";
 
-const HERO =
-  "https://ahufsygjwpbymomfdazb.supabase.co/storage/v1/object/public/site-assets/images/nbt_php_hero01.jpg";
+const HERO = NEWPORT_BEACH_IMAGES.interior;
 
 const data: TreatmentPageData = {
   /* ── Hero ─────────────────────────────────────────────────── */

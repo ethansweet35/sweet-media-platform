@@ -100,7 +100,7 @@ const data: SubstancePageData = {
     {
       icon: "ri-graduation-cap-line",
       title: "Young Adult Specialization",
-      body: "Prescription drug addiction rates are highest among 18–25 year olds. Northbound specializes in helping young adults heal, develop their identity, and establish a healthy lifestyle — using Collegebound® and Careerbound® programs to rebuild educational and professional trajectories during treatment.",
+      body: "Prescription drug addiction rates are highest among 18–25 year olds. Northbound specializes in helping young adults heal, develop their identity, and establish a healthy lifestyle — with Collegebound® and Careerbound® available exclusively during residential treatment for educational and professional reintegration.",
     },
     {
       icon: "ri-shield-check-line",

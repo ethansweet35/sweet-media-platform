@@ -90,7 +90,7 @@ const FAQ_CATEGORIES = [
       },
       {
         q: "Are life skills or career-oriented programs available?",
-        a: "Yes. Our Collegebound® and Careerbound® programs support life skills, academic progress, and career development as part of long-term recovery — especially designed for young adults navigating education and career while in treatment.",
+        a: "Yes. Collegebound® and Careerbound® are available exclusively during residential treatment at our Garden Grove campus — supporting academic progress and career development for young adults while in the residential program. They are not offered in IOP, PHP, or outpatient care.",
       },
     ],
   },

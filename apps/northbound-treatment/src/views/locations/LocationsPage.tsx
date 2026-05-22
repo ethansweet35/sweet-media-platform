@@ -114,7 +114,7 @@ const WHY_FEATURES = [
   {
     icon: "ri-building-line",
     title: "Proximity to Education & Careers",
-    body: "Each location was chosen for its proximity to leading universities, career centers, and thriving communities — supporting our Collegebound® and Careerbound® reintegration programs.",
+    body: "Our Garden Grove residential campus sits near leading universities and career centers in Orange County — supporting Collegebound® and Careerbound®, which are available exclusively during residential treatment.",
   },
 ];
 

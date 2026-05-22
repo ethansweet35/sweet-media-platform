@@ -1,10 +1,9 @@
 import SignaturePageTemplate, { type SignaturePageData } from "@/views/shared/SignaturePageTemplate";
-
-const BASE = "https://ahufsygjwpbymomfdazb.supabase.co/storage/v1/object/public/site-assets/images";
+import { SERVICE_IMAGES } from "@/views/home/assets";
 
 const data: SignaturePageData = {
-  heroImage: `${BASE}/nbt_wolf_hero01.jpg`,
-  heroImageAlt: "Therapy group seated in a forest circle with wolf ambassadors during wolf-assisted therapy at Northbound",
+  heroImage: SERVICE_IMAGES.wolfHero,
+  heroImageAlt: "Wolf ambassador during wolf-assisted therapy at Northbound Treatment",
   serviceName: "Wolf-Assisted Therapy",
   heroItalicWord: "Wolf-Assisted",
   heroBody:
@@ -29,8 +28,8 @@ const data: SignaturePageData = {
     "Builds empathy, resilience, and a renewed sense of purpose",
     "Available to residential and PHP-level clients",
   ],
-  whatItIsImage: `${BASE}/nbt_wolf_touch01.jpg`,
-  whatItIsImageAlt: "Client's hand gently resting on a calm wolf ambassador during therapy at Northbound",
+  whatItIsImage: SERVICE_IMAGES.wolfSession,
+  whatItIsImageAlt: "Client interacting with a wolf ambassador during therapy at Northbound",
   whatItIsFloatingHeadline: "Science-Backed\nAnimal-Assisted Therapy",
 
   featuresEyebrow: "What You'll Experience",
@@ -44,8 +43,8 @@ const data: SignaturePageData = {
       focus: "Connection & Presence",
       description:
         "Meet and interact directly with Northbound's wolf ambassadors in a safe, supervised setting. Wolves respond to energy and authenticity — rewarding presence and calm with connection.",
-      image: `${BASE}/nbt_wolf_nature01.jpg`,
-      imageAlt: "Majestic wolf ambassador in the golden California landscape — symbol of wisdom and healing",
+      image: SERVICE_IMAGES.wolfEncounter,
+      imageAlt: "Wolf ambassador during a supervised wolf-assisted therapy session at Northbound",
       tag: "Core Experience",
       tagIcon: "ri-focus-3-line",
     },
@@ -144,8 +143,8 @@ const data: SignaturePageData = {
   closingQuote:
     "We invite you to embark on this transformative experience. Embrace the journey towards a brighter, healthier future filled with newfound strength and freedom.",
   closingQuoteAttribution: "Northbound Treatment Services",
-  closingImage: `${BASE}/nbt_wolf_touch01.jpg`,
-  closingImageAlt: "The intimate moment of connection between client and wolf ambassador at Northbound",
+  closingImage: SERVICE_IMAGES.wolfGroup,
+  closingImageAlt: "Wolf-assisted therapy group session at Northbound Treatment",
   closingPrimaryCta: { label: "Start the Admissions Process", href: "/admissions/" },
   closingSecondaryCta: { label: "View Gallery", href: "/locations/" },
 

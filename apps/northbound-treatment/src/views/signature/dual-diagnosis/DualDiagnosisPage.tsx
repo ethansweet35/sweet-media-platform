@@ -1,10 +1,9 @@
 import SignaturePageTemplate, { type SignaturePageData } from "@/views/shared/SignaturePageTemplate";
-
-const BASE = "https://ahufsygjwpbymomfdazb.supabase.co/storage/v1/object/public/site-assets/images";
+import { GARDEN_GROVE_IMAGES, SERVICE_IMAGES } from "@/views/home/assets";
 
 const data: SignaturePageData = {
-  heroImage: `${BASE}/nbt_dual_diagnosis_hero01.jpg`,
-  heroImageAlt: "Therapist and client in a compassionate one-on-one session for dual diagnosis treatment at Northbound",
+  heroImage: SERVICE_IMAGES.campusExterior,
+  heroImageAlt: "The Grove campus — integrated dual-diagnosis treatment at Northbound in Orange County",
   serviceName: "Dual-Diagnosis Treatment",
   heroItalicWord: "Dual-Diagnosis",
   heroBody:
@@ -30,8 +29,8 @@ const data: SignaturePageData = {
     "Short- and long-term medication protocols where clinically appropriate",
     "Evidence-based therapies selected to match each client's unique needs",
   ],
-  whatItIsImage: `${BASE}/nbt_dual_group01.jpg`,
-  whatItIsImageAlt: "Small group therapy session for dual diagnosis treatment at Northbound — collaborative and safe",
+  whatItIsImage: SERVICE_IMAGES.supportGroup,
+  whatItIsImageAlt: "Support group at The Grove — integrated dual-diagnosis treatment at Northbound",
   whatItIsFloatingHeadline: "Integrated Care\nFrom Day One",
 
   featuresEyebrow: "What We Treat",
@@ -45,8 +44,8 @@ const data: SignaturePageData = {
       focus: "Comprehensive Mental Health Care",
       description:
         "Depression is one of the most common co-occurring conditions in addiction. Northbound addresses it directly — through therapy, medication management, and evidence-based interventions — while simultaneously treating substance use.",
-      image: `${BASE}/nbt_dual_mindful01.jpg`,
-      imageAlt: "Client in mindful meditation — building the inner regulation skills that support lasting recovery",
+      image: SERVICE_IMAGES.outdoorMeditation,
+      imageAlt: "Guided outdoor meditation at The Grove — building regulation skills for dual-diagnosis recovery",
       tag: "Co-Occurring Disorder",
       tagIcon: "ri-mental-health-line",
     },
@@ -145,8 +144,8 @@ const data: SignaturePageData = {
   closingQuote:
     "Responding to different therapeutic approaches varies in our dual diagnosis centers. Having a large toolbox to draw from enhances our ability to meet each client where they are.",
   closingQuoteAttribution: "Northbound Treatment Services",
-  closingImage: `${BASE}/nbt_dual_group01.jpg`,
-  closingImageAlt: "Group therapy for dual diagnosis clients at Northbound — integrated care in action",
+  closingImage: GARDEN_GROVE_IMAGES.community,
+  closingImageAlt: "Commons area at The Grove — integrated dual-diagnosis care at Northbound",
   closingPrimaryCta: { label: "Start the Admissions Process", href: "/admissions/" },
   closingSecondaryCta: { label: "Verify Your Insurance", href: "/insurance/" },
 
@@ -158,7 +157,7 @@ const data: SignaturePageData = {
 
   ctaHeadline: "You Deserve Treatment That Sees the Whole Picture",
   ctaBody:
-    "Northbound's dual diagnosis team is available 24/7. Call us or start the admissions process online — we'll verify your insurance at no cost.",
+    "Northbound's dual-diagnosis program treats addiction and co-occurring mental health conditions together. Call our admissions team 24/7 to verify your benefits.",
 };
 
 export default function DualDiagnosisPage() {

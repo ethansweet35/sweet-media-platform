@@ -1,13 +1,13 @@
 import TreatmentPageTemplate, { type TreatmentPageData } from "@/views/shared/TreatmentPageTemplate";
+import { GARDEN_GROVE_IMAGES } from "@/views/home/assets";
 
-const HERO =
-  "https://ahufsygjwpbymomfdazb.supabase.co/storage/v1/object/public/site-assets/images/nbt_residential_hero01.jpg";
+const HERO = GARDEN_GROVE_IMAGES.exterior;
 
 const data: TreatmentPageData = {
   /* ── Hero ─────────────────────────────────────────────────── */
   heroImage: HERO,
   heroImageAlt:
-    "Residents in a warm, home-like living area at Northbound's residential treatment center in Southern California",
+    "The Grove — Northbound's Garden Grove residential treatment campus exterior in Orange County, California",
   eyebrow: "Addiction Treatment Programs",
   programName: "Residential Inpatient Treatment",
   italicWord: "Residential",
@@ -55,7 +55,7 @@ const data: TreatmentPageData = {
       number: "03",
       title: "Co-Ed Community & Specialty Tracks",
       icon: "ri-group-line",
-      body: "Northbound's residential program brings men and women together in a structured, clinically supervised co-ed environment — with specialty options such as the faith-based LINKS program for those whose spirituality is central to recovery.",
+      body: "Northbound's residential program brings men and women together in shared, co-ed clinical programming — group therapy, community activities, and specialty tracks — while clients live in gender-specific residential wings within the same campus community.",
     },
     {
       number: "04",
@@ -92,7 +92,7 @@ const data: TreatmentPageData = {
     {
       icon: "ri-group-line",
       title: "Co-Ed Residential Community",
-      body: "Men and women heal alongside one another in a single residential program — supported by clinicians who address the distinct emotional, relational, and physiological dimensions each person brings to recovery within a shared, accountable community.",
+      body: "Men and women participate in the same co-ed clinical programming — supported by clinicians who address the distinct dimensions each person brings to recovery — while living in separate gender-specific wings at The Grove.",
     },
     {
       icon: "ri-mental-health-line",
@@ -100,14 +100,14 @@ const data: TreatmentPageData = {
       body: "Under Medical Director Dr. Venice Sanchez — double board-certified in Psychiatry and Addiction Medicine — Northbound treats addiction alongside co-occurring mental health conditions from day one. Trauma, PTSD, depression, anxiety, and more are addressed in an integrated, holistic framework.",
     },
     {
-      icon: "ri-home-heart-line",
-      title: "A True Home Environment",
-      body: "Our Garden Grove residential facility is designed to feel like home, not a hospital. Comfortable furnishings, communal spaces, and peaceful settings create the psychological safety needed for genuine healing and community.",
+      icon: "ri-building-4-line",
+      title: "College-Campus Setting at The Grove",
+      body: "The Grove is a campus-style residential environment — not a hospital ward. Clients live in gender-specific wings with communal outdoor spaces, recreation areas, and chef-curated meals. Clinical programming is co-ed, so men and women heal together in shared groups and community activities while residing in separate wings.",
     },
     {
       icon: "ri-graduation-cap-line",
       title: "Collegebound® & Careerbound®",
-      body: "For young adults whose education or careers have been derailed by addiction, Northbound offers specialized tracks to support academic and professional reintegration — so recovery strengthens, rather than pauses, your future.",
+      body: "For young adults whose education or careers have been derailed by addiction, Northbound offers Collegebound® and Careerbound® exclusively during residential treatment at our Garden Grove campus — so recovery strengthens, rather than pauses, your future.",
     },
   ],
 
@@ -136,7 +136,7 @@ const data: TreatmentPageData = {
     },
     {
       q: "Is Northbound's residential program co-ed?",
-      a: "Yes. Northbound offers one co-ed residential treatment program in which men and women participate in shared clinical programming within a structured, supervised environment. Specialty tracks — such as our faith-based LINKS program — are available within that continuum of care.",
+      a: "Yes. Northbound's residential program is co-ed clinically — men and women participate in shared group therapy, community programming, and specialty tracks such as LINKS within a structured, supervised environment. Clients live in gender-specific residential wings at our Garden Grove campus; housing is wing-separated, but treatment is not gender-specific.",
     },
     {
       q: "Does insurance cover residential treatment?",
