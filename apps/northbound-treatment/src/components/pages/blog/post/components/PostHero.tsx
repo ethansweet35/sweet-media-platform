@@ -3,7 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import type { BlogPost } from "@sweetmedia/blog-core";
-import { heroBottomPad, heroTopPad } from "@/lib/heroSpacing";
+import { heroBottomPad, heroOverlayClass, heroTopPad } from "@/lib/heroSpacing";
 
 interface PostHeroProps {
   post: BlogPost;
@@ -11,7 +11,7 @@ interface PostHeroProps {
 
 export default function PostHero({ post }: PostHeroProps) {
   return (
-    <section className={`relative overflow-hidden bg-[#3a6697] ${heroTopPad} pb-0`}>
+    <section className={`${heroOverlayClass} relative overflow-hidden bg-[#3a6697] ${heroTopPad} pb-0`}>
       {/* Corner accents */}
       <div className="pointer-events-none absolute left-8 top-8 h-16 w-16 border-l-2 border-t-2 border-white/10" />
       <div className="pointer-events-none absolute right-8 top-8 h-16 w-16 border-r-2 border-t-2 border-white/10" />

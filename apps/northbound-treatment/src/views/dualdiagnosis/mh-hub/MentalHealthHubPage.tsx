@@ -108,7 +108,7 @@ export default function MentalHealthHubPage() {
   return (
     <>
       {/* ── HERO ──────────────────────────────────────────────────────── */}
-      <section className="relative overflow-hidden bg-[#3a6697]">
+      <section className="nb-hero-overlay relative overflow-hidden bg-[#3a6697]">
         <div className="absolute inset-0">
           <Image
             src={`${BASE}/nbt_mh_hub_hero01.jpg`}

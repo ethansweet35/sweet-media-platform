@@ -3,6 +3,9 @@
  * Do not add pt-28+ on heroes inside Layout — it double-counts header clearance.
  */
 
+/** Brighter muted copy on navy/image hero overlays — see globals.css `.nb-hero-overlay`. */
+export const heroOverlayClass = "nb-hero-overlay";
+
 /** Top inset only — use when Layout already clears fixed chrome. */
 export const heroTopPad = "pt-12 lg:pt-14";
 
@@ -23,23 +26,26 @@ export const heroSolidSection = "py-28 lg:py-32";
 
 /** Viewport-capped centered hero (treatment, admissions, FAQs). Pair with `heroInnerWrap`. */
 export const heroViewportSection =
-  "relative flex min-h-[min(720px,calc(100dvh-7.5rem))] items-start overflow-hidden lg:max-h-[840px] lg:items-center";
+  `relative flex min-h-[min(720px,calc(100dvh-7.5rem))] items-start overflow-hidden lg:max-h-[840px] lg:items-center ${heroOverlayClass}`;
 
 /** Bottom-aligned location hero — shorter than full viewport. Pair with `heroContentPad`. */
 export const heroLocationSection =
-  "relative flex min-h-[min(560px,calc(100dvh-9rem))] items-start overflow-hidden lg:max-h-[720px] lg:items-end";
+  `relative flex min-h-[min(560px,calc(100dvh-9rem))] items-start overflow-hidden lg:max-h-[720px] lg:items-end ${heroOverlayClass}`;
 
 /** PageHero — full-bleed photo, left-aligned copy (locations hub, referrals). */
 export const heroPageHeroSection =
-  "relative flex min-h-[min(560px,calc(100dvh-7.5rem))] items-start overflow-hidden lg:max-h-[720px] lg:items-center";
+  `relative flex min-h-[min(560px,calc(100dvh-7.5rem))] items-start overflow-hidden lg:max-h-[720px] lg:items-center ${heroOverlayClass}`;
 
 /**
  * Homepage only — fixed top bar + nav overlay the hero (no Layout offset).
  * pt must clear ~7.5rem chrome; min-h fills the viewport without a max-height cap.
  */
 export const heroHomeSection =
-  "relative flex min-h-screen items-center overflow-x-hidden pb-20 pt-[8rem] lg:pb-28 lg:pt-36";
+  `relative flex min-h-screen items-center overflow-x-hidden pb-20 pt-[8rem] lg:pb-28 lg:pt-36 ${heroOverlayClass}`;
 
 /** Signature / adventure cinematic heroes — full-bleed with bottom-aligned headline. */
 export const heroCinematicSection =
-  "relative flex min-h-[min(700px,calc(100dvh-7.5rem))] max-h-[840px] flex-col overflow-hidden";
+  `relative flex min-h-[min(700px,calc(100dvh-7.5rem))] max-h-[840px] flex-col overflow-hidden ${heroOverlayClass}`;
+
+/** Solid navy page heroes (about, team, admissions sub-pages). Pair with `bg-[#3a6697]` or `bg-navy`. */
+export const heroSolidNavySection = `${heroSolidSection} ${heroOverlayClass}`;

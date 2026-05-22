@@ -10,7 +10,7 @@ import {
 
 /** Extra vertical room vs default `heroViewportSection` (LP has dense copy + form). */
 const virtualLpHeroSection =
-  "relative flex min-h-[min(760px,calc(100dvh-4.75rem))] items-start overflow-hidden py-20 lg:max-h-[880px] lg:items-center lg:py-28";
+  "nb-hero-overlay relative flex min-h-[min(760px,calc(100dvh-4.75rem))] items-start overflow-hidden py-20 lg:max-h-[880px] lg:items-center lg:py-28";
 
 export default function VirtualLpHero() {
   return (

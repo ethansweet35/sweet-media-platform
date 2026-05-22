@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { heroOverlayClass } from "@/lib/heroSpacing";
 
 function SectionHeading({ children }: { children: React.ReactNode }) {
   return (
@@ -43,7 +44,7 @@ export default function PrivacyPolicyPage() {
   return (
     <>
       {/* ── Header ─────────────────────────────────────────────────── */}
-      <section className="relative overflow-hidden bg-navy py-20">
+      <section className={`relative overflow-hidden bg-navy py-20 ${heroOverlayClass}`}>
         <div className="pointer-events-none absolute -right-32 -top-32 h-96 w-96 rounded-full bg-navy-light/30 blur-3xl" />
         <div className="pointer-events-none absolute bottom-0 left-1/4 h-64 w-64 rounded-full bg-terracotta/10 blur-3xl" />
         <div className="relative z-10 mx-auto max-w-7xl px-6 lg:px-10">

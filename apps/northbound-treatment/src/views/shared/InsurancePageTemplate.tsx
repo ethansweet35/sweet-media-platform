@@ -4,7 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 import CtmFormReactor from "@/components/feature/CtmFormReactor";
-import { heroSectionPad } from "@/lib/heroSpacing";
+import { heroSectionPad, heroOverlayClass } from "@/lib/heroSpacing";
 import { AutoLinkedTextClient } from "@sweetmedia/blog-core";
 
 /* ─── Types ──────────────────────────────────────────────────────── */
@@ -97,7 +97,7 @@ export default function InsurancePageTemplate({ data }: { data: InsurancePageDat
   return (
     <>
       {/* ── Hero ────────────────────────────────────────────────── */}
-      <section className="relative overflow-hidden bg-navy">
+      <section className={`relative overflow-hidden bg-navy ${heroOverlayClass}`}>
         <div className="grid lg:grid-cols-[1fr_440px] lg:items-stretch">
           {/* Left: image + content */}
           <div className="relative min-h-[420px] lg:min-h-0">

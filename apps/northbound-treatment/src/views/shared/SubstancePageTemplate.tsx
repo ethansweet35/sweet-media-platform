@@ -24,7 +24,7 @@
 
 import { useState } from "react";
 import Image from "next/image";
-import { heroContentPad } from "@/lib/heroSpacing";
+import { heroContentPad, heroOverlayClass } from "@/lib/heroSpacing";
 import Link from "next/link";
 import { AutoLinkedTextClient } from "@sweetmedia/blog-core";
 
@@ -84,7 +84,7 @@ export default function SubstancePageTemplate({ data }: { data: SubstancePageDat
   return (
     <>
       {/* ══ 1. HERO ══════════════════════════════════════════════════════ */}
-      <section className="relative overflow-hidden bg-navy">
+      <section className={`relative overflow-hidden bg-navy ${heroOverlayClass}`}>
         {/* Background image */}
         <div className="absolute inset-0">
           <Image

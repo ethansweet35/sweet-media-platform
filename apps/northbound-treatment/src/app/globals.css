@@ -176,3 +176,26 @@ a {
 .animate-float {
   animation: float 6s ease-in-out infinite;
 }
+
+/* ----------------------------------------------------------------------
+ * Hero overlay — brighter secondary copy on navy / blue gradient heroes
+ * Apply `nb-hero-overlay` on the hero <section> wrapper only.
+ * ---------------------------------------------------------------------- */
+.nb-hero-overlay .text-white\/50 {
+  color: rgb(255 255 255 / 0.82);
+}
+.nb-hero-overlay .text-white\/60 {
+  color: rgb(255 255 255 / 0.9);
+}
+.nb-hero-overlay .text-white\/65 {
+  color: rgb(255 255 255 / 0.91);
+}
+.nb-hero-overlay .text-white\/70 {
+  color: rgb(255 255 255 / 0.93);
+}
+.nb-hero-overlay .text-white\/75 {
+  color: rgb(255 255 255 / 0.94);
+}
+.nb-hero-overlay .text-white\/80 {
+  color: rgb(255 255 255 / 0.96);
+}

@@ -106,7 +106,7 @@ export default function MATPage() {
   return (
     <>
       {/* ── HERO ──────────────────────────────────────────────────────── */}
-      <section className="relative overflow-hidden bg-[#3a6697]">
+      <section className="nb-hero-overlay relative overflow-hidden bg-[#3a6697]">
         <div className="absolute inset-0">
           <Image
             src={GARDEN_GROVE_IMAGES.bedroom}

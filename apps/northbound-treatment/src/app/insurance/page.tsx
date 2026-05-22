@@ -1,4 +1,4 @@
-import { heroSectionPad } from "@/lib/heroSpacing";
+import { heroSectionPad, heroOverlayClass } from "@/lib/heroSpacing";
 import type { Metadata } from "next";
 import { resolveTrackedPageMetadata } from "@sweetmedia/admin-core";
 import Link from "next/link";
@@ -46,7 +46,7 @@ export default function Page() {
     <div className="min-h-screen bg-white">
 
       {/* Hero */}
-      <section className={`relative overflow-hidden bg-[#3a6697] ${heroSectionPad}`}>
+      <section className={`${heroOverlayClass} relative overflow-hidden bg-[#3a6697] ${heroSectionPad}`}>
         <div className="pointer-events-none absolute left-8 top-8 h-16 w-16 border-l-2 border-t-2 border-white/10" />
         <div className="pointer-events-none absolute right-8 top-8 h-16 w-16 border-r-2 border-t-2 border-white/10" />
         <div className="pointer-events-none absolute -right-32 -top-32 h-96 w-96 rounded-full bg-[#e97a52]/10 blur-3xl" />
