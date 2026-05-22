@@ -96,16 +96,152 @@ export const SCRAPE_ARTIFACT_PATTERNS: RegExp[] = [
   /\bleft\s+unchanged\b/i,
   /\bskip\s+to\s+(main\s+)?content\b/i,
   /\bjavascript\s+enabled\b/i,
+  /\bjavascript\s+required\b/i,
   /\bcopyright\s+\d{4}\b/i,
   /\ball\s+rights\s+reserved\b/i,
   /\b\d{4,5}\s+re\b/i,
   /\bnbsp\b/i,
 ];
 
+/**
+ * Legal / ToS / privacy-policy / government-contract fragments scraped from
+ * site footers. These pass TF-IDF because many competitor pages share the
+ * same boilerplate, but they are never useful SEO targets.
+ */
+export const LEGAL_BOILERPLATE_PATTERNS: RegExp[] = [
+  /\bterms\s+(and|&|of)?\s*conditions\b/i,
+  /\bterms\s+conditions\b/i,
+  /\bterms\s+agreement\b/i,
+  /\bterms\s+of\s+service\b/i,
+  /\bprivacy\s+policy\b/i,
+  /\bdisclaim(s|er|ers?)?\s+responsibilit/i,
+  /\bliabilit(y|ies)\s+attributable\b/i,
+  /\bterminate\s+upon\s+notice\b/i,
+  /\bupon\s+notice\s+violate\b/i,
+  /\bnotice\s+violate\s+terms\b/i,
+  /\bviolate\s+terms\b/i,
+  /\bauthorized\s+herein\b/i,
+  /\bact\s+behalf\b/i,
+  /\bemployees\s+agents\b/i,
+  /\bcms\s+liable\b/i,
+  /\bamerican\s+dental\s+association\b/i,
+  /\bfar\s+\d{2}\b/i,
+  /\bjune\s+(1987|1995)\b/i,
+  /\bfile\s+product\b/i,
+  /\bcomputer\s+software\b/i,
+  /\bmm\d+\s+new\s+condition\b/i,
+  /\bunchanged\s+field\s+validation\b/i,
+];
+
+/**
+ * Tokens that are almost only meaningful inside legal/footer boilerplate.
+ * Not used to block topical phrases like "medicare benefit policy" or
+ * "treatment conditions" — only standalone terms and all-legal phrases.
+ */
+export const LEGAL_BOILERPLATE_UNIGRAMS = new Set([
+  "terms",
+  "disclaims",
+  "disclaimer",
+  "disclaimers",
+  "herein",
+  "hereby",
+  "thereof",
+  "wherein",
+  "pursuant",
+  "attributable",
+  "indemnify",
+  "indemnification",
+  "warranties",
+  "warranty",
+  "terminate",
+  "termination",
+  "violate",
+  "violation",
+  "authorized",
+  "agents",
+  "employees",
+  "behalf",
+  "liable",
+  "liability",
+  "agreement",
+  "agreements",
+]);
+
+/**
+ * When every token in a short phrase is one of these, the phrase is footer
+ * junk (e.g. "terms conditions", "notice violate terms"). Excludes topical
+ * words like "policy", "benefit", "medicare", "conditions" alone in mixed
+ * phrases.
+ */
+const LEGAL_ONLY_PHRASE_TOKENS = new Set([
+  ...LEGAL_BOILERPLATE_UNIGRAMS,
+  "terms",
+  "upon",
+  "notice",
+  "violate",
+  "violation",
+  "agreement",
+  "agents",
+  "employees",
+  "behalf",
+  "authorized",
+  "herein",
+  "disclaims",
+  "disclaimer",
+  "responsibility",
+  "responsibilities",
+  "liable",
+  "liability",
+  "attributable",
+  "terminate",
+  "termination",
+  "conditions", // only when paired only with other legal tokens
+  "dental", // "american dental association"
+  "association", // only in all-legal phrase heuristic below
+  "american",
+  "software",
+  "product",
+  "file",
+  "computer",
+  "cms",
+  "far",
+  "june",
+]);
+
 export function isScrapeArtifact(term: string): boolean {
   const t = term.trim();
   if (!t) return true;
   return SCRAPE_ARTIFACT_PATTERNS.some((re) => re.test(t));
+}
+
+export function isLegalBoilerplateTerm(term: string): boolean {
+  const t = term.toLowerCase().trim();
+  if (!t) return true;
+  if (LEGAL_BOILERPLATE_PATTERNS.some((re) => re.test(t))) return true;
+
+  const tokens = t.split(/\s+/).filter((tok) => tok.length > 0);
+  if (tokens.length === 0) return true;
+
+  if (tokens.length === 1) {
+    return LEGAL_BOILERPLATE_UNIGRAMS.has(tokens[0]);
+  }
+
+  // 2–3 word phrases composed entirely of legal/footer tokens.
+  if (tokens.length <= 3 && tokens.every((tok) => LEGAL_ONLY_PHRASE_TOKENS.has(tok))) {
+    return true;
+  }
+
+  return false;
+}
+
+/** True for UI scrape junk, legal/footer boilerplate, or empty terms. */
+export function isRejectedNlpTerm(term: string): boolean {
+  return isScrapeArtifact(term) || isLegalBoilerplateTerm(term);
+}
+
+/** Drop rejected terms while preserving candidate metadata. */
+export function filterRejectedTerms<T extends { term: string }>(items: T[]): T[] {
+  return items.filter((item) => !isRejectedNlpTerm(item.term));
 }
 
 export function primaryKeywordTokens(primaryKeyword: string): Set<string> {
@@ -124,8 +260,24 @@ export function primaryKeywordTokens(primaryKeyword: string): Set<string> {
  * are perfectly fine at boundaries (`intervention services`,
  * `support group`, `care plan`, `treatment options`).
  */
+/** Legal tokens that should never start or end an extracted n-gram phrase. */
+const LEGAL_BOUNDARY_UNIGRAMS = new Set([
+  "terms",
+  "disclaims",
+  "disclaimer",
+  "herein",
+  "employees",
+  "agents",
+  "terminate",
+  "authorized",
+  "behalf",
+  "upon",
+  "violate",
+  "notice",
+]);
+
 export function isBoundaryBlocked(token: string): boolean {
-  return STRICT_BOILERPLATE_UNIGRAMS.has(token);
+  return STRICT_BOILERPLATE_UNIGRAMS.has(token) || LEGAL_BOUNDARY_UNIGRAMS.has(token);
 }
 
 /**

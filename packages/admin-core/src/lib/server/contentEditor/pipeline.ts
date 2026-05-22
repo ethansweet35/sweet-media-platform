@@ -41,6 +41,7 @@ import {
   type ContentEditorAnalysisMode,
 } from "./analysisMode";
 import { curateTermsWithRules } from "./termCurationRules";
+import { filterRejectedTerms, isRejectedNlpTerm } from "./termQuality";
 import { buildHeuristicOutline } from "./heuristicOutline";
 import {
   type ContentEditorStatus,
@@ -444,7 +445,9 @@ async function phase3_nlpAndNgrams(
   });
 
   // Merge entities + n-grams. Use lowercase key for dedup.
-  const merged = mergeEntitiesAndNgrams(allEntities, ngrams, competitors.length);
+  const merged = filterRejectedTerms(
+    mergeEntitiesAndNgrams(allEntities, ngrams, competitors.length),
+  );
 
   const allHeadingsForCuration = competitors.flatMap((c) => c.headings ?? []);
   let curatedMerged: MergedTerm[];
@@ -478,6 +481,9 @@ async function phase3_nlpAndNgrams(
     aiAddedTerms = aiResult.added;
     await addCost(client, editor.id, aiResult.cost_usd);
   }
+
+  curatedMerged = filterRejectedTerms(curatedMerged);
+  aiAddedTerms = aiAddedTerms.filter((t) => !isRejectedNlpTerm(t));
 
   // Compute recommended use range per term based on competitor pool size.
   const avgWordCount = mean(competitors.map((c) => c.word_count ?? 0).filter((w) => w > 0)) || 2000;
@@ -679,7 +685,10 @@ async function curateTermsWithAI(
     `6. Numbers, time, or cardinal words ("month", "year", "weeks", "minutes", "three", "four", "first")\n` +
     `7. A weak/awkward bigram where one half is filler ("may involve", "groups gamblers", "approach treatment", "amount money")\n` +
     `8. A duplicate (singular/plural pair, or shorter substring of a kept phrase already in list)\n` +
-    `9. Off-topic, malformed, or text-encoding artifact\n\n` +
+    `9. Off-topic, malformed, or text-encoding artifact\n` +
+    `10. Legal / site-footer / contract boilerplate (e.g. "terms conditions", "disclaims responsibility", ` +
+    `"terminate upon notice", "employees agents", "authorized herein", "liability attributable", ` +
+    `"american dental association", "privacy policy", government contract refs like "far 52")\n\n` +
     `═══ ADD up to 10 missing terms ═══\n` +
     `Important topical concepts NOT in the candidate list. Rules:\n` +
     `- Write each as a natural phrase a clinician or expert would say\n` +

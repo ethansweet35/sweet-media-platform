@@ -14,7 +14,7 @@
 import {
   STRICT_BOILERPLATE_UNIGRAMS,
   WEAK_STANDALONE_UNIGRAMS,
-  isScrapeArtifact,
+  isRejectedNlpTerm,
   isWeakStandaloneUnigram,
   primaryKeywordTokens,
 } from "./termQuality";
@@ -147,7 +147,7 @@ function hasNoiseBoundary(tokens: string[]): boolean {
 function shouldDropTerm(term: string): boolean {
   const t = term.toLowerCase().trim();
   if (!t || t.length < 2) return true;
-  if (isScrapeArtifact(t)) return true;
+  if (isRejectedNlpTerm(t)) return true;
   if (NAV_BOILERPLATE.test(t)) return true;
 
   const tokens = termTokens(t);

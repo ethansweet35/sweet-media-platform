@@ -21,7 +21,7 @@
  *      drive the recommended usage range in the UI.
  *   6. Return ranked terms.
  */
-import { isBoundaryBlocked, isScrapeArtifact } from "./termQuality";
+import { isBoundaryBlocked, isRejectedNlpTerm } from "./termQuality";
 import { ENGLISH_STOPWORDS, tokenize } from "./textUtils";
 
 export interface NgramTerm {
@@ -238,7 +238,7 @@ const GENERIC_UNIGRAM_BLOCKLIST = new Set<string>([
  */
 function isUsefulTerm(term: string): boolean {
   if (!term) return false;
-  if (isScrapeArtifact(term)) return false;
+  if (isRejectedNlpTerm(term)) return false;
   // Reject pure numeric terms
   if (/^[\d\s.,$%-]+$/.test(term)) return false;
   // Reject single-char tokens that snuck through
