@@ -9,6 +9,7 @@ import { SITE } from "@/lib/site";
 export default function Layout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const isAdmin = pathname?.startsWith("/admin");
+  const isLp = !!pathname?.match(/-lp\/?$/);
   const [stickyVisible, setStickyVisible] = useState(false);
 
   useEffect(() => {
@@ -21,7 +22,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  if (isAdmin) return <>{children}</>;
+  if (isAdmin || isLp) return <>{children}</>;
 
   return (
     <div className="flex min-h-screen flex-col bg-white text-[var(--mvt-text)]">
