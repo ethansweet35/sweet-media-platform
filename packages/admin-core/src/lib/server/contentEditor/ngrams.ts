@@ -9,8 +9,8 @@
  *     named entities but appear consistently across competitors.
  *
  * Algorithm (Surfer's "True Density" equivalent):
- *   1. Tokenize each doc, drop stopwords.
- *   2. Extract unigrams + bigrams + trigrams.
+ *   1. Split each doc into sentences and keep original token adjacency.
+ *   2. Extract unigrams + contiguous multi-word phrases.
  *   3. For each candidate term, compute:
  *        df   = # of docs that contain it
  *        idf  = ln(N / df)
@@ -22,7 +22,7 @@
  *   6. Return ranked terms.
  */
 import { isBoundaryBlocked, isRejectedNlpTerm } from "./termQuality";
-import { ENGLISH_STOPWORDS, tokenize } from "./textUtils";
+import { ENGLISH_STOPWORDS, splitSentences, tokenize } from "./textUtils";
 
 export interface NgramTerm {
   term: string;
@@ -40,7 +40,7 @@ export interface NgramTerm {
   tfIdf: number;
   /** Length-weighted final score used for ranking (multi-word phrases preferred). */
   score: number;
-  /** Token count of the n-gram (1, 2, or 3). */
+  /** Token count of the n-gram / phrase. */
   n: number;
 }
 
@@ -61,38 +61,83 @@ export interface NgramExtractionOptions {
    * downstream AI curation pass does the topical pruning.
    */
   unigramMinAvgFreq?: number;
+  /** Maximum phrase length to consider. Default 5. */
+  maxNgramLength?: number;
 }
 
-/** Extract unigram, bigram, trigram terms from a single doc's tokens. */
-function extractTermsFromTokens(tokens: string[]): Map<string, number> {
+const DEFAULT_MAX_NGRAM_LENGTH = 5;
+
+const CODE_CONTEXT_TOKENS = new Set([
+  "code", "codes", "cpt", "hcpcs", "icd", "revenue", "modifier", "condition",
+]);
+
+const MONTH_TOKENS = new Set([
+  "january", "february", "march", "april", "may", "june",
+  "july", "august", "september", "october", "november", "december",
+]);
+
+/**
+ * Function words are allowed inside phrases ("rates by state") but should
+ * not start or end a candidate. Keep this separate from ENGLISH_STOPWORDS:
+ * that list intentionally contains domain nouns like "county" for unigram
+ * suppression, and Surfer-style phrase clusters often end with those words.
+ */
+const FUNCTION_BOUNDARY_TOKENS = new Set([
+  "a", "an", "the", "and", "or", "but", "if", "then", "else",
+  "for", "from", "to", "of", "in", "on", "at", "by", "with", "without",
+  "about", "above", "below", "between", "into", "through", "under", "over",
+  "after", "before", "during", "until", "against",
+  "as", "than", "that", "this", "these", "those",
+  "is", "are", "was", "were", "be", "been", "being",
+  "can", "could", "should", "would", "will", "may", "might", "must",
+  "do", "does", "did", "not", "no", "nor", "so", "too", "very",
+  "he", "she", "it", "they", "we", "you", "i", "me", "him", "her", "them",
+  "his", "hers", "their", "our", "your", "my", "ours", "yours", "theirs",
+]);
+
+function isFunctionBoundaryToken(token: string): boolean {
+  return FUNCTION_BOUNDARY_TOKENS.has(token);
+}
+
+function hasAllowedNumericContext(tokens: string[]): boolean {
+  return tokens.some((t) => CODE_CONTEXT_TOKENS.has(t) || MONTH_TOKENS.has(t));
+}
+
+/** Extract contiguous candidate terms from a single document. */
+function extractTermsFromText(text: string, maxNgramLength: number): Map<string, number> {
   const freqs = new Map<string, number>();
-  const len = tokens.length;
-  for (let i = 0; i < len; i++) {
-    const t1 = tokens[i];
-    if (!t1 || t1.length < 2) continue;
+  const sentences = splitSentences(text);
+  const segments = sentences.length > 0 ? sentences : [text];
 
-    // Unigram
-    freqs.set(t1, (freqs.get(t1) ?? 0) + 1);
+  for (const segment of segments) {
+    const rawTokens = tokenize(segment, { keepStopwords: true });
+    const len = rawTokens.length;
 
-    // Bigram
-    if (i + 1 < len) {
-      const t2 = tokens[i + 1];
-      if (t2 && t2.length >= 2) {
-        const bi = `${t1} ${t2}`;
-        freqs.set(bi, (freqs.get(bi) ?? 0) + 1);
+    for (let i = 0; i < len; i++) {
+      const t1 = rawTokens[i];
+      if (!t1 || t1.length < 2) continue;
+
+      // Unigrams are still stopword-filtered. Multi-word phrases preserve
+      // original adjacency so we don't manufacture "services medicare" from
+      // "services for Medicare".
+      if (!ENGLISH_STOPWORDS.has(t1)) {
+        freqs.set(t1, (freqs.get(t1) ?? 0) + 1);
       }
-    }
 
-    // Trigram
-    if (i + 2 < len) {
-      const t2 = tokens[i + 1];
-      const t3 = tokens[i + 2];
-      if (t2 && t3 && t2.length >= 2 && t3.length >= 2) {
-        const tri = `${t1} ${t2} ${t3}`;
-        freqs.set(tri, (freqs.get(tri) ?? 0) + 1);
+      for (let n = 2; n <= maxNgramLength && i + n <= len; n++) {
+        const slice = rawTokens.slice(i, i + n);
+        const first = slice[0];
+        const last = slice[slice.length - 1];
+        if (!first || !last) continue;
+        if (isFunctionBoundaryToken(first) || isFunctionBoundaryToken(last)) continue;
+        if (slice.some((t) => t.length < 2)) continue;
+
+        const phrase = slice.join(" ");
+        freqs.set(phrase, (freqs.get(phrase) ?? 0) + 1);
       }
     }
   }
+
   return freqs;
 }
 
@@ -233,6 +278,87 @@ const GENERIC_UNIGRAM_BLOCKLIST = new Set<string>([
 ]);
 
 /**
+ * Boundary blockers for multi-word phrases. This is intentionally narrower
+ * than GENERIC_UNIGRAM_BLOCKLIST: words like "rates", "county", "services",
+ * and "program" are weak alone but excellent phrase anchors in Surfer-style
+ * terms ("medicaid rates", "san francisco county", "iop services").
+ */
+const PHRASE_BOUNDARY_BLOCKLIST = new Set<string>([
+  // Pronouns / connectors / vague quantifiers
+  "anyone", "someone", "everyone", "nothing", "something", "anything",
+  "lot", "lots", "bit", "bits", "various", "several", "many", "few", "some", "any", "all",
+  // Vague time / sequence
+  "today", "tomorrow", "yesterday", "soon", "later", "earlier",
+  "always", "never", "often", "sometimes", "usually",
+  "month", "months", "week", "weeks", "year", "years", "day", "days",
+  "time", "times", "minute", "minutes", "hour", "hours", "moment", "moments",
+  // Generic modifiers
+  "well", "good", "best", "better", "great", "right", "wrong", "bad",
+  "important", "different", "similar", "same", "specific", "general",
+  "comprehensive", "available", "associated", "related", "particular",
+  "common", "typical", "regular", "normal", "average",
+  "new", "old", "high", "low", "large", "small", "first", "last",
+  "even", "though", "rather", "quite", "very", "really",
+  "long", "short", "quick", "fast", "slow",
+  "likely", "unlikely", "possible", "probable", "potential",
+  "higher", "lower", "greater", "lesser", "bigger", "smaller",
+  "single", "multiple", "individual", "personal", "private", "public",
+  "real", "actually", "truly", "indeed", "simply",
+  // Modal / auxiliary / generic verbs
+  "may", "might", "must", "shall", "ought",
+  "ask", "asks", "asked", "asking", "say", "says", "said", "saying",
+  "tell", "tells", "told", "telling", "think", "thinks", "thought", "thinking",
+  "make", "makes", "made", "making", "take", "takes", "took", "taking", "taken",
+  "give", "gives", "gave", "giving", "given", "show", "shows", "showed", "showing", "shown",
+  "look", "looks", "looked", "looking", "come", "comes", "came", "coming",
+  "follow", "follows", "followed", "following", "include", "includes", "including", "included",
+  "ensure", "ensures", "ensuring", "ensured", "seem", "seems", "seemed", "seeming",
+  "appear", "appears", "appeared", "appearing", "find", "finds", "found", "finding",
+  "feel", "feels", "felt", "feeling", "work", "works", "worked", "working",
+  "change", "changes", "changed", "changing", "use", "uses", "used", "using",
+  "want", "wants", "wanted", "wanting", "need", "needs", "needed",
+  "try", "tries", "tried", "trying", "keep", "keeps", "kept", "keeping",
+  "let", "lets", "letting", "put", "puts", "putting", "go", "goes", "went", "going",
+  "do", "does", "did", "doing", "get", "gets", "got", "getting",
+  "have", "has", "had", "having", "learn", "learns", "learning", "learned",
+  "teach", "teaches", "teaching", "start", "starts", "started", "starting",
+  "begin", "begins", "began", "beginning", "stop", "stops", "stopped", "stopping",
+  "end", "ends", "ended", "ending", "improve", "improves", "improved", "improving",
+  "increase", "increases", "increased", "increasing", "decrease", "decreases", "decreased",
+  "decreasing", "reduce", "reduces", "reduced", "reducing", "develop", "develops",
+  "developed", "developing", "grow", "grows", "grew", "growing", "grown",
+  "build", "builds", "built", "building", "create", "creates", "created", "creating",
+  "manage", "manages", "managed", "managing", "consider", "considers", "considered",
+  "considering", "address", "addresses", "addressed", "addressing", "lead", "leads",
+  "led", "leading", "offer", "offers", "offered", "offering", "provide", "provides",
+  "provided", "providing", "deal", "deals", "dealt", "dealing", "play", "plays",
+  "played", "playing", "win", "wins", "won", "winning", "lose", "loses", "lost",
+  "losing", "meet", "meets", "met", "meeting", "meetings",
+  "receive", "receives", "received", "receiving", "agree", "agrees", "agreed", "agreeing",
+  // Scientific-paper / web metadata
+  "article", "articles", "review", "reviews", "study", "studies",
+  "research", "researcher", "researchers", "trial", "trials",
+  "randomized", "controlled", "experiment", "experiments",
+  "result", "results", "outcome", "outcomes", "finding", "findings",
+  "data", "evidence", "literature", "publication", "publications",
+  "journal", "journals", "blog", "blogs", "website",
+  // Abstract filler
+  "approach", "approaches", "method", "methods", "way", "ways",
+  "thing", "things", "stuff", "information", "info", "detail", "details",
+  "issue", "issues", "matter", "matters", "type", "types", "kind", "kinds",
+  "sort", "sorts", "tool", "tools", "step", "steps", "stage", "stages",
+  "phase", "phases", "process", "processes", "aspect", "aspects", "factor", "factors",
+  "experience", "experiences", "situation", "situations", "circumstance", "circumstances",
+  "role", "roles", "part", "parts", "side", "sides", "list", "lists",
+  "guide", "guides", "guideline", "guidelines", "content", "contents",
+  "section", "sections", "topic", "topics", "subject", "subjects", "item", "items",
+  "amount", "amounts", "number", "numbers", "count", "counts",
+  // Numbers / cardinals as words
+  "one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten",
+  "second", "third", "fourth", "fifth", "next",
+]);
+
+/**
  * Filter out low-quality terms that pass tf-idf thresholds but aren't
  * meaningful to a human reader (numbers, isolated stopword n-grams, etc.).
  */
@@ -257,32 +383,18 @@ function isUsefulTerm(term: string): boolean {
   // For multi-word phrases: require at least one non-stopword token.
   const allStop = tokens.every((t) => ENGLISH_STOPWORDS.has(t));
   if (allStop) return false;
-  // A token that can never carry topical meaning at a phrase boundary:
-  // strict boilerplate (UI/form/contact) OR the legacy generic blocklist
-  // (modal/aux verbs, abstract filler, numbers, etc.).
-  //
-  // Notably this does NOT include the WEAK_STANDALONE_UNIGRAMS set —
-  // words like `services`, `support`, `care`, `options`, `provider`
-  // are valuable at boundaries: `intervention services`,
-  // `family support`, `care plan`, `treatment options`,
-  // `care provider`. Suppressing them killed the phrase output entirely.
-  const isBlockedBoundary = (t: string) =>
-    isBoundaryBlocked(t) || GENERIC_UNIGRAM_BLOCKLIST.has(t);
-
   if (tokens.length === 1) {
-    if (isBlockedBoundary(tokens[0])) return false;
+    if (isBoundaryBlocked(tokens[0]) || GENERIC_UNIGRAM_BLOCKLIST.has(tokens[0])) return false;
   }
-  if (tokens.length === 2) {
-    if (isBlockedBoundary(tokens[0]) || isBlockedBoundary(tokens[1])) {
-      return false;
-    }
-  }
-  if (tokens.length >= 3) {
-    // Trigrams: only the outer boundaries must be clean. Interior
-    // tokens may be in the blocklist ("verification of benefits").
-    if (isBlockedBoundary(tokens[0]) || isBlockedBoundary(tokens[tokens.length - 1])) {
-      return false;
-    }
+  if (tokens.length >= 2) {
+    // For phrases, only boundary tokens must be clean. Interior function
+    // words are allowed ("rates by state"), and weak standalone nouns are
+    // allowed at boundaries ("mental health services", "county rates").
+    const first = tokens[0];
+    const last = tokens[tokens.length - 1];
+    if (isBoundaryBlocked(first) || isBoundaryBlocked(last)) return false;
+    if (PHRASE_BOUNDARY_BLOCKLIST.has(first) || PHRASE_BOUNDARY_BLOCKLIST.has(last)) return false;
+    if ((/^\d/.test(first) || /^\d/.test(last)) && !hasAllowedNumericContext(tokens)) return false;
   }
   return true;
 }
@@ -297,6 +409,8 @@ function lengthBonus(n: number): number {
   if (n === 1) return 0.35;
   if (n === 2) return 1.0;
   if (n === 3) return 1.35;
+  if (n === 4) return 1.45;
+  if (n === 5) return 1.35;
   return 1.0;
 }
 
@@ -351,6 +465,7 @@ export function extractNgrams(
   const minTotalFreq = opts.minTotalFreq ?? 3;
   const unigramMinAvgFreq = opts.unigramMinAvgFreq ?? 2;
   const limit = opts.limit ?? 300;
+  const maxNgramLength = opts.maxNgramLength ?? DEFAULT_MAX_NGRAM_LENGTH;
 
   // Filter to non-empty docs.
   const corpus = docs.filter((d): d is string => typeof d === "string" && d.trim().length > 0);
@@ -359,7 +474,7 @@ export function extractNgrams(
 
   // Per-doc term frequency maps.
   const perDocFreqs: Map<string, number>[] = corpus.map((doc) =>
-    extractTermsFromTokens(tokenize(doc)),
+    extractTermsFromText(doc, maxNgramLength),
   );
 
   // Aggregate across corpus.

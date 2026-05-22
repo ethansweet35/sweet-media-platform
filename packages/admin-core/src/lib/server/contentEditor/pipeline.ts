@@ -695,7 +695,7 @@ async function curateTermsWithAI(
     `- NEVER concatenate the primary keyword onto a phrase to make it longer\n` +
     `- GOOD examples: "motivational interviewing", "12-step program", "family therapy"\n` +
     `- BAD examples: "pharmacological treatment gambling", "naltrexone gambling disorder"\n` +
-    `- Prefer 2-3 word noun phrases over single words\n\n` +
+    `- Prefer coherent 2-5 word noun phrases / topic clusters over single words\n\n` +
     `Candidate terms:\n${termList}\n\n` +
     `Respond ONLY with this JSON (no preamble):\n` +
     `{"keep":["term1","term2",...],"add":["new_term1","new_term2",...]}`;
