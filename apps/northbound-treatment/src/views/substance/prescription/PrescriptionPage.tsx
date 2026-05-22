@@ -68,9 +68,9 @@ const data: SubstancePageData = {
     },
     {
       phase: "Month 3–6",
-      title: "Intensive Outpatient Program (IOP)",
-      icon: "ri-calendar-check-line",
-      body: "IOP allows clients to reintegrate into work, family, or school while maintaining 10–12 hours of weekly therapeutic support. Northbound walks with clients as they rediscover life free from pills — experiencing the joys and struggles of real life, with a clinical team alongside them.",
+      title: "Virtual IOP (HomeBound)",
+      icon: "ri-wifi-line",
+      body: "Virtual IOP allows clients to reintegrate into work, family, or school while maintaining 10–12 hours of weekly therapeutic support. Northbound walks with clients as they rediscover life free from pills — experiencing the joys and struggles of real life, with a clinical team alongside them.",
     },
     {
       phase: "Ongoing",
@@ -94,8 +94,8 @@ const data: SubstancePageData = {
     },
     {
       icon: "ri-user-line",
-      title: "1:1 Staff-to-Client Ratio",
-      body: "Every client at Northbound receives deeply individualized clinical attention. Our 1:1 ratio allows treatment plans to be dynamically adjusted — particularly critical in prescription drug detox, where the medical picture can shift rapidly.",
+      title: "2:1 Staff-to-Client Ratio",
+      body: "Every client at Northbound receives deeply individualized clinical attention. Our 2:1 ratio allows treatment plans to be dynamically adjusted — particularly critical in prescription drug detox, where the medical picture can shift rapidly.",
     },
     {
       icon: "ri-graduation-cap-line",

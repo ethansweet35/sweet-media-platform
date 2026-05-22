@@ -421,7 +421,7 @@ function MegaMenuCta({ onClose }: { onClose: () => void }) {
             { value: "38+", label: "Years" },
             { value: "10k+", label: "Served" },
             { value: ">97%", label: "Outcomes" },
-            { value: "1:1", label: "Staff ratio" },
+            { value: "2:1", label: "Staff ratio" },
           ].map((s) => (
             <div key={s.label} className="border border-white/10 bg-white/5 px-3 py-2 text-center">
               <p className="font-heading text-base font-bold text-white">{s.value}</p>

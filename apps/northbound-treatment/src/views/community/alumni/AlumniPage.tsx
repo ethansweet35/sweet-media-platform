@@ -289,7 +289,7 @@ export default function AlumniPage() {
               </p>
               <div className="mt-8 grid grid-cols-2 gap-4">
                 {[
-                  { icon: "ri-team-line", label: "1:1 Staff Ratio" },
+                  { icon: "ri-team-line", label: "2:1 Staff Ratio" },
                   { icon: "ri-award-line", label: "DHCS Licensed" },
                   { icon: "ri-heart-pulse-line", label: "200+ Yrs Expertise" },
                   { icon: "ri-star-line", label: "4.6★ Google Rating" },

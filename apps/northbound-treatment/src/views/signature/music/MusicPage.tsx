@@ -130,7 +130,7 @@ const data: SignaturePageData = {
   ],
   stats: [
     { value: "38+", label: "Years of clinical innovation" },
-    { value: "1:1", label: "Staff-to-client ratio" },
+    { value: "2:1", label: "Staff-to-client ratio" },
     { value: "8hrs", label: "Monthly recording studio access" },
   ],
 

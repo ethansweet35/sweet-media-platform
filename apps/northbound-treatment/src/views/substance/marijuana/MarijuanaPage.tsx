@@ -68,9 +68,9 @@ const data: SubstancePageData = {
     },
     {
       phase: "Month 2–5",
-      title: "Intensive Outpatient Program (IOP)",
-      icon: "ri-calendar-check-line",
-      body: "IOP provides 10–12 hours of weekly programming while clients reintegrate into work, school, or family. For marijuana recovery specifically, IOP focuses on building social connection, motivation, and daily structure — replacing the role cannabis played in managing discomfort and avoidance.",
+      title: "Virtual IOP (HomeBound)",
+      icon: "ri-wifi-line",
+      body: "Virtual IOP provides 10–12 hours of weekly programming while clients reintegrate into work, school, or family. For marijuana recovery specifically, IOP focuses on building social connection, motivation, and daily structure — replacing the role cannabis played in managing discomfort and avoidance.",
     },
     {
       phase: "Ongoing",
@@ -94,8 +94,8 @@ const data: SubstancePageData = {
     },
     {
       icon: "ri-user-line",
-      title: "1:1 Staff-to-Client Ratio",
-      body: "Every client receives deeply personal clinical attention. Our 1:1 staff ratio ensures that the individualized therapeutic work required for cannabis use disorder recovery is genuinely delivered — not diluted by group-only programming.",
+      title: "2:1 Staff-to-Client Ratio",
+      body: "Every client receives deeply personal clinical attention. Our 2:1 staff ratio ensures that the individualized therapeutic work required for cannabis use disorder recovery is genuinely delivered — not diluted by group-only programming.",
     },
     {
       icon: "ri-graduation-cap-line",

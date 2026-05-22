@@ -64,9 +64,9 @@ const data: SubstancePageData = {
     },
     {
       phase: "Month 3–6",
-      title: "Intensive Outpatient Program (IOP)",
-      icon: "ri-calendar-check-line",
-      body: "IOP allows reintegration into work, family, and daily life while maintaining 10–12 hours of weekly therapeutic support. Northbound's InVivo® model builds real-world recovery skills in real contexts.",
+      title: "Virtual IOP (HomeBound)",
+      icon: "ri-wifi-line",
+      body: "Virtual IOP allows reintegration into work, family, and daily life while maintaining 10–12 hours of weekly therapeutic support. Northbound's InVivo® model builds real-world recovery skills in real contexts.",
     },
     {
       phase: "Ongoing",

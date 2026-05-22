@@ -68,15 +68,15 @@ const data: SubstancePageData = {
     },
     {
       phase: "Month 3–6",
-      title: "Intensive Outpatient Program (IOP)",
-      icon: "ri-calendar-check-line",
-      body: "IOP allows clients to re-engage with work, family, and school while maintaining 10–12 hours of weekly therapeutic support. Northbound walks alongside clients as they practice navigating real-world triggers — building the genuine self-efficacy that underpins durable opioid recovery.",
+      title: "Virtual IOP (HomeBound)",
+      icon: "ri-wifi-line",
+      body: "Virtual IOP allows clients to re-engage with work, family, and school while maintaining 10–12 hours of weekly therapeutic support. Northbound walks alongside clients as they practice navigating real-world triggers — building the genuine self-efficacy that underpins durable opioid recovery.",
     },
     {
       phase: "Ongoing",
-      title: "Aftercare, Sober Living & Alumni",
+      title: "Aftercare & Alumni",
       icon: "ri-refresh-line",
-      body: "Northbound's alumni program provides the lifelong community, accountability, and support events that sustain long-term opioid recovery. Sober living provides additional structured transitional housing. Careerbound® and Collegebound® programs help clients rebuild the trajectories — professional and educational — that opioid addiction disrupted.",
+      body: "Northbound's alumni program provides the lifelong community, accountability, and support events that sustain long-term opioid recovery. Careerbound® and Collegebound® programs help clients rebuild the trajectories — professional and educational — that opioid addiction disrupted.",
     },
   ],
 
@@ -94,8 +94,8 @@ const data: SubstancePageData = {
     },
     {
       icon: "ri-user-line",
-      title: "1:1 Staff-to-Client Ratio",
-      body: "Every client receives deeply individualized clinical attention. Our 1:1 staff-to-client ratio means treatment plans can be adjusted in real time — particularly critical during the medically complex early stages of opioid detox and early recovery.",
+      title: "2:1 Staff-to-Client Ratio",
+      body: "Every client receives deeply individualized clinical attention. Our 2:1 staff-to-client ratio means treatment plans can be adjusted in real time — particularly critical during the medically complex early stages of opioid detox and early recovery.",
     },
     {
       icon: "ri-shield-check-line",

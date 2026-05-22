@@ -117,7 +117,7 @@ const data: TreatmentPageData = {
     { label: "Medical Detox", href: "/programs/detox/", icon: "ri-capsule-line" },
     { label: "Residential", href: "/programs/residential-treatment-center/", icon: "ri-home-heart-line" },
     { label: "PHP", href: "/programs/partial-hospitalization-program/", icon: "ri-hospital-line" },
-    { label: "IOP", href: "/programs/intensive-outpatient-treatment/", icon: "ri-calendar-check-line" },
+    { label: "Virtual IOP", href: "/telehealth-iop-services/", icon: "ri-wifi-line" },
     { label: "Aftercare", href: "/programs/aftercare/", icon: "ri-refresh-line" },
   ],
 

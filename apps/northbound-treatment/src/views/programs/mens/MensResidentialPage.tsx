@@ -172,22 +172,14 @@ export default function MensResidentialPage() {
                 <AutoLinkedText>{"Specialized Programs for Men"}</AutoLinkedText>
               </p>
               <h2 className="font-heading mt-3 text-4xl font-bold text-white md:text-5xl">
-                Veterans Track &amp; <span className="italic text-[#e97a52]">Careerbound®</span>
+                <span className="italic text-[#e97a52]">Careerbound®</span> for Men in Recovery
               </h2>
               <p className="mt-5 leading-relaxed text-white/65">
-                <AutoLinkedText>{"Two of Northbound's most specialized programs are built around men's most common recovery trajectories. The Veterans Track program provides culturally competent care for active military and veterans — honoring service, addressing combat trauma, and building recovery within the context of military identity. The Careerbound® program supports men in rebuilding professional lives disrupted by addiction."}</AutoLinkedText>
+                <AutoLinkedText>{"The Careerbound® program supports men in rebuilding professional lives disrupted by addiction — with vocational coaching, workplace re-entry support, and clinical care integrated into Northbound's residential continuum."}</AutoLinkedText>
               </p>
               <p className="mt-4 leading-relaxed text-white/65">
-                <AutoLinkedText>{"Both programs integrate into Northbound's residential and outpatient continuum — providing the vocational, identity, and community-level support that sustains sobriety beyond the clinical setting."}</AutoLinkedText>
+                <AutoLinkedText>{"Men in recovery also benefit from trauma-informed care for service-related and first-responder trauma within our co-ed clinical program — without a separate veterans-only track."}</AutoLinkedText>
               </p>
-              <div className="mt-8 flex flex-wrap gap-4">
-                <Link
-                  href="/veterans-track-program/"
-                  className="inline-flex items-center gap-2 border border-white/25 px-6 py-3.5 text-sm font-semibold text-white transition hover:border-white/50 hover:bg-white/8"
-                >
-                  Veterans Track Program <i className="ri-arrow-right-line" />
-                </Link>
-              </div>
             </div>
             <div className="space-y-8">
               {[

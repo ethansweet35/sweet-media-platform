@@ -25,7 +25,7 @@ const data: InsurancePageData = {
 
   aboutHeadline: "Does MHN Cover Addiction Treatment?",
   aboutBody: [
-    "Yes — MHN (Mental Health Network) provides coverage for substance use disorder treatment, including medically supervised detox, residential inpatient, partial hospitalization (PHP), and intensive outpatient (IOP) programs for eligible Health Net plan members. MHN is Health Net's specialized behavioral health subsidiary, managing mental health and addiction treatment benefits for millions of members in California and across the country.",
+    "Yes — MHN (Mental Health Network) provides coverage for substance use disorder treatment, including medically supervised detox, residential inpatient, partial hospitalization (PHP), and virtual IOP (telehealth) programs for eligible Health Net plan members. MHN is Health Net's specialized behavioral health subsidiary, managing mental health and addiction treatment benefits for millions of members in California and across the country.",
     "If you have Health Net insurance, your behavioral health benefits — including addiction treatment — are likely managed through MHN. MHN handles prior authorization and utilization management for all behavioral health services. California's strong mental health parity law (SB 855) requires MHN to cover substance use disorder treatment comprehensively, at par with physical health benefits.",
     "As an in-network provider with MHN, Northbound's negotiated rates significantly reduce your out-of-pocket costs. Northbound's admissions team contacts MHN directly on your behalf to determine your exact coverage — at no cost to you.",
   ],
@@ -62,9 +62,9 @@ const data: InsurancePageData = {
     },
     {
       icon: "ri-calendar-check-line",
-      label: "Intensive Outpatient (IOP)",
+      label: "Virtual IOP (Telehealth)",
       detail:
-        "IOP at Northbound — 6 to 12 hours of weekly programming — is covered by most MHN plans. Flexible scheduling supports clients maintaining work and family obligations.",
+        "Northbound's virtual IOP (HomeBound) — 6 to 12 hours of weekly programming — is covered by most MHN plans. Flexible scheduling supports clients maintaining work and family obligations.",
     },
     {
       icon: "ri-brain-line",
@@ -105,7 +105,7 @@ const data: InsurancePageData = {
     },
     {
       q: "Does MHN cover drug and alcohol rehab?",
-      a: "Yes. MHN covers substance use disorder treatment including detox, residential, PHP, and IOP for eligible Health Net members. California's strong mental health parity law (SB 855) requires comprehensive coverage for behavioral health at par with physical health.",
+      a: "Yes. MHN covers substance use disorder treatment including detox, residential, PHP, and virtual IOP for eligible Health Net members. California's strong mental health parity law (SB 855) requires comprehensive coverage for behavioral health at par with physical health.",
     },
     {
       q: "Is Northbound in-network with MHN?",

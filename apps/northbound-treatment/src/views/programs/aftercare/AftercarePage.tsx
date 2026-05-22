@@ -23,7 +23,7 @@ const data: TreatmentPageData = {
   overviewHeadline: "What Is Aftercare in Addiction Recovery?",
   overviewBody: [
     "Aftercare refers to the structured support, resources, and clinical connections that follow the completion of a formal addiction treatment program. Research consistently shows that individuals who engage in aftercare counseling and ongoing support demonstrate significantly higher rates of long-term sobriety than those who transition out of treatment without a continuing care plan. Recovery from addiction is a lifelong process — and the months immediately following discharge are among the most clinically vulnerable.",
-    "At Northbound, aftercare planning begins during treatment, not after. Your discharge planning team works with you well before your last day to establish a comprehensive aftercare plan — including ongoing therapy referrals, sober living connections, 12-step meeting schedules, alumni engagement, and, for eligible clients, Northbound's Work Exchange Program. We don't just say goodbye at the door; we stay connected.",
+    "At Northbound, aftercare planning begins during treatment, not after. Your discharge planning team works with you well before your last day to establish a comprehensive aftercare plan — including ongoing therapy referrals, 12-step meeting schedules, alumni engagement, and, for eligible clients, Northbound's Work Exchange Program. We don't just say goodbye at the door; we stay connected.",
   ],
   keyFacts: [
     { icon: "ri-refresh-line", label: "Planning Starts", value: "During Treatment" },
@@ -43,7 +43,7 @@ const data: TreatmentPageData = {
       number: "01",
       title: "Discharge Planning During Treatment",
       icon: "ri-file-list-line",
-      body: "Your aftercare plan doesn't start at discharge — it starts weeks before. Your clinical team works with you to build a tailored plan covering therapy referrals, sober living needs, 12-step integration, family support, employment or school resources, and alumni connection — all confirmed before your last day.",
+      body: "Your aftercare plan doesn't start at discharge — it starts weeks before. Your clinical team works with you to build a tailored plan covering therapy referrals, virtual IOP or outpatient step-down options, 12-step integration, family support, employment or school resources, and alumni connection — all confirmed before your last day.",
     },
     {
       number: "02",
@@ -59,9 +59,9 @@ const data: TreatmentPageData = {
     },
     {
       number: "04",
-      title: "Sober Living Connection",
-      icon: "ri-home-2-line",
-      body: "For clients who are not returning to a stable, sober home environment, Northbound coordinates sober living placement before discharge — ensuring there is never a gap between the structure of treatment and the safety of a substance-free home. Aftercare and sober living work in tandem.",
+      title: "Virtual IOP & Outpatient Step-Down",
+      icon: "ri-wifi-line",
+      body: "Clients stepping down from residential or PHP can continue structured care through Northbound's virtual IOP (HomeBound) or outpatient referrals — maintaining clinical momentum without a gap in support.",
     },
     {
       number: "05",
@@ -116,8 +116,7 @@ const data: TreatmentPageData = {
     { label: "Medical Detox", href: "/programs/detox/", icon: "ri-capsule-line" },
     { label: "Residential", href: "/programs/residential-treatment-center/", icon: "ri-home-heart-line" },
     { label: "PHP", href: "/programs/partial-hospitalization-program/", icon: "ri-hospital-line" },
-    { label: "IOP", href: "/programs/intensive-outpatient-treatment/", icon: "ri-calendar-check-line" },
-    { label: "Sober Living", href: "/treatment/transitional-living-programs/sober-living/", icon: "ri-building-2-line" },
+    { label: "Virtual IOP", href: "/telehealth-iop-services/", icon: "ri-wifi-line" },
     { label: "Aftercare", href: "/programs/aftercare/", icon: "ri-refresh-line", current: true },
   ],
 
@@ -125,7 +124,7 @@ const data: TreatmentPageData = {
   faqs: [
     {
       q: "What does Northbound's aftercare program include?",
-      a: "Northbound's aftercare program includes a personalized discharge plan developed during treatment, therapy referrals, 12-step meeting integration, sober living placement (when needed), alumni community connection, the Work Exchange Program for eligible clients, and regular check-ins from Northbound's alumni director after discharge. It is a comprehensive, ongoing support system — not a one-time referral sheet.",
+      a: "Northbound's aftercare program includes a personalized discharge plan developed during treatment, therapy referrals, 12-step meeting integration, virtual IOP or outpatient step-down coordination, alumni community connection, the Work Exchange Program for eligible clients, and regular check-ins from Northbound's alumni director after discharge. It is a comprehensive, ongoing support system — not a one-time referral sheet.",
     },
     {
       q: "Is aftercare planning included in treatment at no extra cost?",

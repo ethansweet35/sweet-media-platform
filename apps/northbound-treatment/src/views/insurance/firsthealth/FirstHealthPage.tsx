@@ -62,9 +62,9 @@ const data: InsurancePageData = {
     },
     {
       icon: "ri-calendar-check-line",
-      label: "Intensive Outpatient (IOP)",
+      label: "Virtual IOP (Telehealth)",
       detail:
-        "IOP at Northbound — 6 to 12 hours of weekly programming — is covered by most First Health Network plans. Flexible scheduling allows clients to continue work or family obligations.",
+        "Northbound's virtual IOP (HomeBound) — 6 to 12 hours of weekly programming — is covered by most First Health Network plans. Flexible scheduling allows clients to continue work or family obligations.",
     },
     {
       icon: "ri-brain-line",

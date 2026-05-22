@@ -22,8 +22,8 @@ const therapyServices = [
 ];
 
 const amenities = [
-  { icon: "ri-restaurant-line", label: "Chef-Catered Meals", desc: "Three nutritious, catered meals daily" },
-  { icon: "ri-sleep-line", label: "Memory Foam Beds", desc: "Full-size beds for restorative rest" },
+  { icon: "ri-restaurant-line", label: "Chef-Curated Meals", desc: "On-site chefs prepare three nutritious, chef-curated meals daily" },
+  { icon: "ri-home-heart-line", label: "Comfortable Rooms", desc: "Residential spaces designed for rest and recovery" },
   { icon: "ri-tv-line", label: "Smart TVs In-Room", desc: "All major streaming apps included" },
   { icon: "ri-fire-line", label: "On-Site Fire Pit", desc: "Nightly community gathering space" },
   { icon: "ri-run-line", label: "On-Site Gym", desc: "Daily fitness access for all residents" },
@@ -59,16 +59,10 @@ const programs = [
     desc: "Structured day-treatment for those stepping down from residential or who need intensive support without overnight stays.",
   },
   {
-    icon: "ri-calendar-check-line",
-    name: "Intensive Outpatient (IOP)",
-    duration: "9+ hrs/week",
-    desc: "Flexible scheduling for clients who need ongoing clinical support while managing work, family, or other responsibilities.",
-  },
-  {
-    icon: "ri-computer-line",
-    name: "Virtual IOP",
+    icon: "ri-wifi-line",
+    name: "Virtual IOP (HomeBound)",
     duration: "Flexible",
-    desc: "Telehealth outpatient services for California and Washington residents who prefer or require remote treatment access.",
+    desc: "Northbound's only outpatient intensive level of care — delivered via secure telehealth for California and Washington residents.",
   },
 ];
 
@@ -79,7 +73,7 @@ const faqs = [
   },
   {
     q: "How long does treatment last?",
-    a: "Program length varies by individual need. Our most common options are 30-day short-term intensive care, 30–90 day in-depth residential programs, and extended aftercare including sober living and outpatient support. A specialist will help determine the right fit.",
+    a: "Program length varies by individual need. Our most common options are 30-day short-term intensive care, 30–90 day in-depth residential programs, and extended aftercare including virtual IOP and alumni support. A specialist will help determine the right fit.",
   },
   {
     q: "Do you offer medically supervised detox at Garden Grove?",
@@ -95,7 +89,7 @@ const faqs = [
   },
   {
     q: "What happens after I leave the Garden Grove facility?",
-    a: "We provide comprehensive aftercare planning: outpatient step-down programs, sober living referrals, ongoing alumni support groups (weekly meetings and BBQs), and relapse-prevention strategies. Recovery is lifelong — and so is our support.",
+    a: "We provide comprehensive aftercare planning: virtual IOP step-down, ongoing alumni support groups (weekly meetings and BBQs), and relapse-prevention strategies. Recovery is lifelong — and so is our support.",
   },
 ];
 
@@ -216,7 +210,7 @@ export default function GardenGrovePage() {
               <div className="mt-8 grid grid-cols-2 gap-4 sm:grid-cols-3">
                 {[
                   { stat: "38+", label: "Years Operating" },
-                  { stat: "1:1", label: "Staff-to-Client Ratio" },
+                  { stat: "2:1", label: "Staff-to-Client Ratio" },
                   { stat: "24/7", label: "Medical Support" },
                 ].map((s) => (
                   <div key={s.label} className="rounded-2xl bg-sand p-5 text-center">

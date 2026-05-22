@@ -21,11 +21,11 @@ const data: InsurancePageData = {
   carrierName: "Tricare",
   carrierTagline: "Accepted for active duty, veterans & military families",
   heroBody:
-    "Tricare covers addiction treatment — including detox, residential, PHP, and IOP — for eligible active duty service members, veterans, and their families. Northbound accepts Tricare and has experience navigating its authorization requirements to maximize your benefits.",
+    "Tricare covers addiction treatment — including detox, residential, PHP, and virtual IOP — for eligible active duty service members, veterans, and their families. Northbound accepts Tricare and has experience navigating its authorization requirements to maximize your benefits.",
 
   aboutHeadline: "Does Tricare Cover Addiction Treatment?",
   aboutBody: [
-    "Yes — Tricare provides coverage for substance use disorder treatment, including medically supervised detox, residential inpatient, partial hospitalization (PHP), and intensive outpatient (IOP) programs for eligible beneficiaries. Tricare is the health insurance program for active duty service members, retirees, National Guard and Reserve members, and their families — administered by the Department of Defense.",
+    "Yes — Tricare provides coverage for substance use disorder treatment, including medically supervised detox, residential inpatient, partial hospitalization (PHP), and virtual IOP (telehealth) programs for eligible beneficiaries. Tricare is the health insurance program for active duty service members, retirees, National Guard and Reserve members, and their families — administered by the Department of Defense.",
     "Tricare coverage depends on your specific plan — Tricare Prime, Tricare Select, Tricare for Life, or Tricare Reserve Select — as well as whether your treatment provider is within the Tricare network and prior authorization requirements. Northbound's admissions team contacts Tricare directly on your behalf to determine your exact coverage before arrival, at no cost to you.",
     "Tricare's behavioral health benefits are comprehensive under federal law — substance use treatment is covered at par with physical health conditions. Northbound's team has experience working with Tricare's authorization and utilization review processes specifically, helping military families navigate the system with minimal stress.",
   ],
@@ -62,9 +62,9 @@ const data: InsurancePageData = {
     },
     {
       icon: "ri-calendar-check-line",
-      label: "Intensive Outpatient (IOP)",
+      label: "Virtual IOP (Telehealth)",
       detail:
-        "IOP at Northbound is covered by most Tricare plans. Flexible scheduling options help veterans and service members balance treatment with family and work obligations.",
+        "Northbound's virtual IOP (HomeBound) is covered by most Tricare plans. Flexible scheduling options help veterans and service members balance treatment with family and work obligations.",
     },
     {
       icon: "ri-brain-line",
@@ -101,7 +101,7 @@ const data: InsurancePageData = {
   faqs: [
     {
       q: "Does Tricare cover drug and alcohol rehab?",
-      a: "Yes. Tricare covers substance use disorder treatment including detox, residential, PHP, and IOP for eligible beneficiaries. Federal law requires behavioral health parity — substance use and mental health treatment must be covered on equal terms with physical health. Specific benefits depend on your Tricare plan type — Northbound verifies your coverage at no cost.",
+      a: "Yes. Tricare covers substance use disorder treatment including detox, residential, PHP, and virtual IOP for eligible beneficiaries. Federal law requires behavioral health parity — substance use and mental health treatment must be covered on equal terms with physical health. Specific benefits depend on your Tricare plan type — Northbound verifies your coverage at no cost.",
     },
     {
       q: "Does Northbound accept Tricare?",

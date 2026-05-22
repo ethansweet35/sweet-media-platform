@@ -41,7 +41,7 @@ const HOMEPAGE_FAQS: FaqItem[] = [
   {
     question: "How long does treatment last?",
     answer:
-      "Treatment length varies based on individual need and the level of care required. We offer a full continuum — from medical detox through residential, PHP, IOP, sober living, and aftercare — allowing us to step you up or down based on progress. Many clients complete a 30, 60, or 90-day program.",
+      "Treatment length varies based on individual need and the level of care required. We offer a full continuum — from medical detox through residential, PHP, virtual IOP, and aftercare — allowing us to step you up or down based on progress. Many clients complete a 30, 60, or 90-day program.",
   },
   {
     question: "What does treatment at Northbound cost?",

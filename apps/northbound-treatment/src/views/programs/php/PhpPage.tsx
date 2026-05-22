@@ -22,7 +22,7 @@ const data: TreatmentPageData = {
   /* ── Overview ─────────────────────────────────────────────── */
   overviewHeadline: "What Is a Partial Hospitalization Program?",
   overviewBody: [
-    "A Partial Hospitalization Program (PHP) is a highly structured level of care that sits between residential treatment and intensive outpatient (IOP) on the continuum of care. Clients attend treatment most days of the week — up to 6 hours per day — while living independently in sober housing or at home with support. It is the ideal next step for those completing residential treatment who need continued clinical intensity without full-time inpatient admission.",
+    "A Partial Hospitalization Program (PHP) is a highly structured level of care that sits between residential treatment and virtual IOP on the continuum of care. Clients attend treatment most days of the week — up to 6 hours per day — while living at home or in another stable, supportive environment. It is the ideal next step for those completing residential treatment who need continued clinical intensity without full-time inpatient admission.",
     "At Northbound, PHP is not simply a reduction in residential hours. It is a deliberate, skills-building phase where clients begin applying therapeutic gains to everyday life — testing coping strategies in real situations with clinical guidance close at hand. Individual therapy, group programming, and specialty modalities continue uninterrupted through this phase.",
   ],
   keyFacts: [
@@ -31,7 +31,7 @@ const data: TreatmentPageData = {
     { icon: "ri-hospital-line", label: "Level of Care", value: "Partial Hospitalization" },
     { icon: "ri-map-pin-2-line", label: "Location", value: "Orange County, CA" },
     { icon: "ri-shield-check-line", label: "Insurance", value: "15+ Major Plans Accepted" },
-    { icon: "ri-home-2-line", label: "Housing", value: "Sober Living or Home-Based" },
+    { icon: "ri-home-2-line", label: "Housing", value: "Home-Based or Stable Support" },
   ],
 
   /* ── Steps ────────────────────────────────────────────────── */
@@ -67,13 +67,13 @@ const data: TreatmentPageData = {
       number: "05",
       title: "Independent Living Practice",
       icon: "ri-home-2-line",
-      body: "Outside of programming hours, clients live in structured sober housing or, in some cases, at home — practicing the coping skills, routines, and emotional regulation tools built during residential care. Recovery is lived in the real world, and PHP is where that begins.",
+      body: "Outside of programming hours, clients return to a stable home or supportive living environment — practicing the coping skills, routines, and emotional regulation tools built during residential care. Recovery is lived in the real world, and PHP is where that begins.",
     },
     {
       number: "06",
-      title: "Transition to IOP",
-      icon: "ri-arrow-right-line",
-      body: "Successful PHP completion leads to a coordinated step-down to Intensive Outpatient (IOP). Your care team evaluates clinical readiness, coordinates scheduling, and ensures you have a support network and aftercare plan in place before reducing the level of care.",
+      title: "Transition to Virtual IOP",
+      icon: "ri-wifi-line",
+      body: "Successful PHP completion leads to a coordinated step-down to Northbound's virtual IOP (HomeBound). Your care team evaluates clinical readiness, coordinates scheduling, and ensures you have a support network and aftercare plan in place before reducing the level of care.",
     },
   ],
 
@@ -90,9 +90,9 @@ const data: TreatmentPageData = {
       body: "Northbound's PHP includes EMDR therapy for clients with unresolved trauma — one of the most evidence-based trauma modalities available. Because trauma is at the root of most addiction, processing it in PHP prevents the patterns that lead to relapse.",
     },
     {
-      icon: "ri-music-line",
-      title: "Music & Experiential Recovery",
-      body: "Our Music Recovery program and experiential therapies continue through PHP, providing positive emotional outlets and coping tools clients carry with them long after treatment ends. These modalities complement traditional therapy by engaging the whole person.",
+      icon: "ri-leaf-line",
+      title: "Experiential Recovery",
+      body: "Experiential therapies — including art, yoga, and meditation — continue through PHP, providing positive emotional outlets and coping tools clients carry with them long after treatment ends. These modalities complement traditional therapy by engaging the whole person.",
     },
     {
       icon: "ri-pray-line",
@@ -116,8 +116,7 @@ const data: TreatmentPageData = {
     { label: "Medical Detox", href: "/programs/detox/", icon: "ri-capsule-line" },
     { label: "Residential", href: "/programs/residential-treatment-center/", icon: "ri-home-heart-line" },
     { label: "PHP", href: "/programs/partial-hospitalization-program/", icon: "ri-hospital-line", current: true },
-    { label: "IOP", href: "/programs/intensive-outpatient-treatment/", icon: "ri-calendar-check-line" },
-    { label: "Sober Living", href: "/treatment/transitional-living-programs/sober-living/", icon: "ri-building-2-line" },
+    { label: "Virtual IOP", href: "/telehealth-iop-services/", icon: "ri-wifi-line" },
     { label: "Aftercare", href: "/programs/aftercare/", icon: "ri-refresh-line" },
   ],
 
@@ -133,7 +132,7 @@ const data: TreatmentPageData = {
     },
     {
       q: "Where do clients live during PHP?",
-      a: "PHP clients live either in affiliated sober living homes or, depending on their clinical situation, at their own residence. Northbound can assist in identifying appropriate sober living accommodations that support recovery while in PHP.",
+      a: "PHP clients typically live at home or in another stable, supportive residence while attending daytime programming. Your clinical team helps confirm that your living environment supports recovery during PHP.",
     },
     {
       q: "What therapies are offered in PHP?",
@@ -145,7 +144,7 @@ const data: TreatmentPageData = {
     },
     {
       q: "What comes after PHP?",
-      a: "Most clients who complete PHP step down to Northbound's Intensive Outpatient Program (IOP), which provides continued therapy with fewer weekly hours, allowing for greater independence. Your clinical team coordinates the step-down and ensures all aftercare plans are in place.",
+      a: "Most clients who complete PHP step down to Northbound's virtual IOP (HomeBound), which provides continued structured therapy online with greater flexibility for work, school, and family life. Your clinical team coordinates the step-down and ensures all aftercare plans are in place.",
     },
   ],
 

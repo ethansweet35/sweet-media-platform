@@ -68,15 +68,15 @@ const data: SubstancePageData = {
     },
     {
       phase: "Month 3–6",
-      title: "Intensive Outpatient Program (IOP)",
-      icon: "ri-calendar-check-line",
-      body: "IOP allows clients to reintegrate into work, family, or school life while maintaining 10–12 hours of weekly therapeutic support. Clients practice navigating real-world triggers — with Northbound's clinical team alongside them — building the genuine self-efficacy that underpins lasting sobriety.",
+      title: "Virtual IOP (HomeBound)",
+      icon: "ri-wifi-line",
+      body: "Virtual IOP allows clients to reintegrate into work, family, or school life while maintaining 10–12 hours of weekly therapeutic support. Clients practice navigating real-world triggers — with Northbound's clinical team alongside them — building the genuine self-efficacy that underpins lasting sobriety.",
     },
     {
       phase: "Ongoing",
-      title: "Aftercare, Sober Living & Alumni",
+      title: "Aftercare & Alumni",
       icon: "ri-refresh-line",
-      body: "Long-term recovery from heroin requires long-term support. Northbound's aftercare and alumni program provides lifelong community, accountability, and resources. Sober living options provide structured transitional housing for clients who need additional support before returning to independent living.",
+      body: "Long-term recovery from heroin requires long-term support. Northbound's aftercare and alumni program provides lifelong community, accountability, and resources as clients transition back to independent life.",
     },
   ],
 
@@ -94,8 +94,8 @@ const data: SubstancePageData = {
     },
     {
       icon: "ri-user-line",
-      title: "1:1 Staff-to-Client Ratio",
-      body: "Heroin recovery is intensive work. Northbound's 1:1 staff-to-client ratio ensures every client receives the individualized clinical attention their recovery demands — particularly critical in the dangerous early weeks of opioid detox.",
+      title: "2:1 Staff-to-Client Ratio",
+      body: "Heroin recovery is intensive work. Northbound's 2:1 staff-to-client ratio ensures every client receives the individualized clinical attention their recovery demands — particularly critical in the dangerous early weeks of opioid detox.",
     },
     {
       icon: "ri-family-line",
@@ -140,7 +140,7 @@ const data: SubstancePageData = {
     {
       question: "How long does heroin treatment take?",
       answer:
-        "Northbound offers 30, 60, and 90-day programs. Given the severity of opioid dependency and the risk of relapse, research supports 90 days or more as the standard for achieving durable recovery. Many clients also continue through PHP, IOP, sober living, and alumni support beyond their initial residential stay.",
+        "Northbound offers 30, 60, and 90-day programs. Given the severity of opioid dependency and the risk of relapse, research supports 90 days or more as the standard for achieving durable recovery. Many clients also continue through PHP, virtual IOP, and alumni support beyond their initial residential stay.",
     },
     {
       question: "Can I receive treatment for heroin and another mental health condition?",
@@ -155,7 +155,7 @@ const data: SubstancePageData = {
     {
       question: "What happens after I complete residential treatment for heroin?",
       answer:
-        "After residential treatment, Northbound clients typically step down through PHP, IOP, and sober living as clinically appropriate — maintaining robust clinical support while gradually reintegrating into real-world life. The alumni program then provides lifelong community and accountability. Our goal is for every client to achieve and maintain one year of continuous sobriety.",
+        "After residential treatment, Northbound clients typically step down through PHP and virtual IOP as clinically appropriate — maintaining robust clinical support while gradually reintegrating into real-world life. The alumni program then provides lifelong community and accountability. Our goal is for every client to achieve and maintain one year of continuous sobriety.",
     },
   ],
 

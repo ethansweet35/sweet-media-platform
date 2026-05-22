@@ -21,11 +21,11 @@ const data: InsurancePageData = {
   carrierName: "ILWU",
   carrierTagline: "Union health plan — accepted at Northbound",
   heroBody:
-    "The ILWU (International Longshore and Warehouse Union) provides health benefits to eligible union members and their families. Northbound accepts ILWU health plan coverage for addiction treatment — including detox, residential, PHP, and IOP.",
+    "The ILWU (International Longshore and Warehouse Union) provides health benefits to eligible union members and their families. Northbound accepts ILWU health plan coverage for addiction treatment — including detox, residential, PHP, and virtual IOP.",
 
   aboutHeadline: "Does the ILWU Health Plan Cover Addiction Treatment?",
   aboutBody: [
-    "Yes — the International Longshore and Warehouse Union (ILWU) health plan provides coverage for substance use disorder treatment, including medically supervised detox, residential inpatient, partial hospitalization (PHP), and intensive outpatient (IOP) programs for eligible union members and their covered dependents. The ILWU-PMA Welfare Plan is one of the most comprehensive union health plans in the country, designed to protect the health and wellbeing of longshore workers along the Pacific Coast.",
+    "Yes — the International Longshore and Warehouse Union (ILWU) health plan provides coverage for substance use disorder treatment, including medically supervised detox, residential inpatient, partial hospitalization (PHP), and virtual IOP (telehealth) programs for eligible union members and their covered dependents. The ILWU-PMA Welfare Plan is one of the most comprehensive union health plans in the country, designed to protect the health and wellbeing of longshore workers along the Pacific Coast.",
     "The ILWU health plan is administered through the ILWU-PMA Welfare Plan, a joint labor-management trust fund that operates independently from commercial insurers. Coverage is subject to the plan's Summary Plan Description and may require prior authorization for higher levels of care. Federal law requires the plan to cover mental health and substance use treatment at parity with physical health benefits.",
     "Northbound's admissions team has experience working with union health plan administrators. We contact the ILWU-PMA Welfare Plan directly on your behalf to determine your exact coverage — authorized levels of care, cost-sharing, and prior authorization requirements — at no cost to you.",
   ],
@@ -62,9 +62,9 @@ const data: InsurancePageData = {
     },
     {
       icon: "ri-calendar-check-line",
-      label: "Intensive Outpatient (IOP)",
+      label: "Virtual IOP (Telehealth)",
       detail:
-        "IOP at Northbound is covered under most ILWU health plan configurations. Flexible scheduling allows union members to balance treatment with work commitments and union obligations.",
+        "Northbound's virtual IOP (HomeBound) is covered under most ILWU health plan configurations. Flexible scheduling allows union members to balance treatment with work commitments and union obligations.",
     },
     {
       icon: "ri-brain-line",
@@ -101,7 +101,7 @@ const data: InsurancePageData = {
   faqs: [
     {
       q: "Does the ILWU health plan cover drug and alcohol rehab?",
-      a: "Yes. The ILWU-PMA Welfare Plan covers substance use disorder treatment including detox, residential, PHP, and IOP when medically necessary. Federal mental health parity law requires coverage at par with physical health benefits. Your specific benefits depend on your plan configuration — Northbound verifies this at no cost.",
+      a: "Yes. The ILWU-PMA Welfare Plan covers substance use disorder treatment including detox, residential, PHP, and virtual IOP when medically necessary. Federal mental health parity law requires coverage at par with physical health benefits. Your specific benefits depend on your plan configuration — Northbound verifies this at no cost.",
     },
     {
       q: "Does Northbound accept ILWU health plan coverage?",

@@ -21,11 +21,11 @@ const data: InsurancePageData = {
   carrierName: "Health Net",
   carrierTagline: "In-network preferred provider",
   heroBody:
-    "Health Net covers drug and alcohol treatment — including detox, residential, PHP, and IOP — for most of its California and national plan members. Northbound is an in-network preferred provider with Health Net, ensuring lower out-of-pocket costs and streamlined authorization.",
+    "Health Net covers drug and alcohol treatment — including detox, residential, PHP, and virtual IOP — for most of its California and national plan members. Northbound is an in-network preferred provider with Health Net, ensuring lower out-of-pocket costs and streamlined authorization.",
 
   aboutHeadline: "Does Health Net Cover Addiction Treatment?",
   aboutBody: [
-    "Yes — Health Net provides coverage for substance use disorder treatment, including medically supervised detox, residential inpatient, partial hospitalization (PHP), and intensive outpatient (IOP) programs for most of its plan members. As a major health insurer with deep roots in California and a strong network nationally, Health Net provides behavioral health coverage with parity protections aligned with state and federal law.",
+    "Yes — Health Net provides coverage for substance use disorder treatment, including medically supervised detox, residential inpatient, partial hospitalization (PHP), and virtual IOP (telehealth) programs for most of its plan members. As a major health insurer with deep roots in California and a strong network nationally, Health Net provides behavioral health coverage with parity protections aligned with state and federal law.",
     "Health Net's behavioral health benefits are managed through its subsidiary Mental Health Network (MHN) for many plan members. Whether your behavioral health claims go through Health Net directly or through MHN, Northbound's team has experience with both authorization processes. Your specific coverage depends on your plan type — HMO, PPO, or employer-sponsored — and your deductible status.",
     "As an in-network preferred provider with Health Net, Northbound's negotiated rates significantly reduce your out-of-pocket costs compared to out-of-network treatment. Northbound's admissions team contacts Health Net directly on your behalf to confirm your exact benefits — at no cost to you.",
   ],
@@ -62,9 +62,9 @@ const data: InsurancePageData = {
     },
     {
       icon: "ri-calendar-check-line",
-      label: "Intensive Outpatient (IOP)",
+      label: "Virtual IOP (Telehealth)",
       detail:
-        "IOP at Northbound — 6 to 12 hours of weekly clinical programming — is covered by most Health Net plans. Day and evening options help clients balance treatment with work and family.",
+        "Northbound's virtual IOP (HomeBound) — 6 to 12 hours of weekly clinical programming — is covered by most Health Net plans. Day and evening options help clients balance treatment with work and family.",
     },
     {
       icon: "ri-brain-line",
@@ -101,7 +101,7 @@ const data: InsurancePageData = {
   faqs: [
     {
       q: "Does Health Net cover drug and alcohol rehab?",
-      a: "Yes. Health Net covers substance use disorder treatment including detox, residential, PHP, and IOP under most plan types. Federal and California state law require Health Net to cover behavioral health at parity with physical health. Your specific benefits depend on your plan — Northbound verifies your coverage at no cost.",
+      a: "Yes. Health Net covers substance use disorder treatment including detox, residential, PHP, and virtual IOP under most plan types. Federal and California state law require Health Net to cover behavioral health at parity with physical health. Your specific benefits depend on your plan — Northbound verifies your coverage at no cost.",
     },
     {
       q: "Is Northbound in-network with Health Net?",

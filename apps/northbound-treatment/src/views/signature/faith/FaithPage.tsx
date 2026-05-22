@@ -131,7 +131,7 @@ const data: SignaturePageData = {
   ],
   stats: [
     { value: "38+", label: "Years of integrated treatment experience" },
-    { value: "1:1", label: "Staff-to-client ratio" },
+    { value: "2:1", label: "Staff-to-client ratio" },
     { value: "3mo", label: "Ideal residential treatment duration" },
   ],
 
@@ -153,7 +153,6 @@ const data: SignaturePageData = {
   relatedServices: [
     { name: "Adventure Therapy", href: "/adventure-therapy-program/", tag: "Signature Service", icon: "ri-compass-3-line" },
     { name: "Wolf-Assisted Therapy", href: "/wolf-assisted-therapy/", tag: "Signature Service", icon: "ri-leaf-line" },
-    { name: "Music Recovery Program", href: "/treatment/music-program/", tag: "Signature Service", icon: "ri-music-2-line" },
     { name: "Family Therapy Services", href: "/programs/family-therapy/", tag: "Signature Service", icon: "ri-family-line" },
   ],
 

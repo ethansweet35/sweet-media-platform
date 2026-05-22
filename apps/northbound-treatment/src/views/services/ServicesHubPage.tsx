@@ -13,37 +13,13 @@ const LEVELS = [
     icon: "ri-home-heart-line",
     label: "Residential Treatment",
     href: "/programs/residential-treatment-center/",
-    desc: "Structured, immersive inpatient care with individual therapy, group sessions, and holistic programming.",
-  },
-  {
-    icon: "ri-men-line",
-    label: "Men's Residential",
-    href: "/programs/residential-treatment-center/mens-residential-treatment/",
-    desc: "Gender-specific residential program addressing the unique challenges men face in early recovery.",
-  },
-  {
-    icon: "ri-women-line",
-    label: "Women's Residential",
-    href: "/programs/residential-treatment-center/womens-residential-treatment/",
-    desc: "A safe, empowering residential environment tailored to the needs of women in recovery.",
+    desc: "Co-ed, structured inpatient care with individual therapy, group sessions, and holistic programming.",
   },
   {
     icon: "ri-hospital-line",
     label: "Partial Hospitalization (PHP)",
     href: "/programs/partial-hospitalization-program/",
     desc: "Up to 6 hours of structured daily clinical programming — the bridge from residential to outpatient.",
-  },
-  {
-    icon: "ri-calendar-check-line",
-    label: "Intensive Outpatient (IOP)",
-    href: "/programs/intensive-outpatient-treatment/",
-    desc: "Flexible 6–12 hour weekly schedules with individual therapy, DBT, and specialized tracks.",
-  },
-  {
-    icon: "ri-building-2-line",
-    label: "Transitional Living",
-    href: "/treatment/transitional-living-programs/",
-    desc: "Structured sober living with continued clinical support to bridge treatment and independent life.",
   },
   {
     icon: "ri-capsule-line",
@@ -53,7 +29,7 @@ const LEVELS = [
   },
   {
     icon: "ri-wifi-line",
-    label: "Online IOP (HomeBound)",
+    label: "Virtual IOP (HomeBound)",
     href: "/telehealth-iop-services/",
     desc: "Evidence-based virtual IOP available throughout California and Washington — therapy from home.",
   },
@@ -71,8 +47,6 @@ const SIGNATURE = [
   { icon: "ri-heart-2-line", label: "Faith-Based Recovery", href: "/programs/residential-treatment-center/christ-centered-links-residential-program/" },
   { icon: "ri-team-line", label: "Family Services", href: "/programs/family-therapy/" },
   { icon: "ri-rainbow-line", label: "LGBTQIA+ Program", href: "/programs/lgbtq/" },
-  { icon: "ri-music-2-line", label: "Music Recovery", href: "/treatment/music-program/" },
-  { icon: "ri-shield-star-line", label: "Veterans Track", href: "/veterans-track-program/" },
   { icon: "ri-leaf-line", label: "Wolf Assisted Therapy", href: "/wolf-assisted-therapy/" },
 ];
 

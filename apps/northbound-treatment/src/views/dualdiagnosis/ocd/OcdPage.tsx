@@ -105,8 +105,8 @@ const data: SubstancePageData = {
     },
     {
       icon: "ri-team-line",
-      title: "1:1 Staff-to-Client Ratio",
-      body: "OCD treatment requires a high level of individual attention and therapeutic precision. Northbound's 1:1 staffing ratio ensures that every client receives the personalized clinical care their recovery demands.",
+      title: "2:1 Staff-to-Client Ratio",
+      body: "OCD treatment requires a high level of individual attention and therapeutic precision. Northbound's 2:1 staffing ratio ensures that every client receives the personalized clinical care their recovery demands.",
     },
   ],
 

@@ -5,7 +5,7 @@ import PtsdPage from "@/views/dualdiagnosis/ptsd/PtsdPage";
 const fallback: Metadata = {
   title: "PTSD & Addiction Treatment",
   description:
-    "Northbound Treatment offers integrated PTSD and addiction treatment — EMDR, trauma-focused CBT, residential care, and a dedicated Veterans Track. Call (866) 311-0003.",
+    "Northbound Treatment offers integrated PTSD and addiction treatment — EMDR, trauma-focused CBT, residential care, and trauma-informed dual diagnosis support. Call (866) 311-0003.",
   alternates: { canonical: "/treatment/mental-health-disorders/ptsd" },
 };
 

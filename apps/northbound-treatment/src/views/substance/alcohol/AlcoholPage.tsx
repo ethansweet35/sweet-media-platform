@@ -68,9 +68,9 @@ const data: SubstancePageData = {
     },
     {
       phase: "Month 3–6",
-      title: "Intensive Outpatient Program (IOP)",
-      icon: "ri-calendar-check-line",
-      body: "IOP offers 10–12 hours of weekly clinical programming, allowing clients to re-engage with work, family, or school while maintaining therapeutic support. This phase applies Northbound's approach of practicing real-world skills within a treatment context — building genuine self-efficacy for long-term sobriety.",
+      title: "Virtual IOP (HomeBound)",
+      icon: "ri-wifi-line",
+      body: "Virtual IOP offers 10–12 hours of weekly clinical programming, allowing clients to re-engage with work, family, or school while maintaining therapeutic support. This phase applies Northbound's approach of practicing real-world skills within a treatment context — building genuine self-efficacy for long-term sobriety.",
     },
     {
       phase: "Ongoing",
@@ -94,8 +94,8 @@ const data: SubstancePageData = {
     },
     {
       icon: "ri-user-line",
-      title: "1:1 Staff-to-Client Ratio",
-      body: "Every client receives deeply individualized clinical attention. Our 1:1 staff-to-client ratio means treatment plans can be adjusted in real time and each person receives the focused support their recovery requires.",
+      title: "2:1 Staff-to-Client Ratio",
+      body: "Every client receives deeply individualized clinical attention. Our 2:1 staff-to-client ratio means treatment plans can be adjusted in real time and each person receives the focused support their recovery requires.",
     },
     {
       icon: "ri-shield-check-line",

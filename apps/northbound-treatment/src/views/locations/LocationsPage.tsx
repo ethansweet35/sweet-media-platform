@@ -21,11 +21,11 @@ const LOCATIONS = [
     ages: "18+",
     programLength: "30–90 Days",
     description:
-      "Located in the heart of sunny Orange County, just steps from 42 miles of pristine Pacific coastline. Our Newport Beach campus is home to seven integrated buildings offering medically supervised detox, residential treatment for men and women, and comfortable sober living — all within a recovery-friendly coastal community.",
+      "Located in the heart of sunny Orange County, just steps from 42 miles of pristine Pacific coastline. Our Newport Beach campus is home to seven integrated buildings offering medically supervised detox, co-ed residential treatment, PHP, and virtual IOP — all within a recovery-friendly coastal community.",
     highlights: [
       { icon: "ri-building-2-line", text: "7 Integrated Treatment Buildings" },
       { icon: "ri-sun-line", text: "Daily Beach, Surfing & Outdoor Activities" },
-      { icon: "ri-heart-pulse-line", text: "Detox, Residential, PHP, IOP & Sober Living" },
+      { icon: "ri-heart-pulse-line", text: "Detox, Residential, PHP & Virtual IOP" },
       { icon: "ri-music-line", text: "Music Rooms, Gardens, Yoga & Meditation Spaces" },
     ],
     accent: "terracotta" as const,
@@ -45,7 +45,7 @@ const LOCATIONS = [
       "Nicknamed 'The Grove,' our Garden Grove campus is Northbound's primary residential and medical detox facility — a place where the seeds of recovery are planted. Located just one mile from Disneyland and 20 minutes from the beach, this ethnically vibrant community provides an ideal setting for immersive, real-world recovery.",
     highlights: [
       { icon: "ri-hospital-line", text: "Medically Supervised Detox — 24/7 Clinical Staff" },
-      { icon: "ri-restaurant-line", text: "Catered Meals, Memory Foam Beds & On-Site Fire Pit" },
+      { icon: "ri-restaurant-line", text: "Chef-Curated Meals & On-Site Fire Pit" },
       { icon: "ri-body-scan-line", text: "On-Site Gym, Volleyball & Instructor-Led Yoga" },
       { icon: "ri-group-line", text: "Alumni Weekly Meetings & 12-Step Immersion" },
     ],
@@ -58,16 +58,16 @@ const LOCATIONS = [
     address: "7924 Ivanhoe Ave, Suite 7, La Jolla, CA 92037",
     href: "/locations/california/san-diego/",
     image: LOCATION_IMAGES.sanDiego,
-    alt: "Northbound Treatment San Diego La Jolla campus — boutique outpatient and transitional living",
-    levelOfCare: "PHP, IOP & Outpatient",
+    alt: "Northbound Treatment San Diego La Jolla campus — boutique outpatient center in La Jolla",
+    levelOfCare: "PHP & Virtual IOP",
     ages: "18+",
     programLength: "Flexible",
     description:
-      "Situated in beautiful La Jolla — surrounded by 7 miles of sun-kissed beaches, scenic coastal trails, and a vibrant recovery community — our San Diego facility offers boutique outpatient and transitional programming for those stepping down from residential care or beginning recovery closer to home.",
+      "Situated in beautiful La Jolla — surrounded by 7 miles of sun-kissed beaches, scenic coastal trails, and a vibrant recovery community — our San Diego facility offers boutique PHP and virtual IOP for those stepping down from residential care or beginning recovery closer to home.",
     highlights: [
       { icon: "ri-water-flash-line", text: "7 Miles of Beach, Tide Pools & Coastal Trails" },
       { icon: "ri-briefcase-4-line", text: "Careerbound® Resource Center" },
-      { icon: "ri-mental-health-line", text: "PHP, IOP & Dual Diagnosis Services" },
+      { icon: "ri-mental-health-line", text: "PHP, Virtual IOP & Dual Diagnosis Services" },
       { icon: "ri-community-line", text: "Strong Local Sober Community" },
     ],
     accent: "terracotta" as const,

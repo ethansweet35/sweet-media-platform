@@ -21,11 +21,11 @@ const data: InsurancePageData = {
   carrierName: "Premera Blue Cross",
   carrierTagline: "In-network access for Premera members",
   heroBody:
-    "Premera Blue Cross covers drug and alcohol treatment — including detox, residential, PHP, and IOP — for most of its Pacific Northwest plan members. Northbound accepts Premera Blue Cross, providing California-based treatment for Washington and Alaska members seeking a change of environment for recovery.",
+    "Premera Blue Cross covers drug and alcohol treatment — including detox, residential, PHP, and virtual IOP — for most of its Pacific Northwest plan members. Northbound accepts Premera Blue Cross, providing California-based treatment for Washington and Alaska members seeking a change of environment for recovery.",
 
   aboutHeadline: "Does Premera Blue Cross Cover Addiction Treatment?",
   aboutBody: [
-    "Yes — Premera Blue Cross provides coverage for substance use disorder treatment, including medically supervised detox, residential inpatient, partial hospitalization (PHP), and intensive outpatient (IOP) programs for most of its plan members in Washington, Alaska, and beyond. Premera Blue Cross is the largest health insurer in the Pacific Northwest, providing comprehensive benefits to individuals, families, and employers throughout the region.",
+    "Yes — Premera Blue Cross provides coverage for substance use disorder treatment, including medically supervised detox, residential inpatient, partial hospitalization (PHP), and virtual IOP (telehealth) programs for most of its plan members in Washington, Alaska, and beyond. Premera Blue Cross is the largest health insurer in the Pacific Northwest, providing comprehensive benefits to individuals, families, and employers throughout the region.",
     "Premera Blue Cross is a BCBS-affiliated plan, meaning members have access to the Blue Card program for out-of-state care — enabling Washington and Alaska members to access Northbound's California treatment facilities at in-network or near in-network rates. Specific coverage depends on your Premera plan type — individual, group, or Premera for Seniors — and your deductible status.",
     "Northbound's admissions team accepts Premera Blue Cross and is experienced navigating its out-of-state care authorization process. We contact Premera directly on your behalf to determine your exact coverage before your arrival — at no cost to you.",
   ],
@@ -62,9 +62,9 @@ const data: InsurancePageData = {
     },
     {
       icon: "ri-calendar-check-line",
-      label: "Intensive Outpatient (IOP)",
+      label: "Virtual IOP (Telehealth)",
       detail:
-        "IOP at Northbound is covered by most Premera plans. For Washington-based Premera members, Northbound's telehealth IOP option allows continuation of care remotely after residential treatment in California.",
+        "Northbound's virtual IOP (HomeBound) is covered by most Premera plans. For Washington-based Premera members, Northbound's telehealth IOP option allows continuation of care remotely after residential treatment in California.",
     },
     {
       icon: "ri-brain-line",
@@ -101,7 +101,7 @@ const data: InsurancePageData = {
   faqs: [
     {
       q: "Does Premera Blue Cross cover drug and alcohol rehab?",
-      a: "Yes. Premera Blue Cross covers substance use disorder treatment including detox, residential, PHP, and IOP under most plan types. Federal parity law requires comprehensive behavioral health coverage. Your specific benefits depend on your Premera plan — Northbound verifies your coverage at no cost.",
+      a: "Yes. Premera Blue Cross covers substance use disorder treatment including detox, residential, PHP, and virtual IOP under most plan types. Federal parity law requires comprehensive behavioral health coverage. Your specific benefits depend on your Premera plan — Northbound verifies your coverage at no cost.",
     },
     {
       q: "Can I use Premera Blue Cross at Northbound in California?",
@@ -121,7 +121,7 @@ const data: InsurancePageData = {
     },
     {
       q: "Can Northbound coordinate aftercare back in Washington after treatment?",
-      a: "Yes. Northbound's discharge planning team helps Pacific Northwest clients identify aftercare providers, outpatient resources, and sober living options near their home. Telehealth IOP is also available for Washington state residents following residential treatment.",
+      a: "Yes. Northbound's discharge planning team helps Pacific Northwest clients identify aftercare providers and outpatient resources near their home. Virtual IOP (HomeBound) is available for Washington state residents following residential treatment.",
     },
     {
       q: "Does Premera cover mental health treatment alongside addiction?",

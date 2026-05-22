@@ -21,7 +21,7 @@ const WHY_REFER = [
   },
   {
     icon: "ri-heart-pulse-line",
-    title: "1:1 Staff-to-Client Ratio",
+    title: "2:1 Staff-to-Client Ratio",
     body: "Our staffing model ensures each client receives highly individualized attention. With 1/3 of our staff being alumni themselves, clinical empathy runs throughout every level of care.",
   },
   {
@@ -37,7 +37,7 @@ const WHY_REFER = [
   {
     icon: "ri-refresh-line",
     title: "Full Continuum of Care",
-    body: "Detox → Residential → PHP → IOP → Sober Living → Aftercare. We can receive patients at any point in their treatment journey and step them up or down as clinically indicated.",
+    body: "Detox → Residential → PHP → Virtual IOP → Aftercare. We can receive patients at any point in their treatment journey and step them up or down as clinically indicated.",
   },
 ];
 
@@ -73,13 +73,10 @@ const PROGRAMS = [
   { icon: "ri-capsule-line", label: "Medically Supervised Detox (MAT available)" },
   { icon: "ri-home-heart-line", label: "Residential Treatment" },
   { icon: "ri-hospital-line", label: "Partial Hospitalization (PHP)" },
-  { icon: "ri-calendar-check-line", label: "Intensive Outpatient (IOP)" },
-  { icon: "ri-building-line", label: "Sober Living / Transitional Housing" },
-  { icon: "ri-wifi-line", label: "Virtual/Telehealth IOP (CA & WA)" },
+  { icon: "ri-wifi-line", label: "Virtual IOP (HomeBound) — CA & WA" },
   { icon: "ri-brain-line", label: "Dual Diagnosis / Co-Occurring Disorders" },
   { icon: "ri-family-line", label: "Family Therapy & Education" },
   { icon: "ri-graduation-cap-line", label: "Collegebound® & Careerbound® Programs" },
-  { icon: "ri-shield-star-line", label: "VA Mental Health & Veterans Track" },
 ];
 
 /* ─── Page ─────────────────────────────────────────────────── */
@@ -134,7 +131,7 @@ export default function ReferralsPage() {
                 { value: "38+", label: "Years in Operation", icon: "ri-time-line" },
                 { value: "10,000+", label: "Patients Served", icon: "ri-user-heart-line" },
                 { value: ">97%", label: "Abstinence Outcomes", icon: "ri-bar-chart-line" },
-                { value: "1:1", label: "Staff-to-Client Ratio", icon: "ri-team-line" },
+                { value: "2:1", label: "Staff-to-Client Ratio", icon: "ri-team-line" },
               ].map((s, i) => (
                 <div key={s.label} className={`flex flex-col gap-3 p-8 ${i % 2 === 0 ? "bg-white" : "bg-sand"}`}>
                   <i className={`${s.icon} text-xl text-terracotta`} />

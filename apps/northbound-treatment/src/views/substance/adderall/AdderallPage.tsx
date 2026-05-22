@@ -68,13 +68,13 @@ const data: SubstancePageData = {
     },
     {
       phase: "Month 3–6",
-      title: "Intensive Outpatient Program (IOP)",
-      icon: "ri-calendar-check-line",
-      body: "IOP is 10–12 hours of clinical programming per week — allowing clients to reintegrate into work, school, or family life while maintaining robust therapeutic support. This phase leverages Northbound's InVivo® model: practicing real-world skills and stressors within a supported treatment context.",
+      title: "Virtual IOP (HomeBound)",
+      icon: "ri-wifi-line",
+      body: "Virtual IOP is 10–12 hours of clinical programming per week — allowing clients to reintegrate into work, school, or family life while maintaining robust therapeutic support. This phase leverages Northbound's InVivo® model: practicing real-world skills and stressors within a supported treatment context.",
     },
     {
       phase: "Ongoing",
-      title: "Aftercare, Alumni & Sober Living",
+      title: "Aftercare & Alumni",
       icon: "ri-refresh-line",
       body: "Northbound's aftercare and alumni program provides the long-term community, accountability, and support that sustain sobriety beyond treatment. Clients also have access to Collegebound® and Careerbound® programs — helping them rebuild educational and professional trajectories disrupted by addiction.",
     },
@@ -89,8 +89,8 @@ const data: SubstancePageData = {
     },
     {
       icon: "ri-user-line",
-      title: "1:1 Staff-to-Client Ratio",
-      body: "Every client receives deeply personalized clinical attention. With a 1:1 staff-to-client ratio, our team can monitor withdrawal carefully, adjust treatment plans rapidly, and provide the individualized support Adderall addiction requires.",
+      title: "2:1 Staff-to-Client Ratio",
+      body: "Every client receives deeply personalized clinical attention. With a 2:1 staff-to-client ratio, our team can monitor withdrawal carefully, adjust treatment plans rapidly, and provide the individualized support Adderall addiction requires.",
     },
     {
       icon: "ri-graduation-cap-line",
@@ -155,7 +155,7 @@ const data: SubstancePageData = {
     {
       question: "Can I continue school or work during outpatient treatment?",
       answer:
-        "Many clients do continue educational or professional commitments during IOP (Intensive Outpatient Program). Northbound's Collegebound® program is specifically designed to help clients pursue education while in treatment, with academic advising and accountability built in.",
+        "Many clients do continue educational or professional commitments during virtual IOP (HomeBound). Northbound's Collegebound® program is specifically designed to help clients pursue education while in treatment, with academic advising and accountability built in.",
     },
   ],
 

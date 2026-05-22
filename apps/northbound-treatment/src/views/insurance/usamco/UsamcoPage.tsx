@@ -21,11 +21,11 @@ const data: InsurancePageData = {
   carrierName: "USAMCO",
   carrierTagline: "Managed care coverage — accepted at Northbound",
   heroBody:
-    "USAMCO provides managed care coverage for addiction treatment — including detox, residential, PHP, and IOP. Northbound is an accepted provider with USAMCO, and our admissions team navigates the authorization process on your behalf.",
+    "USAMCO provides managed care coverage for addiction treatment — including detox, residential, PHP, and virtual IOP. Northbound is an accepted provider with USAMCO, and our admissions team navigates the authorization process on your behalf.",
 
   aboutHeadline: "Does USAMCO Cover Addiction Treatment?",
   aboutBody: [
-    "Yes — USAMCO provides managed care coverage for substance use disorder treatment, including medically supervised detox, residential inpatient, partial hospitalization (PHP), and intensive outpatient (IOP) programs for eligible members. USAMCO is a managed care organization that works with employers, health plans, and third-party administrators to manage behavioral health and medical benefits for their covered populations.",
+    "Yes — USAMCO provides managed care coverage for substance use disorder treatment, including medically supervised detox, residential inpatient, partial hospitalization (PHP), and virtual IOP (telehealth) programs for eligible members. USAMCO is a managed care organization that works with employers, health plans, and third-party administrators to manage behavioral health and medical benefits for their covered populations.",
     "Coverage under USAMCO depends on the specific plan or employer arrangement you are enrolled in. Like many managed care organizations, USAMCO manages utilization and authorizes care on behalf of the underlying health plan. Federal mental health parity law requires coverage for behavioral health treatment on equal terms with physical health for most USAMCO-managed plans.",
     "Northbound's admissions team accepts USAMCO coverage and is experienced working with managed care organization authorization processes. We contact USAMCO directly on your behalf to determine your exact benefits and secure pre-authorization before your arrival — at no cost to you.",
   ],
@@ -62,9 +62,9 @@ const data: InsurancePageData = {
     },
     {
       icon: "ri-calendar-check-line",
-      label: "Intensive Outpatient (IOP)",
+      label: "Virtual IOP (Telehealth)",
       detail:
-        "IOP at Northbound — 6 to 12 hours of weekly programming — is covered by most USAMCO-managed plans as a clinically appropriate step-down from residential or PHP.",
+        "Northbound's virtual IOP (HomeBound) — 6 to 12 hours of weekly programming — is covered by most USAMCO-managed plans as a clinically appropriate step-down from residential or PHP.",
     },
     {
       icon: "ri-brain-line",
@@ -101,7 +101,7 @@ const data: InsurancePageData = {
   faqs: [
     {
       q: "Does USAMCO cover drug and alcohol rehab?",
-      a: "Yes. USAMCO managed care plans cover substance use disorder treatment including detox, residential, PHP, and IOP when medically necessary. Federal parity law requires behavioral health coverage at par with physical health for most managed care plans. Your specific benefits depend on your underlying plan — Northbound verifies your coverage at no cost.",
+      a: "Yes. USAMCO managed care plans cover substance use disorder treatment including detox, residential, PHP, and virtual IOP when medically necessary. Federal parity law requires behavioral health coverage at par with physical health for most managed care plans. Your specific benefits depend on your underlying plan — Northbound verifies your coverage at no cost.",
     },
     {
       q: "Does Northbound accept USAMCO?",

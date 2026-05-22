@@ -90,7 +90,7 @@ const data: SubstancePageData = {
     },
     {
       icon: "ri-team-line",
-      title: "1:1 Staff-to-Client Ratio",
+      title: "2:1 Staff-to-Client Ratio",
       body: "Anxiety treatment requires a high level of individual attention. Our staffing ratio ensures every client receives personalized support at every stage of their recovery.",
     },
     {

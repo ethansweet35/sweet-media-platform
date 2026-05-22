@@ -64,9 +64,9 @@ const data: SubstancePageData = {
     },
     {
       phase: "Month 3–6",
-      title: "Intensive Outpatient Program (IOP)",
-      icon: "ri-calendar-check-line",
-      body: "IOP allows clients to return to work, school, or family life while maintaining 10–12 hours of weekly clinical support. Northbound's InVivo® model specifically practices coping with the performance and productivity pressures that often drive stimulant use.",
+      title: "Virtual IOP (HomeBound)",
+      icon: "ri-wifi-line",
+      body: "Virtual IOP allows clients to return to work, school, or family life while maintaining 10–12 hours of weekly clinical support. Northbound's InVivo® model specifically practices coping with the performance and productivity pressures that often drive stimulant use.",
     },
     {
       phase: "Ongoing",

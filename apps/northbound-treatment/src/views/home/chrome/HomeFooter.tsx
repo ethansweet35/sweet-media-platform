@@ -53,17 +53,17 @@ export default function HomeFooter() {
                 </li>
                 <li>
                   <a href="/programs/partial-hospitalization-program/" className="transition-colors hover:text-white">
-                    PHP & IOP Programs
+                    Partial Hospitalization (PHP)
                   </a>
                 </li>
                 <li>
                   <a href="/telehealth-iop-services/" className="transition-colors hover:text-white">
-                    Virtual / Telehealth
+                    Virtual IOP (Online)
                   </a>
                 </li>
                 <li>
-                  <a href="/treatment/transitional-living-programs/sober-living/" className="transition-colors hover:text-white">
-                    Sober Living Support
+                  <a href="/programs/aftercare/" className="transition-colors hover:text-white">
+                    Aftercare & Alumni
                   </a>
                 </li>
               </ul>

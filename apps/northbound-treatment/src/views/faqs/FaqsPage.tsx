@@ -55,7 +55,7 @@ const FAQ_CATEGORIES = [
       },
       {
         q: "How is treatment individualized?",
-        a: "Each client receives a personalized plan based on clinical assessments, history, goals, and progress. Treatment evolves as your needs change, with a 1:1 staff-to-client ratio ensuring close, personalized attention throughout.",
+        a: "Each client receives a personalized plan based on clinical assessments, history, goals, and progress. Treatment evolves as your needs change, with a 2:1 staff-to-client ratio ensuring close, personalized attention throughout.",
       },
       {
         q: "What therapeutic approaches do you use?",
@@ -74,7 +74,7 @@ const FAQ_CATEGORIES = [
     faqs: [
       {
         q: "What levels of care does Northbound offer?",
-        a: "We offer a full continuum: medically supervised detox, residential treatment, partial hospitalization (PHP), intensive outpatient (IOP), sober living/transitional housing, virtual/telehealth IOP (CA & WA), and long-term aftercare and alumni support.",
+        a: "We offer a full continuum: medically supervised detox, residential treatment, partial hospitalization (PHP), virtual IOP (HomeBound telehealth for CA & WA), and long-term aftercare and alumni support. Northbound does not offer standalone in-person IOP or sober living programs.",
       },
       {
         q: "How do I know which program is right for me?",

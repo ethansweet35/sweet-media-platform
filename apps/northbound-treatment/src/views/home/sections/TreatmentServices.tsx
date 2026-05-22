@@ -38,41 +38,28 @@ const SERVICES = [
     title: "Partial Hospitalization (PHP)",
     href: "/programs/partial-hospitalization-program/",
     description:
-      "Robust daytime clinical programming providing structure and deep therapeutic work while allowing you to return to sober living at night.",
+      "Robust daytime clinical programming providing structure and deep therapeutic work while you transition toward greater independence.",
     features: [
       "5-6 days per week of clinical support",
       "Practicing coping skills in real-time",
-      "Integration with our Sober Living homes",
+      "Step-down planning into virtual IOP or aftercare",
     ],
   },
   {
     number: "04",
-    badge: "Flexible Support",
-    title: "Intensive Outpatient (IOP)",
-    href: "/programs/intensive-outpatient-treatment/",
+    badge: "Virtual Support",
+    title: "Virtual IOP (HomeBound)",
+    href: "/telehealth-iop-services/",
     description:
-      "Continued, structured support designed to integrate with your daily life as you transition back into work, school, and independence.",
+      "Evidence-based intensive outpatient care delivered online — the flexible outpatient option for clients in California and Washington.",
     features: [
-      "3-5 days per week (day or evening)",
-      "Strong focus on relapse prevention",
-      "Lifelong Alumni program access",
+      "Live virtual group and individual sessions",
+      "Same clinical team and specialty programming",
+      "Designed for work, school, and home life",
     ],
   },
   {
     number: "05",
-    badge: "Transitional Living",
-    title: "Sober Living",
-    href: "/treatment/transitional-living-programs/sober-living/",
-    description:
-      "A supportive, substance-free living environment that allows clients to ease back into their daily responsibilities while remaining connected to a strong recovery community.",
-    features: [
-      "Structured, accountable environment",
-      "Peer support and community building",
-      "Seamless integration with IOP programs",
-    ],
-  },
-  {
-    number: "06",
     badge: "Long-Term Success",
     title: "Aftercare Support",
     href: "/programs/aftercare/",

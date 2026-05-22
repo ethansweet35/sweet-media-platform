@@ -23,12 +23,12 @@ const data: TreatmentPageData = {
   overviewHeadline: "What Is Residential Treatment?",
   overviewBody: [
     "Residential inpatient treatment is an immersive level of care in which clients live on-site at a structured treatment facility and receive clinical programming daily. It is typically recommended following medically supervised detox and before stepping down to a partial hospitalization program (PHP). At Northbound, residential care goes far beyond stabilization — it is where the foundational work of recovery happens.",
-    "Our Orange County residential program is built around the InVivo® (\"in life\") philosophy — Northbound's signature model of care in which clients actively practice living life on life's terms within a safe, supported treatment environment. Rather than isolating clients from the real world, we gradually introduce real-world responsibilities, activities, and choices as clients progress. From evidence-based therapy to gender-responsive programming to experiential modalities, every element of care is designed to build real-world skills alongside clinical insight.",
+    "Our Orange County residential program is built around the InVivo® (\"in life\") philosophy — Northbound's signature model of care in which clients actively practice living life on life's terms within a safe, supported treatment environment. Rather than isolating clients from the real world, we gradually introduce real-world responsibilities, activities, and choices as clients progress. From evidence-based therapy to co-ed community programming to experiential modalities, every element of care is designed to build real-world skills alongside clinical insight.",
   ],
   keyFacts: [
     { icon: "ri-time-line", label: "Typical Duration", value: "30–90 Days" },
     { icon: "ri-home-heart-line", label: "Level of Care", value: "24/7 Residential Inpatient" },
-    { icon: "ri-team-line", label: "Staffing", value: "1:1 Staff-to-Client Ratio" },
+    { icon: "ri-team-line", label: "Staffing", value: "2:1 Staff-to-Client Ratio" },
     { icon: "ri-map-pin-2-line", label: "Locations", value: "Orange County, San Diego, Seattle" },
     { icon: "ri-shield-check-line", label: "Insurance", value: "15+ Major Plans Accepted" },
     { icon: "ri-award-line", label: "Accreditation", value: "DHCS Licensed · NAATP Member" },
@@ -53,9 +53,9 @@ const data: TreatmentPageData = {
     },
     {
       number: "03",
-      title: "Gender-Responsive & Specialty Tracks",
+      title: "Co-Ed Community & Specialty Tracks",
       icon: "ri-group-line",
-      body: "Northbound offers dedicated men's and women's residential programs, as well as the faith-based LINKS program for those whose spirituality is central to recovery. Research shows that gender-specific programming improves retention and outcomes.",
+      body: "Northbound's residential program brings men and women together in a structured, clinically supervised co-ed environment — with specialty options such as the faith-based LINKS program for those whose spirituality is central to recovery.",
     },
     {
       number: "04",
@@ -86,13 +86,13 @@ const data: TreatmentPageData = {
     },
     {
       icon: "ri-team-line",
-      title: "1:1 Ratio · 1/3 Are Alumni",
+      title: "2:1 Ratio · 1/3 Are Alumni",
       body: "Every client is supported by a personal treatment team of up to six clinicians, including an ASAM-certified addiction psychiatrist, licensed primary therapist, trauma therapist, and addictions counselor. About one-third of our staff are program alumni — so you're guided by people who've lived this process.",
     },
     {
       icon: "ri-group-line",
-      title: "Gender-Responsive Programming",
-      body: "Men and women experience addiction differently, and recovery should reflect that. Our dedicated men's and women's residential tracks address the distinct emotional, relational, and physiological dimensions of addiction — creating an environment of safety and deeper understanding.",
+      title: "Co-Ed Residential Community",
+      body: "Men and women heal alongside one another in a single residential program — supported by clinicians who address the distinct emotional, relational, and physiological dimensions each person brings to recovery within a shared, accountable community.",
     },
     {
       icon: "ri-mental-health-line",
@@ -116,8 +116,7 @@ const data: TreatmentPageData = {
     { label: "Medical Detox", href: "/programs/detox/", icon: "ri-capsule-line" },
     { label: "Residential", href: "/programs/residential-treatment-center/", icon: "ri-home-heart-line", current: true },
     { label: "PHP", href: "/programs/partial-hospitalization-program/", icon: "ri-hospital-line" },
-    { label: "IOP", href: "/programs/intensive-outpatient-treatment/", icon: "ri-calendar-check-line" },
-    { label: "Sober Living", href: "/treatment/transitional-living-programs/sober-living/", icon: "ri-building-2-line" },
+    { label: "Virtual IOP", href: "/telehealth-iop-services/", icon: "ri-wifi-line" },
     { label: "Aftercare", href: "/programs/aftercare/", icon: "ri-refresh-line" },
   ],
 
@@ -136,8 +135,8 @@ const data: TreatmentPageData = {
       a: "Phone and device access is introduced gradually through Northbound's InVivo® model. Early in treatment, limited device use helps clients focus on recovery. As clients demonstrate clinical progress, real-world responsibilities — including phone access — are progressively reintroduced with therapeutic guidance.",
     },
     {
-      q: "Is Northbound's residential program gender-specific?",
-      a: "Yes. Northbound offers dedicated men's and women's residential programs. Research consistently shows that gender-responsive programming improves treatment retention and long-term outcomes. Both programs use evidence-based therapies while addressing the unique needs each gender faces in recovery.",
+      q: "Is Northbound's residential program co-ed?",
+      a: "Yes. Northbound offers one co-ed residential treatment program in which men and women participate in shared clinical programming within a structured, supervised environment. Specialty tracks — such as our faith-based LINKS program — are available within that continuum of care.",
     },
     {
       q: "Does insurance cover residential treatment?",

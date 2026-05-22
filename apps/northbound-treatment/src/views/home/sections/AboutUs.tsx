@@ -7,7 +7,7 @@ import { AutoLinkedText } from "@sweetmedia/blog-core";
 const STATS = [
   { value: "38+", label: "Years of Care" },
   { value: "10,000+", label: "Lives Transformed" },
-  { value: "1:1", label: "Staff-to-Client Ratio" },
+  { value: "2:1", label: "Staff-to-Client Ratio" },
   { value: "97%+", label: "Abstinence Outcomes" },
 ];
 

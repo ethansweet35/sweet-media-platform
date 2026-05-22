@@ -21,7 +21,7 @@ const data: TreatmentPageData = {
   overviewHeadline: "What Are Medical Detoxification Services?",
   overviewBody: [
     "Medical detoxification is the process of safely clearing substances from the body while managing withdrawal symptoms through 24/7 clinical monitoring, medication-assisted treatment (MAT) when indicated, and therapeutic support — so your mind and body can begin healing simultaneously. At Northbound, detox is not an endpoint; it is a carefully designed bridge into the next phase of your recovery.",
-    "Our Orange County detox center is led by Dr. Venice Sanchez, MD — double board-certified in Psychiatry and Addiction Medicine (UCLA, MSU, UCI), named Women in Medicine Top Doctor 2024 and Best of Newport Beach Psychiatrist 2024. We hold IMS (Incidental Medical Services) certification, allowing on-site physician visits and lab draws at our Garden Grove facility — a level of care most detox programs cannot offer.",
+    "Our Orange County detox center is led by Dr. Venice Sanchez, MD — double board-certified in Psychiatry and Addiction Medicine (UCLA, MSU, UCI), named Women in Medicine Top Doctor 2024 and Best of Newport Beach Psychiatrist 2024. We hold IMS (Incidental Medical Services) certification and DHCS licensure, with 24/7 physician access and the ability to coordinate lab work off-site at multiple locations when clinically needed.",
   ],
   keyFacts: [
     { icon: "ri-time-line", label: "Typical Duration", value: "5–10 Days (ASAM-guided)" },
@@ -91,7 +91,7 @@ const data: TreatmentPageData = {
     {
       icon: "ri-shield-star-line",
       title: "Fully Licensed & IMS Certified",
-      body: "Our Orange County detox center holds DHCS licensure and IMS certification — meaning physicians can see clients and perform lab draws directly on-site. This is a level of on-site medical capability most detox programs don't offer.",
+      body: "Our Orange County detox center holds DHCS licensure and IMS certification, with 24/7 physician access and lab work coordinated off-site at multiple locations when clinically needed — so medical support stays comprehensive without compromising the comfort of a residential setting.",
     },
     {
       icon: "ri-stethoscope-line",
@@ -100,8 +100,8 @@ const data: TreatmentPageData = {
     },
     {
       icon: "ri-team-line",
-      title: "1:1 Staffing · 1/3 Are Alumni",
-      body: "Our 1:1 staff-to-client ratio means you always have dedicated clinical attention. And because approximately one-third of our team are program alumni themselves, you'll be supported by people who genuinely understand what you're going through.",
+      title: "2:1 Staffing · 1/3 Are Alumni",
+      body: "Our 2:1 staff-to-client ratio means you always have dedicated clinical attention. And because approximately one-third of our team are program alumni themselves, you'll be supported by people who genuinely understand what you're going through.",
     },
     {
       icon: "ri-brain-line",
@@ -111,7 +111,7 @@ const data: TreatmentPageData = {
     {
       icon: "ri-home-heart-line",
       title: "Comfort-First Facility in Garden Grove",
-      body: "Our Garden Grove detox facility was designed to feel nothing like a hospital. Memory foam beds, flat-screen TVs, a fire pit, and chef-catered meals — real comfort that supports real healing during an already difficult time.",
+      body: "Our Garden Grove detox facility was designed to feel nothing like a hospital. Flat-screen TVs, an on-site fire pit, and chef-curated meals prepared by a team of chefs on campus — real comfort that supports real healing during an already difficult time.",
     },
     {
       icon: "ri-refresh-line",
@@ -125,8 +125,7 @@ const data: TreatmentPageData = {
     { label: "Medical Detox", href: "/programs/detox/", icon: "ri-capsule-line", current: true },
     { label: "Residential", href: "/programs/residential-treatment-center/", icon: "ri-home-heart-line" },
     { label: "PHP", href: "/programs/partial-hospitalization-program/", icon: "ri-hospital-line" },
-    { label: "IOP", href: "/programs/intensive-outpatient-treatment/", icon: "ri-calendar-check-line" },
-    { label: "Sober Living", href: "/treatment/transitional-living-programs/sober-living/", icon: "ri-building-2-line" },
+    { label: "Virtual IOP", href: "/telehealth-iop-services/", icon: "ri-wifi-line" },
     { label: "Aftercare", href: "/programs/aftercare/", icon: "ri-refresh-line" },
   ],
 

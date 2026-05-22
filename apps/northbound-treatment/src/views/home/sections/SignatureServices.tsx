@@ -86,20 +86,6 @@ const TILES: Tile[] = [
     headline: "text-3xl",
   },
   {
-    title: "Music Recovery",
-    badge: "Expressive",
-    badgeText: "text-terracotta",
-    badgeBar: "bg-terracotta",
-    href: "/treatment/music-program/",
-    description:
-      "Processing complex emotional states and discovering new passions through the creation and analysis of music.",
-    image: SIGNATURE_IMAGES.musicRecovery,
-    alt: "Acoustic guitar resting against a chair in Northbound's sunlit music recovery space.",
-    span: "md:col-span-6",
-    height: "h-[350px]",
-    headline: "text-2xl",
-  },
-  {
     title: "Mindfulness & Somatic Yoga",
     badge: "Holistic",
     badgeText: "text-sand-light",
@@ -205,8 +191,7 @@ export default function SignatureServices() {
           <p className="text-sm font-light text-white/50">
             Also offering:{" "}
             <span className="font-medium text-white">
-              Faith-Based Recovery, EMDR, VA Mental Health Program,
-              Careerbound&reg; & Collegebound&reg;.
+              Faith-Based Recovery, EMDR, Careerbound&reg; & Collegebound&reg;.
             </span>
           </p>
         </div>

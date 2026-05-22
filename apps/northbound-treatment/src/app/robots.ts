@@ -9,7 +9,16 @@ export default function robots(): MetadataRoute.Robots {
       {
         userAgent: "*",
         allow: "/",
-        disallow: mergeRobotsDisallow(["/admin/", "/api/"]),
+        disallow: mergeRobotsDisallow([
+          "/admin/",
+          "/api/",
+          "/programs/residential-treatment-center/mens-residential-treatment/",
+          "/programs/residential-treatment-center/womens-residential-treatment/",
+          "/veterans-track-program/",
+          "/treatment/music-program/",
+          "/programs/intensive-outpatient-treatment/",
+          "/treatment/transitional-living-programs/",
+        ]),
       },
     ],
     sitemap: `${SITE_URL}/sitemap.xml`,

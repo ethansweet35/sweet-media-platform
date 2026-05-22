@@ -143,7 +143,6 @@ const EVIDENCE = [
 
 const RELATED = [
   { name: "Wolf-Assisted Therapy", href: "/wolf-assisted-therapy/", tag: "Signature Service", icon: "ri-leaf-line" },
-  { name: "Music Recovery Program", href: "/treatment/music-program/", tag: "Signature Service", icon: "ri-music-2-line" },
   { name: "Dual-Diagnosis Treatment", href: "/treatment/dual-diagnosis/", tag: "Specialty Program", icon: "ri-brain-line" },
   { name: "Family Therapy Services", href: "/programs/family-therapy/", tag: "Signature Service", icon: "ri-family-line" },
 ];
@@ -382,7 +381,7 @@ export default function AdventurePage() {
               {[
                 { value: "38+", label: "Years pioneering holistic care" },
                 { value: ">97%", label: "Abstinence rate in 2015 outcomes study" },
-                { value: "1:1", label: "Staff-to-client ratio during every outing" },
+                { value: "2:1", label: "Staff-to-client ratio during every outing" },
               ].map((stat) => (
                 <div key={stat.label}>
                   <p className="font-heading text-5xl font-bold text-terracotta"><AutoLinkedText>{stat.value}</AutoLinkedText></p>

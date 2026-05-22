@@ -21,11 +21,11 @@ const data: InsurancePageData = {
   carrierName: "Beacon Health Options",
   carrierTagline: "Behavioral health coverage accepted",
   heroBody:
-    "Beacon Health Options covers drug and alcohol treatment — including detox, residential, PHP, and IOP — for most plan members. Northbound is an accepted provider with Beacon, ensuring your behavioral health benefits are put to full use.",
+    "Beacon Health Options covers drug and alcohol treatment — including detox, residential, PHP, and virtual IOP — for most plan members. Northbound is an accepted provider with Beacon, ensuring your behavioral health benefits are put to full use.",
 
   aboutHeadline: "Does Beacon Health Options Cover Addiction Treatment?",
   aboutBody: [
-    "Yes — Beacon Health Options (now part of Carelon Behavioral Health) provides coverage for substance use disorder treatment, including medically supervised detox, residential inpatient, partial hospitalization (PHP), and intensive outpatient (IOP) programs. As one of the nation's leading behavioral health managed care organizations, Beacon specializes specifically in mental health and substance use disorder coverage.",
+    "Yes — Beacon Health Options (now part of Carelon Behavioral Health) provides coverage for substance use disorder treatment, including medically supervised detox, residential inpatient, partial hospitalization (PHP), and virtual IOP (telehealth) programs. As one of the nation's leading behavioral health managed care organizations, Beacon specializes specifically in mental health and substance use disorder coverage.",
     "Beacon does not typically sell direct insurance plans — instead, it manages behavioral health benefits on behalf of large health plans, Medicaid managed care organizations, and employers. If your insurer uses Beacon to administer behavioral health benefits, Beacon is who Northbound contacts for authorization and utilization management. Our admissions team determines whether your coverage runs through Beacon during the verification process.",
     "Northbound's admissions team has extensive experience working with Beacon's authorization processes. We contact Beacon directly on your behalf to confirm your exact benefits and secure pre-authorization before your arrival — at no cost to you.",
   ],
@@ -62,9 +62,9 @@ const data: InsurancePageData = {
     },
     {
       icon: "ri-calendar-check-line",
-      label: "Intensive Outpatient (IOP)",
+      label: "Virtual IOP (Telehealth)",
       detail:
-        "IOP at Northbound — 6 to 12 hours of weekly structured programming — is covered by most Beacon-managed plans. Beacon often encourages IOP as a cost-effective alternative to higher levels of care when clinically appropriate.",
+        "Northbound's virtual IOP (HomeBound) — 6 to 12 hours of weekly structured programming — is covered by most Beacon-managed plans. Beacon often encourages IOP as a cost-effective alternative to higher levels of care when clinically appropriate.",
     },
     {
       icon: "ri-brain-line",
@@ -101,7 +101,7 @@ const data: InsurancePageData = {
   faqs: [
     {
       q: "Does Beacon Health Options cover drug and alcohol rehab?",
-      a: "Yes. Beacon Health Options covers substance use disorder treatment including detox, residential, PHP, and IOP. Federal parity law requires Beacon to cover behavioral health treatment on equal terms with physical health. Your specific benefits depend on the health plan that uses Beacon for behavioral health management.",
+      a: "Yes. Beacon Health Options covers substance use disorder treatment including detox, residential, PHP, and virtual IOP. Federal parity law requires Beacon to cover behavioral health treatment on equal terms with physical health. Your specific benefits depend on the health plan that uses Beacon for behavioral health management.",
     },
     {
       q: "How do I know if my insurance uses Beacon Health Options?",

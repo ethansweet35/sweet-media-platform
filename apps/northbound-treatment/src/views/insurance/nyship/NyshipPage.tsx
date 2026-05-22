@@ -25,7 +25,7 @@ const data: InsurancePageData = {
 
   aboutHeadline: "Does NYSHIP Cover Addiction Treatment at Northbound?",
   aboutBody: [
-    "Yes — NYSHIP (New York State Health Insurance Program) provides coverage for substance use disorder treatment, including medically supervised detox, residential inpatient, partial hospitalization (PHP), and intensive outpatient (IOP) programs for eligible New York State employees, retirees, and their covered dependents. NYSHIP is one of the largest state employee health insurance programs in the country, providing comprehensive benefits to more than 1.2 million members.",
+    "Yes — NYSHIP (New York State Health Insurance Program) provides coverage for substance use disorder treatment, including medically supervised detox, residential inpatient, partial hospitalization (PHP), and virtual IOP (telehealth) programs for eligible New York State employees, retirees, and their covered dependents. NYSHIP is one of the largest state employee health insurance programs in the country, providing comprehensive benefits to more than 1.2 million members.",
     "NYSHIP offers two main plan options through The Empire Plan and NYSHIP HMO options. The Empire Plan — the largest plan — provides access to providers nationwide, making it possible for New York State employees and their family members to seek treatment at Northbound's California facilities. Coverage under NYSHIP is subject to New York State's strong behavioral health parity protections, which require comprehensive coverage for mental health and substance use disorder treatment.",
     "Northbound's admissions team has experience working with NYSHIP and The Empire Plan. We contact NYSHIP directly on your behalf to determine your exact coverage — authorized levels of care, prior authorization requirements, and cost-sharing — at no cost to you.",
   ],
@@ -62,9 +62,9 @@ const data: InsurancePageData = {
     },
     {
       icon: "ri-calendar-check-line",
-      label: "Intensive Outpatient (IOP)",
+      label: "Virtual IOP (Telehealth)",
       detail:
-        "IOP at Northbound — 6 to 12 hours of weekly programming — is covered by most NYSHIP plans. Virtual IOP options are also available for New York State residents who return home following residential treatment.",
+        "Northbound's virtual IOP (HomeBound) — 6 to 12 hours of weekly programming — is covered by most NYSHIP plans. Virtual IOP options are also available for New York State residents who return home following residential treatment.",
     },
     {
       icon: "ri-brain-line",
@@ -101,7 +101,7 @@ const data: InsurancePageData = {
   faqs: [
     {
       q: "Does NYSHIP cover drug and alcohol rehab?",
-      a: "Yes. NYSHIP covers substance use disorder treatment including detox, residential, PHP, and IOP for eligible New York State members. New York State law and federal parity law require comprehensive behavioral health coverage at par with physical health benefits.",
+      a: "Yes. NYSHIP covers substance use disorder treatment including detox, residential, PHP, and virtual IOP for eligible New York State members. New York State law and federal parity law require comprehensive behavioral health coverage at par with physical health benefits.",
     },
     {
       q: "Does Northbound accept NYSHIP insurance?",

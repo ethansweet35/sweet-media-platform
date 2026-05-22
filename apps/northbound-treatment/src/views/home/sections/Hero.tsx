@@ -106,17 +106,17 @@ export default function Hero() {
               </Link>
               <span className="text-white/20">·</span>
               <Link
-                href="/programs/intensive-outpatient-treatment/"
+                href="/telehealth-iop-services/"
                 className="inline-flex items-center gap-1.5 text-xs font-semibold text-white/60 underline-offset-4 hover:text-terracotta hover:underline"
               >
-                IOP
+                Virtual IOP
               </Link>
               <span className="text-white/20">·</span>
               <Link
-                href="/treatment/transitional-living-programs/sober-living/"
+                href="/programs/aftercare/"
                 className="inline-flex items-center gap-1.5 text-xs font-semibold text-white/60 underline-offset-4 hover:text-terracotta hover:underline"
               >
-                Sober Living
+                Aftercare
               </Link>
             </div>
 

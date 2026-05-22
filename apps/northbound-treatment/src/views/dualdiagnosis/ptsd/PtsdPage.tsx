@@ -98,9 +98,9 @@ const data: SubstancePageData = {
       body: "Northbound's group therapy tracks include trauma-specific groups where clients with PTSD can process experiences and build coping skills alongside peers who share their clinical reality.",
     },
     {
-      icon: "ri-medal-2-line",
-      title: "Veterans Track Program",
-      body: "Northbound has a dedicated Veterans Track program for active military and veterans with combat-related PTSD and co-occurring substance use disorders. Military culture, identity, and unique trauma experiences are built into this specialized program.",
+      icon: "ri-shield-flash-line",
+      title: "Trauma-Informed Military & First Responder Care",
+      body: "Northbound's trauma-informed clinical team has extensive experience treating combat-related PTSD, first-responder trauma, and co-occurring substance use — integrating military culture and identity into individualized care plans.",
     },
     {
       icon: "ri-award-line",
@@ -140,9 +140,9 @@ const data: SubstancePageData = {
         "No. At Northbound, trauma processing is done primarily in individual therapy — one-on-one with your therapist in a safe, controlled environment. Group therapy focuses on skill-building, connection, and shared recovery experience. You will never be pressured to disclose trauma details you're not ready to share.",
     },
     {
-      question: "Does Northbound have a program for veterans with PTSD?",
+      question: "Does Northbound treat veterans and active military with PTSD?",
       answer:
-        "Yes — Northbound's Veterans Track program is specifically designed for active military and veterans with combat-related PTSD and co-occurring addiction. The program incorporates military culture, identity, and the unique clinical profile of combat trauma into every aspect of treatment.",
+        "Yes. Northbound's trauma-informed dual diagnosis program treats active military, veterans, and first responders with combat-related PTSD and co-occurring addiction. Clinical teams integrate military culture, identity, and the unique profile of service-related trauma into individualized treatment plans.",
     },
     {
       question: "Will insurance cover PTSD and addiction treatment at Northbound?",
@@ -155,9 +155,8 @@ const data: SubstancePageData = {
   relatedSubstances: [
     { label: "Anxiety Disorders", href: "/treatment/dual-diagnosis/treatment-for-anxiety-disorders/", icon: "ri-mental-health-line" },
     { label: "Trauma Therapy", href: "/treatment/mental-health-disorders/trauma-therapy/", icon: "ri-pulse-line" },
-    { label: "Veterans Program", href: "/veterans-track-program/", icon: "ri-medal-2-line" },
-    { label: "Depression", href: "/treatment/mental-health-disorders/depression/", icon: "ri-heart-line" },
     { label: "Dual Diagnosis", href: "/treatment/dual-diagnosis/", icon: "ri-brain-line" },
+    { label: "Depression", href: "/treatment/mental-health-disorders/depression/", icon: "ri-heart-line" },
     { label: "Alcohol", href: "/treatment/alcoholism/", icon: "ri-drop-line" },
   ],
 };

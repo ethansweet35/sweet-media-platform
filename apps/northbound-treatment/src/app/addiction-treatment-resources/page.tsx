@@ -4,7 +4,7 @@ import AddictionResourcesPage from "@/views/about/AddictionResourcesPage";
 
 const fallback: Metadata = {
   title: "Addiction Treatment Resources",
-  description: "Find the right drug and alcohol addiction treatment program for you. Northbound offers a full continuum of care — from medical detox through sober living — tailored to every individual's journey.",
+  description: "Find the right drug and alcohol addiction treatment program for you. Northbound offers a full continuum of care — from medical detox through virtual IOP and alumni support — tailored to every individual's journey.",
   alternates: { canonical: "/addiction-treatment-resources" },
 };
 

@@ -153,7 +153,6 @@ const data: SignaturePageData = {
   relatedServices: [
     { name: "Adventure Therapy", href: "/adventure-therapy-program/", tag: "Signature Service", icon: "ri-compass-3-line" },
     { name: "Wolf-Assisted Therapy", href: "/wolf-assisted-therapy/", tag: "Signature Service", icon: "ri-leaf-line" },
-    { name: "Music Recovery Program", href: "/treatment/music-program/", tag: "Signature Service", icon: "ri-music-2-line" },
     { name: "Dual-Diagnosis Treatment", href: "/treatment/dual-diagnosis/", tag: "Specialty Program", icon: "ri-brain-line" },
   ],
 

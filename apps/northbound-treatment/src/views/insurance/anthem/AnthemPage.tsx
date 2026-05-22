@@ -21,11 +21,11 @@ const data: InsurancePageData = {
   carrierName: "Anthem",
   carrierTagline: "In-network preferred provider",
   heroBody:
-    "Anthem covers drug and alcohol treatment — including detox, residential, PHP, and IOP — for most of its members. Northbound is an in-network preferred provider with Anthem, which means lower costs and streamlined authorization for you.",
+    "Anthem covers drug and alcohol treatment — including detox, residential, PHP, and virtual IOP — for most of its members. Northbound is an in-network preferred provider with Anthem, which means lower costs and streamlined authorization for you.",
 
   aboutHeadline: "Does Anthem Cover Addiction Treatment?",
   aboutBody: [
-    "Yes — Anthem Blue Cross Blue Shield provides coverage for drug and alcohol treatment, including medically supervised detox, residential inpatient, partial hospitalization (PHP), and intensive outpatient (IOP) services for most of its plan members. As one of the nation's largest health insurers with coverage across most states, Anthem provides robust behavioral health coverage aligned with the Mental Health Parity and Addiction Equity Act.",
+    "Yes — Anthem Blue Cross Blue Shield provides coverage for drug and alcohol treatment, including medically supervised detox, residential inpatient, partial hospitalization (PHP), and virtual IOP (telehealth) services for most of its plan members. As one of the nation's largest health insurers with coverage across most states, Anthem provides robust behavioral health coverage aligned with the Mental Health Parity and Addiction Equity Act.",
     "Anthem's plans vary significantly — from employer-sponsored group plans to individual marketplace plans and Medicare Advantage — and your specific coverage depends on your plan type, deductible status, and medical necessity determination. Northbound's admissions team contacts Anthem directly on your behalf to determine exactly what your policy covers before you arrive, at no cost to you.",
     "As an in-network preferred provider with Anthem, Northbound's negotiated rates mean your out-of-pocket costs are significantly lower than using an out-of-network facility. A majority of Northbound clients with Anthem coverage pay substantially less — and in many cases nothing — out-of-pocket.",
   ],
@@ -62,9 +62,9 @@ const data: InsurancePageData = {
     },
     {
       icon: "ri-calendar-check-line",
-      label: "Intensive Outpatient (IOP)",
+      label: "Virtual IOP (Telehealth)",
       detail:
-        "IOP at Northbound — 6 to 12 hours of weekly clinical sessions — is covered by most Anthem plans. Day and evening scheduling options allow clients to maintain work or family obligations while continuing treatment.",
+        "Northbound's virtual IOP (HomeBound) — 6 to 12 hours of weekly clinical sessions — is covered by most Anthem plans. Day and evening scheduling options allow clients to maintain work or family obligations while continuing treatment.",
     },
     {
       icon: "ri-brain-line",
@@ -101,7 +101,7 @@ const data: InsurancePageData = {
   faqs: [
     {
       q: "Does Anthem cover drug and alcohol rehab?",
-      a: "Yes. Anthem covers drug and alcohol rehabilitation across most plan types, including inpatient, residential, detox, PHP, and IOP. Coverage for mental health treatment is required under federal parity law. Your specific benefits — deductible, copays, coinsurance — depend on your individual plan. Northbound verifies your Anthem benefits directly at no cost to you.",
+      a: "Yes. Anthem covers drug and alcohol rehabilitation across most plan types, including inpatient, residential, detox, PHP, and virtual IOP. Coverage for mental health treatment is required under federal parity law. Your specific benefits — deductible, copays, coinsurance — depend on your individual plan. Northbound verifies your Anthem benefits directly at no cost to you.",
     },
     {
       q: "Is Northbound in-network with Anthem?",

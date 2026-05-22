@@ -5,9 +5,7 @@ const programs = [
   { icon: "ri-first-aid-kit-line", label: "Medical Detox", href: "/programs/detox/", desc: "Safe, 24/7 medically supervised withdrawal management." },
   { icon: "ri-home-heart-line", label: "Residential Treatment", href: "/programs/residential-treatment-center/", desc: "Immersive inpatient care — 28 to 90 days." },
   { icon: "ri-hospital-line", label: "Partial Hospitalization (PHP)", href: "/programs/partial-hospitalization-program/", desc: "4–8 hours of structured day treatment daily." },
-  { icon: "ri-calendar-check-line", label: "Intensive Outpatient (IOP)", href: "/programs/intensive-outpatient-treatment/", desc: "Flexible evening and weekend clinical programming." },
-  { icon: "ri-wifi-line", label: "Telehealth IOP", href: "/telehealth-iop-services/", desc: "Licensed online treatment from anywhere in California." },
-  { icon: "ri-building-2-line", label: "Sober Living", href: "/treatment/transitional-living-programs/sober-living/", desc: "Structured, supportive housing for sustained recovery." },
+  { icon: "ri-wifi-line", label: "Virtual IOP (HomeBound)", href: "/telehealth-iop-services/", desc: "Licensed online intensive outpatient treatment in California and Washington." },
   { icon: "ri-refresh-line", label: "Aftercare", href: "/programs/aftercare/", desc: "Continued support after primary treatment ends." },
   { icon: "ri-team-line", label: "Alumni Program", href: "/community/alumni/", desc: "Ongoing community, events, and peer support." },
 ];
@@ -48,7 +46,7 @@ export default function AddictionResourcesPage() {
             <p className="mb-3 text-xs font-semibold uppercase tracking-[0.2em] text-[#e97a52]">Levels of Care</p>
             <h2 className="font-heading text-4xl font-bold text-[#3a6697] md:text-5xl">Treatment Programs</h2>
             <p className="mt-4 max-w-2xl text-[#64748b] leading-7">
-              <AutoLinkedText>{"We understand that everyone&apos;s addiction story is different. Our full continuum of care\n              ensures every client gets exactly the level of support they need — from acute medical\n              detox through long-term sober living."}</AutoLinkedText>
+              <AutoLinkedText>{"We understand that everyone&apos;s addiction story is different. Our full continuum of care\n              ensures every client gets exactly the level of support they need — from acute medical\n              detox through virtual IOP and lifelong alumni support."}</AutoLinkedText>
             </p>
           </div>
           <div className="grid gap-px bg-[#cdd8e8] sm:grid-cols-2 lg:grid-cols-4">

@@ -53,7 +53,7 @@ const treatmentPrograms = [
   { icon: "ri-first-aid-kit-line", name: "Medical Detox", location: "Garden Grove & Newport Beach, CA", desc: "Washington clients travel to our fully licensed medical detox and residential centers in sunny Orange County, California." },
   { icon: "ri-home-heart-line", name: "Residential Treatment", location: "Garden Grove & Newport Beach, CA", desc: "30–90 day inpatient programs with daily therapy, holistic activities, and 24/7 clinical support in Southern California." },
   { icon: "ri-hospital-line", name: "Partial Hospitalization (PHP)", location: "Orange County, CA", desc: "Structured day-treatment available at our California campuses for step-down from residential care." },
-  { icon: "ri-calendar-check-line", name: "Intensive Outpatient (IOP)", location: "Seattle, WA & Telehealth", desc: "Flexible IOP services for Washington state residents — in-person in Seattle or via telehealth from anywhere in WA." },
+  { icon: "ri-wifi-line", name: "Virtual IOP (HomeBound)", location: "Washington & California (Telehealth)", desc: "Intensive outpatient care for Washington and California residents via Northbound's secure virtual HomeBound program." },
 ];
 
 const therapies = [
@@ -79,7 +79,7 @@ const alumniActivities = [
 const faqs = [
   {
     q: "Do you have a physical treatment facility in Seattle?",
-    a: "Yes. Our Seattle office is located in the Lower Queen Anne (Uptown) neighborhood at 2120 1st Ave N, Unit 313 — near the Space Needle and Puget Sound. It serves as an assessment, IOP, and community hub. For detox and residential treatment, Washington clients travel to our Orange County campuses.",
+    a: "Yes. Our Seattle office is located in the Lower Queen Anne (Uptown) neighborhood at 2120 1st Ave N, Unit 313 — near the Space Needle and Puget Sound. It serves as an assessment and community hub. For detox and residential treatment, Washington clients travel to our Orange County campuses; virtual IOP is available throughout Washington.",
   },
   {
     q: "Why do Seattle clients travel to California for residential treatment?",
@@ -91,7 +91,7 @@ const faqs = [
   },
   {
     q: "Do you offer telehealth services for Washington residents?",
-    a: "Yes. Telehealth IOP is available for Washington state residents who cannot travel or prefer to receive treatment remotely — the same clinical quality and structured programming as in-person IOP.",
+    a: "Yes. Virtual IOP (HomeBound) is available for Washington state residents who cannot travel or prefer to receive treatment remotely — the same clinical quality and structured programming as our licensed telehealth program in California.",
   },
   {
     q: "What is alternative sentencing?",
@@ -150,14 +150,14 @@ export default function SeattlePage() {
               <span className="italic text-terracotta">in Seattle</span>
             </h1>
             <p className="mt-6 max-w-2xl text-lg leading-relaxed text-white/80">
-              <AutoLinkedTextClient>{"Northbound's Seattle hub serves Washington state residents with clinical assessments, IOP, family support, alumni programming, and alternative sentencing services — connecting Pacific Northwest clients to Northbound's full treatment continuum."}</AutoLinkedTextClient>
+              <AutoLinkedTextClient>{"Northbound's Seattle hub serves Washington state residents with clinical assessments, family support, alumni programming, and alternative sentencing services — connecting Pacific Northwest clients to Northbound's full treatment continuum and virtual IOP."}</AutoLinkedTextClient>
             </p>
 
             <div className="mt-8 flex flex-wrap gap-x-8 gap-y-4 border-t border-white/15 pt-8">
               {[
                 { icon: "ri-map-pin-2-line", label: "2120 1st Ave N, Unit 313, Seattle, WA" },
                 { icon: "ri-user-line", label: "Ages 18+" },
-                { icon: "ri-calendar-line", label: "Detox, Residential, IOP & Telehealth" },
+                { icon: "ri-calendar-line", label: "Detox, Residential & Virtual IOP" },
                 { icon: "ri-computer-line", label: "Telehealth Available Across WA" },
               ].map((f) => (
                 <div key={f.label} className="flex items-center gap-2 text-sm text-white/75">
@@ -193,7 +193,7 @@ export default function SeattlePage() {
                 <AutoLinkedTextClient>{"Our Seattle services center is located in the vibrant Lower Queen Anne (Uptown) neighborhood — a walkable community of historic houses and boutique shops, right on Puget Sound and steps from the Space Needle. It's an inspiring, community-rooted setting for taking the first steps toward recovery."}</AutoLinkedTextClient>
               </p>
               <p className="mt-4 text-base leading-relaxed text-espresso/80">
-                <AutoLinkedTextClient>{"Seattle clients begin with a comprehensive clinical assessment at our local office. For those requiring medically supervised detox or residential treatment, we facilitate a smooth transition to our fully licensed Orange County facilities — where the Southern California environment becomes part of the healing. Clients then step down back to Seattle-based IOP or telehealth to complete their continuum of care."}</AutoLinkedTextClient>
+                <AutoLinkedTextClient>{"Seattle clients begin with a comprehensive clinical assessment at our local office. For those requiring medically supervised detox or residential treatment, we facilitate a smooth transition to our fully licensed Orange County facilities — where the Southern California environment becomes part of the healing. Clients then step down to virtual IOP (HomeBound) or alumni support to complete their continuum of care."}</AutoLinkedTextClient>
               </p>
 
               <div className="mt-8 rounded-2xl border border-sand-dark bg-sand p-6">

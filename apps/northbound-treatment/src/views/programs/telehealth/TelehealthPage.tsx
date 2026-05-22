@@ -102,7 +102,7 @@ const data: TreatmentPageData = {
     {
       icon: "ri-graduation-cap-line",
       title: "Signature Programs Available Virtually",
-      body: "Northbound's signature programs — including Music Recovery, trauma-focused therapy, and 12-step engagement — are available through HomeBound. Your treatment plan is individualized with the same access to specialty programming as in-person participants.",
+      body: "Northbound's signature programs — including trauma-focused therapy and 12-step engagement — are available through HomeBound. Your treatment plan is individualized with the same access to specialty programming as in-person participants.",
     },
     {
       icon: "ri-heart-pulse-line",
@@ -116,8 +116,7 @@ const data: TreatmentPageData = {
     { label: "Medical Detox", href: "/programs/detox/", icon: "ri-capsule-line" },
     { label: "Residential", href: "/programs/residential-treatment-center/", icon: "ri-home-heart-line" },
     { label: "PHP", href: "/programs/partial-hospitalization-program/", icon: "ri-hospital-line" },
-    { label: "IOP", href: "/programs/intensive-outpatient-treatment/", icon: "ri-calendar-check-line" },
-    { label: "Online IOP", href: "/telehealth-iop-services/", icon: "ri-computer-line", current: true },
+    { label: "Virtual IOP", href: "/telehealth-iop-services/", icon: "ri-wifi-line", current: true },
     { label: "Aftercare", href: "/programs/aftercare/", icon: "ri-refresh-line" },
   ],
 

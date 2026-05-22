@@ -64,9 +64,9 @@ const data: SubstancePageData = {
     },
     {
       phase: "Month 4–6",
-      title: "Intensive Outpatient Program (IOP)",
-      icon: "ri-calendar-check-line",
-      body: "IOP allows gradual reintegration into daily life while maintaining robust therapeutic support. Clients practice new coping strategies in real-world contexts, with ongoing psychiatric monitoring to address any protracted withdrawal symptoms.",
+      title: "Virtual IOP (HomeBound)",
+      icon: "ri-wifi-line",
+      body: "Virtual IOP allows gradual reintegration into daily life while maintaining robust therapeutic support. Clients practice new coping strategies in real-world contexts, with ongoing psychiatric monitoring to address any protracted withdrawal symptoms.",
     },
     {
       phase: "Ongoing",

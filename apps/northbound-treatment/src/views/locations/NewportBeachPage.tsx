@@ -40,10 +40,10 @@ const programs = [
     highlight: false,
   },
   {
-    icon: "ri-calendar-check-line",
-    name: "Intensive Outpatient (IOP)",
-    duration: "9+ hrs/week",
-    desc: "Intensive clinical support while you live at home. Includes individual coaching, goal setting, online case management, and on-site and off-site programming.",
+    icon: "ri-wifi-line",
+    name: "Virtual IOP (HomeBound)",
+    duration: "Flexible",
+    desc: "Intensive clinical support delivered via secure telehealth while you live at home — Northbound's outpatient intensive level of care.",
     highlight: false,
   },
   {
@@ -57,18 +57,17 @@ const programs = [
     icon: "ri-user-heart-line",
     name: "Aftercare & Alumni",
     duration: "Ongoing",
-    desc: "Recovery doesn't end at discharge. Northbound's alumni program includes weekly meetings, BBQs, sober living referrals, and a lifelong support community.",
+    desc: "Recovery doesn't end at discharge. Northbound's alumni program includes weekly meetings, BBQs, and a lifelong support community.",
     highlight: false,
   },
 ];
 
 const campusFeatures = [
-  { icon: "ri-building-2-line", label: "7 Integrated Buildings", desc: "Detox, residential homes (men & women), sober living, and a modern clinical hub" },
+  { icon: "ri-building-2-line", label: "7 Integrated Buildings", desc: "Detox, residential homes, and a modern clinical hub" },
   { icon: "ri-leaf-line", label: "Peaceful Gardens", desc: "Meditation gardens, outdoor yoga spaces, and nature-rich common areas" },
   { icon: "ri-music-line", label: "Music Rooms", desc: "Creative expression as part of holistic, experiential healing" },
   { icon: "ri-run-line", label: "On-Site Gym", desc: "Daily fitness access for all residents" },
   { icon: "ri-sun-line", label: "Beach Access", desc: "Surfing twice per week; regular beach bonfires and coastal outings" },
-  { icon: "ri-heart-3-line", label: "Sober Living Homes", desc: "Comfortable transitional housing on-campus for step-down support" },
 ];
 
 const faqs = [
@@ -82,7 +81,7 @@ const faqs = [
   },
   {
     q: "How long is the Newport Beach program?",
-    a: "Residential programs typically run 30–90 days depending on clinical need. Many clients transition through multiple levels of care — detox, residential, PHP, IOP — which can extend total treatment time. A specialist will work with you to design the right plan.",
+    a: "Residential programs typically run 30–90 days depending on clinical need. Many clients transition through multiple levels of care — detox, residential, PHP, and virtual IOP — which can extend total treatment time. A specialist will work with you to design the right plan.",
   },
   {
     q: "Do you offer a family program?",

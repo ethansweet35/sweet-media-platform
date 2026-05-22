@@ -60,13 +60,13 @@ const data: SubstancePageData = {
       phase: "Month 2–4",
       title: "Partial Hospitalization Program (PHP)",
       icon: "ri-sun-line",
-      body: "PHP provides 5 days per week of intensive clinical programming while clients begin building independent routines. This phase bridges the intensity of inpatient care with growing personal responsibility, all within a supported sober-living environment.",
+      body: "PHP provides 5 days per week of intensive clinical programming while clients begin building independent routines. This phase bridges the intensity of inpatient care with growing personal responsibility within a supported outpatient environment.",
     },
     {
       phase: "Month 3–6",
-      title: "Intensive Outpatient Program (IOP)",
-      icon: "ri-calendar-check-line",
-      body: "Northbound's IOP delivers 10–12 hours of weekly therapy — allowing clients to reintegrate into work and family life while maintaining robust therapeutic support. The InVivo® model practices real-world skills and stress responses within a treatment context, dramatically reducing relapse risk.",
+      title: "Virtual IOP (HomeBound)",
+      icon: "ri-wifi-line",
+      body: "Northbound's virtual IOP (HomeBound) delivers 10–12 hours of weekly therapy — allowing clients to reintegrate into work and family life while maintaining robust therapeutic support. The InVivo® model practices real-world skills and stress responses within a treatment context, dramatically reducing relapse risk.",
     },
     {
       phase: "Ongoing",

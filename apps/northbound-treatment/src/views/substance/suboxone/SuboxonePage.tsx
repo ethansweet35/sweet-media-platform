@@ -68,9 +68,9 @@ const data: SubstancePageData = {
     },
     {
       phase: "Month 3–6",
-      title: "Intensive Outpatient Program (IOP)",
-      icon: "ri-calendar-check-line",
-      body: "IOP provides 10–12 hours of weekly programming while clients reintegrate into work, family, or school. For Suboxone clients, this phase is particularly focused on demonstrating self-sufficiency — building the lived evidence that they can function, feel, and thrive without any opioid support.",
+      title: "Virtual IOP (HomeBound)",
+      icon: "ri-wifi-line",
+      body: "Virtual IOP provides 10–12 hours of weekly programming while clients reintegrate into work, family, or school. For Suboxone clients, this phase is particularly focused on demonstrating self-sufficiency — building the lived evidence that they can function, feel, and thrive without any opioid support.",
     },
     {
       phase: "Ongoing",

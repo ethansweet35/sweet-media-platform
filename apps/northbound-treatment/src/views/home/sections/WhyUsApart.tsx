@@ -7,7 +7,7 @@ const DIFFERENTIATORS = [
   {
     number: "01",
     heading: "Personalized Treatment",
-    body: "Every client works side-by-side with our clinical team to build a care plan that fits their life — not a one-size program. Evidence-based therapies, flexible levels of care, and a 1:1 staff-to-client ratio mean your treatment is yours alone.",
+    body: "Every client works side-by-side with our clinical team to build a care plan that fits their life — not a one-size program. Evidence-based therapies, flexible levels of care, and a 2:1 staff-to-client ratio mean your treatment is yours alone.",
     icon: "ri-heart-line",
   },
   {

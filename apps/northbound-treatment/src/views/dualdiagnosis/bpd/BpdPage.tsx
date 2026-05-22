@@ -22,7 +22,7 @@ const data: SubstancePageData = {
   whatItIsImageAlt: "DBT therapy session for borderline personality disorder treatment at Northbound Treatment Services",
   quickStats: [
     { value: "78%", label: "Of people with BPD meet criteria for a substance use disorder at some point in their lives" },
-    { value: "1:1", label: "Staff-to-client ratio at Northbound for individualized care" },
+    { value: "2:1", label: "Staff-to-client ratio at Northbound for individualized care" },
     { value: ">97%", label: "Drug abstinence rate in Northbound's USC outcomes study" },
   ],
 

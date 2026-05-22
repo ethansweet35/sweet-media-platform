@@ -22,7 +22,7 @@ const data: InsurancePageData = {
   carrierName: "Aetna",
   carrierTagline: "In-network preferred provider",
   heroBody:
-    "Aetna covers drug and alcohol treatment — including detox, residential, PHP, and IOP — for most of its members. Northbound is an in-network preferred provider, which means lower costs and streamlined authorization for you.",
+    "Aetna covers drug and alcohol treatment — including detox, residential, PHP, and virtual IOP — for most of its members. Northbound is an in-network preferred provider, which means lower costs and streamlined authorization for you.",
 
   /* ── About ──────────────────────────────────────────────── */
   aboutHeadline: "Does Aetna Cover Addiction Treatment?",
@@ -65,9 +65,9 @@ const data: InsurancePageData = {
     },
     {
       icon: "ri-calendar-check-line",
-      label: "Intensive Outpatient (IOP)",
+      label: "Virtual IOP (Telehealth)",
       detail:
-        "IOP at Northbound — 6 to 12 hours of weekly clinical programming — is covered by most Aetna plans. Flexible day and evening scheduling makes IOP accessible while maintaining your work or family commitments.",
+        "Northbound's virtual IOP (HomeBound) — 6 to 12 hours of weekly clinical programming — is covered by most Aetna plans. Flexible day and evening scheduling makes IOP accessible while maintaining your work or family commitments.",
     },
     {
       icon: "ri-brain-line",
@@ -106,7 +106,7 @@ const data: InsurancePageData = {
   faqs: [
     {
       q: "Does Aetna cover rehab for drug and alcohol addiction?",
-      a: "Yes. Aetna covers drug and alcohol rehabilitation across most plan types, including inpatient, residential, detox, partial hospitalization (PHP), and intensive outpatient (IOP). Coverage for mental health treatment is also required under federal parity law. Specific benefits — length of stay, copays, deductible requirements — vary by your individual plan. Northbound verifies your benefits directly with Aetna at no cost to you.",
+      a: "Yes. Aetna covers drug and alcohol rehabilitation across most plan types, including inpatient, residential, detox, partial hospitalization (PHP), and virtual IOP (telehealth). Coverage for mental health treatment is also required under federal parity law. Specific benefits — length of stay, copays, deductible requirements — vary by your individual plan. Northbound verifies your benefits directly with Aetna at no cost to you.",
     },
     {
       q: "Is Northbound in-network with Aetna?",

@@ -64,9 +64,9 @@ const data: SubstancePageData = {
     },
     {
       phase: "Month 3–6",
-      title: "Intensive Outpatient Program (IOP)",
-      icon: "ri-calendar-check-line",
-      body: "Northbound's IOP allows clients to return to work, school, and family life while maintaining 10–12 hours of weekly clinical support. The InVivo® model specifically addresses the social and professional triggers that often drive cocaine use.",
+      title: "Virtual IOP (HomeBound)",
+      icon: "ri-wifi-line",
+      body: "Northbound's virtual IOP (HomeBound) allows clients to return to work, school, and family life while maintaining 10–12 hours of weekly clinical support. The InVivo® model specifically addresses the social and professional triggers that often drive cocaine use.",
     },
     {
       phase: "Ongoing",

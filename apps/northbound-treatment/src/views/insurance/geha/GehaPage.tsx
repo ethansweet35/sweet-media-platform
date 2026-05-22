@@ -25,7 +25,7 @@ const data: InsurancePageData = {
 
   aboutHeadline: "Does GEHA Cover Addiction Treatment?",
   aboutBody: [
-    "Yes — GEHA provides coverage for substance use disorder treatment, including medically supervised detox, residential inpatient, partial hospitalization (PHP), and intensive outpatient (IOP) programs for eligible federal employees, retirees, annuitants, and their families through the Federal Employees Health Benefits (FEHB) Program. GEHA is one of the largest nonprofit federal employee health benefits carriers in the country.",
+    "Yes — GEHA provides coverage for substance use disorder treatment, including medically supervised detox, residential inpatient, partial hospitalization (PHP), and virtual IOP (telehealth) programs for eligible federal employees, retirees, annuitants, and their families through the Federal Employees Health Benefits (FEHB) Program. GEHA is one of the largest nonprofit federal employee health benefits carriers in the country.",
     "GEHA offers several plan options — Standard Option, High Option, HDHP, and others — each with different cost-sharing for behavioral health services. Federal law and FEHB regulations require all GEHA plans to cover mental health and substance use treatment at parity with medical and surgical benefits. Northbound's admissions team confirms which GEHA plan you have and what your specific coverage entails.",
     "Northbound accepts GEHA coverage and has experience working with the FEHB system. Our admissions team contacts GEHA directly on your behalf to determine your exact behavioral health benefits — including authorized levels of care and cost-sharing — at no cost to you.",
   ],
@@ -62,9 +62,9 @@ const data: InsurancePageData = {
     },
     {
       icon: "ri-calendar-check-line",
-      label: "Intensive Outpatient (IOP)",
+      label: "Virtual IOP (Telehealth)",
       detail:
-        "IOP at Northbound — 6 to 12 hours of weekly structured programming — is covered by most GEHA plans. Flexible scheduling supports federal employees balancing treatment with work obligations.",
+        "Northbound's virtual IOP (HomeBound) — 6 to 12 hours of weekly structured programming — is covered by most GEHA plans. Flexible scheduling supports federal employees balancing treatment with work obligations.",
     },
     {
       icon: "ri-brain-line",
@@ -101,7 +101,7 @@ const data: InsurancePageData = {
   faqs: [
     {
       q: "Does GEHA cover drug and alcohol rehab?",
-      a: "Yes. GEHA covers substance use disorder treatment including detox, residential, PHP, and IOP under the Federal Employees Health Benefits Program. FEHB regulations require parity between behavioral health and physical health coverage. Your specific benefits depend on your GEHA plan option — Northbound verifies your coverage at no cost.",
+      a: "Yes. GEHA covers substance use disorder treatment including detox, residential, PHP, and virtual IOP under the Federal Employees Health Benefits Program. FEHB regulations require parity between behavioral health and physical health coverage. Your specific benefits depend on your GEHA plan option — Northbound verifies your coverage at no cost.",
     },
     {
       q: "Does Northbound accept GEHA insurance?",

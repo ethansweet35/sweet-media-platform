@@ -21,11 +21,11 @@ const data: InsurancePageData = {
   carrierName: "Magellan Health",
   carrierTagline: "Behavioral health coverage accepted",
   heroBody:
-    "Magellan Health manages behavioral health and addiction treatment benefits for millions of plan members nationwide. Northbound is an accepted provider with Magellan, helping members navigate coverage for detox, residential, PHP, and IOP treatment.",
+    "Magellan Health manages behavioral health and addiction treatment benefits for millions of plan members nationwide. Northbound is an accepted provider with Magellan, helping members navigate coverage for detox, residential, PHP, and virtual IOP treatment.",
 
   aboutHeadline: "Does Magellan Health Cover Addiction Treatment?",
   aboutBody: [
-    "Yes — Magellan Health provides coverage for substance use disorder treatment, including medically supervised detox, residential inpatient, partial hospitalization (PHP), and intensive outpatient (IOP) programs through its behavioral health managed care services. Magellan is one of the nation's largest specialty behavioral health managed care organizations, managing benefits for commercial health plans, government programs, and employer-sponsored plans nationwide.",
+    "Yes — Magellan Health provides coverage for substance use disorder treatment, including medically supervised detox, residential inpatient, partial hospitalization (PHP), and virtual IOP (telehealth) programs through its behavioral health managed care services. Magellan is one of the nation's largest specialty behavioral health managed care organizations, managing benefits for commercial health plans, government programs, and employer-sponsored plans nationwide.",
     "Magellan does not typically sell direct insurance — instead, it manages behavioral health benefits on behalf of health plans, employers, and government agencies. If your insurer uses Magellan to manage behavioral health, Magellan handles prior authorization and utilization management for mental health and addiction treatment. Northbound's team identifies whether your coverage runs through Magellan during the verification process.",
     "Northbound's admissions team has extensive experience working with Magellan's authorization processes. We contact Magellan directly on your behalf to confirm your exact benefits and secure pre-authorization before your arrival — at no cost to you.",
   ],
@@ -62,9 +62,9 @@ const data: InsurancePageData = {
     },
     {
       icon: "ri-calendar-check-line",
-      label: "Intensive Outpatient (IOP)",
+      label: "Virtual IOP (Telehealth)",
       detail:
-        "IOP at Northbound — 6 to 12 hours of weekly programming — is typically covered by Magellan-managed plans. Magellan often supports IOP as a clinically appropriate alternative to higher levels of care.",
+        "Northbound's virtual IOP (HomeBound) — 6 to 12 hours of weekly programming — is typically covered by Magellan-managed plans. Magellan often supports IOP as a clinically appropriate alternative to higher levels of care.",
     },
     {
       icon: "ri-brain-line",
@@ -101,7 +101,7 @@ const data: InsurancePageData = {
   faqs: [
     {
       q: "Does Magellan Health cover drug and alcohol rehab?",
-      a: "Yes. Magellan Health covers substance use disorder treatment including detox, residential, PHP, and IOP for most members of health plans that use Magellan for behavioral health management. Federal parity law requires coverage at par with physical health benefits. Your specific benefits depend on your underlying health plan.",
+      a: "Yes. Magellan Health covers substance use disorder treatment including detox, residential, PHP, and virtual IOP for most members of health plans that use Magellan for behavioral health management. Federal parity law requires coverage at par with physical health benefits. Your specific benefits depend on your underlying health plan.",
     },
     {
       q: "How do I know if my insurance uses Magellan Health?",

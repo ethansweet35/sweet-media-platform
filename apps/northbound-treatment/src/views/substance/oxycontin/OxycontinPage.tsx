@@ -42,7 +42,7 @@ const data: SubstancePageData = {
 
   recoveryHeadline: "What OxyContin Recovery Looks Like at Northbound",
   recoveryIntro:
-    "OxyContin addiction requires a medically supervised approach from day one. Northbound's opioid-specialized program provides the full continuum — from safe medical detox through residential care, PHP, IOP, and long-term aftercare.",
+    "OxyContin addiction requires a medically supervised approach from day one. Northbound's opioid-specialized program provides the full continuum — from safe medical detox through residential care, PHP, virtual IOP, and long-term aftercare.",
   careSteps: [
     {
       phase: "Days 1–7",
@@ -64,9 +64,9 @@ const data: SubstancePageData = {
     },
     {
       phase: "Month 3–6",
-      title: "Intensive Outpatient Program (IOP)",
-      icon: "ri-calendar-check-line",
-      body: "IOP allows clients to reintegrate into daily life while maintaining 10–12 hours of clinical support per week. The InVivo® model builds real-world recovery skills in real-world contexts, dramatically reducing relapse risk.",
+      title: "Virtual IOP (HomeBound)",
+      icon: "ri-wifi-line",
+      body: "Virtual IOP allows clients to reintegrate into daily life while maintaining 10–12 hours of clinical support per week. The InVivo® model builds real-world recovery skills in real-world contexts, dramatically reducing relapse risk.",
     },
     {
       phase: "Ongoing",

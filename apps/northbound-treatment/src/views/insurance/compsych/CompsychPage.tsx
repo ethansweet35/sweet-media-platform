@@ -21,11 +21,11 @@ const data: InsurancePageData = {
   carrierName: "ComPsych",
   carrierTagline: "EAP & behavioral health coverage accepted",
   heroBody:
-    "ComPsych covers addiction treatment — including detox, residential, PHP, and IOP — through its behavioral health and Employee Assistance Program (EAP) benefits. Northbound works with ComPsych to verify your coverage and coordinate care from day one.",
+    "ComPsych covers addiction treatment — including detox, residential, PHP, and virtual IOP — through its behavioral health and Employee Assistance Program (EAP) benefits. Northbound works with ComPsych to verify your coverage and coordinate care from day one.",
 
   aboutHeadline: "Does ComPsych Cover Addiction Treatment?",
   aboutBody: [
-    "Yes — ComPsych provides coverage for substance use disorder treatment, including medically supervised detox, residential inpatient, partial hospitalization (PHP), and intensive outpatient (IOP) programs through its behavioral health managed care and Employee Assistance Program (EAP) services. As the world's largest provider of employee assistance programs, ComPsych manages behavioral health benefits for more than 137 million employees and their families worldwide.",
+    "Yes — ComPsych provides coverage for substance use disorder treatment, including medically supervised detox, residential inpatient, partial hospitalization (PHP), and virtual IOP (telehealth) programs through its behavioral health managed care and Employee Assistance Program (EAP) services. As the world's largest provider of employee assistance programs, ComPsych manages behavioral health benefits for more than 137 million employees and their families worldwide.",
     "ComPsych typically functions as a behavioral health benefits manager rather than a primary insurer — meaning your employer's health plan may use ComPsych to manage behavioral health and EAP services while a separate carrier (such as Cigna or Aetna) handles medical coverage. ComPsych's GuidanceResources® program often provides initial counseling sessions and referrals that can connect directly to higher levels of care like Northbound's programs.",
     "Northbound's admissions team has experience working with ComPsych's authorization process. We contact ComPsych directly on your behalf to determine your exact behavioral health benefits and coordinate care — at no cost to you.",
   ],
@@ -62,9 +62,9 @@ const data: InsurancePageData = {
     },
     {
       icon: "ri-calendar-check-line",
-      label: "Intensive Outpatient (IOP)",
+      label: "Virtual IOP (Telehealth)",
       detail:
-        "IOP at Northbound is covered by most ComPsych plans. EAP programs may also coordinate referrals to IOP directly through the GuidanceResources® referral network.",
+        "Northbound's virtual IOP (HomeBound) is covered by most ComPsych plans. EAP programs may also coordinate referrals to IOP directly through the GuidanceResources® referral network.",
     },
     {
       icon: "ri-brain-line",
@@ -101,7 +101,7 @@ const data: InsurancePageData = {
   faqs: [
     {
       q: "Does ComPsych cover drug and alcohol rehab?",
-      a: "Yes. ComPsych covers substance use disorder treatment including detox, residential, PHP, and IOP through its behavioral health managed care plans. EAP programs can also facilitate referrals to higher levels of care. Specific benefits depend on your employer's ComPsych plan — Northbound verifies your coverage at no cost.",
+      a: "Yes. ComPsych covers substance use disorder treatment including detox, residential, PHP, and virtual IOP through its behavioral health managed care plans. EAP programs can also facilitate referrals to higher levels of care. Specific benefits depend on your employer's ComPsych plan — Northbound verifies your coverage at no cost.",
     },
     {
       q: "Is Northbound an accepted provider with ComPsych?",

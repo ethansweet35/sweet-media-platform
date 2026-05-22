@@ -21,11 +21,11 @@ const data: InsurancePageData = {
   carrierName: "Blue Cross Blue Shield",
   carrierTagline: "In-network preferred provider",
   heroBody:
-    "Blue Cross Blue Shield covers drug and alcohol treatment — including detox, residential, PHP, and IOP — for most of its members across all 50 states. Northbound is an in-network preferred provider with BCBS, which means lower costs and faster authorization.",
+    "Blue Cross Blue Shield covers drug and alcohol treatment — including detox, residential, PHP, and virtual IOP — for most of its members across all 50 states. Northbound is an in-network preferred provider with BCBS, which means lower costs and faster authorization.",
 
   aboutHeadline: "Does Blue Cross Blue Shield Cover Addiction Treatment?",
   aboutBody: [
-    "Yes — Blue Cross Blue Shield (BCBS) provides coverage for drug and alcohol treatment, including medically supervised detox, residential inpatient, partial hospitalization (PHP), and intensive outpatient (IOP) programs for most of its plan members. As the nation's largest health insurance association covering 1 in 3 Americans across all 50 states, BCBS has extensive behavioral health coverage aligned with federal mental health parity requirements.",
+    "Yes — Blue Cross Blue Shield (BCBS) provides coverage for drug and alcohol treatment, including medically supervised detox, residential inpatient, partial hospitalization (PHP), and virtual IOP (telehealth) programs for most of its plan members. As the nation's largest health insurance association covering 1 in 3 Americans across all 50 states, BCBS has extensive behavioral health coverage aligned with federal mental health parity requirements.",
     "BCBS operates through a network of 36 independent regional plans — meaning your specific coverage depends on your state's BCBS plan and your individual policy. Despite this regional structure, most BCBS plans provide comparable behavioral health benefits. Northbound's admissions team contacts BCBS directly on your behalf to determine exactly what your policy covers, at no cost to you.",
     "As an in-network preferred provider, Northbound's negotiated rates with BCBS mean your out-of-pocket costs are significantly lower than choosing an out-of-network facility. A majority of Northbound clients with BCBS coverage pay little to nothing out-of-pocket for treatment.",
   ],
@@ -62,9 +62,9 @@ const data: InsurancePageData = {
     },
     {
       icon: "ri-calendar-check-line",
-      label: "Intensive Outpatient (IOP)",
+      label: "Virtual IOP (Telehealth)",
       detail:
-        "IOP at Northbound — 6 to 12 hours of weekly structured treatment — is covered by most BCBS plans. Flexible scheduling allows clients to maintain work or family obligations.",
+        "Northbound's virtual IOP (HomeBound) — 6 to 12 hours of weekly structured treatment — is covered by most BCBS plans. Flexible scheduling allows clients to maintain work or family obligations.",
     },
     {
       icon: "ri-brain-line",
@@ -101,7 +101,7 @@ const data: InsurancePageData = {
   faqs: [
     {
       q: "Does Blue Cross Blue Shield cover drug and alcohol rehab?",
-      a: "Yes. BCBS covers drug and alcohol rehabilitation including detox, residential, PHP, and IOP under most plan types. Coverage for mental health is required under federal parity law. Specific benefits vary by your regional BCBS plan and policy — Northbound verifies your benefits directly at no cost to you.",
+      a: "Yes. BCBS covers drug and alcohol rehabilitation including detox, residential, PHP, and virtual IOP under most plan types. Coverage for mental health is required under federal parity law. Specific benefits vary by your regional BCBS plan and policy — Northbound verifies your benefits directly at no cost to you.",
     },
     {
       q: "Is Northbound in-network with Blue Cross Blue Shield?",

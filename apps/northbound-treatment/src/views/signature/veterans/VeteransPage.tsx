@@ -131,7 +131,7 @@ const data: SignaturePageData = {
   ],
   stats: [
     { value: "38+", label: "Years of behavioral healthcare expertise" },
-    { value: "1:1", label: "Staff-to-client ratio" },
+    { value: "2:1", label: "Staff-to-client ratio" },
     { value: "24/7", label: "Admissions support available" },
   ],
 

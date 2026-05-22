@@ -68,13 +68,13 @@ const data: SubstancePageData = {
     },
     {
       phase: "Month 3–6",
-      title: "Intensive Outpatient Program (IOP)",
-      icon: "ri-calendar-check-line",
-      body: "IOP allows clients to gradually reintegrate into real life while maintaining 10–12 hours of weekly therapeutic support. For meth clients, this phase focuses on rebuilding motivation, functional capacity, and genuine connection — things the drug systematically destroyed. Northbound's approach introduces real-world stressors within a supported treatment context.",
+      title: "Virtual IOP (HomeBound)",
+      icon: "ri-wifi-line",
+      body: "Virtual IOP allows clients to gradually reintegrate into real life while maintaining 10–12 hours of weekly therapeutic support. For meth clients, this phase focuses on rebuilding motivation, functional capacity, and genuine connection — things the drug systematically destroyed. Northbound's approach introduces real-world stressors within a supported treatment context.",
     },
     {
       phase: "Ongoing",
-      title: "Aftercare, Sober Living & Alumni",
+      title: "Aftercare & Alumni",
       icon: "ri-refresh-line",
       body: "Long-term meth recovery requires long-term support. Northbound's aftercare and alumni program provides ongoing community and accountability. Careerbound® and Collegebound® programs help clients rebuild their professional and educational lives — disrupted by meth addiction — while in treatment.",
     },
@@ -94,8 +94,8 @@ const data: SubstancePageData = {
     },
     {
       icon: "ri-user-line",
-      title: "1:1 Staff-to-Client Ratio",
-      body: "Meth recovery demands intensive, individualized support — particularly in early recovery when cognitive and behavioral function is significantly impaired. Northbound's 1:1 staff-to-client ratio ensures every client receives the focused clinical attention their recovery requires.",
+      title: "2:1 Staff-to-Client Ratio",
+      body: "Meth recovery demands intensive, individualized support — particularly in early recovery when cognitive and behavioral function is significantly impaired. Northbound's 2:1 staff-to-client ratio ensures every client receives the focused clinical attention their recovery requires.",
     },
     {
       icon: "ri-graduation-cap-line",
@@ -135,7 +135,7 @@ const data: SubstancePageData = {
     {
       question: "How long does meth treatment take?",
       answer:
-        "Northbound offers 30, 60, and 90-day programs. Given the neurological complexity of meth addiction and the time required for brain recovery, 90 days or more of treatment is strongly recommended. Many clients also continue through PHP, IOP, sober living, and alumni support beyond their initial residential stay.",
+        "Northbound offers 30, 60, and 90-day programs. Given the neurological complexity of meth addiction and the time required for brain recovery, 90 days or more of treatment is strongly recommended. Many clients also continue through PHP, virtual IOP, and alumni support beyond their initial residential stay.",
     },
     {
       question: "Is meth psychosis treatable?",

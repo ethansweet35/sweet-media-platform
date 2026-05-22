@@ -21,11 +21,11 @@ const data: InsurancePageData = {
   carrierName: "Cigna",
   carrierTagline: "In-network preferred provider",
   heroBody:
-    "Cigna covers drug and alcohol treatment — including detox, residential, PHP, and IOP — for most of its members. Northbound is an in-network preferred provider with Cigna, ensuring lower out-of-pocket costs and faster prior authorization.",
+    "Cigna covers drug and alcohol treatment — including detox, residential, PHP, and virtual IOP — for most of its members. Northbound is an in-network preferred provider with Cigna, ensuring lower out-of-pocket costs and faster prior authorization.",
 
   aboutHeadline: "Does Cigna Cover Addiction Treatment?",
   aboutBody: [
-    "Yes — Cigna provides coverage for drug and alcohol treatment, including medically supervised detox, residential inpatient, partial hospitalization (PHP), and intensive outpatient (IOP) programs for most of its plan members. As one of the largest health insurance companies in the United States, Cigna offers behavioral health coverage through its subsidiary Evernorth, with strong parity protections for substance use and mental health treatment.",
+    "Yes — Cigna provides coverage for drug and alcohol treatment, including medically supervised detox, residential inpatient, partial hospitalization (PHP), and virtual IOP (telehealth) programs for most of its plan members. As one of the largest health insurance companies in the United States, Cigna offers behavioral health coverage through its subsidiary Evernorth, with strong parity protections for substance use and mental health treatment.",
     "Cigna's coverage depends on your specific plan type — employer-sponsored, individual marketplace, or Cigna Medicare Advantage — as well as your deductible status and medical necessity determination. Northbound's admissions team contacts Cigna directly on your behalf to determine exactly what your policy covers, at no cost to you.",
     "As an in-network preferred provider with Cigna, Northbound's negotiated rates mean your out-of-pocket costs are significantly lower than an out-of-network facility. A majority of Northbound clients with Cigna coverage receive substantial coverage — and many pay little to nothing out-of-pocket.",
   ],
@@ -62,9 +62,9 @@ const data: InsurancePageData = {
     },
     {
       icon: "ri-calendar-check-line",
-      label: "Intensive Outpatient (IOP)",
+      label: "Virtual IOP (Telehealth)",
       detail:
-        "IOP at Northbound — 6 to 12 hours of weekly programming — is covered under most Cigna plans. Day and evening scheduling helps clients balance treatment with work or family responsibilities.",
+        "Northbound's virtual IOP (HomeBound) — 6 to 12 hours of weekly programming — is covered under most Cigna plans. Day and evening scheduling helps clients balance treatment with work or family responsibilities.",
     },
     {
       icon: "ri-brain-line",
@@ -101,7 +101,7 @@ const data: InsurancePageData = {
   faqs: [
     {
       q: "Does Cigna cover drug and alcohol rehab?",
-      a: "Yes. Cigna covers drug and alcohol rehabilitation including detox, residential, PHP, and IOP under most plan types. Federal law also requires Cigna to cover mental health treatment on equal terms with physical health. Your specific benefits depend on your plan — Northbound verifies your Cigna benefits directly at no cost.",
+      a: "Yes. Cigna covers drug and alcohol rehabilitation including detox, residential, PHP, and virtual IOP under most plan types. Federal law also requires Cigna to cover mental health treatment on equal terms with physical health. Your specific benefits depend on your plan — Northbound verifies your Cigna benefits directly at no cost.",
     },
     {
       q: "Is Northbound in-network with Cigna?",

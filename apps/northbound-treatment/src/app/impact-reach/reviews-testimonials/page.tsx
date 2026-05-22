@@ -4,7 +4,7 @@ import ReviewsPage from "@/views/about/ReviewsPage";
 
 const fallback: Metadata = {
   title: "Reviews & Testimonials",
-  description: "Read real client and family testimonials about Northbound Treatment. Rated 4.6/5 stars on Google. Hear firsthand accounts of recovery from detox through residential and sober living.",
+  description: "Read real client and family testimonials about Northbound Treatment. Rated 4.6/5 stars on Google. Hear firsthand accounts of recovery from detox through residential treatment and aftercare.",
   alternates: { canonical: "/impact-reach/reviews-testimonials" },
 };
 

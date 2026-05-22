@@ -79,7 +79,7 @@ const STEPS: Array<{
     title: "Live Free",
     href: "/programs/aftercare/",
     description:
-      "Through aftercare, including sober living and alumni support, clients receive ongoing structure and accountability. Our team provides relapse-prevention planning and lifelong recovery resources to maintain momentum long after treatment ends.",
+      "Through aftercare and alumni support, clients receive ongoing structure and accountability. Our team provides relapse-prevention planning and lifelong recovery resources to maintain momentum long after treatment ends.",
     image: PROCESS_IMAGES.liveFree,
     alt: "Northbound alumni walking together along a coastal path at golden hour, embodying long-term recovery.",
     tone: {

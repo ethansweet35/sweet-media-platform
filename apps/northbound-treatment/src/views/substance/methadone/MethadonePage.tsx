@@ -64,9 +64,9 @@ const data: SubstancePageData = {
     },
     {
       phase: "Month 4–6",
-      title: "Intensive Outpatient Program (IOP)",
-      icon: "ri-calendar-check-line",
-      body: "IOP allows clients to rebuild their lives — work, family, routine — while maintaining structured therapeutic support. Northbound's InVivo® model practices real-world sobriety skills within the treatment context.",
+      title: "Virtual IOP (HomeBound)",
+      icon: "ri-wifi-line",
+      body: "Virtual IOP allows clients to rebuild their lives — work, family, routine — while maintaining structured therapeutic support. Northbound's InVivo® model practices real-world sobriety skills within the treatment context.",
     },
     {
       phase: "Ongoing",
