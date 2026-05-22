@@ -1,7 +1,6 @@
 'use client';
 
 import { useEffect, useState, useRef } from "react";
-import { PAGE_TOP_NAV_PADDING } from "@/lib/layout";
 import { HERO_COMMUNITY_AVATARS, SITE_IMAGES } from "@/lib/site-images";
 
 const headlineWords = [
@@ -13,14 +12,6 @@ const headlineWords = [
   { text: "Preventing", italic: false },
   { text: "Substance", italic: false },
   { text: "Use", italic: false },
-];
-
-const recoveryTags = [
-  "Prevention",
-  "Education",
-  "Support",
-  "Family Care",
-  "Community",
 ];
 
 export default function HeroSection() {
@@ -59,7 +50,7 @@ export default function HeroSection() {
       </div>
 
       {/* Content */}
-      <div className={`relative z-10 min-h-[100svh] flex flex-col justify-center px-6 md:px-10 lg:px-16 ${PAGE_TOP_NAV_PADDING} pb-4 md:pb-6 lg:pb-8 max-w-content mx-auto`}>
+      <div className="relative z-10 min-h-[100svh] flex flex-col justify-center px-6 md:px-10 lg:px-16 pt-[13rem] md:pt-[14.75rem] lg:pt-[16rem] pb-10 md:pb-14 lg:pb-20 max-w-content mx-auto">
         {/* Top text area */}
         <div className="max-w-lg lg:max-w-xl mb-6 md:mb-8">
           {/* Headline — slightly bigger */}
@@ -127,7 +118,7 @@ export default function HeroSection() {
           </div>
         </div>
 
-        {/* Bottom row: stats card left, tags + text right */}
+        {/* Bottom row: stats card left, supporting text right */}
         <div
           className="flex flex-col lg:flex-row items-start lg:items-end justify-between gap-4 lg:gap-6 transition-all duration-700"
           style={{
@@ -163,21 +154,7 @@ export default function HeroSection() {
             </div>
           </div>
 
-          {/* Right side: floating tags + description */}
-          <div className="flex flex-col items-start lg:items-end gap-3 max-w-sm">
-            {/* Floating tags */}
-            <div className="flex flex-wrap gap-2 lg:justify-end">
-              {recoveryTags.map((tag) => (
-                <span
-                  key={tag}
-                  className="backdrop-blur-xl bg-pure-white/10 border border-pure-white/20 rounded-full px-3 py-1.5 md:px-4 md:py-2 text-[12px] md:text-[13px] font-body font-medium text-pure-white/90 whitespace-nowrap"
-                >
-                  {tag}
-                </span>
-              ))}
-            </div>
-
-            {/* Description block */}
+          <div className="flex flex-col items-start lg:items-end max-w-sm">
             <div className="text-left lg:text-right">
               <h3 className="text-[14px] md:text-[15px] font-body font-semibold text-pure-white mb-1">
                 Expert-led support for all families

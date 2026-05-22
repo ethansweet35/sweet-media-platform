@@ -65,7 +65,7 @@ export default function Navbar() {
 
   return (
     <>
-      <header className="fixed top-0 inset-x-0 z-50 px-4 md:px-6 lg:px-8 pt-3 md:pt-4 pointer-events-none">
+      <header className="fixed top-0 inset-x-0 z-50 px-4 md:px-6 lg:px-8 pt-5 md:pt-6 lg:pt-7 pointer-events-none">
         <div
           className={cn(
             "max-w-content mx-auto pointer-events-auto flex items-center justify-between gap-4 h-16 md:h-[72px] lg:h-[76px] px-5 md:px-8 lg:px-10 rounded-full transition-all duration-300",
