@@ -22,6 +22,8 @@ const outfit = Outfit({
   adjustFontFallback: true,
 });
 
+/** Tab / PWA icons: RealFaviconGenerator assets in `src/app/` (favicon.ico, icon.svg, icon.png, apple-icon.png) + `public/` for manifest. */
+
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000"),
   title: {
@@ -30,15 +32,7 @@ export const metadata: Metadata = {
   },
   description:
     "Sweet Media is a boutique digital marketing agency exclusively serving behavioral health treatment centers. SEO, Google Ads, Meta Ads, and website development for detox, residential, and IOP programs.",
-  icons: {
-    icon: [
-      { url: "/favicon.ico", sizes: "any" },
-      { url: "/favicon-96x96.png", type: "image/png", sizes: "96x96" },
-      { url: "/favicon.svg", type: "image/svg+xml" },
-    ],
-    apple: [{ url: "/apple-touch-icon.png", sizes: "180x180" }],
-    other: [{ rel: "manifest", url: "/site.webmanifest" }],
-  },
+  manifest: "/site.webmanifest",
 };
 
 export default function RootLayout({
