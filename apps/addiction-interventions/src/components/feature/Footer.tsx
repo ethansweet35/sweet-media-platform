@@ -1,11 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import {
-  FOOTER_LOGO_BOX,
-  NAV_LOGO_HEIGHT,
-  NAV_LOGO_URL,
-  NAV_LOGO_WIDTH,
-} from "@/data/site";
+import { FOOTER_LOGO_CLASS, NAV_LOGO_HEIGHT, NAV_LOGO_URL, NAV_LOGO_WIDTH } from "@/data/site";
 
 const PHONE_DISPLAY = "949-776-7093";
 const PHONE_HREF = "tel:9497767093";
@@ -47,15 +42,14 @@ export default function Footer() {
         <div className="grid gap-12 md:grid-cols-[1.6fr_1fr_1fr_1fr]">
           {/* Brand column */}
           <div>
-            <Link href="/" className={FOOTER_LOGO_BOX}>
+            <Link href="/" className="inline-flex shrink-0">
               <Image
                 src={NAV_LOGO_URL}
                 alt="Addiction Interventions"
                 width={NAV_LOGO_WIDTH}
                 height={NAV_LOGO_HEIGHT}
-                fill
-                className="object-contain object-left brightness-0 invert"
-                sizes="(max-width: 640px) 280px, 360px"
+                className={FOOTER_LOGO_CLASS}
+                sizes="(max-width: 640px) 260px, 320px"
               />
             </Link>
             <p className="mt-5 max-w-sm text-sm leading-7 text-white/60">
