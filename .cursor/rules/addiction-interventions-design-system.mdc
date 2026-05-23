@@ -141,6 +141,7 @@ horizontal connector line on desktop (via absolute positioned div).
 
 ## Logo
 - Navbar/footer: `NAV_LOGO_URL` in `src/data/site.ts` (Supabase `brand_wordmark_navbar_v5.png`, 960×375); `NAV_LOGO_CLASS` / `FOOTER_LOGO_CLASS` (`h-11`–`h-14` w-auto)
+- Favicon: `src/app/favicon.ico`, `icon.svg`, `icon.png`, `apple-icon.png`; `public/site.webmanifest` + maskable PNGs (RealFaviconGenerator package)
 - Footer: same asset with `brightness-0 invert` for white-on-dark rendering
 
 ## Phone

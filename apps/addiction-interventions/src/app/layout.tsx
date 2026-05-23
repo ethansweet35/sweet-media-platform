@@ -26,8 +26,11 @@ const montserrat = Montserrat({
   display: "swap",
 });
 
+/** Tab / PWA icons: RealFaviconGenerator assets in `src/app/` + `public/site.webmanifest`. */
+
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000"),
+  manifest: "/site.webmanifest",
   title: {
     default: "Addiction Interventions | Family & Crisis Intervention Experts",
     template: "%s | Addiction Interventions",
