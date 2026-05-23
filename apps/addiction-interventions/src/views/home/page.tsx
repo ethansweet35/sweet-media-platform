@@ -8,8 +8,6 @@ const SUPABASE_ANON_KEY = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
 
 const DAVID_PHOTO =
   "https://bxtwcdgjzzjxjvqdiuvn.supabase.co/storage/v1/object/public/site-assets/images/team_david-gates.png";
-const JENNIFER_PHOTO =
-  "https://bxtwcdgjzzjxjvqdiuvn.supabase.co/storage/v1/object/public/site-assets/images/team_jennifer-mcdaniel.png";
 const HERO_IMAGE =
   "https://bxtwcdgjzzjxjvqdiuvn.supabase.co/storage/v1/object/public/site-assets/images/ai_home_hero01.jpg";
 const ABOUT_IMAGE =
@@ -461,16 +459,15 @@ export default async function HomePage() {
           <div className="mb-16 text-center">
             <p className="brand-eyebrow mb-3 text-[#8FAC87]"><AutoLinkedText>{"Who You'll Work With"}</AutoLinkedText></p>
             <h2 className="font-heading text-4xl font-bold text-[#1A1A17] md:text-5xl">
-              Meet the{" "}
-              <span className="italic text-[#507969]">Co-Founders</span>
+              Meet{" "}
+              <span className="italic text-[#507969]">David Gates</span>
             </h2>
             <p className="mx-auto mt-5 max-w-2xl text-base leading-relaxed text-[#4B4B4B]">
-              <AutoLinkedText>{"David and Jennifer Gates founded Addiction Interventions with a single purpose: to give families the\n              professional structure and compassionate guidance they need to break through denial and begin real healing."}</AutoLinkedText>
+              <AutoLinkedText>{"David Allen Gates founded Addiction Interventions with a single purpose: to give families the\n              professional structure and compassionate guidance they need to break through denial and begin real healing."}</AutoLinkedText>
             </p>
           </div>
 
-          <div className="grid gap-10 lg:grid-cols-2">
-            {/* David */}
+          <div className="mx-auto max-w-3xl">
             <div className="relative overflow-hidden rounded-3xl bg-[#F5F3E7] p-10">
               <div className="pointer-events-none absolute -right-8 -top-8 h-40 w-40 rounded-full bg-[#8FAC87]/10" />
               <div className="relative z-10 flex flex-col gap-6 sm:flex-row sm:items-start">
@@ -482,7 +479,7 @@ export default async function HomePage() {
                   <div className="mb-1 flex flex-wrap items-center gap-3">
                     <h3 className="font-heading text-2xl font-bold text-[#1A1A17]">David Allen Gates</h3>
                     <span className="rounded-full bg-[#8FAC87]/20 px-3 py-0.5 text-xs font-semibold text-[#507969]">
-                      Co-Founder
+                      Founder
                     </span>
                   </div>
                   <p className="mb-4 text-sm font-semibold uppercase tracking-[0.12em] text-[#8FAC87]">
@@ -514,57 +511,12 @@ export default async function HomePage() {
                 </div>
               </div>
             </div>
-
-            {/* Jennifer */}
-            <div className="relative overflow-hidden rounded-3xl bg-[#F5F3E7] p-10">
-              <div className="pointer-events-none absolute -right-8 -top-8 h-40 w-40 rounded-full bg-[#8FAC87]/10" />
-              <div className="relative z-10 flex flex-col gap-6 sm:flex-row sm:items-start">
-                {/* Headshot */}
-                <div className="relative h-24 w-24 shrink-0 overflow-hidden rounded-2xl shadow-lg">
-                  <Image src={JENNIFER_PHOTO} alt="Jennifer Miela-McDaniel" fill className="object-cover object-top" sizes="96px" />
-                </div>
-                <div className="flex-1">
-                  <div className="mb-1 flex flex-wrap items-center gap-3">
-                    <h3 className="font-heading text-2xl font-bold text-[#1A1A17]">Jennifer Miela-McDaniel</h3>
-                    <span className="rounded-full bg-[#8FAC87]/20 px-3 py-0.5 text-xs font-semibold text-[#507969]">
-                      Co-Founder
-                    </span>
-                  </div>
-                  <p className="mb-4 text-sm font-semibold uppercase tracking-[0.12em] text-[#8FAC87]">
-                    <AutoLinkedText>{"Clinical Director · Lead Interventionist · CADC II · BRI · CTP · CFMI · ICADC"}</AutoLinkedText>
-                  </p>
-                  <p className="text-sm leading-relaxed text-[#4B4B4B]">
-                    <AutoLinkedText>{"Jennifer has over 20 years of experience beginning in 1993 as a drug and alcohol counselor. A trauma\n                    specialist trained in five different intervention models, she uses each intervention as an opportunity\n                    to interrupt destructive life patterns — healing the entire family system, not just the individual.\n                    She specializes in drug, alcohol, gambling, eating disorders, adolescence, and geriatric interventions."}</AutoLinkedText>
-                  </p>
-                  <ul className="mt-5 grid gap-2">
-                    {[
-                      "Certified ARISE® Interventionist — invitational, non-confrontational approach",
-                      "Trauma specialist trained in 5 intervention models",
-                      "Specializes in adolescent, geriatric & eating disorder interventions",
-                    ].map((c) => (
-                      <li key={c} className="flex items-start gap-2.5">
-                        <span className="mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center rounded-full bg-[#8FAC87] text-white">
-                          <i className="ri-check-line text-[10px]"></i>
-                        </span>
-                        <span className="text-xs leading-relaxed text-[#4B4B4B]">{c}</span>
-                      </li>
-                    ))}
-                  </ul>
-                  <a
-                    href="/about-us"
-                    className="mt-6 inline-flex items-center gap-1.5 text-sm font-semibold text-[#507969] underline-offset-4 hover:underline"
-                  >
-                    Read Jennifer's full bio <i className="ri-arrow-right-line"></i>
-                  </a>
-                </div>
-              </div>
-            </div>
           </div>
 
           {/* Bottom note */}
           <p className="mt-10 text-center text-sm text-[#4B4B4B]">
             <i className="ri-phone-line mr-1.5 text-[#8FAC87]"></i>
-            When you call, you speak directly with David or Jennifer — never a call center.{" "}
+            When you call, you speak directly with David Gates — never a call center.{" "}
             <a href={PHONE_HREF} className="font-semibold text-[#507969] underline-offset-4 hover:underline">
               Call {PHONE_DISPLAY}
             </a>

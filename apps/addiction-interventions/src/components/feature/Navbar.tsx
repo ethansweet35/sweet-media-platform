@@ -4,7 +4,12 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
-import { NAV_LOGO_HEIGHT, NAV_LOGO_URL, NAV_LOGO_WIDTH } from "@/data/site";
+import {
+  NAV_LOGO_BOX,
+  NAV_LOGO_HEIGHT,
+  NAV_LOGO_URL,
+  NAV_LOGO_WIDTH,
+} from "@/data/site";
 
 type NavItem = {
   label: string;
@@ -108,17 +113,18 @@ export default function Navbar() {
 
       {/* Main nav */}
       <nav className="border-b border-[#EFEFEF] bg-white">
-        <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-6 py-2 lg:gap-8 lg:px-10 lg:py-3">
+        <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-6 py-3 lg:gap-8 lg:px-10 lg:py-4">
           {/* Logo */}
-          <Link href="/" className="flex shrink-0 items-center">
+          <Link href="/" className={NAV_LOGO_BOX}>
             <Image
               src={NAV_LOGO_URL}
               alt="Addiction Interventions — Intervene Today. Change Tomorrow."
               width={NAV_LOGO_WIDTH}
               height={NAV_LOGO_HEIGHT}
-              className="h-10 w-auto sm:h-11 lg:h-12"
+              fill
+              className="object-contain object-left"
               priority
-              sizes="(max-width: 640px) 240px, (max-width: 1024px) 280px, 320px"
+              sizes="(max-width: 640px) 260px, (max-width: 1024px) 300px, 340px"
             />
           </Link>
 

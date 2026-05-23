@@ -41,9 +41,9 @@ const TEAM = [
   {
     name: "David Allen Gates",
     photo: `${SUPABASE_BASE}/team_david-gates.png`,
-    role: "Co-Founder · Lead Interventionist",
+    role: "Founder · Lead Interventionist",
     credentials: "CIP · ICAADC",
-    tags: ["Co-Founder"],
+    tags: ["Founder"],
     youTubeId: DAVID_YOUTUBE_ID,
     bio: [
       "David has more than 20 years of experience managing and directing nationally recognized addiction treatment programs. He has trained intervention specialists, treatment center clinicians, and family coaches across the United States — and has personally led over 1,500 interventions for families in crisis.",
@@ -57,26 +57,6 @@ const TEAM = [
       "Person in long-term recovery — over two decades",
     ],
     link: { label: "Read David's full bio", href: "/david-gates" },
-  },
-  {
-    name: "Jennifer Miela-McDaniel",
-    photo: `${SUPABASE_BASE}/team_jennifer-mcdaniel.png`,
-    role: "Co-Founder · Clinical Director · Lead Interventionist",
-    credentials: "CADC II · BRI · CTP · CFMI · ICADC",
-    tags: ["Co-Founder"],
-    bio: [
-      "Jennifer is a seasoned veteran of intervention with over 20 years of experience. Her career began in 1993 as a drug and alcohol counselor and has expanded considerably since then — today she tackles the toughest of interventions.",
-      "Trained in five different models of intervention and a certified trauma specialist, Jennifer uses each intervention as an opportunity to interrupt destructive life patterns. Her goal is always to heal the family system and help the loved one accept treatment.",
-      "Jennifer specializes in drug, alcohol, gambling, eating disorders, adolescent, geriatric, and generational wealth interventions. She is a Certified ARISE® Interventionist and works with each loved one's treatment team to ensure a continuity of care that extends well beyond the intervention itself.",
-    ],
-    credentials_list: [
-      "Certified Alcohol & Drug Counselor II (CADC II)",
-      "Board Registered Interventionist (BRI)",
-      "Certified Trauma Professional (CTP) · CFMI · ICADC",
-      "Certified ARISE® Interventionist",
-      "Trained in 5 intervention models — trauma specialist",
-    ],
-    link: { label: "Contact Jennifer", href: "/contact" },
   },
 ];
 
@@ -180,7 +160,7 @@ export default function AboutUsPage() {
               </blockquote>
               <div className="mt-6 h-px w-12 bg-[#8FAC87]" />
               <p className="mt-4 text-sm font-semibold uppercase tracking-[0.15em] text-[#8FAC87]">
-                <AutoLinkedText>{"David & Jennifer Gates — Co-Founders"}</AutoLinkedText>
+                <AutoLinkedText>{"David Allen Gates — Founder"}</AutoLinkedText>
               </p>
             </div>
             {/* Text */}
@@ -201,17 +181,17 @@ export default function AboutUsPage() {
         </div>
       </section>
 
-      {/* Team — David & Jennifer */}
+      {/* Team — David Gates */}
       <section className="bg-[#F5F3E7] py-24">
         <div className="mx-auto w-full max-w-7xl px-6 lg:px-10">
           <div className="mb-14 text-center">
-            <p className="brand-eyebrow mb-3 text-[#8FAC87]"><AutoLinkedText>{"Intervention Leaders"}</AutoLinkedText></p>
+            <p className="brand-eyebrow mb-3 text-[#8FAC87]"><AutoLinkedText>{"Intervention Leadership"}</AutoLinkedText></p>
             <h2 className="font-heading text-4xl font-bold text-[#1A1A17] md:text-5xl">
-              Meet the{" "}
-              <span className="italic text-[#507969]">Co-Founders</span>
+              Meet{" "}
+              <span className="italic text-[#507969]">David Gates</span>
             </h2>
             <p className="mx-auto mt-5 max-w-2xl leading-relaxed text-[#4B4B4B]">
-              <AutoLinkedText>{"When you call Addiction Interventions, you speak directly with David or Jennifer — never a call center or intake coordinator."}</AutoLinkedText>
+              <AutoLinkedText>{"When you call Addiction Interventions, you speak directly with David Gates — never a call center or intake coordinator."}</AutoLinkedText>
             </p>
           </div>
 

@@ -140,7 +140,7 @@ horizontal connector line on desktop (via absolute positioned div).
 ```
 
 ## Logo
-- Navbar/footer: `NAV_LOGO_URL` in `src/data/site.ts` (Supabase `site-assets/images/brand_wordmark_navbar_v4.png`, 1024×768, `h-10`–`h-12` w-auto)
+- Navbar/footer: `NAV_LOGO_URL` in `src/data/site.ts` (Supabase `brand_wordmark_navbar_v4.png`); use `NAV_LOGO_BOX` / `FOOTER_LOGO_BOX` with `fill` + `object-contain` (wide box ~260–340px — do not size by height alone on 4:3 assets)
 - Footer: same asset with `brightness-0 invert` for white-on-dark rendering
 
 ## Phone

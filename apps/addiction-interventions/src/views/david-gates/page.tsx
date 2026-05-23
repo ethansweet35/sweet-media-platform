@@ -42,7 +42,7 @@ export default function DavidGatesPage() {
   return (
     <main className="min-h-screen bg-white">
       <PageHero
-        eyebrow="Lead Interventionist & Co-Founder"
+        eyebrow="Lead Interventionist & Founder"
         headline="David Allen Gates"
         body="Over 5,000 families supported. More than two decades of front-line intervention experience. A practitioner who has walked the road himself."
         image="https://bxtwcdgjzzjxjvqdiuvn.supabase.co/storage/v1/object/public/site-assets/images/ai_david-gates_hero01.jpg"
