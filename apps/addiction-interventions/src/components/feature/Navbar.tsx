@@ -4,7 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
-import { NAV_LOGO_URL } from "@/data/site";
+import { NAV_LOGO_HEIGHT, NAV_LOGO_URL, NAV_LOGO_WIDTH } from "@/data/site";
 
 type NavItem = {
   label: string;
@@ -114,8 +114,8 @@ export default function Navbar() {
             <Image
               src={NAV_LOGO_URL}
               alt="Addiction Interventions — Intervene Today. Change Tomorrow."
-              width={1358}
-              height={244}
+              width={NAV_LOGO_WIDTH}
+              height={NAV_LOGO_HEIGHT}
               className="h-10 w-auto sm:h-11 lg:h-12"
               priority
               sizes="(max-width: 640px) 240px, (max-width: 1024px) 280px, 320px"

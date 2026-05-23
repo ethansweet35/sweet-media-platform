@@ -140,8 +140,8 @@ horizontal connector line on desktop (via absolute positioned div).
 ```
 
 ## Logo
-- Navbar: `https://addictioninterventions.com/wp-content/uploads/2025/07/Frys-Baskersville-3.png` (500×132, h-14 w-auto)
-- Footer: same URL, with `brightness-0 invert` for white-on-dark rendering
+- Navbar/footer: `NAV_LOGO_URL` in `src/data/site.ts` (Supabase `site-assets/images/brand_wordmark_navbar_v4.png`, 1024×768, `h-10`–`h-12` w-auto)
+- Footer: same asset with `brightness-0 invert` for white-on-dark rendering
 
 ## Phone
 ```
