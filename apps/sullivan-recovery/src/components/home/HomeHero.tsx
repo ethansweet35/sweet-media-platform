@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { EditableText } from "@sweetmedia/admin-core";
+import { EditableText } from "@sweetmedia/admin-core/page-editor";
 
 const HERO_VIDEO =
   "https://knvkrhwlflkulybcmgmq.supabase.co/storage/v1/object/public/site-assets/videos/sr_home_hero_video.mp4";

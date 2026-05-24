@@ -1,4 +1,4 @@
-import { EditableText } from "@sweetmedia/admin-core";
+import { EditableText } from "@sweetmedia/admin-core/page-editor";
 import ResultsStats from "@/components/pages/results/components/ResultsStats";
 import { RESULTS_ROUTE, RESULTS_STATS_GRID, RESULTS_STATS_PROOF } from "./resultsContentDefaults";
 

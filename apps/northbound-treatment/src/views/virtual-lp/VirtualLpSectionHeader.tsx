@@ -1,4 +1,4 @@
-import { EditableText } from "@sweetmedia/admin-core";
+import { EditableText } from "@sweetmedia/admin-core/page-editor";
 
 interface VirtualLpSectionHeaderProps {
   eyebrow: string;

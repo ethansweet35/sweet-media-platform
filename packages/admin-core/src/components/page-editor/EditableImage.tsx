@@ -1,3 +1,4 @@
+import "server-only";
 import type { ImageProps } from "next/image";
 import { getPageContentForRequest } from "../../lib/server/pageContentOverrides";
 import { getPageEditorRoutePath } from "../../lib/server/getPageEditorRoutePath";

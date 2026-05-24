@@ -1,4 +1,4 @@
-import { EditableImage, EditableText } from "@sweetmedia/admin-core";
+import { EditableImage, EditableText } from "@sweetmedia/admin-core/page-editor";
 import InsuranceForm from "./InsuranceForm";
 import IconCircle from "@/components/ui/IconCircle";
 import CallRailPhoneLink from "@/components/ui/CallRailPhoneLink";

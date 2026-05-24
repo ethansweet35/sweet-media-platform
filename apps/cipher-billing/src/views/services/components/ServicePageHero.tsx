@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { EditableImage, EditableText } from "@sweetmedia/admin-core";
+import { EditableImage, EditableText } from "@sweetmedia/admin-core/page-editor";
 import { SERVICE_CONTAINER, SERVICE_TEL_DISPLAY, SERVICE_TEL_HREF } from "./servicePageConstants";
 
 type ServicePageHeroProps = {

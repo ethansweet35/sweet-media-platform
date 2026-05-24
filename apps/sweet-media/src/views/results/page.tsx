@@ -1,4 +1,4 @@
-import { EditableText } from "@sweetmedia/admin-core";
+import { EditableText } from "@sweetmedia/admin-core/page-editor";
 import SiteHeader from "@/components/feature/SiteHeader";
 import ResultsHero from "@/components/pages/results/components/ResultsHero";
 import ResultsTestimonials from "@/components/pages/results/components/ResultsTestimonials";

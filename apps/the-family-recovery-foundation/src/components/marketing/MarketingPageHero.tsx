@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { EditableText } from "@sweetmedia/admin-core";
+import { EditableText } from "@sweetmedia/admin-core/page-editor";
 import { PAGE_TOP_NAV_PADDING } from "@/lib/layout";
 
 interface MarketingPageHeroProps {

@@ -1,4 +1,4 @@
-import { EditableIcon, EditableText } from "@sweetmedia/admin-core";
+import { EditableIcon, EditableText } from "@sweetmedia/admin-core/page-editor";
 import VirtualLpCtaBanner from "./VirtualLpCtaBanner";
 import VirtualLpFaq from "./VirtualLpFaq";
 import VirtualLpHero from "./VirtualLpHero";

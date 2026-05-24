@@ -1,4 +1,4 @@
-import { EditableImage, EditableText } from "@sweetmedia/admin-core";
+import { EditableImage, EditableText } from "@sweetmedia/admin-core/page-editor";
 import ResultsCaseStudies from "@/components/pages/results/components/ResultsCaseStudies";
 import { RESULTS_CASE_STUDIES, RESULTS_ROUTE } from "./resultsContentDefaults";
 

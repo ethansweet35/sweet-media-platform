@@ -1,3 +1,4 @@
+import "server-only";
 import type { CSSProperties, ReactNode } from "react";
 import { getPageContentForRequest } from "../../lib/server/pageContentOverrides";
 import { getPageEditorRoutePath } from "../../lib/server/getPageEditorRoutePath";

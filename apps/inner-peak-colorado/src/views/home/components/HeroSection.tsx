@@ -2,7 +2,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import HeroContactForm from './HeroContactForm';
 import { AutoLinkedText } from "@sweetmedia/blog-core";
-import { EditableText } from "@sweetmedia/admin-core";
+import { EditableText } from "@sweetmedia/admin-core/page-editor";
 
 const EYEBROW = "Colorado · Women-Only · Virtual";
 const HEADLINE = "Virtual Mental Healthcare, For Women.";

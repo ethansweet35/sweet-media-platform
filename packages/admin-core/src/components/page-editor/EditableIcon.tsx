@@ -1,3 +1,4 @@
+import "server-only";
 import { getPageContentForRequest } from "../../lib/server/pageContentOverrides";
 import { getPageEditorRoutePath } from "../../lib/server/getPageEditorRoutePath";
 import EditableIconClient from "./EditableIconClient";

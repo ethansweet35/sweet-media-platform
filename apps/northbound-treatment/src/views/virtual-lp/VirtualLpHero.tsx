@@ -1,4 +1,4 @@
-import { EditableImage, EditableText } from "@sweetmedia/admin-core";
+import { EditableImage, EditableText } from "@sweetmedia/admin-core/page-editor";
 import CtmLeadFormCard from "@/components/feature/CtmLeadFormCard";
 import {
   ADMISSIONS_PHONE,

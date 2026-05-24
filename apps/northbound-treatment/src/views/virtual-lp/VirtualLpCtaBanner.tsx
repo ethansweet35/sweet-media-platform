@@ -1,4 +1,4 @@
-import { EditableIcon, EditableText } from "@sweetmedia/admin-core";
+import { EditableIcon, EditableText } from "@sweetmedia/admin-core/page-editor";
 import { ADMISSIONS_PHONE, ADMISSIONS_PHONE_DISPLAY, VERIFY_INSURANCE_HREF } from "./content";
 
 const ROUTE = "/virtual-lp";

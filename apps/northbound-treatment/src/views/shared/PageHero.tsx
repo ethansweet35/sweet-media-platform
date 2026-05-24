@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { AutoLinkedText } from "@sweetmedia/blog-core";
-import { EditableImage, EditableText } from "@sweetmedia/admin-core";
+import { EditableImage, EditableText } from "@sweetmedia/admin-core/page-editor";
 import { heroContentPad, heroPageHeroSection } from "@/lib/heroSpacing";
 
 export type Breadcrumb = { label: string; href?: string };

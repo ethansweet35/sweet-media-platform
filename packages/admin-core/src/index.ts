@@ -163,15 +163,12 @@ export { useBrandSettings, type BrandSettingsRow, type BusinessHoursRow } from "
 
 // ─── Inline Page Editor ───────────────────────────────────────────────
 // Squarespace-style on-page editing for text + images. Mount
-// <PageEditorProvider> once in the root layout of a client app; wrap
-// editable text in <EditableText> and editable images in <EditableImage>.
-// Admins see "Edit page" floating UI; anonymous visitors see no UI and
-// zero JS overhead beyond a tiny client wrapper.
+// <PageEditorProvider> once in the root layout of a client app.
+// Server page components: import EditableText / EditableImage / EditableIcon
+// from "@sweetmedia/admin-core/page-editor" (not this barrel — avoids pulling
+// next/headers into client bundles).
 export { default as PageEditorProvider } from "./components/page-editor/PageEditorProvider";
 export { default as PageEditorToolbar } from "./components/page-editor/PageEditorToolbar";
-export { default as EditableText, type EditableTextProps } from "./components/page-editor/EditableText";
-export { default as EditableImage, type EditableImageProps } from "./components/page-editor/EditableImage";
-export { default as EditableIcon, type EditableIconProps } from "./components/page-editor/EditableIcon";
 export {
   parseIconValue,
   serializeIconValue,
