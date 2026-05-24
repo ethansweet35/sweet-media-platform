@@ -86,16 +86,23 @@ export default function EditableTextClient({
     }
   }, [defaultValue, overrideValue, pendingEdit]);
 
-  // Sync DOM textContent in edit mode whenever the canonical value changes
-  // from outside the contenteditable (e.g. discard, publish, route change).
+  // Sync DOM text in edit mode when the canonical value changes externally
+  // (discard, publish, route change). Never pass displayText as React children
+  // in edit mode — that would reset the DOM on every pending-edit re-render
+  // and jump the caret to the start after each keystroke.
+  const syncDomText = useCallback(
+    (node: HTMLElement | null) => {
+      if (!node || !editor.isEditMode || isFocused) return;
+      if (node.textContent !== displayText) {
+        node.textContent = displayText;
+      }
+    },
+    [displayText, isFocused, editor.isEditMode],
+  );
+
   useLayoutEffect(() => {
-    if (!editor.isEditMode) return;
-    if (!elRef.current) return;
-    if (isFocused) return; // never overwrite while user is typing
-    if (elRef.current.textContent !== displayText) {
-      elRef.current.textContent = displayText;
-    }
-  }, [displayText, isFocused, editor.isEditMode]);
+    syncDomText(elRef.current);
+  }, [syncDomText]);
 
   const handleInput = useCallback(() => {
     const node = elRef.current;
@@ -173,27 +180,24 @@ export default function EditableTextClient({
     .filter(Boolean)
     .join(" ");
 
-  return createElement(
-    as,
-    {
-      ref: (node: HTMLElement | null) => {
-        elRef.current = node;
-      },
-      className: editorClasses,
-      style,
-      contentEditable: true,
-      suppressContentEditableWarning: true,
-      onInput: handleInput,
-      onBlur: handleBlur,
-      onFocus: handleFocus,
-      onPaste: handlePaste,
-      onKeyDown: handleKeyDown,
-      spellCheck: true,
-      "data-sm-edit-field": fieldKey,
-      "data-sm-edit-key": editKey,
-      "aria-label": `Edit text: ${fieldKey}`,
-      id: `sm-edit-${reactId}`,
+  return createElement(as, {
+    ref: (node: HTMLElement | null) => {
+      elRef.current = node;
+      syncDomText(node);
     },
-    displayText,
-  );
+    className: editorClasses,
+    style,
+    contentEditable: true,
+    suppressContentEditableWarning: true,
+    onInput: handleInput,
+    onBlur: handleBlur,
+    onFocus: handleFocus,
+    onPaste: handlePaste,
+    onKeyDown: handleKeyDown,
+    spellCheck: true,
+    "data-sm-edit-field": fieldKey,
+    "data-sm-edit-key": editKey,
+    "aria-label": `Edit text: ${fieldKey}`,
+    id: `sm-edit-${reactId}`,
+  });
 }
