@@ -1,4 +1,4 @@
-import { revalidatePageContentCaches } from "/admin-core/server";
+import { revalidatePageContentCaches } from "@sweetmedia/admin-core/server";
 import { revalidateTag } from "next/cache";
 import { NextRequest, NextResponse } from "next/server";
 
