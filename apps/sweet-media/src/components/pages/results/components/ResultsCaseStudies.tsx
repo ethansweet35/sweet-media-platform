@@ -126,7 +126,7 @@ const caseStudies: CaseStudy[] = [
   },
 ];
 
-export default function ResultsCaseStudies() {
+export default function ResultsCaseStudies({ hideHeader = false }: { hideHeader?: boolean }) {
   const sectionRef = useRef<HTMLElement>(null);
   const [animate, setAnimate] = useState(false);
   const [visible, setVisible] = useState(false);
@@ -142,22 +142,34 @@ export default function ResultsCaseStudies() {
     <section ref={sectionRef} id="results-case-studies" className="w-full bg-[#f4f6f9] py-[60px] md:py-[100px] px-4 md:px-6 overflow-hidden">
       <div className="max-w-screen-xl mx-auto">
 
-        {/* Header */}
-        <div className={`mb-14 transition-all duration-700 ${visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"}`}>
-          <div className="flex items-center justify-center lg:justify-start gap-3 mb-5">
-            <div className="w-8 h-px bg-[#0A1F44]" />
-            <span className="text-[10px] tracking-[0.35em] uppercase text-[#0A1F44] font-semibold">Case Studies</span>
+        {!hideHeader ? (
+          <div
+            className={`mb-14 transition-all duration-700 ${visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"}`}
+          >
+            <div className="flex items-center justify-center gap-3 mb-5 lg:justify-start">
+              <div className="w-8 h-px bg-[#0A1F44]" />
+              <span className="text-[10px] tracking-[0.35em] uppercase text-[#0A1F44] font-semibold">
+                Case Studies
+              </span>
+            </div>
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-end">
+              <h2
+                className="text-4xl md:text-5xl font-bold text-black leading-tight text-center lg:text-left"
+                style={{ fontFamily: "'Playfair Display', serif" }}
+              >
+                Real Campaigns,
+                <br />
+                <em className="font-light italic" style={{ color: "#0A1F44" }}>
+                  Real Outcomes.
+                </em>
+              </h2>
+              <p className="text-black/55 text-sm leading-relaxed max-w-md text-center lg:text-right mx-auto lg:mx-0">
+                Every case below is a real behavioral health client. Real numbers, real timelines,
+                real admissions growth. No cherry-picked outliers.
+              </p>
+            </div>
           </div>
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-end">
-            <h2 className="text-4xl md:text-5xl font-bold text-black leading-tight text-center lg:text-left" style={{ fontFamily: "'Playfair Display', serif" }}>
-              Real Campaigns,
-              <br /><em className="font-light italic" style={{color:'#0A1F44'}}>Real Outcomes.</em>
-            </h2>
-            <p className="text-black/55 text-sm leading-relaxed max-w-md text-center lg:text-right mx-auto lg:mx-0">
-              Every case below is a real behavioral health client. Real numbers, real timelines, real admissions growth. No cherry-picked outliers.
-            </p>
-          </div>
-        </div>
+        ) : null}
 
         {/* Case Study Grid */}
         <div className={`grid grid-cols-1 lg:grid-cols-2 gap-5 transition-all duration-700 delay-100 ${visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"}`}>
