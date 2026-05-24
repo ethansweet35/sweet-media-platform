@@ -160,3 +160,22 @@ export {
   EEAT_CHECK_LABELS,
 } from "./types/content-editor";
 export { useBrandSettings, type BrandSettingsRow, type BusinessHoursRow } from "./hooks/useBrandSettings";
+
+// ─── Inline Page Editor ───────────────────────────────────────────────
+// Squarespace-style on-page editing for text + images. Mount
+// <PageEditorProvider> once in the root layout of a client app; wrap
+// editable text in <EditableText> and editable images in <EditableImage>.
+// Admins see "Edit page" floating UI; anonymous visitors see no UI and
+// zero JS overhead beyond a tiny client wrapper.
+export { default as PageEditorProvider } from "./components/page-editor/PageEditorProvider";
+export { default as PageEditorToolbar } from "./components/page-editor/PageEditorToolbar";
+export { default as EditableText, type EditableTextProps } from "./components/page-editor/EditableText";
+export { default as EditableImage, type EditableImageProps } from "./components/page-editor/EditableImage";
+export { default as EditableIcon, type EditableIconProps } from "./components/page-editor/EditableIcon";
+export {
+  parseIconValue,
+  serializeIconValue,
+  type IconOverrideValue,
+} from "./components/page-editor/iconValue";
+export { usePageEditor, type PageEditorContextValue, type PageEditorMode } from "./contexts/PageEditorContext";
+export type { PageContentFieldType, PendingEdit } from "./components/page-editor/types";

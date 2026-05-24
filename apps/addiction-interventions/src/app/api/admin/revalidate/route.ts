@@ -1,4 +1,5 @@
-import { revalidatePath, revalidateTag } from "next/cache";
+import { revalidatePageContentCaches } from "/admin-core/server";
+import { revalidateTag } from "next/cache";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(request: NextRequest) {
@@ -14,7 +15,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: "path must be a string starting with /" }, { status: 400 });
   }
 
-  revalidatePath(path);
+  revalidatePageContentCaches(path);
   revalidateTag("tracked-page-metadata", { expire: 0 });
   return NextResponse.json({ revalidated: true, path });
 }

@@ -54,7 +54,11 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const { slug } = await params;
   const row = await fetchPublishedBlogPostForMetadata(slug);
 
-  const titleBase = metaString(row?.title) || slugToFallbackTitle(slug);
+  const titleBase =
+    metaString(row?.seo_title).trim() ||
+    metaString(row?.meta_title).trim() ||
+    metaString(row?.title) ||
+    slugToFallbackTitle(slug);
   // titleBase is used for <title> — the root layout template appends "| Northbound Treatment"
   // ogTitle is used for OG/Twitter where the template does NOT apply
   const ogTitle = `${titleBase} | Northbound Treatment`;

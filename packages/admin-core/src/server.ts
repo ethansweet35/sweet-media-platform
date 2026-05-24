@@ -286,3 +286,45 @@ export {
   type CalendarEditorSourceRow,
   type ImportFromEditorsInput,
 } from "./lib/server/contentCalendarEditorImport";
+
+// ─── Inline Page Editor (server-side) ─────────────────────────────────
+export {
+  fetchPublishedPageContent,
+  fetchAllPageContent,
+  getPageContentForRequest,
+  getPageContentCacheTags,
+  resolvePageContentValue,
+  type PageContentOverrideRow,
+  type PageContentOverrideMap,
+  type PageContentFieldType,
+} from "./lib/server/pageContentOverrides";
+
+export { revalidatePageContentCaches } from "./lib/server/revalidatePageContentCaches";
+
+export {
+  SEO_OVERRIDE_KEYS,
+  SEO_OVERRIDE_KEY_LIST,
+  type PageEditorSeoContextResult,
+  type PageEditorSeoSnapshot,
+  type PageEditorEntityType,
+} from "./components/page-editor/pageEditorSeoTypes";
+
+export {
+  handleSaveDraft,
+  handlePublish,
+  handleDiscard,
+  handleUploadImage,
+  handleGetSeoContext,
+  requireAdminContext,
+  pageContentErrorToResponse,
+  type PageContentSaveDraftInput,
+  type PageContentDraftFieldInput,
+  type PageContentSaveDraftResult,
+  type PageContentPublishInput,
+  type PageContentPublishResult,
+  type PageContentDiscardInput,
+  type PageContentDiscardResult,
+  type PageContentUploadImageResult,
+  type PageContentEditorError,
+  type AdminContext,
+} from "./lib/server/pageContentEditor";

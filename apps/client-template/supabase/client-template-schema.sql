@@ -800,6 +800,26 @@ alter table public.content_editor_domain_blacklist  enable row level security;
 alter table public.tracked_page_live_snapshots      enable row level security;
 alter table public.ai_optimize_runs                 enable row level security;
 
+-- See migrations/2026-05-24_content_editor_bulk_jobs.sql
+create table if not exists public.content_editor_bulk_jobs (
+  id uuid primary key default gen_random_uuid(),
+  publish_target text not null check (publish_target in ('blog', 'page')),
+  analysis_mode text not null default 'lite' check (analysis_mode in ('lite', 'deep')),
+  status text not null default 'running' check (status in ('running', 'completed', 'cancelled')),
+  items jsonb not null default '[]'::jsonb,
+  total integer not null default 0,
+  completed integer not null default 0,
+  current_keyword text,
+  logs jsonb not null default '[]'::jsonb,
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now()
+);
+
+create index if not exists content_editor_bulk_jobs_status_idx
+  on public.content_editor_bulk_jobs (status, created_at desc);
+
+alter table public.content_editor_bulk_jobs enable row level security;
+
 do $$
 declare tbl text; pname text;
 begin
@@ -807,7 +827,7 @@ begin
     'content_editors','content_editor_competitors','content_editor_terms','content_editor_questions',
     'content_editor_facts','content_editor_outlines','content_editor_drafts','content_editor_draft_term_usage',
     'content_editor_serp_cache','content_editor_domain_blacklist','tracked_page_live_snapshots',
-    'ai_optimize_runs'
+    'ai_optimize_runs','content_editor_bulk_jobs'
   ]) loop
     pname := 'Admins can manage ' || tbl;
     execute format('drop policy if exists %I on public.%I', pname, tbl);
@@ -819,5 +839,62 @@ begin
   end loop;
 end $$;
 
+-- =========================================================
+-- PAGE CONTENT OVERRIDES (inline page editor)
+-- See migrations/2026-05-24_page_content_overrides.sql
+-- =========================================================
+
+create table if not exists public.page_content_overrides (
+  id uuid primary key default gen_random_uuid(),
+  site_key text not null default '',
+  route_path text not null,
+  field_key text not null,
+  field_type text not null check (field_type in ('text', 'rich_text', 'image', 'icon')),
+  draft_value text,
+  published_value text,
+  draft_updated_at timestamptz,
+  published_at timestamptz,
+  updated_by text,
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now(),
+  constraint page_content_overrides_route_field_unique unique (route_path, field_key)
+);
+
+create index if not exists page_content_overrides_route_idx
+  on public.page_content_overrides (route_path);
+
+create index if not exists page_content_overrides_site_route_idx
+  on public.page_content_overrides (site_key, route_path);
+
+alter table public.page_content_overrides enable row level security;
+
+drop policy if exists "Public can read published page content" on public.page_content_overrides;
+create policy "Public can read published page content"
+on public.page_content_overrides
+for select
+to anon, authenticated
+using (published_value is not null);
+
+drop policy if exists "Admins can manage page content overrides" on public.page_content_overrides;
+create policy "Admins can manage page content overrides"
+on public.page_content_overrides
+for all
+to authenticated
+using (exists (select 1 from public.admin_users au where lower(au.email) = lower(auth.jwt() ->> 'email')))
+with check (exists (select 1 from public.admin_users au where lower(au.email) = lower(auth.jwt() ->> 'email')));
+
+create or replace function public.tg_page_content_overrides_updated_at()
+returns trigger language plpgsql as $fn$
+begin
+  new.updated_at = now();
+  return new;
+end;
+$fn$;
+
+drop trigger if exists page_content_overrides_updated_at on public.page_content_overrides;
+create trigger page_content_overrides_updated_at
+  before update on public.page_content_overrides
+  for each row execute function public.tg_page_content_overrides_updated_at();
+
 -- Storage expectation: create a public bucket named site-assets.
--- Recommended folders: images/, blog-featured/, logos/, og/.
+-- Recommended folders: images/, blog-featured/, logos/, og/, page-edits/.

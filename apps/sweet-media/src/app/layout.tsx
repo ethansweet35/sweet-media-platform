@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Cormorant_Garamond, Outfit } from "next/font/google";
 import Script from "next/script";
-import { AnalyticsWrapper } from "@sweetmedia/admin-core";
+import { AnalyticsWrapper } from "@sweetmedia/admin-core", PageEditorProvider };
 import "./globals.css";
 
 const GA_MEASUREMENT_ID = "G-PRMFZ8JSHE";
@@ -65,8 +65,10 @@ export default function RootLayout({
         </Script>
       </head>
       <body className="min-h-full flex flex-col">
-        {children}
+        <PageEditorProvider>
+          {children}
         <AnalyticsWrapper />
+        </PageEditorProvider>
       </body>
     </html>
   );

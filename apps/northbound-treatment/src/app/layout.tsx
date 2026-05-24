@@ -3,7 +3,7 @@ import { DM_Sans, Playfair_Display } from "next/font/google";
 import Script from "next/script";
 import "./globals.css";
 import Layout from "@/components/feature/Layout";
-import { AnalyticsWrapper } from "@sweetmedia/admin-core";
+import { AnalyticsWrapper, PageEditorProvider } from "@sweetmedia/admin-core";
 import { CTM_FORMREACTOR_SRC, CTM_TRACKING_SRC } from "@/lib/ctm";
 import CtmRouteReloader from "@/components/feature/CtmRouteReloader";
 
@@ -153,7 +153,9 @@ export default function RootLayout({
             style={{ display: "none", visibility: "hidden" }}
           />
         </noscript>
-        <Layout>{children}</Layout>
+        <PageEditorProvider>
+          <Layout>{children}</Layout>
+        </PageEditorProvider>
         <AnalyticsWrapper />
         <CtmRouteReloader />
       </body>

@@ -3,7 +3,7 @@ import { Cormorant_Garamond, DM_Sans } from "next/font/google";
 import Script from "next/script";
 import "./globals.css";
 import Layout from "@/components/feature/Layout";
-import { AnalyticsWrapper } from "@sweetmedia/admin-core";
+import { AnalyticsWrapper } from "@sweetmedia/admin-core", PageEditorProvider };
 
 const cormorant = Cormorant_Garamond({
   variable: "--font-cormorant",
@@ -91,8 +91,10 @@ export default function RootLayout({
         </noscript>
       </head>
       <body className="min-h-full">
-        <Layout>{children}</Layout>
+        <PageEditorProvider>
+          <Layout>{children}</Layout>
         <AnalyticsWrapper />
+        </PageEditorProvider>
       </body>
     </html>
   );

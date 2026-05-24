@@ -3,7 +3,7 @@ import { Cormorant_Garamond, Montserrat } from "next/font/google";
 import Script from "next/script";
 import "./globals.css";
 import Layout from "@/components/feature/Layout";
-import { AnalyticsWrapper } from "@sweetmedia/admin-core";
+import { AnalyticsWrapper } from "@sweetmedia/admin-core", PageEditorProvider };
 
 /** Platform standard: Remix Icon via CDN */
 const REMIXICON_CSS =
@@ -91,7 +91,8 @@ export default function RootLayout({
         />
       </head>
       <body className={`${cormorant.variable} ${montserrat.variable} antialiased`}>
-        <Layout>{children}</Layout>
+        <PageEditorProvider>
+          <Layout>{children}</Layout>
         <AnalyticsWrapper />
         {/* LiveChat */}
         <Script id="livechat-widget" strategy="afterInteractive">{`
@@ -104,6 +105,7 @@ export default function RootLayout({
         <noscript>
           <a href="https://www.livechat.com/chat-with/19186861/" rel="nofollow">Chat with us</a>
         </noscript>
+        </PageEditorProvider>
       </body>
     </html>
   );

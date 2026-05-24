@@ -3,7 +3,7 @@ import { Playfair_Display, Montserrat } from "next/font/google";
 import Script from "next/script";
 import "./globals.css";
 import Layout from "@/components/feature/Layout";
-import { AnalyticsWrapper } from "@sweetmedia/admin-core";
+import { AnalyticsWrapper } from "@sweetmedia/admin-core", PageEditorProvider };
 
 /** Platform standard: Remix Icon via CDN (same as inner-peak-colorado / sweet-media marketing patterns). */
 const REMIXICON_CSS =
@@ -96,8 +96,10 @@ export default function RootLayout({
         </Script>
       </head>
       <body className={`${playfair.variable} ${montserrat.variable} antialiased`}>
-        <Layout>{children}</Layout>
+        <PageEditorProvider>
+          <Layout>{children}</Layout>
         <AnalyticsWrapper />
+        </PageEditorProvider>
       </body>
     </html>
   );

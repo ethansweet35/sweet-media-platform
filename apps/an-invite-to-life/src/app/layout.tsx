@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Cormorant_Garamond, La_Belle_Aurore, Nunito } from "next/font/google";
 import Script from "next/script";
 import SiteLayout from "@/components/site/SiteLayout";
-import { AnalyticsWrapper } from "@sweetmedia/admin-core";
+import { AnalyticsWrapper } from "@sweetmedia/admin-core", PageEditorProvider };
 import "./globals.css";
 import "../styles/brand.css";
 
@@ -82,8 +82,10 @@ export default function RootLayout({
         </noscript>
       </head>
       <body className={`${cormorant.variable} ${nunito.variable} ${laBelleAurore.variable} antialiased`}>
-        <SiteLayout>{children}</SiteLayout>
+        <PageEditorProvider>
+          <SiteLayout>{children}</SiteLayout>
         <AnalyticsWrapper />
+        </PageEditorProvider>
       </body>
     </html>
   );

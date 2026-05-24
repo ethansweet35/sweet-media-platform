@@ -26,6 +26,9 @@ export async function generateMetadata(): Promise<Metadata> {
   return resolveTrackedPageMetadata("/virtual-lp", fallback);
 }
 
+/** Pick up published CMS overrides within ~15s without a full redeploy. */
+export const revalidate = 15;
+
 export default function Page() {
   return <VirtualLpPage />;
 }

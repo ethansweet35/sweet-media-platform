@@ -4,6 +4,8 @@ import type { DbBlogPost } from "../types/blog";
 export type BlogPostMetadataRow = Pick<
   DbBlogPost,
   | "title"
+  | "seo_title"
+  | "meta_title"
   | "meta_description"
   | "excerpt"
   | "hero_image_url"
@@ -33,7 +35,7 @@ export async function fetchPublishedBlogPostForMetadata(
   const { data, error } = await client
     .from("blog_posts")
     .select(
-      "title, meta_description, excerpt, hero_image_url, author, published_at, category, updated_at"
+      "title, seo_title, meta_title, meta_description, excerpt, hero_image_url, author, published_at, category, updated_at"
     )
     .eq("slug", slug)
     .eq("status", "published")

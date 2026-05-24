@@ -1,4 +1,7 @@
+import { EditableIcon, EditableText } from "@sweetmedia/admin-core";
 import { ADMISSIONS_PHONE, ADMISSIONS_PHONE_DISPLAY, VERIFY_INSURANCE_HREF } from "./content";
+
+const ROUTE = "/virtual-lp";
 
 export default function VirtualLpCtaBanner() {
   return (
@@ -9,17 +12,27 @@ export default function VirtualLpCtaBanner() {
       <div className="relative z-10 mx-auto w-full max-w-7xl px-6 lg:px-10">
         <div className="flex flex-col items-start gap-8 lg:flex-row lg:items-center lg:justify-between">
           <div className="max-w-2xl">
-            <p className="mb-3 text-xs font-semibold uppercase tracking-[0.14em] text-terracotta">
-              Get Started
-            </p>
-            <h2 className="font-heading text-3xl font-bold text-white md:text-4xl">
-              Start Virtual Treatment From Home
-            </h2>
-            <p className="mt-3 text-base leading-relaxed text-white/70">
-              You do not have to figure out the right program alone. Our admissions team can help
-              you understand your options, verify your insurance, and match you with the virtual
-              care pathway that fits your needs.
-            </p>
+            <EditableText
+              routePath={ROUTE}
+              fieldKey="ctaBanner.eyebrow"
+              defaultValue="Get Started"
+              as="p"
+              className="mb-3 text-xs font-semibold uppercase tracking-[0.14em] text-terracotta"
+            />
+            <EditableText
+              routePath={ROUTE}
+              fieldKey="ctaBanner.headline"
+              defaultValue="Start Virtual Treatment From Home"
+              as="h2"
+              className="font-heading text-3xl font-bold text-white md:text-4xl"
+            />
+            <EditableText
+              routePath={ROUTE}
+              fieldKey="ctaBanner.body"
+              defaultValue="You do not have to figure out the right program alone. Our admissions team can help you understand your options, verify your insurance, and match you with the virtual care pathway that fits your needs."
+              as="p"
+              className="mt-3 text-base leading-relaxed text-white/70"
+            />
           </div>
 
           <div className="flex shrink-0 flex-wrap items-center gap-4">
@@ -27,7 +40,12 @@ export default function VirtualLpCtaBanner() {
               href={VERIFY_INSURANCE_HREF}
               className="inline-flex items-center gap-2 bg-terracotta px-8 py-4 text-sm font-semibold text-white shadow-sm transition hover:bg-terracotta-light"
             >
-              Verify Insurance
+              <EditableText
+                routePath={ROUTE}
+                fieldKey="ctaBanner.cta.verify"
+                defaultValue="Verify Insurance"
+                as="span"
+              />
               <i className="ri-arrow-down-line" />
             </a>
             <a
@@ -35,7 +53,12 @@ export default function VirtualLpCtaBanner() {
               className="inline-flex items-center gap-2 border border-white/30 px-8 py-4 text-sm font-semibold text-white transition hover:border-white/60 hover:bg-white/10"
             >
               <i className="ri-phone-line" />
-              Call Admissions — {ADMISSIONS_PHONE_DISPLAY}
+              <EditableText
+                routePath={ROUTE}
+                fieldKey="ctaBanner.cta.call"
+                defaultValue={`Call Admissions — ${ADMISSIONS_PHONE_DISPLAY}`}
+                as="span"
+              />
             </a>
           </div>
         </div>
@@ -46,13 +69,25 @@ export default function VirtualLpCtaBanner() {
             { icon: "ri-shield-check-line", text: "DHCS Licensed #300661CP" },
             { icon: "ri-secure-payment-line", text: "Insurance Accepted" },
             { icon: "ri-wifi-line", text: "Virtual Care Network" },
-          ].map((item) => (
+          ].map((item, idx) => (
             <div
               key={item.text}
               className="flex items-center gap-2 text-xs font-semibold text-white/50"
             >
-              <i className={`${item.icon} text-sm text-terracotta`} />
-              {item.text}
+              <EditableIcon
+                routePath={ROUTE}
+                fieldKey={`ctaBanner.trust.${idx}.icon`}
+                defaultIconClass={item.icon}
+                iconClassName="text-sm text-terracotta"
+                defaultImageSize={20}
+                label={item.text}
+              />
+              <EditableText
+                routePath={ROUTE}
+                fieldKey={`ctaBanner.trust.${idx}`}
+                defaultValue={item.text}
+                as="span"
+              />
             </div>
           ))}
         </div>

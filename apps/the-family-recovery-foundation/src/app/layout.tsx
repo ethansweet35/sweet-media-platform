@@ -3,7 +3,7 @@ import { Inter, Playfair_Display } from "next/font/google";
 import Script from "next/script";
 import "./globals.css";
 import Layout from "@/components/feature/Layout";
-import { AnalyticsWrapper } from "@sweetmedia/admin-core";
+import { AnalyticsWrapper } from "@sweetmedia/admin-core", PageEditorProvider };
 
 const REMIXICON_CSS =
   "https://cdn.jsdelivr.net/npm/remixicon@4.6.0/fonts/remixicon.css";
@@ -97,8 +97,10 @@ export default function RootLayout({
         `}</Script>
       </head>
       <body className={`${inter.variable} ${playfair.variable} antialiased`}>
-        <Layout>{children}</Layout>
+        <PageEditorProvider>
+          <Layout>{children}</Layout>
         <AnalyticsWrapper />
+        </PageEditorProvider>
       </body>
     </html>
   );
