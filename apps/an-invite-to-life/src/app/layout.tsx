@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Cormorant_Garamond, La_Belle_Aurore, Nunito } from "next/font/google";
 import Script from "next/script";
 import SiteLayout from "@/components/site/SiteLayout";
-import { AnalyticsWrapper } from "@sweetmedia/admin-core", PageEditorProvider };
+import { AnalyticsWrapper, PageEditorProvider } from "@sweetmedia/admin-core";
 import "./globals.css";
 import "../styles/brand.css";
 

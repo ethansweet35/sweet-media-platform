@@ -3,7 +3,7 @@ import { Cormorant_Garamond, DM_Sans } from "next/font/google";
 import Script from "next/script";
 import "./globals.css";
 import Layout from "@/components/feature/Layout";
-import { AnalyticsWrapper } from "@sweetmedia/admin-core", PageEditorProvider };
+import { AnalyticsWrapper, PageEditorProvider } from "@sweetmedia/admin-core";
 
 const cormorant = Cormorant_Garamond({
   variable: "--font-cormorant",

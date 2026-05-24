@@ -3,7 +3,7 @@ import { Marcellus, Montserrat } from "next/font/google";
 import Script from "next/script";
 import "./globals.css";
 import Layout from "@/components/feature/Layout";
-import { AnalyticsWrapper } from "@sweetmedia/admin-core", PageEditorProvider };
+import { AnalyticsWrapper, PageEditorProvider } from "@sweetmedia/admin-core";
 
 /** Same Remix Icon major version as `@sweetmedia/inner-peak-colorado` — platform standard (CDN, no npm dep). */
 const REMIXICON_CSS =

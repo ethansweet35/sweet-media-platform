@@ -335,7 +335,9 @@ export default function AdminTrackedPagesPage() {
   const viewPublicUrl = (routePath: string) => {
     const origin = getPublicSiteOrigin();
     const path = routePath.startsWith("/") ? routePath : `/${routePath}`;
-    window.open(`${origin}${path}`, "_blank", "noopener,noreferrer");
+    const url = new URL(path, origin);
+    url.searchParams.set("sm_edit", "1");
+    window.open(url.toString(), "_blank", "noopener,noreferrer");
   };
 
   // ── Page word count ────────────────────────────────────────────────────────

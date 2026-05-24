@@ -3,7 +3,7 @@ import { Cormorant_Garamond, Montserrat } from "next/font/google";
 import Script from "next/script";
 import "./globals.css";
 import Layout from "@/components/feature/Layout";
-import { AnalyticsWrapper } from "@sweetmedia/admin-core", PageEditorProvider };
+import { AnalyticsWrapper, PageEditorProvider } from "@sweetmedia/admin-core";
 
 /** Platform standard: Remix Icon via CDN */
 const REMIXICON_CSS =
