@@ -1,0 +1,18 @@
+@import "tailwindcss";
+
+@source "../**/*.{js,ts,jsx,tsx,mdx}";
+@source "../../src/**/*.{js,ts,jsx,tsx,mdx}";
+@source "../../../../packages/admin-core/src/**/*.{js,ts,jsx,tsx}";
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+}
+
+button,
+a {
+  transition: all 180ms ease;
+}
