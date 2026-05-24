@@ -19,6 +19,7 @@ export default function PageEditorToolbar() {
   if (!mounted) return null;
   if (editor.isLoading) return null;
   if (!editor.isAdmin) return null;
+  if (!editor.isEditorAvailable) return null;
 
   const isBusy = editor.status !== "idle";
   const hasPending = editor.pendingCount > 0;

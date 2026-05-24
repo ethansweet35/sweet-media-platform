@@ -4,7 +4,7 @@ import { createContext, useCallback, useContext, useEffect, useMemo, useRef, use
 import { usePathname, useRouter } from "next/navigation";
 import { supabase } from "../lib/supabase";
 import type { PageContentFieldType, PendingEdit } from "../components/page-editor/types";
-import { buildPendingEditKey, normalizeRoutePath } from "../components/page-editor/routePath";
+import { buildPendingEditKey, isPublicPageEditorRoute, normalizeRoutePath } from "../components/page-editor/routePath";
 
 export type PageEditorMode = "view" | "edit";
 
@@ -17,6 +17,8 @@ export interface PageEditorContextValue {
   isLoading: boolean;
   /** Live route path (from next/navigation). */
   routePath: string;
+  /** False on /admin/* — toolbar and edit affordances are hidden. */
+  isEditorAvailable: boolean;
   /** Per-field pending edits keyed by `${routePath}::${fieldKey}`. */
   pending: Map<string, PendingEdit>;
   /** Number of pending edits for the current route. */
@@ -63,6 +65,7 @@ interface ProviderProps {
 export function PageEditorContextProvider({ children }: ProviderProps) {
   const pathname = usePathname() ?? "/";
   const routePath = normalizeRoutePath(pathname);
+  const isEditorAvailable = isPublicPageEditorRoute(routePath);
   const router = useRouter();
 
   const [isAdmin, setIsAdmin] = useState(false);
@@ -152,7 +155,7 @@ export function PageEditorContextProvider({ children }: ProviderProps) {
 
   // Determine edit mode from URL/cookie unless the user explicitly toggled on this route.
   useEffect(() => {
-    if (!isAdmin) {
+    if (!isAdmin || !isEditorAvailable) {
       setIsEditMode(false);
       return;
     }
@@ -166,7 +169,7 @@ export function PageEditorContextProvider({ children }: ProviderProps) {
     const params = new URLSearchParams(window.location.search);
     const wantsEdit = params.get(EDIT_QUERY_KEY) === "1" || getEditCookie();
     setIsEditMode(wantsEdit);
-  }, [isAdmin, pathname]);
+  }, [isAdmin, isEditorAvailable, pathname]);
 
   // Persist edit-mode preference to cookie so it follows across routes.
   useEffect(() => {
@@ -175,7 +178,7 @@ export function PageEditorContextProvider({ children }: ProviderProps) {
   }, [isAdmin, isEditMode]);
 
   const toggleEditMode = useCallback(() => {
-    if (!isAdmin) return;
+    if (!isAdmin || !isEditorAvailable) return;
     setIsEditMode((prev) => {
       const next = !prev;
       userEditPreferenceRef.current = next;
@@ -184,7 +187,7 @@ export function PageEditorContextProvider({ children }: ProviderProps) {
       return next;
     });
     setMessage(null);
-  }, [isAdmin, syncEditQueryParam]);
+  }, [isAdmin, isEditorAvailable, syncEditQueryParam]);
 
   const exitEditMode = useCallback(() => {
     userEditPreferenceRef.current = false;
@@ -396,9 +399,10 @@ export function PageEditorContextProvider({ children }: ProviderProps) {
 
   const value: PageEditorContextValue = useMemo(
     () => ({
-      isEditMode,
+      isEditMode: isEditorAvailable && isEditMode,
       isAdmin,
       isLoading,
+      isEditorAvailable,
       routePath,
       pending,
       pendingCount: pendingForCurrentRoute.length,
@@ -418,6 +422,7 @@ export function PageEditorContextProvider({ children }: ProviderProps) {
       exitEditMode,
       isAdmin,
       isEditMode,
+      isEditorAvailable,
       isLoading,
       message,
       routePath,
@@ -443,6 +448,7 @@ export function usePageEditor(): PageEditorContextValue {
       isEditMode: false,
       isAdmin: false,
       isLoading: false,
+      isEditorAvailable: false,
       routePath: "/",
       pending: new Map(),
       pendingCount: 0,

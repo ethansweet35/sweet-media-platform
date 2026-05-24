@@ -14,10 +14,10 @@ interface PageEditorProviderProps {
  *
  * - Anonymous visitors see no UI and zero edit affordances. Pages render
  *   their published or fallback values exactly as before.
- * - Authenticated admins see a floating "Edit page" pill in the bottom-
- *   right. Clicking it enters edit mode, exposing contenteditable text
- *   and hover overlays on images that were wrapped in <EditableText> /
- *   <EditableImage> server components.
+ * - Authenticated admins see a floating "Edit page" pill on public routes
+ *   (never under /admin/*). Clicking it enters edit mode, exposing
+ *   contenteditable text and hover overlays on images that were wrapped
+ *   in <EditableText> / <EditableImage> server components.
  */
 export default function PageEditorProvider({ children }: PageEditorProviderProps) {
   return (

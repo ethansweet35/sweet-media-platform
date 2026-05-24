@@ -20,3 +20,9 @@ export function buildPendingEditKey(routePath: string, fieldKey: string): string
 export function routesMatch(a: string, b: string): boolean {
   return normalizeRoutePath(a) === normalizeRoutePath(b);
 }
+
+/** Inline page editor UI is only for public marketing routes, never /admin/*. */
+export function isPublicPageEditorRoute(routePath: string): boolean {
+  const normalized = normalizeRoutePath(routePath);
+  return !normalized.startsWith("/admin");
+}
