@@ -13,6 +13,8 @@ export async function generateMetadata(): Promise<Metadata> {
   return resolveTrackedPageMetadata("/results", fallbackMetadata);
 }
 
+export const revalidate = 15;
+
 export default function Page() {
   return <ResultsPage />;
 }

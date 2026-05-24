@@ -7,6 +7,15 @@ const nextConfig: NextConfig = {
   // from server-side API routes via @sweetmedia/admin-core/server.
   serverExternalPackages: ["@cursor/sdk"],
   transpilePackages: ["@sweetmedia/admin-core", "@sweetmedia/blog-core"],
+  async redirects() {
+    return [
+      {
+        source: "/case-studies",
+        destination: "/results",
+        permanent: true,
+      },
+    ];
+  },
   async headers() {
     return [
       {

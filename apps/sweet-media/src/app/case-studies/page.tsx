@@ -1,22 +1,18 @@
-import type { Metadata } from "next";
-import { resolveTrackedPageMetadata } from "@sweetmedia/admin-core";
-import CaseStudiesIndexPage from "@/views/case-studies/index/page";
+import { redirect } from "next/navigation";
 
-const ROUTE = "/case-studies";
-
-const fallbackMetadata: Metadata = {
-  title: "Case Studies | Behavioral Health Marketing Results | Sweet Media",
-  description:
-    "See how Sweet Media helps treatment centers grow with SEO, paid media, and web development. Case studies from California Prime Recovery, Rize OC, and more.",
-  alternates: { canonical: ROUTE },
+type PageProps = {
+  searchParams: Promise<Record<string, string | string[] | undefined>>;
 };
 
-export async function generateMetadata(): Promise<Metadata> {
-  return resolveTrackedPageMetadata(ROUTE, fallbackMetadata);
-}
-
-export const revalidate = 15;
-
-export default function Page() {
-  return <CaseStudiesIndexPage />;
+/**
+ * Legacy index URL — the designed results hub lives at /results.
+ * Individual case studies remain at /case-studies/[slug].
+ */
+export default async function Page({ searchParams }: PageProps) {
+  const params = await searchParams;
+  const edit = params.sm_edit;
+  if (edit === "1" || edit === "true") {
+    redirect("/results?sm_edit=1");
+  }
+  redirect("/results");
 }
