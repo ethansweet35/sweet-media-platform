@@ -1,0 +1,164 @@
+@import "tailwindcss";
+
+@source "../**/*.{js,ts,jsx,tsx,mdx}";
+@source "../../src/**/*.{js,ts,jsx,tsx,mdx}";
+@source "../../../../packages/admin-core/src/**/*.{js,ts,jsx,tsx}";
+
+/* ── Sullivan Recovery Design System ──────────────────────────────────── */
+:root {
+  /* ── Palette ── */
+  /* Primary darks */
+  --sr-moss:         #2C3928;   /* deep forest moss — primary dark */
+  --sr-bark:         #3D3028;   /* warm dark brown — grunge accent */
+  --sr-charcoal:     #1E1F1B;   /* near-black for main headings */
+
+  /* Earthy mids */
+  --sr-fern:         #5C7A4E;   /* muted sage fern — active states, links */
+  --sr-sage:         #8FA882;   /* dusty sage — secondary accents, borders */
+  --sr-clay:         #A6876A;   /* warm clay / terracotta */
+
+  /* Pastels / lights */
+  --sr-parchment:    #F2EDE4;   /* warm parchment — hero bg, alternating sections */
+  --sr-linen:        #EDE8DF;   /* slightly darker linen — card bg */
+  --sr-mist:         #E8EDE5;   /* cool mist green — subtle tint sections */
+  --sr-sand:         #D4C9B5;   /* sand — borders, dividers */
+
+  /* Text */
+  --sr-ink:          #1E1F1B;   /* headings */
+  --sr-body:         #4A473F;   /* body text */
+  --sr-muted:        #7A7670;   /* muted / captions */
+  --sr-subtle:       #A09990;   /* very muted */
+
+  /* Legacy vars (admin-core compat) */
+  --color-primary:    var(--sr-ink);
+  --color-secondary:  var(--sr-body);
+  --color-accent:     var(--sr-fern);
+  --color-background: var(--sr-parchment);
+  --color-surface:    #FFFFFF;
+  --color-muted:      var(--sr-muted);
+
+  /* ── Typography ── */
+  --font-heading: var(--font-cormorant), "Cormorant Garamond", Georgia, serif;
+  --font-body:    var(--font-dm-sans), "DM Sans", system-ui, sans-serif;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    margin: 0;
+    background: var(--sr-parchment);
+    color: var(--sr-body);
+    font-family: var(--font-body);
+    font-weight: 300;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-heading);
+    color: var(--sr-ink);
+    letter-spacing: -0.01em;
+    line-height: 1.1;
+  }
+
+  button, a {
+    transition: all 180ms ease;
+  }
+}
+
+/* ── Utility classes ─────────────────────────────────────────────────── */
+
+/* Consistent section container */
+.sr-container {
+  margin-left: auto;
+  margin-right: auto;
+  width: 100%;
+  max-width: 1280px;
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+}
+
+@media (min-width: 1024px) {
+  .sr-container {
+    padding-left: 2.5rem;
+    padding-right: 2.5rem;
+  }
+}
+
+/* Section vertical rhythm */
+.sr-section {
+  padding-top: 5rem;
+  padding-bottom: 5rem;
+}
+
+@media (min-width: 768px) {
+  .sr-section {
+    padding-top: 6rem;
+    padding-bottom: 6rem;
+  }
+}
+
+/* Eyebrow label */
+.sr-eyebrow {
+  font-family: var(--font-body);
+  font-size: 0.6875rem;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--sr-fern);
+}
+
+/* Section heading */
+.sr-heading {
+  font-family: var(--font-heading);
+  font-size: clamp(2.25rem, 5vw, 3.5rem);
+  font-weight: 400;
+  color: var(--sr-ink);
+}
+
+/* Primary button — no border radius */
+.sr-btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  border-radius: 0;
+  background: var(--sr-moss);
+  padding: 0.875rem 1.75rem;
+  font-family: var(--font-body);
+  font-size: 0.8125rem;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--sr-parchment);
+  transition: background 180ms ease;
+}
+
+.sr-btn-primary:hover {
+  background: var(--sr-bark);
+}
+
+/* Ghost button — no border radius */
+.sr-btn-ghost {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  border-radius: 0;
+  border: 1px solid var(--sr-sand);
+  padding: 0.875rem 1.75rem;
+  font-family: var(--font-body);
+  font-size: 0.8125rem;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--sr-ink);
+  background: transparent;
+  transition: all 180ms ease;
+}
+
+.sr-btn-ghost:hover {
+  border-color: var(--sr-moss);
+  background: var(--sr-linen);
+}
+
