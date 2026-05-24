@@ -1,8 +1,10 @@
 import { getPageContentForRequest } from "../../lib/server/pageContentOverrides";
+import { getPageEditorRoutePath } from "../../lib/server/getPageEditorRoutePath";
 import EditableIconClient from "./EditableIconClient";
 
 export interface EditableIconProps {
-  routePath: string;
+  /** When omitted, resolved from the current request pathname (via middleware). */
+  routePath?: string;
   fieldKey: string;
   /** Default Remix Icon class, e.g. "ri-brain-line". */
   defaultIconClass: string;
@@ -17,7 +19,7 @@ export interface EditableIconProps {
 }
 
 export default async function EditableIcon({
-  routePath,
+  routePath: routePathProp,
   fieldKey,
   defaultIconClass,
   defaultImageSize = 44,
@@ -25,6 +27,7 @@ export default async function EditableIcon({
   containerClassName,
   label,
 }: EditableIconProps) {
+  const routePath = routePathProp ?? (await getPageEditorRoutePath());
   const overrides = await getPageContentForRequest(routePath);
   const override = overrides.byKey.get(fieldKey);
 

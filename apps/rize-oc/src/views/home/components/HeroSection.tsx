@@ -1,4 +1,4 @@
-import Image from "next/image";
+import { EditableImage, EditableText } from "@sweetmedia/admin-core";
 import InsuranceForm from "./InsuranceForm";
 import IconCircle from "@/components/ui/IconCircle";
 import CallRailPhoneLink from "@/components/ui/CallRailPhoneLink";
@@ -7,25 +7,35 @@ import { PAGE_GRID } from "@/components/ui/PageHeroShell";
 import { AutoLinkedText } from "@sweetmedia/blog-core";
 import { CALLRAIL_PHONE_DISPLAY_COMPACT } from "@/lib/callrailPhone";
 
+const HERO_IMAGE =
+  "https://uivbbrwuaffqujzkqjvr.supabase.co/storage/v1/object/public/site-assets/images/rize_home_hero01.jpg";
+const EYEBROW = "California Sanctuary";
+const HEADLINE = "Mental Health & Addiction Treatment In California";
+const BODY =
+  "A profound sanctuary for recovery. We blend elite clinical methodology with the quiet, restorative power of the Southern California coast.";
+
 const trustBadges = [
   { icon: "ri-checkbox-circle-line", label: "Licensed & Accredited" },
   { icon: "ri-checkbox-circle-line", label: "Insurance Accepted" },
   { icon: "ri-checkbox-circle-line", label: "24/7 Admissions" },
 ];
 
-export default function HeroSection() {
+export default async function HeroSection() {
   return (
     <CinematicHeroSection
       minHeight="min-h-[min(720px,90dvh)]"
       contentClassName="justify-center"
       media={
         <>
-          <Image
-            src="https://uivbbrwuaffqujzkqjvr.supabase.co/storage/v1/object/public/site-assets/images/rize_home_hero01.jpg"
+          <EditableImage
+            fieldKey="hero.image"
+            defaultSrc={HERO_IMAGE}
             alt="Rize OC Mental Health and Addiction Treatment Center"
+            label="Hero image"
             fill
             className="object-cover object-center opacity-40"
             priority
+            sizes="100vw"
           />
           <div className="absolute inset-0 bg-gradient-to-r from-ink/95 via-ink/80 to-ink/20" />
         </>
@@ -39,26 +49,36 @@ export default function HeroSection() {
           <div className="flex items-center gap-2 mb-6">
             <div className="border border-white/20 px-4 py-1.5 flex items-center gap-2.5 bg-white/5 backdrop-blur-sm">
               <i className="ri-user-line text-accent text-sm" />
-              <span className="text-[10px] font-medium uppercase tracking-[0.35em] text-white">
-                California Sanctuary
-              </span>
+              <EditableText
+                fieldKey="hero.eyebrow"
+                defaultValue={EYEBROW}
+                className="text-[10px] font-medium uppercase tracking-[0.35em] text-white"
+              />
             </div>
           </div>
 
-          <h1
+          <EditableText
+            fieldKey="hero.headline"
+            defaultValue={HEADLINE}
+            as="h1"
             className="font-[family-name:var(--font-display)] font-normal text-white"
             style={{ fontSize: "clamp(40px, 5vw, 72px)", lineHeight: 1.05 }}
           >
             Mental Health &amp; Addiction Treatment
             <br />
             <em className="italic text-white/90">In California</em>
-          </h1>
+          </EditableText>
 
           <div className="mt-6 mb-7 w-16 h-[2px] bg-accent" />
 
-          <p className="max-w-lg text-base font-light leading-relaxed text-white/80">
-            <AutoLinkedText>{"A profound sanctuary for recovery. We blend elite clinical methodology\n            with the quiet, restorative power of the Southern California coast."}</AutoLinkedText>
-          </p>
+          <EditableText
+            fieldKey="hero.body"
+            defaultValue={BODY}
+            as="p"
+            className="max-w-lg text-base font-light leading-relaxed text-white/80"
+          >
+            <AutoLinkedText>{BODY}</AutoLinkedText>
+          </EditableText>
 
           <div className="mt-8 flex flex-wrap gap-x-6 gap-y-3">
             {trustBadges.map(({ icon, label }) => (

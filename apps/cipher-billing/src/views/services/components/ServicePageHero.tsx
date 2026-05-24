@@ -1,5 +1,5 @@
-import Image from "next/image";
 import Link from "next/link";
+import { EditableImage, EditableText } from "@sweetmedia/admin-core";
 import { SERVICE_CONTAINER, SERVICE_TEL_DISPLAY, SERVICE_TEL_HREF } from "./servicePageConstants";
 
 type ServicePageHeroProps = {
@@ -12,7 +12,7 @@ type ServicePageHeroProps = {
   secondaryCta?: { label: string; href: string };
 };
 
-export default function ServicePageHero({
+export default async function ServicePageHero({
   eyebrow,
   title,
   titleAccent,
@@ -21,10 +21,21 @@ export default function ServicePageHero({
   imageAlt,
   secondaryCta,
 }: ServicePageHeroProps) {
+  const headlineDefault = titleAccent ? `${title} ${titleAccent}` : title;
+
   return (
     <section className="relative overflow-hidden bg-[#101E3F]">
       <div className="absolute inset-0">
-        <Image src={imageSrc} alt={imageAlt} fill priority className="object-cover object-center" sizes="100vw" />
+        <EditableImage
+          fieldKey="hero.image"
+          defaultSrc={imageSrc}
+          alt={imageAlt}
+          label="Hero image"
+          fill
+          priority
+          className="object-cover object-center"
+          sizes="100vw"
+        />
         <div
           className="absolute inset-0"
           style={{
@@ -36,9 +47,19 @@ export default function ServicePageHero({
         <div className="max-w-3xl">
           <div className="flex items-center gap-4">
             <span className="h-px w-12 min-w-[48px] bg-white/80" aria-hidden />
-            <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-[#166C96]">{eyebrow}</p>
+            <EditableText
+              fieldKey="hero.eyebrow"
+              defaultValue={eyebrow}
+              as="p"
+              className="text-[11px] font-semibold uppercase tracking-[0.24em] text-[#166C96]"
+            />
           </div>
-          <h1 className="mt-4 font-[var(--font-heading)] text-4xl font-medium leading-[1.1] tracking-[-0.02em] text-white md:text-5xl">
+          <EditableText
+            fieldKey="hero.headline"
+            defaultValue={headlineDefault}
+            as="h1"
+            className="mt-4 font-[var(--font-heading)] text-4xl font-medium leading-[1.1] tracking-[-0.02em] text-white md:text-5xl"
+          >
             {title}
             {titleAccent ? (
               <>
@@ -46,10 +67,13 @@ export default function ServicePageHero({
                 <span className="text-[#166C96]">{titleAccent}</span>
               </>
             ) : null}
-          </h1>
-          <p className="mt-6 max-w-2xl border-l-[3px] border-white/90 pl-8 text-sm leading-[1.65] text-white/90 md:text-base">
-            {description}
-          </p>
+          </EditableText>
+          <EditableText
+            fieldKey="hero.body"
+            defaultValue={description}
+            as="p"
+            className="mt-6 max-w-2xl border-l-[3px] border-white/90 pl-8 text-sm leading-[1.65] text-white/90 md:text-base"
+          />
           <div className="mt-10 flex flex-wrap gap-4">
             <a
               href={SERVICE_TEL_HREF}

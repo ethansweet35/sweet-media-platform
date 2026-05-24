@@ -1,14 +1,14 @@
 import type { CSSProperties, ReactNode } from "react";
 import { getPageContentForRequest } from "../../lib/server/pageContentOverrides";
+import { getPageEditorRoutePath } from "../../lib/server/getPageEditorRoutePath";
 import EditableTextClient from "./EditableTextClient";
 
 export interface EditableTextProps {
   /**
-   * Route path this field belongs to, e.g. "/virtual-lp". Must match
-   * `usePathname()` for the wiring to find pending edits in the editor
-   * context.
+   * Route path this field belongs to, e.g. "/virtual-lp". When omitted,
+   * resolved from the current request pathname (via middleware).
    */
-  routePath: string;
+  routePath?: string;
   /**
    * Stable per-page identifier for this slot, e.g. "hero.headline" or
    * "pathways.0.bestFor". Must be unique within `routePath`.
@@ -38,7 +38,7 @@ export interface EditableTextProps {
  * a subtle outline and reports edits back to PageEditorContext.
  */
 export default async function EditableText({
-  routePath,
+  routePath: routePathProp,
   fieldKey,
   defaultValue,
   as = "span",
@@ -46,6 +46,7 @@ export default async function EditableText({
   style,
   children,
 }: EditableTextProps) {
+  const routePath = routePathProp ?? (await getPageEditorRoutePath());
   const overrides = await getPageContentForRequest(routePath);
   const override = overrides.byKey.get(fieldKey);
 

@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import { EditableImage, EditableText } from "@sweetmedia/admin-core";
 import { PHONE_DISPLAY, PHONE_HREF } from "@/data/site";
 
 export type PageHeroProps = {
@@ -23,7 +24,31 @@ const trustBullets = [
   { icon: "ri-award-line", text: "Joint Commission Accredited" },
 ];
 
-export default function PageHero({
+function HeadlineContent({
+  headline,
+  italicWord,
+  onDark,
+}: {
+  headline: string;
+  italicWord?: string;
+  onDark: boolean;
+}) {
+  if (italicWord && headline.includes(italicWord)) {
+    const [before, after] = headline.split(italicWord);
+    return (
+      <>
+        {before}
+        <span className={`italic ${onDark ? "text-[#8FAC87]" : "text-[#507969]"}`}>
+          {italicWord}
+        </span>
+        {after}
+      </>
+    );
+  }
+  return headline;
+}
+
+export default async function PageHero({
   eyebrow,
   headline,
   italicWord,
@@ -36,48 +61,52 @@ export default function PageHero({
 }: PageHeroProps) {
   const isPhone = primaryCta.href.startsWith("tel:");
 
-  let headlineNode: React.ReactNode = headline;
-  if (italicWord && headline.includes(italicWord)) {
-    const [before, after] = headline.split(italicWord);
-    headlineNode = (
-      <>
-        {before}
-        <span className={`italic ${image ? "text-[#8FAC87]" : "text-[#507969]"}`}>
-          {italicWord}
-        </span>
-        {after}
-      </>
-    );
-  }
+  const headlineField = (
+    <EditableText
+      fieldKey="hero.headline"
+      defaultValue={headline}
+      as="span"
+      className={image ? "text-white" : "text-[#1A1A17]"}
+    >
+      <HeadlineContent headline={headline} italicWord={italicWord} onDark={!!image} />
+    </EditableText>
+  );
 
   if (image) {
     return (
       <section className="relative w-full overflow-hidden min-h-[480px] md:min-h-[560px] flex items-end">
-        <Image
-          src={image}
+        <EditableImage
+          fieldKey="hero.image"
+          defaultSrc={image}
           alt={imageAlt ?? headline}
+          label="Hero image"
           fill
           priority
           sizes="100vw"
           className="object-cover object-center"
         />
-        {/* Dark sage gradient overlay */}
         <div className="absolute inset-0 bg-gradient-to-r from-[#1A1A17]/85 via-[#1A1A17]/60 to-[#1A1A17]/20" />
-        {/* Decorative circles */}
         <div className="pointer-events-none absolute -right-32 -top-32 h-96 w-96 rounded-full bg-[#507969]/30" />
 
         <div className="relative w-full mx-auto max-w-7xl px-6 lg:px-10 py-16 md:py-24">
-          {eyebrow && (
-            <p className="brand-eyebrow mb-4 text-[#8FAC87]">{eyebrow}</p>
-          )}
+          {eyebrow ? (
+            <EditableText
+              fieldKey="hero.eyebrow"
+              defaultValue={eyebrow}
+              className="brand-eyebrow mb-4 block text-[#8FAC87]"
+            />
+          ) : null}
           <h1 className="font-heading max-w-3xl text-4xl font-bold leading-tight text-white md:text-5xl lg:text-6xl">
-            {headlineNode}
+            {headlineField}
           </h1>
-          {body && (
-            <p className="mt-6 max-w-xl text-base leading-relaxed text-white/75 md:text-lg">
-              {body}
-            </p>
-          )}
+          {body ? (
+            <EditableText
+              fieldKey="hero.body"
+              defaultValue={body}
+              as="p"
+              className="mt-6 max-w-xl text-base leading-relaxed text-white/75 md:text-lg"
+            />
+          ) : null}
           <div className="mt-8 flex flex-wrap gap-4">
             <a
               href={primaryCta.href}
@@ -86,17 +115,17 @@ export default function PageHero({
               {isPhone && <i className="ri-phone-fill text-base"></i>}
               {primaryCta.label}
             </a>
-            {secondaryCta && (
+            {secondaryCta ? (
               <Link
                 href={secondaryCta.href}
                 className="inline-flex items-center gap-2 rounded-full border border-white/40 px-7 py-3.5 text-sm font-semibold text-white transition hover:border-white/70 hover:bg-white/10"
               >
                 {secondaryCta.label}
               </Link>
-            )}
+            ) : null}
           </div>
 
-          {showTrustLine && (
+          {showTrustLine ? (
             <div className="mt-10 flex flex-wrap gap-x-8 gap-y-3">
               {trustBullets.map((b) => (
                 <div key={b.text} className="flex items-center gap-2">
@@ -107,7 +136,7 @@ export default function PageHero({
                 </div>
               ))}
             </div>
-          )}
+          ) : null}
         </div>
       </section>
     );
@@ -116,17 +145,24 @@ export default function PageHero({
   return (
     <section className="bg-[#F5F3E7] py-20 md:py-28">
       <div className="mx-auto w-full max-w-7xl px-6 lg:px-10">
-        {eyebrow && (
-          <p className="brand-eyebrow mb-4 text-[#8FAC87]">{eyebrow}</p>
-        )}
+        {eyebrow ? (
+          <EditableText
+            fieldKey="hero.eyebrow"
+            defaultValue={eyebrow}
+            className="brand-eyebrow mb-4 block text-[#8FAC87]"
+          />
+        ) : null}
         <h1 className="font-heading max-w-3xl text-4xl font-bold leading-tight text-[#1A1A17] md:text-5xl lg:text-6xl">
-          {headlineNode}
+          {headlineField}
         </h1>
-        {body && (
-          <p className="mt-6 max-w-2xl text-base leading-relaxed text-[#4B4B4B] md:text-lg">
-            {body}
-          </p>
-        )}
+        {body ? (
+          <EditableText
+            fieldKey="hero.body"
+            defaultValue={body}
+            as="p"
+            className="mt-6 max-w-2xl text-base leading-relaxed text-[#4B4B4B] md:text-lg"
+          />
+        ) : null}
         <div className="mt-8 flex flex-wrap gap-4">
           <a
             href={primaryCta.href}
@@ -135,17 +171,17 @@ export default function PageHero({
             {isPhone && <i className="ri-phone-fill text-base"></i>}
             {primaryCta.label}
           </a>
-          {secondaryCta && (
+          {secondaryCta ? (
             <Link
               href={secondaryCta.href}
               className="inline-flex items-center gap-2 rounded-full border border-[#8FAC87]/40 px-7 py-3.5 text-sm font-semibold text-[#507969] transition hover:border-[#8FAC87] hover:bg-[#8FAC87]/10"
             >
               {secondaryCta.label}
             </Link>
-          )}
+          ) : null}
         </div>
 
-        {showTrustLine && (
+        {showTrustLine ? (
           <div className="mt-10 flex flex-wrap gap-x-8 gap-y-3">
             {trustBullets.map((b) => (
               <div key={b.text} className="flex items-center gap-2">
@@ -156,7 +192,7 @@ export default function PageHero({
               </div>
             ))}
           </div>
-        )}
+        ) : null}
       </div>
     </section>
   );

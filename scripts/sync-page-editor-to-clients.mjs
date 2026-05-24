@@ -50,6 +50,30 @@ function copyRoutes(slug) {
   }
 }
 
+const MIDDLEWARE_TEMPLATE = `import type { NextRequest } from "next/server";
+import { withPageEditorPathname } from "@sweetmedia/admin-core/middleware";
+
+export function middleware(request: NextRequest) {
+  return withPageEditorPathname(request);
+}
+
+export const config = {
+  matcher: [
+    "/((?!_next/static|_next/image|favicon.ico|.*\\\\.(?:svg|png|jpg|jpeg|gif|webp|ico)$).*)",
+  ],
+};
+`;
+
+function ensureMiddleware(slug) {
+  const middlewarePath = join(root, "apps", slug, "src/middleware.ts");
+  if (!existsSync(join(root, "apps", slug, "src"))) {
+    console.warn(`  ${slug}: no src/ — skip middleware`);
+    return;
+  }
+  writeFileSync(middlewarePath, MIDDLEWARE_TEMPLATE);
+  console.log(`  ${slug}: wrote src/middleware.ts`);
+}
+
 function ensurePageEditorProvider(slug) {
   const layoutPath = join(root, "apps", slug, "src/app/layout.tsx");
   if (!existsSync(layoutPath)) {
@@ -101,6 +125,7 @@ for (const slug of clientApps) {
   }
   console.log(`\n${slug}:`);
   copyRoutes(slug);
+  ensureMiddleware(slug);
   ensurePageEditorProvider(slug);
 }
 

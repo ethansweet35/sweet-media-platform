@@ -1,9 +1,11 @@
 import type { ImageProps } from "next/image";
 import { getPageContentForRequest } from "../../lib/server/pageContentOverrides";
+import { getPageEditorRoutePath } from "../../lib/server/getPageEditorRoutePath";
 import EditableImageClient from "./EditableImageClient";
 
 export interface EditableImageProps {
-  routePath: string;
+  /** When omitted, resolved from the current request pathname (via middleware). */
+  routePath?: string;
   fieldKey: string;
   /** Static default baked into the source. Used when no override exists. */
   defaultSrc: string;
@@ -29,7 +31,7 @@ export interface EditableImageProps {
  * "Replace image" button that uploads to Supabase storage.
  */
 export default async function EditableImage({
-  routePath,
+  routePath: routePathProp,
   fieldKey,
   defaultSrc,
   alt,
@@ -37,6 +39,7 @@ export default async function EditableImage({
   className,
   ...imageProps
 }: EditableImageProps) {
+  const routePath = routePathProp ?? (await getPageEditorRoutePath());
   const overrides = await getPageContentForRequest(routePath);
   const override = overrides.byKey.get(fieldKey);
 

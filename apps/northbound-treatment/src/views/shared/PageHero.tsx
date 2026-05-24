@@ -1,6 +1,6 @@
-import Image from "next/image";
 import Link from "next/link";
 import { AutoLinkedText } from "@sweetmedia/blog-core";
+import { EditableImage, EditableText } from "@sweetmedia/admin-core";
 import { heroContentPad, heroPageHeroSection } from "@/lib/heroSpacing";
 
 export type Breadcrumb = { label: string; href?: string };
@@ -18,11 +18,34 @@ interface PageHeroProps {
   secondaryCta?: { label: string; href: string };
 }
 
+function HeadlineRich({
+  headline,
+  italicWord,
+}: {
+  headline: string;
+  italicWord?: string;
+}) {
+  const headlineParts = italicWord
+    ? headline.split(new RegExp(`(${italicWord})`, "i"))
+    : [headline];
+
+  if (!italicWord) return headline;
+
+  return headlineParts.map((part, i) =>
+    part.toLowerCase() === italicWord.toLowerCase() ? (
+      <span key={i} className="italic text-terracotta">
+        {part}
+      </span>
+    ) : (
+      part
+    ),
+  );
+}
+
 /**
  * Full-width dark hero for all Northbound inner pages.
- * Dark navy overlay on a full-bleed photo, content left-aligned.
  */
-export default function PageHero({
+export default async function PageHero({
   eyebrow,
   headline,
   italicWord,
@@ -33,33 +56,29 @@ export default function PageHero({
   primaryCta,
   secondaryCta,
 }: PageHeroProps) {
-  const headlineParts = italicWord
-    ? headline.split(new RegExp(`(${italicWord})`, "i"))
-    : [headline];
-
   return (
     <section className={heroPageHeroSection}>
-      {/* Background image */}
-      <Image
-        src={image}
+      <EditableImage
+        fieldKey="hero.image"
+        defaultSrc={image}
         alt={imageAlt}
+        label="Hero image"
         fill
         className="object-cover object-center"
         priority
+        sizes="100vw"
       />
 
-      {/* Gradient overlay — dark left, lighter right */}
       <div className="absolute inset-0 bg-gradient-to-r from-navy/95 via-navy/80 to-navy/40" />
       <div className="absolute inset-0 bg-gradient-to-t from-navy/60 via-transparent to-transparent" />
-
-      {/* Terracotta glow accent */}
       <div className="pointer-events-none absolute -left-20 top-1/2 h-72 w-72 -translate-y-1/2 rounded-full bg-terracotta/20 blur-3xl" />
 
       <div className={`relative z-10 mx-auto w-full max-w-7xl ${heroContentPad}`}>
-        {/* Breadcrumbs */}
         {breadcrumbs && breadcrumbs.length > 0 && (
           <nav className="mb-6 flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.1em] text-white/50">
-            <Link href="/" className="transition hover:text-terracotta">Home</Link>
+            <Link href="/" className="transition hover:text-terracotta">
+              Home
+            </Link>
             {breadcrumbs.map((crumb, i) => (
               <span key={i} className="flex items-center gap-2">
                 <i className="ri-arrow-right-s-line text-white/30" />
@@ -75,28 +94,30 @@ export default function PageHero({
           </nav>
         )}
 
-        {/* Eyebrow */}
-        <p className="mb-4 text-xs font-semibold uppercase tracking-[0.14em] text-terracotta"><AutoLinkedText>{eyebrow}</AutoLinkedText></p>
+        <EditableText
+          fieldKey="hero.eyebrow"
+          defaultValue={eyebrow}
+          as="p"
+          className="mb-4 text-xs font-semibold uppercase tracking-[0.14em] text-terracotta"
+        >
+          <AutoLinkedText>{eyebrow}</AutoLinkedText>
+        </EditableText>
 
-        {/* Headline */}
         <h1 className="font-heading max-w-2xl text-4xl font-bold leading-tight text-white md:text-5xl lg:text-6xl">
-          {italicWord
-            ? headlineParts.map((part, i) =>
-                part.toLowerCase() === italicWord.toLowerCase() ? (
-                  <span key={i} className="italic text-terracotta">
-                    {part}
-                  </span>
-                ) : (
-                  part
-                ),
-              )
-            : headline}
+          <EditableText fieldKey="hero.headline" defaultValue={headline} as="span" className="text-white">
+            <HeadlineRich headline={headline} italicWord={italicWord} />
+          </EditableText>
         </h1>
 
-        {/* Body */}
-        <p className="mt-5 max-w-xl text-base leading-relaxed text-white/75"><AutoLinkedText>{body}</AutoLinkedText></p>
+        <EditableText
+          fieldKey="hero.body"
+          defaultValue={body}
+          as="p"
+          className="mt-5 max-w-xl text-base leading-relaxed text-white/75"
+        >
+          <AutoLinkedText>{body}</AutoLinkedText>
+        </EditableText>
 
-        {/* CTAs */}
         {(primaryCta || secondaryCta) && (
           <div className="mt-8 flex flex-wrap items-center gap-4">
             {primaryCta && (
@@ -119,7 +140,6 @@ export default function PageHero({
           </div>
         )}
 
-        {/* Trust strip */}
         <div className="mt-10 flex flex-wrap items-center gap-6 border-t border-white/10 pt-8">
           {[
             { icon: "ri-shield-check-line", text: "DHCS Licensed #300661CP" },

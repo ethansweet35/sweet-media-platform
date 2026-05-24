@@ -2,9 +2,14 @@ import Image from 'next/image';
 import Link from 'next/link';
 import HeroContactForm from './HeroContactForm';
 import { AutoLinkedText } from "@sweetmedia/blog-core";
+import { EditableText } from "@sweetmedia/admin-core";
 
+const EYEBROW = "Colorado · Women-Only · Virtual";
+const HEADLINE = "Virtual Mental Healthcare, For Women.";
+const BODY =
+  "Colorado's women-only virtual outpatient program — delivering evidence-based, trauma-informed mental health and addiction treatment from the comfort of your own home.";
 
-export default function HeroSection() {
+export default async function HeroSection() {
   return (
     <section className="relative w-full min-h-screen flex items-center overflow-hidden">
       {/* Background — image always rendered (mobile fallback + while video loads) */}
@@ -62,20 +67,33 @@ export default function HeroSection() {
           <div className="flex flex-col gap-7">
             <div className="flex items-center gap-3">
               <div className="w-8 h-px bg-[#DDA15E]"></div>
-              <span className="text-[11px] uppercase tracking-[0.2em] text-[#DDA15E] font-medium">
-                Colorado · Women-Only · Virtual
-              </span>
+              <EditableText
+                fieldKey="hero.eyebrow"
+                defaultValue={EYEBROW}
+                className="text-[11px] uppercase tracking-[0.2em] text-[#DDA15E] font-medium"
+              />
             </div>
 
-            <h1 className="font-serif text-[#FAF8F5] leading-[1.1]" style={{ fontSize: 'clamp(40px, 5vw, 72px)' }}>
+            <EditableText
+              fieldKey="hero.headline"
+              defaultValue={HEADLINE}
+              as="h1"
+              className="font-serif text-[#FAF8F5] leading-[1.1]"
+              style={{ fontSize: 'clamp(40px, 5vw, 72px)' }}
+            >
               Virtual Mental Healthcare,{' '}
               <br className="hidden sm:block" />
               <em className="text-[#DDA15E] not-italic">For Women.</em>
-            </h1>
+            </EditableText>
 
-            <p className="text-[#F0ECE1]/80 font-light text-base leading-[1.85] max-w-md">
-              <AutoLinkedText>{"Colorado's women-only virtual outpatient program — delivering evidence-based, trauma-informed mental health and addiction treatment from the comfort of your own home."}</AutoLinkedText>
-            </p>
+            <EditableText
+              fieldKey="hero.body"
+              defaultValue={BODY}
+              as="p"
+              className="text-[#F0ECE1]/80 font-light text-base leading-[1.85] max-w-md"
+            >
+              <AutoLinkedText>{BODY}</AutoLinkedText>
+            </EditableText>
 
             <div className="flex flex-wrap gap-4 pt-1">
               <Link
