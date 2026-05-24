@@ -4,7 +4,9 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import AdminPageHeader from "../components/AdminPageHeader";
 import AdminContentBulkBar from "../components/content-list/AdminContentBulkBar";
+import ContentEditorBulkCreateModal from "../components/content-editor/ContentEditorBulkCreateModal";
 import ContentEditorLinkBadge from "../components/content-editor/ContentEditorLinkBadge";
+import { useContentEditorBulkJob } from "../contexts/ContentEditorBulkJobContext";
 import { ADMIN_ACCENT, ADMIN_ACCENT_SOFT, ADMIN_OCEAN } from "../lib/adminTheme";
 import { useContentEditors } from "../hooks/useContentEditors";
 import {
@@ -62,6 +64,9 @@ function canBulkSyncRow(row: ContentEditorListRow): boolean {
 
 export default function AdminContentEditorPage() {
   const { rows, loading, error, createEditor, removeEditor, refresh } = useContentEditors();
+  const { startBulkCreate, loading: bulkCreateLoading } = useContentEditorBulkJob();
+  const [bulkModalOpen, setBulkModalOpen] = useState(false);
+  const [bulkCreateError, setBulkCreateError] = useState<string | null>(null);
   const [keyword, setKeyword] = useState("");
   const [submittingMode, setSubmittingMode] = useState<"lite" | "deep" | null>(null);
   const [submitError, setSubmitError] = useState<string | null>(null);
@@ -217,6 +222,21 @@ export default function AdminContentEditorPage() {
       <div className="mx-auto max-w-screen-xl py-6 space-y-6">
         {/* New editor form */}
         <div className="rounded-2xl border border-[#E2E8F0] bg-white p-5 shadow-sm">
+          <div className="flex flex-wrap items-center justify-between gap-3 mb-3">
+            <label className="block text-[11px] font-bold tracking-[0.12em] uppercase text-[#64748B]">
+              New editor
+            </label>
+            <button
+              type="button"
+              onClick={() => {
+                setBulkCreateError(null);
+                setBulkModalOpen(true);
+              }}
+              className="inline-flex items-center gap-1.5 rounded-xl border border-[#7B9FD4]/50 bg-[#F4F7FB] px-4 py-2 text-[11px] font-bold uppercase tracking-[0.1em] text-[#0A1F44] hover:border-[#7B9FD4] transition-colors"
+            >
+              <i className="ri-stack-line" /> Bulk create
+            </button>
+          </div>
           <label className="block text-[11px] font-bold tracking-[0.12em] uppercase text-[#64748B] mb-1.5">
             Target keyword
           </label>
@@ -282,7 +302,28 @@ export default function AdminContentEditorPage() {
               <i className="ri-error-warning-line" /> {submitError}
             </p>
           ) : null}
+          {bulkCreateError ? (
+            <p className="mt-2 text-[12px] text-red-600 flex items-center gap-1.5">
+              <i className="ri-error-warning-line" /> {bulkCreateError}
+            </p>
+          ) : null}
         </div>
+
+        <ContentEditorBulkCreateModal
+          open={bulkModalOpen}
+          loading={bulkCreateLoading}
+          onClose={() => setBulkModalOpen(false)}
+          onSubmit={async (input) => {
+            try {
+              setBulkCreateError(null);
+              await startBulkCreate(input);
+              setBulkModalOpen(false);
+              await refresh();
+            } catch (err) {
+              setBulkCreateError(err instanceof Error ? err.message : String(err));
+            }
+          }}
+        />
 
         <AdminContentBulkBar
           count={selectedSyncable.length}

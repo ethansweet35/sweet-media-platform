@@ -32,6 +32,23 @@ interface Props {
   briefId?: string;
 }
 
+/** True when Auto-Optimize has written a real draft, not just a score-only DB touch. */
+function autoOptimizeDraftLanded(
+  baselineWords: number,
+  baselineBodyLen: number,
+  current: { word_count?: number | null; body_markdown?: string | null },
+  isPageMode: boolean,
+): boolean {
+  const words = current.word_count ?? 0;
+  const bodyLen = (current.body_markdown ?? "").trim().length;
+  if (isPageMode) {
+    return bodyLen > Math.max(baselineBodyLen + 400, 800);
+  }
+  if (words >= Math.max(baselineWords + 150, 250)) return true;
+  if (bodyLen >= Math.max(baselineBodyLen + 800, 1200)) return true;
+  return false;
+}
+
 function scoreColor(score: number): string {
   if (score >= 75) return "#0e9f6e"; // emerald
   if (score >= 50) return "#d97706"; // amber
@@ -1141,13 +1158,13 @@ export default function AdminContentEditorBriefPage({ briefId: briefIdProp }: Pr
   const [optimizeError, setOptimizeError] = useState<string | null>(null);
   const [optimizeStartedAt, setOptimizeStartedAt] = useState<number | null>(null);
   /**
-   * Baseline marker used to detect when Auto-Optimize completes. We use the
-   * draft's updated_at timestamp at click time because saveDraft does an
-   * in-place UPDATE (not INSERT) — the draft id is stable across runs so
-   * we can't compare ids. If currentDraft.updated_at advances past this
-   * baseline, the optimize has landed.
+   * Baselines captured when Auto-Optimize starts (from the 202 response).
+   * Completion requires draft body growth — not merely updated_at, which
+   * live scoring can bump without writing content.
    */
   const [optimizeBaselineUpdatedAt, setOptimizeBaselineUpdatedAt] = useState<string | null>(null);
+  const [optimizeBaselineWordCount, setOptimizeBaselineWordCount] = useState(0);
+  const [optimizeBaselineBodyLength, setOptimizeBaselineBodyLength] = useState(0);
 
   const trackedPageIdForRuns = state?.linkedPage?.id ?? null;
   const {
@@ -1400,8 +1417,12 @@ export default function AdminContentEditorBriefPage({ briefId: briefIdProp }: Pr
     if (typeof window === "undefined" || !editorId) return;
     const startedKey = `content-editor-optimize-start:${editorId}`;
     const baselineKey = `content-editor-optimize-baseline:${editorId}`;
+    const baselineWordsKey = `content-editor-optimize-baseline-words:${editorId}`;
+    const baselineBodyKey = `content-editor-optimize-baseline-body:${editorId}`;
     const startedRaw = window.sessionStorage.getItem(startedKey);
     const baseline = window.sessionStorage.getItem(baselineKey);
+    const baselineWordsRaw = window.sessionStorage.getItem(baselineWordsKey);
+    const baselineBodyRaw = window.sessionStorage.getItem(baselineBodyKey);
     if (startedRaw) {
       const startedAt = Number(startedRaw);
       if (Number.isFinite(startedAt) && startedAt > 0) {
@@ -1412,51 +1433,71 @@ export default function AdminContentEditorBriefPage({ briefId: briefIdProp }: Pr
           setOptimizing(true);
           setOptimizeStartedAt(startedAt);
           setOptimizeBaselineUpdatedAt(baseline);
+          setOptimizeBaselineWordCount(Number(baselineWordsRaw) || 0);
+          setOptimizeBaselineBodyLength(Number(baselineBodyRaw) || 0);
         } else {
           window.sessionStorage.removeItem(startedKey);
           window.sessionStorage.removeItem(baselineKey);
+          window.sessionStorage.removeItem(baselineWordsKey);
+          window.sessionStorage.removeItem(baselineBodyKey);
         }
       }
     }
   }, [editorId]);
 
-  // Detect completion by watching the current draft's updated_at advance
-  // past the baseline captured at click time. saveDraft does in-place
-  // UPDATE so the row id is stable — updated_at is the signal.
+  // Detect completion when the server draft gains real body content (not
+  // when live scoring bumps updated_at alone).
   useEffect(() => {
     if (!optimizing || !editorId) return;
-    const currentUpdatedAt = state?.currentDraft?.updated_at ?? null;
-    if (!currentUpdatedAt) return;
+    const draft = state?.currentDraft;
+    if (!draft) return;
+
+    const landed = autoOptimizeDraftLanded(
+      optimizeBaselineWordCount,
+      optimizeBaselineBodyLength,
+      {
+        word_count: draft.word_count,
+        body_markdown: draft.body_markdown,
+      },
+      isPageMode,
+    );
+    if (!landed) return;
+
     const baseline = optimizeBaselineUpdatedAt;
-    // If we have no baseline (rare — e.g. user clicked Reset and the
-    // sessionStorage was cleared) treat any timestamp newer than the
-    // optimize start as completion.
     const baselineDate = baseline ? Date.parse(baseline) : (optimizeStartedAt ?? 0);
-    if (!Number.isFinite(baselineDate)) return;
-    const curDate = Date.parse(currentUpdatedAt);
-    if (Number.isFinite(curDate) && curDate > baselineDate) {
-      setOptimizing(false);
-      setOptimizeStartedAt(null);
-      setOptimizeBaselineUpdatedAt(null);
-      if (typeof window !== "undefined") {
-        window.sessionStorage.removeItem(`content-editor-optimize-start:${editorId}`);
-        window.sessionStorage.removeItem(`content-editor-optimize-baseline:${editorId}`);
-      }
-      void refresh({ silent: true }).then(() => {
-        setAutoPublishResult({
-          ok: true,
-          message:
-            "Auto-Optimize finished. The draft was saved and synced to your blog post or page SEO — review below.",
-        });
-      });
+    const curDate = draft.updated_at ? Date.parse(draft.updated_at) : NaN;
+    if (baseline && Number.isFinite(baselineDate) && Number.isFinite(curDate) && curDate <= baselineDate) {
+      return;
     }
+
+    setOptimizing(false);
+    setOptimizeStartedAt(null);
+    setOptimizeBaselineUpdatedAt(null);
+    setOptimizeBaselineWordCount(0);
+    setOptimizeBaselineBodyLength(0);
+    if (typeof window !== "undefined") {
+      window.sessionStorage.removeItem(`content-editor-optimize-start:${editorId}`);
+      window.sessionStorage.removeItem(`content-editor-optimize-baseline:${editorId}`);
+      window.sessionStorage.removeItem(`content-editor-optimize-baseline-words:${editorId}`);
+      window.sessionStorage.removeItem(`content-editor-optimize-baseline-body:${editorId}`);
+    }
+    void refresh({ silent: true }).then(() => {
+      setAutoPublishResult({
+        ok: true,
+        message:
+          "Auto-Optimize finished. The draft was saved and synced to your blog post or page SEO — review below.",
+      });
+    });
   }, [
     optimizing,
-    state?.currentDraft?.updated_at,
+    state?.currentDraft,
     optimizeBaselineUpdatedAt,
+    optimizeBaselineWordCount,
+    optimizeBaselineBodyLength,
     optimizeStartedAt,
     editorId,
     refresh,
+    isPageMode,
   ]);
 
   // While optimizing, poll the server every 4s so we pick up the new draft.
@@ -1475,7 +1516,7 @@ export default function AdminContentEditorBriefPage({ briefId: briefIdProp }: Pr
     editorId,
     includeFactCoverage: factCoverageEnabled,
     debounceMs: 1200,
-    persist: !isPageMode,
+    persist: !isPageMode && !optimizing,
   });
   function handleDownloadGuidelines() {
     if (!state) return;
@@ -1550,9 +1591,13 @@ export default function AdminContentEditorBriefPage({ briefId: briefIdProp }: Pr
     setOptimizing(false);
     setOptimizeStartedAt(null);
     setOptimizeBaselineUpdatedAt(null);
+    setOptimizeBaselineWordCount(0);
+    setOptimizeBaselineBodyLength(0);
     if (typeof window !== "undefined" && editorId) {
       window.sessionStorage.removeItem(`content-editor-optimize-start:${editorId}`);
       window.sessionStorage.removeItem(`content-editor-optimize-baseline:${editorId}`);
+      window.sessionStorage.removeItem(`content-editor-optimize-baseline-words:${editorId}`);
+      window.sessionStorage.removeItem(`content-editor-optimize-baseline-body:${editorId}`);
     }
   }
 
@@ -1564,7 +1609,6 @@ export default function AdminContentEditorBriefPage({ briefId: briefIdProp }: Pr
     setOptimizeError(null);
     setAutoPublishResult(null);
 
-    const baselineUpdatedAt = state.currentDraft?.updated_at ?? null;
     const startedAt = Date.now();
 
     try {
@@ -1581,13 +1625,26 @@ export default function AdminContentEditorBriefPage({ briefId: briefIdProp }: Pr
             : {}),
         }),
       });
-      const data = (await res.json().catch(() => ({}))) as { ok?: boolean; error?: string };
+      const data = (await res.json().catch(() => ({}))) as {
+        ok?: boolean;
+        error?: string;
+        baseline_updated_at?: string | null;
+        baseline_word_count?: number;
+        baseline_body_length?: number;
+      };
       if (!res.ok || data.ok === false) {
         throw new Error(data.error ?? `Auto-Optimize request failed (HTTP ${res.status}).`);
       }
+      const baselineUpdatedAt = data.baseline_updated_at ?? state.currentDraft?.updated_at ?? null;
+      const baselineWordCount = data.baseline_word_count ?? state.currentDraft?.word_count ?? 0;
+      const baselineBodyLength =
+        data.baseline_body_length ?? (state.currentDraft?.body_markdown ?? "").trim().length;
+
       setOptimizing(true);
       setOptimizeStartedAt(startedAt);
       setOptimizeBaselineUpdatedAt(baselineUpdatedAt);
+      setOptimizeBaselineWordCount(baselineWordCount);
+      setOptimizeBaselineBodyLength(baselineBodyLength);
       if (typeof window !== "undefined") {
         window.sessionStorage.setItem(
           `content-editor-optimize-start:${editorId}`,
@@ -1596,6 +1653,14 @@ export default function AdminContentEditorBriefPage({ briefId: briefIdProp }: Pr
         window.sessionStorage.setItem(
           `content-editor-optimize-baseline:${editorId}`,
           baselineUpdatedAt ?? "",
+        );
+        window.sessionStorage.setItem(
+          `content-editor-optimize-baseline-words:${editorId}`,
+          String(baselineWordCount),
+        );
+        window.sessionStorage.setItem(
+          `content-editor-optimize-baseline-body:${editorId}`,
+          String(baselineBodyLength),
         );
       }
       setPublishPickerOpen(false);

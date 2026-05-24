@@ -30,6 +30,16 @@ export const ADMIN_CHANGELOG_CATEGORY_LABEL: Record<AdminChangelogCategory, stri
 /** Newest first — maintain this order when adding entries. */
 export const ADMIN_CHANGELOG: AdminChangelogEntry[] = [
   {
+    id: "2026-05-22-blog-planner",
+    date: "2026-05-22",
+    category: "new",
+    title: "Blog Planner",
+    summary:
+      "Mark service pages as hubs, discover supporting blog topics (Semrush + AI), track coverage toward a target count, create brief-only Content Editors, and attach existing posts or editors.",
+    href: "/admin/blog-planner",
+    hrefLabel: "Blog Planner",
+  },
+  {
     id: "2026-05-21-content-editor-bulk-sync",
     date: "2026-05-21",
     category: "new",

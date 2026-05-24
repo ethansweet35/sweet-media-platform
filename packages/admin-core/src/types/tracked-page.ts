@@ -7,6 +7,9 @@ export interface TrackedPage {
   default_seo_title: string | null;
   default_meta_description: string | null;
   primary_keyword: string | null;
+  is_blog_hub?: boolean;
+  is_blog_hub_misc?: boolean;
+  blog_hub_target_count?: number | null;
   is_active: boolean;
   display_order: number;
   notes: string | null;
@@ -39,4 +42,7 @@ export type TrackedPageUpdates = Partial<{
   display_order: number;
   published_url: string | null;
   content_editor_id: string | null;
+  is_blog_hub: boolean;
+  is_blog_hub_misc: boolean;
+  blog_hub_target_count: number | null;
 }>;

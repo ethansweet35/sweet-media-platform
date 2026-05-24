@@ -50,6 +50,10 @@ export {
   runAutoOptimize,
   type AutoOptimizeOptions,
 } from "./autoOptimize";
+export {
+  handleContentEditorAutoOptimizePost,
+  type ContentEditorAutoOptimizeRequest,
+} from "./autoOptimizeRoute";
 
 export {
   syncEditorDraftToBlogPost,

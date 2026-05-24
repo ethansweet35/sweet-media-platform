@@ -105,6 +105,8 @@ export {
   runContentEditorPipeline,
   runAutoOptimize,
   type AutoOptimizeOptions,
+  handleContentEditorAutoOptimizePost,
+  type ContentEditorAutoOptimizeRequest,
   resolveEditorPublishLink,
   ensureBlogPostForEditor,
   linkEditorToTrackedPage,
@@ -235,3 +237,52 @@ export async function getRevalidationPathsForEditor(editorId: string) {
   const mod = await loadAiOptimizeRuns();
   return mod.getRevalidationPathsForEditor(editorId);
 }
+
+export {
+  ensureMiscellaneousHub,
+  discoverTopicsForHub,
+  createBriefEditorFromPlannerItem,
+  type CreatePlannerEditorResult,
+  computeCoverage,
+  handleBlogPlannerHubsGet,
+  handleBlogPlannerHubPatch,
+  handleBlogPlannerHubDetailGet,
+  handleBlogPlannerDiscoverPost,
+  handleBlogPlannerCreateEditorPost,
+  handleBlogPlannerItemPost,
+  handleBlogPlannerItemPatch,
+  handleBlogPlannerLinkPost,
+  handleBlogPlannerAttachablesGet,
+} from "./lib/server/blogPlanner";
+
+export {
+  runBlogPlannerBulkJob,
+  startBlogPlannerBulkJob,
+  getActiveBlogPlannerBulkJob,
+  cancelBlogPlannerBulkJob,
+  handleBlogPlannerBulkJobsPost,
+  handleBlogPlannerBulkJobsActiveGet,
+  handleBlogPlannerBulkJobCancelPost,
+  handleBlogPlannerBulkJobContinuePost,
+} from "./lib/server/blogPlannerBulkJobs";
+
+export {
+  startContentEditorBulkJob,
+  runContentEditorBulkJob,
+  getActiveContentEditorBulkJob,
+  cancelContentEditorBulkJob,
+  parseBulkCreateLines,
+  handleContentEditorBulkJobsPost,
+  handleContentEditorBulkJobsActiveGet,
+  handleContentEditorBulkJobCancelPost,
+  handleContentEditorBulkJobContinuePost,
+} from "./lib/server/contentEditorBulkJobs";
+
+export {
+  listContentEditorsForCalendarImport,
+  importContentEditorsToBlogQueue,
+  handleContentCalendarEditorSourcesGet,
+  handleContentCalendarImportFromEditorsPost,
+  type CalendarEditorSourceRow,
+  type ImportFromEditorsInput,
+} from "./lib/server/contentCalendarEditorImport";

@@ -4,6 +4,7 @@ import { useMemo, useState, type ReactNode } from "react";
 import AdminPageHeader from "../components/AdminPageHeader";
 import { ADMIN_OCEAN } from "../lib/adminTheme";
 import { useBlogQueue } from "../hooks/useBlogQueue";
+import ContentEditorQueueImport from "../components/pages/admin/content-calendar/components/ContentEditorQueueImport";
 import QueueCsvUpload from "../components/pages/admin/content-calendar/components/QueueCsvUpload";
 import QueueTable from "../components/pages/admin/content-calendar/components/QueueTable";
 import QueueCalendarView from "../components/pages/admin/content-calendar/components/QueueCalendarView";
@@ -17,6 +18,7 @@ export default function AdminContentCalendarPage() {
   const [tab, setTab] = useState<TabKey>("queue");
   const [highlightedId, setHighlightedId] = useState<string | null>(null);
   const [batchModelId, setBatchModelId] = useState(DEFAULT_MODEL_ID);
+  const [editorImportOpen, setEditorImportOpen] = useState(false);
 
   const notify = (message: string, type: "success" | "error" = "success") => {
     setToast({ message, type });
@@ -89,6 +91,36 @@ export default function AdminContentCalendarPage() {
           </p>
         </div>
       </div>
+
+      <div className="mb-6 rounded-2xl border border-black/[0.06] bg-white/80 p-6 shadow-sm [font-family:var(--font-outfit-sans),system-ui,sans-serif]">
+        <div className="flex flex-wrap items-start justify-between gap-4">
+          <div>
+            <h2 className={`text-lg font-semibold tracking-tight ${"[font-family:var(--font-cormorant-garamond),serif]"}`}>
+              Pull from Content Editor
+            </h2>
+            <p className="mt-1 text-sm text-black/55 max-w-xl">
+              Sync drafts from existing briefs into blog posts and schedule them on the calendar — up
+              to 20 at a time. No AI rewrite; uses the draft already in the editor.
+            </p>
+          </div>
+          <button
+            type="button"
+            onClick={() => setEditorImportOpen(true)}
+            className="inline-flex items-center gap-2 rounded-xl px-5 py-2.5 text-[11px] font-bold uppercase tracking-[0.12em] text-white shrink-0"
+            style={{ backgroundColor: ADMIN_OCEAN }}
+          >
+            <i className="ri-download-cloud-line" /> Pull from editors
+          </button>
+        </div>
+      </div>
+
+      <ContentEditorQueueImport
+        open={editorImportOpen}
+        onClose={() => setEditorImportOpen(false)}
+        onImported={(msg) => {
+          void refetch().then(() => notify(msg));
+        }}
+      />
 
       <div className="mb-8">
         <QueueCsvUpload batchModelId={batchModelId} createItems={createItems} notify={notify} />

@@ -10,6 +10,8 @@ export interface BlogQueueItem {
   error_message: string | null;
   /** OpenRouter model id; null uses edge function default. */
   model_id: string | null;
+  /** When set, draft was synced from this Content Editor (no AI queue generation). */
+  content_editor_id: string | null;
   created_at: string;
   updated_at: string;
 }

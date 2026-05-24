@@ -258,6 +258,7 @@ create table if not exists public.blog_queue (
   model_id text,
   batch_model_id text,
   generated_post_id uuid references public.blog_posts(id) on delete set null,
+  content_editor_id uuid references public.content_editors(id) on delete set null,
   error_message text,
   scheduled_publish_at timestamptz,
   created_at timestamptz not null default now(),
@@ -294,6 +295,9 @@ create table if not exists public.tracked_pages (
   default_seo_title text,
   default_meta_description text,
   primary_keyword text,
+  is_blog_hub boolean not null default false,
+  is_blog_hub_misc boolean not null default false,
+  blog_hub_target_count integer,
   is_active boolean not null default true,
   display_order integer not null default 0,
   notes text,
@@ -314,6 +318,49 @@ create table if not exists public.tracked_pages (
 );
 
 create index if not exists tracked_pages_content_editor_idx on public.tracked_pages(content_editor_id);
+
+-- =========================================================
+-- BLOG PLANNER
+-- =========================================================
+
+create table if not exists public.blog_planner_items (
+  id uuid primary key default gen_random_uuid(),
+  hub_tracked_page_id uuid not null references public.tracked_pages(id) on delete cascade,
+  source text not null check (source in ('semrush', 'ai', 'manual')),
+  primary_keyword text not null,
+  suggested_title text not null default '',
+  suggested_meta_description text,
+  suggested_h1 text,
+  search_volume integer,
+  keyword_difficulty integer,
+  cpc numeric(10,2),
+  status text not null default 'idea' check (status in ('idea', 'content_editor', 'published', 'dismissed')),
+  content_editor_id uuid references public.content_editors(id) on delete set null,
+  blog_post_id uuid references public.blog_posts(id) on delete set null,
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now()
+);
+
+create unique index if not exists blog_planner_items_hub_keyword_uidx
+  on public.blog_planner_items (hub_tracked_page_id, lower(primary_keyword));
+
+create index if not exists blog_planner_items_hub_status_idx
+  on public.blog_planner_items (hub_tracked_page_id, status);
+
+create table if not exists public.blog_planner_hub_links (
+  id uuid primary key default gen_random_uuid(),
+  hub_tracked_page_id uuid not null references public.tracked_pages(id) on delete cascade,
+  content_editor_id uuid references public.content_editors(id) on delete cascade,
+  blog_post_id uuid references public.blog_posts(id) on delete cascade,
+  created_at timestamptz not null default now(),
+  constraint blog_planner_hub_links_target_check check (
+    (content_editor_id is not null and blog_post_id is null)
+    or (content_editor_id is null and blog_post_id is not null)
+  )
+);
+
+alter table public.blog_planner_items enable row level security;
+alter table public.blog_planner_hub_links enable row level security;
 
 -- =========================================================
 -- CONTENT CHANGE LOG (SEO timeline / impact monitoring)

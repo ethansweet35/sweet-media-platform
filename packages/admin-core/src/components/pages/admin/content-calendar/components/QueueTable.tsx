@@ -158,6 +158,15 @@ export default function QueueTable({
                     {item.blog_title}
                   </div>
                   <div className="mt-0.5 text-xs text-black/45">{item.primary_keyword}</div>
+                  {item.content_editor_id ? (
+                    <Link
+                      href={`/admin/content-editor/${item.content_editor_id}`}
+                      className="mt-1 inline-flex items-center gap-1 text-[10px] font-semibold text-[#507969] hover:underline"
+                      onClick={(e) => e.stopPropagation()}
+                    >
+                      <i className="ri-quill-pen-fill" /> From Content Editor
+                    </Link>
+                  ) : null}
                 </td>
                 <td className="align-top px-4 py-3 font-mono text-xs text-black/60">{item.url_slug}</td>
                 <td className="align-top whitespace-nowrap px-4 py-3 text-xs text-black/65">
@@ -178,7 +187,8 @@ export default function QueueTable({
                         View draft
                       </Link>
                     )}
-                    {(item.status === "pending" || item.status === "failed") && (
+                    {(item.status === "pending" || item.status === "failed") &&
+                      !item.content_editor_id && (
                       <button
                         type="button"
                         disabled={busyId === item.id}

@@ -43,6 +43,7 @@ export const ADMIN_NAV_GROUPS: AdminNavGroup[] = [
       { href: "/admin/pages", label: "Pages", icon: "ri-pages-line" },
       { href: "/admin/content-editor", label: "Content Editor", icon: "ri-quill-pen-fill", shortLabel: "Editor" },
       { href: "/admin/keyword-research", label: "Keyword Research", icon: "ri-search-eye-line", shortLabel: "Keywords" },
+      { href: "/admin/blog-planner", label: "Blog Planner", icon: "ri-node-tree", shortLabel: "Planner" },
       { href: "/admin/internal-links", label: "Internal Links", icon: "ri-links-line", shortLabel: "Links" },
     ],
   },
