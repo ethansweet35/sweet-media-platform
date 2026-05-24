@@ -20,6 +20,8 @@ const playfair = Playfair_Display({
   display: "swap",
 });
 
+/** Tab / PWA icons: RealFaviconGenerator assets in `public/` + `site.webmanifest`. */
+
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? "https://tfrfoundation.org"),
   title: {
@@ -28,6 +30,15 @@ export const metadata: Metadata = {
   },
   description:
     "The Family Recovery Foundation stands with families impacted by addiction through prevention, education, and support.",
+  icons: {
+    icon: [
+      { url: "/favicon.ico", sizes: "any" },
+      { url: "/favicon-96x96.png", type: "image/png", sizes: "96x96" },
+      { url: "/favicon.svg", type: "image/svg+xml" },
+    ],
+    apple: [{ url: "/apple-touch-icon.png", sizes: "180x180" }],
+  },
+  manifest: "/site.webmanifest",
 };
 
 export default function RootLayout({
