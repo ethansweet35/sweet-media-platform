@@ -1,8 +1,9 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, type ReactNode } from "react";
 import { useRouter } from "next/navigation";
 import LazyImage from "@/components/base/LazyImage";
+import { RESULTS_CASE_STUDIES, type CaseStudyData } from "@/views/results/resultsContentDefaults";
 
 function MiniSparkline({ pts, animate }: { pts: number[]; animate: boolean }) {
   const w = 280, h = 48, pad = 5;
@@ -75,58 +76,39 @@ function MiniBarChart({ bars, animate }: { bars: { label: string; val: number; h
   );
 }
 
-// Add optional caseStudyHref to remaining entries so TS is happy
-type CaseStudy = {
-  idx: string;
-  client: string;
-  location: string;
-  tag: string;
-  tagIcon: string;
-  headline: string;
-  detail: string;
-  metrics: { val: string; label: string }[];
-  chartType: "bars" | "spark" | "funnel";
-  bars?: { label: string; val: number; highlight?: boolean }[];
-  sparkPts?: number[];
-  sparkLabel?: string;
-  funnelSteps?: { label: string; val: string; pct: number }[];
-  image: string;
-  caseStudyHref?: string;
-};
+type CaseStudy = CaseStudyData;
 
-const caseStudies: CaseStudy[] = [
-  {
-    idx: "01",
-    client: "California Prime Recovery",
-    location: "Orange County, CA",
-    tag: "Full-Funnel",
-    tagIcon: "ri-funds-line",
-    headline: "30% Reduction in Paid CPA + Passing Core Web Vitals",
-    detail: "Optimized paid campaigns, introduced AI chatbot lead capture, improved website to passing Core Web Vitals, and built a scalable SEO content system — creating a more efficient digital admissions engine.",
-    metrics: [{ val: "↓30%", label: "Paid CPA" }, { val: "Passing", label: "Core Web Vitals" }, { val: "AI-Powered", label: "Lead Capture" }],
-    chartType: "bars" as const,
-    bars: [{ label: "Jan", val: 100 }, { label: "Feb", val: 92 }, { label: "Mar", val: 84 }, { label: "Apr", val: 78 }, { label: "May", val: 74 }, { label: "Jun", val: 70, highlight: true }],
-    image: "https://ynmldknprfusujudvutq.supabase.co/storage/v1/object/public/public_bucket/cs-cpr.jpg",
-    caseStudyHref: "/case-studies/california-prime-recovery",
-  },
-  {
-    idx: "02",
-    client: "Rize OC",
-    location: "Orange County, CA",
-    tag: "Paid Media",
-    tagIcon: "ri-funds-box-line",
-    headline: "$10K to $300K/Month in Ad Spend — CPA Dropped 67% in 4 Months",
-    detail: "Built a full multi-channel paid acquisition system across Google, Bing, and Meta. Scaled from $10K to $300K/month in ad spend while cutting CPA from $350 to $115 through intent-based campaign segmentation, dedicated landing pages, and geographic targeting.",
-    metrics: [{ val: "30×", label: "Spend Scaled" }, { val: "↓67%", label: "CPA Reduction" }, { val: "$115", label: "Avg CPA" }],
-    chartType: "spark" as const,
-    sparkPts: [10, 18, 30, 52, 80, 110, 148, 190, 230, 265, 290, 300],
-    sparkLabel: "Ad Spend Growth — 4 Months ($10K → $300K)",
-    image: "https://ynmldknprfusujudvutq.supabase.co/storage/v1/object/public/public_bucket/cs-rizeoc.jpg",
-    caseStudyHref: "/case-studies/rize-oc",
-  },
-];
+export interface CaseStudyContentSlots {
+  image?: ReactNode;
+  client?: ReactNode;
+  location?: ReactNode;
+  tag?: ReactNode;
+  headline?: ReactNode;
+  detail?: ReactNode;
+  sparkLabel?: ReactNode;
+  metrics?: Array<{ val?: ReactNode; label?: ReactNode }>;
+}
 
-export default function ResultsCaseStudies({ hideHeader = false }: { hideHeader?: boolean }) {
+export interface ResultsCaseStudiesHeaderSlots {
+  eyebrow?: ReactNode;
+  headlineLine1?: ReactNode;
+  headlineLine2?: ReactNode;
+  body?: ReactNode;
+}
+
+export interface ResultsCaseStudiesProps {
+  hideHeader?: boolean;
+  header?: ResultsCaseStudiesHeaderSlots;
+  cardSlots?: CaseStudyContentSlots[];
+}
+
+const caseStudies = RESULTS_CASE_STUDIES;
+
+export default function ResultsCaseStudies({
+  hideHeader = false,
+  header,
+  cardSlots,
+}: ResultsCaseStudiesProps) {
   const sectionRef = useRef<HTMLElement>(null);
   const [animate, setAnimate] = useState(false);
   const [visible, setVisible] = useState(false);
@@ -149,7 +131,7 @@ export default function ResultsCaseStudies({ hideHeader = false }: { hideHeader?
             <div className="flex items-center justify-center gap-3 mb-5 lg:justify-start">
               <div className="w-8 h-px bg-[#0A1F44]" />
               <span className="text-[10px] tracking-[0.35em] uppercase text-[#0A1F44] font-semibold">
-                Case Studies
+                {header?.eyebrow ?? "Case Studies"}
               </span>
             </div>
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-end">
@@ -157,15 +139,15 @@ export default function ResultsCaseStudies({ hideHeader = false }: { hideHeader?
                 className="text-4xl md:text-5xl font-bold text-black leading-tight text-center lg:text-left"
                 style={{ fontFamily: "'Playfair Display', serif" }}
               >
-                Real Campaigns,
+                {header?.headlineLine1 ?? "Real Campaigns,"}
                 <br />
                 <em className="font-light italic" style={{ color: "#0A1F44" }}>
-                  Real Outcomes.
+                  {header?.headlineLine2 ?? "Real Outcomes."}
                 </em>
               </h2>
               <p className="text-black/55 text-sm leading-relaxed max-w-md text-center lg:text-right mx-auto lg:mx-0">
-                Every case below is a real behavioral health client. Real numbers, real timelines,
-                real admissions growth. No cherry-picked outliers.
+                {header?.body ??
+                  "Every case below is a real behavioral health client. Real numbers, real timelines, real admissions growth. No cherry-picked outliers."}
               </p>
             </div>
           </div>
@@ -173,16 +155,20 @@ export default function ResultsCaseStudies({ hideHeader = false }: { hideHeader?
 
         {/* Case Study Grid */}
         <div className={`grid grid-cols-1 lg:grid-cols-2 gap-5 transition-all duration-700 delay-100 ${visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"}`}>
-          {caseStudies.map((cs) => (
+          {caseStudies.map((cs, index) => {
+            const slots = cardSlots?.[index];
+            return (
             <div key={cs.idx} className="bg-white rounded-3xl overflow-hidden border border-black/6 hover:border-black/15 transition-all duration-300 flex flex-col">
               {/* Image */}
               <div className="relative h-52 w-full overflow-hidden flex-shrink-0">
-                <LazyImage src={cs.image} alt={cs.client} className="w-full h-full object-cover object-top" />
+                {slots?.image ?? (
+                  <LazyImage src={cs.image} alt={cs.client} className="w-full h-full object-cover object-top" />
+                )}
                 <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
                 <div className="absolute top-4 left-4">
                   <span className="inline-flex items-center gap-1.5 text-[10px] tracking-[0.2em] uppercase font-bold bg-white text-black px-3 py-1.5 rounded-full whitespace-nowrap">
                     <i className={`${cs.tagIcon} text-xs`}></i>
-                    {cs.tag}
+                    {slots?.tag ?? cs.tag}
                   </span>
                 </div>
                 <div className="absolute top-4 right-4">
@@ -191,18 +177,22 @@ export default function ResultsCaseStudies({ hideHeader = false }: { hideHeader?
                 <div className="absolute bottom-4 left-4">
                   <div className="flex items-center gap-1.5 mb-1">
                     <i className="ri-map-pin-2-line text-white/50 text-xs"></i>
-                    <span className="text-xs text-white/50">{cs.location}</span>
+                    <span className="text-xs text-white/50">{slots?.location ?? cs.location}</span>
                   </div>
-                  <div className="text-sm font-semibold text-white" style={{ fontFamily: "'Playfair Display', serif" }}>{cs.client}</div>
+                  <div className="text-sm font-semibold text-white" style={{ fontFamily: "'Playfair Display', serif" }}>
+                    {slots?.client ?? cs.client}
+                  </div>
                 </div>
               </div>
 
               {/* Content */}
               <div className="p-7 flex flex-col flex-1">
                 <h3 className="text-lg font-bold text-black leading-tight mb-3" style={{ fontFamily: "'Playfair Display', serif" }}>
-                  {cs.headline}
+                  {slots?.headline ?? cs.headline}
                 </h3>
-                <p className="text-sm text-black/55 leading-relaxed font-light flex-1">{cs.detail}</p>
+                <p className="text-sm text-black/55 leading-relaxed font-light flex-1">
+                  {slots?.detail ?? cs.detail}
+                </p>
 
                 {/* Chart */}
                 <div className="mt-5 pt-4 border-t border-black/6">
@@ -223,7 +213,9 @@ export default function ResultsCaseStudies({ hideHeader = false }: { hideHeader?
                   )}
                   {cs.chartType === "spark" && cs.sparkPts && (
                     <div>
-                      <div className="text-[9px] tracking-[0.3em] uppercase text-black/35 mb-2">{cs.sparkLabel ?? "Growth Trajectory — 12 Weeks"}</div>
+                      <div className="text-[9px] tracking-[0.3em] uppercase text-black/35 mb-2">
+                        {slots?.sparkLabel ?? cs.sparkLabel ?? "Growth Trajectory — 12 Weeks"}
+                      </div>
                       <MiniSparkline pts={cs.sparkPts} animate={animate} />
                     </div>
                   )}
@@ -247,10 +239,14 @@ export default function ResultsCaseStudies({ hideHeader = false }: { hideHeader?
 
                 {/* Metrics */}
                 <div className="mt-4 pt-4 border-t border-black/6 grid grid-cols-3 gap-2">
-                  {cs.metrics.map((m) => (
+                  {cs.metrics.map((m, metricIndex) => (
                     <div key={m.label} className="text-center">
-                      <div className="text-lg font-bold text-black" style={{ fontFamily: "'Playfair Display', serif" }}>{m.val}</div>
-                      <div className="text-[9px] uppercase tracking-widest text-black/40 mt-0.5">{m.label}</div>
+                      <div className="text-lg font-bold text-black" style={{ fontFamily: "'Playfair Display', serif" }}>
+                        {slots?.metrics?.[metricIndex]?.val ?? m.val}
+                      </div>
+                      <div className="text-[9px] uppercase tracking-widest text-black/40 mt-0.5">
+                        {slots?.metrics?.[metricIndex]?.label ?? m.label}
+                      </div>
                     </div>
                   ))}
                 </div>
@@ -267,7 +263,8 @@ export default function ResultsCaseStudies({ hideHeader = false }: { hideHeader?
                 )}
               </div>
             </div>
-          ))}
+            );
+          })}
         </div>
       </div>
     </section>

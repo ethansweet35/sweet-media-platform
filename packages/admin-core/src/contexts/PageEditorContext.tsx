@@ -72,6 +72,26 @@ export function PageEditorContextProvider({ children }: ProviderProps) {
   const [status, setStatus] = useState<"idle" | "saving" | "publishing" | "discarding">("idle");
   const [message, setMessage] = useState<string | null>(null);
   const adminCheckRef = useRef(false);
+  /** When set, overrides URL/cookie auto-detection until the route changes. */
+  const userEditPreferenceRef = useRef<boolean | null>(null);
+
+  const syncEditQueryParam = useCallback(
+    (enabled: boolean) => {
+      if (typeof window === "undefined") return;
+      const url = new URL(window.location.href);
+      if (enabled) {
+        url.searchParams.set(EDIT_QUERY_KEY, "1");
+      } else {
+        url.searchParams.delete(EDIT_QUERY_KEY);
+      }
+      const next = `${url.pathname}${url.search}${url.hash}`;
+      const current = `${window.location.pathname}${window.location.search}${window.location.hash}`;
+      if (next !== current) {
+        router.replace(next, { scroll: false });
+      }
+    },
+    [router],
+  );
 
   const checkAdmin = useCallback(async (email: string | null | undefined) => {
     if (!email) return false;
@@ -125,14 +145,27 @@ export function PageEditorContextProvider({ children }: ProviderProps) {
     };
   }, [checkAdmin]);
 
-  // Determine initial edit mode from cookie + ?sm_edit=1 search param.
-  // Read window.location.search directly to avoid forcing the whole page
-  // tree into client-render via useSearchParams().
+  // Reset manual preference when navigating to a different route.
   useEffect(() => {
+    userEditPreferenceRef.current = null;
+  }, [pathname]);
+
+  // Determine edit mode from URL/cookie unless the user explicitly toggled on this route.
+  useEffect(() => {
+    if (!isAdmin) {
+      setIsEditMode(false);
+      return;
+    }
+
+    if (userEditPreferenceRef.current !== null) {
+      setIsEditMode(userEditPreferenceRef.current);
+      return;
+    }
+
     if (typeof window === "undefined") return;
     const params = new URLSearchParams(window.location.search);
     const wantsEdit = params.get(EDIT_QUERY_KEY) === "1" || getEditCookie();
-    setIsEditMode(wantsEdit && isAdmin);
+    setIsEditMode(wantsEdit);
   }, [isAdmin, pathname]);
 
   // Persist edit-mode preference to cookie so it follows across routes.
@@ -143,15 +176,23 @@ export function PageEditorContextProvider({ children }: ProviderProps) {
 
   const toggleEditMode = useCallback(() => {
     if (!isAdmin) return;
-    setIsEditMode((prev) => !prev);
+    setIsEditMode((prev) => {
+      const next = !prev;
+      userEditPreferenceRef.current = next;
+      writeEditCookie(next);
+      syncEditQueryParam(next);
+      return next;
+    });
     setMessage(null);
-  }, [isAdmin]);
+  }, [isAdmin, syncEditQueryParam]);
 
   const exitEditMode = useCallback(() => {
+    userEditPreferenceRef.current = false;
     setIsEditMode(false);
     setPending(new Map());
     writeEditCookie(false);
-  }, []);
+    syncEditQueryParam(false);
+  }, [syncEditQueryParam]);
 
   const fieldId = useCallback(
     (fieldKey: string) => buildPendingEditKey(routePath, fieldKey),

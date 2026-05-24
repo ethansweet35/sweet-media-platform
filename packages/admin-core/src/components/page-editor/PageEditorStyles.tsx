@@ -12,15 +12,17 @@
 const STYLES = `
   /* Editable text — subtle outline that doesn't shift layout. */
   .sm-page-edit-target {
-    outline: 1px dashed rgba(99, 102, 241, 0.45);
-    outline-offset: 2px;
-    border-radius: 2px;
+    outline: 2px dashed rgba(167, 139, 250, 0.85);
+    outline-offset: 3px;
+    border-radius: 3px;
     cursor: text;
-    transition: outline-color 120ms ease, background-color 120ms ease;
+    transition: outline-color 120ms ease, background-color 120ms ease, box-shadow 120ms ease;
+    box-shadow: 0 0 0 1px rgba(167, 139, 250, 0.15);
   }
   .sm-page-edit-target:hover {
-    outline-color: rgba(99, 102, 241, 0.8);
-    background-color: rgba(99, 102, 241, 0.05);
+    outline-color: #c4b5fd;
+    background-color: rgba(167, 139, 250, 0.14);
+    box-shadow: 0 0 0 1px rgba(167, 139, 250, 0.35);
   }
   .sm-page-edit-active {
     outline: 2px solid #4f46e5 !important;
@@ -371,7 +373,8 @@ const STYLES = `
     position: fixed;
     bottom: 1.25rem;
     left: 1.25rem;
-    z-index: 2147483640;
+    z-index: 2147483647;
+    pointer-events: auto;
   }
   .sm-page-editor-fab-button {
     display: inline-flex;
@@ -400,7 +403,8 @@ const STYLES = `
     bottom: 1rem;
     left: 50%;
     transform: translateX(-50%);
-    z-index: 2147483640;
+    z-index: 2147483647;
+    pointer-events: auto;
     max-width: calc(100vw - 2rem);
     width: max-content;
     background: rgba(15, 23, 42, 0.97);
@@ -440,6 +444,32 @@ const STYLES = `
   }
   .sm-page-editor-toolbar-pill i {
     font-size: 0.875rem;
+  }
+  .sm-page-editor-toolbar-pill-btn {
+    border: none;
+    cursor: pointer;
+    font: inherit;
+    transition: background 120ms ease, color 120ms ease;
+  }
+  .sm-page-editor-toolbar-pill-btn:hover:not(:disabled) {
+    background: rgba(79, 70, 229, 0.4);
+    color: #e0e7ff;
+  }
+  .sm-page-editor-toolbar-pill-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+  .sm-page-editor-toolbar-hint {
+    display: none;
+    font-size: 0.6875rem;
+    color: #94a3b8;
+    max-width: 11rem;
+    line-height: 1.35;
+  }
+  @media (min-width: 900px) {
+    .sm-page-editor-toolbar-hint {
+      display: block;
+    }
   }
   .sm-page-editor-toolbar-dirty {
     display: inline-flex;

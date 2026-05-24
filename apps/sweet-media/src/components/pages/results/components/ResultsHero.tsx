@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, type ReactNode } from "react";
 import Link from "next/link";
 
 const metrics = [
@@ -67,7 +67,19 @@ function AnimatedBar({ pct, color, animate, delay }: { pct: number; color: strin
   );
 }
 
-export default function ResultsHero() {
+export interface ResultsHeroProps {
+  eyebrow?: ReactNode;
+  headlineItalic?: ReactNode;
+  headlineBold?: ReactNode;
+  body?: ReactNode;
+}
+
+export default function ResultsHero({
+  eyebrow,
+  headlineItalic,
+  headlineBold,
+  body,
+}: ResultsHeroProps) {
   const [visible, setVisible] = useState(false);
   const [animate, setAnimate] = useState(false);
   const lineRef = useRef<HTMLDivElement>(null);
@@ -173,19 +185,29 @@ export default function ResultsHero() {
           <div className="flex-1 min-w-0">
             <div className={`flex items-center gap-3 mb-8 transition-all duration-700 justify-center lg:justify-start ${visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}`}>
               <div className="w-6 h-px bg-white/40 flex-shrink-0" />
-              <span className="text-[9px] tracking-[0.4em] uppercase text-white/50 font-medium">Verified Client Results</span>
+              <span className="text-[9px] tracking-[0.4em] uppercase text-white/50 font-medium">
+                {eyebrow ?? "Verified Client Results"}
+              </span>
             </div>
 
             <h1 className={`leading-[1.0] mb-6 transition-all duration-700 delay-100 text-center lg:text-left ${visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}`} style={{ fontFamily: "'Playfair Display', serif" }}>
-              <span className="block text-[42px] sm:text-[54px] md:text-[68px] font-light italic text-white/70">Numbers That</span>
-              <span className="block text-[42px] sm:text-[54px] md:text-[68px] font-bold text-white">Don&apos;t Lie.</span>
+              <span className="block text-[42px] sm:text-[54px] md:text-[68px] font-light italic text-white/70">
+                {headlineItalic ?? "Numbers That"}
+              </span>
+              <span className="block text-[42px] sm:text-[54px] md:text-[68px] font-bold text-white">
+                {headlineBold ?? "Don't Lie."}
+              </span>
             </h1>
 
             <div ref={lineRef} className="h-px bg-white/20 mb-8 transition-all duration-1000 ease-out max-w-full" style={{ width: "0%" }} />
 
-            <p className={`text-white/55 text-sm md:text-base leading-relaxed mb-10 max-w-xl font-light transition-all duration-700 delay-150 text-center lg:text-left mx-auto lg:mx-0 ${visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}`}>
-              Real numbers from real behavioral health clients. No cherry-picked outliers — these are our averages across all active accounts, with full case studies and verified testimonials below.
-            </p>
+            <div className={`text-white/55 text-sm md:text-base leading-relaxed mb-10 max-w-xl font-light transition-all duration-700 delay-150 text-center lg:text-left mx-auto lg:mx-0 ${visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}`}>
+              {body ?? (
+                <p className="text-white/55 text-sm md:text-base leading-relaxed font-light">
+                  Real numbers from real behavioral health clients. No cherry-picked outliers — these are our averages across all active accounts, with full case studies and verified testimonials below.
+                </p>
+              )}
+            </div>
 
             <div className={`flex flex-wrap items-center gap-4 transition-all duration-700 delay-300 justify-center lg:justify-start ${visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}`}>
               <a href="#results-case-studies" className="inline-flex items-center gap-2.5 bg-white text-[#0A1F44] text-[11px] tracking-[0.2em] uppercase font-bold px-7 py-4 rounded-full hover:bg-white/90 transition-colors cursor-pointer whitespace-nowrap">
