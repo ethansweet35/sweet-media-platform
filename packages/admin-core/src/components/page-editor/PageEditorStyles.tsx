@@ -367,6 +367,94 @@ const STYLES = `
     cursor: pointer;
   }
 
+  /* Admin session chip — top-right on every route when signed in. */
+  .sm-admin-session {
+    position: fixed;
+    top: 1rem;
+    right: 1rem;
+    z-index: 2147483646;
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.35rem 0.4rem 0.35rem 0.55rem;
+    border-radius: 9999px;
+    background: rgba(255, 255, 255, 0.97);
+    color: #0f172a;
+    border: 1px solid rgba(15, 23, 42, 0.1);
+    box-shadow: 0 10px 28px rgba(15, 23, 42, 0.14);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    font: 500 0.75rem / 1.2 system-ui, -apple-system, sans-serif;
+    pointer-events: auto;
+  }
+  .sm-admin-session-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding-right: 0.15rem;
+  }
+  .sm-admin-session-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 9999px;
+    background: #22c55e;
+    box-shadow: 0 0 0 2px rgba(34, 197, 94, 0.25);
+    flex-shrink: 0;
+  }
+  .sm-admin-session-label {
+    font-weight: 600;
+    color: #0f172a;
+    white-space: nowrap;
+  }
+  .sm-admin-session-email {
+    max-width: 7rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    color: #64748b;
+    font-weight: 500;
+  }
+  @media (max-width: 480px) {
+    .sm-admin-session-email {
+      display: none;
+    }
+  }
+  .sm-admin-session-link,
+  .sm-admin-session-logout {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    padding: 0.35rem 0.55rem;
+    border-radius: 9999px;
+    border: none;
+    background: #f1f5f9;
+    color: #334155;
+    font: inherit;
+    font-weight: 600;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background 120ms ease, color 120ms ease;
+  }
+  .sm-admin-session-link:hover,
+  .sm-admin-session-logout:hover:not(:disabled) {
+    background: #e2e8f0;
+    color: #0f172a;
+  }
+  .sm-admin-session-logout:disabled {
+    opacity: 0.6;
+    cursor: wait;
+  }
+  .sm-admin-session-link i,
+  .sm-admin-session-logout i {
+    font-size: 0.95rem;
+  }
+  @media (max-width: 380px) {
+    .sm-admin-session-link-text,
+    .sm-admin-session-logout-text {
+      display: none;
+    }
+  }
+
   /* Floating toolbar / FAB. Pinned to the LEFT side so it never collides
      with the chat widgets that most client sites mount in the bottom-right. */
   .sm-page-editor-fab {

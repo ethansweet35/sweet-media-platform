@@ -13,6 +13,8 @@ export interface PageEditorContextValue {
   isEditMode: boolean;
   /** Has the current visitor authenticated as an admin user? */
   isAdmin: boolean;
+  /** Email for the signed-in admin session, when available. */
+  userEmail: string | null;
   /** Still loading auth state. */
   isLoading: boolean;
   /** Live route path (from next/navigation). */
@@ -39,6 +41,8 @@ export interface PageEditorContextValue {
   saveDraft: () => Promise<void>;
   publish: () => Promise<void>;
   discardDraft: () => Promise<void>;
+  /** End the Supabase session and clear inline-editor preferences. */
+  signOut: () => Promise<void>;
 }
 
 const PageEditorContext = createContext<PageEditorContextValue | null>(null);
@@ -69,6 +73,7 @@ export function PageEditorContextProvider({ children }: ProviderProps) {
   const router = useRouter();
 
   const [isAdmin, setIsAdmin] = useState(false);
+  const [userEmail, setUserEmail] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [isEditMode, setIsEditMode] = useState(false);
   const [pending, setPending] = useState<Map<string, PendingEdit>>(() => new Map());
@@ -121,6 +126,7 @@ export function PageEditorContextProvider({ children }: ProviderProps) {
       try {
         const admin = email ? await checkAdmin(email) : false;
         if (mounted) {
+          setUserEmail(email ?? null);
           setIsAdmin(admin);
           setIsLoading(false);
         }
@@ -139,6 +145,7 @@ export function PageEditorContextProvider({ children }: ProviderProps) {
     const {
       data: { subscription },
     } = supabase.auth.onAuthStateChange(async (_event, s) => {
+      if (mounted) setUserEmail(s?.user?.email ?? null);
       run(s?.user?.email);
     });
 
@@ -397,10 +404,24 @@ export function PageEditorContextProvider({ children }: ProviderProps) {
     }
   }, [callAdminEndpoint, routePath, router]);
 
+  const signOut = useCallback(async () => {
+    userEditPreferenceRef.current = false;
+    setIsEditMode(false);
+    setPending(new Map());
+    setMessage(null);
+    writeEditCookie(false);
+    syncEditQueryParam(false);
+    if (typeof document !== "undefined") {
+      document.cookie = "sm_internal=; max-age=0; path=/; SameSite=Strict";
+    }
+    await supabase.auth.signOut();
+  }, [syncEditQueryParam]);
+
   const value: PageEditorContextValue = useMemo(
     () => ({
       isEditMode: isEditorAvailable && isEditMode,
       isAdmin,
+      userEmail,
       isLoading,
       isEditorAvailable,
       routePath,
@@ -415,6 +436,7 @@ export function PageEditorContextProvider({ children }: ProviderProps) {
       saveDraft,
       publish,
       discardDraft,
+      signOut,
     }),
     [
       clearPendingEdit,
@@ -431,8 +453,10 @@ export function PageEditorContextProvider({ children }: ProviderProps) {
       publish,
       saveDraft,
       setPendingEdit,
+      signOut,
       status,
       toggleEditMode,
+      userEmail,
     ],
   );
 
@@ -447,6 +471,7 @@ export function usePageEditor(): PageEditorContextValue {
     return {
       isEditMode: false,
       isAdmin: false,
+      userEmail: null,
       isLoading: false,
       isEditorAvailable: false,
       routePath: "/",
@@ -461,6 +486,7 @@ export function usePageEditor(): PageEditorContextValue {
       saveDraft: async () => {},
       publish: async () => {},
       discardDraft: async () => {},
+      signOut: async () => {},
     };
   }
   return ctx;

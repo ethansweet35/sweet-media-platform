@@ -13,6 +13,7 @@ export default function PageEditorToolbar() {
   const editor = usePageEditor();
   const [mounted, setMounted] = useState(false);
   const [seoOpen, setSeoOpen] = useState(false);
+  const [signingOut, setSigningOut] = useState(false);
 
   useEffect(() => setMounted(true), []);
 
@@ -23,6 +24,16 @@ export default function PageEditorToolbar() {
 
   const isBusy = editor.status !== "idle";
   const hasPending = editor.pendingCount > 0;
+
+  const handleSignOut = async () => {
+    if (signingOut || isBusy) return;
+    setSigningOut(true);
+    try {
+      await editor.signOut();
+    } finally {
+      setSigningOut(false);
+    }
+  };
 
   if (!editor.isEditMode) {
     return createPortal(
@@ -110,6 +121,16 @@ export default function PageEditorToolbar() {
             >
               <i className="ri-rocket-line" aria-hidden />
               {editor.status === "publishing" ? "Publishing..." : "Publish"}
+            </button>
+            <button
+              type="button"
+              className="sm-page-editor-toolbar-secondary"
+              onClick={handleSignOut}
+              disabled={isBusy || signingOut}
+              title="Log out of your admin session"
+            >
+              <i className="ri-logout-box-r-line" aria-hidden />
+              {signingOut ? "Logging out…" : "Log out"}
             </button>
             <button
               type="button"
