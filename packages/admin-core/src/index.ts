@@ -76,6 +76,7 @@ export { getPublicSiteOrigin, canonicalBlogPostUrl } from "./lib/publicSiteUrl";
 export { resolveTrackedPageMetadata } from "./lib/resolveTrackedPageMetadata";
 export {
   mergeRobotsDisallow,
+  NEXT_INTERNAL_ROBOTS_DISALLOW,
   NOT_FOUND_PAGE_METADATA,
   DRAFT_PAGE_ROBOTS,
   withDraftPageRobots,

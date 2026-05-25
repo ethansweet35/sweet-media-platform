@@ -50,7 +50,12 @@ Blog index and blog slug routes use `export const revalidate = 3600` and `genera
 
 Each app's `src/app/robots.ts` generates the robots config dynamically. Do not replace it with a static `robots.txt`.
 
-Brand `disallow` lists must use `mergeRobotsDisallow()` from `@sweetmedia/admin-core` so WordPress legacy paths (`/tag/`, `/category/`, `/feed/`, `/author/`, `/wp-admin/`, etc.) stay blocked on every client.
+Brand `disallow` lists must use `mergeRobotsDisallow()` from `@sweetmedia/admin-core` so these paths stay blocked on **every** client without per-brand duplication:
+
+- Next.js internals: `/_next/`, `/_next` (stops `/_next/static/*` and Vercel `?dpl=` asset URLs from cluttering Search Console)
+- WordPress legacy: `/tag/`, `/category/`, `/feed/`, `/author/`, `/wp-admin/`, `/wp-content/`, `/wp-includes/`, `/xmlrpc.php`
+
+Never hand-roll a full disallow list in `robots.ts` — pass only brand-specific paths (e.g. `/admin/`, `/api/`, retired routes) into `mergeRobotsDisallow([...])`.
 
 ## 6b. `not-found.tsx` must export noindex metadata
 

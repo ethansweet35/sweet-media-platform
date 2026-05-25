@@ -1,9 +1,13 @@
 import type { Metadata } from "next";
 
+/** Next.js build output — linked from HTML but must not be crawled for indexing (Vercel `?dpl=` variants included). */
+export const NEXT_INTERNAL_ROBOTS_DISALLOW = ["/_next/", "/_next"] as const;
+
 /**
  * WordPress archive, feed, and core paths that should not be crawled on migrated
  * Next.js brands. Covers legacy URLs still discovered via backlinks/sitemaps.
  */
+
 export const WP_LEGACY_ROBOTS_DISALLOW = [
   "/tag/",
   "/tag",
@@ -22,9 +26,15 @@ export const WP_LEGACY_ROBOTS_DISALLOW = [
   "/xmlrpc.php",
 ] as const;
 
-/** Merge brand-specific robots disallow paths with WordPress legacy paths (deduped). */
+/** Merge brand-specific robots disallow paths with Next.js internals and WP legacy paths (deduped). */
 export function mergeRobotsDisallow(brandDisallow: string[]): string[] {
-  return [...new Set([...brandDisallow, ...WP_LEGACY_ROBOTS_DISALLOW])];
+  return [
+    ...new Set([
+      ...brandDisallow,
+      ...NEXT_INTERNAL_ROBOTS_DISALLOW,
+      ...WP_LEGACY_ROBOTS_DISALLOW,
+    ]),
+  ];
 }
 
 /** Use on `src/app/not-found.tsx` so 404s (including dead WP URLs) are not indexed. */
