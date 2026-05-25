@@ -3,7 +3,7 @@ import { AutoLinkedText } from "@sweetmedia/blog-core";
 import { EditableImage, EditableText } from "@sweetmedia/admin-core/page-editor";
 import { heroInnerWrap, heroViewportSection } from "@/lib/heroSpacing";
 import CtmLeadFormCard from "@/components/feature/CtmLeadFormCard";
-import CtaBanner from "./CtaBanner";
+import EditableCtaBanner from "./EditableCtaBanner";
 import FaqAccordionItem from "./FaqAccordionItem";
 
 /* ─── Types ─────────────────────────────────────────────────── */
@@ -598,13 +598,11 @@ export default function TreatmentPageTemplate({ data }: { data: TreatmentPageDat
         </div>
       </section>
 
-      <CtaBanner
+      <EditableCtaBanner
         headline={data.ctaHeadline}
         body={data.ctaBody}
         primaryCta={{ label: "Call (866) 311-0003", href: "tel:8663110003" }}
         secondaryCta={{ label: "Verify Insurance", href: "/insurance/" }}
-        editableHeadlineKey="cta.headline"
-        editableBodyKey={data.ctaBody ? "cta.body" : undefined}
       />
     </>
   );

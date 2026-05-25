@@ -1,11 +1,13 @@
 import Link from "next/link";
+import { AutoLinkedText } from "@sweetmedia/blog-core";
+import { EditableText } from "@sweetmedia/admin-core/page-editor";
 
 interface CtaItem {
   label: string;
   href: string;
 }
 
-interface CtaBannerProps {
+interface EditableCtaBannerProps {
   eyebrow?: string;
   headline: string;
   body?: string;
@@ -13,18 +15,14 @@ interface CtaBannerProps {
   secondaryCta?: CtaItem;
 }
 
-/**
- * Full-width navy CTA strip for the bottom of inner pages.
- * Plain markup only — safe to import from client pages. For inline-editable
- * copy on server-rendered program templates, use EditableCtaBanner instead.
- */
-export default function CtaBanner({
+/** Server-only CTA strip with inline editor fields for program page templates. */
+export default function EditableCtaBanner({
   eyebrow = "Take the First Step",
   headline,
   body,
   primaryCta,
   secondaryCta,
-}: CtaBannerProps) {
+}: EditableCtaBannerProps) {
   return (
     <section className="relative overflow-hidden bg-navy py-20 lg:py-24">
       <div className="pointer-events-none absolute -right-24 -top-24 h-80 w-80 rounded-full bg-navy-light/50" />
@@ -33,11 +31,32 @@ export default function CtaBanner({
       <div className="relative z-10 mx-auto w-full max-w-7xl px-6 lg:px-10">
         <div className="flex flex-col items-start gap-8 lg:flex-row lg:items-center lg:justify-between">
           <div className="max-w-2xl">
-            {eyebrow ? (
-              <p className="mb-3 text-xs font-semibold uppercase tracking-[0.14em] text-terracotta">{eyebrow}</p>
+            <EditableText
+              fieldKey="cta.eyebrow"
+              defaultValue={eyebrow}
+              as="p"
+              className="mb-3 text-xs font-semibold uppercase tracking-[0.14em] text-terracotta"
+            >
+              <AutoLinkedText>{eyebrow}</AutoLinkedText>
+            </EditableText>
+            <EditableText
+              fieldKey="cta.headline"
+              defaultValue={headline}
+              as="h2"
+              className="font-heading text-3xl font-bold text-white md:text-4xl"
+            >
+              <AutoLinkedText>{headline}</AutoLinkedText>
+            </EditableText>
+            {body ? (
+              <EditableText
+                fieldKey="cta.body"
+                defaultValue={body}
+                as="p"
+                className="mt-3 text-base leading-relaxed text-white/70"
+              >
+                <AutoLinkedText>{body}</AutoLinkedText>
+              </EditableText>
             ) : null}
-            <h2 className="font-heading text-3xl font-bold text-white md:text-4xl">{headline}</h2>
-            {body ? <p className="mt-3 text-base leading-relaxed text-white/70">{body}</p> : null}
           </div>
 
           <div className="flex shrink-0 flex-wrap items-center gap-4">
