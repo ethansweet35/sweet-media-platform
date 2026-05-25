@@ -30,8 +30,8 @@ export const liveSessions: LiveSession[] = [
     id: "the-family-room",
     icon: "ri-home-heart-line",
     title: "The Family Room",
-    schedule: "Fridays | 8:00 AM PT / 10:00 AM CT",
+    schedule: "Thursdays | 8:00 AM PT / 10:00 AM CT",
     description:
-      "Join us each Friday morning for open discussion and connection as families come together to talk through real-life topics, challenges, and encouragement for the week ahead.",
+      "Join us each Thursday morning for open discussion and connection as families come together to talk through real-life topics, challenges, and encouragement for the week ahead.",
   },
 ];

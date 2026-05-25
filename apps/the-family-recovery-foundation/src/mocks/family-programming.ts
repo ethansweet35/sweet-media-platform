@@ -9,7 +9,7 @@ export const programsList = [
   {
     id: "family-room",
     title: "The Family Room",
-    schedule: "Fridays at 10:00 AM CT / 8:00 AM PT",
+    schedule: "Thursdays at 10:00 AM CT / 8:00 AM PT",
     description:
       "An open support group where family members can share experiences, receive encouragement, and learn from others walking a similar path. A safe space for connection and community building.",
   },

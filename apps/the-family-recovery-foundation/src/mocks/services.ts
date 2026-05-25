@@ -9,7 +9,7 @@ export const services = [
   {
     id: "family-room",
     title: "The Family Room",
-    schedule: "Fridays at 10:00 AM CT / 8:00 AM PT",
+    schedule: "Thursdays at 10:00 AM CT / 8:00 AM PT",
     description:
       "An open-format support circle where family members share experiences, ask questions, and receive guidance from peer advocates who have walked the same journey of recovery.",
   },

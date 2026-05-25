@@ -19,7 +19,7 @@ export const registrationPrograms: Record<string, RegistrationProgram> = {
     slug: "the-family-room",
     title: "The Family Room",
     headline: "The Family Room",
-    schedule: "Fridays at 10:00 AM CT / 8:00 AM PT",
+    schedule: "Thursdays at 10:00 AM CT / 8:00 AM PT",
     description:
       "An open support group where family members share experiences, receive encouragement, and learn from others walking a similar path.",
   },
