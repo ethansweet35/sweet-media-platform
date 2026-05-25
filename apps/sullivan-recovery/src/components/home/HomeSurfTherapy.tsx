@@ -64,7 +64,7 @@ export default function HomeSurfTherapy() {
             </blockquote>
 
             <Link
-              href="/admissions/"
+              href="/insurance/"
               className="inline-flex items-center gap-2 border border-[var(--sr-sage)]/50 px-7 py-3.5 text-[12px] font-medium uppercase tracking-[0.12em] text-white transition hover:border-white hover:bg-white/5"
               style={{ fontFamily: "var(--font-dm-sans)" }}
             >

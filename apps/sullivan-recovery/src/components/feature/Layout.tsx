@@ -50,11 +50,11 @@ export default function Layout({ children }: { children: React.ReactNode }) {
           />
           <div style={{ width: '1px', height: '2rem', background: 'rgba(143,168,130,0.25)' }} />
           <Link
-            href="/admissions-process/"
+            href="/insurance/"
             className="flex-1 flex items-center justify-center gap-2 py-3 text-[11px] font-medium tracking-[0.1em] uppercase text-white active:opacity-80 transition-opacity"
             style={{ fontFamily: 'var(--font-dm-sans)' }}
           >
-            <i className="ri-file-list-line text-[#8FA882] text-sm"></i>
+            <i className="ri-shield-check-line text-[#8FA882] text-sm"></i>
             Verify Insurance
           </Link>
         </div>

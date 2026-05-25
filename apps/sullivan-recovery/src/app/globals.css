@@ -100,6 +100,30 @@
   }
 }
 
+/* Insurance page — scrolling logo strip */
+@keyframes insurance-logo-marquee {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.insurance-logo-marquee {
+  width: max-content;
+  animation: insurance-logo-marquee 36s linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .insurance-logo-marquee {
+    animation: none;
+    flex-wrap: wrap;
+    width: 100%;
+    justify-content: center;
+  }
+}
+
 /* Eyebrow label */
 .sr-eyebrow {
   font-family: var(--font-body);

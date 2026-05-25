@@ -88,12 +88,22 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
 function BlogPostLoadingShell() {
   return (
-    <div className="min-h-screen bg-white">
-      <div className="max-w-screen-xl mx-auto px-6 pt-36 pb-20 animate-pulse">
-        <div className="h-4 bg-neutral-100 rounded w-1/4 mb-8" />
-        <div className="h-12 bg-neutral-100 rounded w-3/4 mb-6" />
-        <div className="h-4 bg-neutral-100 rounded w-1/3 mb-10" />
-        <div className="w-full h-[320px] md:h-[460px] bg-neutral-100 rounded-t-2xl" />
+    <div className="min-h-screen animate-pulse bg-[var(--sr-linen)]">
+      <div className="border-b border-[var(--sr-sand)] bg-[var(--sr-parchment)]">
+        <div className="sr-container py-10">
+          <div className="mb-6 h-3 w-24 rounded bg-[var(--sr-sand)]" />
+          <div className="mb-4 h-12 max-w-2xl rounded bg-[var(--sr-sand)]" />
+          <div className="mt-8 h-10 w-64 rounded bg-[var(--sr-sand)]" />
+        </div>
+        <div className="h-[min(40vh,360px)] bg-[var(--sr-sand)]/60" />
+      </div>
+      <div className="sr-container py-14">
+        <div className="mb-6 h-4 max-w-xl rounded bg-[var(--sr-sand)]" />
+        <div className="space-y-3">
+          <div className="h-3 w-full rounded bg-[var(--sr-sand)]/80" />
+          <div className="h-3 w-full rounded bg-[var(--sr-sand)]/80" />
+          <div className="h-3 w-4/5 rounded bg-[var(--sr-sand)]/80" />
+        </div>
       </div>
     </div>
   );

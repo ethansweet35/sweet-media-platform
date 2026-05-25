@@ -4,23 +4,17 @@ import BlogPage from "@/views/blog/page";
 
 export const revalidate = 3600;
 
-const BLOG_OG_IMAGE =
-  "https://ynmldknprfusujudvutq.supabase.co/storage/v1/object/public/public_bucket/og-blog.jpg";
-
 const fallbackMetadata: Metadata = {
-  title: "Blog | Mental Health & Recovery Resources | Sullivan Recovery",
+  title: "Recovery Insights & Resources | Sullivan Recovery",
   description:
-    "Mental health, addiction recovery, trauma-informed care, and wellness resources from Sullivan Recovery.",
-  keywords:
-    "clients’s mental health resources, virtual outpatient treatment, addiction recovery resources, trauma-informed care, Service Area mental health support",
-  alternates: { canonical: "/blog" },
+    "Articles on drug and alcohol detox, addiction recovery, and mental health from Sullivan Recovery in Mission Viejo, Orange County.",
+  alternates: { canonical: "/blog/" },
   openGraph: {
     type: "website",
-    title: "Blog | Mental Health & Recovery Resources | Sullivan Recovery",
+    title: "Recovery Insights & Resources | Sullivan Recovery",
     description:
-      "Mental health, addiction recovery, trauma-informed care, and wellness resources from Sullivan Recovery.",
-    url: "/blog",
-    images: [{ url: BLOG_OG_IMAGE, width: 1200, height: 630 }],
+      "Articles on drug and alcohol detox, addiction recovery, and mental health from Sullivan Recovery in Mission Viejo, Orange County.",
+    url: "/blog/",
   },
 };
 

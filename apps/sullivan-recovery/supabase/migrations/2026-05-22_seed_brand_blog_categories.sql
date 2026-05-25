@@ -26,6 +26,7 @@ begin
     when 'adolescent-mental-health' then array['Teen Mental Health','Family Support','Treatment Programs','School & Social Life','Crisis & Safety','Parent Resources']
     when 'the-family-recovery-foundation' then array['Family Recovery','Education','Community','Resources','Events','Support']
     when 'mountainview-treatment' then array['Addiction Treatment','Mental Health','Veterans & Tricare','Family Resources','Levels of Care','Nevada Resources']
+    when 'sullivan-recovery' then array['Detox & Withdrawal','Addiction Treatment','Insurance & Admissions','Orange County','Family Resources','Recovery Education']
     else array['Company News','Education','Resources','Guides']
   end case;
 
@@ -37,7 +38,7 @@ begin
   idx := 0;
   foreach cat in array cats loop
     idx := idx + 10;
-    slug := lower(regexp_replace(replace(trim(cat), '''', '', 'g'), '[^a-z0-9]+', '-', 'g'));
+    slug := lower(regexp_replace(trim(cat), '[^a-zA-Z0-9]+', '-', 'g'));
     slug := trim(both '-' from slug);
 
     insert into public.blog_categories (site_id, name, slug, sort_order, is_active)

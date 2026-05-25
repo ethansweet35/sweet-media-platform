@@ -11,7 +11,7 @@ const LOGOS_BASE =
 const QUICK_LINKS = [
   { label: "Home", path: "/" },
   { label: "Our Team", path: "/our-approach/our-team/" },
-  { label: "Contact Us", path: "/contact-us/" },
+  { label: "Verify Insurance", path: "/insurance/" },
 ];
 
 const CERTS = [

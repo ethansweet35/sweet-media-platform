@@ -1,8 +1,18 @@
 import Link from "next/link";
 import { EditableText } from "@sweetmedia/admin-core/page-editor";
 
-const HERO_VIDEO =
+const HERO_VIDEO_DESKTOP =
   "https://knvkrhwlflkulybcmgmq.supabase.co/storage/v1/object/public/site-assets/videos/sr_home_hero_video.mp4";
+const HERO_VIDEO_MOBILE =
+  "https://knvkrhwlflkulybcmgmq.supabase.co/storage/v1/object/public/site-assets/videos/sr_home_hero_video_mobile.mp4";
+
+const heroVideoProps = {
+  autoPlay: true,
+  loop: true,
+  muted: true,
+  playsInline: true,
+  className: "h-full w-full object-cover object-center",
+} as const;
 
 const EYEBROW = "Welcome to Sullivan Recovery";
 const HEADLINE = "Drug & Alcohol Detox In Mission Viejo";
@@ -13,14 +23,11 @@ export default async function HomeHero() {
   return (
     <section className="relative flex min-h-screen items-center justify-start overflow-hidden py-[100px]">
       <div className="absolute inset-0 z-0">
-        <video
-          autoPlay
-          loop
-          muted
-          playsInline
-          className="h-full w-full object-cover object-center"
-        >
-          <source src={HERO_VIDEO} type="video/mp4" />
+        <video {...heroVideoProps} className={`${heroVideoProps.className} hidden md:block`}>
+          <source src={HERO_VIDEO_DESKTOP} type="video/mp4" />
+        </video>
+        <video {...heroVideoProps} className={`${heroVideoProps.className} md:hidden`}>
+          <source src={HERO_VIDEO_MOBILE} type="video/mp4" />
         </video>
       </div>
 

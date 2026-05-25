@@ -111,19 +111,19 @@ export default function AboutJourney() {
 
         <div className="mt-10 flex flex-col gap-3 sm:flex-row sm:flex-wrap md:mt-12">
           <Link
-            href="/admissions-process/"
+            href="/insurance/"
             className="inline-flex items-center justify-center gap-2 bg-[var(--sr-sage)] px-8 py-4 text-[12px] font-medium uppercase tracking-[0.12em] text-[var(--sr-charcoal)] transition hover:bg-white"
             style={{ fontFamily: "var(--font-dm-sans)" }}
           >
-            Admissions Process
+            Verify Insurance
             <i className="ri-arrow-right-line" aria-hidden />
           </Link>
           <Link
-            href="/contact-us/"
+            href="/programs/"
             className="inline-flex items-center justify-center gap-2 border border-white/35 px-8 py-4 text-[12px] font-medium uppercase tracking-[0.12em] text-white transition hover:border-white/70 hover:bg-white/10"
             style={{ fontFamily: "var(--font-dm-sans)" }}
           >
-            Contact Us
+            All Programs
           </Link>
         </div>
       </div>

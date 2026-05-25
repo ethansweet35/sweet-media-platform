@@ -538,6 +538,12 @@ async function main() {
     'crawl-site-links',
     'check-url-health',
     'suggest-replacement-link',
+    'process-blog-queue',
+    'auto-publish-approved-drafts',
+    'blog-webhook',
+    'check-admin',
+    'sitemap',
+    'generate-seo-metadata',
   ];
   for (const fn of functions) {
     step(`Deploying edge function: ${fn}`);

@@ -1,42 +1,45 @@
 import Link from "next/link";
+import CallRailPhoneLink from "@/components/ui/CallRailPhoneLink";
 
 export default function PostCta() {
   return (
-    <section className="w-full bg-[#1F2937] py-16 md:py-20">
-      <div className="max-w-screen-xl mx-auto px-6">
-        <div className="max-w-2xl mx-auto text-center">
-          <div className="flex items-center justify-center gap-3 mb-6">
-            <div className="w-8 h-px bg-white/20" />
-            <span className="text-[10px] tracking-[0.3em] uppercase text-white/40 font-semibold">
-              Ready to Grow?
-            </span>
-            <div className="w-8 h-px bg-white/20" />
+    <section className="border-t border-[var(--sr-sand)] bg-[var(--sr-moss)] py-20 md:py-24">
+      <div className="sr-container">
+        <div className="grid items-center gap-10 lg:grid-cols-12 lg:gap-16">
+          <div className="lg:col-span-7">
+            <p
+              className="mb-3 text-[10px] font-medium uppercase tracking-[0.2em] text-[var(--sr-sage)]"
+              style={{ fontFamily: "var(--font-dm-sans)" }}
+            >
+              Need help now?
+            </p>
+            <h2
+              className="text-[clamp(1.75rem,3.5vw,2.75rem)] font-light leading-[1.08] text-white"
+              style={{ fontFamily: "var(--font-cormorant)" }}
+            >
+              Confidential detox &{" "}
+              <span className="italic text-[var(--sr-sage)]">aftercare in Mission Viejo</span>
+            </h2>
+            <p
+              className="mt-4 max-w-lg text-[15px] leading-[1.85] text-white/70"
+              style={{ fontFamily: "var(--font-dm-sans)" }}
+            >
+              Same-day intake, private rooms, and medical supervision. Call or verify insurance —
+              we&apos;re available 24/7.
+            </p>
           </div>
-
-          <h2
-            className="text-2xl md:text-3xl font-light text-white mb-4 leading-snug"
-            style={{ fontFamily: "'Inter', serif" }}
-          >
-            Put These Insights to Work for Your Program
-          </h2>
-
-          <p className="text-sm text-white/50 leading-relaxed mb-8 max-w-lg mx-auto">
-            Sullivan Recovery offers client-centered services. Reach out for a confidential consultation
-            and see exactly how we&apos;d apply these strategies to your facility.
-          </p>
-
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
+          <div className="flex flex-col gap-3 sm:flex-row lg:col-span-5 lg:justify-end">
+            <CallRailPhoneLink className="inline-flex items-center justify-center gap-2 border border-white/30 bg-transparent px-8 py-3.5 text-[12px] font-semibold uppercase tracking-wider text-white transition hover:border-white hover:bg-white/10">
+              <i className="ri-phone-fill text-sm" aria-hidden />
+              Call now
+            </CallRailPhoneLink>
             <Link
-              href="/contact"
-              className="bg-white text-[#1F2937] text-[11px] tracking-[0.2em] uppercase font-bold px-7 py-3.5 rounded-full hover:bg-white/90 transition-all duration-200 whitespace-nowrap"
+              href="/insurance/"
+              className="inline-flex items-center justify-center gap-2 bg-[var(--sr-sage)] px-8 py-3.5 text-[12px] font-semibold uppercase tracking-wider text-white transition hover:bg-[var(--sr-fern)]"
+              style={{ fontFamily: "var(--font-dm-sans)" }}
             >
-              Book a Strategy Call
-            </Link>
-            <Link
-              href="/blog"
-              className="border border-white/20 text-white/70 text-[11px] tracking-[0.2em] uppercase font-bold px-7 py-3.5 rounded-full hover:border-white/40 hover:text-white transition-all duration-200 whitespace-nowrap"
-            >
-              More Articles
+              Verify insurance
+              <i className="ri-shield-check-line text-sm" aria-hidden />
             </Link>
           </div>
         </div>

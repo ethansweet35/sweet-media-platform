@@ -32,7 +32,7 @@ export default function TeamJourneyCta() {
 
           <div className="flex flex-col items-center justify-center gap-3 sm:flex-row">
             <Link
-              href="/admissions-process/"
+              href="/insurance/"
               className="inline-flex w-full items-center justify-center gap-2 bg-[var(--sr-sage)] px-8 py-4 text-[12px] font-medium uppercase tracking-[0.12em] text-[var(--sr-charcoal)] transition hover:bg-white sm:w-auto"
               style={{ fontFamily: "var(--font-dm-sans)" }}
             >

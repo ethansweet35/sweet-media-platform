@@ -141,7 +141,7 @@ export default function HomeLocation() {
             </ol>
 
             <Link
-              href="/contact-us/"
+              href="/insurance/"
               className="sr-btn-primary inline-flex w-fit items-center gap-2 px-8 py-4 text-[12px] font-medium uppercase tracking-[0.12em]"
             >
               Contact Us

@@ -1,4 +1,5 @@
 import type { NextConfig } from "next";
+import { siteRedirects } from "./src/lib/site-redirects";
 import { wpBlogRewrites } from "./src/lib/wp-blog-rewrites";
 
 const nextConfig: NextConfig = {
@@ -10,12 +11,7 @@ const nextConfig: NextConfig = {
   serverExternalPackages: ["@cursor/sdk"],
   trailingSlash: true,
   async redirects() {
-    return [
-      { source: "/blogs/", destination: "/blog/", permanent: true },
-      { source: "/blogs/:path*/", destination: "/blog/:path*/", permanent: true },
-      { source: "/contact/", destination: "/contact-us/", permanent: true },
-      { source: "/admissions/", destination: "/admissions-process/", permanent: true },
-    ];
+    return siteRedirects;
   },
   async rewrites() {
     return wpBlogRewrites;

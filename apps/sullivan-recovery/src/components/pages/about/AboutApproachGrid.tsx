@@ -72,7 +72,7 @@ export default function AboutApproachGrid() {
               Our approach to drug and alcohol detox harmonizes medical expertise with a
               profound commitment to each individual&apos;s path toward sobriety.{" "}
               <Link
-                href="/addiction-aftercare-program/opioid-detox-orange-county/drug-and-alcohol-detox-mission-viejo/"
+                href="/programs/detox/drugs/"
                 className="font-medium text-[var(--sr-fern)] underline-offset-4 hover:underline"
               >
                 Explore our detox program

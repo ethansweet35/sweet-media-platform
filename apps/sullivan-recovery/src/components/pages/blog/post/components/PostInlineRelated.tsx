@@ -33,49 +33,58 @@ export default function PostInlineRelated({ currentPost, allPosts }: PostInlineR
   if (related.length === 0) return null;
 
   return (
-    <div className="my-10 bg-[#f4f6f9] rounded-2xl p-6 md:p-8 border border-black/5">
-      <div className="flex items-center gap-3 mb-5">
-        <div className="w-6 h-px bg-neutral-300" />
-        <span className="text-[10px] tracking-[0.3em] uppercase text-neutral-400 font-semibold">
-          Related Reading
-        </span>
-      </div>
+    <aside className="my-12 rounded-2xl border border-[var(--sr-sand)] bg-[var(--sr-parchment)] p-6 md:p-8">
+      <p
+        className="mb-5 text-[10px] font-semibold uppercase tracking-[0.2em] text-[var(--sr-muted)]"
+        style={{ fontFamily: "var(--font-dm-sans)" }}
+      >
+        Related reading
+      </p>
 
-      <div className="flex flex-col gap-4">
+      <ul className="flex flex-col divide-y divide-[var(--sr-sand)]">
         {related.map((post) => (
-          <Link
-            key={post.id}
-            href={`/blog/${post.slug}`}
-            className="group flex items-start gap-4 p-3 -mx-3 rounded-xl hover:bg-white transition-all duration-200"
-          >
-            <div className="relative w-16 h-16 md:w-20 md:h-20 rounded-lg overflow-hidden flex-shrink-0">
-              <Image
-                src={post.image}
-                alt={post.title}
-                fill
-                loading="lazy"
-                sizes="80px"
-                className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-300"
-              />
-            </div>
-            <div className="flex-1 min-w-0">
-              <span className="text-[9px] tracking-[0.2em] uppercase font-semibold text-[#1F2937]/60 mb-1 block">
-                {post.category}
-              </span>
-              <h4 className="text-sm font-medium text-neutral-800 leading-snug group-hover:text-[#1F2937] transition-colors line-clamp-2">
-                {post.title}
-              </h4>
-              <div className="flex items-center gap-2 mt-1.5">
-                <span className="text-[11px] text-neutral-400">{post.readTime}</span>
-                <span className="flex items-center gap-1 text-[11px] text-[#1F2937] group-hover:text-[#2563EB] transition-colors">
-                  Read article
-                  <i className="ri-arrow-right-line text-xs group-hover:translate-x-0.5 transition-transform"></i>
+          <li key={post.id}>
+            <Link
+              href={`/blog/${post.slug}/`}
+              className="group -mx-2 flex items-start gap-4 rounded-xl px-2 py-4 transition hover:bg-[var(--sr-linen)]"
+            >
+              <div className="relative h-16 w-16 shrink-0 overflow-hidden bg-[var(--sr-mist)] md:h-20 md:w-20">
+                <Image
+                  src={post.image}
+                  alt=""
+                  fill
+                  loading="lazy"
+                  sizes="80px"
+                  className="object-cover transition duration-500 group-hover:scale-[1.04]"
+                />
+              </div>
+              <div className="min-w-0 flex-1">
+                {post.category ? (
+                  <span
+                    className="mb-1 block text-[10px] font-medium uppercase tracking-[0.14em] text-[var(--sr-fern)]"
+                    style={{ fontFamily: "var(--font-dm-sans)" }}
+                  >
+                    {post.category}
+                  </span>
+                ) : null}
+                <h4
+                  className="line-clamp-2 text-base font-light leading-snug text-[var(--sr-ink)] transition group-hover:text-[var(--sr-moss)]"
+                  style={{ fontFamily: "var(--font-cormorant)" }}
+                >
+                  {post.title}
+                </h4>
+                <span
+                  className="mt-2 inline-flex items-center gap-1 text-[11px] text-[var(--sr-muted)]"
+                  style={{ fontFamily: "var(--font-dm-sans)" }}
+                >
+                  {post.readTime}
+                  <i className="ri-arrow-right-line text-xs transition group-hover:translate-x-0.5" aria-hidden />
                 </span>
               </div>
-            </div>
-          </Link>
+            </Link>
+          </li>
         ))}
-      </div>
-    </div>
+      </ul>
+    </aside>
   );
 }

@@ -1,14 +1,17 @@
 import type { Metadata } from "next";
-import { resolveTrackedPageMetadata } from "@sweetmedia/admin-core";
+import { resolveTrackedPageMetadata, withDraftPageRobots } from "@sweetmedia/admin-core";
 import ContactUsPage from "@/views/contact-us/page";
 
 const fallbackMetadata: Metadata = {
   title: "Contact Us | Sullivan Recovery",
-  description: "",
+  description: "Contact Sullivan Recovery admissions in Mission Viejo.",
+  alternates: { canonical: "/contact-us/" },
+  robots: { index: false, follow: false },
 };
 
 export async function generateMetadata(): Promise<Metadata> {
-  return resolveTrackedPageMetadata("/contact-us", fallbackMetadata);
+  const resolved = await resolveTrackedPageMetadata("/contact-us/", fallbackMetadata);
+  return withDraftPageRobots(resolved);
 }
 
 export default function Page() {

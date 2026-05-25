@@ -11,7 +11,7 @@ const THERAPIES = [
   {
     label: "Surf Therapy",
     desc: "Ocean-centered sessions led by founder Cory Sullivan — movement, mindfulness, and renewal.",
-    href: "/addiction-aftercare-program/",
+    href: "/programs/detox/",
     icon: "ri-ripple-line",
   },
   {

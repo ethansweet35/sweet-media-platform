@@ -1,16 +1,78 @@
 "use client";
 
 import Link from "next/link";
-import type { NavMegaConfig } from "@/data/navigation";
+import type { MegaLink, NavMegaConfig } from "@/data/navigation";
 
 type NavMegaMenuProps = {
   config: NavMegaConfig;
   onClose: () => void;
 };
 
+function MegaNavLink({
+  link,
+  onClose,
+  emphasized = false,
+}: {
+  link: MegaLink;
+  onClose: () => void;
+  emphasized?: boolean;
+}) {
+  return (
+    <Link
+      href={link.path}
+      onClick={onClose}
+      className={`group flex items-center justify-between gap-3 rounded-md border px-4 py-3 transition ${
+        emphasized
+          ? "border-[var(--sr-fern)]/35 bg-[var(--sr-mist)]/60 hover:border-[var(--sr-fern)] hover:bg-[var(--sr-mist)]"
+          : "border-[var(--sr-sand)] bg-white hover:border-[var(--sr-fern)]/50 hover:bg-[var(--sr-mist)]/40"
+      }`}
+      style={{ fontFamily: "var(--font-dm-sans)" }}
+    >
+      <span
+        className={`text-[14px] leading-snug ${
+          emphasized ? "font-medium text-[var(--sr-moss)]" : "text-[var(--sr-ink)]"
+        } group-hover:text-[var(--sr-moss)]`}
+      >
+        {link.label}
+      </span>
+      <i
+        className="ri-arrow-right-line shrink-0 text-base text-[var(--sr-fern)] opacity-70 transition group-hover:opacity-100"
+        aria-hidden
+      />
+    </Link>
+  );
+}
+
+function MegaColumn({
+  heading,
+  links,
+  onClose,
+}: {
+  heading: string;
+  links: MegaLink[];
+  onClose: () => void;
+}) {
+  return (
+    <div>
+      <p
+        className="mb-3 text-[10px] font-medium uppercase tracking-[0.18em] text-[var(--sr-muted)]"
+        style={{ fontFamily: "var(--font-dm-sans)" }}
+      >
+        {heading}
+      </p>
+      <ul className="flex flex-col gap-2">
+        {links.map((link, i) => (
+          <li key={link.path}>
+            <MegaNavLink link={link} onClose={onClose} emphasized={i === 0} />
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+
 export default function NavMegaMenu({ config, onClose }: NavMegaMenuProps) {
-  const columnCount = config.columns.length;
-  const hasFeatured = (config.featured?.length ?? 0) > 0;
+  const colCount = config.columns.length;
 
   return (
     <div
@@ -18,7 +80,6 @@ export default function NavMegaMenu({ config, onClose }: NavMegaMenuProps) {
       role="region"
       aria-label={`${config.title} menu`}
     >
-      {/* Moss accent bar — matches homepage hero gradient tone */}
       <div
         className="h-1 w-full"
         style={{
@@ -27,164 +88,53 @@ export default function NavMegaMenu({ config, onClose }: NavMegaMenuProps) {
         }}
       />
 
-      <div className="sr-container py-8 md:py-10">
-        {/* Header row */}
-        <div className="mb-8 flex flex-col gap-6 border-b border-[var(--sr-sand)] pb-8 lg:flex-row lg:items-end lg:justify-between">
-          <div className="max-w-xl">
-            <div className="mb-3 flex items-center gap-2.5">
-              <span className="h-2 w-2 shrink-0 rounded-full bg-[var(--sr-sage)]" aria-hidden />
-              <p
-                className="text-[10px] font-medium uppercase tracking-[0.2em] text-[var(--sr-fern)]"
-                style={{ fontFamily: "var(--font-dm-sans)" }}
-              >
-                {config.eyebrow}
-              </p>
-            </div>
-            <h3
-              className="text-[clamp(1.75rem,3vw,2.5rem)] font-light leading-[1.08] text-[var(--sr-ink)]"
-              style={{ fontFamily: "var(--font-cormorant)" }}
-            >
-              {config.title}
-            </h3>
+      <div className="sr-container py-8 md:py-9">
+        {/* Static intro — not styled as links */}
+        <div className="mb-8 max-w-2xl border-b border-[var(--sr-sand)] pb-8">
+          <div className="mb-2 flex items-center gap-2">
+            <span className="h-1.5 w-1.5 rounded-full bg-[var(--sr-sage)]" aria-hidden />
             <p
-              className="mt-3 max-w-md text-[14px] leading-[1.75] text-[var(--sr-body)]"
+              className="text-[10px] font-medium uppercase tracking-[0.2em] text-[var(--sr-fern)]"
               style={{ fontFamily: "var(--font-dm-sans)" }}
             >
-              {config.description}
+              {config.eyebrow}
             </p>
           </div>
-          <Link
-            href={config.viewAllPath}
-            onClick={onClose}
-            className="inline-flex shrink-0 items-center gap-2 text-[12px] font-medium uppercase tracking-[0.12em] text-[var(--sr-fern)] transition hover:text-[var(--sr-moss)]"
+          <h3
+            className="text-[clamp(1.5rem,2.5vw,2rem)] font-light text-[var(--sr-ink)]"
+            style={{ fontFamily: "var(--font-cormorant)" }}
+          >
+            {config.title}
+          </h3>
+          <p
+            className="mt-2 text-[14px] leading-relaxed text-[var(--sr-muted)]"
             style={{ fontFamily: "var(--font-dm-sans)" }}
           >
-            {config.viewAllLabel}
-            <i className="ri-arrow-right-line text-base" aria-hidden />
-          </Link>
+            {config.description}
+          </p>
         </div>
 
+        {/* All navigation — one link style per column */}
         <div
           className={`grid gap-8 ${
-            hasFeatured
-              ? "lg:grid-cols-12"
-              : columnCount > 1
-                ? "md:grid-cols-2"
-                : "max-w-md"
+            colCount >= 4
+              ? "sm:grid-cols-2 lg:grid-cols-4"
+              : colCount === 3
+                ? "sm:grid-cols-2 lg:grid-cols-3"
+                : colCount === 2
+                  ? "sm:grid-cols-2"
+                  : "max-w-sm"
           }`}
         >
-          {/* Link columns — architectural flush grid on homepage */}
-          <div
-            className={`grid gap-0 border-t border-l border-[var(--sr-sand)] ${
-              hasFeatured ? "lg:col-span-7" : "w-full"
-            } ${columnCount > 1 ? "grid-cols-1 sm:grid-cols-2" : "grid-cols-1"}`}
-          >
-            {config.columns.map((col, colIndex) => (
-              <div
-                key={col.heading}
-                className={`border-b border-r border-[var(--sr-sand)] p-5 md:p-6 ${
-                  colIndex % 2 === 1 ? "bg-[var(--sr-linen)]/50" : "bg-white/60"
-                }`}
-              >
-                <p
-                  className="mb-4 text-[10px] font-medium uppercase tracking-[0.18em] text-[var(--sr-fern)]"
-                  style={{ fontFamily: "var(--font-dm-sans)" }}
-                >
-                  {col.heading}
-                </p>
-                <ul className="space-y-1">
-                  {col.links.map((link) => (
-                    <li key={link.path}>
-                      <Link
-                        href={link.path}
-                        onClick={onClose}
-                        className="group flex items-start gap-2.5 rounded-sm py-1.5 text-[13px] leading-snug text-[var(--sr-body)] transition hover:text-[var(--sr-moss)]"
-                        style={{ fontFamily: "var(--font-dm-sans)" }}
-                      >
-                        <span
-                          className="mt-2 h-1 w-1 shrink-0 rounded-full bg-[var(--sr-sand)] transition group-hover:bg-[var(--sr-fern)]"
-                          aria-hidden
-                        />
-                        <span className="group-hover:underline group-hover:underline-offset-2">
-                          {link.label}
-                        </span>
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            ))}
-          </div>
-
-          {/* Featured cards */}
-          {hasFeatured ? (
-            <div className="flex flex-col gap-3 lg:col-span-5">
-              {config.featured!.map((card) => (
-                <Link
-                  key={card.path}
-                  href={card.path}
-                  onClick={onClose}
-                  className="group flex gap-4 rounded-sm border border-[var(--sr-sand)] bg-white p-5 transition hover:border-[var(--sr-fern)]/40 hover:shadow-md"
-                >
-                  <span className="flex h-11 w-11 shrink-0 items-center justify-center bg-[var(--sr-mist)] text-[var(--sr-fern)] transition group-hover:bg-[var(--sr-moss)] group-hover:text-[var(--sr-parchment)]">
-                    <i className={`${card.icon} text-xl`} aria-hidden />
-                  </span>
-                  <div className="min-w-0">
-                    <p
-                      className="text-lg font-medium leading-tight text-[var(--sr-ink)]"
-                      style={{ fontFamily: "var(--font-cormorant)" }}
-                    >
-                      {card.label}
-                    </p>
-                    <p
-                      className="mt-1 text-[12px] leading-relaxed text-[var(--sr-muted)]"
-                      style={{ fontFamily: "var(--font-dm-sans)" }}
-                    >
-                      {card.description}
-                    </p>
-                  </div>
-                  <i
-                    className="ri-arrow-right-up-line ml-auto shrink-0 text-lg text-[var(--sr-sand)] transition group-hover:text-[var(--sr-fern)]"
-                    aria-hidden
-                  />
-                </Link>
-              ))}
-            </div>
-          ) : null}
+          {config.columns.map((col) => (
+            <MegaColumn
+              key={col.heading}
+              heading={col.heading}
+              links={col.links}
+              onClose={onClose}
+            />
+          ))}
         </div>
-
-        {/* Footer CTA strip */}
-        {config.cta ? (
-          <div className="mt-8 flex flex-col gap-4 border-t border-[var(--sr-sand)] bg-[var(--sr-linen)]/80 px-5 py-5 sm:flex-row sm:items-center sm:justify-between md:px-6">
-            <p
-              className="text-[13px] text-[var(--sr-muted)]"
-              style={{ fontFamily: "var(--font-dm-sans)" }}
-            >
-              Available 24/7 · Same-day intake · Mission Viejo, CA
-            </p>
-            <div className="flex flex-wrap items-center gap-3">
-              {config.cta.secondaryPath ? (
-                <Link
-                  href={config.cta.secondaryPath}
-                  onClick={onClose}
-                  className="inline-flex items-center justify-center rounded-full border border-[var(--sr-sand)] px-6 py-2.5 text-[12px] font-semibold uppercase tracking-wider text-[var(--sr-ink)] transition hover:border-[var(--sr-moss)] hover:bg-white"
-                  style={{ fontFamily: "var(--font-dm-sans)" }}
-                >
-                  {config.cta.secondaryLabel}
-                </Link>
-              ) : null}
-              <Link
-                href={config.cta.path}
-                onClick={onClose}
-                className="inline-flex items-center justify-center gap-2 rounded-full bg-[var(--sr-sage)] px-7 py-2.5 text-[12px] font-semibold uppercase tracking-wider text-white transition hover:bg-[var(--sr-fern)]"
-                style={{ fontFamily: "var(--font-dm-sans)" }}
-              >
-                {config.cta.label}
-                <i className="ri-arrow-right-line text-sm" aria-hidden />
-              </Link>
-            </div>
-          </div>
-        ) : null}
       </div>
     </div>
   );

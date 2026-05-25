@@ -42,5 +42,6 @@ next-env.d.ts
 
 # Local upload secrets
 .upload.env
+.upload-batch/
 .env.local
 .env.*.local

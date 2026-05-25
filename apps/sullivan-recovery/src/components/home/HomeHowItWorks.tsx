@@ -157,7 +157,7 @@ export default function HomeHowItWorks() {
                   "Recovery that feels like living again."
                 </p>
                 <Link
-                  href="/admissions-process/"
+                  href="/insurance/"
                   className="inline-flex items-center gap-2 bg-[var(--sr-parchment)] px-5 py-3 text-[12px] font-medium uppercase tracking-[0.1em] text-[var(--sr-moss)] transition hover:bg-white"
                   style={{ fontFamily: "var(--font-dm-sans)" }}
                 >

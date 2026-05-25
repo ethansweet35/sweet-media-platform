@@ -10,31 +10,22 @@ export type MegaColumn = {
   links: MegaLink[];
 };
 
-export type MegaFeatured = {
-  label: string;
-  path: string;
-  description: string;
-  icon: string;
-};
-
 export type NavMegaConfig = {
   eyebrow: string;
   title: string;
   description: string;
-  viewAllPath: string;
-  viewAllLabel: string;
   columns: MegaColumn[];
-  featured?: MegaFeatured[];
-  cta?: { label: string; path: string; secondaryLabel?: string; secondaryPath?: string };
 };
 
 export type NavItem = {
   label: string;
   path: string;
   mega?: NavMegaConfig;
+  /** Path prefixes that should not activate this item (e.g. Programs vs Detox) */
+  excludeActivePrefixes?: string[];
 };
 
-/** Matches sullivanrecovery.com primary menu structure */
+/** Public routes — detox lives under /programs/detox/ but has its own nav item */
 export const NAV_ITEMS: NavItem[] = [
   { label: "Home", path: "/" },
   {
@@ -45,242 +36,148 @@ export const NAV_ITEMS: NavItem[] = [
       title: "Who we are",
       description:
         "Family-founded detox in Mission Viejo — compassionate care rooted in lived experience.",
-      viewAllPath: "/our-approach/",
-      viewAllLabel: "Our approach",
-      featured: [
-        {
-          label: "Our Team",
-          path: "/our-approach/our-team/",
-          description: "Meet the clinicians and leaders behind your care.",
-          icon: "ri-team-line",
-        },
-        {
-          label: "Blogs",
-          path: "/blogs/",
-          description: "Recovery insights, resources, and stories from our community.",
-          icon: "ri-article-line",
-        },
-      ],
       columns: [
         {
-          heading: "Service areas",
+          heading: "Overview",
           links: [
-            {
-              label: "Detox Center Huntington Beach",
-              path: "/service-area/detox-center-huntington-beach/",
-            },
-            {
-              label: "Drug Detox Lake Forest",
-              path: "/service-area/drug-detox-lake-forest/",
-            },
-            {
-              label: "Laguna Beach Detox",
-              path: "/service-area/laguna-beach-detox/",
-            },
-            {
-              label: "Newport Beach Detox",
-              path: "/service-area/newport-beach-detox/",
-            },
-            {
-              label: "Orange County Medical Detox",
-              path: "/service-area/orange-county-medical-detox/",
-            },
+            { label: "Our approach", path: "/our-approach/" },
+            { label: "Our team", path: "/our-approach/our-team/" },
+            { label: "Insights", path: "/blog/" },
           ],
         },
         {
-          heading: "Explore",
+          heading: "Get help",
           links: [
-            { label: "All service areas", path: "/service-area/" },
-            { label: "Contact us", path: "/contact-us/" },
-            { label: "Resources", path: "/resources/" },
+            { label: "Verify insurance", path: "/insurance/" },
+            { label: "All programs", path: "/programs/" },
           ],
         },
       ],
-      cta: {
-        label: "Verify insurance",
-        path: "/insurance/",
-        secondaryLabel: "Call our team",
-        secondaryPath: "/contact-us/",
-      },
     },
   },
   {
     label: "Programs",
     path: "/programs/",
+    excludeActivePrefixes: ["/programs/detox"],
     mega: {
       eyebrow: "Levels of care",
-      title: "Recovery programs",
+      title: "Treatment programs",
       description:
-        "Evidence-based pathways from medical detox through aftercare and holistic therapies.",
-      viewAllPath: "/programs/",
-      viewAllLabel: "All programs",
-      featured: [
-        {
-          label: "Wellbriety Program",
-          path: "/addiction-aftercare-program/wellbriety-program/",
-          description: "Culturally grounded healing aligned with Wellbriety principles.",
-          icon: "ri-leaf-line",
-        },
-        {
-          label: "Opioid Treatment",
-          path: "/addiction-aftercare-program/opioid-detox-orange-county/",
-          description: "Specialized opioid detox and stabilization in Orange County.",
-          icon: "ri-heart-pulse-line",
-        },
-      ],
+        "Residential treatment, aftercare, therapies, and holistic pathways beyond detox.",
       columns: [
         {
-          heading: "Care pathways",
+          heading: "Overview",
           links: [
-            {
-              label: "Residential Treatment",
-              path: "/addiction-aftercare-program/iop-treatment-mission-viejo/",
-            },
-            {
-              label: "Aftercare Programs",
-              path: "/addiction-aftercare-program/aftercare-programs/",
-            },
-            {
-              label: "Programs Near Me",
-              path: "/addiction-aftercare-program/addiction-aftercare-programs-near-me/",
-            },
-            {
-              label: "Addiction Therapies",
-              path: "/addiction-aftercare-program/addiction-therapies/",
-            },
-            {
-              label: "Personalized Care",
-              path: "/addiction-aftercare-program/personalized-care-drugs/",
-            },
+            { label: "All programs", path: "/programs/" },
+            { label: "Residential treatment", path: "/programs/residential-treatment/" },
+            { label: "Aftercare programs", path: "/programs/aftercare/" },
+          ],
+        },
+        {
+          heading: "Specialized care",
+          links: [
+            { label: "Wellbriety program", path: "/programs/wellbriety/" },
+            { label: "Addiction therapies", path: "/programs/therapies/" },
+            { label: "Personalized care", path: "/programs/personalized-care/" },
+          ],
+        },
+        {
+          heading: "Get help",
+          links: [
+            { label: "Verify insurance", path: "/insurance/" },
+            { label: "Medical detox", path: "/programs/detox/" },
           ],
         },
       ],
-      cta: {
-        label: "Start admissions",
-        path: "/admissions-process/",
-      },
     },
   },
   {
-    label: "Treatment",
-    path: "/addiction-aftercare-program/",
+    label: "Detox",
+    path: "/programs/detox/",
     mega: {
       eyebrow: "Medical detox",
-      title: "Substance treatment",
+      title: "Detox programs",
       description:
-        "Physician-led detox for alcohol, opioids, stimulants, and more — same-day intake available.",
-      viewAllPath: "/addiction-aftercare-program/",
-      viewAllLabel: "All treatment",
+        "Physician-led drug and alcohol detox in Mission Viejo with same-day intake available.",
       columns: [
         {
-          heading: "Opioids & alcohol",
+          heading: "Detox types",
           links: [
-            {
-              label: "Drug & Alcohol Detox Mission Viejo",
-              path: "/addiction-aftercare-program/opioid-detox-orange-county/drug-and-alcohol-detox-mission-viejo/",
-            },
-            {
-              label: "Opioid Detox Orange County",
-              path: "/addiction-aftercare-program/opioid-detox-orange-county/opioid-detox-orange-county/",
-            },
-            {
-              label: "Fentanyl Detox Near Me",
-              path: "/addiction-aftercare-program/opioid-detox-orange-county/fentanyl-detox-near-me/",
-            },
-            {
-              label: "Suboxone Detox Centers",
-              path: "/addiction-aftercare-program/opioid-detox-orange-county/suboxone-detox-centers-near-me/",
-            },
+            { label: "Detox overview", path: "/programs/detox/" },
+            { label: "Drug detox", path: "/programs/detox/drugs/" },
+            { label: "Alcohol detox", path: "/programs/detox/alcohol/" },
+            { label: "Orange County detox", path: "/programs/detox/orange-county/" },
           ],
         },
         {
-          heading: "Stimulants & sedatives",
+          heading: "Substances we treat",
           links: [
-            {
-              label: "Cocaine Detox California",
-              path: "/addiction-aftercare-program/opioid-detox-orange-county/cocaine-detox-center-california/",
-            },
-            {
-              label: "Meth Detox Mission Viejo",
-              path: "/addiction-aftercare-program/opioid-detox-orange-county/meth-detox-mission-viejo/",
-            },
-            {
-              label: "Benzo Detox Orange County",
-              path: "/addiction-aftercare-program/opioid-detox-orange-county/benzo-detox-orange-county/",
-            },
-            {
-              label: "Detox Facility Orange County",
-              path: "/addiction-aftercare-program/opioid-detox-orange-county/detox-facility-orange-county/",
-            },
+            { label: "Opioid detox", path: "/programs/detox/opioids/" },
+            { label: "Fentanyl detox", path: "/programs/detox/fentanyl/" },
+            { label: "Meth detox", path: "/programs/detox/meth/" },
+            { label: "Cocaine detox", path: "/programs/detox/cocaine/" },
+          ],
+        },
+        {
+          heading: "More substances",
+          links: [
+            { label: "Benzo detox", path: "/programs/detox/benzodiazepines/" },
+            { label: "Suboxone detox", path: "/programs/detox/suboxone/" },
+            { label: "Stimulant detox", path: "/programs/detox/stimulants/" },
+          ],
+        },
+        {
+          heading: "Get help",
+          links: [
+            { label: "Verify insurance", path: "/insurance/" },
+            { label: "All programs", path: "/programs/" },
           ],
         },
       ],
-      featured: [
-        {
-          label: "General detox",
-          path: "/general-detox/",
-          description: "Comprehensive medical detox tailored to your substance and history.",
-          icon: "ri-hospital-line",
-        },
-        {
-          label: "Detox in Orange County",
-          path: "/detox-in-orange-county/",
-          description: "Local, private detox with 24/7 nursing and clinical support.",
-          icon: "ri-map-pin-2-line",
-        },
-      ],
-      cta: {
-        label: "Get help today",
-        path: "/contact-us/",
-      },
     },
   },
   {
     label: "Admission",
-    path: "/admissions/",
+    path: "/insurance/",
     mega: {
       eyebrow: "Getting started",
-      title: "Admissions & intake",
+      title: "Insurance & intake",
       description:
-        "Same-day intake, insurance verification, and a clear daily schedule from day one.",
-      viewAllPath: "/admissions-process/",
-      viewAllLabel: "Admissions process",
+        "Free benefits verification, same-day intake when appropriate, and clear next steps.",
       columns: [
         {
-          heading: "Before you arrive",
+          heading: "Overview",
           links: [
-            { label: "Admissions process", path: "/admissions-process/" },
+            { label: "Verify insurance", path: "/insurance/" },
             { label: "Daily schedule", path: "/daily-schedule/" },
-            { label: "Insurance coverage", path: "/insurance/" },
+            { label: "All programs", path: "/programs/" },
+          ],
+        },
+        {
+          heading: "In-network carriers",
+          links: [
+            { label: "Aetna", path: "/insurance/aetna/" },
+            { label: "Anthem Blue Cross", path: "/insurance/anthem/" },
+            { label: "Cigna", path: "/insurance/cigna/" },
+            { label: "Beacon Health", path: "/insurance/beacon/" },
+          ],
+        },
+        {
+          heading: "Verification guides",
+          links: [
+            { label: "UnitedHealthcare", path: "/insurance/united-healthcare/" },
+            { label: "Humana", path: "/insurance/humana/" },
+            { label: "Blue Cross Blue Shield", path: "/insurance/blue-cross-blue-shield/" },
+            { label: "Tricare", path: "/insurance/tricare/" },
+            { label: "Kaiser Permanente", path: "/insurance/kaiser/" },
+            { label: "PPO out-of-network", path: "/insurance/ppo-out-of-network/" },
           ],
         },
       ],
-      featured: [
-        {
-          label: "Verify insurance",
-          path: "/insurance/",
-          description: "We work with most major PPO plans — fast, confidential verification.",
-          icon: "ri-shield-check-line",
-        },
-        {
-          label: "Contact admissions",
-          path: "/contact-us/",
-          description: "Speak with our team 24/7 about intake and next steps.",
-          icon: "ri-phone-line",
-        },
-      ],
-      cta: {
-        label: "Verify insurance",
-        path: "/insurance/",
-        secondaryLabel: "View daily schedule",
-        secondaryPath: "/daily-schedule/",
-      },
     },
   },
-  { label: "Contact Us", path: "/contact-us/" },
 ];
 
-/** Flat links for mobile accordion (preserves nested groups as headings) */
 export type MobileNavGroup = {
   label: string;
   path: string;
@@ -289,16 +186,14 @@ export type MobileNavGroup = {
 
 export function getMobileNavGroups(item: NavItem): MobileNavGroup | null {
   if (!item.mega) return null;
-  const sections: { heading: string; links: MegaLink[] }[] = [
-    ...item.mega.columns.map((col) => ({ heading: col.heading, links: col.links })),
-  ];
-  if (item.mega.featured?.length) {
-    sections.unshift({
-      heading: "Featured",
-      links: item.mega.featured.map((f) => ({ label: f.label, path: f.path })),
-    });
-  }
-  return { label: item.label, path: item.path, sections };
+  return {
+    label: item.label,
+    path: item.path,
+    sections: item.mega.columns.map((col) => ({
+      heading: col.heading,
+      links: col.links,
+    })),
+  };
 }
 
 export function navItemIsActive(
@@ -315,13 +210,16 @@ export function navItemIsActive(
     : "/";
   const target = norm(item.path);
   if (target === "/") return current === "/" || current === "";
-  if (current === target || current.startsWith(`${target}/`)) return true;
-  const allLinks = [
-    ...(item.mega?.columns.flatMap((c) => c.links) ?? []),
-    ...(item.mega?.featured?.map((f) => ({ path: f.path })) ?? []),
-    ...(item.mega?.viewAllPath ? [{ path: item.mega.viewAllPath }] : []),
-    ...(item.mega?.cta ? [{ path: item.mega.cta.path }] : []),
-  ];
+  const onPrefix =
+    current === target || (target !== "/" && current.startsWith(`${target}/`));
+  if (onPrefix) {
+    const excluded = item.excludeActivePrefixes?.some((ex) => {
+      const x = norm(ex);
+      return current === x || current.startsWith(`${x}/`);
+    });
+    if (!excluded) return true;
+  }
+  const allLinks = item.mega?.columns.flatMap((c) => c.links) ?? [];
   return allLinks.some((l) => {
     const t = norm(l.path);
     return current === t || current.startsWith(`${t}/`);

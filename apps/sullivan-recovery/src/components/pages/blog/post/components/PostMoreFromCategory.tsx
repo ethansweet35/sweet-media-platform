@@ -11,69 +11,80 @@ export default function PostMoreFromCategory({ currentPost, allPosts }: PostMore
   const sameCategory = allPosts
     .filter((p) => p.id !== currentPost.id && p.category === currentPost.category)
     .sort((a, b) => new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime())
-    .slice(0, 4);
+    .slice(0, 3);
 
   const others = allPosts
     .filter((p) => p.id !== currentPost.id && p.category !== currentPost.category)
     .sort((a, b) => new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime())
-    .slice(0, 4 - sameCategory.length);
+    .slice(0, 3 - sameCategory.length);
 
   const posts = [...sameCategory, ...others];
 
   if (posts.length === 0) return null;
 
+  const label = currentPost.category
+    ? `More in ${currentPost.category}`
+    : "More articles";
+
   return (
-    <section className="w-full bg-[#f4f6f9] py-16 md:py-20 px-4 md:px-6">
-      <div className="max-w-screen-xl mx-auto">
-        <div className="flex items-center justify-between mb-10">
-          <div className="flex items-center gap-3">
-            <div className="w-8 h-px bg-neutral-300" />
-            <span className="text-[10px] tracking-[0.3em] uppercase text-neutral-400 font-semibold">
-              More from {currentPost.category}
-            </span>
-          </div>
-          <Link
-            href="/blog"
-            className="text-[11px] tracking-[0.15em] uppercase font-medium text-[#1F2937] hover:text-[#2563EB] transition-colors cursor-pointer whitespace-nowrap flex items-center gap-1"
+    <section className="border-t border-[var(--sr-sand)] bg-[var(--sr-linen)] py-14 md:py-16">
+      <div className="sr-container">
+        <div className="mb-8 flex flex-wrap items-center justify-between gap-4">
+          <p
+            className="text-[10px] font-medium uppercase tracking-[0.2em] text-[var(--sr-fern)]"
+            style={{ fontFamily: "var(--font-dm-sans)" }}
           >
-            View All
-            <i className="ri-arrow-right-line text-xs"></i>
+            {label}
+          </p>
+          <Link
+            href="/blog/"
+            className="inline-flex items-center gap-1 text-[12px] font-semibold uppercase tracking-wider text-[var(--sr-fern)] transition hover:text-[var(--sr-moss)]"
+            style={{ fontFamily: "var(--font-dm-sans)" }}
+          >
+            View all
+            <i className="ri-arrow-right-line text-sm" aria-hidden />
           </Link>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {posts.map((post) => (
             <Link
               key={post.id}
-              href={`/blog/${post.slug}`}
-              className="group bg-white rounded-xl overflow-hidden border border-neutral-100 hover:border-neutral-200 transition-all duration-300 block"
+              href={`/blog/${post.slug}/`}
+              className="group overflow-hidden border border-[var(--sr-sand)] bg-[var(--sr-parchment)] transition hover:border-[var(--sr-moss)]/30"
             >
-              <article>
-                <div className="relative aspect-[16/9] overflow-hidden">
-                  <Image
-                    src={post.image}
-                    alt={post.title}
-                    fill
-                    loading="lazy"
-                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 280px"
-                    className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500"
-                  />
-                </div>
-                <div className="p-4">
-                  <span className="text-[9px] tracking-[0.2em] uppercase font-semibold text-[#1F2937]/60 mb-1.5 block">
+              <div className="relative aspect-[16/10] bg-[var(--sr-mist)]">
+                <Image
+                  src={post.image}
+                  alt=""
+                  fill
+                  loading="lazy"
+                  sizes="(max-width: 640px) 100vw, 320px"
+                  className="object-cover transition duration-500 group-hover:scale-[1.04]"
+                />
+              </div>
+              <div className="p-5">
+                {post.category ? (
+                  <span
+                    className="mb-2 block text-[10px] font-medium uppercase tracking-[0.14em] text-[var(--sr-fern)]"
+                    style={{ fontFamily: "var(--font-dm-sans)" }}
+                  >
                     {post.category}
                   </span>
-                  <h4
-                    className="text-sm font-medium text-neutral-800 leading-snug group-hover:text-[#1F2937] transition-colors line-clamp-2"
-                    style={{ fontFamily: "'Inter', serif" }}
-                  >
-                    {post.title}
-                  </h4>
-                  <div className="flex items-center gap-2 mt-2">
-                    <span className="text-[11px] text-neutral-400">{post.readTime}</span>
-                  </div>
-                </div>
-              </article>
+                ) : null}
+                <h4
+                  className="line-clamp-3 text-lg font-light leading-snug text-[var(--sr-ink)] transition group-hover:text-[var(--sr-moss)]"
+                  style={{ fontFamily: "var(--font-cormorant)" }}
+                >
+                  {post.title}
+                </h4>
+                <p
+                  className="mt-2 text-[11px] text-[var(--sr-muted)]"
+                  style={{ fontFamily: "var(--font-dm-sans)" }}
+                >
+                  {post.readTime}
+                </p>
+              </div>
             </Link>
           ))}
         </div>

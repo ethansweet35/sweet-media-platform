@@ -111,7 +111,7 @@ export default function HomeFacility() {
             24731 Via San Fernando, Mission Viejo, CA 92692
           </p>
           <Link
-            href="/admissions-process/"
+            href="/insurance/"
             className="bg-[var(--sr-parchment)] px-8 py-4 text-[13px] font-medium uppercase tracking-[0.08em] text-[var(--sr-moss)] transition hover:bg-white"
             style={{ fontFamily: "var(--font-dm-sans)" }}
           >

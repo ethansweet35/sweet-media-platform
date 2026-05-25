@@ -205,24 +205,18 @@ export default function Navbar() {
                               key={link.path}
                               href={link.path}
                               onClick={() => setMenuOpen(false)}
-                              className="flex items-center gap-2 py-2 pl-1 text-[12px] text-[var(--sr-body)] hover:text-[var(--sr-moss)]"
+                              className="mb-1.5 flex items-center justify-between gap-2 rounded-md border border-[var(--sr-sand)] bg-white px-3 py-2.5 text-[13px] text-[var(--sr-ink)] hover:border-[var(--sr-fern)]/50"
+                              style={{ fontFamily: "var(--font-dm-sans)" }}
                             >
-                              <span className="h-1 w-1 rounded-full bg-[var(--sr-sage)]" />
                               {link.label}
+                              <i
+                                className="ri-arrow-right-line text-sm text-[var(--sr-fern)]"
+                                aria-hidden
+                              />
                             </Link>
                           ))}
                         </div>
                       ))}
-                      {item.mega.cta ? (
-                        <Link
-                          href={item.mega.cta.path}
-                          onClick={() => setMenuOpen(false)}
-                          className="mt-2 inline-flex w-full items-center justify-center gap-2 rounded-full bg-[var(--sr-sage)] py-3 text-[12px] font-semibold uppercase tracking-wider text-white"
-                        >
-                          {item.mega.cta.label}
-                          <i className="ri-arrow-right-line text-sm" aria-hidden />
-                        </Link>
-                      ) : null}
                     </div>
                   ) : null}
                 </div>

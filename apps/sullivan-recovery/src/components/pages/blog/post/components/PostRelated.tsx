@@ -24,7 +24,7 @@ function getRelatedPosts(currentPost: BlogPost, allPosts: BlogPost[]): BlogPost[
     return new Date(b.post.publishedAt).getTime() - new Date(a.post.publishedAt).getTime();
   });
 
-  return scored.slice(0, 6).map((s) => s.post);
+  return scored.slice(0, 4).map((s) => s.post);
 }
 
 export default function PostRelated({ currentPost, allPosts }: PostRelatedProps) {
@@ -33,74 +33,87 @@ export default function PostRelated({ currentPost, allPosts }: PostRelatedProps)
   if (related.length === 0) return null;
 
   return (
-    <section className="w-full bg-white border-t border-neutral-100">
-      <div className="max-w-screen-xl mx-auto px-6 py-16 md:py-20">
-        <div className="flex items-center gap-3 mb-10">
-          <div className="w-8 h-px bg-neutral-300" />
-          <span className="text-[10px] tracking-[0.3em] uppercase text-neutral-400 font-semibold">
-            Continue Reading
-          </span>
+    <section className="border-t border-[var(--sr-sand)] bg-[var(--sr-parchment)] py-16 md:py-20">
+      <div className="sr-container">
+        <div className="mb-10 flex flex-wrap items-end justify-between gap-4">
+          <div>
+            <p
+              className="mb-2 text-[10px] font-medium uppercase tracking-[0.2em] text-[var(--sr-fern)]"
+              style={{ fontFamily: "var(--font-dm-sans)" }}
+            >
+              Continue reading
+            </p>
+            <h2
+              className="text-[clamp(1.5rem,3vw,2.25rem)] font-light text-[var(--sr-ink)]"
+              style={{ fontFamily: "var(--font-cormorant)" }}
+            >
+              More from the journal
+            </h2>
+          </div>
+          <Link
+            href="/blog/"
+            className="inline-flex items-center gap-1 text-[12px] font-semibold uppercase tracking-wider text-[var(--sr-fern)] transition hover:text-[var(--sr-moss)]"
+            style={{ fontFamily: "var(--font-dm-sans)" }}
+          >
+            All insights
+            <i className="ri-arrow-right-line text-sm" aria-hidden />
+          </Link>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
-          {related.map((post) => (
-            <Link
+        <div className="divide-y divide-[var(--sr-sand)] border-t border-[var(--sr-sand)]">
+          {related.map((post, index) => (
+            <article
               key={post.id}
-              href={`/blog/${post.slug}`}
-              className="group bg-white rounded-2xl overflow-hidden border border-neutral-100 hover:border-neutral-200 transition-all duration-300 block"
+              className="group grid grid-cols-1 gap-4 py-8 transition hover:bg-[var(--sr-linen)]/60 md:grid-cols-12 md:items-start md:gap-8"
             >
-              <article>
-                <div className="relative aspect-[16/10] overflow-hidden">
-                  <Image
-                    src={post.image}
-                    alt={post.title}
-                    fill
-                    loading="lazy"
-                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 380px"
-                    className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500"
-                  />
-                  <div className="absolute top-3 left-3">
-                    <span className="inline-block bg-white/90 backdrop-blur-sm text-[10px] tracking-[0.15em] uppercase font-bold text-[#1F2937] px-2.5 py-1 rounded-full">
-                      {post.category}
-                    </span>
-                  </div>
+              <div
+                className="font-light tabular-nums text-2xl text-[var(--sr-sand)] transition group-hover:text-[var(--sr-fern)] md:col-span-1"
+                style={{ fontFamily: "var(--font-cormorant)" }}
+                aria-hidden
+              >
+                {String(index + 1).padStart(2, "0")}
+              </div>
+              <Link
+                href={`/blog/${post.slug}/`}
+                className="relative aspect-[16/10] overflow-hidden bg-[var(--sr-mist)] md:col-span-3"
+              >
+                <Image
+                  src={post.image}
+                  alt=""
+                  fill
+                  loading="lazy"
+                  sizes="(max-width: 768px) 100vw, 240px"
+                  className="object-cover transition duration-500 group-hover:scale-[1.04]"
+                />
+              </Link>
+              <div className="md:col-span-8">
+                <div
+                  className="mb-2 flex flex-wrap items-center gap-2 text-[10px] font-medium uppercase tracking-[0.14em] text-[var(--sr-fern)]"
+                  style={{ fontFamily: "var(--font-dm-sans)" }}
+                >
+                  {post.category ? <span>{post.category}</span> : null}
+                  <span className="text-[var(--sr-sand)]" aria-hidden>
+                    ·
+                  </span>
+                  <span className="text-[var(--sr-muted)]">{post.date}</span>
+                  <span className="text-[var(--sr-muted)]">{post.readTime}</span>
                 </div>
-
-                <div className="p-5">
-                  <div className="flex items-center gap-2 mb-3">
-                    <span className="text-[11px] text-neutral-400">{post.date}</span>
-                    <span className="w-1 h-1 rounded-full bg-neutral-300" />
-                    <span className="text-[11px] text-neutral-400">{post.readTime}</span>
-                  </div>
-
-                  <h3
-                    className="text-base font-medium text-neutral-900 leading-snug mb-3 group-hover:text-[#1F2937] transition-colors line-clamp-2"
-                    style={{ fontFamily: "'Inter', serif" }}
+                <h3
+                  className="text-xl font-light leading-[1.12] text-[var(--sr-ink)] transition group-hover:text-[var(--sr-moss)] md:text-2xl"
+                  style={{ fontFamily: "var(--font-cormorant)" }}
+                >
+                  <Link href={`/blog/${post.slug}/`}>{post.title}</Link>
+                </h3>
+                {post.excerpt ? (
+                  <p
+                    className="mt-2 line-clamp-2 text-sm leading-relaxed text-[var(--sr-muted)]"
+                    style={{ fontFamily: "var(--font-dm-sans)" }}
                   >
-                    {post.title}
-                  </h3>
-
-                  <p className="text-sm text-neutral-500 leading-relaxed line-clamp-2 mb-4">
                     {post.excerpt}
                   </p>
-
-                  <div className="flex items-center justify-between pt-3 border-t border-neutral-100">
-                    <div className="flex items-center gap-2">
-                      <div className="w-6 h-6 rounded-full bg-[#1F2937] flex items-center justify-center">
-                        <span className="text-white text-[9px] font-bold">
-                          {post.author.split(" ").map((n) => n[0]).join("")}
-                        </span>
-                      </div>
-                      <span className="text-[11px] text-neutral-500">{post.author}</span>
-                    </div>
-                    <span className="flex items-center gap-1 text-[11px] tracking-[0.1em] uppercase font-medium text-[#1F2937] group-hover:text-[#2563EB] transition-colors">
-                      Read
-                      <i className="ri-arrow-right-line text-xs group-hover:translate-x-0.5 transition-transform"></i>
-                    </span>
-                  </div>
-                </div>
-              </article>
-            </Link>
+                ) : null}
+              </div>
+            </article>
           ))}
         </div>
       </div>
