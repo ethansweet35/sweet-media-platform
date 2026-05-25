@@ -1,11 +1,9 @@
-"use client";
-
-import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
+import { AutoLinkedText } from "@sweetmedia/blog-core";
+import { EditableImage, EditableText } from "@sweetmedia/admin-core/page-editor";
 import CtmFormReactor from "@/components/feature/CtmFormReactor";
 import { heroSectionPad, heroOverlayClass } from "@/lib/heroSpacing";
-import { AutoLinkedTextClient } from "@sweetmedia/blog-core";
+import InsuranceFaqAccordion from "./InsuranceFaqAccordion";
 
 /* ─── Types ──────────────────────────────────────────────────────── */
 
@@ -69,28 +67,6 @@ function VerifyForm() {
   );
 }
 
-function FaqAccordion({ faqs }: { faqs: InsuranceFaq[] }) {
-  const [open, setOpen] = useState<number | null>(null);
-  return (
-    <div className="divide-y divide-navy/10">
-      {faqs.map((faq, i) => (
-        <div key={i}>
-          <button
-            onClick={() => setOpen(open === i ? null : i)}
-            className="flex w-full items-center justify-between gap-4 py-5 text-left"
-          >
-            <span className="font-heading text-base font-bold text-navy">{faq.q}</span>
-            <i className={`text-lg text-terracotta transition-transform ${open === i ? "ri-subtract-line rotate-0" : "ri-add-line"}`} />
-          </button>
-          {open === i && (
-            <p className="pb-5 text-sm leading-relaxed text-navy/60"><AutoLinkedTextClient>{faq.a}</AutoLinkedTextClient></p>
-          )}
-        </div>
-      ))}
-    </div>
-  );
-}
-
 /* ─── Main Template ───────────────────────────────────────────────── */
 
 export default function InsurancePageTemplate({ data }: { data: InsurancePageData }) {
@@ -101,9 +77,11 @@ export default function InsurancePageTemplate({ data }: { data: InsurancePageDat
         <div className="grid lg:grid-cols-[1fr_440px] lg:items-stretch">
           {/* Left: image + content */}
           <div className="relative min-h-[420px] lg:min-h-0">
-            <Image
-              src={data.heroImage}
+            <EditableImage
+              fieldKey="hero.image"
+              defaultSrc={data.heroImage}
               alt={data.heroImageAlt}
+              label="Hero image"
               fill
               className="object-cover"
               priority
@@ -126,11 +104,23 @@ export default function InsurancePageTemplate({ data }: { data: InsurancePageDat
                 <i className="ri-shield-check-line" /> In-Network Provider
               </span>
 
-              <h1 className="font-heading max-w-xl text-4xl font-bold leading-tight text-white md:text-5xl">
+              <EditableText
+                fieldKey="hero.headline"
+                defaultValue={`${data.carrierName} Insurance for Addiction Treatment`}
+                as="h1"
+                className="font-heading max-w-xl text-4xl font-bold leading-tight text-white md:text-5xl"
+              >
                 {data.carrierName} Insurance for{" "}
                 <span className="italic text-terracotta-light">Addiction Treatment</span>
-              </h1>
-              <p className="mt-4 max-w-lg text-base leading-relaxed text-white/70"><AutoLinkedTextClient>{data.heroBody}</AutoLinkedTextClient></p>
+              </EditableText>
+              <EditableText
+                fieldKey="hero.body"
+                defaultValue={data.heroBody}
+                as="p"
+                className="mt-4 max-w-lg text-base leading-relaxed text-white/70"
+              >
+                <AutoLinkedText>{data.heroBody}</AutoLinkedText>
+              </EditableText>
 
               {/* Trust strip */}
               <div className="mt-8 flex flex-wrap gap-5">
@@ -170,14 +160,26 @@ export default function InsurancePageTemplate({ data }: { data: InsurancePageDat
         <div className={CONTAINER}>
           <div className="mb-12 text-center">
             <p className="brand-eyebrow mb-3 text-terracotta">Coverage Details</p>
-            <h2 className="font-heading text-4xl font-bold text-navy md:text-5xl">
-              {data.coverageHeadline}
-            </h2>
-            <p className="mx-auto mt-4 max-w-2xl text-base leading-relaxed text-navy/60"><AutoLinkedTextClient>{data.coverageIntro}</AutoLinkedTextClient></p>
+            <EditableText
+              fieldKey="coverage.headline"
+              defaultValue={data.coverageHeadline}
+              as="h2"
+              className="font-heading text-4xl font-bold text-navy md:text-5xl"
+            >
+              <AutoLinkedText>{data.coverageHeadline}</AutoLinkedText>
+            </EditableText>
+            <EditableText
+              fieldKey="coverage.intro"
+              defaultValue={data.coverageIntro}
+              as="p"
+              className="mx-auto mt-4 max-w-2xl text-base leading-relaxed text-navy/60"
+            >
+              <AutoLinkedText>{data.coverageIntro}</AutoLinkedText>
+            </EditableText>
           </div>
 
           <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-            {data.coverageItems.map((item) => (
+            {data.coverageItems.map((item, i) => (
               <div
                 key={item.label}
                 className="group flex gap-5 rounded-none border border-navy/8 bg-white p-6 shadow-sm transition hover:border-terracotta/25 hover:shadow-md"
@@ -186,8 +188,22 @@ export default function InsurancePageTemplate({ data }: { data: InsurancePageDat
                   <i className={`${item.icon} text-xl text-terracotta`} />
                 </span>
                 <div>
-                  <h3 className="font-heading text-base font-bold text-navy">{item.label}</h3>
-                  <p className="mt-1 text-sm leading-relaxed text-navy/60"><AutoLinkedTextClient>{item.detail}</AutoLinkedTextClient></p>
+                  <EditableText
+                    fieldKey={`coverage.items.${i}.label`}
+                    defaultValue={item.label}
+                    as="h3"
+                    className="font-heading text-base font-bold text-navy"
+                  >
+                    <AutoLinkedText>{item.label}</AutoLinkedText>
+                  </EditableText>
+                  <EditableText
+                    fieldKey={`coverage.items.${i}.detail`}
+                    defaultValue={item.detail}
+                    as="p"
+                    className="mt-1 text-sm leading-relaxed text-navy/60"
+                  >
+                    <AutoLinkedText>{item.detail}</AutoLinkedText>
+                  </EditableText>
                 </div>
               </div>
             ))}
@@ -195,7 +211,10 @@ export default function InsurancePageTemplate({ data }: { data: InsurancePageDat
 
           {/* Disclaimer */}
           <p className="mt-8 text-center text-xs text-navy/35">
-            <AutoLinkedTextClient>{"Coverage varies by plan, policy type, and clinical criteria. Northbound verifies your specific benefits at no cost before admission — call us or submit the form above."}</AutoLinkedTextClient>
+            <AutoLinkedText>
+              Coverage varies by plan, policy type, and clinical criteria. Northbound verifies your specific
+              benefits at no cost before admission — call us or submit the form above.
+            </AutoLinkedText>
           </p>
         </div>
       </section>
@@ -209,7 +228,9 @@ export default function InsurancePageTemplate({ data }: { data: InsurancePageDat
               How Insurance Verification Works
             </h2>
             <p className="mx-auto mt-4 max-w-xl text-base leading-relaxed text-white/60">
-              <AutoLinkedTextClient>{"Northbound handles the complexity of insurance so you can focus on getting help — not paperwork."}</AutoLinkedTextClient>
+              <AutoLinkedText>
+                Northbound handles the complexity of insurance so you can focus on getting help — not paperwork.
+              </AutoLinkedText>
             </p>
           </div>
 
@@ -226,8 +247,22 @@ export default function InsurancePageTemplate({ data }: { data: InsurancePageDat
                   )}
                 </div>
                 <div>
-                  <h3 className="font-heading text-lg font-bold text-white">{step.title}</h3>
-                  <p className="mt-2 text-sm leading-relaxed text-white/55"><AutoLinkedTextClient>{step.body}</AutoLinkedTextClient></p>
+                  <EditableText
+                    fieldKey={`steps.${i}.title`}
+                    defaultValue={step.title}
+                    as="h3"
+                    className="font-heading text-lg font-bold text-white"
+                  >
+                    <AutoLinkedText>{step.title}</AutoLinkedText>
+                  </EditableText>
+                  <EditableText
+                    fieldKey={`steps.${i}.body`}
+                    defaultValue={step.body}
+                    as="p"
+                    className="mt-2 text-sm leading-relaxed text-white/55"
+                  >
+                    <AutoLinkedText>{step.body}</AutoLinkedText>
+                  </EditableText>
                 </div>
               </div>
             ))}
@@ -256,11 +291,24 @@ export default function InsurancePageTemplate({ data }: { data: InsurancePageDat
           <div className="grid gap-14 lg:grid-cols-[1fr_380px] lg:items-start">
             <div>
               <p className="brand-eyebrow mb-3 text-terracotta">About {data.carrierName}</p>
-              <h2 className="font-heading text-4xl font-bold text-navy md:text-5xl">
-                {data.aboutHeadline}
-              </h2>
+              <EditableText
+                fieldKey="about.headline"
+                defaultValue={data.aboutHeadline}
+                as="h2"
+                className="font-heading text-4xl font-bold text-navy md:text-5xl"
+              >
+                <AutoLinkedText>{data.aboutHeadline}</AutoLinkedText>
+              </EditableText>
               {data.aboutBody.map((para, i) => (
-                <p key={i} className="mt-4 text-base leading-relaxed text-navy/65"><AutoLinkedTextClient>{para}</AutoLinkedTextClient></p>
+                <EditableText
+                  key={i}
+                  fieldKey={`about.body.${i}`}
+                  defaultValue={para}
+                  as="p"
+                  className="mt-4 text-base leading-relaxed text-navy/65"
+                >
+                  <AutoLinkedText>{para}</AutoLinkedText>
+                </EditableText>
               ))}
               <div className="mt-8 flex flex-wrap gap-3">
                 <a
@@ -282,14 +330,28 @@ export default function InsurancePageTemplate({ data }: { data: InsurancePageDat
             <div className="rounded-none border border-white/10 bg-navy p-8">
               <p className="mb-5 text-xs font-bold uppercase tracking-widest text-terracotta">{data.carrierName} at a Glance</p>
               <div className="flex flex-col divide-y divide-white/10">
-                {data.carrierFacts.map((fact) => (
+                {data.carrierFacts.map((fact, i) => (
                   <div key={fact.label} className="flex items-center gap-4 py-4">
                     <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-terracotta/15">
                       <i className={`${fact.icon} text-sm text-terracotta`} />
                     </span>
                     <div>
-                      <p className="text-[10px] font-bold uppercase tracking-widest text-white/40"><AutoLinkedTextClient>{fact.label}</AutoLinkedTextClient></p>
-                      <p className="text-sm font-semibold text-white"><AutoLinkedTextClient>{fact.value}</AutoLinkedTextClient></p>
+                      <EditableText
+                        fieldKey={`carrierFacts.${i}.label`}
+                        defaultValue={fact.label}
+                        as="p"
+                        className="text-[10px] font-bold uppercase tracking-widest text-white/40"
+                      >
+                        <AutoLinkedText>{fact.label}</AutoLinkedText>
+                      </EditableText>
+                      <EditableText
+                        fieldKey={`carrierFacts.${i}.value`}
+                        defaultValue={fact.value}
+                        as="p"
+                        className="text-sm font-semibold text-white"
+                      >
+                        <AutoLinkedText>{fact.value}</AutoLinkedText>
+                      </EditableText>
                     </div>
                   </div>
                 ))}
@@ -318,7 +380,9 @@ export default function InsurancePageTemplate({ data }: { data: InsurancePageDat
               >
                 <i className="ri-phone-fill" /> (866) 311-0003
               </a>
-              <p className="mt-3 text-center text-[10px] text-white/30"><AutoLinkedTextClient>{"Available 24/7 · Confidential · No Obligation"}</AutoLinkedTextClient></p>
+              <p className="mt-3 text-center text-[10px] text-white/30">
+                <AutoLinkedText>Available 24/7 · Confidential · No Obligation</AutoLinkedText>
+              </p>
 
               <div className="mt-8 flex flex-col gap-2">
                 {["Free benefits verification", "15+ major insurance plans", "Most patients pay $0 out-of-pocket", "Same-day admissions available"].map((item) => (
@@ -335,7 +399,20 @@ export default function InsurancePageTemplate({ data }: { data: InsurancePageDat
               <h2 className="font-heading mb-8 text-4xl font-bold text-navy">
                 {data.carrierName} Insurance FAQs
               </h2>
-              <FaqAccordion faqs={data.faqs} />
+              <InsuranceFaqAccordion
+                items={data.faqs.map((faq, i) => ({
+                  question: (
+                    <EditableText fieldKey={`faqs.${i}.q`} defaultValue={faq.q} as="span">
+                      <AutoLinkedText>{faq.q}</AutoLinkedText>
+                    </EditableText>
+                  ),
+                  answer: (
+                    <EditableText fieldKey={`faqs.${i}.a`} defaultValue={faq.a} as="span">
+                      <AutoLinkedText>{faq.a}</AutoLinkedText>
+                    </EditableText>
+                  ),
+                }))}
+              />
             </div>
           </div>
         </div>
@@ -346,7 +423,7 @@ export default function InsurancePageTemplate({ data }: { data: InsurancePageDat
         <section className="bg-white py-16">
           <div className={CONTAINER}>
             <p className="mb-6 text-center text-sm font-bold uppercase tracking-widest text-navy/40">
-              <AutoLinkedTextClient>{"Other Insurance Plans We Accept"}</AutoLinkedTextClient>
+              <AutoLinkedText>Other Insurance Plans We Accept</AutoLinkedText>
             </p>
             <div className="flex flex-wrap justify-center gap-3">
               {data.relatedCarriers.map((c) => (

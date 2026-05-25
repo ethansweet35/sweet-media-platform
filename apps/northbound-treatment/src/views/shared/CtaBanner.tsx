@@ -1,4 +1,6 @@
 import Link from "next/link";
+import { AutoLinkedText } from "@sweetmedia/blog-core";
+import { EditableText } from "@sweetmedia/admin-core/page-editor";
 
 interface CtaItem {
   label: string;
@@ -11,6 +13,10 @@ interface CtaBannerProps {
   body?: string;
   primaryCta: CtaItem;
   secondaryCta?: CtaItem;
+  /** When set, headline/body/eyebrow use inline editor field keys under this route. */
+  editableHeadlineKey?: string;
+  editableBodyKey?: string;
+  editableEyebrowKey?: string;
 }
 
 /**
@@ -23,29 +29,59 @@ export default function CtaBanner({
   body,
   primaryCta,
   secondaryCta,
+  editableHeadlineKey,
+  editableBodyKey,
+  editableEyebrowKey,
 }: CtaBannerProps) {
   return (
     <section className="relative overflow-hidden bg-navy py-20 lg:py-24">
-      {/* Decorative circles */}
       <div className="pointer-events-none absolute -right-24 -top-24 h-80 w-80 rounded-full bg-navy-light/50" />
       <div className="pointer-events-none absolute -bottom-16 -left-16 h-64 w-64 rounded-full bg-terracotta/10" />
 
       <div className="relative z-10 mx-auto w-full max-w-7xl px-6 lg:px-10">
         <div className="flex flex-col items-start gap-8 lg:flex-row lg:items-center lg:justify-between">
-          {/* Text */}
           <div className="max-w-2xl">
-            {eyebrow && (
+            {editableEyebrowKey ? (
+              <EditableText
+                fieldKey={editableEyebrowKey}
+                defaultValue={eyebrow}
+                as="p"
+                className="mb-3 text-xs font-semibold uppercase tracking-[0.14em] text-terracotta"
+              >
+                <AutoLinkedText>{eyebrow}</AutoLinkedText>
+              </EditableText>
+            ) : eyebrow ? (
               <p className="mb-3 text-xs font-semibold uppercase tracking-[0.14em] text-terracotta">{eyebrow}</p>
+            ) : null}
+
+            {editableHeadlineKey ? (
+              <EditableText
+                fieldKey={editableHeadlineKey}
+                defaultValue={headline}
+                as="h2"
+                className="font-heading text-3xl font-bold text-white md:text-4xl"
+              >
+                <AutoLinkedText>{headline}</AutoLinkedText>
+              </EditableText>
+            ) : (
+              <h2 className="font-heading text-3xl font-bold text-white md:text-4xl">{headline}</h2>
             )}
-            <h2 className="font-heading text-3xl font-bold text-white md:text-4xl">
-              {headline}
-            </h2>
-            {body && (
-              <p className="mt-3 text-base leading-relaxed text-white/70">{body}</p>
-            )}
+
+            {body &&
+              (editableBodyKey ? (
+                <EditableText
+                  fieldKey={editableBodyKey}
+                  defaultValue={body}
+                  as="p"
+                  className="mt-3 text-base leading-relaxed text-white/70"
+                >
+                  <AutoLinkedText>{body}</AutoLinkedText>
+                </EditableText>
+              ) : (
+                <p className="mt-3 text-base leading-relaxed text-white/70">{body}</p>
+              ))}
           </div>
 
-          {/* CTAs */}
           <div className="flex shrink-0 flex-wrap items-center gap-4">
             <Link
               href={primaryCta.href}
@@ -66,7 +102,6 @@ export default function CtaBanner({
           </div>
         </div>
 
-        {/* Trust bar */}
         <div className="mt-12 flex flex-wrap items-center gap-8 border-t border-white/10 pt-10">
           {[
             { icon: "ri-time-line", text: "24/7 Admissions Available" },
