@@ -9,10 +9,15 @@ import { CALLRAIL_PHONE_DISPLAY_PARENS } from '@/lib/callrailPhone';
 import Navbar from './Navbar';
 import HomeFooterContact from './HomeFooterContact';
 import Footer from './Footer';
+import GeneralDetoxNavbar from '@/components/landing/GeneralDetoxNavbar';
+import GeneralDetoxFooter from '@/components/landing/GeneralDetoxFooter';
+import { isGeneralDetoxPath } from '@/lib/generalDetoxLanding';
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const isAdmin = pathname?.startsWith('/admin');
+  const isGeneralDetoxLanding = isGeneralDetoxPath(pathname ?? null);
+  const isFullBleedHero = pathname === '/' || isGeneralDetoxLanding;
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
@@ -27,10 +32,48 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 
   if (isAdmin) return <>{children}</>;
 
+  if (isGeneralDetoxLanding) {
+    return (
+      <div className="flex min-h-screen flex-col" style={{ background: '#F2EDE4' }}>
+        <GeneralDetoxNavbar />
+        <div className="flex-1">{children}</div>
+        <GeneralDetoxFooter />
+
+        <div
+          className={`fixed bottom-0 left-0 right-0 z-50 transition-transform duration-500 md:hidden ${
+            visible ? 'translate-y-0' : 'translate-y-full'
+          }`}
+          style={{ background: '#2C3928', borderTop: '1px solid #3D3028' }}
+        >
+          <div className="px-4 py-3">
+            <CallNowLink
+              className="flex w-full items-center justify-center gap-2 py-3 text-[11px] font-medium uppercase tracking-[0.1em] text-white"
+              style={{ fontFamily: 'var(--font-dm-sans)' }}
+            />
+          </div>
+        </div>
+
+        <div
+          className={`fixed bottom-8 right-8 z-50 hidden transition-all duration-500 md:flex ${
+            visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4 pointer-events-none'
+          }`}
+        >
+          <CallRailPhoneLink
+            className="flex items-center gap-2.5 px-5 py-3.5 text-[11px] font-medium uppercase tracking-[0.1em] text-[#F2EDE4] shadow-lg"
+            style={{ background: '#2C3928', fontFamily: 'var(--font-dm-sans)' }}
+          >
+            <i className="ri-phone-fill text-[#8FA882]" aria-hidden />
+            {CALLRAIL_PHONE_DISPLAY_PARENS}
+          </CallRailPhoneLink>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen flex flex-col" style={{ background: '#F2EDE4' }}>
       <Navbar />
-      <div className={`flex-1 ${pathname !== '/' ? 'pt-[88px]' : ''}`}>
+      <div className={`flex-1 ${isFullBleedHero ? '' : 'pt-[88px]'}`}>
         {children}
       </div>
       <HomeFooterContact />

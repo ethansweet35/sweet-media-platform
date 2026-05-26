@@ -19,6 +19,7 @@ When making any change to admin infrastructure, features, or fixes — whether i
 - `apps/simple-health`
 - `apps/mountainview-treatment`
 - `apps/adolescent-mental-health`
+- `apps/sullivan-recovery`
 - `apps/client-template` (canonical scaffold — always update this first)
 
 ### What counts as an admin change that requires cross-client rollout:

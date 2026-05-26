@@ -1,5 +1,7 @@
+"use client";
+
 import Image from "next/image";
-import Link from "next/link";
+import LandingOptionalLink from "@/components/landing/LandingOptionalLink";
 
 const CORY = "https://knvkrhwlflkulybcmgmq.supabase.co/storage/v1/object/public/site-assets/images/sr_cory_surf_v2.jpg";
 
@@ -63,14 +65,14 @@ export default function HomeSurfTherapy() {
               </cite>
             </blockquote>
 
-            <Link
+            <LandingOptionalLink
               href="/insurance/"
               className="inline-flex items-center gap-2 border border-[var(--sr-sage)]/50 px-7 py-3.5 text-[12px] font-medium uppercase tracking-[0.12em] text-white transition hover:border-white hover:bg-white/5"
               style={{ fontFamily: "var(--font-dm-sans)" }}
             >
               Start Your Journey
               <i className="ri-arrow-right-line" />
-            </Link>
+            </LandingOptionalLink>
           </div>
 
           {/* Right: Cory's actual photo */}

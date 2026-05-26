@@ -1,5 +1,8 @@
-import Link from "next/link";
+"use client";
+
+import LandingOptionalLink from "@/components/landing/LandingOptionalLink";
 import CallRailPhoneLink from "@/components/ui/CallRailPhoneLink";
+import { useLandingPage } from "@/components/landing/LandingPageContext";
 import { CALLRAIL_PHONE_DISPLAY } from "@/lib/callrailPhone";
 
 const MAP_EMBED =
@@ -28,12 +31,13 @@ const STEPS = [
 ];
 
 export default function HomeLocation() {
+  const landing = useLandingPage();
+
   return (
     <section className="bg-[var(--sr-parchment)] py-[100px]">
       <div className="sr-container">
         <div className="grid grid-cols-1 gap-px bg-[var(--sr-sand)] lg:grid-cols-12">
 
-          {/* Map column */}
           <div className="relative bg-[var(--sr-parchment)] lg:col-span-7">
             <div className="relative h-[360px] w-full overflow-hidden md:h-[480px] lg:h-full lg:min-h-[560px]">
               <iframe
@@ -44,7 +48,6 @@ export default function HomeLocation() {
                 referrerPolicy="no-referrer-when-downgrade"
                 allowFullScreen
               />
-              {/* Address card overlay */}
               <div className="absolute left-0 top-0 max-w-sm border border-[var(--sr-sand)] bg-[var(--sr-parchment)]/95 p-6 shadow-lg backdrop-blur-sm">
                 <p
                   className="mb-1 text-[11px] font-medium uppercase tracking-[0.2em] text-[var(--sr-fern)]"
@@ -65,16 +68,26 @@ export default function HomeLocation() {
                   {ADDRESS}
                 </p>
                 <div className="flex flex-wrap gap-3">
-                  <a
-                    href={DIRECTIONS_URL}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center gap-1.5 text-[11px] font-medium uppercase tracking-[0.12em] text-[var(--sr-fern)] transition hover:text-[var(--sr-ink)]"
-                    style={{ fontFamily: "var(--font-dm-sans)" }}
-                  >
-                    <i className="ri-map-pin-line" />
-                    Directions
-                  </a>
+                  {landing ? (
+                    <span
+                      className="inline-flex items-center gap-1.5 text-[11px] font-medium uppercase tracking-[0.12em] text-[var(--sr-fern)]"
+                      style={{ fontFamily: "var(--font-dm-sans)" }}
+                    >
+                      <i className="ri-map-pin-line" />
+                      Mission Viejo, CA
+                    </span>
+                  ) : (
+                    <a
+                      href={DIRECTIONS_URL}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-1.5 text-[11px] font-medium uppercase tracking-[0.12em] text-[var(--sr-fern)] transition hover:text-[var(--sr-ink)]"
+                      style={{ fontFamily: "var(--font-dm-sans)" }}
+                    >
+                      <i className="ri-map-pin-line" />
+                      Directions
+                    </a>
+                  )}
                   <CallRailPhoneLink
                     className="inline-flex items-center gap-1.5 text-[11px] font-medium uppercase tracking-[0.12em] text-[var(--sr-fern)] transition hover:text-[var(--sr-ink)]"
                     style={{ fontFamily: "var(--font-dm-sans)" }}
@@ -87,7 +100,6 @@ export default function HomeLocation() {
             </div>
           </div>
 
-          {/* Directions column */}
           <div className="flex flex-col justify-center bg-white px-8 py-12 lg:col-span-5 lg:px-10 lg:py-14">
             <p
               className="mb-4 text-[11px] font-medium uppercase tracking-[0.22em] text-[var(--sr-fern)]"
@@ -140,13 +152,13 @@ export default function HomeLocation() {
               ))}
             </ol>
 
-            <Link
+            <LandingOptionalLink
               href="/insurance/"
               className="sr-btn-primary inline-flex w-fit items-center gap-2 px-8 py-4 text-[12px] font-medium uppercase tracking-[0.12em]"
             >
               Contact Us
               <i className="ri-arrow-right-line" />
-            </Link>
+            </LandingOptionalLink>
           </div>
 
         </div>

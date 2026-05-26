@@ -1,5 +1,7 @@
+"use client";
+
 import Image from "next/image";
-import Link from "next/link";
+import LandingOptionalLink from "@/components/landing/LandingOptionalLink";
 
 const BASE =
   "https://knvkrhwlflkulybcmgmq.supabase.co/storage/v1/object/public/site-assets/images";
@@ -110,13 +112,13 @@ export default function HomeFacility() {
           >
             24731 Via San Fernando, Mission Viejo, CA 92692
           </p>
-          <Link
+          <LandingOptionalLink
             href="/insurance/"
             className="bg-[var(--sr-parchment)] px-8 py-4 text-[13px] font-medium uppercase tracking-[0.08em] text-[var(--sr-moss)] transition hover:bg-white"
             style={{ fontFamily: "var(--font-dm-sans)" }}
           >
             Schedule a Tour
-          </Link>
+          </LandingOptionalLink>
         </div>
 
       </div>

@@ -88,6 +88,15 @@ All apps share: **Next.js 16.2.4**, **React 19.2.4**, **Tailwind v4** (`@tailwin
 - Imagery rule: `.cursor/rules/adolescent-mental-health-imagery.mdc`
 - Layout rule: `.cursor/rules/adolescent-mental-health-layout-standards.mdc` (`CONTAINER` = 1350px)
 
+### `@sweetmedia/sullivan-recovery` (`apps/sullivan-recovery`)
+- Medical detox + residential treatment — Mission Viejo, Orange County (WordPress → Next migration complete for core marketing routes)
+- Vercel project: `sullivan-recovery`
+- Domain: `sullivanrecovery.com`
+- Supabase ref: `knvkrhwlflkulybcmgmq.supabase.co`
+- Routes: home, `/our-approach/`, `/programs/**` (detox subpages, residential, aftercare, therapies, wellbriety), `/insurance/**`, `/daily-schedule/`, `/general-detox/` (PPC landing), `/blog/*`, `/admin/*`
+- Legacy WP URLs: 301s in `src/lib/site-redirects.ts`; root blog slugs via `src/lib/wp-blog-rewrites.ts`
+- CallRail dynamic number swap in root `layout.tsx`
+
 ---
 
 ## Packages (`packages/`)

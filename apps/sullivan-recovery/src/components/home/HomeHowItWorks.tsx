@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Image from "next/image";
-import Link from "next/link";
+import LandingOptionalLink from "@/components/landing/LandingOptionalLink";
 
 const TRAIL_IMAGE =
   "https://knvkrhwlflkulybcmgmq.supabase.co/storage/v1/object/public/site-assets/images/sr_process_trail.jpg";
@@ -156,14 +156,14 @@ export default function HomeHowItWorks() {
                 >
                   "Recovery that feels like living again."
                 </p>
-                <Link
+                <LandingOptionalLink
                   href="/insurance/"
                   className="inline-flex items-center gap-2 bg-[var(--sr-parchment)] px-5 py-3 text-[12px] font-medium uppercase tracking-[0.1em] text-[var(--sr-moss)] transition hover:bg-white"
                   style={{ fontFamily: "var(--font-dm-sans)" }}
                 >
                   Get Started
                   <i className="ri-arrow-right-line" />
-                </Link>
+                </LandingOptionalLink>
               </div>
             </div>
           </div>

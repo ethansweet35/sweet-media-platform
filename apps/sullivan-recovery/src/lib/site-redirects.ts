@@ -10,17 +10,77 @@ export const siteRedirects: SiteRedirect[] = [
   { source: "/blogs/", destination: "/blog/", permanent: true },
   { source: "/blogs/:path*/", destination: "/blog/:path*/", permanent: true },
   { source: "/contact/", destination: "/insurance/", permanent: true },
+  { source: "/contact-us/", destination: "/insurance/", permanent: true },
   { source: "/admissions/", destination: "/insurance/", permanent: true },
+  { source: "/admissions-process/", destination: "/insurance/", permanent: true },
 
   // Orphan stubs
   { source: "/about/", destination: "/our-approach/", permanent: true },
   { source: "/services/", destination: "/programs/", permanent: true },
   { source: "/resources/", destination: "/blog/", permanent: true },
 
-  // Standalone detox pages → programs/detox
-  { source: "/general-detox/", destination: "/programs/detox/drugs/", permanent: true },
+  // Standalone detox pages → programs/detox (/general-detox/ is a native PPC landing page)
   { source: "/detox-alcohol-near-me/", destination: "/programs/detox/alcohol/", permanent: true },
   { source: "/detox-in-orange-county/", destination: "/programs/detox/orange-county/", permanent: true },
+  {
+    source: "/drug-and-alcohol-detox-mission-viejo/",
+    destination: "/programs/detox/drugs/",
+    permanent: true,
+  },
+  {
+    source: "/opioid-detox-orange-county/",
+    destination: "/programs/detox/opioids/",
+    permanent: true,
+  },
+  {
+    source: "/fentanyl-detox-near-me/",
+    destination: "/programs/detox/fentanyl/",
+    permanent: true,
+  },
+  {
+    source: "/meth-detox-mission-viejo/",
+    destination: "/programs/detox/meth/",
+    permanent: true,
+  },
+  {
+    source: "/cocaine-detox-center-california/",
+    destination: "/programs/detox/cocaine/",
+    permanent: true,
+  },
+  {
+    source: "/benzo-detox-orange-county/",
+    destination: "/programs/detox/benzodiazepines/",
+    permanent: true,
+  },
+  {
+    source: "/suboxone-detox-centers-near-me/",
+    destination: "/programs/detox/suboxone/",
+    permanent: true,
+  },
+  { source: "/stimulants-detox/", destination: "/programs/detox/stimulants/", permanent: true },
+  {
+    source: "/detox-facility-orange-county/",
+    destination: "/programs/detox/orange-county/",
+    permanent: true,
+  },
+  {
+    source: "/iop-treatment-mission-viejo/",
+    destination: "/programs/residential-treatment/",
+    permanent: true,
+  },
+  { source: "/aftercare-programs/", destination: "/programs/aftercare/", permanent: true },
+  { source: "/wellbriety-program/", destination: "/programs/wellbriety/", permanent: true },
+  { source: "/addiction-therapies/", destination: "/programs/therapies/", permanent: true },
+  {
+    source: "/personalized-care-drugs/",
+    destination: "/programs/personalized-care/",
+    permanent: true,
+  },
+  {
+    source: "/addiction-aftercare-programs-near-me/",
+    destination: "/programs/",
+    permanent: true,
+  },
 
   // Legacy detox hub
   {

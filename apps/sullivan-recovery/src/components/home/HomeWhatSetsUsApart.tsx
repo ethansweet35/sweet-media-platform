@@ -1,5 +1,7 @@
+"use client";
+
 import Image from "next/image";
-import Link from "next/link";
+import LandingOptionalLink from "@/components/landing/LandingOptionalLink";
 
 const STAFF_IMG =
   "https://knvkrhwlflkulybcmgmq.supabase.co/storage/v1/object/public/site-assets/images/sr_apart_staff01.jpg";
@@ -75,10 +77,10 @@ export default function HomeWhatSetsUsApart() {
               ))}
             </ul>
 
-            <Link href="/our-approach/" className="sr-btn-primary inline-flex items-center gap-2 px-8 py-4 text-[12px] font-medium uppercase tracking-[0.12em]">
+            <LandingOptionalLink href="/our-approach/" className="sr-btn-primary inline-flex items-center gap-2 px-8 py-4 text-[12px] font-medium uppercase tracking-[0.12em]">
               Our Philosophy
               <i className="ri-arrow-right-line" />
-            </Link>
+            </LandingOptionalLink>
           </div>
 
           {/* Right: image with floating stat */}

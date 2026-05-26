@@ -1,4 +1,6 @@
-import Link from "next/link";
+"use client";
+
+import LandingOptionalLink from "@/components/landing/LandingOptionalLink";
 import CallNowLink from "@/components/ui/CallNowLink";
 
 const SUBSTANCES = [
@@ -83,7 +85,7 @@ export default function HomeSubstances() {
           {/* Left column */}
           <div className="flex flex-col divide-y divide-[var(--sr-sand)]">
             {SUBSTANCES.slice(0, 4).map((s, i) => (
-              <Link
+              <LandingOptionalLink
                 key={i}
                 href={s.href}
                 className="group flex items-start gap-5 px-0 py-8 pr-10 transition-colors duration-200 hover:bg-[var(--sr-linen)] md:px-8"
@@ -108,14 +110,14 @@ export default function HomeSubstances() {
                     {s.desc}
                   </p>
                 </div>
-              </Link>
+              </LandingOptionalLink>
             ))}
           </div>
 
           {/* Right column */}
           <div className="flex flex-col divide-y divide-[var(--sr-sand)]">
             {SUBSTANCES.slice(4).map((s, i) => (
-              <Link
+              <LandingOptionalLink
                 key={i}
                 href={s.href}
                 className="group flex items-start gap-5 px-0 py-8 pr-10 transition-colors duration-200 hover:bg-[var(--sr-linen)] md:px-8"
@@ -140,7 +142,7 @@ export default function HomeSubstances() {
                     {s.desc}
                   </p>
                 </div>
-              </Link>
+              </LandingOptionalLink>
             ))}
           </div>
         </div>

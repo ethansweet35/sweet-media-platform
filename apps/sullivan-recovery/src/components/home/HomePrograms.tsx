@@ -1,5 +1,7 @@
+"use client";
+
 import Image from "next/image";
-import Link from "next/link";
+import LandingOptionalLink from "@/components/landing/LandingOptionalLink";
 
 const BASE = "https://knvkrhwlflkulybcmgmq.supabase.co/storage/v1/object/public/site-assets/images";
 
@@ -71,12 +73,14 @@ export default function HomePrograms() {
               From medically supervised detox to long-term aftercare —
               we walk alongside you at every stage of recovery.
             </p>
-            <Link href="/programs/" className="inline-flex items-center gap-2 border border-[var(--sr-sage)]/40 px-6 py-3 text-[12px] font-medium uppercase tracking-[0.1em] text-white transition hover:border-white hover:bg-white/5"
+            <LandingOptionalLink
+              href="/programs/"
+              className="inline-flex items-center gap-2 border border-[var(--sr-sage)]/40 px-6 py-3 text-[12px] font-medium uppercase tracking-[0.1em] text-white transition hover:border-white hover:bg-white/5"
               style={{ fontFamily: "var(--font-dm-sans)" }}
             >
               View All Programs
               <i className="ri-arrow-right-line" />
-            </Link>
+            </LandingOptionalLink>
           </div>
         </div>
 
@@ -84,7 +88,7 @@ export default function HomePrograms() {
         <div className="flex flex-col gap-3">
 
           {/* Row 1: full-width hero card */}
-          <Link href={PROGRAMS[0].href} className="group relative w-full overflow-hidden" style={{ minHeight: 380 }}>
+          <LandingOptionalLink href={PROGRAMS[0].href} className="group relative w-full overflow-hidden" style={{ minHeight: 380 }}>
             <Image src={PROGRAMS[0].img} alt={PROGRAMS[0].title} fill className="object-cover transition-transform duration-700 group-hover:scale-105" />
             <div className="absolute inset-0 bg-gradient-to-r from-[var(--sr-charcoal)]/80 via-[var(--sr-charcoal)]/30 to-transparent" />
             <div className="absolute inset-0 p-10 flex flex-col justify-between">
@@ -108,12 +112,12 @@ export default function HomePrograms() {
                 </div>
               </div>
             </div>
-          </Link>
+          </LandingOptionalLink>
 
           {/* Row 2: 4 equal cards */}
           <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4">
             {PROGRAMS.slice(1).map((prog) => (
-              <Link key={prog.num} href={prog.href} className="group relative overflow-hidden" style={{ minHeight: 300 }}>
+              <LandingOptionalLink key={prog.num} href={prog.href} className="group relative overflow-hidden" style={{ minHeight: 300 }}>
                 <Image src={prog.img} alt={prog.title} fill className="object-cover transition-transform duration-700 group-hover:scale-105" />
                 <div className="absolute inset-0 bg-gradient-to-t from-[var(--sr-charcoal)]/90 via-[var(--sr-charcoal)]/20 to-transparent" />
                 <div className="absolute inset-0 p-7 flex flex-col justify-between">
@@ -137,7 +141,7 @@ export default function HomePrograms() {
                     </div>
                   </div>
                 </div>
-              </Link>
+              </LandingOptionalLink>
             ))}
           </div>
 

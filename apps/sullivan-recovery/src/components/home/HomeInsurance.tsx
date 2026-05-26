@@ -1,8 +1,12 @@
-import Link from "next/link";
+"use client";
+
+import LandingOptionalLink from "@/components/landing/LandingOptionalLink";
+import { useLandingPage } from "@/components/landing/LandingPageContext";
 import InsuranceLogo from "@/components/pages/insurance/InsuranceLogo";
 import { INSURANCE_CARRIERS, INSURANCE_VERIFY_BULLETS } from "@/data/insurance";
 
 export default function HomeInsurance() {
+  const landing = useLandingPage();
   return (
     <section className="bg-[var(--sr-moss)] py-[100px]">
       <div className="sr-container">
@@ -31,14 +35,14 @@ export default function HomeInsurance() {
               Our admissions team will verify your benefits quickly and confidentially —
               so you can focus on getting help, not navigating paperwork.
             </p>
-            <Link
+            <LandingOptionalLink
               href="/insurance/"
               className="inline-flex items-center gap-2 bg-[var(--sr-sage)] px-8 py-4 text-[12px] font-medium uppercase tracking-[0.12em] text-[var(--sr-ink)] transition hover:bg-white"
               style={{ fontFamily: "var(--font-dm-sans)" }}
             >
               Verify My Insurance
               <i className="ri-arrow-right-line" aria-hidden />
-            </Link>
+            </LandingOptionalLink>
           </div>
         </div>
 
@@ -56,6 +60,7 @@ export default function HomeInsurance() {
                 carrier={carrier}
                 surface="dark"
                 compact
+                link={!landing}
               />
             ))}
           </div>

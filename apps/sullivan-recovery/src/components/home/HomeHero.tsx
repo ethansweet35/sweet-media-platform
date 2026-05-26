@@ -1,18 +1,10 @@
 import Link from "next/link";
 import { EditableText } from "@sweetmedia/admin-core/page-editor";
-
-const HERO_VIDEO_DESKTOP =
-  "https://knvkrhwlflkulybcmgmq.supabase.co/storage/v1/object/public/site-assets/videos/sr_home_hero_video.mp4";
-const HERO_VIDEO_MOBILE =
-  "https://knvkrhwlflkulybcmgmq.supabase.co/storage/v1/object/public/site-assets/videos/sr_home_hero_video_mobile.mp4";
-
-const heroVideoProps = {
-  autoPlay: true,
-  loop: true,
-  muted: true,
-  playsInline: true,
-  className: "h-full w-full object-cover object-center",
-} as const;
+import {
+  HERO_VIDEO_DESKTOP,
+  HERO_VIDEO_MOBILE,
+  heroVideoProps,
+} from "@/lib/heroVideo";
 
 const EYEBROW = "Welcome to Sullivan Recovery";
 const HEADLINE = "Drug & Alcohol Detox In Mission Viejo";

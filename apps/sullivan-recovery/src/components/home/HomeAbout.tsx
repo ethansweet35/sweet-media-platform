@@ -1,5 +1,7 @@
+"use client";
+
 import Image from "next/image";
-import Link from "next/link";
+import LandingOptionalLink from "@/components/landing/LandingOptionalLink";
 
 const TEAM_PHOTO =
   "https://knvkrhwlflkulybcmgmq.supabase.co/storage/v1/object/public/site-assets/images/sr_team_group.png";
@@ -130,10 +132,10 @@ export default function HomeAbout() {
               </footer>
             </blockquote>
 
-            <Link href="/our-approach/" className="sr-btn-primary self-start">
+            <LandingOptionalLink href="/our-approach/" className="sr-btn-primary self-start">
               Meet the Team
               <i className="ri-arrow-right-line" />
-            </Link>
+            </LandingOptionalLink>
           </div>
         </div>
 
