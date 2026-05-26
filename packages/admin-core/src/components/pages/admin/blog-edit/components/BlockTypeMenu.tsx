@@ -14,7 +14,6 @@ const BLOCK_TYPES: { type: BlogSection["type"]; label: string; icon: string; des
   { type: "h3", label: "Heading 3", icon: "ri-h-3", desc: "Sub-section heading" },
   { type: "pullquote", label: "Pull Quote", icon: "ri-double-quotes-l", desc: "Highlighted quote" },
   { type: "callout", label: "Callout", icon: "ri-information-line", desc: "Info, tip, or warning box" },
-  { type: "key-takeaway", label: "Key Takeaway", icon: "ri-parent-line", desc: "Parent summary at top of article" },
   { type: "list", label: "Bullet List", icon: "ri-list-check", desc: "Unordered list items" },
   { type: "numbered", label: "Numbered List", icon: "ri-list-ordered", desc: "Ordered list items" },
   { type: "stat-row", label: "Stat Row", icon: "ri-bar-chart-box-line", desc: "3-column stat cards" },

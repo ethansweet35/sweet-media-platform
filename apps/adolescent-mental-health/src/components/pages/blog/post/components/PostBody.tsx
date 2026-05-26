@@ -101,58 +101,9 @@ export default function PostBody({ sections, autoLinkMap, currentSlug, usedHrefs
   })();
 
   return (
-    <div className="prose-custom max-w-none [&>h2:first-child]:mt-0 [&>[data-block=key-takeaway]:first-child]:mt-0">
+    <div className="prose-custom max-w-none [&>h2:first-child]:mt-0">
       {parsedSections.map((section, i) => {
         switch (section.type) {
-          case "key-takeaway": {
-            const points = section.items?.filter((item) => item.trim()) ?? [];
-            if (points.length === 0 && !section.text?.trim()) return null;
-
-            return (
-              <div
-                key={i}
-                data-block="key-takeaway"
-                className="relative my-8 overflow-hidden rounded-2xl border border-accent/25 bg-dark p-6 md:p-7"
-              >
-                <div className="pointer-events-none absolute inset-0 bg-dot-grid opacity-[0.1]" aria-hidden />
-                <div className="pointer-events-none absolute -right-8 -top-8 h-32 w-32 rounded-full bg-accent/15 blur-3xl" aria-hidden />
-
-                <div className="relative">
-                  <div className="mb-4 flex items-center gap-3">
-                    <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-accent/20 text-accent">
-                      <i className="ri-parent-line text-lg" aria-hidden />
-                    </span>
-                    <p className="text-[10px] font-bold uppercase tracking-[0.28em] text-accent">
-                      Key takeaway for parents
-                    </p>
-                  </div>
-
-                  {section.text?.trim() ? (
-                    <p className="mb-4 text-base leading-relaxed text-white/85 md:text-[17px]">{section.text}</p>
-                  ) : null}
-
-                  {points.length > 0 ? (
-                    <ul className="space-y-2.5">
-                      {points.map((item, j) => (
-                        <li key={j} className="flex items-start gap-3 text-sm leading-relaxed text-white/75 md:text-[15px]">
-                          <span className="mt-1 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-accent text-dark">
-                            <i className="ri-check-line text-[10px] font-bold" aria-hidden />
-                          </span>
-                          <InlineText
-                            text={item}
-                            autoLinkMap={autoLinkMap}
-                            currentSlug={currentSlug}
-                            usedHrefs={usedHrefs}
-                          />
-                        </li>
-                      ))}
-                    </ul>
-                  ) : null}
-                </div>
-              </div>
-            );
-          }
-
           case "paragraph":
             return (
               <p key={i} className="mb-5 text-base leading-[1.8] text-body md:text-[17px]">

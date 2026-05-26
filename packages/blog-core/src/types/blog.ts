@@ -1,7 +1,7 @@
 import { looksLikeMarkdown, markdownToSections } from "../lib/markdownToSections";
 
 export interface BlogSection {
-  type: "paragraph" | "h2" | "h3" | "pullquote" | "callout" | "list" | "numbered" | "stat-row" | "key-takeaway" | "divider" | "table" | "image";
+  type: "paragraph" | "h2" | "h3" | "pullquote" | "callout" | "list" | "numbered" | "stat-row" | "divider" | "table" | "image";
   text?: string;
   /** Alt text when type is "image" (text holds the image URL). */
   alt?: string;

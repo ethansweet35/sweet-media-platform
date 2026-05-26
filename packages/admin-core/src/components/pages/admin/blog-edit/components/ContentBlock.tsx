@@ -53,7 +53,6 @@ export default function ContentBlock({ block, index, total, onChange, onDelete, 
     list: "Bullet List",
     numbered: "Numbered List",
     "stat-row": "Stat Row",
-    "key-takeaway": "Key Takeaway",
     divider: "Divider",
     table: "Table",
     image: "Image",
@@ -68,7 +67,6 @@ export default function ContentBlock({ block, index, total, onChange, onDelete, 
     list: "ri-list-check",
     numbered: "ri-list-ordered",
     "stat-row": "ri-bar-chart-box-line",
-    "key-takeaway": "ri-parent-line",
     divider: "ri-separator",
     table: "ri-table-line",
     image: "ri-image-line",
@@ -240,60 +238,6 @@ export default function ContentBlock({ block, index, total, onChange, onDelete, 
                 </div>
               </div>
             ))}
-          </div>
-        </div>
-      )}
-
-      {block.type === "key-takeaway" && (
-        <div className="space-y-3 rounded-xl border border-[#0A1F44]/15 bg-[#0A1F44]/3 p-4">
-          <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-[#0A1F44]">
-            Key takeaway for parents
-          </p>
-          <div>
-            <label className={labelCls}>Optional intro sentence</label>
-            <textarea
-              value={block.text || ""}
-              onChange={(e) => update({ text: e.target.value })}
-              rows={2}
-              placeholder="One-sentence summary for busy parents..."
-              className={inputCls}
-            />
-          </div>
-          <div className="space-y-2">
-            <label className={labelCls}>Takeaway points</label>
-            {(block.items || [""]).map((item, i) => (
-              <div key={i} className="flex items-start gap-2">
-                <div className="mt-2.5 h-2 w-2 shrink-0 rounded-full bg-[#0A1F44]" />
-                <input
-                  type="text"
-                  value={item}
-                  onChange={(e) => {
-                    const items = [...(block.items || [])];
-                    items[i] = e.target.value;
-                    update({ items });
-                  }}
-                  placeholder={`Takeaway ${i + 1}...`}
-                  className={inputCls}
-                />
-                <button
-                  onClick={() => {
-                    const items = (block.items || []).filter((_, idx) => idx !== i);
-                    update({ items: items.length ? items : [""] });
-                  }}
-                  disabled={(block.items || []).length <= 1}
-                  className="w-8 h-9 flex items-center justify-center text-[#CBD5E1] hover:text-red-400 disabled:opacity-30 disabled:cursor-not-allowed transition-colors cursor-pointer flex-shrink-0"
-                >
-                  <i className="ri-close-line text-sm"></i>
-                </button>
-              </div>
-            ))}
-            <button
-              onClick={() => update({ items: [...(block.items || [""]), ""] })}
-              className="flex items-center gap-1.5 text-[11px] tracking-[0.1em] uppercase font-semibold text-[#0A1F44] hover:text-[#0d2a5e] transition-colors cursor-pointer mt-1"
-            >
-              <i className="ri-add-line text-xs"></i>
-              Add takeaway
-            </button>
           </div>
         </div>
       )}

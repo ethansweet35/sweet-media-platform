@@ -3,15 +3,6 @@ import { ADOLESCENT_IOP_IMGS, VIOP_IMGS } from "@/lib/site";
 
 /** Static demo content — used by /blog/demo before real posts are imported. */
 export const DEMO_BLOG_SECTIONS: BlogSection[] = [
-  {
-    type: "key-takeaway",
-    text: "Virtual IOP gives teens structured care several days a week without leaving home — a practical middle step when weekly therapy is not enough.",
-    items: [
-      "Sessions are live video with licensed clinicians — not self-paced modules",
-      "Family participation is built into the treatment plan, not optional add-on care",
-      "Insurance often covers IOP when treatment is medically necessary",
-    ],
-  },
   { type: "h2", text: "What is Virtual IOP for teens?" },
   {
     type: "paragraph",

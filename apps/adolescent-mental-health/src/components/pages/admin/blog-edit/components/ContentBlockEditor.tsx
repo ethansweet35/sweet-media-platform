@@ -20,7 +20,6 @@ function createDefaultBlock(type: BlogSection["type"]): BlogSection {
     case "list": return { type, items: [""] };
     case "numbered": return { type, items: [""] };
     case "stat-row": return { type, stats: [{ value: "", label: "" }, { value: "", label: "" }, { value: "", label: "" }] };
-    case "key-takeaway": return { type, text: "", items: [""] };
     case "divider": return { type };
     default: return { type: "paragraph", text: "" };
   }
