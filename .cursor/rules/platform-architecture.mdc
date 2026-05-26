@@ -79,6 +79,15 @@ All apps share: **Next.js 16.2.4**, **React 19.2.4**, **Tailwind v4** (`@tailwin
 - No `.env.local` yet — not fully provisioned; no Vercel project confirmed
 - Domain: TBD
 
+### `@sweetmedia/adolescent-mental-health` (`apps/adolescent-mental-health`)
+- Virtual IOP for teens — native Next.js rebuild (marketing + admin complete)
+- Supabase ref: `almncgkbmooyuptdgkhe.supabase.co`
+- Domain: `adolescentmentalhealth.com`
+- Design: `#F0F4F8` surface, `#83B3DC` accent, Heebo headings, Montserrat body, `#0A0F14` dark sections
+- Routes: home, about, contact, admissions, services, resources, program pages, therapy pages, `/blog/*`, `/admin/*`
+- Imagery rule: `.cursor/rules/adolescent-mental-health-imagery.mdc`
+- Layout rule: `.cursor/rules/adolescent-mental-health-layout-standards.mdc` (`CONTAINER` = 1350px)
+
 ---
 
 ## Packages (`packages/`)

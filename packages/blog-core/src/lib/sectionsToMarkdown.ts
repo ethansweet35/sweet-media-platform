@@ -63,6 +63,16 @@ export function sectionsToMarkdown(sections: BlogSection[]): string {
         });
         if (s.stats?.length) lines.push("");
         break;
+      case "key-takeaway":
+        lines.push("> **Key takeaway for parents**");
+        if (s.text?.trim()) {
+          lines.push(`> ${s.text.trim()}`);
+        }
+        s.items?.forEach((item) => {
+          if (item.trim()) lines.push(`- ${item.trim()}`);
+        });
+        if (s.items?.length) lines.push("");
+        break;
       case "divider":
         lines.push("---", "");
         break;

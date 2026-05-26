@@ -34,7 +34,7 @@ export default function PostInlineRelated({ currentPost, allPosts }: PostInlineR
   if (related.length === 0) return null;
 
   return (
-    <div className="my-10 rounded-3xl border border-border bg-surface p-6 md:p-8">
+    <div className="my-8 rounded-3xl border border-border bg-surface p-6 md:p-7">
       <p className="mb-5 text-[11px] font-bold uppercase tracking-[0.3em] text-accent">Related reading</p>
 
       <div className="flex flex-col gap-4">

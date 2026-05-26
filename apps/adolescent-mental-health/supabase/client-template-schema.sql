@@ -220,6 +220,7 @@ create table if not exists public.blog_posts (
   -- Content Editor integration (see migrations/2026-05-12_link_blog_pages_to_content_editor.sql).
   -- FK to content_editors is added at the bottom of this file.
   content_editor_id uuid,
+  content_editor_synced_at timestamptz,
   created_at timestamptz not null default now(),
   updated_at timestamptz not null default now()
 );
@@ -257,6 +258,7 @@ create table if not exists public.blog_queue (
   model_id text,
   batch_model_id text,
   generated_post_id uuid references public.blog_posts(id) on delete set null,
+  content_editor_id uuid,
   error_message text,
   scheduled_publish_at timestamptz,
   created_at timestamptz not null default now(),
@@ -293,6 +295,9 @@ create table if not exists public.tracked_pages (
   default_seo_title text,
   default_meta_description text,
   primary_keyword text,
+  is_blog_hub boolean not null default false,
+  is_blog_hub_misc boolean not null default false,
+  blog_hub_target_count integer,
   is_active boolean not null default true,
   display_order integer not null default 0,
   notes text,
@@ -313,6 +318,90 @@ create table if not exists public.tracked_pages (
 );
 
 create index if not exists tracked_pages_content_editor_idx on public.tracked_pages(content_editor_id);
+
+-- =========================================================
+-- BLOG PLANNER
+-- =========================================================
+
+create table if not exists public.blog_planner_items (
+  id uuid primary key default gen_random_uuid(),
+  hub_tracked_page_id uuid not null references public.tracked_pages(id) on delete cascade,
+  source text not null check (source in ('semrush', 'ai', 'manual')),
+  primary_keyword text not null,
+  suggested_title text not null default '',
+  suggested_meta_description text,
+  suggested_h1 text,
+  search_volume integer,
+  keyword_difficulty integer,
+  cpc numeric(10,2),
+  status text not null default 'idea' check (status in ('idea', 'content_editor', 'published', 'dismissed')),
+  content_editor_id uuid,
+  blog_post_id uuid references public.blog_posts(id) on delete set null,
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now()
+);
+
+create unique index if not exists blog_planner_items_hub_keyword_uidx
+  on public.blog_planner_items (hub_tracked_page_id, lower(primary_keyword));
+
+create index if not exists blog_planner_items_hub_status_idx
+  on public.blog_planner_items (hub_tracked_page_id, status);
+
+create table if not exists public.blog_planner_hub_links (
+  id uuid primary key default gen_random_uuid(),
+  hub_tracked_page_id uuid not null references public.tracked_pages(id) on delete cascade,
+  content_editor_id uuid,
+  blog_post_id uuid references public.blog_posts(id) on delete cascade,
+  created_at timestamptz not null default now(),
+  constraint blog_planner_hub_links_target_check check (
+    (content_editor_id is not null and blog_post_id is null)
+    or (content_editor_id is null and blog_post_id is not null)
+  )
+);
+
+alter table public.blog_planner_items enable row level security;
+alter table public.blog_planner_hub_links enable row level security;
+
+-- =========================================================
+-- CONTENT CHANGE LOG (SEO timeline / impact monitoring)
+-- =========================================================
+
+create table if not exists public.content_change_log (
+  id uuid primary key default gen_random_uuid(),
+  site_id text not null default '',
+  entity_type text not null check (entity_type in ('page', 'blog')),
+  entity_id text not null,
+  route_path text not null default '',
+  field_key text not null,
+  field_label text not null,
+  summary text not null,
+  old_value text,
+  new_value text,
+  changed_by text,
+  created_at timestamptz not null default now()
+);
+
+create index if not exists content_change_log_entity_idx
+  on public.content_change_log (entity_type, entity_id, created_at desc);
+
+create index if not exists content_change_log_site_route_idx
+  on public.content_change_log (site_id, route_path);
+
+alter table public.content_change_log enable row level security;
+
+drop policy if exists "Admins can read content change log" on public.content_change_log;
+create policy "Admins can read content change log"
+on public.content_change_log
+for select
+to authenticated
+using (exists (select 1 from public.admin_users au where lower(au.email) = lower(auth.jwt() ->> 'email')));
+
+drop policy if exists "Admins can insert content change log" on public.content_change_log;
+create policy "Admins can insert content change log"
+on public.content_change_log
+for insert
+to authenticated
+with check (exists (select 1 from public.admin_users au where lower(au.email) = lower(auth.jwt() ->> 'email')));
 
 create table if not exists public.system_settings (
   id uuid primary key default gen_random_uuid(),
@@ -367,6 +456,7 @@ create table if not exists public.content_editors (
   language_code text not null default 'en',
   device text not null default 'desktop',
   competitor_pool_size int not null default 20,
+  analysis_mode text not null default 'lite' check (analysis_mode in ('lite', 'deep')),
   status text not null default 'pending',
   status_message text,
   error text,
@@ -419,6 +509,27 @@ begin
     alter table public.content_editors
       add constraint content_editors_linked_tracked_page_id_fkey
       foreign key (linked_tracked_page_id) references public.tracked_pages(id) on delete set null;
+  end if;
+  if not exists (
+    select 1 from pg_constraint where conname = 'blog_queue_content_editor_id_fkey'
+  ) then
+    alter table public.blog_queue
+      add constraint blog_queue_content_editor_id_fkey
+      foreign key (content_editor_id) references public.content_editors(id) on delete set null;
+  end if;
+  if not exists (
+    select 1 from pg_constraint where conname = 'blog_planner_items_content_editor_id_fkey'
+  ) then
+    alter table public.blog_planner_items
+      add constraint blog_planner_items_content_editor_id_fkey
+      foreign key (content_editor_id) references public.content_editors(id) on delete set null;
+  end if;
+  if not exists (
+    select 1 from pg_constraint where conname = 'blog_planner_hub_links_content_editor_id_fkey'
+  ) then
+    alter table public.blog_planner_hub_links
+      add constraint blog_planner_hub_links_content_editor_id_fkey
+      foreign key (content_editor_id) references public.content_editors(id) on delete cascade;
   end if;
 end $$;
 
@@ -689,6 +800,26 @@ alter table public.content_editor_domain_blacklist  enable row level security;
 alter table public.tracked_page_live_snapshots      enable row level security;
 alter table public.ai_optimize_runs                 enable row level security;
 
+-- See migrations/2026-05-24_content_editor_bulk_jobs.sql
+create table if not exists public.content_editor_bulk_jobs (
+  id uuid primary key default gen_random_uuid(),
+  publish_target text not null check (publish_target in ('blog', 'page')),
+  analysis_mode text not null default 'lite' check (analysis_mode in ('lite', 'deep')),
+  status text not null default 'running' check (status in ('running', 'completed', 'cancelled')),
+  items jsonb not null default '[]'::jsonb,
+  total integer not null default 0,
+  completed integer not null default 0,
+  current_keyword text,
+  logs jsonb not null default '[]'::jsonb,
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now()
+);
+
+create index if not exists content_editor_bulk_jobs_status_idx
+  on public.content_editor_bulk_jobs (status, created_at desc);
+
+alter table public.content_editor_bulk_jobs enable row level security;
+
 do $$
 declare tbl text; pname text;
 begin
@@ -696,7 +827,7 @@ begin
     'content_editors','content_editor_competitors','content_editor_terms','content_editor_questions',
     'content_editor_facts','content_editor_outlines','content_editor_drafts','content_editor_draft_term_usage',
     'content_editor_serp_cache','content_editor_domain_blacklist','tracked_page_live_snapshots',
-    'ai_optimize_runs'
+    'ai_optimize_runs','content_editor_bulk_jobs'
   ]) loop
     pname := 'Admins can manage ' || tbl;
     execute format('drop policy if exists %I on public.%I', pname, tbl);
@@ -708,5 +839,62 @@ begin
   end loop;
 end $$;
 
+-- =========================================================
+-- PAGE CONTENT OVERRIDES (inline page editor)
+-- See migrations/2026-05-24_page_content_overrides.sql
+-- =========================================================
+
+create table if not exists public.page_content_overrides (
+  id uuid primary key default gen_random_uuid(),
+  site_key text not null default '',
+  route_path text not null,
+  field_key text not null,
+  field_type text not null check (field_type in ('text', 'rich_text', 'image', 'icon')),
+  draft_value text,
+  published_value text,
+  draft_updated_at timestamptz,
+  published_at timestamptz,
+  updated_by text,
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now(),
+  constraint page_content_overrides_route_field_unique unique (route_path, field_key)
+);
+
+create index if not exists page_content_overrides_route_idx
+  on public.page_content_overrides (route_path);
+
+create index if not exists page_content_overrides_site_route_idx
+  on public.page_content_overrides (site_key, route_path);
+
+alter table public.page_content_overrides enable row level security;
+
+drop policy if exists "Public can read published page content" on public.page_content_overrides;
+create policy "Public can read published page content"
+on public.page_content_overrides
+for select
+to anon, authenticated
+using (published_value is not null);
+
+drop policy if exists "Admins can manage page content overrides" on public.page_content_overrides;
+create policy "Admins can manage page content overrides"
+on public.page_content_overrides
+for all
+to authenticated
+using (exists (select 1 from public.admin_users au where lower(au.email) = lower(auth.jwt() ->> 'email')))
+with check (exists (select 1 from public.admin_users au where lower(au.email) = lower(auth.jwt() ->> 'email')));
+
+create or replace function public.tg_page_content_overrides_updated_at()
+returns trigger language plpgsql as $fn$
+begin
+  new.updated_at = now();
+  return new;
+end;
+$fn$;
+
+drop trigger if exists page_content_overrides_updated_at on public.page_content_overrides;
+create trigger page_content_overrides_updated_at
+  before update on public.page_content_overrides
+  for each row execute function public.tg_page_content_overrides_updated_at();
+
 -- Storage expectation: create a public bucket named site-assets.
--- Recommended folders: images/, blog-featured/, logos/, og/.
+-- Recommended folders: images/, blog-featured/, logos/, og/, page-edits/.

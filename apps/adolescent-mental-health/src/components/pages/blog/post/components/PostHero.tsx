@@ -3,7 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import type { BlogPost } from "@sweetmedia/blog-core";
-import { BLOG_CONTAINER, BLOG_HEADING } from "@/components/pages/blog/blogTokens";
+import { BLOG_CONTAINER, BLOG_HEADING, blogAuthorInitials, blogAuthorName, DEFAULT_BLOG_AUTHOR_ROLE } from "@/components/pages/blog/blogTokens";
 
 interface PostHeroProps {
   post: BlogPost;
@@ -32,7 +32,8 @@ export default function PostHero({ post }: PostHeroProps) {
 
           <div className="grid grid-cols-1 items-end gap-12 lg:grid-cols-[minmax(0,1fr)_420px] lg:gap-16">
             <div>
-              <span className="inline-flex items-center rounded-full border border-accent/25 bg-white px-4 py-2 text-[10px] font-bold uppercase tracking-[0.25em] text-accent-dark">
+              <span className="inline-flex items-center gap-2 rounded-full border border-accent/25 bg-white px-4 py-2 text-[10px] font-bold uppercase tracking-[0.25em] text-accent-dark">
+                <span className="h-1.5 w-1.5 rounded-full bg-accent" aria-hidden />
                 {post.category}
               </span>
 
@@ -53,26 +54,22 @@ export default function PostHero({ post }: PostHeroProps) {
                     {post.authorPhoto ? (
                       <Image
                         src={post.authorPhoto}
-                        alt={post.author}
+                        alt={blogAuthorName(post.author)}
                         fill
                         sizes="44px"
                         className="object-cover"
                       />
                     ) : (
                       <div className="flex h-full w-full items-center justify-center text-xs font-bold text-accent">
-                        {post.author
-                          .split(" ")
-                          .map((n) => n[0])
-                          .join("")
-                          .slice(0, 2) || "AM"}
+                        {blogAuthorInitials(post.author)}
                       </div>
                     )}
                   </div>
                   <div>
                     <p className="text-sm font-semibold leading-tight text-ink">
-                      {post.author || "Adolescent Mental Health"}
+                      {blogAuthorName(post.author)}
                     </p>
-                    <p className="text-[11px] text-body">{post.authorRole || "Clinical Editorial Team"}</p>
+                    <p className="text-[11px] text-body">{post.authorRole || DEFAULT_BLOG_AUTHOR_ROLE}</p>
                   </div>
                 </div>
 
@@ -91,16 +88,26 @@ export default function PostHero({ post }: PostHeroProps) {
             </div>
 
             {post.image ? (
-              <div className="relative aspect-[3/2] w-full max-w-[520px] overflow-hidden rounded-[2rem] shadow-2xl shadow-ink/10 ring-1 ring-white/60 lg:ml-auto">
-                <Image
-                  src={post.image}
-                  alt={post.title}
-                  fill
-                  priority
-                  sizes="(max-width: 1024px) 100vw, 420px"
-                  className="object-cover object-center"
+              <div className="relative w-full max-w-[520px] lg:ml-auto">
+                <div
+                  className="absolute -inset-2 rounded-[2rem] bg-accent/25 md:-inset-3"
+                  aria-hidden
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-ink/20 via-transparent to-transparent" />
+                <div className="relative aspect-[3/2] w-full overflow-hidden rounded-[2rem] shadow-2xl shadow-ink/10 ring-1 ring-white/60">
+                  <Image
+                    src={post.image}
+                    alt={post.title}
+                    fill
+                    priority
+                    sizes="(max-width: 1024px) 100vw, 420px"
+                    className="object-cover object-center"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-ink/25 via-transparent to-transparent" />
+                  <div className="absolute bottom-4 left-4 flex items-center gap-2 rounded-full bg-dark/80 px-3 py-1.5 text-[10px] font-semibold uppercase tracking-[0.12em] text-white backdrop-blur-sm">
+                    <i className="ri-time-line text-xs text-accent" aria-hidden />
+                    {post.readTime}
+                  </div>
+                </div>
               </div>
             ) : null}
           </div>

@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import type { BlogPost } from "@sweetmedia/blog-core";
-import { BLOG_CONTAINER, BLOG_HEADING, BLOG_SECTION } from "@/components/pages/blog/blogTokens";
+import { BLOG_CONTAINER, BLOG_HEADING, BLOG_SECTION, blogAuthorName } from "@/components/pages/blog/blogTokens";
 
 interface PostRelatedProps {
   currentPost: BlogPost;
@@ -79,7 +79,7 @@ export default function PostRelated({ currentPost, allPosts }: PostRelatedProps)
                   <p className="mb-4 line-clamp-2 text-sm leading-relaxed text-body">{post.excerpt}</p>
 
                   <div className="flex items-center justify-between border-t border-border pt-3">
-                    <span className="text-[11px] text-body">{post.author}</span>
+                    <span className="text-[11px] text-body">{blogAuthorName(post.author)}</span>
                     <span className="flex items-center gap-1 text-[11px] font-semibold uppercase tracking-[0.1em] text-accent-dark transition group-hover:text-accent">
                       Read
                       <i className="ri-arrow-right-line text-xs transition group-hover:translate-x-0.5" aria-hidden />

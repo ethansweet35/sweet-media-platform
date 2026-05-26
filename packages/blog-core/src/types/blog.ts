@@ -1,7 +1,7 @@
 import { looksLikeMarkdown, markdownToSections } from "../lib/markdownToSections";
 
 export interface BlogSection {
-  type: "paragraph" | "h2" | "h3" | "pullquote" | "callout" | "list" | "numbered" | "stat-row" | "divider" | "table" | "image";
+  type: "paragraph" | "h2" | "h3" | "pullquote" | "callout" | "list" | "numbered" | "stat-row" | "key-takeaway" | "divider" | "table" | "image";
   text?: string;
   /** Alt text when type is "image" (text holds the image URL). */
   alt?: string;
@@ -133,7 +133,7 @@ export function dbToBlogPost(db: DbBlogPost): BlogPost {
     title: db.title,
     excerpt: db.excerpt,
     category: db.category,
-    author: db.author,
+    author: db.author || "",
     authorRole: db.author_title || "",
     authorBio: db.author_bio || "",
     authorPhoto: db.author_photo || "",

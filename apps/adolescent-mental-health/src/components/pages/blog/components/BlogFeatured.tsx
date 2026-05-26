@@ -2,17 +2,19 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useBlogPosts } from "@sweetmedia/blog-core";
+import { useFeaturedBlogPost } from "@sweetmedia/blog-core";
 import {
   BLOG_CONTAINER,
   BLOG_FEATURED_GAP,
   BLOG_FEATURED_OVERLAP,
   BLOG_HEADING,
+  DEFAULT_BLOG_AUTHOR_ROLE,
+  blogAuthorInitials,
+  blogAuthorName,
 } from "@/components/pages/blog/blogTokens";
 
 export default function BlogFeatured() {
-  const { posts, loading } = useBlogPosts();
-  const post = posts.find((p) => p.featured);
+  const { post, loading } = useFeaturedBlogPost();
 
   if (loading) {
     return (
@@ -83,15 +85,12 @@ export default function BlogFeatured() {
               <div className="flex items-center gap-3">
                 <div className="flex h-10 w-10 items-center justify-center rounded-full bg-dark">
                   <span className="text-xs font-bold text-white">
-                    {post.author
-                      .split(" ")
-                      .map((n) => n[0])
-                      .join("")}
+                    {blogAuthorInitials(post.author)}
                   </span>
                 </div>
                 <div>
-                  <p className="text-sm font-semibold text-ink">{post.author}</p>
-                  <p className="text-[11px] text-body">{post.authorRole}</p>
+                  <p className="text-sm font-semibold text-ink">{blogAuthorName(post.author)}</p>
+                  <p className="text-[11px] text-body">{post.authorRole || DEFAULT_BLOG_AUTHOR_ROLE}</p>
                 </div>
               </div>
 

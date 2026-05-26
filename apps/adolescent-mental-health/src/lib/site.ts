@@ -75,6 +75,11 @@ export const CBT_IMGS = {
   bento: `${SB_ROOT}/amh_cbt_bento01.jpg`,
 } as const;
 
+export const DBT_IMGS = {
+  hero: `${SB_ROOT}/amh_dbt_hero01.jpg`,
+  bento: `${SB_ROOT}/amh_dbt_bento01.jpg`,
+} as const;
+
 export const INSOMNIA_IMGS = {
   hero: `${SB_ROOT}/amh_insomnia_hero01.jpg`,
   bento: `${SB_ROOT}/amh_insomnia_bento01.jpg`,
@@ -88,4 +93,69 @@ export const BIPOLAR_IMGS = {
 export const INDIVIDUAL_THERAPY_IMGS = {
   hero: `${SB_ROOT}/amh_indiv_hero01.jpg`,
   bento: `${SB_ROOT}/amh_indiv_bento01.jpg`,
+  overview: `${SB_ROOT}/amh_indiv_overview01.jpg`,
+} as const;
+
+export const HUB_IMGS = {
+  treatment: `${SB_ROOT}/amh_treatment_hero01.jpg`,
+  therapy: `${SB_ROOT}/amh_therapy_hub_hero01.jpg`,
+  levelsOfCare: `${SB_ROOT}/amh_loc_hero01.jpg`,
+} as const;
+
+export const THERAPY_IMGS = {
+  group: {
+    hero: `${SB_ROOT}/amh_group_hero01.jpg`,
+    bento: `${SB_ROOT}/amh_group_bento01.jpg`,
+    overview: `${SB_ROOT}/amh_group_overview01.jpg`,
+  },
+  family: {
+    hero: `${SB_ROOT}/amh_family_hero01.jpg`,
+    bento: `${SB_ROOT}/amh_family_bento01.jpg`,
+    overview: `${SB_ROOT}/amh_family_overview01.jpg`,
+  },
+} as const;
+
+export const CONDITION_IMGS = {
+  anxiety: `${SB_ROOT}/amh_cond_anxiety_hero01.jpg`,
+  depression: `${SB_ROOT}/amh_cond_depression_hero01.jpg`,
+  trauma: `${SB_ROOT}/amh_cond_trauma_hero01.jpg`,
+  adhd: `${SB_ROOT}/amh_cond_adhd_hero01.jpg`,
+  selfHarm: `${SB_ROOT}/amh_cond_selfharm_hero01.jpg`,
+  schoolAvoidance: `${SB_ROOT}/amh_cond_school_hero01.jpg`,
+  bipolar: `${SB_ROOT}/amh_cond_bipolar_hero01.jpg`,
+} as const;
+
+export const TREATMENT_LANDING_IMGS = {
+  depression: {
+    hero: CONDITION_IMGS.depression,
+    bento: `${SB_ROOT}/amh_treat_depression_bento01.jpg`,
+  },
+  ptsd: {
+    hero: CONDITION_IMGS.trauma,
+    bento: `${SB_ROOT}/amh_treat_ptsd_bento01.jpg`,
+  },
+  anxiety: {
+    hero: CONDITION_IMGS.anxiety,
+    bento: `${SB_ROOT}/amh_treat_anxiety_bento01.jpg`,
+  },
+  adhd: {
+    hero: CONDITION_IMGS.adhd,
+    bento: `${SB_ROOT}/amh_treat_adhd_bento01.jpg`,
+  },
+  ocd: {
+    hero: `${SB_ROOT}/amh_treat_ocd_hero01.jpg`,
+    bento: `${SB_ROOT}/amh_treat_ocd_bento01.jpg`,
+  },
+  schizophrenia: {
+    hero: `${SB_ROOT}/amh_treat_schiz_hero01.jpg`,
+    bento: `${SB_ROOT}/amh_treat_schiz_bento01.jpg`,
+  },
+  psychiatrist: {
+    hero: `${SB_ROOT}/amh_treat_psych_hero01.jpg`,
+    bento: `${SB_ROOT}/amh_treat_psych_bento01.jpg`,
+  },
+} as const;
+
+export const INSURANCE_IMGS = {
+  hero: `${SB_ROOT}/amh_insurance_hero01.jpg`,
 } as const;

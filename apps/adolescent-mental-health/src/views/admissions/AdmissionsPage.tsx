@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { AutoLinkedText } from "@sweetmedia/blog-core";
 import {
   AccentText,
   AmhButton,
@@ -57,7 +58,7 @@ const trustItems = [
 
 export default function AdmissionsPage() {
   return (
-    <MarketingPage>
+    <MarketingPage currentPath="/admissions">
       <PageHero
         eyebrow="Admissions"
         headline={
@@ -106,7 +107,7 @@ export default function AdmissionsPage() {
               <Heading as={3} className="mt-5">
                 {step.title}
               </Heading>
-              <p className="mt-3 text-sm leading-7 text-body">{step.body}</p>
+              <p className="mt-3 text-sm leading-7 text-body"><AutoLinkedText>{step.body}</AutoLinkedText></p>
             </div>
           ))}
         </div>

@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { AutoLinkedText } from "@sweetmedia/blog-core";
 import {
   AccentText,
   AmhButton,
@@ -9,52 +10,13 @@ import {
   PageSection,
   SectionHeader,
 } from "@/components/marketing";
+import {
+  LEVELS_OF_CARE_LINKS,
+  THERAPY_PROGRAM_LINKS,
+  TREATMENT_PROGRAM_LINKS,
+  type ProgramLink,
+} from "@/lib/treatment-programs";
 import { SERVICES_IMGS, SITE } from "@/lib/site";
-
-const programs = [
-  {
-    icon: "ri-video-chat-line",
-    title: "Virtual IOP for Teens",
-    body: "Our flagship intensive outpatient program — 9–20 hours per week of individual, group, and family therapy from home.",
-    href: "/virtual-iop-for-teens",
-    tag: "Most popular",
-  },
-  {
-    icon: "ri-group-line",
-    title: "Adolescent IOP",
-    body: "Structured IOP for teens who need coordinated clinical hours beyond weekly therapy — with schedules built around school.",
-    href: "/adolescent-iop-for-teens",
-    tag: "Intensive care",
-  },
-  {
-    icon: "ri-user-heart-line",
-    title: "Individual Therapy for Teens",
-    body: "One-on-one sessions with licensed clinicians using CBT, DBT, and trauma-informed approaches tailored to adolescents.",
-    href: "/therapy/individual-therapy-for-teens",
-    tag: "Outpatient",
-  },
-  {
-    icon: "ri-brain-line",
-    title: "Online CBT",
-    body: "Evidence-based cognitive behavioral therapy delivered virtually — effective for anxiety, depression, and related concerns.",
-    href: "/online-cognitive-behavioral-therapy",
-    tag: "Modality",
-  },
-  {
-    icon: "ri-moon-line",
-    title: "Insomnia Treatment for Teens",
-    body: "Structured sleep-focused care for adolescents struggling with insomnia, circadian disruption, and related mood symptoms.",
-    href: "/online-insomnia-treatment-for-teens",
-    tag: "Specialized",
-  },
-  {
-    icon: "ri-contrast-2-line",
-    title: "Bipolar Treatment",
-    body: "Virtual care for teens with bipolar disorder — mood stabilization, family support, and coordinated clinical oversight.",
-    href: "/online-bipolar-treatment",
-    tag: "Specialized",
-  },
-];
 
 const highlights = [
   {
@@ -74,9 +36,35 @@ const highlights = [
   },
 ];
 
+function ProgramCard({ program }: { program: ProgramLink }) {
+  return (
+    <Link
+      href={program.path}
+      className="group flex flex-col rounded-3xl bg-surface p-8 ring-1 ring-border transition hover:-translate-y-0.5 hover:shadow-lg hover:ring-accent/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2"
+    >
+      <div className="flex items-start justify-between gap-3">
+        <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-accent/10 text-accent transition group-hover:bg-accent/20">
+          <i className={`${program.icon} text-xl`} aria-hidden />
+        </span>
+        <span className="rounded-full bg-white px-3 py-1 text-[10px] font-bold uppercase tracking-wider text-accent-dark ring-1 ring-border">
+          {program.tag}
+        </span>
+      </div>
+      <Heading as={3} className="mt-5">
+        {program.label}
+      </Heading>
+      {program.body ? <p className="mt-3 flex-1 text-sm leading-7 text-body"><AutoLinkedText>{program.body}</AutoLinkedText></p> : null}
+      <span className="mt-6 inline-flex items-center gap-1.5 text-sm font-semibold text-accent-dark transition group-hover:text-accent">
+        Learn more
+        <i className="ri-arrow-right-line transition group-hover:translate-x-0.5" aria-hidden />
+      </span>
+    </Link>
+  );
+}
+
 export default function ServicesPage() {
   return (
-    <MarketingPage>
+    <MarketingPage currentPath="/services">
       <PageHero
         glow="right"
         eyebrow="Services"
@@ -85,7 +73,7 @@ export default function ServicesPage() {
             Programs built for <AccentText>teens ages {SITE.ages}</AccentText>
           </>
         }
-        body="From Virtual IOP to specialized therapy tracks, every program is designed for adolescent development — not adapted from adult care."
+        body="From Virtual IOP to specialized treatment tracks, every program is designed for adolescent development — not adapted from adult care."
         image={{
           src: SERVICES_IMGS.hero,
           alt: "Teen participating in a virtual group therapy session from a calm home environment",
@@ -100,35 +88,55 @@ export default function ServicesPage() {
 
       <PageSection>
         <SectionHeader
-          eyebrow="Our programs"
-          title="Find the right level of care"
-          description="Not sure which program fits? Admissions helps you compare options during a free consultation."
+          eyebrow="Levels of care"
+          title="Intensive outpatient programs"
+          description="Virtual IOP provides 9–20 clinical hours per week — a structured step between weekly therapy and hospitalization."
+        />
+        <div className="mt-12 grid gap-5 sm:grid-cols-2">
+          {LEVELS_OF_CARE_LINKS.map((program) => (
+            <ProgramCard key={program.path} program={program} />
+          ))}
+        </div>
+      </PageSection>
+
+      <PageSection bg="surface">
+        <SectionHeader
+          eyebrow="Condition treatment"
+          title="Specialized treatment tracks"
+          description="Evidence-based virtual IOP for the conditions families most often call us about."
         />
         <div className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-          {programs.map((program) => (
-            <Link
-              key={program.href}
-              href={program.href}
-              className="group flex flex-col rounded-3xl bg-surface p-8 ring-1 ring-border transition hover:-translate-y-0.5 hover:shadow-lg hover:ring-accent/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2"
-            >
-              <div className="flex items-start justify-between gap-3">
-                <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-accent/10 text-accent transition group-hover:bg-accent/20">
-                  <i className={`${program.icon} text-xl`} />
-                </span>
-                <span className="rounded-full bg-white px-3 py-1 text-[10px] font-bold uppercase tracking-wider text-accent-dark ring-1 ring-border">
-                  {program.tag}
-                </span>
-              </div>
-              <Heading as={3} className="mt-5">
-                {program.title}
-              </Heading>
-              <p className="mt-3 flex-1 text-sm leading-7 text-body">{program.body}</p>
-              <span className="mt-6 inline-flex items-center gap-1.5 text-sm font-semibold text-accent-dark transition group-hover:text-accent">
-                Learn more
-                <i className="ri-arrow-right-line transition group-hover:translate-x-0.5" />
-              </span>
-            </Link>
+          {TREATMENT_PROGRAM_LINKS.map((program) => (
+            <ProgramCard key={program.path} program={program} />
           ))}
+        </div>
+        <div className="mt-8 text-center">
+          <AmhButton href="/treatment" variant="secondary" icon="ri-arrow-right-line">
+            Browse all treatment programs
+          </AmhButton>
+        </div>
+      </PageSection>
+
+      <PageSection>
+        <SectionHeader
+          eyebrow="Therapy & modalities"
+          title="How we deliver care"
+          description="Individual, group, and family therapy — plus CBT and DBT — integrated into IOP or available as focused tracks."
+        />
+        <div className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+          {THERAPY_PROGRAM_LINKS.map((program) => (
+            <ProgramCard key={program.path} program={program} />
+          ))}
+          <Link
+            href="/therapy"
+            className="group flex flex-col justify-center rounded-3xl border border-dashed border-accent/40 bg-surface p-8 transition hover:border-accent hover:bg-accent/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2"
+          >
+            <p className="text-sm font-semibold text-accent-dark">All therapies</p>
+            <span className="mt-2 inline-flex items-center gap-1.5 text-sm text-body group-hover:text-ink">
+              Explore the therapy hub
+              <i className="ri-arrow-right-line" aria-hidden />
+            </span>
+          </Link>
         </div>
       </PageSection>
 
@@ -141,12 +149,12 @@ export default function ServicesPage() {
               className="rounded-3xl border border-white/10 bg-white/[0.03] p-8 transition hover:border-accent/30"
             >
               <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-accent/15 text-accent">
-                <i className={`${item.icon} text-xl`} />
+                <i className={`${item.icon} text-xl`} aria-hidden />
               </span>
               <Heading as={3} light className="mt-5">
                 {item.title}
               </Heading>
-              <p className="mt-3 text-sm leading-7 text-white/55">{item.body}</p>
+              <p className="mt-3 text-sm leading-7 text-white/55"><AutoLinkedText>{item.body}</AutoLinkedText></p>
             </div>
           ))}
         </div>
@@ -169,8 +177,7 @@ export default function ServicesPage() {
           <div className="rounded-3xl bg-white p-8 shadow-sm ring-1 ring-border">
             <Eyebrow className="tracking-[0.25em]">Not sure where to start?</Eyebrow>
             <p className="mt-4 text-sm leading-8 text-body">
-              Admissions can help you compare Virtual IOP, individual therapy, and specialized tracks based on your
-              teen&apos;s symptoms and insurance.
+              <AutoLinkedText>{"Admissions can help you compare Virtual IOP, condition-specific tracks, and therapy options based on your\n              teen&apos;s symptoms and insurance."}</AutoLinkedText>
             </p>
             <div className="mt-6 flex flex-col gap-3 sm:flex-row">
               <AmhButton href="/admissions" variant="secondary" className="px-6 py-3.5">

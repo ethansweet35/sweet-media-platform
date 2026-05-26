@@ -1,6 +1,7 @@
 import type { BlogSection } from "@sweetmedia/blog-core";
 import { parseInlineLinks, type InlineSegment } from "@/lib/markdownToBlog";
 import { autoLinkText, type LinkSegment, type AutoLinkMapping } from "@sweetmedia/blog-core";
+import Image from "next/image";
 import Link from "next/link";
 import { BLOG_HEADING } from "@/components/pages/blog/blogTokens";
 
@@ -100,12 +101,61 @@ export default function PostBody({ sections, autoLinkMap, currentSlug, usedHrefs
   })();
 
   return (
-    <div className="prose-custom max-w-none">
+    <div className="prose-custom max-w-none [&>h2:first-child]:mt-0 [&>[data-block=key-takeaway]:first-child]:mt-0">
       {parsedSections.map((section, i) => {
         switch (section.type) {
+          case "key-takeaway": {
+            const points = section.items?.filter((item) => item.trim()) ?? [];
+            if (points.length === 0 && !section.text?.trim()) return null;
+
+            return (
+              <div
+                key={i}
+                data-block="key-takeaway"
+                className="relative my-8 overflow-hidden rounded-2xl border border-accent/25 bg-dark p-6 md:p-7"
+              >
+                <div className="pointer-events-none absolute inset-0 bg-dot-grid opacity-[0.1]" aria-hidden />
+                <div className="pointer-events-none absolute -right-8 -top-8 h-32 w-32 rounded-full bg-accent/15 blur-3xl" aria-hidden />
+
+                <div className="relative">
+                  <div className="mb-4 flex items-center gap-3">
+                    <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-accent/20 text-accent">
+                      <i className="ri-parent-line text-lg" aria-hidden />
+                    </span>
+                    <p className="text-[10px] font-bold uppercase tracking-[0.28em] text-accent">
+                      Key takeaway for parents
+                    </p>
+                  </div>
+
+                  {section.text?.trim() ? (
+                    <p className="mb-4 text-base leading-relaxed text-white/85 md:text-[17px]">{section.text}</p>
+                  ) : null}
+
+                  {points.length > 0 ? (
+                    <ul className="space-y-2.5">
+                      {points.map((item, j) => (
+                        <li key={j} className="flex items-start gap-3 text-sm leading-relaxed text-white/75 md:text-[15px]">
+                          <span className="mt-1 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-accent text-dark">
+                            <i className="ri-check-line text-[10px] font-bold" aria-hidden />
+                          </span>
+                          <InlineText
+                            text={item}
+                            autoLinkMap={autoLinkMap}
+                            currentSlug={currentSlug}
+                            usedHrefs={usedHrefs}
+                          />
+                        </li>
+                      ))}
+                    </ul>
+                  ) : null}
+                </div>
+              </div>
+            );
+          }
+
           case "paragraph":
             return (
-              <p key={i} className="mb-6 text-base leading-[1.85] text-body md:text-[17px]">
+              <p key={i} className="mb-5 text-base leading-[1.8] text-body md:text-[17px]">
                 <InlineText
                   text={section.text ?? ""}
                   autoLinkMap={autoLinkMap}
@@ -119,22 +169,26 @@ export default function PostBody({ sections, autoLinkMap, currentSlug, usedHrefs
             return (
               <h2
                 key={i}
-                className="mt-12 mb-5 text-2xl font-bold text-ink md:text-3xl"
+                className="mt-10 mb-4 flex items-start gap-4 text-2xl font-bold text-ink md:text-3xl"
                 style={BLOG_HEADING}
               >
-                <InlineText
-                  text={section.text ?? ""}
-                  autoLinkMap={autoLinkMap}
-                  currentSlug={currentSlug}
-                  usedHrefs={usedHrefs}
-                  enableAutoLink={false}
-                />
+                <span className="mt-2 h-8 w-1 shrink-0 rounded-full bg-accent" aria-hidden />
+                <span>
+                  <InlineText
+                    text={section.text ?? ""}
+                    autoLinkMap={autoLinkMap}
+                    currentSlug={currentSlug}
+                    usedHrefs={usedHrefs}
+                    enableAutoLink={false}
+                  />
+                </span>
               </h2>
             );
 
           case "h3":
             return (
-              <h3 key={i} className="mt-8 mb-3 text-lg font-bold tracking-tight text-ink">
+              <h3 key={i} className="mt-7 mb-3 flex items-center gap-2 text-lg font-bold tracking-tight text-ink">
+                <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-accent" aria-hidden />
                 <InlineText
                   text={section.text ?? ""}
                   autoLinkMap={autoLinkMap}
@@ -147,16 +201,22 @@ export default function PostBody({ sections, autoLinkMap, currentSlug, usedHrefs
 
           case "pullquote":
             return (
-              <blockquote key={i} className="relative my-10 border-l-4 border-accent pl-8">
-                <p className="text-xl italic leading-relaxed text-ink md:text-2xl" style={BLOG_HEADING}>
-                  &ldquo;
+              <blockquote
+                key={i}
+                className="relative my-8 overflow-hidden rounded-2xl border border-accent/15 bg-gradient-to-br from-accent/[0.08] via-white to-surface-muted px-6 py-6 md:px-8 md:py-7"
+              >
+                <div
+                  className="pointer-events-none absolute -right-4 -top-4 h-20 w-20 rounded-full bg-accent/15 blur-2xl"
+                  aria-hidden
+                />
+                <i className="ri-double-quotes-l mb-3 block text-2xl text-accent/35" aria-hidden />
+                <p className="relative text-xl italic leading-relaxed text-ink md:text-2xl" style={BLOG_HEADING}>
                   <InlineText
                     text={section.text ?? ""}
                     autoLinkMap={autoLinkMap}
                     currentSlug={currentSlug}
                     usedHrefs={usedHrefs}
                   />
-                  &rdquo;
                 </p>
               </blockquote>
             );
@@ -165,7 +225,7 @@ export default function PostBody({ sections, autoLinkMap, currentSlug, usedHrefs
             return (
               <div
                 key={i}
-                className={`my-8 flex gap-4 rounded-2xl p-5 md:p-6 ${
+                className={`my-7 flex gap-4 rounded-2xl p-5 md:p-6 ${
                   section.variant === "warning"
                     ? "border border-amber-200 bg-amber-50"
                     : section.variant === "tip"
@@ -209,7 +269,7 @@ export default function PostBody({ sections, autoLinkMap, currentSlug, usedHrefs
 
           case "list":
             return (
-              <ul key={i} className="my-6 space-y-3">
+              <ul key={i} className="my-5 space-y-2.5">
                 {section.items?.map((item, j) => (
                   <li key={j} className="flex gap-3 text-base leading-relaxed text-body">
                     <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-accent text-white">
@@ -228,7 +288,7 @@ export default function PostBody({ sections, autoLinkMap, currentSlug, usedHrefs
 
           case "numbered":
             return (
-              <ol key={i} className="my-6 space-y-4">
+              <ol key={i} className="my-5 space-y-3">
                 {section.items?.map((item, j) => (
                   <li key={j} className="flex gap-4 text-base leading-relaxed text-body">
                     <span className="mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-dark text-[11px] font-bold text-white">
@@ -249,9 +309,12 @@ export default function PostBody({ sections, autoLinkMap, currentSlug, usedHrefs
 
           case "stat-row":
             return (
-              <div key={i} className="my-10 grid grid-cols-1 gap-4 sm:grid-cols-3">
+              <div key={i} className="my-8 grid grid-cols-1 gap-3 sm:grid-cols-3">
                 {section.stats?.map((stat, j) => (
-                  <div key={j} className="rounded-2xl bg-dark p-5 text-center">
+                  <div
+                    key={j}
+                    className="relative overflow-hidden rounded-2xl bg-dark p-5 text-center before:absolute before:inset-x-0 before:top-0 before:h-1 before:bg-gradient-to-r before:from-accent before:to-accent/30"
+                  >
                     <p className="mb-1 text-2xl font-bold text-white md:text-3xl" style={BLOG_HEADING}>
                       {stat.value}
                     </p>
@@ -265,7 +328,7 @@ export default function PostBody({ sections, autoLinkMap, currentSlug, usedHrefs
 
           case "table":
             return (
-              <div key={i} className="my-8 w-full overflow-x-auto rounded-2xl border border-border">
+              <div key={i} className="my-7 w-full overflow-x-auto rounded-2xl border border-border">
                 <table className="w-full border-collapse text-left text-sm">
                   {section.tableHeaders && section.tableHeaders.length > 0 ? (
                     <thead>
@@ -307,7 +370,25 @@ export default function PostBody({ sections, autoLinkMap, currentSlug, usedHrefs
             );
 
           case "divider":
-            return <hr key={i} className="my-10 border-border" />;
+            return <hr key={i} className="my-8 border-border" />;
+
+          case "image": {
+            const src = section.text?.trim();
+            if (!src) return null;
+            const alt = section.alt?.trim() || "Blog illustration";
+            return (
+              <figure key={i} className="my-8">
+                <Image
+                  src={src}
+                  alt={alt}
+                  width={1024}
+                  height={640}
+                  sizes="(max-width: 768px) 100vw, 720px"
+                  className="mx-auto h-auto w-full max-w-2xl rounded-2xl"
+                />
+              </figure>
+            );
+          }
 
           default:
             return null;

@@ -181,3 +181,33 @@ export function useSearchBlogPosts(query: string) {
 
   return { posts, loading };
 }
+
+export function useFeaturedBlogPost() {
+  const [post, setPost] = useState<BlogPost | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    void (async () => {
+      setLoading(true);
+      try {
+        const { data, error } = await supabase
+          .from("blog_posts")
+          .select("*")
+          .eq("status", "published")
+          .eq("featured", true)
+          .order("published_at", { ascending: false, nullsFirst: false })
+          .limit(1)
+          .maybeSingle();
+
+        if (error) throw error;
+        setPost(data ? dbToBlogPost(data as DbBlogPost) : null);
+      } catch {
+        setPost(null);
+      } finally {
+        setLoading(false);
+      }
+    })();
+  }, []);
+
+  return { post, loading };
+}

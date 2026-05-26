@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
+import { AutoLinkedText } from "@sweetmedia/blog-core";
 import { OptimizationStatusBanner, resolveTrackedPageMetadata } from "@sweetmedia/admin-core";
 import { ComparisonTable, MarketingPage } from "@/components/marketing";
 import Image from "next/image";
 import Link from "next/link";
-import { HOME_IMGS, INSURANCE_LOGOS, SITE } from "@/lib/site";
+import { CONTAINER, HOME_IMGS, INSURANCE_LOGOS, SITE } from "@/lib/site";
 
 const fallbackMetadata: Metadata = {
   title: "Virtual IOP for Teens | Adolescent Mental Health Treatment",
@@ -51,7 +52,7 @@ const faqSchema = {
 
 export default function HomePage() {
   return (
-    <MarketingPage>
+    <MarketingPage currentPath="/">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
       <OptimizationStatusBanner trackedPagePath="/" brandName="Adolescent Mental Health" />
 
@@ -76,7 +77,7 @@ export default function HomePage() {
           <div className="mx-auto max-w-3xl text-center">
 
             <p className="mb-5 text-xs font-bold uppercase tracking-[0.3em] text-accent">
-              Virtual IOP · Ages 12–17 · Insurance Accepted
+              <AutoLinkedText>{"Virtual IOP · Ages 12–17 · Insurance Accepted"}</AutoLinkedText>
             </p>
 
             <h1
@@ -87,7 +88,7 @@ export default function HomePage() {
             </h1>
 
             <p className="mx-auto mt-6 max-w-xl text-sm leading-8 text-white/70">
-              Structured virtual therapy from licensed clinicians — 9–20 hours per week of individual, group, and family care that fits your teen&apos;s life without disrupting it.
+              <AutoLinkedText>{"Structured virtual therapy from licensed clinicians — 9–20 hours per week of individual, group, and family care that fits your teen&apos;s life without disrupting it."}</AutoLinkedText>
             </p>
 
             {/* CTAs */}
@@ -128,7 +129,7 @@ export default function HomePage() {
 
       {/* ── Conditions + Consultation bar ── */}
       <section className="border-b border-border bg-white px-6 py-section lg:px-10">
-        <div className="mx-auto max-w-content">
+        <div className={CONTAINER}>
           <div className="grid grid-cols-1 gap-0 md:grid-cols-[1fr_280px] md:items-center md:divide-x md:divide-border">
 
             {/* Conditions */}
@@ -138,14 +139,14 @@ export default function HomePage() {
               </p>
               <div className="mt-4 grid grid-cols-2 gap-2 sm:grid-cols-4">
                 {[
-                  { label: "Depression",       path: "/conditions/depression" },
-                  { label: "Anxiety",          path: "/conditions/anxiety" },
-                  { label: "OCD",              path: "/conditions/ocd" },
-                  { label: "ADD / ADHD",       path: "/conditions/adhd" },
-                  { label: "Bipolar",          path: "/conditions/bipolar" },
+                  { label: "Depression",       path: "/teen-depression-treatment" },
+                  { label: "Anxiety",          path: "/online-anxiety-treatment" },
+                  { label: "OCD",              path: "/online-ocd-treatment" },
+                  { label: "ADD / ADHD",       path: "/adhd-treatment-for-teens" },
+                  { label: "Bipolar",          path: "/online-bipolar-treatment" },
                   { label: "Insomnia",         path: "/online-insomnia-treatment-for-teens" },
-                  { label: "Schizoaffective",  path: "/conditions/schizoaffective" },
-                  { label: "Gender Dysphoria", path: "/conditions/gender-dysphoria" },
+                  { label: "Schizoaffective",  path: "/schizophrenia-in-adolescence" },
+                  { label: "Gender Dysphoria", path: "/virtual-iop-for-teens" },
                 ].map((c) => (
                   <Link
                     key={c.path}
@@ -163,7 +164,7 @@ export default function HomePage() {
               <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-accent">
                 Free Consultation
               </p>
-              <p className="mt-1 text-xs text-body">30 minutes · No obligation</p>
+              <p className="mt-1 text-xs text-body"><AutoLinkedText>{"30 minutes · No obligation"}</AutoLinkedText></p>
               <div className="mt-4 flex flex-col gap-2.5">
                 <a
                   href={SITE.phone.href}
@@ -201,7 +202,7 @@ export default function HomePage() {
         <div className="absolute inset-0 bg-gradient-to-br from-[#1a3a52]/80 via-[#2a5a7a]/70 to-accent/50" />
 
         {/* Bento grid */}
-        <div className="relative z-10 mx-auto max-w-content">
+        <div className={`relative z-10 ${CONTAINER}`}>
           <div className="grid gap-3 lg:grid-cols-[1fr_320px] lg:grid-rows-[1fr_auto]">
 
             {/* Cell 1 — main content */}
@@ -217,7 +218,7 @@ export default function HomePage() {
             >
               <div>
                 <p className="mb-5 text-[11px] font-bold uppercase tracking-[0.3em] text-white/60">
-                  Virtual IOP · Ages 12–17
+                  <AutoLinkedText>{"Virtual IOP · Ages 12–17"}</AutoLinkedText>
                 </p>
                 <h2
                   className="text-4xl font-bold leading-[1.08] text-white lg:text-5xl"
@@ -226,7 +227,7 @@ export default function HomePage() {
                   What Is A Virtual Intensive Outpatient Program?
                 </h2>
                 <p className="mt-5 max-w-lg text-sm leading-8 text-white/65">
-                  A structured alternative to weekly therapy — our Virtual IOP gives teens 9–20 hours of evidence-based care per week from licensed clinicians, all delivered from home without disrupting school or family life.
+                  <AutoLinkedText>{"A structured alternative to weekly therapy — our Virtual IOP gives teens 9–20 hours of evidence-based care per week from licensed clinicians, all delivered from home without disrupting school or family life."}</AutoLinkedText>
                 </p>
               </div>
               <div className="mt-10 flex flex-wrap items-center gap-4">
@@ -282,8 +283,8 @@ export default function HomePage() {
                 >
                   <i className={`${s.icon} text-xl text-white/50`}></i>
                   <div className="mt-4">
-                    <p className="text-xl font-bold text-white" style={{ fontFamily: "var(--font-heebo)" }}>{s.value}</p>
-                    <p className="mt-0.5 text-[10px] uppercase tracking-wider text-white/45">{s.label}</p>
+                    <p className="text-xl font-bold text-white" style={{ fontFamily: "var(--font-heebo)" }}><AutoLinkedText>{s.value}</AutoLinkedText></p>
+                    <p className="mt-0.5 text-[10px] uppercase tracking-wider text-white/45"><AutoLinkedText>{s.label}</AutoLinkedText></p>
                   </div>
                 </div>
               ))}
@@ -295,13 +296,13 @@ export default function HomePage() {
 
       {/* ── Why Choose Virtual IOP ── */}
       <section className="bg-white px-6 py-section lg:px-10">
-        <div className="mx-auto max-w-content">
+        <div className={CONTAINER}>
 
           {/* Header */}
           <div className="mb-12 flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
             <div>
               <p className="mb-3 text-[11px] font-bold uppercase tracking-[0.3em] text-accent">
-                Mental Health Treatment for Teens
+                <AutoLinkedText>{"Mental Health Treatment for Teens"}</AutoLinkedText>
               </p>
               <h2
                 className="text-4xl font-bold leading-tight text-ink md:text-5xl"
@@ -311,7 +312,7 @@ export default function HomePage() {
               </h2>
             </div>
             <p className="max-w-sm text-sm leading-8 text-body lg:text-right">
-              Many families struggle with time and logistics. Our virtual program eliminates those barriers — delivering structured, intensive therapy from home.
+              <AutoLinkedText>{"Many families struggle with time and logistics. Our virtual program eliminates those barriers — delivering structured, intensive therapy from home."}</AutoLinkedText>
             </p>
           </div>
 
@@ -339,7 +340,7 @@ export default function HomePage() {
               alt: "Parent and teen reviewing insurance options together at home",
               title: "Covered By Your Insurance",
               body: "We work with major insurance plans and offer affordable out-of-pocket costs to ensure every teen can access the care they need.",
-              link: { label: "Verify Your Insurance", href: "/insurance-coverage" },
+              link: { label: "Verify Your Insurance", href: "/verify-insurance" },
             },
           ].map((item, i) => (
             <div
@@ -350,9 +351,7 @@ export default function HomePage() {
               <p
                 className="text-5xl font-bold text-border lg:text-6xl"
                 style={{ fontFamily: "var(--font-heebo)" }}
-              >
-                {item.num}
-              </p>
+              ><AutoLinkedText>{item.num}</AutoLinkedText></p>
 
               {/* Text */}
               <div>
@@ -362,7 +361,7 @@ export default function HomePage() {
                 >
                   {item.title}
                 </h3>
-                <p className="mt-3 max-w-lg text-sm leading-8 text-body">{item.body}</p>
+                <p className="mt-3 max-w-lg text-sm leading-8 text-body"><AutoLinkedText>{item.body}</AutoLinkedText></p>
                 <Link
                   href={item.link.href}
                   className="mt-5 inline-flex items-center gap-1.5 text-sm font-semibold text-accent transition hover:text-accent-dark"
@@ -390,7 +389,7 @@ export default function HomePage() {
 
       {/* ── Traditional vs Outpatient ── */}
       <section className="bg-dark px-6 py-section lg:px-10">
-        <div className="mx-auto max-w-content">
+        <div className={CONTAINER}>
 
           {/* Header */}
           <div className="mb-12 text-center">
@@ -423,7 +422,7 @@ export default function HomePage() {
 
       {/* ── Conditions Treated ── */}
       <section className="bg-surface px-6 py-section lg:px-10">
-        <div className="mx-auto max-w-content">
+        <div className={CONTAINER}>
 
           {/* Header */}
           <div className="mx-auto mb-12 max-w-2xl text-center">
@@ -432,18 +431,18 @@ export default function HomePage() {
               Mental Health Conditions We Treat
             </h2>
             <p className="mt-4 text-sm leading-8 text-body">
-              Evidence-based virtual care for teens navigating a wide range of emotional and behavioral challenges.
+              <AutoLinkedText>{"Evidence-based virtual care for teens navigating a wide range of emotional and behavioral challenges."}</AutoLinkedText>
             </p>
           </div>
 
           {/* 3-col grid */}
           <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
             {[
-              { icon: "ri-mental-health-line",  title: "Anxiety Disorders",       tagline: "GAD, Social Anxiety & Panic Attacks",      path: "/conditions/anxiety" },
-              { icon: "ri-heart-pulse-line",     title: "Depression",              tagline: "Major Depressive Disorder & Dysthymia",     path: "/conditions/depression" },
-              { icon: "ri-shield-flash-line",    title: "Trauma & PTSD",           tagline: "PTSD, Acute Stress & Complex Trauma",      path: "/conditions/trauma-ptsd" },
+              { icon: "ri-mental-health-line",  title: "Anxiety Disorders",       tagline: "GAD, Social Anxiety & Panic Attacks",      path: "/online-anxiety-treatment" },
+              { icon: "ri-heart-pulse-line",     title: "Depression",              tagline: "Major Depressive Disorder & Dysthymia",     path: "/teen-depression-treatment" },
+              { icon: "ri-shield-flash-line",    title: "Trauma & PTSD",           tagline: "PTSD, Acute Stress & Complex Trauma",      path: "/ptsd-treatment-online" },
               { icon: "ri-hand-heart-line",      title: "Self-Harming Behaviors",  tagline: "Safe, non-judgmental NSSI intervention",   path: "/conditions/self-harm" },
-              { icon: "ri-brain-line",           title: "ADD & ADHD",              tagline: "Focus, executive function & regulation",   path: "/conditions/adhd" },
+              { icon: "ri-brain-line",           title: "ADD & ADHD",              tagline: "Focus, executive function & regulation",   path: "/adhd-treatment-for-teens" },
               { icon: "ri-book-open-line",       title: "School Avoidance",        tagline: "Academic reintegration for anxious teens", path: "/conditions/school-avoidance" },
             ].map((c, i) => (
               <Link
@@ -469,10 +468,8 @@ export default function HomePage() {
 
                 {/* Text */}
                 <div className="relative z-10 mt-5 flex-1">
-                  <p className="text-base font-bold text-ink transition group-hover:text-accent" style={{ fontFamily: "var(--font-heebo)" }}>
-                    {c.title}
-                  </p>
-                  <p className="mt-1.5 text-xs leading-5 text-body">{c.tagline}</p>
+                  <p className="text-base font-bold text-ink transition group-hover:text-accent" style={{ fontFamily: "var(--font-heebo)" }}><AutoLinkedText>{c.title}</AutoLinkedText></p>
+                  <p className="mt-1.5 text-xs leading-5 text-body"><AutoLinkedText>{c.tagline}</AutoLinkedText></p>
                 </div>
 
                 {/* Footer link */}
@@ -490,7 +487,7 @@ export default function HomePage() {
 
           <div className="mt-10 text-center">
             <Link
-              href="/conditions"
+              href="/treatment"
               className="inline-flex items-center gap-2 rounded-full border border-border bg-white px-7 py-3.5 text-sm font-semibold text-ink transition hover:border-accent hover:text-accent"
             >
               See All Conditions
@@ -503,7 +500,7 @@ export default function HomePage() {
 
       {/* ── A Structured Path ── */}
       <section className="bg-dark px-6 py-section lg:px-10">
-        <div className="mx-auto max-w-content">
+        <div className={CONTAINER}>
 
           {/* Header */}
           <div className="mb-16 flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
@@ -580,7 +577,7 @@ export default function HomePage() {
                   <h3 className="text-lg font-bold text-white" style={{ fontFamily: "var(--font-heebo)" }}>
                     {step.title}
                   </h3>
-                  <p className="mt-2 text-sm leading-7 text-white/50">{step.body}</p>
+                  <p className="mt-2 text-sm leading-7 text-white/50"><AutoLinkedText>{step.body}</AutoLinkedText></p>
                 </div>
               ))}
             </div>
@@ -602,7 +599,7 @@ export default function HomePage() {
         <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/65 to-black/80" />
 
         <div className="relative z-10 px-6 py-section lg:px-10">
-          <div className="mx-auto max-w-content">
+          <div className={CONTAINER}>
 
             {/* Header */}
             <div className="mb-14 flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
@@ -669,8 +666,8 @@ export default function HomePage() {
                       <i className={`${t.icon} text-sm`}></i>
                     </span>
                     <div>
-                      <p className="text-sm font-bold text-white">{t.name}</p>
-                      <p className="text-xs text-white/40">{t.detail}</p>
+                      <p className="text-sm font-bold text-white"><AutoLinkedText>{t.name}</AutoLinkedText></p>
+                      <p className="text-xs text-white/40"><AutoLinkedText>{t.detail}</AutoLinkedText></p>
                     </div>
                   </div>
                 </div>
@@ -683,7 +680,7 @@ export default function HomePage() {
 
       {/* ── Who Benefits ── */}
       <section className="bg-dark px-6 py-section lg:px-10">
-        <div className="mx-auto max-w-content">
+        <div className={CONTAINER}>
           <div className="grid gap-12 lg:grid-cols-[1fr_360px] lg:items-start">
 
             {/* Left — criteria */}
@@ -692,7 +689,7 @@ export default function HomePage() {
               <h2 className="text-4xl font-bold text-white md:text-5xl" style={{ fontFamily: "var(--font-heebo)" }}>
                 Is Virtual IOP Right<br className="hidden lg:block" /> for Your Teen?
               </h2>
-              <p className="mt-4 text-sm text-white/45">Our program is ideal for teens who meet any of the following:</p>
+              <p className="mt-4 text-sm text-white/45"><AutoLinkedText>{"Our program is ideal for teens who meet any of the following:"}</AutoLinkedText></p>
 
               <ul className="mt-8 divide-y divide-white/8">
                 {[
@@ -707,8 +704,8 @@ export default function HomePage() {
                       <i className={`${item.icon} text-base`}></i>
                     </span>
                     <div>
-                      <p className="text-sm font-bold text-white">{item.label}</p>
-                      <p className="mt-0.5 text-xs text-white/40">{item.sub}</p>
+                      <p className="text-sm font-bold text-white"><AutoLinkedText>{item.label}</AutoLinkedText></p>
+                      <p className="mt-0.5 text-xs text-white/40"><AutoLinkedText>{item.sub}</AutoLinkedText></p>
                     </div>
                   </li>
                 ))}
@@ -729,10 +726,10 @@ export default function HomePage() {
               >
                 <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-accent">Insurance & Payment</p>
                 <p className="mt-3 text-base font-bold leading-snug text-white" style={{ fontFamily: "var(--font-heebo)" }}>
-                  Most Major Insurance Plans Accepted
+                  <AutoLinkedText>{"Most Major Insurance Plans Accepted"}</AutoLinkedText>
                 </p>
                 <p className="mt-3 text-xs leading-6 text-white/45">
-                  Our admissions team verifies your coverage, explains your benefits, and guides you through enrollment — step by step.
+                  <AutoLinkedText>{"Our admissions team verifies your coverage, explains your benefits, and guides you through enrollment — step by step."}</AutoLinkedText>
                 </p>
 
                 {/* Insurer logos — row of 3 + row of 2 centered */}
@@ -753,7 +750,7 @@ export default function HomePage() {
                   ))}
                 </div>
 
-                <p className="mt-4 text-[11px] text-white/30">+ Medicaid, self-pay, and more options available</p>
+                <p className="mt-4 text-[11px] text-white/30"><AutoLinkedText>{"+ Medicaid, self-pay, and more options available"}</AutoLinkedText></p>
 
                 <div className="mt-6 flex flex-col gap-3">
                   <a
@@ -780,7 +777,7 @@ export default function HomePage() {
 
       {/* ── FAQ ── */}
       <section className="bg-white px-6 py-section lg:px-10">
-        <div className="mx-auto max-w-content">
+        <div className={CONTAINER}>
           <div className="grid gap-16 lg:grid-cols-[320px_1fr] lg:items-start">
 
             {/* Left — sticky heading */}
@@ -790,7 +787,7 @@ export default function HomePage() {
                 Questions Parents Ask
               </h2>
               <p className="mt-5 text-sm leading-8 text-body">
-                Still have questions? Our admissions team is available to walk you through every step.
+                <AutoLinkedText>{"Still have questions? Our admissions team is available to walk you through every step."}</AutoLinkedText>
               </p>
               <div className="mt-8 flex flex-col gap-3">
                 <a
@@ -856,7 +853,7 @@ export default function HomePage() {
                       <i className="ri-subtract-line text-sm hidden group-open:block"></i>
                     </span>
                   </summary>
-                  <p className="mt-4 pl-10 text-sm leading-8 text-body">{faq.a}</p>
+                  <p className="mt-4 pl-10 text-sm leading-8 text-body"><AutoLinkedText>{faq.a}</AutoLinkedText></p>
                 </details>
               ))}
             </div>
@@ -871,7 +868,7 @@ export default function HomePage() {
         <div className="pointer-events-none absolute left-1/2 top-1/2 h-[600px] w-[600px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-accent/8 blur-[120px]" />
         <div className="pointer-events-none absolute -right-32 -top-32 h-80 w-80 rounded-full bg-accent/5 blur-[80px]" />
 
-        <div className="relative mx-auto max-w-content">
+        <div className={`relative ${CONTAINER}`}>
 
           {/* Top row — label + trust pills */}
           <div className="mb-10 flex flex-wrap items-center justify-between gap-4">
@@ -896,7 +893,7 @@ export default function HomePage() {
                 Therapy.
               </h2>
               <p className="mt-6 max-w-lg text-base leading-8 text-white/50">
-                Adolescent Mental Health delivers structured, insurance-accepted virtual IOP — built around your teen&apos;s schedule, not the other way around.
+                <AutoLinkedText>{"Adolescent Mental Health delivers structured, insurance-accepted virtual IOP — built around your teen&apos;s schedule, not the other way around."}</AutoLinkedText>
               </p>
             </div>
 
@@ -910,8 +907,8 @@ export default function HomePage() {
                 boxShadow: "rgba(255,255,255,0.07) 0px 1px 0px inset",
               }}
             >
-              <p className="text-sm font-semibold text-white/70">Ready to take the first step?</p>
-              <p className="mt-1 text-xs text-white/30">All calls are 100% free and confidential</p>
+              <p className="text-sm font-semibold text-white/70"><AutoLinkedText>{"Ready to take the first step?"}</AutoLinkedText></p>
+              <p className="mt-1 text-xs text-white/30"><AutoLinkedText>{"All calls are 100% free and confidential"}</AutoLinkedText></p>
 
               <div className="mt-6 flex flex-col gap-3">
                 <a

@@ -1,0 +1,107 @@
+---
+description: Adolescent Mental Health — section padding and content max-width standards
+globs: apps/adolescent-mental-health/**/*
+alwaysApply: false
+---
+
+# Adolescent Mental Health — Page Layout Standards
+
+All marketing pages in `apps/adolescent-mental-health` must share the same section padding and content width as the homepage and shared marketing components.
+
+## Content container
+
+Import `CONTAINER` from `@/lib/site` — never inline `mx-auto max-w-content`:
+
+```tsx
+import { CONTAINER } from "@/lib/site";
+
+<div className={CONTAINER}>{/* section content */}</div>
+```
+
+Token: `--width-content: 84.375rem` (1350px) in `globals.css` → `max-w-content`.
+
+**Never use `max-w-7xl`, `max-w-6xl`, `max-w-5xl`, or `max-w-4xl` as the primary section container** — they break alignment with navbar, footer, and `PageSection`.
+
+`max-w-3xl`, `max-w-2xl`, `max-w-xl`, and `max-w-lg` are acceptable only for intentionally narrow inner elements (hero copy, pull quotes, intro paragraphs).
+
+## Section wrapper
+
+Standard marketing sections:
+
+```tsx
+<section className="bg-white px-6 py-section lg:px-10">
+  <div className={CONTAINER}>{children}</div>
+</section>
+```
+
+Prefer `PageSection` from `@/components/marketing` when the section matches a simple bg + container pattern.
+
+Background alternation: `bg-white` → `bg-surface` → `bg-dark`.
+
+## Homepage hero (exception)
+
+The homepage hero is full-bleed (background spans viewport). Inner copy stays centered and narrow:
+
+```tsx
+<div className="relative z-10 mt-auto w-full px-6 pb-16 pt-24 lg:pb-20">
+  <div className="mx-auto max-w-3xl text-center">{/* h1, CTAs, trust strip */}</div>
+</div>
+```
+
+Do **not** wrap homepage hero copy in `CONTAINER` — editorial centering is intentional.
+
+## Inner-page heroes
+
+Use `PageHero` from `@/components/marketing` — it wraps content in `CONTAINER` by default.
+
+## Therapy page section hierarchy (avoid bento fatigue)
+
+On Individual / Group / Family therapy pages, use **one visual language per section** — do not stack multiple bento/inset-panel/card-grid blocks back-to-back.
+
+| Order | Component | Layout role | Background |
+|-------|-----------|-------------|--------------|
+| 1 | Hero | Full-bleed dark photo + glass stat panel (`ProgramHeroSection`) | dark image |
+| 2 | Stats band | Simple 4-col divide | white |
+| 3 | `TherapyOverviewSection` | Split spotlight panel: 3 icon highlights + image (no stat badge) | surface |
+| 4 | `SessionStructureSection` | Horizontal 4-step timeline (icon nodes + short body) | white |
+| 5 | `GoodFitSection` | Sidebar + 2-col card grid | white |
+| 6 | `ClinicalMethodsSection` | **Only dark inset panel** on the page (chip strip + 2×2 grid) | surface |
+| 7 | `IopModalityContextSection` | 3-col modality cards, left-aligned header | dark |
+| 8 | `TherapyFaqSection` | Sidebar + full-width accordion panel (no CTAs — final band only) | surface |
+| 9 | `TherapyFinalCtaSection` | Unified dark split panel | dark |
+
+**Background rhythm:** dark hero → white stats → surface overview → white sessions → white good fit → surface methods → dark IOP → surface FAQ → dark final CTA.
+
+**Content deduplication:** Session frequency lives in the stats band + IOP context cards (and FAQ answers where relevant). Do not repeat cadence in hero chips, overview highlights, or image stat badges.
+
+**Rules:**
+- Reserve glass bento (`lg:grid-cols-[1fr_400px]` multi-cell) for homepage + Virtual IOP / flagship program pages only.
+- `SessionStructureSection` and `ClinicalMethodsSection` must **never** share the same dark inset-panel shell on one page.
+- Do not add decorative watermark numbers (`03`, `04 Phases`) to every section — use at most on `ClinicalMethodsSection`.
+
+## Reference
+
+- Container constant: `apps/adolescent-mental-health/src/lib/site.ts`
+- Shared section component: `apps/adolescent-mental-health/src/components/marketing/PageSection.tsx`
+- Homepage: `apps/adolescent-mental-health/src/app/page.tsx`
+
+## Virtual IOP page hierarchy (`/virtual-iop-for-teens`)
+
+Flagship program page — bento and editorial modality rows are allowed here.
+
+| Order | Section | Background |
+|-------|---------|------------|
+| 1 | `ProgramHeroSection` (full-bleed photo + glass stat panel) | dark image |
+| 2 | What Is Virtual IOP bento + stat strip | white |
+| 3 | Program Structure modality rows | dark |
+| 4 | `GoodFitSection` | white |
+| 5 | `SessionStructureSection` (intake timeline) | surface |
+| 6 | Comparison table | dark |
+| 7 | Conditions treated grid | white |
+| 8 | `ClinicalMethodsSection` | surface |
+| 9 | `TherapyFaqSection` | surface |
+| 10 | `DarkCtaSection` | dark |
+
+**CTA rule:** Hero + final `DarkCtaSection` only — no mid-page phone bands in fit, intake, clinical, or FAQ sections.
+
+**Dedup rule:** Anchor `9–20 hrs` in hero badge + stat strip + care ladder; anchor `24–48 hr intake` in hero chips + stat strip + comparison table.

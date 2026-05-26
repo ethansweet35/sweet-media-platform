@@ -9,7 +9,7 @@ export {
 } from "./lib/markdownToSections";
 export { sectionsToMarkdown } from "./lib/sectionsToMarkdown";
 export { supabase } from "./lib/supabase";
-export { useBlogPosts, useBlogPost, useBlogCategories, useSearchBlogPosts, usePaginatedBlogPosts } from "./hooks/useBlogPosts";
+export { useBlogPosts, useBlogPost, useBlogCategories, useSearchBlogPosts, usePaginatedBlogPosts, useFeaturedBlogPost } from "./hooks/useBlogPosts";
 export * from "./lib/autoInternalLinks";
 export { getInternalLinkMappings, getPageAutoLinkRegistry } from "./lib/getInternalLinkMappings";
 export { AutoLinkedText, initPageAutoLinks } from "./components/AutoLinkedText";

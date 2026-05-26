@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { AutoLinkedText } from "@sweetmedia/blog-core";
 import {
   AmhButton,
   DarkCtaSection,
@@ -38,7 +39,7 @@ const trustItems = [
 
 export default function ContactPage() {
   return (
-    <MarketingPage>
+    <MarketingPage currentPath="/contact">
       <PageHero
         compact
         glow="right"
@@ -86,10 +87,8 @@ export default function ContactPage() {
                   </span>
                   <div>
                     <p className="text-[11px] font-bold uppercase tracking-wider text-white/45">Call admissions</p>
-                    <p className="mt-1 text-lg font-bold text-white" style={{ fontFamily: "var(--font-heebo)" }}>
-                      {SITE.phone.display}
-                    </p>
-                    <p className="mt-1 text-xs text-white/45">Free consultation · Available 7 days a week</p>
+                    <p className="mt-1 text-lg font-bold text-white" style={{ fontFamily: "var(--font-heebo)" }}><AutoLinkedText>{SITE.phone.display}</AutoLinkedText></p>
+                    <p className="mt-1 text-xs text-white/45"><AutoLinkedText>{"Free consultation · Available 7 days a week"}</AutoLinkedText></p>
                   </div>
                 </a>
 
@@ -102,7 +101,7 @@ export default function ContactPage() {
                   </span>
                   <div>
                     <p className="text-[11px] font-bold uppercase tracking-wider text-white/45">Email</p>
-                    <p className="mt-1 break-all text-sm font-semibold text-white">{SITE.email}</p>
+                    <p className="mt-1 break-all text-sm font-semibold text-white"><AutoLinkedText>{SITE.email}</AutoLinkedText></p>
                   </div>
                 </a>
               </div>
@@ -123,7 +122,7 @@ export default function ContactPage() {
                       <Heading as={3} className="text-sm">
                         {step.title}
                       </Heading>
-                      <p className="mt-1 text-xs leading-6 text-body">{step.body}</p>
+                      <p className="mt-1 text-xs leading-6 text-body"><AutoLinkedText>{step.body}</AutoLinkedText></p>
                     </div>
                   </div>
                 ))}

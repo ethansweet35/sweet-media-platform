@@ -3,29 +3,40 @@ import Image from "next/image";
 import { BRAND_LOGO, CONTAINER, SITE } from "@/lib/site";
 
 const conditions = [
-  { label: "Anxiety Disorders", path: "/conditions/anxiety" },
-  { label: "Depression", path: "/conditions/depression" },
-  { label: "Trauma & PTSD", path: "/conditions/trauma-ptsd" },
-  { label: "ADHD", path: "/conditions/adhd" },
-  { label: "Bipolar Disorder", path: "/conditions/bipolar" },
+  { label: "All Treatment Programs", path: "/treatment" },
+  { label: "Anxiety Disorders", path: "/online-anxiety-treatment" },
+  { label: "Depression", path: "/teen-depression-treatment" },
+  { label: "Trauma & PTSD", path: "/ptsd-treatment-online" },
+  { label: "ADHD", path: "/adhd-treatment-for-teens" },
+  { label: "Bipolar Disorder", path: "/online-bipolar-treatment" },
+  { label: "OCD", path: "/online-ocd-treatment" },
+  { label: "Insomnia", path: "/online-insomnia-treatment-for-teens" },
+  { label: "Schizophrenia", path: "/schizophrenia-in-adolescence" },
+  { label: "Psychiatrist for Teens", path: "/psychiatrist-for-teens" },
   { label: "Self-Harm", path: "/conditions/self-harm" },
   { label: "School Avoidance", path: "/conditions/school-avoidance" },
 ];
 
 const programs = [
+  { label: "Levels of Care", path: "/levels-of-care" },
+  { label: "All Services", path: "/services" },
+  { label: "All Therapies", path: "/therapy" },
   { label: "Virtual IOP for Teens", path: "/virtual-iop-for-teens" },
+  { label: "Adolescent IOP for Teens", path: "/adolescent-iop-for-teens" },
   { label: "Individual Therapy", path: "/therapy/individual-therapy-for-teens" },
   { label: "Group Therapy", path: "/therapy/group-therapy-with-adolescents" },
   { label: "Family Therapy", path: "/therapy/adolescent-family-therapy" },
   { label: "Online CBT", path: "/online-cognitive-behavioral-therapy" },
-  { label: "Insurance Coverage", path: "/insurance" },
+  { label: "Online DBT", path: "/online-dialectical-behavioral-therapy" },
+  { label: "Verify Insurance", path: "/verify-insurance" },
 ];
 
 const company = [
   { label: "About Us", path: "/about" },
-  { label: "Blog", path: "/blog" },
-  { label: "Contact", path: "/contact" },
   { label: "Admissions", path: "/admissions" },
+  { label: "Resources", path: "/resources" },
+  { label: "Blog", path: "/blog" },
+  { label: "Contact Us", path: "/contact" },
   { label: "Privacy Policy", path: "/privacy-policy" },
 ];
 

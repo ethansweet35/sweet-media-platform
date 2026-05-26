@@ -159,6 +159,32 @@ export default function PostBody({ sections, autoLinkMap, currentSlug, usedHrefs
               </h3>
             );
 
+          case "key-takeaway": {
+            const points = section.items?.filter((item) => item.trim()) ?? [];
+            if (points.length === 0 && !section.text?.trim()) return null;
+
+            return (
+              <div key={i} className="my-8 rounded-2xl border border-[#1F2937]/15 bg-[#1F2937]/5 p-6">
+                <p className="mb-3 text-[10px] font-semibold uppercase tracking-[0.2em] text-[#1F2937]/60">
+                  Key takeaway for parents
+                </p>
+                {section.text?.trim() ? (
+                  <p className="mb-4 text-base leading-relaxed text-[#3A4A3C]/80">{section.text}</p>
+                ) : null}
+                {points.length > 0 ? (
+                  <ul className="space-y-2">
+                    {points.map((item, j) => (
+                      <li key={j} className="flex gap-2 text-sm leading-relaxed text-[#3A4A3C]/75">
+                        <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-[#1F2937]" />
+                        <InlineText text={item} autoLinkMap={autoLinkMap} currentSlug={currentSlug} usedHrefs={usedHrefs} />
+                      </li>
+                    ))}
+                  </ul>
+                ) : null}
+              </div>
+            );
+          }
+
           case "pullquote":
             return (
               <blockquote

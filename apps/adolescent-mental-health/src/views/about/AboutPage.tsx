@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { AutoLinkedText } from "@sweetmedia/blog-core";
 import {
   AccentText,
   AmhButton,
@@ -74,7 +75,7 @@ const whoWeServeItems = [
 
 export default function AboutPage() {
   return (
-    <MarketingPage>
+    <MarketingPage currentPath="/about">
       <PageHero
         eyebrow="About us"
         headline={
@@ -110,13 +111,10 @@ export default function AboutPage() {
               title="Help teens heal without putting life on hold"
             />
             <p className="mt-6 text-sm leading-8 text-body">
-              Too many adolescents struggle with mental health symptoms that weekly therapy cannot stabilize. Families
-              deserve an option between standard outpatient care and residential treatment — intensive, structured, and
-              accessible from home.
+              <AutoLinkedText>{"Too many adolescents struggle with mental health symptoms that weekly therapy cannot stabilize. Families\n              deserve an option between standard outpatient care and residential treatment — intensive, structured, and\n              accessible from home."}</AutoLinkedText>
             </p>
             <p className="mt-4 text-sm leading-8 text-body">
-              We built Adolescent Mental Health to fill that gap: licensed clinicians, evidence-based modalities, and
-              schedules that respect school, family, and the pace of adolescent life.
+              <AutoLinkedText>{"We built Adolescent Mental Health to fill that gap: licensed clinicians, evidence-based modalities, and\n              schedules that respect school, family, and the pace of adolescent life."}</AutoLinkedText>
             </p>
           </div>
           <div className="relative aspect-[4/3] overflow-hidden rounded-3xl shadow-xl ring-1 ring-border">
@@ -148,7 +146,7 @@ export default function AboutPage() {
               <Heading as={3} className="mt-5">
                 {item.title}
               </Heading>
-              <p className="mt-3 text-sm leading-7 text-body">{item.body}</p>
+              <p className="mt-3 text-sm leading-7 text-body"><AutoLinkedText>{item.body}</AutoLinkedText></p>
             </div>
           ))}
         </div>
@@ -168,12 +166,8 @@ export default function AboutPage() {
               <div className="mt-8 grid grid-cols-2 gap-3">
                 {stats.map((stat) => (
                   <div key={stat.label} className="rounded-2xl border border-white/10 bg-white/5 px-4 py-4">
-                    <p className="text-2xl font-bold text-white" style={{ fontFamily: "var(--font-heebo)" }}>
-                      {stat.value}
-                    </p>
-                    <p className="mt-1 text-[11px] font-semibold uppercase tracking-wider text-white/45">
-                      {stat.label}
-                    </p>
+                    <p className="text-2xl font-bold text-white" style={{ fontFamily: "var(--font-heebo)" }}><AutoLinkedText>{stat.value}</AutoLinkedText></p>
+                    <p className="mt-1 text-[11px] font-semibold uppercase tracking-wider text-white/45"><AutoLinkedText>{stat.label}</AutoLinkedText></p>
                   </div>
                 ))}
               </div>
@@ -185,13 +179,11 @@ export default function AboutPage() {
                   key={item.num}
                   className="rounded-2xl border border-white/10 bg-white/[0.03] p-6 transition hover:border-accent/30"
                 >
-                  <p className="text-xs font-bold text-accent" style={{ fontFamily: "var(--font-heebo)" }}>
-                    {item.num}
-                  </p>
+                  <p className="text-xs font-bold text-accent" style={{ fontFamily: "var(--font-heebo)" }}><AutoLinkedText>{item.num}</AutoLinkedText></p>
                   <Heading as={3} light className="mt-2 text-lg">
                     {item.title}
                   </Heading>
-                  <p className="mt-3 text-sm leading-7 text-white/55">{item.body}</p>
+                  <p className="mt-3 text-sm leading-7 text-white/55"><AutoLinkedText>{item.body}</AutoLinkedText></p>
                 </div>
               ))}
             </div>
@@ -217,8 +209,7 @@ export default function AboutPage() {
               title={`Teens ages ${SITE.ages} across the country`}
             />
             <p className="mt-6 text-sm leading-8 text-body">
-              We treat anxiety, depression, trauma and PTSD, ADHD, bipolar disorder, self-harm, school avoidance, OCD,
-              and related concerns — through Virtual IOP, individual therapy, group therapy, and family sessions.
+              <AutoLinkedText>{"We treat anxiety, depression, trauma and PTSD, ADHD, bipolar disorder, self-harm, school avoidance, OCD,\n              and related concerns — through Virtual IOP, individual therapy, group therapy, and family sessions."}</AutoLinkedText>
             </p>
             <CheckList items={whoWeServeItems} className="mt-8" />
             <AmhButton href="/virtual-iop-for-teens" variant="textLink" icon="ri-arrow-right-line" className="mt-9">

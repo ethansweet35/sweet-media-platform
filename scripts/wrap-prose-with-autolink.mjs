@@ -20,7 +20,7 @@
  *   node scripts/wrap-prose-with-autolink.mjs apps/<slug> --dry    # preview
  */
 
-import { readFileSync, writeFileSync, statSync } from "fs";
+import { readFileSync, writeFileSync, statSync, existsSync } from "fs";
 import { resolve, relative, dirname } from "path";
 import { fileURLToPath } from "url";
 
@@ -149,12 +149,12 @@ function processFile(file) {
   );
 
   if (!existingBlogCoreImport) {
-    // Insert after the first import block
-    withImport = updated.replace(
-      /^(import[^\n]*\n(?:import[^\n]*\n)*)/m,
-      `$1${importLine}\n`
-    );
-    if (withImport === updated) {
+    // Insert after the first complete import statement (handles multi-line import blocks).
+    const importEnd = updated.match(/^import[\s\S]*?;\n/m);
+    if (importEnd) {
+      const endIdx = importEnd.index + importEnd[0].length;
+      withImport = updated.slice(0, endIdx) + importLine + "\n" + updated.slice(endIdx);
+    } else {
       withImport = `${importLine}\n${updated}`;
     }
   } else if (!new RegExp(`\\b${tag}\\b`).test(existingBlogCoreImport[0])) {
@@ -180,6 +180,10 @@ function processFile(file) {
 
 async function main() {
   const files = await walk(VIEWS_ROOT);
+  const homePage = resolve(APP_ROOT, "src/app/page.tsx");
+  if (existsSync(homePage) && !files.includes(homePage)) {
+    files.push(homePage);
+  }
   console.log(
     `\n${DRY ? "[DRY RUN] " : ""}Wrapping prose in ${files.length} view files under ${relative(REPO_ROOT, VIEWS_ROOT)}\n`
   );

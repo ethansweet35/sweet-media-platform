@@ -29,11 +29,13 @@ export default function PostShare({ title, canonicalUrl }: PostShareProps) {
   };
 
   const buttonClass =
-    "flex h-9 w-9 cursor-pointer items-center justify-center rounded-full bg-surface text-body transition hover:bg-dark hover:text-white";
+    "flex h-9 w-9 shrink-0 cursor-pointer items-center justify-center rounded-full bg-surface text-body transition hover:bg-dark hover:text-white";
 
   return (
-    <div className="sticky top-28 flex flex-col items-center gap-3">
-      <p className="mb-1 text-[9px] font-bold uppercase tracking-[0.3em] text-body/60">Share</p>
+    <div className="sticky top-28 flex w-11 shrink-0 flex-col items-center gap-2.5 rounded-2xl border border-border bg-white px-1.5 py-5 shadow-sm">
+      <p className="whitespace-nowrap text-[8px] font-bold uppercase leading-none tracking-[0.2em] text-accent">
+        Share
+      </p>
 
       <a
         href={`https://twitter.com/intent/tweet?text=${encodedTitle}&url=${encodedUrl}`}
@@ -73,8 +75,6 @@ export default function PostShare({ title, canonicalUrl }: PostShareProps) {
       >
         <i className={`text-sm ${copied ? "ri-check-line" : "ri-link"}`} aria-hidden />
       </button>
-
-      <div className="mt-1 h-12 w-px bg-border" />
     </div>
   );
 }

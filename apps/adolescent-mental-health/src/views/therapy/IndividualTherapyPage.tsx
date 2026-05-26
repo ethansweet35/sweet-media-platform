@@ -1,7 +1,16 @@
-import Image from "next/image";
-import Link from "next/link";
-import { MarketingPage } from "@/components/marketing";
-import { INDIVIDUAL_THERAPY_IMGS, SITE } from "@/lib/site";
+import { AutoLinkedText } from "@sweetmedia/blog-core";
+import {
+  ClinicalMethodsSection,
+  GoodFitSection,
+  IopModalityContextSection,
+  MarketingPage,
+  ProgramHeroSection,
+  SessionStructureSection,
+  TherapyFaqSection,
+  TherapyFinalCtaSection,
+  TherapyOverviewSection,
+} from "@/components/marketing";
+import { CONTAINER, INDIVIDUAL_THERAPY_IMGS, SITE } from "@/lib/site";
 
 const IMGS = INDIVIDUAL_THERAPY_IMGS;
 
@@ -10,29 +19,25 @@ const sessionPhases = [
     num: "01",
     icon: "ri-user-heart-line",
     title: "Building rapport",
-    body: "The first sessions are about trust — your teen's clinician learns their history, communication style, and what they want from therapy. No pressure to perform or disclose everything at once.",
-    bullets: ["Low-pressure, relationship-first approach", "Clinician matched by clinical fit, not availability", "Clear expectations set from session one"],
+    body: "First sessions focus on trust—history, communication style, and what your teen wants from therapy—without pressure to disclose everything at once.",
   },
   {
     num: "02",
     icon: "ri-focus-3-line",
     title: "Assessment & goal setting",
-    body: "Once rapport is established, the clinician conducts a structured assessment and collaborates with your teen to define specific, measurable therapy goals — not vague intentions.",
-    bullets: ["Formal clinical assessment of presenting concerns", "Teen-driven goal setting", "Goals shared with the broader care team"],
+    body: "Clinicians run a structured assessment and collaborate with your teen on specific, measurable goals shared with the care team.",
   },
   {
     num: "03",
     icon: "ri-tools-line",
     title: "Skills & processing work",
-    body: "The active phase of therapy: building coping skills, processing difficult experiences, challenging distorted thinking, and practicing new behaviors between sessions.",
-    bullets: ["CBT thought records and behavioral experiments", "DBT emotion regulation and distress tolerance", "Between-session practice assignments"],
+    body: "The active phase: coping skills, thought challenging, and between-session practice using CBT and DBT techniques.",
   },
   {
     num: "04",
     icon: "ri-refresh-line",
     title: "Progress review & adjustment",
-    body: "Regular check-ins ensure the treatment plan stays calibrated. If a teen's needs shift or goals are met, the clinician adjusts the focus — nothing is set-it-and-forget-it.",
-    bullets: ["Weekly progress monitoring", "Coordination with group and family clinicians", "Plan updated as symptoms and goals evolve"],
+    body: "Regular check-ins keep the plan calibrated as symptoms shift or goals are met.",
   },
 ];
 
@@ -85,6 +90,7 @@ const iopContext = [
     cadence: "3–4× per week",
     desc: "Small peer groups for skills practice, peer support, and real-world connection.",
     active: false,
+    href: "/therapy/group-therapy-with-adolescents",
   },
   {
     icon: "ri-home-heart-line",
@@ -92,6 +98,7 @@ const iopContext = [
     cadence: "1–2× per week",
     desc: "Caregiver coaching and structured family sessions to reinforce progress at home.",
     active: false,
+    href: "/therapy/adolescent-family-therapy",
   },
 ];
 
@@ -106,575 +113,123 @@ const faqs = [
 
 export default function IndividualTherapyPage() {
   return (
-    <MarketingPage>
+    <MarketingPage currentPath="/therapy/individual-therapy-for-teens">
+      <ProgramHeroSection
+        eyebrow={`Individual Therapy · Ages ${SITE.ages}`}
+        headline={
+          <>
+            Individual therapy for teens, <span className="text-accent">matched to how your teen thinks</span>
+          </>
+        }
+        body="One-on-one sessions with a licensed clinician who builds real rapport — the relational core of every Virtual IOP treatment plan."
+        imageSrc={IMGS.hero}
+        imageAlt="Teen in a virtual one-on-one therapy session at home"
+        imageClassName="object-cover object-[center_40%]"
+        stats={[
+          { icon: "ri-calendar-check-line", label: "Frequency", value: "2–3×", unit: "/wk" },
+          { icon: "ri-time-line", label: "Sessions", value: "45", unit: "minutes" },
+          { icon: "ri-brain-line", label: "Modalities", value: "CBT", unit: "+ DBT" },
+        ]}
+        trustItems={[
+          { icon: "ri-shield-check-line", label: "Licensed clinicians" },
+          { icon: "ri-heart-pulse-line", label: "Insurance accepted" },
+          { icon: "ri-lock-line", label: "HIPAA compliant" },
+          { icon: "ri-user-heart-line", label: "Matched by fit" },
+        ]}
+        secondaryCta={{ href: "/virtual-iop-for-teens", label: "About Virtual IOP" }}
+      />
 
-      {/* ── 1. Full-bleed dark hero ── */}
-      <section className="relative min-h-[90vh] flex flex-col overflow-hidden">
-        <Image
-          src={IMGS.hero}
-          alt="Teen in a virtual one-on-one therapy session at home"
-          fill
-          className="object-cover object-[center_40%]"
-          priority
-          quality={90}
-          sizes="100vw"
-        />
-        <div className="absolute inset-0 bg-black/20" />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/92 via-black/55 to-transparent" />
-
-        <div className="relative z-10 mt-auto w-full px-6 pb-16 pt-24 lg:px-10 lg:pb-20">
-          <div className="mx-auto max-w-content">
-
-            {/* Eyebrow */}
-            <p className="mb-5 text-xs font-bold uppercase tracking-[0.3em] text-accent">
-              Individual Therapy · Ages 12–17
-            </p>
-
-            <h1
-              className="max-w-3xl text-4xl font-bold leading-[1.06] text-white sm:text-5xl lg:text-6xl xl:text-[5rem]"
-              style={{ fontFamily: "var(--font-heebo)" }}
-            >
-              Individual therapy for teens,{" "}
-              <span className="text-accent">matched to how your teen thinks</span>
-            </h1>
-
-            <p className="mt-6 max-w-xl text-sm leading-8 text-white/65">
-              One-on-one sessions with a licensed clinician who builds real rapport — the relational core of every Virtual IOP treatment plan.
-            </p>
-
-            <div className="mt-9 flex flex-wrap items-center gap-4">
-              <a
-                href={SITE.phone.href}
-                className="inline-flex items-center gap-2.5 rounded-full bg-white px-8 py-4 text-sm font-bold text-black shadow-xl transition hover:bg-white/90"
-              >
-                <i className="ri-phone-fill text-base"></i>
-                Free Consultation — {SITE.phone.display}
-              </a>
-              <Link
-                href="/virtual-iop-for-teens"
-                className="inline-flex items-center gap-2 rounded-full border border-white/30 px-8 py-4 text-sm font-semibold text-white transition hover:border-white/60 hover:bg-white/8"
-              >
-                About Virtual IOP
-                <i className="ri-arrow-right-line"></i>
-              </Link>
-            </div>
-
-            {/* Inline stat chips */}
-            <div className="mt-10 flex flex-wrap items-center gap-x-7 gap-y-3">
-              {[
-                { icon: "ri-calendar-check-line", label: "2–3 sessions / week" },
-                { icon: "ri-brain-line",           label: "CBT & DBT trained" },
-                { icon: "ri-shield-check-line",    label: "Insurance accepted" },
-                { icon: "ri-lock-line",            label: "HIPAA compliant" },
-              ].map((c) => (
-                <span key={c.label} className="flex items-center gap-2 text-xs font-semibold text-white/50">
-                  <i className={`${c.icon} text-accent text-sm`}></i>
-                  {c.label}
-                </span>
-              ))}
-            </div>
-
-          </div>
-        </div>
-      </section>
-
-      {/* ── 2. Stats band ── */}
       <section className="border-b border-border bg-white px-6 py-0 lg:px-10">
-        <div className="mx-auto max-w-content">
+        <div className={CONTAINER}>
           <div className="grid grid-cols-2 divide-x divide-border lg:grid-cols-4">
             {[
-              { value: "2–3×",        unit: "per week",           label: "Individual sessions" },
-              { value: "45 min",      unit: "per session",        label: "Session length" },
-              { value: "CBT + DBT",   unit: "evidence-based",     label: "Primary modalities" },
-              { value: "Insurance",   unit: "most major plans",   label: "Coverage accepted" },
+              { value: "2–3×", unit: "per week", label: "Individual sessions" },
+              { value: "45 min", unit: "per session", label: "Session length" },
+              { value: "CBT + DBT", unit: "evidence-based", label: "Primary modalities" },
+              { value: "Insurance", unit: "most major plans", label: "Coverage accepted" },
             ].map((s) => (
               <div key={s.label} className="flex flex-col gap-1 px-6 py-8 lg:px-10">
-                <p
-                  className="text-3xl font-bold text-ink lg:text-4xl"
-                  style={{ fontFamily: "var(--font-heebo)" }}
-                >
-                  {s.value}
-                </p>
-                <p className="text-[11px] font-semibold uppercase tracking-[0.15em] text-accent">{s.unit}</p>
-                <p className="mt-1 text-xs text-body">{s.label}</p>
+                <p className="text-3xl font-bold text-ink lg:text-4xl" style={{ fontFamily: "var(--font-heebo)" }}><AutoLinkedText>{s.value}</AutoLinkedText></p>
+                <p className="text-[11px] font-semibold uppercase tracking-[0.15em] text-accent"><AutoLinkedText>{s.unit}</AutoLinkedText></p>
+                <p className="mt-1 text-xs text-body"><AutoLinkedText>{s.label}</AutoLinkedText></p>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* ── 3. Editorial prose section ── */}
-      <section className="bg-white px-6 py-section lg:px-10">
-        <div className="mx-auto max-w-content">
+      <TherapyOverviewSection
+        eyebrow="One-on-one care"
+        title="Real therapy—not just a weekly check-in"
+        summary="Individual sessions are the relational core of our Virtual IOP: private, consistent, and structured around measurable goals."
+        highlights={[
+          {
+            icon: "ri-user-heart-line",
+            title: "One clinician, every time",
+            body: "Your teen builds trust with a licensed therapist matched for clinical fit—not whoever has an open slot.",
+          },
+          {
+            icon: "ri-focus-3-line",
+            title: "Structured goals, every session",
+            body: "Each session moves toward measurable targets—not open-ended check-ins that stall when symptoms spike.",
+          },
+          {
+            icon: "ri-links-line",
+            title: "Connected to the full program",
+            body: "Individual work coordinates with group and family sessions so every modality reinforces the same goals.",
+          },
+        ]}
+        pullQuote="When a teen trusts their clinician, they do the work—and teens who do the work get better."
+        image={{
+          src: IMGS.overview,
+          alt: "Teen in a calm bedroom speaking openly during a one-on-one virtual therapy session",
+        }}
+      />
 
-          {/* Section header */}
-          <div className="mb-12 flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
-            <div>
-              <p className="mb-3 text-[11px] font-bold uppercase tracking-[0.3em] text-accent">
-                One-on-one care
-              </p>
-              <h2
-                className="text-4xl font-bold leading-[1.08] text-ink md:text-5xl"
-                style={{ fontFamily: "var(--font-heebo)" }}
-              >
-                What happens in<br className="hidden lg:block" /> individual therapy?
-              </h2>
-            </div>
-            <p className="max-w-sm text-sm leading-8 text-body lg:text-right">
-              Not just talking — structured clinical work with a consistent clinician, a clear arc, and measurable goals.
-            </p>
-          </div>
+      <SessionStructureSection phases={sessionPhases} />
 
-          {/* Two-column prose */}
-          <div className="grid gap-6 lg:grid-cols-2">
-            <p className="text-sm leading-8 text-body">
-              Individual therapy gives your teen a private, consistent relationship with one licensed clinician — a space to speak openly, process difficult experiences, and build skills that work in real life. It is the relational anchor of our Virtual IOP model, not an afterthought bolted onto group sessions.
-            </p>
-            <p className="text-sm leading-8 text-body">
-              Unlike weekly outpatient therapy, individual sessions within IOP happen 2–3 times per week. That frequency changes everything: progress doesn&apos;t stall between appointments, clinicians catch early warning signs quickly, and teens build skills through repetition rather than relying on one session to carry the whole week.
-            </p>
-          </div>
+      <GoodFitSection
+        title="Who benefits from individual therapy?"
+        description="Individual sessions are well-suited to teens who need a private, consistent therapeutic relationship as the foundation of their care."
+        criteria={fitCriteria}
+        bg="white"
+      />
 
-          {/* Pullquote */}
-          <div className="my-12 border-l-4 border-accent bg-surface px-8 py-8 lg:px-12 lg:py-10">
-            <p className="text-lg font-semibold italic leading-9 text-ink lg:text-xl">
-              &ldquo;Therapeutic fit matters more than credentials alone. A teen who trusts their clinician will do the work — and teens who do the work get better.&rdquo;
-            </p>
-            <p className="mt-4 text-xs font-bold uppercase tracking-[0.15em] text-accent">
-              Adolescent Mental Health — Clinical Philosophy
-            </p>
-          </div>
+      <ClinicalMethodsSection
+        title={
+          <>
+            Approaches we use
+            <br className="hidden lg:block" /> in individual sessions
+          </>
+        }
+        description="Clinicians draw from evidence-based modalities and adapt to your teen&apos;s specific presentation."
+        items={approaches}
+      />
 
-          {/* Third prose paragraph + image side by side */}
-          <div className="grid gap-10 lg:grid-cols-[1fr_400px] lg:items-center">
-            <div>
-              <p className="text-sm leading-8 text-body">
-                Every clinician on our team is licensed, trained in adolescent-specific approaches, and matched to your teen based on clinical fit — not schedule availability. If the match isn&apos;t right after the first few sessions, we re-match without disrupting the rest of the program.
-              </p>
-              <div className="mt-8 flex flex-wrap gap-4">
-                <a
-                  href={SITE.phone.href}
-                  className="inline-flex items-center gap-2.5 rounded-full bg-dark px-7 py-3.5 text-sm font-bold text-white transition hover:bg-cta-hover"
-                >
-                  <i className="ri-phone-fill text-accent"></i>
-                  Free Consultation
-                </a>
-                <Link
-                  href="/admissions"
-                  className="inline-flex items-center gap-2 rounded-full border border-border px-7 py-3.5 text-sm font-semibold text-ink transition hover:border-accent"
-                >
-                  Start Intake
-                  <i className="ri-arrow-right-line"></i>
-                </Link>
-              </div>
-            </div>
+      <IopModalityContextSection
+        title="Individual therapy within Virtual IOP"
+        description="Individual sessions don't exist in isolation. All three modalities coordinate around the same clinical goals."
+        items={iopContext}
+      />
 
-            <div className="relative aspect-[4/3] overflow-hidden rounded-2xl">
-              <Image
-                src={IMGS.bento}
-                alt="Teen connecting with their individual therapist on a laptop screen"
-                fill
-                className="object-cover object-center"
-                sizes="(max-width: 1024px) 100vw, 400px"
-              />
-            </div>
-          </div>
+      <TherapyFaqSection title="Questions about individual therapy" items={faqs} />
 
-        </div>
-      </section>
-
-      {/* ── 4. Chapter timeline ── */}
-      <section className="bg-dark px-6 py-section lg:px-10">
-        <div className="mx-auto max-w-content">
-
-          <div className="mb-16">
-            <p className="mb-3 text-[11px] font-bold uppercase tracking-[0.3em] text-accent">
-              Session structure
-            </p>
-            <h2
-              className="text-4xl font-bold text-white md:text-5xl"
-              style={{ fontFamily: "var(--font-heebo)" }}
-            >
-              What to expect in sessions
-            </h2>
-          </div>
-
-          {/* Vertical timeline */}
-          <div className="relative">
-            {/* Connecting rail */}
-            <div className="absolute bottom-0 left-[1.75rem] top-0 hidden w-px bg-white/8 lg:block" />
-
-            <div className="flex flex-col gap-0">
-              {sessionPhases.map((phase, i) => (
-                <div
-                  key={phase.num}
-                  className={`relative grid grid-cols-1 gap-8 py-10 lg:grid-cols-[4rem_1fr_1fr] lg:gap-12 ${i < sessionPhases.length - 1 ? "border-b border-white/6" : ""}`}
-                >
-                  {/* Step node + number */}
-                  <div className="flex items-start gap-4 lg:flex-col lg:items-center lg:gap-0">
-                    <div
-                      className="relative z-10 flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-accent/10"
-                      style={{ border: "1px solid rgba(131,179,220,0.2)" }}
-                    >
-                      <i className={`${phase.icon} text-xl text-accent`}></i>
-                    </div>
-                    <p
-                      className="mt-2 hidden text-[11px] font-bold uppercase tracking-[0.2em] text-white/20 lg:block"
-                      style={{ fontFamily: "var(--font-heebo)" }}
-                    >
-                      {phase.num}
-                    </p>
-                    {/* Mobile: inline number */}
-                    <p className="self-center text-[11px] font-bold uppercase tracking-[0.2em] text-white/30 lg:hidden">
-                      Step {phase.num}
-                    </p>
-                  </div>
-
-                  {/* Title + body */}
-                  <div>
-                    <h3
-                      className="text-xl font-bold text-white"
-                      style={{ fontFamily: "var(--font-heebo)" }}
-                    >
-                      {phase.title}
-                    </h3>
-                    <p className="mt-3 text-sm leading-8 text-white/55">{phase.body}</p>
-                  </div>
-
-                  {/* Bullets */}
-                  <ul className="flex flex-col gap-3 lg:pt-1">
-                    {phase.bullets.map((b) => (
-                      <li key={b} className="flex items-start gap-3">
-                        <span className="mt-1 flex h-4 w-4 shrink-0 items-center justify-center rounded-full bg-accent/15">
-                          <i className="ri-check-line text-[9px] text-accent"></i>
-                        </span>
-                        <span className="text-sm leading-6 text-white/50">{b}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              ))}
-            </div>
-
-          </div>
-        </div>
-      </section>
-
-      {/* ── 5. Two-column checklist ── */}
-      <section className="bg-surface px-6 py-section lg:px-10">
-        <div className="mx-auto max-w-content">
-          <div className="grid gap-14 lg:grid-cols-[1fr_1fr] lg:items-start">
-
-            {/* Left — header */}
-            <div className="lg:sticky lg:top-24">
-              <p className="mb-3 text-[11px] font-bold uppercase tracking-[0.3em] text-accent">
-                Good fit
-              </p>
-              <h2
-                className="text-4xl font-bold leading-tight text-ink md:text-5xl"
-                style={{ fontFamily: "var(--font-heebo)" }}
-              >
-                Who benefits from individual therapy?
-              </h2>
-              <p className="mt-5 text-sm leading-8 text-body">
-                Individual sessions are well-suited to teens who need a private, consistent therapeutic relationship as the foundation of their care.
-              </p>
-              <a
-                href={SITE.phone.href}
-                className="mt-8 inline-flex items-center gap-2.5 rounded-full bg-dark px-7 py-3.5 text-sm font-bold text-white transition hover:bg-cta-hover"
-              >
-                <i className="ri-phone-fill text-accent"></i>
-                Ask our admissions team
-              </a>
-            </div>
-
-            {/* Right — clean visual list */}
-            <div>
-              {fitCriteria.map((item, i) => (
-                <div
-                  key={item.label}
-                  className={`flex items-start gap-5 py-7 ${i > 0 ? "border-t border-border" : ""}`}
-                >
-                  <span className="mt-0.5 flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-white text-accent shadow-sm ring-1 ring-border">
-                    <i className={`${item.icon} text-lg`}></i>
-                  </span>
-                  <div>
-                    <p className="text-sm font-bold text-ink">{item.label}</p>
-                    <p className="mt-1 text-xs leading-5 text-body">{item.sub}</p>
-                  </div>
-                </div>
-              ))}
-            </div>
-
-          </div>
-        </div>
-      </section>
-
-      {/* ── 6. Approach icon strip ── */}
-      <section className="bg-white px-6 py-section lg:px-10">
-        <div className="mx-auto max-w-content">
-
-          <div className="mb-12 flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
-            <div>
-              <p className="mb-3 text-[11px] font-bold uppercase tracking-[0.3em] text-accent">
-                Clinical methods
-              </p>
-              <h2
-                className="text-4xl font-bold leading-tight text-ink md:text-5xl"
-                style={{ fontFamily: "var(--font-heebo)" }}
-              >
-                Approaches we use<br className="hidden lg:block" /> in individual sessions
-              </h2>
-            </div>
-            <p className="max-w-xs text-sm leading-8 text-body lg:text-right">
-              Clinicians draw from evidence-based modalities and adapt to your teen&apos;s specific presentation.
-            </p>
-          </div>
-
-          <div className="divide-y divide-border border-y border-border">
-            {approaches.map((a) => (
-              <div
-                key={a.title}
-                className="grid grid-cols-1 gap-6 py-8 transition hover:bg-surface lg:grid-cols-[5rem_1fr_2fr] lg:items-center lg:px-6"
-              >
-                {/* Large icon */}
-                <span className="flex h-14 w-14 items-center justify-center rounded-2xl bg-surface text-accent transition group-hover:bg-accent/15">
-                  <i className={`${a.icon} text-2xl`}></i>
-                </span>
-
-                {/* Title + tag */}
-                <div>
-                  <p className="text-[10px] font-bold uppercase tracking-[0.15em] text-accent/70">{a.tag}</p>
-                  <h3
-                    className="mt-1 text-lg font-bold text-ink"
-                    style={{ fontFamily: "var(--font-heebo)" }}
-                  >
-                    {a.title}
-                  </h3>
-                </div>
-
-                {/* Prose */}
-                <p className="text-sm leading-8 text-body">{a.body}</p>
-              </div>
-            ))}
-          </div>
-
-        </div>
-      </section>
-
-      {/* ── 7. IOP context band ── */}
-      <section className="bg-dark px-6 py-section lg:px-10">
-        <div className="mx-auto max-w-content">
-
-          <div className="mb-14 text-center">
-            <p className="mb-3 text-[11px] font-bold uppercase tracking-[0.3em] text-accent">
-              The full picture
-            </p>
-            <h2
-              className="text-4xl font-bold text-white md:text-5xl"
-              style={{ fontFamily: "var(--font-heebo)" }}
-            >
-              Individual therapy within Virtual IOP
-            </h2>
-            <p className="mx-auto mt-4 max-w-xl text-sm leading-8 text-white/45">
-              Individual sessions don&apos;t exist in isolation. All three modalities coordinate around the same clinical goals.
-            </p>
-          </div>
-
-          <div className="grid gap-4 lg:grid-cols-3">
-            {iopContext.map((item) => (
-              <div
-                key={item.label}
-                className={`rounded-3xl p-8 ${
-                  item.active
-                    ? "ring-2 ring-accent/40"
-                    : ""
-                }`}
-                style={{
-                  background: item.active ? "rgba(131,179,220,0.07)" : "rgba(255,255,255,0.03)",
-                  border: item.active ? undefined : "1px solid rgba(255,255,255,0.07)",
-                }}
-              >
-                <div className="flex items-center justify-between">
-                  <span
-                    className={`flex h-12 w-12 items-center justify-center rounded-xl ${
-                      item.active ? "bg-accent/15 text-accent" : "bg-white/5 text-white/30"
-                    }`}
-                  >
-                    <i className={`${item.icon} text-xl`}></i>
-                  </span>
-                  {item.active && (
-                    <span className="rounded-full bg-accent/20 px-3 py-1 text-[10px] font-bold uppercase tracking-wider text-accent">
-                      This page
-                    </span>
-                  )}
-                </div>
-
-                <h3
-                  className={`mt-6 text-lg font-bold ${item.active ? "text-white" : "text-white/50"}`}
-                  style={{ fontFamily: "var(--font-heebo)" }}
-                >
-                  {item.label}
-                </h3>
-                <p className={`mt-1 text-sm font-semibold ${item.active ? "text-accent" : "text-white/25"}`}>
-                  {item.cadence}
-                </p>
-                <p className={`mt-3 text-sm leading-7 ${item.active ? "text-white/60" : "text-white/30"}`}>
-                  {item.desc}
-                </p>
-
-                {!item.active && (
-                  <Link
-                    href={item.label === "Group therapy" ? "/therapy/group-therapy-with-adolescents" : "/therapy/adolescent-family-therapy"}
-                    className="mt-5 inline-flex items-center gap-1.5 text-xs font-semibold text-white/30 transition hover:text-white/60"
-                  >
-                    Learn more <i className="ri-arrow-right-line"></i>
-                  </Link>
-                )}
-              </div>
-            ))}
-          </div>
-
-          <div className="mt-10 text-center">
-            <Link
-              href="/virtual-iop-for-teens"
-              className="inline-flex items-center gap-2 rounded-full border border-white/15 px-7 py-3.5 text-sm font-semibold text-white/60 transition hover:border-white/30 hover:text-white"
-            >
-              See the full Virtual IOP model
-              <i className="ri-arrow-right-line"></i>
-            </Link>
-          </div>
-
-        </div>
-      </section>
-
-      {/* ── 8. Centered FAQ ── */}
-      <section className="bg-surface px-6 py-section lg:px-10">
-        <div className="mx-auto max-w-3xl">
-
-          <div className="mb-14 text-center">
-            <p className="mb-3 text-[11px] font-bold uppercase tracking-[0.3em] text-accent">FAQ</p>
-            <h2
-              className="text-4xl font-bold leading-tight text-ink md:text-5xl"
-              style={{ fontFamily: "var(--font-heebo)" }}
-            >
-              Questions about individual therapy
-            </h2>
-            <p className="mx-auto mt-4 max-w-md text-sm leading-8 text-body">
-              Still have questions? Our admissions team is available 7 days a week.
-            </p>
-          </div>
-
-          <div className="divide-y divide-border rounded-2xl bg-white shadow-sm ring-1 ring-border">
-            {faqs.map((faq, i) => (
-              <details key={i} className="group px-8 py-0">
-                <summary className="flex cursor-pointer list-none items-start justify-between gap-6 py-6">
-                  <span
-                    className="text-base font-bold text-ink transition-colors group-open:text-accent"
-                    style={{ fontFamily: "var(--font-heebo)" }}
-                  >
-                    {faq.q}
-                  </span>
-                  <span className="mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-surface text-accent transition group-open:bg-accent group-open:text-white">
-                    <i className="ri-add-line text-sm group-open:hidden"></i>
-                    <i className="ri-subtract-line text-sm hidden group-open:block"></i>
-                  </span>
-                </summary>
-                <p className="pb-6 text-sm leading-8 text-body">{faq.a}</p>
-              </details>
-            ))}
-          </div>
-
-          <div className="mt-10 flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
-            <a
-              href={SITE.phone.href}
-              className="inline-flex items-center gap-2.5 rounded-full bg-dark px-7 py-3.5 text-sm font-bold text-white transition hover:bg-cta-hover"
-            >
-              <i className="ri-phone-fill text-accent"></i>
-              {SITE.phone.display}
-            </a>
-            <a
-              href="mailto:admissions@adolescentmentalhealth.com"
-              className="inline-flex items-center gap-2.5 rounded-full border border-border bg-white px-7 py-3.5 text-sm font-semibold text-body transition hover:border-accent hover:text-ink"
-            >
-              <i className="ri-mail-line text-accent"></i>
-              Email Admissions
-            </a>
-          </div>
-
-        </div>
-      </section>
-
-      {/* ── 9. Centered CTA ── */}
-      <section className="relative overflow-hidden bg-dark px-6 py-section lg:px-10">
-        <div className="pointer-events-none absolute left-1/2 top-1/2 h-[700px] w-[700px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-accent/6 blur-[140px]" />
-
-        <div className="relative mx-auto max-w-2xl text-center">
-
-          <p className="mb-6 text-[11px] font-bold uppercase tracking-[0.3em] text-accent">
-            Get started today
-          </p>
-
-          <h2
-            className="text-4xl font-bold leading-[1.05] text-white md:text-5xl lg:text-6xl"
-            style={{ fontFamily: "var(--font-heebo)" }}
-          >
-            Your teen deserves a clinician<br />
+      <TherapyFinalCtaSection
+        title={
+          <>
+            Your teen deserves a clinician
+            <br />
             <span className="text-accent">who really gets them.</span>
-          </h2>
-
-          <p className="mx-auto mt-6 max-w-md text-sm leading-8 text-white/50">
-            One-on-one therapy, matched by clinical fit, delivered virtually 2–3 times per week as part of a comprehensive IOP plan.
-          </p>
-
-          {/* Big phone number */}
-          <a
-            href={SITE.phone.href}
-            className="mt-12 block text-4xl font-bold tracking-tight text-white transition hover:text-accent lg:text-5xl"
-            style={{ fontFamily: "var(--font-heebo)" }}
-          >
-            {SITE.phone.display}
-          </a>
-          <p className="mt-2 text-xs font-semibold text-white/30 uppercase tracking-[0.15em]">
-            Free · Confidential · No obligation
-          </p>
-
-          {/* CTA buttons */}
-          <div className="mt-10 flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
-            <a
-              href={SITE.phone.href}
-              className="inline-flex items-center gap-2.5 rounded-full bg-white px-8 py-4 text-sm font-bold text-ink shadow-xl transition hover:bg-white/90"
-            >
-              <i className="ri-phone-fill text-accent"></i>
-              Call Now
-            </a>
-            <Link
-              href="/admissions"
-              className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-8 py-4 text-sm font-semibold text-white transition hover:border-white/30 hover:bg-white/10"
-            >
-              Start Online Intake
-              <i className="ri-arrow-right-line text-accent"></i>
-            </Link>
-          </div>
-
-          {/* Trust chips */}
-          <div className="mt-10 flex flex-wrap items-center justify-center gap-x-6 gap-y-3">
-            {[
-              { icon: "ri-shield-check-line", label: "HIPAA Compliant" },
-              { icon: "ri-time-line",          label: "Same-Week Intake" },
-              { icon: "ri-user-heart-line",    label: "Matched by Fit" },
-              { icon: "ri-bank-card-line",     label: "Insurance Accepted" },
-            ].map((t) => (
-              <span key={t.label} className="flex items-center gap-2 text-xs font-semibold text-white/35">
-                <i className={`${t.icon} text-accent text-sm`}></i>
-                {t.label}
-              </span>
-            ))}
-          </div>
-
-        </div>
-      </section>
-
+          </>
+        }
+        description="One-on-one therapy, matched by clinical fit, delivered virtually as part of a comprehensive IOP plan."
+        trustItems={[
+          { icon: "ri-shield-check-line", label: "HIPAA Compliant" },
+          { icon: "ri-time-line", label: "Same-Week Intake" },
+          { icon: "ri-user-heart-line", label: "Matched by Fit" },
+          { icon: "ri-bank-card-line", label: "Insurance Accepted" },
+        ]}
+      />
     </MarketingPage>
   );
 }

@@ -4,6 +4,7 @@ import Image from "next/image";
 import { useState } from "react";
 import { ADMIN_OCEAN } from "@sweetmedia/admin-core";
 import type { BlogPost } from "@sweetmedia/blog-core";
+import { blogAuthorInitials, blogAuthorName } from "@/components/pages/blog/blogTokens";
 
 function formatScheduledLine(iso: string): string {
   try {
@@ -293,10 +294,10 @@ export default function AdminBlogTable({
                     <div className="flex items-center gap-2">
                       <div className="w-6 h-6 rounded-full bg-[#3d6f7f] flex items-center justify-center flex-shrink-0">
                         <span className="text-white text-[9px] font-bold">
-                          {post.author.split(" ").map((n) => n[0]).join("")}
+                          {blogAuthorInitials(post.author)}
                         </span>
                       </div>
-                      <span className="text-sm text-neutral-600 whitespace-nowrap">{post.author}</span>
+                      <span className="text-sm text-neutral-600 whitespace-nowrap">{blogAuthorName(post.author)}</span>
                     </div>
                   </td>
 
