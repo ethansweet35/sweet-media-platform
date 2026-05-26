@@ -62,6 +62,7 @@ export const ADMIN_NAV_GROUPS: AdminNavGroup[] = [
     label: "Settings",
     items: [
       { href: "/admin/brand-settings", label: "Brand Settings", icon: "ri-building-2-line", shortLabel: "Brand" },
+      { href: "/admin/users", label: "User Management", icon: "ri-team-line", shortLabel: "Users" },
     ],
   },
 ];

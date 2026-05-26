@@ -123,6 +123,7 @@ export { default as AdminKnowledgeBasePage } from "./views/AdminKnowledgeBasePag
 export { default as AdminLinkHealthPage } from "./views/AdminLinkHealthPage";
 export { default as AdminSetupPage } from "./views/AdminSetupPage";
 export { default as AdminBrandSettingsPage } from "./views/AdminBrandSettingsPage";
+export { default as AdminUsersPage } from "./views/AdminUsersPage";
 export { default as AdminKeywordResearchPage } from "./views/AdminKeywordResearchPage";
 export { default as AdminBlogPlannerPage } from "./views/AdminBlogPlannerPage";
 export { default as AdminContentEditorPage } from "./views/AdminContentEditorPage";

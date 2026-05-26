@@ -310,6 +310,13 @@ export {
 } from "./components/page-editor/pageEditorSeoTypes";
 
 export {
+  handleAdminUsersGet,
+  handleAdminUsersPost,
+  handleAdminUsersDelete,
+  type AdminUserRow,
+} from "./lib/server/adminUsers";
+
+export {
   handleSaveDraft,
   handlePublish,
   handleDiscard,
