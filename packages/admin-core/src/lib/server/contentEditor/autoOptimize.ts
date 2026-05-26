@@ -803,32 +803,31 @@ export async function runAutoOptimize(opts: AutoOptimizeOptions): Promise<void> 
     bodyPlaintext: bodyMarkdown,
   });
 
-  // Immediately score the new draft so the list view shows a current score
-  // without waiting for the user to open the brief page (which triggers
-  // useLiveScore). Errors here are non-fatal — the user can score on open.
-  // (Page Mode editors don't display draft scores in the list, but we still
-  // score for the Recommendations panel's "If applied" projection.)
-  try {
-    const headings: string[] = [];
-    for (const line of bodyMarkdown.split("\n")) {
-      const m = line.match(/^#{1,6}\s+(.+?)\s*$/);
-      if (m) headings.push(m[1].trim());
+  // Score in the background so we stay under Vercel's 5-minute limit; the brief
+  // page re-scores on open if this does not finish in time.
+  void (async () => {
+    try {
+      const headings: string[] = [];
+      for (const line of bodyMarkdown.split("\n")) {
+        const m = line.match(/^#{1,6}\s+(.+?)\s*$/);
+        if (m) headings.push(m[1].trim());
+      }
+      await scoreDraft({
+        editorId,
+        titleTag: title,
+        metaDescription,
+        h1Text: recommendedH1,
+        bodyPlaintext: bodyMarkdown,
+        bodyMarkdown,
+        earlyHeadings: headings.slice(0, 3),
+        allHeadings: headings,
+        includeFactCoverage: false,
+        persist: true,
+      });
+    } catch (err) {
+      console.warn("[content-editor] post-optimize scoring failed (non-fatal):", err);
     }
-    await scoreDraft({
-      editorId,
-      titleTag: title,
-      metaDescription,
-      h1Text: recommendedH1,
-      bodyPlaintext: bodyMarkdown,
-      bodyMarkdown,
-      earlyHeadings: headings.slice(0, 3),
-      allHeadings: headings,
-      includeFactCoverage: false,
-      persist: true,
-    });
-  } catch (err) {
-    console.warn("[content-editor] post-optimize scoring failed (non-fatal):", err);
-  }
+  })();
 
   if (opts.autoPublish === false) return;
 

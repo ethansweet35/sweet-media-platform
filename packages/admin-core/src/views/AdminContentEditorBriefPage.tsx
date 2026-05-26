@@ -36,11 +36,33 @@ interface Props {
 function autoOptimizeDraftLanded(
   baselineWords: number,
   baselineBodyLen: number,
-  current: { word_count?: number | null; body_markdown?: string | null },
+  optimizeStartedAt: number | null,
+  baselineUpdatedAt: string | null,
+  current: {
+    word_count?: number | null;
+    body_markdown?: string | null;
+    updated_at?: string | null;
+  },
   isPageMode: boolean,
 ): boolean {
   const words = current.word_count ?? 0;
   const bodyLen = (current.body_markdown ?? "").trim().length;
+  const curUpdated = current.updated_at ? Date.parse(current.updated_at) : NaN;
+  const baselineUpdated = baselineUpdatedAt ? Date.parse(baselineUpdatedAt) : NaN;
+
+  // Re-run on an existing draft: the server saved after this optimize started.
+  if (
+    optimizeStartedAt &&
+    bodyLen >= 200 &&
+    Number.isFinite(curUpdated) &&
+    curUpdated > optimizeStartedAt &&
+    Number.isFinite(baselineUpdated) &&
+    curUpdated > baselineUpdated
+  ) {
+    return true;
+  }
+
+  // First run / empty draft: require meaningful body growth.
   if (isPageMode) {
     return bodyLen > Math.max(baselineBodyLen + 400, 800);
   }
@@ -757,7 +779,7 @@ function OptimizingBanner({
           </div>
           <p className={`mt-1 text-[12px] leading-snug ${isCertainlyDead ? "text-red-800" : isLikelyTimedOut || isSlow ? "text-amber-800" : "text-[#0A1F44]/90"}`}>
             {isCertainlyDead
-              ? "The background task should have finished by now. Vercel's 5-minute function limit was likely exceeded. Reset and try again — the page brief is unchanged."
+              ? "This is taking longer than expected. The draft may still have saved — click Reset & retry only if the content below did not change. If it did update, reset to clear this banner."
               : isLikelyTimedOut
                 ? "Past Vercel's 5-minute function limit. The task may have been killed. If no recommendations appear in another minute or two, reset and retry."
                 : isSlow
@@ -1455,20 +1477,16 @@ export default function AdminContentEditorBriefPage({ briefId: briefIdProp }: Pr
     const landed = autoOptimizeDraftLanded(
       optimizeBaselineWordCount,
       optimizeBaselineBodyLength,
+      optimizeStartedAt,
+      optimizeBaselineUpdatedAt,
       {
         word_count: draft.word_count,
         body_markdown: draft.body_markdown,
+        updated_at: draft.updated_at,
       },
       isPageMode,
     );
     if (!landed) return;
-
-    const baseline = optimizeBaselineUpdatedAt;
-    const baselineDate = baseline ? Date.parse(baseline) : (optimizeStartedAt ?? 0);
-    const curDate = draft.updated_at ? Date.parse(draft.updated_at) : NaN;
-    if (baseline && Number.isFinite(baselineDate) && Number.isFinite(curDate) && curDate <= baselineDate) {
-      return;
-    }
 
     setOptimizing(false);
     setOptimizeStartedAt(null);
