@@ -1,73 +1,67 @@
-'use client';
+"use client";
 
-import { usePathname } from 'next/navigation';
-import { useEffect, useState } from 'react';
-import Navbar from './Navbar';
-import Footer from './Footer';
-
-const PHONE = "(949) 946-5876";
-const PHONE_HREF = "tel:+19499465876";
+import { usePathname } from "next/navigation";
+import { useEffect, useState } from "react";
+import { SITE } from "@/lib/site";
+import Navbar from "./Navbar";
+import Footer from "./Footer";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
-  const isAdmin = pathname?.startsWith('/admin');
+  const isAdmin = pathname?.startsWith("/admin");
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
-    if (!isAdmin) window.scrollTo({ top: 0, behavior: 'smooth' });
+    if (!isAdmin) window.scrollTo({ top: 0, behavior: "smooth" });
   }, [pathname, isAdmin]);
 
   useEffect(() => {
     const onScroll = () => setVisible(window.scrollY > 400);
-    window.addEventListener('scroll', onScroll, { passive: true });
-    return () => window.removeEventListener('scroll', onScroll);
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
   if (isAdmin) return <>{children}</>;
 
   return (
-    <div className="min-h-screen flex flex-col bg-white" style={{ fontFamily: 'var(--font-montserrat)' }}>
+    <div className="flex min-h-screen flex-col bg-white" style={{ fontFamily: "var(--font-montserrat)" }}>
       <Navbar />
-      <div className="flex-1">
-        {children}
-      </div>
+      <div className="flex-1">{children}</div>
       <Footer />
 
-      {/* Mobile sticky CTA */}
       <div
-        className={`md:hidden fixed bottom-0 left-0 right-0 z-50 transition-transform duration-500 ${
-          visible ? 'translate-y-0' : 'translate-y-full'
+        className={`fixed bottom-0 left-0 right-0 z-50 transition-transform duration-500 md:hidden ${
+          visible ? "translate-y-0" : "translate-y-full"
         }`}
       >
-        <div className="bg-[#000000] px-4 py-3 flex items-center gap-3 border-t border-white/10">
+        <div className="flex items-center gap-3 border-t border-white/10 bg-dark px-4 py-3">
           <a
-            href={PHONE_HREF}
-            className="flex-1 flex items-center justify-center gap-2 py-3.5 rounded-full bg-white text-[#000000] text-xs uppercase tracking-widest font-bold active:bg-white/90 transition-colors"
+            href={SITE.phone.href}
+            className="flex flex-1 items-center justify-center gap-2 rounded-full bg-white py-3.5 text-xs font-bold uppercase tracking-widest text-black transition-colors active:bg-white/90"
           >
-            <i className="ri-phone-fill text-sm"></i>
-            {PHONE}
+            <i className="ri-phone-fill text-sm" />
+            {SITE.phone.display}
           </a>
           <a
             href="/admissions"
-            className="flex items-center justify-center gap-2 px-5 py-3.5 rounded-full border border-white/30 text-white text-xs uppercase tracking-widest font-semibold active:bg-white/10 transition-colors"
+            className="flex items-center justify-center gap-2 rounded-full border border-white/30 px-5 py-3.5 text-xs font-semibold uppercase tracking-widest text-white transition-colors active:bg-white/10"
           >
             Apply
           </a>
         </div>
       </div>
 
-      {/* Desktop floating call button */}
       <div
-        className={`hidden md:flex fixed bottom-8 right-8 z-50 transition-all duration-500 ${
-          visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4 pointer-events-none'
+        className={`fixed bottom-8 right-8 z-50 hidden transition-all duration-500 md:flex ${
+          visible ? "translate-y-0 opacity-100" : "pointer-events-none translate-y-4 opacity-0"
         }`}
       >
         <a
-          href={PHONE_HREF}
-          className="flex items-center gap-3 pl-5 pr-6 py-4 rounded-full bg-[#000000] text-white text-xs uppercase tracking-widest font-bold hover:bg-[#111111] transition-colors shadow-xl"
+          href={SITE.phone.href}
+          className="flex items-center gap-3 rounded-full bg-dark py-4 pl-5 pr-6 text-xs font-bold uppercase tracking-widest text-white shadow-xl transition-colors hover:bg-cta-hover"
         >
-          <div className="w-7 h-7 flex items-center justify-center rounded-full bg-white/15 flex-shrink-0">
-            <i className="ri-phone-fill text-sm"></i>
+          <div className="flex h-7 w-7 flex-shrink-0 items-center justify-center rounded-full bg-white/15">
+            <i className="ri-phone-fill text-sm" />
           </div>
           Call Now — Free Consult
         </a>

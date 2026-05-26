@@ -1,15 +1,9 @@
 import Image from "next/image";
 import Link from "next/link";
+import { MarketingPage } from "@/components/marketing";
+import { INDIVIDUAL_THERAPY_IMGS, SITE } from "@/lib/site";
 
-const PHONE = "(949) 946-5876";
-const PHONE_HREF = "tel:+19499465876";
-const SB_ROOT =
-  "https://almncgkbmooyuptdgkhe.supabase.co/storage/v1/object/public/site-assets/images";
-
-const IMGS = {
-  hero: `${SB_ROOT}/amh_indiv_hero01.jpg`,
-  bento: `${SB_ROOT}/amh_indiv_bento01.jpg`,
-};
+const IMGS = INDIVIDUAL_THERAPY_IMGS;
 
 const sessionPhases = [
   {
@@ -112,7 +106,7 @@ const faqs = [
 
 export default function IndividualTherapyPage() {
   return (
-    <main style={{ fontFamily: "var(--font-montserrat)" }}>
+    <MarketingPage>
 
       {/* ── 1. Full-bleed dark hero ── */}
       <section className="relative min-h-[90vh] flex flex-col overflow-hidden">
@@ -129,10 +123,10 @@ export default function IndividualTherapyPage() {
         <div className="absolute inset-0 bg-gradient-to-t from-black/92 via-black/55 to-transparent" />
 
         <div className="relative z-10 mt-auto w-full px-6 pb-16 pt-24 lg:px-10 lg:pb-20">
-          <div className="mx-auto max-w-[1350px]">
+          <div className="mx-auto max-w-content">
 
             {/* Eyebrow */}
-            <p className="mb-5 text-xs font-bold uppercase tracking-[0.3em] text-[#83B3DC]">
+            <p className="mb-5 text-xs font-bold uppercase tracking-[0.3em] text-accent">
               Individual Therapy · Ages 12–17
             </p>
 
@@ -141,7 +135,7 @@ export default function IndividualTherapyPage() {
               style={{ fontFamily: "var(--font-heebo)" }}
             >
               Individual therapy for teens,{" "}
-              <span className="text-[#83B3DC]">matched to how your teen thinks</span>
+              <span className="text-accent">matched to how your teen thinks</span>
             </h1>
 
             <p className="mt-6 max-w-xl text-sm leading-8 text-white/65">
@@ -150,11 +144,11 @@ export default function IndividualTherapyPage() {
 
             <div className="mt-9 flex flex-wrap items-center gap-4">
               <a
-                href={PHONE_HREF}
-                className="inline-flex items-center gap-2.5 rounded-full bg-white px-8 py-4 text-sm font-bold text-[#000000] shadow-xl transition hover:bg-white/90"
+                href={SITE.phone.href}
+                className="inline-flex items-center gap-2.5 rounded-full bg-white px-8 py-4 text-sm font-bold text-black shadow-xl transition hover:bg-white/90"
               >
                 <i className="ri-phone-fill text-base"></i>
-                Free Consultation — {PHONE}
+                Free Consultation — {SITE.phone.display}
               </a>
               <Link
                 href="/virtual-iop-for-teens"
@@ -174,7 +168,7 @@ export default function IndividualTherapyPage() {
                 { icon: "ri-lock-line",            label: "HIPAA compliant" },
               ].map((c) => (
                 <span key={c.label} className="flex items-center gap-2 text-xs font-semibold text-white/50">
-                  <i className={`${c.icon} text-[#83B3DC] text-sm`}></i>
+                  <i className={`${c.icon} text-accent text-sm`}></i>
                   {c.label}
                 </span>
               ))}
@@ -185,9 +179,9 @@ export default function IndividualTherapyPage() {
       </section>
 
       {/* ── 2. Stats band ── */}
-      <section className="border-b border-[#E8EEF4] bg-white px-6 py-0 lg:px-10">
-        <div className="mx-auto max-w-[1350px]">
-          <div className="grid grid-cols-2 divide-x divide-[#E8EEF4] lg:grid-cols-4">
+      <section className="border-b border-border bg-white px-6 py-0 lg:px-10">
+        <div className="mx-auto max-w-content">
+          <div className="grid grid-cols-2 divide-x divide-border lg:grid-cols-4">
             {[
               { value: "2–3×",        unit: "per week",           label: "Individual sessions" },
               { value: "45 min",      unit: "per session",        label: "Session length" },
@@ -196,13 +190,13 @@ export default function IndividualTherapyPage() {
             ].map((s) => (
               <div key={s.label} className="flex flex-col gap-1 px-6 py-8 lg:px-10">
                 <p
-                  className="text-3xl font-bold text-[#0A0F14] lg:text-4xl"
+                  className="text-3xl font-bold text-ink lg:text-4xl"
                   style={{ fontFamily: "var(--font-heebo)" }}
                 >
                   {s.value}
                 </p>
-                <p className="text-[11px] font-semibold uppercase tracking-[0.15em] text-[#83B3DC]">{s.unit}</p>
-                <p className="mt-1 text-xs text-[#7C848B]">{s.label}</p>
+                <p className="text-[11px] font-semibold uppercase tracking-[0.15em] text-accent">{s.unit}</p>
+                <p className="mt-1 text-xs text-body">{s.label}</p>
               </div>
             ))}
           </div>
@@ -210,43 +204,43 @@ export default function IndividualTherapyPage() {
       </section>
 
       {/* ── 3. Editorial prose section ── */}
-      <section className="bg-white px-6 py-[100px] lg:px-10">
-        <div className="mx-auto max-w-[1350px]">
+      <section className="bg-white px-6 py-section lg:px-10">
+        <div className="mx-auto max-w-content">
 
           {/* Section header */}
           <div className="mb-12 flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
             <div>
-              <p className="mb-3 text-[11px] font-bold uppercase tracking-[0.3em] text-[#83B3DC]">
+              <p className="mb-3 text-[11px] font-bold uppercase tracking-[0.3em] text-accent">
                 One-on-one care
               </p>
               <h2
-                className="text-4xl font-bold leading-[1.08] text-[#0A0F14] md:text-5xl"
+                className="text-4xl font-bold leading-[1.08] text-ink md:text-5xl"
                 style={{ fontFamily: "var(--font-heebo)" }}
               >
                 What happens in<br className="hidden lg:block" /> individual therapy?
               </h2>
             </div>
-            <p className="max-w-sm text-sm leading-8 text-[#7C848B] lg:text-right">
+            <p className="max-w-sm text-sm leading-8 text-body lg:text-right">
               Not just talking — structured clinical work with a consistent clinician, a clear arc, and measurable goals.
             </p>
           </div>
 
           {/* Two-column prose */}
           <div className="grid gap-6 lg:grid-cols-2">
-            <p className="text-sm leading-8 text-[#54595F]">
+            <p className="text-sm leading-8 text-body">
               Individual therapy gives your teen a private, consistent relationship with one licensed clinician — a space to speak openly, process difficult experiences, and build skills that work in real life. It is the relational anchor of our Virtual IOP model, not an afterthought bolted onto group sessions.
             </p>
-            <p className="text-sm leading-8 text-[#54595F]">
+            <p className="text-sm leading-8 text-body">
               Unlike weekly outpatient therapy, individual sessions within IOP happen 2–3 times per week. That frequency changes everything: progress doesn&apos;t stall between appointments, clinicians catch early warning signs quickly, and teens build skills through repetition rather than relying on one session to carry the whole week.
             </p>
           </div>
 
           {/* Pullquote */}
-          <div className="my-12 border-l-4 border-[#83B3DC] bg-[#F0F4F8] px-8 py-8 lg:px-12 lg:py-10">
-            <p className="text-lg font-semibold italic leading-9 text-[#0A0F14] lg:text-xl">
+          <div className="my-12 border-l-4 border-accent bg-surface px-8 py-8 lg:px-12 lg:py-10">
+            <p className="text-lg font-semibold italic leading-9 text-ink lg:text-xl">
               &ldquo;Therapeutic fit matters more than credentials alone. A teen who trusts their clinician will do the work — and teens who do the work get better.&rdquo;
             </p>
-            <p className="mt-4 text-xs font-bold uppercase tracking-[0.15em] text-[#83B3DC]">
+            <p className="mt-4 text-xs font-bold uppercase tracking-[0.15em] text-accent">
               Adolescent Mental Health — Clinical Philosophy
             </p>
           </div>
@@ -254,20 +248,20 @@ export default function IndividualTherapyPage() {
           {/* Third prose paragraph + image side by side */}
           <div className="grid gap-10 lg:grid-cols-[1fr_400px] lg:items-center">
             <div>
-              <p className="text-sm leading-8 text-[#54595F]">
+              <p className="text-sm leading-8 text-body">
                 Every clinician on our team is licensed, trained in adolescent-specific approaches, and matched to your teen based on clinical fit — not schedule availability. If the match isn&apos;t right after the first few sessions, we re-match without disrupting the rest of the program.
               </p>
               <div className="mt-8 flex flex-wrap gap-4">
                 <a
-                  href={PHONE_HREF}
-                  className="inline-flex items-center gap-2.5 rounded-full bg-[#0A0F14] px-7 py-3.5 text-sm font-bold text-white transition hover:bg-[#111111]"
+                  href={SITE.phone.href}
+                  className="inline-flex items-center gap-2.5 rounded-full bg-dark px-7 py-3.5 text-sm font-bold text-white transition hover:bg-cta-hover"
                 >
-                  <i className="ri-phone-fill text-[#83B3DC]"></i>
+                  <i className="ri-phone-fill text-accent"></i>
                   Free Consultation
                 </a>
                 <Link
                   href="/admissions"
-                  className="inline-flex items-center gap-2 rounded-full border border-[#CBE6EC] px-7 py-3.5 text-sm font-semibold text-[#0A0F14] transition hover:border-[#83B3DC]"
+                  className="inline-flex items-center gap-2 rounded-full border border-border px-7 py-3.5 text-sm font-semibold text-ink transition hover:border-accent"
                 >
                   Start Intake
                   <i className="ri-arrow-right-line"></i>
@@ -290,11 +284,11 @@ export default function IndividualTherapyPage() {
       </section>
 
       {/* ── 4. Chapter timeline ── */}
-      <section className="bg-[#0A0F14] px-6 py-[100px] lg:px-10">
-        <div className="mx-auto max-w-[1350px]">
+      <section className="bg-dark px-6 py-section lg:px-10">
+        <div className="mx-auto max-w-content">
 
           <div className="mb-16">
-            <p className="mb-3 text-[11px] font-bold uppercase tracking-[0.3em] text-[#83B3DC]">
+            <p className="mb-3 text-[11px] font-bold uppercase tracking-[0.3em] text-accent">
               Session structure
             </p>
             <h2
@@ -319,10 +313,10 @@ export default function IndividualTherapyPage() {
                   {/* Step node + number */}
                   <div className="flex items-start gap-4 lg:flex-col lg:items-center lg:gap-0">
                     <div
-                      className="relative z-10 flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-[#83B3DC]/10"
+                      className="relative z-10 flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-accent/10"
                       style={{ border: "1px solid rgba(131,179,220,0.2)" }}
                     >
-                      <i className={`${phase.icon} text-xl text-[#83B3DC]`}></i>
+                      <i className={`${phase.icon} text-xl text-accent`}></i>
                     </div>
                     <p
                       className="mt-2 hidden text-[11px] font-bold uppercase tracking-[0.2em] text-white/20 lg:block"
@@ -351,8 +345,8 @@ export default function IndividualTherapyPage() {
                   <ul className="flex flex-col gap-3 lg:pt-1">
                     {phase.bullets.map((b) => (
                       <li key={b} className="flex items-start gap-3">
-                        <span className="mt-1 flex h-4 w-4 shrink-0 items-center justify-center rounded-full bg-[#83B3DC]/15">
-                          <i className="ri-check-line text-[9px] text-[#83B3DC]"></i>
+                        <span className="mt-1 flex h-4 w-4 shrink-0 items-center justify-center rounded-full bg-accent/15">
+                          <i className="ri-check-line text-[9px] text-accent"></i>
                         </span>
                         <span className="text-sm leading-6 text-white/50">{b}</span>
                       </li>
@@ -367,29 +361,29 @@ export default function IndividualTherapyPage() {
       </section>
 
       {/* ── 5. Two-column checklist ── */}
-      <section className="bg-[#F0F4F8] px-6 py-[100px] lg:px-10">
-        <div className="mx-auto max-w-[1350px]">
+      <section className="bg-surface px-6 py-section lg:px-10">
+        <div className="mx-auto max-w-content">
           <div className="grid gap-14 lg:grid-cols-[1fr_1fr] lg:items-start">
 
             {/* Left — header */}
             <div className="lg:sticky lg:top-24">
-              <p className="mb-3 text-[11px] font-bold uppercase tracking-[0.3em] text-[#83B3DC]">
+              <p className="mb-3 text-[11px] font-bold uppercase tracking-[0.3em] text-accent">
                 Good fit
               </p>
               <h2
-                className="text-4xl font-bold leading-tight text-[#0A0F14] md:text-5xl"
+                className="text-4xl font-bold leading-tight text-ink md:text-5xl"
                 style={{ fontFamily: "var(--font-heebo)" }}
               >
                 Who benefits from individual therapy?
               </h2>
-              <p className="mt-5 text-sm leading-8 text-[#54595F]">
+              <p className="mt-5 text-sm leading-8 text-body">
                 Individual sessions are well-suited to teens who need a private, consistent therapeutic relationship as the foundation of their care.
               </p>
               <a
-                href={PHONE_HREF}
-                className="mt-8 inline-flex items-center gap-2.5 rounded-full bg-[#0A0F14] px-7 py-3.5 text-sm font-bold text-white transition hover:bg-[#111111]"
+                href={SITE.phone.href}
+                className="mt-8 inline-flex items-center gap-2.5 rounded-full bg-dark px-7 py-3.5 text-sm font-bold text-white transition hover:bg-cta-hover"
               >
-                <i className="ri-phone-fill text-[#83B3DC]"></i>
+                <i className="ri-phone-fill text-accent"></i>
                 Ask our admissions team
               </a>
             </div>
@@ -399,14 +393,14 @@ export default function IndividualTherapyPage() {
               {fitCriteria.map((item, i) => (
                 <div
                   key={item.label}
-                  className={`flex items-start gap-5 py-7 ${i > 0 ? "border-t border-[#E8EEF4]" : ""}`}
+                  className={`flex items-start gap-5 py-7 ${i > 0 ? "border-t border-border" : ""}`}
                 >
-                  <span className="mt-0.5 flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-white text-[#83B3DC] shadow-sm ring-1 ring-[#E8EEF4]">
+                  <span className="mt-0.5 flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-white text-accent shadow-sm ring-1 ring-border">
                     <i className={`${item.icon} text-lg`}></i>
                   </span>
                   <div>
-                    <p className="text-sm font-bold text-[#0A0F14]">{item.label}</p>
-                    <p className="mt-1 text-xs leading-5 text-[#7C848B]">{item.sub}</p>
+                    <p className="text-sm font-bold text-ink">{item.label}</p>
+                    <p className="mt-1 text-xs leading-5 text-body">{item.sub}</p>
                   </div>
                 </div>
               ))}
@@ -417,42 +411,42 @@ export default function IndividualTherapyPage() {
       </section>
 
       {/* ── 6. Approach icon strip ── */}
-      <section className="bg-white px-6 py-[100px] lg:px-10">
-        <div className="mx-auto max-w-[1350px]">
+      <section className="bg-white px-6 py-section lg:px-10">
+        <div className="mx-auto max-w-content">
 
           <div className="mb-12 flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
             <div>
-              <p className="mb-3 text-[11px] font-bold uppercase tracking-[0.3em] text-[#83B3DC]">
+              <p className="mb-3 text-[11px] font-bold uppercase tracking-[0.3em] text-accent">
                 Clinical methods
               </p>
               <h2
-                className="text-4xl font-bold leading-tight text-[#0A0F14] md:text-5xl"
+                className="text-4xl font-bold leading-tight text-ink md:text-5xl"
                 style={{ fontFamily: "var(--font-heebo)" }}
               >
                 Approaches we use<br className="hidden lg:block" /> in individual sessions
               </h2>
             </div>
-            <p className="max-w-xs text-sm leading-8 text-[#7C848B] lg:text-right">
+            <p className="max-w-xs text-sm leading-8 text-body lg:text-right">
               Clinicians draw from evidence-based modalities and adapt to your teen&apos;s specific presentation.
             </p>
           </div>
 
-          <div className="divide-y divide-[#E8EEF4] border-y border-[#E8EEF4]">
+          <div className="divide-y divide-border border-y border-border">
             {approaches.map((a) => (
               <div
                 key={a.title}
-                className="grid grid-cols-1 gap-6 py-8 transition hover:bg-[#F0F4F8] lg:grid-cols-[5rem_1fr_2fr] lg:items-center lg:px-6"
+                className="grid grid-cols-1 gap-6 py-8 transition hover:bg-surface lg:grid-cols-[5rem_1fr_2fr] lg:items-center lg:px-6"
               >
                 {/* Large icon */}
-                <span className="flex h-14 w-14 items-center justify-center rounded-2xl bg-[#F0F4F8] text-[#83B3DC] transition group-hover:bg-[#83B3DC]/15">
+                <span className="flex h-14 w-14 items-center justify-center rounded-2xl bg-surface text-accent transition group-hover:bg-accent/15">
                   <i className={`${a.icon} text-2xl`}></i>
                 </span>
 
                 {/* Title + tag */}
                 <div>
-                  <p className="text-[10px] font-bold uppercase tracking-[0.15em] text-[#83B3DC]/70">{a.tag}</p>
+                  <p className="text-[10px] font-bold uppercase tracking-[0.15em] text-accent/70">{a.tag}</p>
                   <h3
-                    className="mt-1 text-lg font-bold text-[#0A0F14]"
+                    className="mt-1 text-lg font-bold text-ink"
                     style={{ fontFamily: "var(--font-heebo)" }}
                   >
                     {a.title}
@@ -460,7 +454,7 @@ export default function IndividualTherapyPage() {
                 </div>
 
                 {/* Prose */}
-                <p className="text-sm leading-8 text-[#54595F]">{a.body}</p>
+                <p className="text-sm leading-8 text-body">{a.body}</p>
               </div>
             ))}
           </div>
@@ -469,11 +463,11 @@ export default function IndividualTherapyPage() {
       </section>
 
       {/* ── 7. IOP context band ── */}
-      <section className="bg-[#0A0F14] px-6 py-[100px] lg:px-10">
-        <div className="mx-auto max-w-[1350px]">
+      <section className="bg-dark px-6 py-section lg:px-10">
+        <div className="mx-auto max-w-content">
 
           <div className="mb-14 text-center">
-            <p className="mb-3 text-[11px] font-bold uppercase tracking-[0.3em] text-[#83B3DC]">
+            <p className="mb-3 text-[11px] font-bold uppercase tracking-[0.3em] text-accent">
               The full picture
             </p>
             <h2
@@ -493,7 +487,7 @@ export default function IndividualTherapyPage() {
                 key={item.label}
                 className={`rounded-3xl p-8 ${
                   item.active
-                    ? "ring-2 ring-[#83B3DC]/40"
+                    ? "ring-2 ring-accent/40"
                     : ""
                 }`}
                 style={{
@@ -504,13 +498,13 @@ export default function IndividualTherapyPage() {
                 <div className="flex items-center justify-between">
                   <span
                     className={`flex h-12 w-12 items-center justify-center rounded-xl ${
-                      item.active ? "bg-[#83B3DC]/15 text-[#83B3DC]" : "bg-white/5 text-white/30"
+                      item.active ? "bg-accent/15 text-accent" : "bg-white/5 text-white/30"
                     }`}
                   >
                     <i className={`${item.icon} text-xl`}></i>
                   </span>
                   {item.active && (
-                    <span className="rounded-full bg-[#83B3DC]/20 px-3 py-1 text-[10px] font-bold uppercase tracking-wider text-[#83B3DC]">
+                    <span className="rounded-full bg-accent/20 px-3 py-1 text-[10px] font-bold uppercase tracking-wider text-accent">
                       This page
                     </span>
                   )}
@@ -522,7 +516,7 @@ export default function IndividualTherapyPage() {
                 >
                   {item.label}
                 </h3>
-                <p className={`mt-1 text-sm font-semibold ${item.active ? "text-[#83B3DC]" : "text-white/25"}`}>
+                <p className={`mt-1 text-sm font-semibold ${item.active ? "text-accent" : "text-white/25"}`}>
                   {item.cadence}
                 </p>
                 <p className={`mt-3 text-sm leading-7 ${item.active ? "text-white/60" : "text-white/30"}`}>
@@ -555,55 +549,55 @@ export default function IndividualTherapyPage() {
       </section>
 
       {/* ── 8. Centered FAQ ── */}
-      <section className="bg-[#F0F4F8] px-6 py-[100px] lg:px-10">
+      <section className="bg-surface px-6 py-section lg:px-10">
         <div className="mx-auto max-w-3xl">
 
           <div className="mb-14 text-center">
-            <p className="mb-3 text-[11px] font-bold uppercase tracking-[0.3em] text-[#83B3DC]">FAQ</p>
+            <p className="mb-3 text-[11px] font-bold uppercase tracking-[0.3em] text-accent">FAQ</p>
             <h2
-              className="text-4xl font-bold leading-tight text-[#0A0F14] md:text-5xl"
+              className="text-4xl font-bold leading-tight text-ink md:text-5xl"
               style={{ fontFamily: "var(--font-heebo)" }}
             >
               Questions about individual therapy
             </h2>
-            <p className="mx-auto mt-4 max-w-md text-sm leading-8 text-[#54595F]">
+            <p className="mx-auto mt-4 max-w-md text-sm leading-8 text-body">
               Still have questions? Our admissions team is available 7 days a week.
             </p>
           </div>
 
-          <div className="divide-y divide-[#E8EEF4] rounded-2xl bg-white shadow-sm ring-1 ring-[#E8EEF4]">
+          <div className="divide-y divide-border rounded-2xl bg-white shadow-sm ring-1 ring-border">
             {faqs.map((faq, i) => (
               <details key={i} className="group px-8 py-0">
                 <summary className="flex cursor-pointer list-none items-start justify-between gap-6 py-6">
                   <span
-                    className="text-base font-bold text-[#0A0F14] transition-colors group-open:text-[#83B3DC]"
+                    className="text-base font-bold text-ink transition-colors group-open:text-accent"
                     style={{ fontFamily: "var(--font-heebo)" }}
                   >
                     {faq.q}
                   </span>
-                  <span className="mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[#F0F4F8] text-[#83B3DC] transition group-open:bg-[#83B3DC] group-open:text-white">
+                  <span className="mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-surface text-accent transition group-open:bg-accent group-open:text-white">
                     <i className="ri-add-line text-sm group-open:hidden"></i>
                     <i className="ri-subtract-line text-sm hidden group-open:block"></i>
                   </span>
                 </summary>
-                <p className="pb-6 text-sm leading-8 text-[#54595F]">{faq.a}</p>
+                <p className="pb-6 text-sm leading-8 text-body">{faq.a}</p>
               </details>
             ))}
           </div>
 
           <div className="mt-10 flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
             <a
-              href={PHONE_HREF}
-              className="inline-flex items-center gap-2.5 rounded-full bg-[#0A0F14] px-7 py-3.5 text-sm font-bold text-white transition hover:bg-[#111111]"
+              href={SITE.phone.href}
+              className="inline-flex items-center gap-2.5 rounded-full bg-dark px-7 py-3.5 text-sm font-bold text-white transition hover:bg-cta-hover"
             >
-              <i className="ri-phone-fill text-[#83B3DC]"></i>
-              {PHONE}
+              <i className="ri-phone-fill text-accent"></i>
+              {SITE.phone.display}
             </a>
             <a
               href="mailto:admissions@adolescentmentalhealth.com"
-              className="inline-flex items-center gap-2.5 rounded-full border border-[#CBE6EC] bg-white px-7 py-3.5 text-sm font-semibold text-[#54595F] transition hover:border-[#83B3DC] hover:text-[#0A0F14]"
+              className="inline-flex items-center gap-2.5 rounded-full border border-border bg-white px-7 py-3.5 text-sm font-semibold text-body transition hover:border-accent hover:text-ink"
             >
-              <i className="ri-mail-line text-[#83B3DC]"></i>
+              <i className="ri-mail-line text-accent"></i>
               Email Admissions
             </a>
           </div>
@@ -612,12 +606,12 @@ export default function IndividualTherapyPage() {
       </section>
 
       {/* ── 9. Centered CTA ── */}
-      <section className="relative overflow-hidden bg-[#0A0F14] px-6 py-[100px] lg:px-10">
-        <div className="pointer-events-none absolute left-1/2 top-1/2 h-[700px] w-[700px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#83B3DC]/6 blur-[140px]" />
+      <section className="relative overflow-hidden bg-dark px-6 py-section lg:px-10">
+        <div className="pointer-events-none absolute left-1/2 top-1/2 h-[700px] w-[700px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-accent/6 blur-[140px]" />
 
         <div className="relative mx-auto max-w-2xl text-center">
 
-          <p className="mb-6 text-[11px] font-bold uppercase tracking-[0.3em] text-[#83B3DC]">
+          <p className="mb-6 text-[11px] font-bold uppercase tracking-[0.3em] text-accent">
             Get started today
           </p>
 
@@ -626,7 +620,7 @@ export default function IndividualTherapyPage() {
             style={{ fontFamily: "var(--font-heebo)" }}
           >
             Your teen deserves a clinician<br />
-            <span className="text-[#83B3DC]">who really gets them.</span>
+            <span className="text-accent">who really gets them.</span>
           </h2>
 
           <p className="mx-auto mt-6 max-w-md text-sm leading-8 text-white/50">
@@ -635,11 +629,11 @@ export default function IndividualTherapyPage() {
 
           {/* Big phone number */}
           <a
-            href={PHONE_HREF}
-            className="mt-12 block text-4xl font-bold tracking-tight text-white transition hover:text-[#83B3DC] lg:text-5xl"
+            href={SITE.phone.href}
+            className="mt-12 block text-4xl font-bold tracking-tight text-white transition hover:text-accent lg:text-5xl"
             style={{ fontFamily: "var(--font-heebo)" }}
           >
-            {PHONE}
+            {SITE.phone.display}
           </a>
           <p className="mt-2 text-xs font-semibold text-white/30 uppercase tracking-[0.15em]">
             Free · Confidential · No obligation
@@ -648,10 +642,10 @@ export default function IndividualTherapyPage() {
           {/* CTA buttons */}
           <div className="mt-10 flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
             <a
-              href={PHONE_HREF}
-              className="inline-flex items-center gap-2.5 rounded-full bg-white px-8 py-4 text-sm font-bold text-[#0A0F14] shadow-xl transition hover:bg-white/90"
+              href={SITE.phone.href}
+              className="inline-flex items-center gap-2.5 rounded-full bg-white px-8 py-4 text-sm font-bold text-ink shadow-xl transition hover:bg-white/90"
             >
-              <i className="ri-phone-fill text-[#83B3DC]"></i>
+              <i className="ri-phone-fill text-accent"></i>
               Call Now
             </a>
             <Link
@@ -659,7 +653,7 @@ export default function IndividualTherapyPage() {
               className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-8 py-4 text-sm font-semibold text-white transition hover:border-white/30 hover:bg-white/10"
             >
               Start Online Intake
-              <i className="ri-arrow-right-line text-[#83B3DC]"></i>
+              <i className="ri-arrow-right-line text-accent"></i>
             </Link>
           </div>
 
@@ -672,7 +666,7 @@ export default function IndividualTherapyPage() {
               { icon: "ri-bank-card-line",     label: "Insurance Accepted" },
             ].map((t) => (
               <span key={t.label} className="flex items-center gap-2 text-xs font-semibold text-white/35">
-                <i className={`${t.icon} text-[#83B3DC] text-sm`}></i>
+                <i className={`${t.icon} text-accent text-sm`}></i>
                 {t.label}
               </span>
             ))}
@@ -681,6 +675,6 @@ export default function IndividualTherapyPage() {
         </div>
       </section>
 
-    </main>
+    </MarketingPage>
   );
 }

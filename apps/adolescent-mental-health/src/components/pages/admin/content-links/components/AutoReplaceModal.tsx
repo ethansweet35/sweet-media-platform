@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback, useMemo } from "react";
+import { useState, useCallback, useEffect } from "react";
 import { supabase } from "@/lib/supabase";
 import type { FoundLink, Suggestion } from "@sweetmedia/admin-core";
 
@@ -66,7 +66,12 @@ export default function AutoReplaceModal({ link, onClose, onReplace, actionLoadi
     setLoading(false);
   }, [link]);
 
-  useMemo(() => { fetchSuggestions(); }, []); // eslint-disable-line react-hooks/exhaustive-deps
+  useEffect(() => {
+    const timer = window.setTimeout(() => {
+      void fetchSuggestions();
+    }, 0);
+    return () => window.clearTimeout(timer);
+  }, [fetchSuggestions]);
 
   const internalSuggestions = suggestions.filter((s) => s.source === "internal");
   const webSuggestions = suggestions.filter((s) => s.source === "web");

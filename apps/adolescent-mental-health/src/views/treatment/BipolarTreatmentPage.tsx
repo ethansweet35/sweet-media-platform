@@ -1,15 +1,9 @@
 import Image from "next/image";
 import Link from "next/link";
+import { AmhButton, ComparisonTable, DarkCtaSection, MarketingPage } from "@/components/marketing";
+import { BIPOLAR_IMGS, SITE } from "@/lib/site";
 
-const PHONE = "(949) 946-5876";
-const PHONE_HREF = "tel:+19499465876";
-const SB_ROOT =
-  "https://almncgkbmooyuptdgkhe.supabase.co/storage/v1/object/public/site-assets/images";
-
-const IMGS = {
-  hero: `${SB_ROOT}/amh_bipolar_hero01.jpg`,
-  bento: `${SB_ROOT}/amh_bipolar_bento01.jpg`,
-};
+const IMGS = BIPOLAR_IMGS;
 
 const treatmentPillars = [
   { num: "01", icon: "ri-line-chart-line", tag: "Monitoring", title: "Mood tracking and early warning signs", body: "Daily or weekly mood logs help teens and families identify patterns, triggers, and early warning signs before episodes escalate — enabling faster clinical response and reducing severity.", bullets: ["Personalized mood and sleep log", "Identifying individual episode triggers", "Family-facing warning sign plan"] },
@@ -61,40 +55,40 @@ const faqs = [
 
 export default function BipolarTreatmentPage() {
   return (
-    <main style={{ fontFamily: "var(--font-montserrat)" }}>
+    <MarketingPage>
 
       {/* Hero */}
-      <section className="relative overflow-hidden border-b border-[#E8EEF4] bg-[#F0F4F8]">
-        <div className="pointer-events-none absolute -left-32 top-0 h-[480px] w-[480px] rounded-full bg-[#83B3DC]/15 blur-[100px]" />
-        <div className="pointer-events-none absolute right-0 top-1/3 h-96 w-96 rounded-full bg-[#83B3DC]/8 blur-[90px]" />
-        <div className="pointer-events-none absolute inset-0 opacity-[0.35]" style={{ backgroundImage: "radial-gradient(circle at 1px 1px, #83B3DC 1px, transparent 0)", backgroundSize: "32px 32px" }} />
+      <section className="relative overflow-hidden border-b border-border bg-surface">
+        <div className="pointer-events-none absolute -left-32 top-0 h-[480px] w-[480px] rounded-full bg-accent/15 blur-[100px]" />
+        <div className="pointer-events-none absolute right-0 top-1/3 h-96 w-96 rounded-full bg-accent/8 blur-[90px]" />
+        <div className="pointer-events-none absolute inset-0 bg-dot-grid opacity-[0.35]" />
         <div className="relative px-6 pb-16 pt-28 lg:px-10 lg:pb-24 lg:pt-32">
-          <div className="mx-auto max-w-[1350px]">
+          <div className="mx-auto max-w-content">
             <div className="grid items-start gap-10 lg:grid-cols-[1.05fr_0.95fr] lg:items-center lg:gap-14">
               <div className="relative z-10 max-w-2xl">
-                <div className="inline-flex items-center gap-2.5 rounded-full border border-[#83B3DC]/25 bg-white/90 px-4 py-2 shadow-sm backdrop-blur-sm">
+                <div className="inline-flex items-center gap-2.5 rounded-full border border-accent/25 bg-white/90 px-4 py-2 shadow-sm backdrop-blur-sm">
                   <span className="relative flex h-2 w-2">
-                    <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#83B3DC] opacity-60" />
-                    <span className="relative inline-flex h-2 w-2 rounded-full bg-[#83B3DC]" />
+                    <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-accent opacity-60" />
+                    <span className="relative inline-flex h-2 w-2 rounded-full bg-accent" />
                   </span>
-                  <span className="text-[11px] font-bold uppercase tracking-[0.2em] text-[#54595F]">Teen Bipolar Treatment · Ages 12–17</span>
+                  <span className="text-[11px] font-bold uppercase tracking-[0.2em] text-body">Teen Bipolar Treatment · Ages 12–17</span>
                 </div>
-                <h1 className="mt-7 text-[2.75rem] font-bold leading-[1.02] tracking-tight text-[#0A0F14] sm:text-5xl lg:text-[4.25rem]" style={{ fontFamily: "var(--font-heebo)" }}>
+                <h1 className="mt-7 text-[2.75rem] font-bold leading-[1.02] tracking-tight text-ink sm:text-5xl lg:text-[4.25rem]" style={{ fontFamily: "var(--font-heebo)" }}>
                   Teen bipolar treatment{" "}
-                  <span className="text-[#83B3DC]">with expert mood stabilization</span>
+                  <span className="text-accent">with expert mood stabilization</span>
                 </h1>
-                <p className="mt-6 max-w-lg text-base leading-8 text-[#54595F]">
+                <p className="mt-6 max-w-lg text-base leading-8 text-body">
                   Intensive outpatient support for teens with bipolar disorder — combining mood monitoring, CBT and DBT
                   skills, family education, and prescriber coordination in a structured virtual program.
                 </p>
                 <div className="mt-9 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
-                  <a href={PHONE_HREF} className="inline-flex items-center justify-center gap-2.5 rounded-2xl bg-[#0A0F14] px-8 py-4 text-sm font-bold text-white shadow-lg shadow-[#0A0F14]/15 transition hover:bg-[#111111]">
-                    <i className="ri-phone-fill text-[#83B3DC]"></i>
+                  <a href={SITE.phone.href} className="inline-flex items-center justify-center gap-2.5 rounded-2xl bg-dark px-8 py-4 text-sm font-bold text-white shadow-lg shadow-ink/15 transition hover:bg-cta-hover">
+                    <i className="ri-phone-fill text-accent"></i>
                     Free consultation
                   </a>
-                  <Link href="/admissions" className="inline-flex items-center justify-center gap-2 rounded-2xl border border-[#E8EEF4] bg-white px-8 py-4 text-sm font-semibold text-[#0A0F14] shadow-sm transition hover:border-[#83B3DC]/50 hover:shadow-md">
+                  <Link href="/admissions" className="inline-flex items-center justify-center gap-2 rounded-2xl border border-border bg-white px-8 py-4 text-sm font-semibold text-ink shadow-sm transition hover:border-accent/50 hover:shadow-md">
                     Start online intake
-                    <i className="ri-arrow-right-line text-[#83B3DC]"></i>
+                    <i className="ri-arrow-right-line text-accent"></i>
                   </Link>
                 </div>
                 <div className="mt-10 flex flex-wrap gap-2">
@@ -104,8 +98,8 @@ export default function BipolarTreatmentPage() {
                     { icon: "ri-team-line", label: "Family included" },
                     { icon: "ri-capsule-line", label: "Prescriber coordination" },
                   ].map((item) => (
-                    <span key={item.label} className="inline-flex items-center gap-2 rounded-full bg-white/80 px-3.5 py-2 text-[11px] font-semibold text-[#54595F] ring-1 ring-[#E8EEF4] backdrop-blur-sm">
-                      <i className={`${item.icon} text-sm text-[#83B3DC]`}></i>
+                    <span key={item.label} className="inline-flex items-center gap-2 rounded-full bg-white/80 px-3.5 py-2 text-[11px] font-semibold text-body ring-1 ring-border backdrop-blur-sm">
+                      <i className={`${item.icon} text-sm text-accent`}></i>
                       {item.label}
                     </span>
                   ))}
@@ -113,18 +107,18 @@ export default function BipolarTreatmentPage() {
               </div>
 
               <div className="relative mx-auto w-full max-w-md lg:mx-0 lg:max-w-[540px] lg:justify-self-end lg:pt-2">
-                <div className="pointer-events-none absolute -right-3 top-0 hidden h-full w-[92%] rounded-[2rem] bg-[#83B3DC]/25 lg:block" aria-hidden />
-                <div className="relative aspect-[4/3] overflow-hidden rounded-[2rem] shadow-2xl shadow-[#0A0F14]/10 ring-1 ring-white/60">
+                <div className="pointer-events-none absolute -right-3 top-0 hidden h-full w-[92%] rounded-[2rem] bg-accent/25 lg:block" aria-hidden />
+                <div className="relative aspect-[4/3] overflow-hidden rounded-[2rem] shadow-2xl shadow-ink/10 ring-1 ring-white/60">
                   <Image src={IMGS.hero} alt="Teen in virtual therapy session discussing mood management with clinician" fill className="object-cover object-center" priority quality={90} sizes="(max-width: 640px) 100vw, (max-width: 1024px) 448px, 540px" />
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#0A0F14]/25 via-transparent to-transparent" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-dark/25 via-transparent to-transparent" />
                 </div>
-                <div className="absolute -left-2 bottom-6 z-10 rounded-2xl bg-white/95 px-5 py-4 shadow-xl ring-1 ring-[#E8EEF4] backdrop-blur-md sm:-left-6 sm:bottom-8">
-                  <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#83B3DC]">Contact frequency</p>
-                  <p className="mt-1 text-xl font-bold leading-snug text-[#0A0F14]" style={{ fontFamily: "var(--font-heebo)" }}>Multiple days<br /><span className="text-base font-semibold text-[#7C848B]">per week</span></p>
+                <div className="absolute -left-2 bottom-6 z-10 rounded-2xl bg-white/95 px-5 py-4 shadow-xl ring-1 ring-border backdrop-blur-md sm:-left-6 sm:bottom-8">
+                  <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-accent">Contact frequency</p>
+                  <p className="mt-1 text-xl font-bold leading-snug text-ink" style={{ fontFamily: "var(--font-heebo)" }}>Multiple days<br /><span className="text-base font-semibold text-body">per week</span></p>
                 </div>
-                <div className="absolute -right-1 top-4 z-10 hidden rounded-2xl bg-[#0A0F14] px-4 py-3 shadow-xl sm:block lg:-right-4 lg:top-6">
+                <div className="absolute -right-1 top-4 z-10 hidden rounded-2xl bg-dark px-4 py-3 shadow-xl sm:block lg:-right-4 lg:top-6">
                   <div className="flex items-center gap-2.5">
-                    <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-[#83B3DC]/20 text-[#83B3DC]">
+                    <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-accent/20 text-accent">
                       <i className="ri-line-chart-line text-base"></i>
                     </span>
                     <div>
@@ -140,27 +134,27 @@ export default function BipolarTreatmentPage() {
       </section>
 
       {/* What is bipolar treatment */}
-      <section className="bg-[#F0F4F8] px-6 py-[100px] lg:px-10">
-        <div className="mx-auto max-w-[1350px]">
+      <section className="bg-surface px-6 py-section lg:px-10">
+        <div className="mx-auto max-w-content">
           <div className="grid gap-3 lg:grid-cols-[1fr_400px]">
-            <div className="flex flex-col justify-between rounded-3xl bg-white p-8 shadow-sm ring-1 ring-[#E8EEF4] lg:p-12">
+            <div className="flex flex-col justify-between rounded-3xl bg-white p-8 shadow-sm ring-1 ring-border lg:p-12">
               <div>
-                <p className="mb-4 text-[11px] font-bold uppercase tracking-[0.3em] text-[#83B3DC]">What Is Teen Bipolar Treatment?</p>
-                <h2 className="text-3xl font-bold leading-[1.1] text-[#0A0F14] md:text-4xl lg:text-[2.75rem]" style={{ fontFamily: "var(--font-heebo)" }}>
+                <p className="mb-4 text-[11px] font-bold uppercase tracking-[0.3em] text-accent">What Is Teen Bipolar Treatment?</p>
+                <h2 className="text-3xl font-bold leading-[1.1] text-ink md:text-4xl lg:text-[2.75rem]" style={{ fontFamily: "var(--font-heebo)" }}>
                   Comprehensive mood stabilization — at home, with your family
                 </h2>
-                <p className="mt-5 max-w-xl text-sm leading-8 text-[#54595F]">
+                <p className="mt-5 max-w-xl text-sm leading-8 text-body">
                   Adolescent bipolar disorder requires more than weekly therapy. It needs frequent clinical contact,
                   structured mood monitoring, skills for managing episodes, family education, and coordination with any
                   prescribing providers — all delivered in a consistent, predictable format.
                 </p>
-                <p className="mt-4 max-w-xl text-sm leading-8 text-[#7C848B]">
+                <p className="mt-4 max-w-xl text-sm leading-8 text-body">
                   Our Virtual IOP provides the intensive structure adolescents with bipolar disorder need — without a
                   residential stay — through multiple sessions per week with licensed clinicians and a dedicated family track.
                 </p>
               </div>
-              <div className="mt-10 rounded-2xl border border-[#E8EEF4] bg-[#F4F9FC] p-6 lg:p-7">
-                <p className="text-[10px] font-bold uppercase tracking-[0.25em] text-[#83B3DC]">Episode types we address</p>
+              <div className="mt-10 rounded-2xl border border-border bg-surface-muted p-6 lg:p-7">
+                <p className="text-[10px] font-bold uppercase tracking-[0.25em] text-accent">Episode types we address</p>
                 <div className="mt-5 grid grid-cols-1 gap-3 sm:grid-cols-2">
                   {[
                     { label: "Depressive episodes", detail: "Low mood, withdrawal, hopelessness, sleep changes", icon: "ri-arrow-down-line" },
@@ -168,13 +162,13 @@ export default function BipolarTreatmentPage() {
                     { label: "Mixed states", detail: "Concurrent depression and activation — often the highest-risk presentation", icon: "ri-contrast-2-line" },
                     { label: "Maintenance phase", detail: "Stability monitoring, relapse prevention, and long-term skill building", icon: "ri-shield-check-line" },
                   ].map((item) => (
-                    <div key={item.label} className="flex gap-3 rounded-xl border border-[#E8EEF4] bg-white/60 p-3">
-                      <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-[#83B3DC]/10 text-[#83B3DC]">
+                    <div key={item.label} className="flex gap-3 rounded-xl border border-border bg-white/60 p-3">
+                      <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-accent/10 text-accent">
                         <i className={`${item.icon} text-sm`}></i>
                       </span>
                       <div>
-                        <p className="text-xs font-bold text-[#0A0F14]">{item.label}</p>
-                        <p className="mt-0.5 text-[11px] leading-4 text-[#7C848B]">{item.detail}</p>
+                        <p className="text-xs font-bold text-ink">{item.label}</p>
+                        <p className="mt-0.5 text-[11px] leading-4 text-body">{item.detail}</p>
                       </div>
                     </div>
                   ))}
@@ -182,17 +176,17 @@ export default function BipolarTreatmentPage() {
               </div>
             </div>
             <div className="flex flex-col gap-3 lg:h-full">
-              <div className="relative min-h-[260px] flex-1 overflow-hidden rounded-3xl ring-1 ring-[#E8EEF4]">
+              <div className="relative min-h-[260px] flex-1 overflow-hidden rounded-3xl ring-1 ring-border">
                 <Image src={IMGS.bento} alt="Teen and parent reviewing mood tracking chart together at kitchen table" fill className="object-cover object-center" sizes="(max-width: 1024px) 100vw, 400px" />
               </div>
-              <div className="rounded-2xl bg-white px-5 py-4 shadow-sm ring-1 ring-[#E8EEF4]">
+              <div className="rounded-2xl bg-white px-5 py-4 shadow-sm ring-1 ring-border">
                 <div className="flex items-start gap-3">
-                  <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-[#83B3DC]/15 text-[#83B3DC]">
+                  <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-accent/15 text-accent">
                     <i className="ri-team-line text-lg"></i>
                   </span>
                   <div>
-                    <p className="text-sm font-bold text-[#0A0F14]">Family is part of the clinical team</p>
-                    <p className="mt-0.5 text-xs leading-5 text-[#7C848B]">Caregivers learn to recognize warning signs and respond effectively — reducing episode severity at home.</p>
+                    <p className="text-sm font-bold text-ink">Family is part of the clinical team</p>
+                    <p className="mt-0.5 text-xs leading-5 text-body">Caregivers learn to recognize warning signs and respond effectively — reducing episode severity at home.</p>
                   </div>
                 </div>
               </div>
@@ -204,11 +198,11 @@ export default function BipolarTreatmentPage() {
               { icon: "ri-time-line", value: "9–20h", label: "Clinical hours / week" },
               { icon: "ri-links-line", value: "Integrated", label: "Therapy + coordination" },
             ].map((stat) => (
-              <div key={stat.label} className="flex flex-col justify-between rounded-3xl bg-white px-5 py-6 shadow-sm ring-1 ring-[#E8EEF4]">
-                <i className={`${stat.icon} text-xl text-[#83B3DC]`}></i>
+              <div key={stat.label} className="flex flex-col justify-between rounded-3xl bg-white px-5 py-6 shadow-sm ring-1 ring-border">
+                <i className={`${stat.icon} text-xl text-accent`}></i>
                 <div className="mt-4">
-                  <p className="text-xl font-bold text-[#0A0F14]" style={{ fontFamily: "var(--font-heebo)" }}>{stat.value}</p>
-                  <p className="mt-0.5 text-[10px] font-semibold uppercase tracking-wider text-[#7C848B]">{stat.label}</p>
+                  <p className="text-xl font-bold text-ink" style={{ fontFamily: "var(--font-heebo)" }}>{stat.value}</p>
+                  <p className="mt-0.5 text-[10px] font-semibold uppercase tracking-wider text-body">{stat.label}</p>
                 </div>
               </div>
             ))}
@@ -217,12 +211,12 @@ export default function BipolarTreatmentPage() {
       </section>
 
       {/* Treatment pillars — dark */}
-      <section className="relative overflow-hidden bg-[#0A0F14] px-6 py-[100px] lg:px-10">
-        <div className="pointer-events-none absolute -left-40 top-20 h-96 w-96 rounded-full bg-[#83B3DC]/10 blur-[100px]" />
-        <div className="pointer-events-none absolute -right-20 bottom-0 h-80 w-80 rounded-full bg-[#83B3DC]/5 blur-[80px]" />
-        <div className="relative mx-auto max-w-[1350px]">
+      <section className="relative overflow-hidden bg-dark px-6 py-section lg:px-10">
+        <div className="pointer-events-none absolute -left-40 top-20 h-96 w-96 rounded-full bg-accent/10 blur-[100px]" />
+        <div className="pointer-events-none absolute -right-20 bottom-0 h-80 w-80 rounded-full bg-accent/5 blur-[80px]" />
+        <div className="relative mx-auto max-w-content">
           <div className="mb-14 max-w-2xl">
-            <p className="mb-3 text-[11px] font-bold uppercase tracking-[0.3em] text-[#83B3DC]">Treatment Pillars</p>
+            <p className="mb-3 text-[11px] font-bold uppercase tracking-[0.3em] text-accent">Treatment Pillars</p>
             <h2 className="text-4xl font-bold text-white md:text-5xl" style={{ fontFamily: "var(--font-heebo)" }}>How we stabilize mood in adolescents</h2>
             <p className="mt-4 text-sm leading-8 text-white/50">Each pillar addresses a different driver of instability — from internal mood patterns to family environment to medication adherence.</p>
           </div>
@@ -232,8 +226,8 @@ export default function BipolarTreatmentPage() {
                 <p className="text-4xl font-bold leading-none text-white/[0.07] lg:pt-1 lg:text-5xl" style={{ fontFamily: "var(--font-heebo)" }}>{pillar.num}</p>
                 <div>
                   <div className="flex flex-wrap items-center gap-3">
-                    <span className="rounded-full border border-[#83B3DC]/25 bg-[#83B3DC]/10 px-3 py-1 text-[10px] font-bold uppercase tracking-[0.15em] text-[#83B3DC]">{pillar.tag}</span>
-                    <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-white/5 text-[#83B3DC]">
+                    <span className="rounded-full border border-accent/25 bg-accent/10 px-3 py-1 text-[10px] font-bold uppercase tracking-[0.15em] text-accent">{pillar.tag}</span>
+                    <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-white/5 text-accent">
                       <i className={`${pillar.icon} text-base`}></i>
                     </span>
                   </div>
@@ -242,7 +236,7 @@ export default function BipolarTreatmentPage() {
                   <ul className="mt-5 space-y-2">
                     {pillar.bullets.map((b) => (
                       <li key={b} className="flex items-start gap-3 text-sm text-white/35">
-                        <i className="ri-check-line mt-0.5 shrink-0 text-[#83B3DC]"></i>
+                        <i className="ri-check-line mt-0.5 shrink-0 text-accent"></i>
                         {b}
                       </li>
                     ))}
@@ -255,46 +249,46 @@ export default function BipolarTreatmentPage() {
       </section>
 
       {/* Is it right */}
-      <section className="bg-white px-6 py-[100px] lg:px-10">
-        <div className="mx-auto max-w-[1350px]">
+      <section className="bg-white px-6 py-section lg:px-10">
+        <div className="mx-auto max-w-content">
           <div className="grid gap-10 lg:grid-cols-[340px_1fr] lg:gap-14">
             <div className="lg:sticky lg:top-28 lg:self-start">
-              <p className="text-[11px] font-bold uppercase tracking-[0.3em] text-[#83B3DC]">Is It Right for Us?</p>
-              <h2 className="mt-3 text-3xl font-bold leading-[1.1] text-[#0A0F14] md:text-4xl lg:text-[2.75rem]" style={{ fontFamily: "var(--font-heebo)" }}>Signs your teen may need bipolar-specific care</h2>
-              <p className="mt-4 text-sm leading-8 text-[#54595F]">Bipolar disorder in teens is often missed or misdiagnosed. If these patterns sound familiar, a clinical assessment can clarify diagnosis and recommend the right level of care.</p>
-              <div className="mt-8 rounded-2xl border border-[#E8EEF4] bg-[#F4F9FC] px-5 py-4">
-                <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#83B3DC]">Good to know</p>
-                <p className="mt-2 text-sm leading-7 text-[#54595F]">IOP is appropriate for stable teens who do not require hospitalization. We assess acuity at intake and will refer to a higher level of care if needed — we will not enroll teens who need inpatient stabilization first.</p>
+              <p className="text-[11px] font-bold uppercase tracking-[0.3em] text-accent">Is It Right for Us?</p>
+              <h2 className="mt-3 text-3xl font-bold leading-[1.1] text-ink md:text-4xl lg:text-[2.75rem]" style={{ fontFamily: "var(--font-heebo)" }}>Signs your teen may need bipolar-specific care</h2>
+              <p className="mt-4 text-sm leading-8 text-body">Bipolar disorder in teens is often missed or misdiagnosed. If these patterns sound familiar, a clinical assessment can clarify diagnosis and recommend the right level of care.</p>
+              <div className="mt-8 rounded-2xl border border-border bg-surface-muted px-5 py-4">
+                <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-accent">Good to know</p>
+                <p className="mt-2 text-sm leading-7 text-body">IOP is appropriate for stable teens who do not require hospitalization. We assess acuity at intake and will refer to a higher level of care if needed — we will not enroll teens who need inpatient stabilization first.</p>
               </div>
             </div>
             <div className="grid gap-3 sm:grid-cols-2">
               {fitCriteria.map((item, i) => (
-                <div key={item.label} className={`group relative rounded-2xl border border-[#E8EEF4] bg-[#F0F4F8]/60 p-6 pr-16 transition hover:border-[#83B3DC]/40 hover:bg-white hover:shadow-md hover:shadow-[#83B3DC]/5 sm:pr-20 ${i === 4 ? "sm:col-span-2" : ""}`}>
-                  <span className="pointer-events-none absolute right-4 top-4 select-none text-5xl font-bold leading-none text-[#E8EEF4] transition group-hover:text-[#83B3DC]/15 sm:text-6xl" style={{ fontFamily: "var(--font-heebo)" }}>{String(i + 1).padStart(2, "0")}</span>
-                  <span className="relative flex h-11 w-11 items-center justify-center rounded-xl bg-white text-[#83B3DC] shadow-sm ring-1 ring-[#E8EEF4] transition group-hover:bg-[#83B3DC] group-hover:text-white group-hover:ring-[#83B3DC]">
+                <div key={item.label} className={`group relative rounded-2xl border border-border bg-surface/60 p-6 pr-16 transition hover:border-accent/40 hover:bg-white hover:shadow-md hover:shadow-accent/5 sm:pr-20 ${i === 4 ? "sm:col-span-2" : ""}`}>
+                  <span className="pointer-events-none absolute right-4 top-4 select-none text-5xl font-bold leading-none text-border transition group-hover:text-accent/15 sm:text-6xl" style={{ fontFamily: "var(--font-heebo)" }}>{String(i + 1).padStart(2, "0")}</span>
+                  <span className="relative flex h-11 w-11 items-center justify-center rounded-xl bg-white text-accent shadow-sm ring-1 ring-border transition group-hover:bg-accent group-hover:text-white group-hover:ring-accent">
                     <i className={`${item.icon} text-lg`}></i>
                   </span>
-                  <p className="relative mt-5 text-base font-bold text-[#0A0F14]" style={{ fontFamily: "var(--font-heebo)" }}>{item.label}</p>
-                  <p className="relative mt-2 text-sm leading-7 text-[#7C848B]">{item.sub}</p>
+                  <p className="relative mt-5 text-base font-bold text-ink" style={{ fontFamily: "var(--font-heebo)" }}>{item.label}</p>
+                  <p className="relative mt-2 text-sm leading-7 text-body">{item.sub}</p>
                 </div>
               ))}
             </div>
           </div>
-          <div className="mt-10 overflow-hidden rounded-3xl bg-[#0A0F14]">
+          <div className="mt-10 overflow-hidden rounded-3xl bg-dark">
             <div className="grid gap-8 px-8 py-10 lg:grid-cols-[1fr_auto] lg:items-center lg:gap-12 lg:px-12 lg:py-12">
               <div>
-                <p className="text-[11px] font-bold uppercase tracking-[0.25em] text-[#83B3DC]">Not sure yet?</p>
+                <p className="text-[11px] font-bold uppercase tracking-[0.25em] text-accent">Not sure yet?</p>
                 <p className="mt-3 text-2xl font-bold text-white md:text-3xl" style={{ fontFamily: "var(--font-heebo)" }}>Walk us through what your teen has been experiencing</p>
                 <p className="mt-3 max-w-xl text-sm leading-7 text-white/50">We will listen to the history, explain what clinical assessment involves, and tell you honestly whether IOP is the right fit — or whether a different level of care is needed first.</p>
               </div>
               <div className="flex flex-col gap-3 sm:flex-row lg:flex-col lg:min-w-[260px]">
-                <a href={PHONE_HREF} className="inline-flex items-center justify-center gap-2.5 rounded-2xl bg-white px-8 py-4 text-sm font-bold text-[#0A0F14] transition hover:bg-white/90">
-                  <i className="ri-phone-fill text-[#83B3DC]"></i>
-                  {PHONE}
+                <a href={SITE.phone.href} className="inline-flex items-center justify-center gap-2.5 rounded-2xl bg-white px-8 py-4 text-sm font-bold text-ink transition hover:bg-white/90">
+                  <i className="ri-phone-fill text-accent"></i>
+                  {SITE.phone.display}
                 </a>
                 <Link href="/insurance-coverage" className="inline-flex items-center justify-center gap-2 rounded-2xl border border-white/15 bg-white/5 px-8 py-4 text-sm font-semibold text-white transition hover:border-white/30 hover:bg-white/10">
                   Verify insurance
-                  <i className="ri-arrow-right-line text-[#83B3DC]"></i>
+                  <i className="ri-arrow-right-line text-accent"></i>
                 </Link>
               </div>
             </div>
@@ -303,30 +297,30 @@ export default function BipolarTreatmentPage() {
       </section>
 
       {/* How it works */}
-      <section className="bg-[#F0F4F8] px-6 py-[100px] lg:px-10">
-        <div className="mx-auto max-w-[1350px]">
+      <section className="bg-surface px-6 py-section lg:px-10">
+        <div className="mx-auto max-w-content">
           <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
             <div className="max-w-2xl">
-              <p className="text-[11px] font-bold uppercase tracking-[0.3em] text-[#83B3DC]">How It Works</p>
-              <h2 className="mt-3 text-3xl font-bold text-[#0A0F14] md:text-4xl lg:text-5xl" style={{ fontFamily: "var(--font-heebo)" }}>From first call to a coordinated care plan</h2>
-              <p className="mt-4 text-sm leading-8 text-[#54595F]">We move quickly — most families complete intake within 24–48 hours. We coordinate with prescribers and schools when needed from day one.</p>
+              <p className="text-[11px] font-bold uppercase tracking-[0.3em] text-accent">How It Works</p>
+              <h2 className="mt-3 text-3xl font-bold text-ink md:text-4xl lg:text-5xl" style={{ fontFamily: "var(--font-heebo)" }}>From first call to a coordinated care plan</h2>
+              <p className="mt-4 text-sm leading-8 text-body">We move quickly — most families complete intake within 24–48 hours. We coordinate with prescribers and schools when needed from day one.</p>
             </div>
-            <a href={PHONE_HREF} className="inline-flex shrink-0 items-center gap-2.5 self-start rounded-2xl bg-[#0A0F14] px-7 py-3.5 text-sm font-bold text-white shadow-lg transition hover:bg-[#111111] lg:self-auto">
-              <i className="ri-phone-fill text-[#83B3DC]"></i>
+            <a href={SITE.phone.href} className="inline-flex shrink-0 items-center gap-2.5 self-start rounded-2xl bg-dark px-7 py-3.5 text-sm font-bold text-white shadow-lg transition hover:bg-cta-hover lg:self-auto">
+              <i className="ri-phone-fill text-accent"></i>
               Start with a free call
             </a>
           </div>
-          <div className="relative mt-12 rounded-3xl bg-white p-8 shadow-sm ring-1 ring-[#E8EEF4] lg:p-12">
-            <div className="absolute left-12 right-12 top-[4.25rem] hidden h-px bg-[#E8EEF4] lg:block" />
+          <div className="relative mt-12 rounded-3xl bg-white p-8 shadow-sm ring-1 ring-border lg:p-12">
+            <div className="absolute left-12 right-12 top-[4.25rem] hidden h-px bg-border lg:block" />
             <div className="hidden lg:grid lg:grid-cols-4 lg:gap-6">
               {intakeSteps.map((step) => (
                 <div key={step.num} className="relative flex flex-col">
-                  <div className="relative z-10 mb-8 flex h-11 w-11 items-center justify-center rounded-full bg-[#83B3DC] text-white" style={{ boxShadow: "0 0 0 5px rgba(131,179,220,0.12)" }}>
+                  <div className="relative z-10 mb-8 flex h-11 w-11 items-center justify-center rounded-full bg-accent text-white" style={{ boxShadow: "0 0 0 5px rgba(131,179,220,0.12)" }}>
                     <i className={`${step.icon} text-base`}></i>
                   </div>
-                  <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-[#83B3DC]/70">Step {step.num}</p>
-                  <h3 className="mt-2 text-lg font-bold text-[#0A0F14]" style={{ fontFamily: "var(--font-heebo)" }}>{step.title}</h3>
-                  <p className="mt-2 text-sm leading-7 text-[#54595F]">{step.body}</p>
+                  <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-accent/70">Step {step.num}</p>
+                  <h3 className="mt-2 text-lg font-bold text-ink" style={{ fontFamily: "var(--font-heebo)" }}>{step.title}</h3>
+                  <p className="mt-2 text-sm leading-7 text-body">{step.body}</p>
                 </div>
               ))}
             </div>
@@ -334,69 +328,64 @@ export default function BipolarTreatmentPage() {
               {intakeSteps.map((step, i) => (
                 <div key={step.num} className="relative flex gap-5 pb-10 last:pb-0">
                   <div className="flex flex-col items-center">
-                    <div className="relative z-10 flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-[#83B3DC] text-white" style={{ boxShadow: "0 0 0 5px rgba(131,179,220,0.12)" }}>
+                    <div className="relative z-10 flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-accent text-white" style={{ boxShadow: "0 0 0 5px rgba(131,179,220,0.12)" }}>
                       <i className={`${step.icon} text-base`}></i>
                     </div>
-                    {i < intakeSteps.length - 1 && <div className="mt-2 w-px flex-1 min-h-[3rem] bg-[#E8EEF4]" />}
+                    {i < intakeSteps.length - 1 && <div className="mt-2 w-px flex-1 min-h-[3rem] bg-border" />}
                   </div>
                   <div className="pb-1 pt-1">
-                    <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-[#83B3DC]/70">Step {step.num}</p>
-                    <h3 className="mt-1 text-lg font-bold text-[#0A0F14]" style={{ fontFamily: "var(--font-heebo)" }}>{step.title}</h3>
-                    <p className="mt-2 text-sm leading-7 text-[#54595F]">{step.body}</p>
+                    <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-accent/70">Step {step.num}</p>
+                    <h3 className="mt-1 text-lg font-bold text-ink" style={{ fontFamily: "var(--font-heebo)" }}>{step.title}</h3>
+                    <p className="mt-2 text-sm leading-7 text-body">{step.body}</p>
                   </div>
                 </div>
               ))}
             </div>
           </div>
-          <p className="mt-6 text-center text-sm text-[#7C848B]">
-            <i className="ri-time-line mr-1.5 align-middle text-[#83B3DC]"></i>
-            Typical time from first call to first session: <span className="font-bold text-[#0A0F14]">24–48 hours</span>
+          <p className="mt-6 text-center text-sm text-body">
+            <i className="ri-time-line mr-1.5 align-middle text-accent"></i>
+            Typical time from first call to first session: <span className="font-bold text-ink">24–48 hours</span>
           </p>
         </div>
       </section>
 
       {/* Comparison */}
-      <section className="bg-[#0A0F14] px-6 py-[100px] lg:px-10">
-        <div className="mx-auto max-w-[1350px]">
+      <section className="bg-dark px-6 py-section lg:px-10">
+        <div className="mx-auto max-w-content">
           <div className="mb-10 text-center">
-            <p className="mb-3 text-[11px] font-bold uppercase tracking-[0.3em] text-[#83B3DC]">Why IOP for Bipolar</p>
+            <p className="mb-3 text-[11px] font-bold uppercase tracking-[0.3em] text-accent">Why IOP for Bipolar</p>
             <h2 className="text-4xl font-bold text-white md:text-5xl" style={{ fontFamily: "var(--font-heebo)" }}>More contact than standard outpatient allows</h2>
           </div>
-          <div className="overflow-hidden rounded-2xl border border-white/8">
-            <div className="grid grid-cols-[1fr_1fr_1fr] gap-4 border-b border-white/8 bg-white/[0.03] px-6 py-4">
-              <div />
-              <p className="text-center text-xs font-bold uppercase tracking-[0.2em] text-white/30">Standard outpatient</p>
-              <p className="text-center text-xs font-bold uppercase tracking-[0.2em] text-[#83B3DC]">Virtual IOP</p>
-            </div>
-            {comparisonRows.map((row, i) => (
-              <div key={row.label} className={`grid grid-cols-[1fr_1fr_1fr] gap-4 px-6 py-5 ${i % 2 === 0 ? "bg-white/[0.02]" : ""} border-b border-white/5 last:border-b-0`}>
-                <p className="flex items-center text-xs font-bold uppercase tracking-wider text-white/40">{row.label}</p>
-                <p className="flex items-center justify-center text-sm text-white/35">{row.standard}</p>
-                <p className="flex items-center justify-center text-sm font-semibold text-white">{row.iop}</p>
-              </div>
-            ))}
-          </div>
+          <ComparisonTable
+            baselineLabel="Standard outpatient"
+            highlightedLabel="Virtual IOP"
+            rows={comparisonRows.map((row) => ({
+              label: row.label,
+              baseline: row.standard,
+              highlighted: row.iop,
+            }))}
+          />
         </div>
       </section>
 
       {/* Related conditions */}
-      <section className="bg-white px-6 py-[100px] lg:px-10">
-        <div className="mx-auto max-w-[1350px]">
+      <section className="bg-white px-6 py-section lg:px-10">
+        <div className="mx-auto max-w-content">
           <div className="max-w-3xl">
-            <p className="text-[11px] font-bold uppercase tracking-[0.3em] text-[#83B3DC]">Related Conditions</p>
-            <h2 className="mt-3 text-3xl font-bold text-[#0A0F14] md:text-4xl lg:text-5xl" style={{ fontFamily: "var(--font-heebo)" }}>Conditions we address alongside bipolar disorder</h2>
-            <p className="mt-4 text-sm leading-8 text-[#54595F]">Bipolar disorder rarely presents alone. Our IOP is built to treat the full picture — not just the primary diagnosis.</p>
+            <p className="text-[11px] font-bold uppercase tracking-[0.3em] text-accent">Related Conditions</p>
+            <h2 className="mt-3 text-3xl font-bold text-ink md:text-4xl lg:text-5xl" style={{ fontFamily: "var(--font-heebo)" }}>Conditions we address alongside bipolar disorder</h2>
+            <p className="mt-4 text-sm leading-8 text-body">Bipolar disorder rarely presents alone. Our IOP is built to treat the full picture — not just the primary diagnosis.</p>
           </div>
           <div className="mt-12 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
             {relatedConditions.map((condition) => (
-              <Link key={condition.label} href={condition.path} className="group flex flex-col rounded-2xl border border-[#E8EEF4] bg-[#F4F9FC]/50 p-6 transition hover:border-[#83B3DC]/40 hover:bg-white hover:shadow-md">
+              <Link key={condition.label} href={condition.path} className="group flex flex-col rounded-2xl border border-border bg-surface-muted/50 p-6 transition hover:border-accent/40 hover:bg-white hover:shadow-md">
                 <div className="flex items-center justify-between gap-3">
-                  <h3 className="text-base font-bold text-[#0A0F14] transition group-hover:text-[#83B3DC]" style={{ fontFamily: "var(--font-heebo)" }}>{condition.label}</h3>
-                  <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-white text-[#83B3DC]/50 ring-1 ring-[#E8EEF4] transition group-hover:bg-[#83B3DC] group-hover:text-white group-hover:ring-[#83B3DC]">
+                  <h3 className="text-base font-bold text-ink transition group-hover:text-accent" style={{ fontFamily: "var(--font-heebo)" }}>{condition.label}</h3>
+                  <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-white text-accent/50 ring-1 ring-border transition group-hover:bg-accent group-hover:text-white group-hover:ring-accent">
                     <i className="ri-arrow-right-line text-sm"></i>
                   </span>
                 </div>
-                <p className="mt-3 flex-1 text-sm leading-7 text-[#7C848B]">{condition.desc}</p>
+                <p className="mt-3 flex-1 text-sm leading-7 text-body">{condition.desc}</p>
               </Link>
             ))}
           </div>
@@ -404,26 +393,26 @@ export default function BipolarTreatmentPage() {
       </section>
 
       {/* FAQ */}
-      <section className="bg-[#F0F4F8] px-6 py-[100px] lg:px-10">
-        <div className="mx-auto max-w-[1350px]">
+      <section className="bg-surface px-6 py-section lg:px-10">
+        <div className="mx-auto max-w-content">
           <div className="mx-auto max-w-2xl text-center">
-            <p className="text-[11px] font-bold uppercase tracking-[0.3em] text-[#83B3DC]">FAQ</p>
-            <h2 className="mt-3 text-3xl font-bold text-[#0A0F14] md:text-4xl lg:text-5xl" style={{ fontFamily: "var(--font-heebo)" }}>Questions about teen bipolar treatment</h2>
+            <p className="text-[11px] font-bold uppercase tracking-[0.3em] text-accent">FAQ</p>
+            <h2 className="mt-3 text-3xl font-bold text-ink md:text-4xl lg:text-5xl" style={{ fontFamily: "var(--font-heebo)" }}>Questions about teen bipolar treatment</h2>
           </div>
           <div className="mt-12 grid gap-3 sm:grid-cols-2">
             {faqs.map((faq, i) => (
-              <details key={faq.q} className="group rounded-2xl border border-[#E8EEF4] bg-white transition open:border-[#83B3DC]/35 open:shadow-md open:shadow-[#83B3DC]/5">
+              <details key={faq.q} className="group rounded-2xl border border-border bg-white transition open:border-accent/35 open:shadow-md open:shadow-accent/5">
                 <summary className="flex cursor-pointer list-none items-start gap-4 p-6 [&::-webkit-details-marker]:hidden">
-                  <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-[#F4F9FC] text-xs font-bold text-[#83B3DC] ring-1 ring-[#E8EEF4] transition group-open:bg-[#83B3DC] group-open:text-white group-open:ring-[#83B3DC]" style={{ fontFamily: "var(--font-heebo)" }}>{String(i + 1).padStart(2, "0")}</span>
+                  <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-surface-muted text-xs font-bold text-accent ring-1 ring-border transition group-open:bg-accent group-open:text-white group-open:ring-accent" style={{ fontFamily: "var(--font-heebo)" }}>{String(i + 1).padStart(2, "0")}</span>
                   <span className="min-w-0 flex-1 pt-0.5">
-                    <span className="block text-base font-bold leading-snug text-[#0A0F14] transition group-open:text-[#83B3DC]" style={{ fontFamily: "var(--font-heebo)" }}>{faq.q}</span>
+                    <span className="block text-base font-bold leading-snug text-ink transition group-open:text-accent" style={{ fontFamily: "var(--font-heebo)" }}>{faq.q}</span>
                   </span>
-                  <span className="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#F0F4F8] text-[#83B3DC] transition group-open:rotate-45 group-open:bg-[#83B3DC] group-open:text-white">
+                  <span className="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-surface text-accent transition group-open:rotate-45 group-open:bg-accent group-open:text-white">
                     <i className="ri-add-line text-sm"></i>
                   </span>
                 </summary>
-                <div className="border-t border-[#F0F4F8] px-6 pb-6 pt-4">
-                  <p className="text-sm leading-8 text-[#54595F]">{faq.a}</p>
+                <div className="border-t border-surface px-6 pb-6 pt-4">
+                  <p className="text-sm leading-8 text-body">{faq.a}</p>
                 </div>
               </details>
             ))}
@@ -431,25 +420,20 @@ export default function BipolarTreatmentPage() {
         </div>
       </section>
 
-      {/* Final CTA */}
-      <section className="relative overflow-hidden bg-[#0A0F14] px-6 py-[100px] lg:px-10">
-        <div className="pointer-events-none absolute left-1/2 top-1/2 h-[500px] w-[500px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#83B3DC]/8 blur-[100px]" />
-        <div className="relative mx-auto max-w-[1350px] text-center">
-          <p className="mb-4 text-[11px] font-bold uppercase tracking-[0.3em] text-[#83B3DC]">Get started</p>
-          <h2 className="text-4xl font-bold leading-tight text-white md:text-5xl lg:text-6xl" style={{ fontFamily: "var(--font-heebo)" }}>Get expert bipolar care for your teen</h2>
-          <p className="mx-auto mt-5 max-w-xl text-sm leading-8 text-white/50">Free consultation, no obligation. We will discuss mood history, safety, and whether our Virtual IOP is clinically appropriate — or help you find the right level of care if it isn&apos;t.</p>
-          <div className="mt-9 flex flex-wrap items-center justify-center gap-4">
-            <a href={PHONE_HREF} className="inline-flex items-center gap-2.5 rounded-full bg-white px-8 py-4 text-sm font-bold text-[#000000] transition hover:bg-white/90">
-              <i className="ri-phone-fill text-[#83B3DC]"></i>
-              Call {PHONE}
-            </a>
-            <Link href="/virtual-iop-for-teens" className="inline-flex items-center gap-2 rounded-full border border-white/20 px-8 py-4 text-sm font-semibold text-white transition hover:border-white/40 hover:bg-white/5">
+      <DarkCtaSection
+        title="Get expert bipolar care for your teen"
+        description="Free consultation, no obligation. We will discuss mood history, safety, and whether our Virtual IOP is clinically appropriate — or help you find the right level of care if it isn't."
+        actions={
+          <>
+            <AmhButton href={SITE.phone.href} variant="darkPrimary" icon="ri-phone-fill" iconPosition="left">
+              Call {SITE.phone.display}
+            </AmhButton>
+            <AmhButton href="/virtual-iop-for-teens" variant="darkSecondary" icon="ri-arrow-right-line">
               About Virtual IOP
-              <i className="ri-arrow-right-line"></i>
-            </Link>
-          </div>
-        </div>
-      </section>
-    </main>
+            </AmhButton>
+          </>
+        }
+      />
+    </MarketingPage>
   );
 }

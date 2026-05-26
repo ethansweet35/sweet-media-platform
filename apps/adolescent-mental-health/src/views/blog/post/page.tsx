@@ -12,6 +12,7 @@ import PostInlineRelated from "@/components/pages/blog/post/components/PostInlin
 import PostMoreFromCategory from "@/components/pages/blog/post/components/PostMoreFromCategory";
 import PostCta from "@/components/pages/blog/post/components/PostCta";
 import PostBlogMobileShareRow from "@/components/pages/blog/post/components/PostBlogMobileShareRow";
+import { BLOG_CONTAINER, BLOG_HEADING, BLOG_SHELL } from "@/components/pages/blog/blogTokens";
 import { buildManualOnlyLinkMap, fetchManualLinkMappings } from "@sweetmedia/blog-core";
 import { useAuth } from "@sweetmedia/admin-core";
 import { canonicalBlogPostUrl } from "@/lib/publicSiteUrl";
@@ -50,12 +51,12 @@ export default function BlogPostPreviewPage({ slug }: { slug: string }) {
 
   if (loading || deferAuthForPreview) {
     return (
-      <div className="min-h-screen bg-white">
-          <div className="max-w-screen-xl mx-auto px-6 pt-36 pb-20 animate-pulse">
-          <div className="h-4 bg-neutral-100 rounded w-1/4 mb-8" />
-          <div className="h-12 bg-neutral-100 rounded w-3/4 mb-6" />
-          <div className="h-4 bg-neutral-100 rounded w-1/3 mb-10" />
-          <div className="w-full h-[320px] md:h-[460px] bg-neutral-100 rounded-t-2xl" />
+      <div className={BLOG_SHELL}>
+        <div className={`${BLOG_CONTAINER} animate-pulse px-6 pt-36 pb-20 lg:px-10`}>
+          <div className="mb-8 h-4 w-1/4 rounded bg-surface" />
+          <div className="mb-6 h-12 w-3/4 rounded bg-surface" />
+          <div className="mb-10 h-4 w-1/3 rounded bg-surface" />
+          <div className="h-[320px] w-full rounded-3xl bg-surface md:h-[460px]" />
         </div>
       </div>
     );
@@ -63,22 +64,19 @@ export default function BlogPostPreviewPage({ slug }: { slug: string }) {
 
   if (error || !post) {
     return (
-      <div className="min-h-screen flex flex-col items-center justify-center bg-white">
-        <div className="text-center pt-32 pb-20 px-6">
-          <i className="ri-article-line text-5xl text-neutral-200 mb-6 block"></i>
-          <h1
-            className="text-2xl font-light text-neutral-800 mb-3"
-            style={{ fontFamily: "'Inter', serif" }}
-          >
-            Article Not Found
+      <div className={`${BLOG_SHELL} flex min-h-screen flex-col items-center justify-center`}>
+        <div className="px-6 pt-32 pb-20 text-center">
+          <i className="ri-article-line mb-6 block text-5xl text-border" aria-hidden />
+          <h1 className="mb-3 text-2xl font-bold text-ink" style={BLOG_HEADING}>
+            Article not found
           </h1>
-          <p className="text-sm text-neutral-400 mb-8">This article doesn&apos;t exist or may have been moved.</p>
+          <p className="mb-8 text-sm text-body">This article doesn&apos;t exist or may have been moved.</p>
           <button
             type="button"
             onClick={() => router.push("/blog")}
-            className="bg-[#1F2937] text-white text-[11px] tracking-[0.2em] uppercase font-bold px-6 py-3 rounded-full cursor-pointer whitespace-nowrap"
+            className="cursor-pointer rounded-2xl bg-cta px-6 py-3 text-sm font-bold text-white transition hover:bg-cta-hover"
           >
-            Back to Blog
+            Back to blog
           </button>
         </div>
       </div>
@@ -93,10 +91,9 @@ export default function BlogPostPreviewPage({ slug }: { slug: string }) {
   const usedHrefs = new Set<string>();
 
   return (
-    <div className="min-h-screen bg-white">
-
+    <div className={BLOG_SHELL}>
       {showDraftPreviewBanner ? (
-        <div className="max-w-screen-xl mx-auto px-6 pt-6">
+        <div className={`${BLOG_CONTAINER} px-6 pt-6 lg:px-10`}>
           <div
             role="note"
             className="rounded-xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-900"
@@ -109,18 +106,15 @@ export default function BlogPostPreviewPage({ slug }: { slug: string }) {
       <PostHero post={post} />
 
       <section className="w-full bg-white">
-        <div className="max-w-screen-xl mx-auto px-6 py-12 md:py-16">
-          <div className="flex gap-10 lg:gap-16 items-start">
-            <div className="hidden lg:block w-12 flex-shrink-0 pt-2">
+        <div className={`${BLOG_CONTAINER} px-6 py-12 md:py-16 lg:px-10`}>
+          <div className="flex items-start gap-10 lg:gap-16">
+            <div className="hidden w-12 shrink-0 pt-2 lg:block">
               <PostShare title={post.title} canonicalUrl={canonicalUrl} />
             </div>
 
-            <div className="flex-1 min-w-0 max-w-3xl">
-              <div className="mb-8 pb-8 border-b border-neutral-100">
-                <p
-                  className="text-lg md:text-xl text-neutral-700 leading-relaxed font-light italic"
-                  style={{ fontFamily: "'Inter', serif" }}
-                >
+            <div className="min-w-0 max-w-3xl flex-1">
+              <div className="mb-8 border-b border-border pb-8">
+                <p className="text-lg italic leading-relaxed text-body md:text-xl" style={BLOG_HEADING}>
                   {post.excerpt}
                 </p>
               </div>
@@ -146,10 +140,10 @@ export default function BlogPostPreviewPage({ slug }: { slug: string }) {
               <PostBlogMobileShareRow title={post.title} canonicalUrl={canonicalUrl} />
             </div>
 
-            <div className="hidden xl:block w-56 flex-shrink-0">
+            <div className="hidden w-56 shrink-0 xl:block">
               <div className="sticky top-28">
-                <p className="text-[9px] tracking-[0.3em] uppercase text-neutral-400 font-semibold mb-4">
-                  In This Article
+                <p className="mb-4 text-[11px] font-bold uppercase tracking-[0.3em] text-accent">
+                  In this article
                 </p>
                 <nav className="flex flex-col gap-2">
                   {post.content
@@ -157,22 +151,20 @@ export default function BlogPostPreviewPage({ slug }: { slug: string }) {
                     .map((s, i) => (
                       <span
                         key={i}
-                        className="text-[12px] text-neutral-400 hover:text-[#1F2937] leading-snug cursor-pointer transition-colors py-1 border-l-2 border-transparent hover:border-[#1F2937] pl-3"
+                        className="cursor-pointer border-l-2 border-transparent py-1 pl-3 text-[12px] leading-snug text-body transition hover:border-accent hover:text-ink"
                       >
                         {s.text}
                       </span>
                     ))}
                 </nav>
 
-                <div className="mt-8 pt-6 border-t border-neutral-100">
-                  <p className="text-[9px] tracking-[0.3em] uppercase text-neutral-400 font-semibold mb-3">
-                    Tags
-                  </p>
+                <div className="mt-8 border-t border-border pt-6">
+                  <p className="mb-3 text-[11px] font-bold uppercase tracking-[0.3em] text-accent">Tags</p>
                   <div className="flex flex-wrap gap-1.5">
                     {post.tags.map((tag) => (
                       <span
                         key={tag}
-                        className="text-[9px] tracking-widest uppercase text-[#1F2937] bg-[#1F2937]/6 px-2 py-1 rounded-full whitespace-nowrap"
+                        className="whitespace-nowrap rounded-full bg-accent/10 px-2 py-1 text-[9px] font-semibold uppercase tracking-widest text-accent-dark"
                       >
                         {tag}
                       </span>

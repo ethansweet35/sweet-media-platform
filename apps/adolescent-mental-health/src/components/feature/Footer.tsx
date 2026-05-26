@@ -1,8 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
-
-const PHONE = "(949) 946-5876";
-const PHONE_HREF = "tel:+19499465876";
+import { BRAND_LOGO, CONTAINER, SITE } from "@/lib/site";
 
 const conditions = [
   { label: "Anxiety Disorders", path: "/conditions/anxiety" },
@@ -33,23 +31,20 @@ const company = [
 
 const trustBadges = [
   { icon: "ri-shield-check-line", label: "HIPAA Compliant" },
-  { icon: "ri-award-line",        label: "Licensed Clinicians" },
-  { icon: "ri-bank-card-line",    label: "Insurance Accepted" },
-  { icon: "ri-lock-2-line",       label: "Confidential" },
+  { icon: "ri-award-line", label: "Licensed Clinicians" },
+  { icon: "ri-bank-card-line", label: "Insurance Accepted" },
+  { icon: "ri-lock-2-line", label: "Confidential" },
 ];
 
 export default function Footer() {
   return (
-    <footer style={{ fontFamily: "var(--font-montserrat)" }} className="bg-[#0A0F14] text-white">
+    <footer style={{ fontFamily: "var(--font-montserrat)" }} className="bg-dark text-white">
+      <div className="h-px bg-gradient-to-r from-transparent via-accent/40 to-transparent" />
 
-      {/* Top accent bar */}
-      <div className="h-px bg-gradient-to-r from-transparent via-[#83B3DC]/40 to-transparent" />
-
-      {/* Brand strip */}
       <div className="border-b border-white/[0.06] px-6 py-10 lg:px-10">
-        <div className="mx-auto flex max-w-[1350px] flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
+        <div className={`${CONTAINER} flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between`}>
           <Image
-            src="https://almncgkbmooyuptdgkhe.supabase.co/storage/v1/object/public/site-assets/images/wp-migrated/amh-logo-optimized.png"
+            src={BRAND_LOGO}
             alt="Adolescent Mental Health"
             width={160}
             height={75}
@@ -58,8 +53,8 @@ export default function Footer() {
           <div className="flex flex-wrap gap-5">
             {trustBadges.map((b) => (
               <div key={b.label} className="flex items-center gap-2">
-                <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-[#83B3DC]/10 text-[#83B3DC]">
-                  <i className={`${b.icon} text-xs`}></i>
+                <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-accent/10 text-accent">
+                  <i className={`${b.icon} text-xs`} />
                 </span>
                 <span className="text-xs font-semibold text-white/50">{b.label}</span>
               </div>
@@ -67,30 +62,28 @@ export default function Footer() {
           </div>
           <div className="flex flex-col gap-1.5 lg:text-right">
             <a
-              href={PHONE_HREF}
-              className="text-base font-bold text-white transition hover:text-[#83B3DC]"
+              href={SITE.phone.href}
+              className="text-base font-bold text-white transition hover:text-accent"
               style={{ fontFamily: "var(--font-heebo)" }}
             >
-              {PHONE}
+              {SITE.phone.display}
             </a>
             <a
-              href="mailto:admissions@adolescentmentalhealth.com"
+              href={`mailto:${SITE.email}`}
               className="text-xs text-white/40 transition hover:text-white/70"
             >
-              admissions@adolescentmentalhealth.com
+              {SITE.email}
             </a>
           </div>
         </div>
       </div>
 
-      {/* Main link grid */}
       <div className="px-6 py-14 lg:px-10">
-        <div className="mx-auto grid max-w-[1350px] gap-10 md:grid-cols-[1.8fr_1fr_1fr_1fr]">
-
-          {/* Brand blurb */}
+        <div className={`${CONTAINER} grid gap-10 md:grid-cols-[1.8fr_1fr_1fr_1fr]`}>
           <div>
             <p className="text-sm leading-8 text-white/45">
-              Adolescent Mental Health provides evidence-based virtual intensive outpatient programs for teens ages 12–17. We treat anxiety, depression, trauma, ADHD, and more — all covered by major insurance plans.
+              Adolescent Mental Health provides evidence-based virtual intensive outpatient programs for teens ages{" "}
+              {SITE.ages}. We treat anxiety, depression, trauma, ADHD, and more — all covered by major insurance plans.
             </p>
             <div className="mt-6 flex gap-3">
               {[
@@ -101,17 +94,16 @@ export default function Footer() {
                 <a
                   key={s.icon}
                   href={s.href}
-                  className="flex h-8 w-8 items-center justify-center rounded-lg border border-white/10 text-white/40 transition hover:border-[#83B3DC]/40 hover:text-[#83B3DC]"
+                  className="flex h-8 w-8 items-center justify-center rounded-lg border border-white/10 text-white/40 transition hover:border-accent/40 hover:text-accent"
                 >
-                  <i className={`${s.icon} text-sm`}></i>
+                  <i className={`${s.icon} text-sm`} />
                 </a>
               ))}
             </div>
           </div>
 
-          {/* Conditions */}
           <div>
-            <h3 className="mb-5 text-[11px] font-bold uppercase tracking-[0.25em] text-[#83B3DC]">
+            <h3 className="mb-5 text-[11px] font-bold uppercase tracking-[0.25em] text-accent">
               Conditions Treated
             </h3>
             <div className="flex flex-col gap-3">
@@ -121,18 +113,15 @@ export default function Footer() {
                   href={link.path}
                   className="group flex items-center gap-2 text-sm text-white/45 transition hover:text-white"
                 >
-                  <span className="h-px w-3 bg-white/20 transition group-hover:w-4 group-hover:bg-[#83B3DC]" />
+                  <span className="h-px w-3 bg-white/20 transition group-hover:w-4 group-hover:bg-accent" />
                   {link.label}
                 </Link>
               ))}
             </div>
           </div>
 
-          {/* Programs */}
           <div>
-            <h3 className="mb-5 text-[11px] font-bold uppercase tracking-[0.25em] text-[#83B3DC]">
-              Programs
-            </h3>
+            <h3 className="mb-5 text-[11px] font-bold uppercase tracking-[0.25em] text-accent">Programs</h3>
             <div className="flex flex-col gap-3">
               {programs.map((link) => (
                 <Link
@@ -140,18 +129,15 @@ export default function Footer() {
                   href={link.path}
                   className="group flex items-center gap-2 text-sm text-white/45 transition hover:text-white"
                 >
-                  <span className="h-px w-3 bg-white/20 transition group-hover:w-4 group-hover:bg-[#83B3DC]" />
+                  <span className="h-px w-3 bg-white/20 transition group-hover:w-4 group-hover:bg-accent" />
                   {link.label}
                 </Link>
               ))}
             </div>
           </div>
 
-          {/* Company */}
           <div>
-            <h3 className="mb-5 text-[11px] font-bold uppercase tracking-[0.25em] text-[#83B3DC]">
-              Company
-            </h3>
+            <h3 className="mb-5 text-[11px] font-bold uppercase tracking-[0.25em] text-accent">Company</h3>
             <div className="flex flex-col gap-3">
               {company.map((link) => (
                 <Link
@@ -159,31 +145,27 @@ export default function Footer() {
                   href={link.path}
                   className="group flex items-center gap-2 text-sm text-white/45 transition hover:text-white"
                 >
-                  <span className="h-px w-3 bg-white/20 transition group-hover:w-4 group-hover:bg-[#83B3DC]" />
+                  <span className="h-px w-3 bg-white/20 transition group-hover:w-4 group-hover:bg-accent" />
                   {link.label}
                 </Link>
               ))}
             </div>
           </div>
-
         </div>
       </div>
 
-      {/* Bottom bar */}
       <div className="border-t border-white/[0.06] px-6 py-5 lg:px-10">
-        <div className="mx-auto flex max-w-[1350px] flex-col gap-3 md:flex-row md:items-center md:justify-between">
+        <div className={`${CONTAINER} flex flex-col gap-3 md:flex-row md:items-center md:justify-between`}>
           <p className="text-xs text-white/25">
-            © {new Date().getFullYear()} Adolescent Mental Health. All rights reserved.
+            © {new Date().getFullYear()} {SITE.brand}. All rights reserved.
           </p>
           <p className="text-xs text-white/25">
             If you or your teen is in crisis, call or text{" "}
-            <strong className="font-bold text-white/50">988</strong>{" "}
-            (Suicide &amp; Crisis Lifeline) or{" "}
+            <strong className="font-bold text-white/50">988</strong> (Suicide &amp; Crisis Lifeline) or{" "}
             <strong className="font-bold text-white/50">911</strong>.
           </p>
         </div>
       </div>
-
     </footer>
   );
 }

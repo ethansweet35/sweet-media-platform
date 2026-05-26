@@ -1,26 +1,32 @@
 "use client";
 
 import Image from "next/image";
-import { useRouter } from "next/navigation";
+import Link from "next/link";
 import { useBlogPosts } from "@sweetmedia/blog-core";
+import {
+  BLOG_CONTAINER,
+  BLOG_FEATURED_GAP,
+  BLOG_FEATURED_OVERLAP,
+  BLOG_HEADING,
+} from "@/components/pages/blog/blogTokens";
 
 export default function BlogFeatured() {
   const { posts, loading } = useBlogPosts();
-  const router = useRouter();
-
   const post = posts.find((p) => p.featured);
 
   if (loading) {
     return (
-      <section className="w-full bg-white">
-        <div className="max-w-screen-xl mx-auto px-6 py-16 md:py-24">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-center animate-pulse">
-            <div className="aspect-[4/3] bg-neutral-100 rounded-2xl" />
-            <div className="space-y-4">
-              <div className="h-4 bg-neutral-100 rounded w-1/3" />
-              <div className="h-8 bg-neutral-100 rounded w-3/4" />
-              <div className="h-4 bg-neutral-100 rounded w-full" />
-              <div className="h-4 bg-neutral-100 rounded w-2/3" />
+      <section className={`relative z-10 px-6 lg:px-10 ${BLOG_FEATURED_OVERLAP} ${BLOG_FEATURED_GAP}`}>
+        <div className={BLOG_CONTAINER}>
+          <div className="animate-pulse overflow-hidden rounded-[2rem] bg-white shadow-2xl shadow-ink/10 ring-1 ring-border">
+            <div className="grid grid-cols-1 lg:grid-cols-[1.05fr_0.95fr]">
+              <div className="aspect-[16/10] bg-surface lg:aspect-auto lg:min-h-[420px]" />
+              <div className="space-y-4 p-8 lg:p-12">
+                <div className="h-4 w-1/3 rounded bg-surface" />
+                <div className="h-10 w-4/5 rounded bg-surface" />
+                <div className="h-4 w-full rounded bg-surface" />
+                <div className="h-4 w-2/3 rounded bg-surface" />
+              </div>
             </div>
           </div>
         </div>
@@ -31,76 +37,71 @@ export default function BlogFeatured() {
   if (!post) return null;
 
   return (
-    <section className="w-full bg-white">
-      <div className="max-w-screen-xl mx-auto px-6 py-16 md:py-24">
-        <div className="flex items-center gap-3 mb-10 justify-center lg:justify-start">
-          <div className="w-8 h-px bg-neutral-300" />
-          <span className="text-[10px] tracking-[0.3em] uppercase text-neutral-400 font-semibold">
-            Featured Article
-          </span>
-        </div>
-
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-center">
-          {/* Image */}
-          <div className="relative rounded-2xl overflow-hidden">
+    <section className={`relative z-10 px-6 lg:px-10 ${BLOG_FEATURED_OVERLAP} ${BLOG_FEATURED_GAP}`}>
+      <div className={BLOG_CONTAINER}>
+        <Link
+          href={`/blog/${post.slug}`}
+          className="group grid overflow-hidden rounded-[2rem] bg-white shadow-2xl shadow-ink/10 ring-1 ring-border transition duration-300 hover:-translate-y-0.5 hover:shadow-accent/10 lg:grid-cols-[1.05fr_0.95fr]"
+        >
+          <div className="relative min-h-[280px] overflow-hidden lg:min-h-[420px]">
             <Image
               src={post.image}
               alt={post.title}
-              width={1200}
-              height={900}
+              fill
               priority
-              className="w-full h-auto block"
-              sizes="(max-width: 1024px) 100vw, 50vw"
+              className="object-cover transition duration-700 group-hover:scale-[1.03]"
+              sizes="(max-width: 1024px) 100vw, 55vw"
             />
-            <div className="absolute top-4 left-4">
-              <span className="inline-block bg-white/90 backdrop-blur-sm text-[10px] tracking-[0.2em] uppercase font-bold text-[#1F2937] px-3 py-1.5 rounded-full">
+            <div className="absolute inset-0 bg-gradient-to-t from-dark/40 via-transparent to-transparent lg:bg-gradient-to-r lg:from-transparent lg:via-transparent lg:to-dark/5" />
+            <div className="absolute left-5 top-5 flex items-center gap-2">
+              <span className="rounded-full bg-accent px-3 py-1.5 text-[10px] font-bold uppercase tracking-[0.2em] text-white">
+                Featured
+              </span>
+              <span className="rounded-full bg-white/95 px-3 py-1.5 text-[10px] font-bold uppercase tracking-[0.15em] text-ink shadow-sm backdrop-blur-sm">
                 {post.category}
               </span>
             </div>
           </div>
 
-          {/* Content */}
-          <div>
-            <div className="flex items-center gap-3 mb-5">
-              <span className="text-[11px] text-neutral-400">{post.date}</span>
-              <span className="w-1 h-1 rounded-full bg-neutral-300" />
-              <span className="text-[11px] text-neutral-400">{post.readTime}</span>
+          <div className="flex flex-col justify-center p-6 sm:p-8 lg:p-10">
+            <div className="mb-4 flex items-center gap-2.5 text-[11px] font-semibold uppercase tracking-[0.12em] text-body">
+              <span>{post.date}</span>
+              <span className="h-1 w-1 rounded-full bg-border" />
+              <span>{post.readTime}</span>
             </div>
 
             <h2
-              className="text-2xl md:text-3xl lg:text-4xl font-light text-neutral-900 leading-snug mb-5"
-              style={{ fontFamily: "'Inter', serif" }}
+              className="text-2xl font-bold leading-snug text-ink transition group-hover:text-accent-dark md:text-3xl lg:text-4xl"
+              style={BLOG_HEADING}
             >
               {post.title}
             </h2>
 
-            <p className="text-sm md:text-base text-neutral-500 leading-relaxed mb-8">
-              {post.excerpt}
-            </p>
+            <p className="mt-4 line-clamp-3 text-sm leading-7 text-body md:text-base">{post.excerpt}</p>
 
-            <div className="flex items-center justify-between">
+            <div className="mt-6 flex flex-col gap-4 border-t border-border pt-5 sm:flex-row sm:items-center sm:justify-between">
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-full bg-[#1F2937] flex items-center justify-center">
-                  <span className="text-white text-xs font-bold">
-                    {post.author.split(" ").map((n) => n[0]).join("")}
+                <div className="flex h-10 w-10 items-center justify-center rounded-full bg-dark">
+                  <span className="text-xs font-bold text-white">
+                    {post.author
+                      .split(" ")
+                      .map((n) => n[0])
+                      .join("")}
                   </span>
                 </div>
                 <div>
-                  <p className="text-sm font-medium text-neutral-800">{post.author}</p>
-                  <p className="text-[11px] text-neutral-400">{post.authorRole}</p>
+                  <p className="text-sm font-semibold text-ink">{post.author}</p>
+                  <p className="text-[11px] text-body">{post.authorRole}</p>
                 </div>
               </div>
 
-              <button
-                onClick={() => router.push(`/blog/${post.slug}`)}
-                className="group flex items-center gap-2 text-[11px] tracking-[0.15em] uppercase font-bold text-[#1F2937] hover:text-[#2563EB] transition-colors cursor-pointer whitespace-nowrap"
-              >
-                Read Article
-                <i className="ri-arrow-right-line text-sm group-hover:translate-x-1 transition-transform"></i>
-              </button>
+              <span className="inline-flex items-center gap-2 text-sm font-semibold text-accent-dark transition group-hover:text-accent">
+                Read featured article
+                <i className="ri-arrow-right-line transition group-hover:translate-x-0.5" aria-hidden />
+              </span>
             </div>
           </div>
-        </div>
+        </Link>
       </div>
     </section>
   );

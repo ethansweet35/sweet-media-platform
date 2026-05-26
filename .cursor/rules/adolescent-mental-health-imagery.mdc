@@ -1,0 +1,72 @@
+---
+description: Adolescent Mental Health — no WordPress-imported images on marketing pages (blog exempt)
+globs: apps/adolescent-mental-health/**/*
+alwaysApply: false
+---
+
+# Adolescent Mental Health — Imagery Policy
+
+## One image, one use (unless you specify otherwise)
+
+Each marketing image filename/URL may appear **at most once** across the entire adolescent-mental-health app.
+
+| Counts once | Does not count toward one-use |
+|-------------|-------------------------------|
+| Page heroes, section photos, bento/modality images, backgrounds | `logos/` (navbar + footer + OG may share `BRAND_LOGO`) |
+| Any `amh_*.jpg` in `site-assets/images/` | Payer logos in `logos/insurance/` (same mark on one page only unless repeated for a logo strip) |
+
+**Do not:**
+- Copy an `amh_*` path from one view into another (e.g. sharing `amh_viop_individual05.jpg` on both Virtual IOP and Adolescent IOP pages).
+- Reuse a homepage section image on an inner page.
+- Point two `<Image>` or `background-image` usages at the same Supabase object URL.
+
+**Only reuse when the user explicitly approves** (e.g. “reuse the Virtual IOP hero on the admissions page”).
+
+### Registry workflow
+
+1. Add every new marketing image to `src/lib/site.ts` (`HOME_IMGS`, `PAGE_IMGS`, or a page-specific export).
+2. Before shipping, check for duplicate filenames:
+
+```bash
+rg -o 'amh_[a-z0-9_]+\.(jpg|jpeg|webp|png)' apps/adolescent-mental-health/src \
+  | sort | uniq -c | sort -rn | awk '$1 > 1'
+```
+
+3. Output must be empty (except logos under `logos/`).
+
+Prefer page-local constants only when the image is used on a single route; otherwise centralize in `site.ts` so duplicates are visible in one file.
+
+## WordPress import images are blog-only
+
+Do **not** reference `site-assets/images/wp-migrated/` (or any WordPress migration bucket path) on any route or shared component **except** blog rendering.
+
+| Allowed | Not allowed |
+|---------|-------------|
+| `/blog`, `/blog/[slug]`, blog post body HTML from `blog_posts` | Homepage, about, contact, treatment/therapy views, nav, footer, LP pages |
+| `BlogPostArticle`, `PostBody`, markdown/HTML migrated post content | Hardcoded `next/image` `src`, CSS `background-image`, or constants pointing at `wp-migrated` |
+
+## Required workflow for net-new marketing imagery
+
+1. Generate unique AI images per page/section (on-brand: calm clinical blue `#83B3DC`, teen virtual mental health context).
+2. Upload to `site-assets/images/` with naming: `amh_<route-prefix>_<section><index>.jpg` (e.g. `amh_home_why01.jpg`).
+3. Reference via `SB_ROOT` / `PAGE_IMGS` in `src/lib/site.ts` — never inline `wp-migrated` URLs.
+
+## Brand assets (logo, payer logos)
+
+- Store under `site-assets/images/logos/` (e.g. `logos/amh-logo.png`, `logos/insurance/aetna.png`).
+- Do not pull logos from `wp-migrated` in Navbar, Footer, or marketing pages.
+- Payer logos may be relocated official marks — not AI-generated.
+
+## Blog exception
+
+WordPress-migrated featured images and inline `<img>` URLs inside published `blog_posts.content` may remain until those posts are re-imaged individually. Do not copy WP blog images onto new marketing pages.
+
+## PR check
+
+Before shipping adolescent-mental-health page work, run:
+
+```bash
+rg 'wp-migrated' apps/adolescent-mental-health/src --glob '!**/blog/**'
+```
+
+Zero matches outside blog-specific render paths.

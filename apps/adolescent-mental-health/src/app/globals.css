@@ -4,28 +4,55 @@
 @source "../../src/**/*.{js,ts,jsx,tsx,mdx}";
 @source "../../../../packages/admin-core/src/**/*.{js,ts,jsx,tsx}";
 
+/* ─── Adolescent Mental Health Design Tokens ─────────────────────────────── */
+
+/*
+ * @theme registers tokens as Tailwind v4 utilities AND CSS custom properties.
+ * Naming → utility mapping:
+ *   --color-ink          → text-ink, bg-ink, border-ink
+ *   --color-accent       → text-accent, bg-accent, ring-accent
+ *   --color-surface      → bg-surface
+ *   --spacing-section    → py-section, pt-section
+ *   --width-content      → max-w-content
+ */
+@theme {
+  /* ── Brand palette (Virtual IOP marketing language) ── */
+  --color-bg:             #ffffff;
+  --color-ink:            #0a0f14;
+  --color-body:           #54595f;
+  --color-muted:          #a0a8b0;
+  --color-accent:         #83b3dc;
+  --color-accent-dark:    #5b93c4;
+  --color-surface:        #f0f4f8;
+  --color-surface-muted:  #f4f9fc;
+  --color-border:         #e8eef4;
+  --color-dark:           #0a0f14;
+  --color-cta:            #0a0f14;
+  --color-cta-hover:      #111111;
+
+  /* ── Typography ── */
+  --font-heading: var(--font-heebo, "Heebo", system-ui, sans-serif);
+  --font-body:    var(--font-montserrat, "Montserrat", system-ui, sans-serif);
+
+  /* ── Layout ── */
+  --width-content: 84.375rem; /* 1350px — marketing page container */
+  --spacing-section: 6.25rem;  /* 100px — standard section vertical padding */
+}
+
+/*
+ * Legacy aliases for error/loading shells and direct CSS consumption.
+ */
 :root {
-  /* Brand palette */
-  --color-bg:          #FFFFFF;
-  --color-bg-light:    #F4F9FC;
-  --color-bg-dark:     #000000;
-  --color-surface:     #FFFFFF;
-  --color-border:      #CBE6EC;
+  --color-background: var(--color-bg);
+  --color-primary:    var(--color-ink);
+  --color-brand:      var(--color-accent);
+  --color-brand-dark: var(--color-accent-dark);
+}
 
-  /* Text */
-  --color-ink:         #1F2124;
-  --color-body:        #7C848B;
-  --color-muted:       #A0A8B0;
-
-  /* Brand blue + warm orange CTA */
-  --color-brand:       #83B3DC;
-  --color-brand-dark:  #5B93C4;
-  --color-cta:         #000000;
-  --color-cta-hover:   #111111;
-
-  /* Typography */
-  --font-heading: "Heebo", system-ui, sans-serif;
-  --font-body:    "Montserrat", system-ui, sans-serif;
+/* Hero dot-grid background pattern */
+@utility bg-dot-grid {
+  background-image: radial-gradient(circle at 1px 1px, var(--color-accent) 1px, transparent 0);
+  background-size: 32px 32px;
 }
 
 @layer base {

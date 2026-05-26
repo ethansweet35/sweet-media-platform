@@ -2,26 +2,23 @@ import type { BlogSection } from "@sweetmedia/blog-core";
 import { parseInlineLinks, type InlineSegment } from "@/lib/markdownToBlog";
 import { autoLinkText, type LinkSegment, type AutoLinkMapping } from "@sweetmedia/blog-core";
 import Link from "next/link";
+import { BLOG_HEADING } from "@/components/pages/blog/blogTokens";
 
 function isExternal(href: string | undefined): boolean {
   if (!href) return false;
   return href.startsWith("http://") || href.startsWith("https://") || href.startsWith("//");
 }
 
-/**
- * Render auto-linked segments — either plain text or internal links.
- */
+const linkClass =
+  "font-semibold text-accent-dark underline underline-offset-2 transition hover:text-accent";
+
 function AutoLinkedText({ segments }: { segments: LinkSegment[] }) {
   return (
     <>
       {segments.map((seg, i) => {
         if (seg.type === "text") return <span key={i}>{seg.content}</span>;
         return (
-          <Link
-            key={i}
-            href={seg.href ?? "/"}
-            className="text-[#1F2937] underline underline-offset-2 hover:opacity-70 transition-opacity"
-          >
+          <Link key={i} href={seg.href ?? "/"} className={linkClass}>
             {seg.content}
           </Link>
         );
@@ -30,13 +27,6 @@ function AutoLinkedText({ segments }: { segments: LinkSegment[] }) {
   );
 }
 
-/**
- * Render inline markdown links mixed with auto-linked text.
- * Priority: explicit markdown links > auto-links > plain text.
- *
- * `usedHrefs` is mutated in place so that each destination page is linked
- * at most once across the entire blog post.
- */
 function InlineText({
   text,
   autoLinkMap,
@@ -50,33 +40,23 @@ function InlineText({
   usedHrefs: Set<string>;
   enableAutoLink?: boolean;
 }) {
-  // First, parse explicit markdown links
   const inlineSegments: InlineSegment[] = parseInlineLinks(text);
 
   return (
     <>
       {inlineSegments.map((seg, i) => {
         if (seg.type !== "link") {
-          // Plain text — apply auto-linking (unless disabled, e.g. headings)
           if (enableAutoLink && autoLinkMap && autoLinkMap.length > 0) {
-            const autoSegments = autoLinkText(
-              seg.content,
-              autoLinkMap,
-              currentSlug,
-              usedHrefs
-            );
+            const autoSegments = autoLinkText(seg.content, autoLinkMap, currentSlug, usedHrefs);
             return <AutoLinkedText key={i} segments={autoSegments} />;
           }
           return <span key={i}>{seg.content}</span>;
         }
 
-        // Explicit markdown link — still track the href so auto-linker
-        // won't create a second link to the same destination.
         if (seg.href) {
           usedHrefs.add(seg.href);
         }
 
-        // Explicit markdown link
         if (isExternal(seg.href)) {
           return (
             <a
@@ -84,18 +64,14 @@ function InlineText({
               href={seg.href}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-[#1F2937] underline underline-offset-2 hover:opacity-70 transition-opacity"
+              className={linkClass}
             >
               {seg.content}
             </a>
           );
         }
         return (
-          <Link
-            key={i}
-            href={seg.href ?? "/"}
-            className="text-[#1F2937] underline underline-offset-2 hover:opacity-70 transition-opacity"
-          >
+          <Link key={i} href={seg.href ?? "/"} className={linkClass}>
             {seg.content}
           </Link>
         );
@@ -129,11 +105,13 @@ export default function PostBody({ sections, autoLinkMap, currentSlug, usedHrefs
         switch (section.type) {
           case "paragraph":
             return (
-              <p
-                key={i}
-                className="text-[#3A4A3C]/75 text-base md:text-[17px] leading-[1.85] mb-6"
-              >
-                <InlineText text={section.text ?? ""} autoLinkMap={autoLinkMap} currentSlug={currentSlug} usedHrefs={usedHrefs} />
+              <p key={i} className="mb-6 text-base leading-[1.85] text-body md:text-[17px]">
+                <InlineText
+                  text={section.text ?? ""}
+                  autoLinkMap={autoLinkMap}
+                  currentSlug={currentSlug}
+                  usedHrefs={usedHrefs}
+                />
               </p>
             );
 
@@ -141,34 +119,44 @@ export default function PostBody({ sections, autoLinkMap, currentSlug, usedHrefs
             return (
               <h2
                 key={i}
-                className="text-2xl md:text-3xl font-light text-[#1F2937] mt-12 mb-5"
-                style={{ fontFamily: "'Inter', serif" }}
+                className="mt-12 mb-5 text-2xl font-bold text-ink md:text-3xl"
+                style={BLOG_HEADING}
               >
-                <InlineText text={section.text ?? ""} autoLinkMap={autoLinkMap} currentSlug={currentSlug} usedHrefs={usedHrefs} enableAutoLink={false} />
+                <InlineText
+                  text={section.text ?? ""}
+                  autoLinkMap={autoLinkMap}
+                  currentSlug={currentSlug}
+                  usedHrefs={usedHrefs}
+                  enableAutoLink={false}
+                />
               </h2>
             );
 
           case "h3":
             return (
-              <h3
-                key={i}
-                className="text-lg font-semibold text-[#3A4A3C] mt-8 mb-3 tracking-tight"
-              >
-                <InlineText text={section.text ?? ""} autoLinkMap={autoLinkMap} currentSlug={currentSlug} usedHrefs={usedHrefs} enableAutoLink={false} />
+              <h3 key={i} className="mt-8 mb-3 text-lg font-bold tracking-tight text-ink">
+                <InlineText
+                  text={section.text ?? ""}
+                  autoLinkMap={autoLinkMap}
+                  currentSlug={currentSlug}
+                  usedHrefs={usedHrefs}
+                  enableAutoLink={false}
+                />
               </h3>
             );
 
           case "pullquote":
             return (
-              <blockquote
-                key={i}
-                className="relative my-10 pl-8 border-l-4 border-[#1F2937]"
-              >
-                <p
-                  className="text-xl md:text-2xl font-light text-[#3A4A3C] leading-relaxed italic"
-                  style={{ fontFamily: "'Inter', serif" }}
-                >
-                  &ldquo;<InlineText text={section.text ?? ""} autoLinkMap={autoLinkMap} currentSlug={currentSlug} usedHrefs={usedHrefs} />&rdquo;
+              <blockquote key={i} className="relative my-10 border-l-4 border-accent pl-8">
+                <p className="text-xl italic leading-relaxed text-ink md:text-2xl" style={BLOG_HEADING}>
+                  &ldquo;
+                  <InlineText
+                    text={section.text ?? ""}
+                    autoLinkMap={autoLinkMap}
+                    currentSlug={currentSlug}
+                    usedHrefs={usedHrefs}
+                  />
+                  &rdquo;
                 </p>
               </blockquote>
             );
@@ -177,24 +165,43 @@ export default function PostBody({ sections, autoLinkMap, currentSlug, usedHrefs
             return (
               <div
                 key={i}
-                className={`my-8 rounded-xl p-5 md:p-6 flex gap-4 ${
+                className={`my-8 flex gap-4 rounded-2xl p-5 md:p-6 ${
                   section.variant === "warning"
-                    ? "bg-amber-50 border border-amber-200"
+                    ? "border border-amber-200 bg-amber-50"
                     : section.variant === "tip"
-                    ? "bg-emerald-50 border border-emerald-200"
-                    : "bg-[#1F2937]/5 border border-[#1F2937]/15"
+                      ? "border border-emerald-200 bg-emerald-50"
+                      : "border border-accent/20 bg-accent/5"
                 }`}
               >
-                <div className={`w-6 h-6 flex items-center justify-center flex-shrink-0 mt-0.5 ${
-                  section.variant === "warning" ? "text-amber-500" : section.variant === "tip" ? "text-emerald-600" : "text-[#1F2937]"
-                }`}>
-                  <i className={`text-lg ${
-                    section.variant === "warning" ? "ri-alert-line" : section.variant === "tip" ? "ri-lightbulb-line" : "ri-information-line"
-                  }`}></i>
+                <div
+                  className={`mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center ${
+                    section.variant === "warning"
+                      ? "text-amber-500"
+                      : section.variant === "tip"
+                        ? "text-emerald-600"
+                        : "text-accent-dark"
+                  }`}
+                >
+                  <i
+                    className={`text-lg ${
+                      section.variant === "warning"
+                        ? "ri-alert-line"
+                        : section.variant === "tip"
+                          ? "ri-lightbulb-line"
+                          : "ri-information-line"
+                    }`}
+                    aria-hidden
+                  />
                 </div>
-                <p className={`text-sm leading-relaxed ${
-                  section.variant === "warning" ? "text-amber-800" : section.variant === "tip" ? "text-emerald-800" : "text-[#1F2937]/80"
-                }`}>
+                <p
+                  className={`text-sm leading-relaxed ${
+                    section.variant === "warning"
+                      ? "text-amber-800"
+                      : section.variant === "tip"
+                        ? "text-emerald-800"
+                        : "text-ink/80"
+                  }`}
+                >
                   {section.text}
                 </p>
               </div>
@@ -204,11 +211,16 @@ export default function PostBody({ sections, autoLinkMap, currentSlug, usedHrefs
             return (
               <ul key={i} className="my-6 space-y-3">
                 {section.items?.map((item, j) => (
-                  <li key={j} className="flex gap-3 text-[#3A4A3C]/75 text-base leading-relaxed">
-                    <span className="w-5 h-5 rounded-full bg-[#1F2937]/10 flex items-center justify-center flex-shrink-0 mt-0.5">
-                      <i className="ri-check-line text-[10px] text-[#1F2937]"></i>
+                  <li key={j} className="flex gap-3 text-base leading-relaxed text-body">
+                    <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-accent text-white">
+                      <i className="ri-check-line text-[10px]" aria-hidden />
                     </span>
-                    <InlineText text={item} autoLinkMap={autoLinkMap} currentSlug={currentSlug} usedHrefs={usedHrefs} />
+                    <InlineText
+                      text={item}
+                      autoLinkMap={autoLinkMap}
+                      currentSlug={currentSlug}
+                      usedHrefs={usedHrefs}
+                    />
                   </li>
                 ))}
               </ul>
@@ -218,11 +230,18 @@ export default function PostBody({ sections, autoLinkMap, currentSlug, usedHrefs
             return (
               <ol key={i} className="my-6 space-y-4">
                 {section.items?.map((item, j) => (
-                  <li key={j} className="flex gap-4 text-[#3A4A3C]/75 text-base leading-relaxed">
-                    <span className="w-7 h-7 rounded-full bg-[#1F2937] text-white text-[11px] font-bold flex items-center justify-center flex-shrink-0 mt-0.5">
+                  <li key={j} className="flex gap-4 text-base leading-relaxed text-body">
+                    <span className="mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-dark text-[11px] font-bold text-white">
                       {j + 1}
                     </span>
-                    <span className="pt-0.5"><InlineText text={item} autoLinkMap={autoLinkMap} currentSlug={currentSlug} usedHrefs={usedHrefs} /></span>
+                    <span className="pt-0.5">
+                      <InlineText
+                        text={item}
+                        autoLinkMap={autoLinkMap}
+                        currentSlug={currentSlug}
+                        usedHrefs={usedHrefs}
+                      />
+                    </span>
                   </li>
                 ))}
               </ol>
@@ -230,16 +249,13 @@ export default function PostBody({ sections, autoLinkMap, currentSlug, usedHrefs
 
           case "stat-row":
             return (
-              <div key={i} className="my-10 grid grid-cols-1 sm:grid-cols-3 gap-4">
+              <div key={i} className="my-10 grid grid-cols-1 gap-4 sm:grid-cols-3">
                 {section.stats?.map((stat, j) => (
-                  <div key={j} className="bg-[#1F2937] rounded-xl p-5 text-center">
-                    <p
-                      className="text-2xl md:text-3xl font-bold text-white mb-1"
-                      style={{ fontFamily: "'Inter', serif" }}
-                    >
+                  <div key={j} className="rounded-2xl bg-dark p-5 text-center">
+                    <p className="mb-1 text-2xl font-bold text-white md:text-3xl" style={BLOG_HEADING}>
                       {stat.value}
                     </p>
-                    <p className="text-[11px] tracking-[0.15em] uppercase text-white/50 font-medium">
+                    <p className="text-[11px] font-semibold uppercase tracking-[0.15em] text-white/50">
                       {stat.label}
                     </p>
                   </div>
@@ -249,36 +265,38 @@ export default function PostBody({ sections, autoLinkMap, currentSlug, usedHrefs
 
           case "table":
             return (
-              <div key={i} className="my-8 w-full overflow-x-auto rounded-xl border border-[#6B7D67]/20">
-                <table className="w-full text-sm text-left border-collapse">
-                  {section.tableHeaders && section.tableHeaders.length > 0 && (
+              <div key={i} className="my-8 w-full overflow-x-auto rounded-2xl border border-border">
+                <table className="w-full border-collapse text-left text-sm">
+                  {section.tableHeaders && section.tableHeaders.length > 0 ? (
                     <thead>
-                      <tr className="bg-[#1F2937]">
+                      <tr className="bg-dark">
                         {section.tableHeaders.map((header, j) => (
                           <th
                             key={j}
-                            className="px-4 py-3 text-white font-semibold text-xs tracking-wider uppercase whitespace-nowrap"
+                            className="whitespace-nowrap px-4 py-3 text-xs font-semibold uppercase tracking-wider text-white"
                           >
                             {header}
                           </th>
                         ))}
                       </tr>
                     </thead>
-                  )}
+                  ) : null}
                   <tbody>
                     {section.tableRows?.map((row, j) => (
-                      <tr
-                        key={j}
-                        className={j % 2 === 0 ? "bg-[#F8FAFC]" : "bg-[#E2E8F0]"}
-                      >
+                      <tr key={j} className={j % 2 === 0 ? "bg-white" : "bg-surface-muted"}>
                         {row.map((cell, k) => (
                           <td
                             key={k}
-                            className={`px-4 py-3 text-neutral-700 leading-relaxed border-t border-neutral-100 ${
-                              k === 0 ? "font-medium text-[#1F2937]" : ""
+                            className={`border-t border-border px-4 py-3 leading-relaxed text-body ${
+                              k === 0 ? "font-semibold text-ink" : ""
                             }`}
                           >
-                            <InlineText text={cell} autoLinkMap={autoLinkMap} currentSlug={currentSlug} usedHrefs={usedHrefs} />
+                            <InlineText
+                              text={cell}
+                              autoLinkMap={autoLinkMap}
+                              currentSlug={currentSlug}
+                              usedHrefs={usedHrefs}
+                            />
                           </td>
                         ))}
                       </tr>
@@ -289,7 +307,7 @@ export default function PostBody({ sections, autoLinkMap, currentSlug, usedHrefs
             );
 
           case "divider":
-            return <hr key={i} className="my-10 border-neutral-100" />;
+            return <hr key={i} className="my-10 border-border" />;
 
           default:
             return null;

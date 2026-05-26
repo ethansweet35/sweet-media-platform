@@ -13,22 +13,22 @@ export default function PostHeroImage({ src, alt }: PostHeroImageProps) {
 
   if (errored) {
     return (
-      <div className="w-full h-[200px] rounded-2xl overflow-hidden mt-8 mb-0 bg-neutral-100 border border-neutral-200 flex flex-col items-center justify-center gap-3">
-        <i className="ri-image-line text-3xl text-neutral-300" />
-        <p className="text-[11px] text-neutral-400 tracking-wider uppercase">Image unavailable</p>
+      <div className="mb-0 mt-8 flex h-[200px] flex-col items-center justify-center gap-3 rounded-3xl border border-border bg-surface">
+        <i className="ri-image-line text-3xl text-border" aria-hidden />
+        <p className="text-[11px] uppercase tracking-wider text-body">Image unavailable</p>
       </div>
     );
   }
 
   return (
-    <div className="w-full rounded-2xl overflow-hidden mt-8 mb-0">
+    <div className="mb-0 mt-8 w-full overflow-hidden rounded-3xl ring-1 ring-border">
       <Image
         src={src}
         alt={alt}
         width={1200}
         height={630}
         priority
-        className="w-full h-auto block"
+        className="block h-auto w-full"
         sizes="(max-width: 1280px) 100vw, 1200px"
         onError={() => setErrored(true)}
       />

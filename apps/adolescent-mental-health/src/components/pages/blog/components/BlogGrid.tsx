@@ -1,18 +1,17 @@
 "use client";
 
 import Image from "next/image";
-import { useState } from "react";
-import { useRouter } from "next/navigation";
+import Link from "next/link";
 import { useBlogPosts, useSearchBlogPosts, useBlogCategories } from "@sweetmedia/blog-core";
+import { BLOG_CONTAINER, BLOG_GRID_TOP, BLOG_HEADING, BLOG_SECTION } from "@/components/pages/blog/blogTokens";
 
 interface BlogGridProps {
   searchQuery: string;
+  activeCategory: string;
+  onCategoryChange: (category: string) => void;
 }
 
-export default function BlogGrid({ searchQuery }: BlogGridProps) {
-  const [activeCategory, setActiveCategory] = useState("All");
-  const router = useRouter();
-
+export default function BlogGrid({ searchQuery, activeCategory, onCategoryChange }: BlogGridProps) {
   const { posts: allPosts, loading: allLoading } = useBlogPosts();
   const { posts: searchResults, loading: searchLoading } = useSearchBlogPosts(searchQuery);
   const { categories, loading: catsLoading } = useBlogCategories();
@@ -26,155 +25,162 @@ export default function BlogGrid({ searchQuery }: BlogGridProps) {
       ? posts
       : posts.filter((p) => p.category === activeCategory);
 
+  const categoryPills = catsLoading
+    ? ["All", "Mental Health", "Virtual IOP", "Family Support", "Teen Therapy"]
+    : ["All", ...categories.filter((c) => c !== "All")];
+
   return (
-    <section className="w-full" style={{ background: "#F5F5F3" }}>
-      <div className="max-w-screen-xl mx-auto px-6 py-16 md:py-24">
-        {/* Section header */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
+    <section className={`${BLOG_SECTION} ${BLOG_GRID_TOP} bg-surface px-6 lg:px-10`}>
+      <div className={BLOG_CONTAINER}>
+        <div className="mb-8 flex flex-col gap-5 lg:mb-10 lg:flex-row lg:items-end lg:justify-between lg:gap-8">
           <div>
-            <div className="flex items-center gap-3 mb-4 justify-center lg:justify-start">
-              <div className="w-8 h-px bg-neutral-300" />
-              <span className="text-[10px] tracking-[0.3em] uppercase text-neutral-400 font-semibold">
-                {isSearching ? `Search Results for "${searchQuery}"` : "Latest Articles"}
-              </span>
-            </div>
-            <h2
-              className="text-2xl md:text-3xl font-light text-neutral-900 text-center lg:text-left"
-              style={{ fontFamily: "'Inter', serif" }}
-            >
-              {isSearching ? `${filtered.length} Articles Found` : "All Insights"}
+            <p className="mb-2 text-[11px] font-bold uppercase tracking-[0.3em] text-accent">
+              {isSearching ? `Results for "${searchQuery}"` : "Latest articles"}
+            </p>
+            <h2 className="text-2xl font-bold text-ink md:text-3xl" style={BLOG_HEADING}>
+              {isSearching
+                ? `${filtered.length} ${filtered.length === 1 ? "article" : "articles"} found`
+                : activeCategory === "All"
+                  ? "All insights"
+                  : activeCategory}
             </h2>
+            {!isSearching ? (
+              <p className="mt-1.5 text-sm text-body">
+                {filtered.length} {filtered.length === 1 ? "article" : "articles"} in this view
+              </p>
+            ) : null}
           </div>
 
-          {/* Category pills */}
-          {!isSearching && (
-            <div className="flex flex-wrap gap-2">
-              {catsLoading
-                ? ["All", "Mental Health", "Addiction Recovery", "Trauma", "Virtual Care", "Clientsen’s Wellness", "Family Support"].map((cat) => (
-                    <button
-                      key={cat}
-                      onClick={() => setActiveCategory(cat)}
-                      className={`text-[11px] tracking-[0.12em] uppercase font-medium px-4 py-2 rounded-full transition-all duration-200 cursor-pointer whitespace-nowrap ${
-                        activeCategory === cat
-                          ? "bg-[#1F2937] text-[#F8FAFC]"
-                          : "bg-white text-neutral-500 hover:text-neutral-800 border border-neutral-200"
-                      }`}
-                    >
-                      {cat}
-                    </button>
-                  ))
-                : categories.map((cat) => (
-                    <button
-                      key={cat}
-                      onClick={() => setActiveCategory(cat)}
-                      className={`text-[11px] tracking-[0.12em] uppercase font-medium px-4 py-2 rounded-full transition-all duration-200 cursor-pointer whitespace-nowrap ${
-                        activeCategory === cat
-                          ? "bg-[#1F2937] text-[#F8FAFC]"
-                          : "bg-white text-neutral-500 hover:text-neutral-800 border border-neutral-200"
-                      }`}
-                    >
-                      {cat}
-                    </button>
-                  ))}
+          {!isSearching ? (
+            <div className="flex max-w-full flex-wrap gap-2 lg:max-w-xl lg:justify-end">
+              {categoryPills.map((cat) => (
+                <button
+                  key={cat}
+                  type="button"
+                  onClick={() => onCategoryChange(cat)}
+                  className={`cursor-pointer whitespace-nowrap rounded-full px-4 py-2 text-[11px] font-semibold uppercase tracking-[0.12em] transition-all duration-200 ${
+                    activeCategory === cat
+                      ? "bg-dark text-white shadow-sm"
+                      : "border border-border bg-white text-body hover:border-accent/50 hover:text-ink"
+                  }`}
+                >
+                  {cat}
+                </button>
+              ))}
             </div>
-          )}
+          ) : null}
         </div>
 
-        {/* Loading skeleton */}
-        {loading && (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+        {loading ? (
+          <div className="grid grid-cols-1 gap-5 md:grid-cols-2 md:gap-6 xl:grid-cols-3">
             {[1, 2, 3, 4, 5, 6].map((i) => (
-              <div key={i} className="bg-white rounded-2xl overflow-hidden border border-neutral-100 animate-pulse">
-                <div className="aspect-[16/10] bg-neutral-100" />
-                <div className="p-5 md:p-6 space-y-3">
-                  <div className="h-3 bg-neutral-100 rounded w-1/3" />
-                  <div className="h-5 bg-neutral-100 rounded w-3/4" />
-                  <div className="h-4 bg-neutral-100 rounded w-full" />
-                  <div className="h-4 bg-neutral-100 rounded w-2/3" />
+              <div
+                key={i}
+                className="animate-pulse overflow-hidden rounded-3xl border border-border bg-white"
+              >
+                <div className="aspect-[16/10] bg-surface-muted" />
+                <div className="space-y-3 p-5 md:p-6">
+                  <div className="h-3 w-1/3 rounded bg-surface" />
+                  <div className="h-5 w-3/4 rounded bg-surface" />
+                  <div className="h-4 w-full rounded bg-surface" />
                 </div>
               </div>
             ))}
           </div>
-        )}
+        ) : null}
 
-        {/* Post grid */}
-        {!loading && (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
-            {filtered.map((post) => (
+        {!loading && filtered.length > 0 ? (
+          <div className="grid grid-cols-1 gap-5 md:grid-cols-2 md:gap-6 xl:grid-cols-3">
+            {filtered.map((post, index) => (
               <article
                 key={post.id}
-                onClick={() => router.push(`/blog/${post.slug}`)}
-                className="group bg-white rounded-2xl overflow-hidden border border-neutral-100 hover:border-neutral-200 transition-all duration-300 hover:shadow-[0_4px_24px_rgba(0,0,0,0.06)] cursor-pointer"
+                className="group flex h-full flex-col overflow-hidden rounded-3xl border border-border bg-white transition-all duration-300 hover:-translate-y-0.5 hover:border-accent/30 hover:shadow-lg hover:shadow-ink/5"
               >
-                {/* Image */}
-                <div className="relative overflow-hidden">
-                  <Image
-                    src={post.image}
-                    alt={post.title}
-                    width={1200}
-                    height={750}
-                    loading="lazy"
-                    className="w-full h-auto block"
-                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 400px"
-                  />
-                  <div className="absolute top-3 left-3">
-                    <span className="inline-block bg-white/90 backdrop-blur-sm text-[10px] tracking-[0.15em] uppercase font-bold text-[#1F2937] px-2.5 py-1 rounded-full">
-                      {post.category}
-                    </span>
-                  </div>
-                </div>
-
-                {/* Content */}
-                <div className="p-5 md:p-6">
-                  <div className="flex items-center gap-2 mb-3">
-                    <span className="text-[11px] text-neutral-400">{post.date}</span>
-                    <span className="w-1 h-1 rounded-full bg-neutral-300" />
-                    <span className="text-[11px] text-neutral-400">{post.readTime}</span>
+                <Link href={`/blog/${post.slug}`} className="flex h-full flex-col">
+                  <div className="relative overflow-hidden">
+                    <Image
+                      src={post.image}
+                      alt={post.title}
+                      width={1200}
+                      height={750}
+                      loading={index < 3 ? "eager" : "lazy"}
+                      className="block aspect-[16/10] h-auto w-full object-cover transition duration-500 group-hover:scale-[1.02]"
+                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 400px"
+                    />
+                    <div className="absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-dark/25 to-transparent opacity-0 transition group-hover:opacity-100" />
+                    <div className="absolute left-3 top-3">
+                      <span className="inline-block rounded-full bg-white/95 px-2.5 py-1 text-[10px] font-bold uppercase tracking-[0.15em] text-ink shadow-sm backdrop-blur-sm">
+                        {post.category}
+                      </span>
+                    </div>
                   </div>
 
-                  <h3
-                    className="text-lg font-medium text-neutral-900 leading-snug mb-3 group-hover:text-[#1F2937] transition-colors"
-                    style={{ fontFamily: "'Inter', serif" }}
-                  >
-                    {post.title}
-                  </h3>
-
-                  <p className="text-sm text-neutral-500 leading-relaxed mb-5 line-clamp-2">
-                    {post.excerpt}
-                  </p>
-
-                  <div className="flex items-center justify-between pt-4 border-t border-neutral-100">
-                    <div className="flex items-center gap-2">
-                      <div className="w-7 h-7 rounded-full bg-[#1F2937] flex items-center justify-center">
-                        <span className="text-white text-[10px] font-bold">
-                          {post.author.split(" ").map((n) => n[0]).join("")}
-                        </span>
-                      </div>
-                      <span className="text-[11px] text-neutral-500">{post.author}</span>
+                  <div className="flex flex-1 flex-col p-5">
+                    <div className="mb-2.5 flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.1em] text-body">
+                      <span>{post.date}</span>
+                      <span className="h-1 w-1 rounded-full bg-border" />
+                      <span>{post.readTime}</span>
                     </div>
 
-                    <span className="flex items-center gap-1 text-[11px] tracking-[0.1em] uppercase font-medium text-[#1F2937] group-hover:text-[#2563EB] transition-colors">
-                      Read
-                      <i className="ri-arrow-right-line text-xs group-hover:translate-x-0.5 transition-transform"></i>
-                    </span>
+                    <h3
+                      className="mb-2.5 line-clamp-2 text-lg font-bold leading-snug text-ink transition group-hover:text-accent-dark"
+                      style={BLOG_HEADING}
+                    >
+                      {post.title}
+                    </h3>
+
+                    <p className="mb-4 line-clamp-3 flex-1 text-sm leading-relaxed text-body">{post.excerpt}</p>
+
+                    <div className="mt-auto flex items-center justify-between border-t border-border pt-3.5">
+                      <div className="flex items-center gap-2">
+                        <div className="flex h-7 w-7 items-center justify-center rounded-full bg-dark">
+                          <span className="text-[10px] font-bold text-white">
+                            {post.author
+                              .split(" ")
+                              .map((n) => n[0])
+                              .join("")}
+                          </span>
+                        </div>
+                        <span className="text-[11px] text-body">{post.author}</span>
+                      </div>
+
+                      <span className="flex items-center gap-1 text-[11px] font-semibold uppercase tracking-[0.1em] text-accent-dark transition group-hover:text-accent">
+                        Read
+                        <i className="ri-arrow-right-line text-xs transition group-hover:translate-x-0.5" aria-hidden />
+                      </span>
+                    </div>
                   </div>
-                </div>
+                </Link>
               </article>
             ))}
           </div>
-        )}
+        ) : null}
 
-        {/* Empty state */}
-        {!loading && filtered.length === 0 && (
-          <div className="text-center py-20">
-            <i className="ri-article-line text-4xl text-neutral-300 mb-4"></i>
-            <p className="text-sm text-neutral-400">
+        {!loading && filtered.length === 0 ? (
+          <div className="rounded-3xl border border-border bg-white px-8 py-20 text-center">
+            <span className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-surface text-accent">
+              <i className="ri-article-line text-2xl" aria-hidden />
+            </span>
+            <h3 className="text-lg font-bold text-ink" style={BLOG_HEADING}>
+              {isSearching ? "No matching articles" : "No articles in this category yet"}
+            </h3>
+            <p className="mx-auto mt-3 max-w-md text-sm leading-7 text-body">
               {isSearching
-                ? `No articles found for "${searchQuery}". Try a different search term.`
-                : "No articles in this category yet."}
+                ? `We couldn't find anything for "${searchQuery}". Try a different keyword or browse all topics.`
+                : "Check back soon — we're regularly publishing new guidance for parents and caregivers."}
             </p>
+            {!isSearching && activeCategory !== "All" ? (
+              <button
+                type="button"
+                onClick={() => onCategoryChange("All")}
+                className="mt-6 inline-flex items-center gap-2 rounded-full border border-border bg-white px-5 py-2.5 text-sm font-semibold text-ink transition hover:border-accent/50 hover:text-accent-dark"
+              >
+                View all articles
+                <i className="ri-arrow-right-line text-sm" aria-hidden />
+              </button>
+            ) : null}
           </div>
-        )}
+        ) : null}
       </div>
     </section>
   );

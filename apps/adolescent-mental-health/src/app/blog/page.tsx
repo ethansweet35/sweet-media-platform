@@ -8,17 +8,17 @@ const BLOG_OG_IMAGE =
   "https://ynmldknprfusujudvutq.supabase.co/storage/v1/object/public/public_bucket/og-blog.jpg";
 
 const fallbackMetadata: Metadata = {
-  title: "Blog | Mental Health & Recovery Resources | Adolescent Mental Health",
+  title: "Blog | Teen Mental Health Resources | Adolescent Mental Health",
   description:
-    "Mental health, addiction recovery, trauma-informed care, and wellness resources from Adolescent Mental Health.",
+    "Evidence-based articles on Virtual IOP, adolescent therapy, anxiety, depression, school avoidance, and supporting teens ages 12–17.",
   keywords:
-    "clients’s mental health resources, virtual outpatient treatment, addiction recovery resources, trauma-informed care, Service Area mental health support",
+    "teen mental health blog, virtual IOP resources, adolescent therapy articles, school avoidance, teen anxiety, family support",
   alternates: { canonical: "/blog" },
   openGraph: {
     type: "website",
-    title: "Blog | Mental Health & Recovery Resources | Adolescent Mental Health",
+    title: "Blog | Teen Mental Health Resources | Adolescent Mental Health",
     description:
-      "Mental health, addiction recovery, trauma-informed care, and wellness resources from Adolescent Mental Health.",
+      "Evidence-based articles on Virtual IOP, adolescent therapy, anxiety, depression, school avoidance, and supporting teens ages 12–17.",
     url: "/blog",
     images: [{ url: BLOG_OG_IMAGE, width: 1200, height: 630 }],
   },

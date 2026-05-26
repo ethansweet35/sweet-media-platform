@@ -43,6 +43,23 @@ interface AdminBlogTableProps {
 type SortField = "title" | "category" | "author" | "date" | "status";
 type SortDir = "asc" | "desc";
 
+function sortIconClass(field: SortField, sortField: SortField, sortDir: SortDir) {
+  if (sortField !== field) return "ri-arrow-up-down-line text-neutral-300";
+  return sortDir === "asc" ? "ri-arrow-up-line text-[#3d6f7f]" : "ri-arrow-down-line text-[#3d6f7f]";
+}
+
+function SortIcon({
+  field,
+  sortField,
+  sortDir,
+}: {
+  field: SortField;
+  sortField: SortField;
+  sortDir: SortDir;
+}) {
+  return <i className={`text-[10px] ml-1 ${sortIconClass(field, sortField, sortDir)}`} />;
+}
+
 export default function AdminBlogTable({
   posts,
   onDelete,
@@ -85,14 +102,6 @@ export default function AdminBlogTable({
   const allSelected = posts.length > 0 && posts.every((p) => selectedIds.has(p.id));
   const someSelected = posts.some((p) => selectedIds.has(p.id)) && !allSelected;
 
-  const SortIcon = ({ field }: { field: SortField }) => (
-    <i className={`text-[10px] ml-1 ${
-      sortField === field
-        ? sortDir === "asc" ? "ri-arrow-up-line text-[#3d6f7f]" : "ri-arrow-down-line text-[#3d6f7f]"
-        : "ri-arrow-up-down-line text-neutral-300"
-    }`}></i>
-  );
-
   return (
     <div className="bg-white rounded-2xl border border-neutral-100 overflow-hidden">
       <div className="overflow-x-auto">
@@ -114,7 +123,7 @@ export default function AdminBlogTable({
                   onClick={() => handleSort("title")}
                   className="flex items-center text-[10px] tracking-[0.15em] uppercase font-semibold text-neutral-400 hover:text-neutral-600 transition-colors cursor-pointer whitespace-nowrap"
                 >
-                  Title <SortIcon field="title" />
+                  Title <SortIcon field="title" sortField={sortField} sortDir={sortDir} />
                 </button>
               </th>
               <th className="text-left px-4 py-3.5">
@@ -122,7 +131,7 @@ export default function AdminBlogTable({
                   onClick={() => handleSort("category")}
                   className="flex items-center text-[10px] tracking-[0.15em] uppercase font-semibold text-neutral-400 hover:text-neutral-600 transition-colors cursor-pointer whitespace-nowrap"
                 >
-                  Category <SortIcon field="category" />
+                  Category <SortIcon field="category" sortField={sortField} sortDir={sortDir} />
                 </button>
               </th>
               <th className="text-left px-4 py-3.5">
@@ -130,7 +139,7 @@ export default function AdminBlogTable({
                   onClick={() => handleSort("author")}
                   className="flex items-center text-[10px] tracking-[0.15em] uppercase font-semibold text-neutral-400 hover:text-neutral-600 transition-colors cursor-pointer whitespace-nowrap"
                 >
-                  Author <SortIcon field="author" />
+                  Author <SortIcon field="author" sortField={sortField} sortDir={sortDir} />
                 </button>
               </th>
               <th className="text-left px-4 py-3.5">
@@ -138,7 +147,7 @@ export default function AdminBlogTable({
                   onClick={() => handleSort("date")}
                   className="flex items-center text-[10px] tracking-[0.15em] uppercase font-semibold text-neutral-400 hover:text-neutral-600 transition-colors cursor-pointer whitespace-nowrap"
                 >
-                  Published <SortIcon field="date" />
+                  Published <SortIcon field="date" sortField={sortField} sortDir={sortDir} />
                 </button>
               </th>
               <th className="text-left px-4 py-3.5">
@@ -146,7 +155,7 @@ export default function AdminBlogTable({
                   onClick={() => handleSort("status")}
                   className="flex items-center text-[10px] tracking-[0.15em] uppercase font-semibold text-neutral-400 hover:text-neutral-600 transition-colors cursor-pointer whitespace-nowrap"
                 >
-                  Status <SortIcon field="status" />
+                  Status <SortIcon field="status" sortField={sortField} sortDir={sortDir} />
                 </button>
               </th>
               <th className="text-left px-4 py-3.5 whitespace-nowrap">
