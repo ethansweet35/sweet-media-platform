@@ -50,6 +50,8 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
+        <link rel="preconnect" href="https://cdn.callrail.com" crossOrigin="anonymous" />
+        <link rel="preload" as="script" href={CALLRAIL_SWAP_SRC} fetchPriority="high" />
         <link rel="preconnect" href="https://cdn.jsdelivr.net" crossOrigin="anonymous" />
         <link rel="preload" as="style" href={REMIXICON_CSS} crossOrigin="anonymous" />
         <Script id="load-remixicon-styles" strategy="afterInteractive">{`
