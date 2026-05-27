@@ -92,9 +92,11 @@ const navItems: NavItem[] = [
         ctaLabel: "Learn About Us",
       },
       items: [
-        { icon: "ri-team-line",           label: "Our Team",         desc: "Meet our clinical staff and leadership",  path: "/our-team" },
-        { icon: "ri-file-list-3-line",    label: "Admissions",       desc: "Start your intake process today",         path: "/verify-insurance" },
-        { icon: "ri-shield-check-line",   label: "Verify Insurance", desc: "Check your coverage in minutes",          path: "/verify-insurance" },
+        { icon: "ri-team-line",           label: "Our Team",              desc: "Meet our clinical staff and leadership",       path: "/our-team" },
+        { icon: "ri-calendar-event-line", label: "In-Person Schedule",    desc: "Daily group therapy sessions at our OC facility", path: "/in-person-schedule" },
+        { icon: "ri-video-chat-line",     label: "Telehealth Schedule",   desc: "Live virtual group sessions — weekday AM & PM",  path: "/telehealth-schedule" },
+        { icon: "ri-file-list-3-line",    label: "Admissions",            desc: "Start your intake process today",              path: "/admissions" },
+        { icon: "ri-shield-check-line",   label: "Verify Insurance",      desc: "Check your coverage in minutes",               path: "/verify-insurance" },
       ],
     },
   },
@@ -299,7 +301,7 @@ export default function Navbar() {
                     }`}>
                       {activeItem.dropdown.items.map((sub) => (
                         <Link
-                          key={sub.path}
+                          key={`${sub.label}-${sub.path}`}
                           href={sub.path}
                           onClick={() => setActiveMenu(null)}
                           className="group flex items-start gap-4 p-4 transition-all duration-300 hover:bg-white/5"
@@ -352,7 +354,7 @@ export default function Navbar() {
                           <div className="flex flex-col gap-1">
                             {group.items.map((sub) => (
                               <Link
-                                key={sub.path}
+                                key={`${sub.label}-${sub.path}`}
                                 href={sub.path}
                                 onClick={() => setActiveMenu(null)}
                                 className="group flex items-start gap-3 p-3 transition-all duration-300 hover:bg-white/5"
@@ -437,7 +439,7 @@ export default function Navbar() {
                         {/* Flat items */}
                         {item.dropdown.items?.map((sub) => (
                           <Link
-                            key={sub.path}
+                            key={`${sub.label}-${sub.path}`}
                             href={sub.path}
                             onClick={() => setMobileOpen(false)}
                             className="flex items-center gap-3 px-3 py-2.5 hover:bg-soft transition-colors duration-200"
@@ -453,7 +455,7 @@ export default function Navbar() {
                             <p className="px-3 pt-3 pb-1 text-[9px] font-semibold uppercase tracking-[0.35em] text-ink/40">{group.heading}</p>
                             {group.items.map((sub) => (
                               <Link
-                                key={sub.path}
+                                key={`${sub.label}-${sub.path}`}
                                 href={sub.path}
                                 onClick={() => setMobileOpen(false)}
                                 className="flex items-center gap-3 px-3 py-2.5 hover:bg-soft transition-colors duration-200"
