@@ -507,7 +507,7 @@ export default function SelfHarmTreatmentPage({ config }: SelfHarmTreatmentPageP
                     <i className="ri-arrow-right-line text-sm" aria-hidden />
                   </span>
                 </div>
-                <p className="mt-3 flex-1 text-sm leading-7 text-body"><AutoLinkedText>{item.desc}</AutoLinkedText></p>
+                <p className="mt-3 flex-1 text-sm leading-7 text-body">{item.desc}</p>
               </Link>
             ))}
           </div>

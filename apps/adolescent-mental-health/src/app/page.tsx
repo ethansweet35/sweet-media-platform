@@ -468,8 +468,8 @@ export default function HomePage() {
 
                 {/* Text */}
                 <div className="relative z-10 mt-5 flex-1">
-                  <p className="text-base font-bold text-ink transition group-hover:text-accent" style={{ fontFamily: "var(--font-heebo)" }}><AutoLinkedText>{c.title}</AutoLinkedText></p>
-                  <p className="mt-1.5 text-xs leading-5 text-body"><AutoLinkedText>{c.tagline}</AutoLinkedText></p>
+                  <p className="text-base font-bold text-ink transition group-hover:text-accent" style={{ fontFamily: "var(--font-heebo)" }}>{c.title}</p>
+                  <p className="mt-1.5 text-xs leading-5 text-body">{c.tagline}</p>
                 </div>
 
                 {/* Footer link */}

@@ -432,7 +432,7 @@ export default function SchoolAvoidanceTreatmentPage({ config }: SchoolAvoidance
                 <h3 className="mt-5 text-base font-bold text-ink group-hover:text-accent" style={{ fontFamily: "var(--font-heebo)" }}>
                   {item.label}
                 </h3>
-                <p className="mt-2 flex-1 text-sm leading-6 text-body"><AutoLinkedText>{item.detail}</AutoLinkedText></p>
+                <p className="mt-2 flex-1 text-sm leading-6 text-body">{item.detail}</p>
                 <span className="mt-4 inline-flex items-center gap-1 text-xs font-semibold text-accent-dark">
                   Learn more
                   <i className="ri-arrow-right-line transition group-hover:translate-x-0.5" aria-hidden />
@@ -517,7 +517,7 @@ export default function SchoolAvoidanceTreatmentPage({ config }: SchoolAvoidance
                     <i className="ri-arrow-right-line text-sm" aria-hidden />
                   </span>
                 </div>
-                <p className="mt-3 flex-1 text-sm leading-7 text-body"><AutoLinkedText>{item.desc}</AutoLinkedText></p>
+                <p className="mt-3 flex-1 text-sm leading-7 text-body">{item.desc}</p>
               </Link>
             ))}
           </div>

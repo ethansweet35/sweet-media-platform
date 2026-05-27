@@ -174,7 +174,7 @@ export default function TreatmentHubPage() {
               <Heading as={3} className="mt-5">
                 {program.label}
               </Heading>
-              {program.body ? <p className="mt-3 flex-1 text-sm leading-7 text-body"><AutoLinkedText>{program.body}</AutoLinkedText></p> : null}
+              {program.body ? <p className="mt-3 flex-1 text-sm leading-7 text-body">{program.body}</p> : null}
               <span className="mt-6 inline-flex items-center gap-1.5 text-sm font-semibold text-accent-dark group-hover:text-accent">
                 Learn more
                 <i className="ri-arrow-right-line transition group-hover:translate-x-0.5" aria-hidden />

@@ -164,7 +164,7 @@ export default function TherapyHubPage() {
               <Heading as={3} className="mt-5">
                 {item.label}
               </Heading>
-              {item.body ? <p className="mt-3 text-sm leading-7 text-body"><AutoLinkedText>{item.body}</AutoLinkedText></p> : null}
+              {item.body ? <p className="mt-3 text-sm leading-7 text-body">{item.body}</p> : null}
               <span className="mt-6 inline-flex items-center gap-1.5 text-sm font-semibold text-accent-dark group-hover:text-accent">
                 Learn more
                 <i className="ri-arrow-right-line" aria-hidden />

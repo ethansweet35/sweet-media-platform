@@ -95,7 +95,7 @@ export default function ResourcesPage() {
               </span>
               <div>
                 <Heading as={3}>{guide.title}</Heading>
-                <p className="mt-2 text-sm leading-7 text-body"><AutoLinkedText>{guide.body}</AutoLinkedText></p>
+                <p className="mt-2 text-sm leading-7 text-body">{guide.body}</p>
                 <span className="mt-4 inline-flex items-center gap-1.5 text-sm font-semibold text-accent-dark transition group-hover:text-accent">
                   Read more
                   <i className="ri-arrow-right-line transition group-hover:translate-x-0.5" />
@@ -131,7 +131,7 @@ export default function ResourcesPage() {
                     <Heading as={3} light className="text-base">
                       {resource.title}
                     </Heading>
-                    <p className="mt-1 text-sm leading-7 text-white/55"><AutoLinkedText>{resource.body}</AutoLinkedText></p>
+                    <p className="mt-1 text-sm leading-7 text-white/55">{resource.body}</p>
                   </div>
                 </a>
               ))}

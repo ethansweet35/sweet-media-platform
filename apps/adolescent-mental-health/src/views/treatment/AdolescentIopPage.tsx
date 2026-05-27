@@ -582,7 +582,7 @@ export default function AdolescentIopPage() {
                     <i className="ri-arrow-right-line text-sm" aria-hidden />
                   </span>
                 </div>
-                <p className="mt-3 flex-1 text-sm leading-7 text-body"><AutoLinkedText>{condition.desc}</AutoLinkedText></p>
+                <p className="mt-3 flex-1 text-sm leading-7 text-body">{condition.desc}</p>
               </Link>
             ))}
           </div>
