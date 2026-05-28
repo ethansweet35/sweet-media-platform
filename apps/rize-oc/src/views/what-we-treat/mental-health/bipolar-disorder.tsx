@@ -1,6 +1,7 @@
 import MHConditionPage, { type MHConditionData } from "./MHConditionPage";
 
 const data: MHConditionData = {
+  hideHeroForm: true,
   heroImage: "mh_bipolar_hero01.jpg",
   heroImageAlt: "Dramatic California sky with sunlight and storm clouds representing the duality of bipolar disorder and the path to stability",
   category: "Bipolar Disorder",

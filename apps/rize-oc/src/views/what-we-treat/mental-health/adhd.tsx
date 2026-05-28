@@ -1,6 +1,7 @@
 import MHConditionPage, { type MHConditionData } from "./MHConditionPage";
 
 const data: MHConditionData = {
+  hideHeroForm: true,
   heroImage: "mh_adhd_hero01.jpg",
   heroImageAlt: "Warm organized creative workspace in California afternoon light representing focus and clarity in ADHD treatment",
   category: "ADHD",

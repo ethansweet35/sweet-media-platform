@@ -1,6 +1,7 @@
 import ConditionPage, { type ConditionData } from "./ConditionPage";
 
 const data: ConditionData = {
+  hideHeroForm: true,
   heroImage: "add_meth_hero01.jpg",
   heroImageAlt: "California high desert landscape at golden hour representing recovery and open space near Orange County",
   category: "Meth Addiction",

@@ -45,6 +45,8 @@ export interface MHConditionData {
   treatmentSteps: MHTreatmentStep[];
   faqs: FaqItem[];
   relatedPrograms: MHRelatedProgram[];
+  /** When true, hides the hero consultation form card (right column). */
+  hideHeroForm?: boolean;
 }
 
 export default function MHConditionPage({ data }: { data: MHConditionData }) {
@@ -52,7 +54,7 @@ export default function MHConditionPage({ data }: { data: MHConditionData }) {
     heroImage, heroImageAlt, category, headline, headlineEmphasis, subhead,
     quickFacts, overviewTitle, overviewCol1, overviewCol2,
     signsLabel1, signsLabel2, signsIcon1, signsIcon2, symptoms1, symptoms2,
-    consequences, treatmentSteps, faqs, relatedPrograms,
+    consequences, treatmentSteps, faqs, relatedPrograms, hideHeroForm,
   } = data;
 
   return (
@@ -80,7 +82,7 @@ export default function MHConditionPage({ data }: { data: MHConditionData }) {
           </>
         }
       >
-        <div className={`${PAGE_GRID} grid lg:grid-cols-[1fr_400px] gap-10 xl:gap-16 items-center py-12 lg:py-16`}>
+        <div className={`${PAGE_GRID} grid ${hideHeroForm ? "" : "lg:grid-cols-[1fr_400px]"} gap-10 xl:gap-16 items-center py-12 lg:py-16`}>
 
           {/* Left — text */}
           <div className="flex flex-col justify-center">
@@ -128,43 +130,58 @@ export default function MHConditionPage({ data }: { data: MHConditionData }) {
             </div>
           </div>
 
-          {/* Right — liquid glass card */}
-          <div
-            className="relative self-center rounded-2xl p-8 flex flex-col gap-5 overflow-hidden"
-            style={{
-              background: "rgba(255,255,255,0.08)",
-              backdropFilter: "blur(28px) saturate(180%)",
-              WebkitBackdropFilter: "blur(28px) saturate(180%)",
-              border: "1px solid rgba(255,255,255,0.18)",
-              boxShadow: "0 24px 60px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.22), inset 0 -1px 0 rgba(255,255,255,0.06)",
-            }}
-          >
+          {!hideHeroForm && (
             <div
-              className="pointer-events-none absolute inset-x-0 top-0 h-px"
-              style={{ background: "linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.45) 40%, rgba(255,255,255,0.45) 60%, transparent 100%)" }}
-              aria-hidden
-            />
+              className="relative self-center rounded-2xl p-8 flex flex-col gap-5 overflow-hidden"
+              style={{
+                background: "rgba(255,255,255,0.08)",
+                backdropFilter: "blur(28px) saturate(180%)",
+                WebkitBackdropFilter: "blur(28px) saturate(180%)",
+                border: "1px solid rgba(255,255,255,0.18)",
+                boxShadow: "0 24px 60px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.22), inset 0 -1px 0 rgba(255,255,255,0.06)",
+              }}
+            >
+              <div
+                className="pointer-events-none absolute inset-x-0 top-0 h-px"
+                style={{ background: "linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.45) 40%, rgba(255,255,255,0.45) 60%, transparent 100%)" }}
+                aria-hidden
+              />
 
-            <div>
-              <p className="text-[10px] font-semibold uppercase tracking-[0.35em] text-white/45 mb-2"><AutoLinkedText>{"Free & Confidential"}</AutoLinkedText></p>
-              <h2 className="font-[family-name:var(--font-display)] text-[26px] font-normal text-white leading-snug">
-                Request a Free Consultation
-              </h2>
-              <p className="mt-1.5 text-[13px] font-light text-white/55">
-                <AutoLinkedText>{"No commitment required. We respond within hours."}</AutoLinkedText>
-              </p>
-            </div>
+              <div>
+                <p className="text-[10px] font-semibold uppercase tracking-[0.35em] text-white/45 mb-2"><AutoLinkedText>{"Free & Confidential"}</AutoLinkedText></p>
+                <h2 className="font-[family-name:var(--font-display)] text-[26px] font-normal text-white leading-snug">
+                  Request a Free Consultation
+                </h2>
+                <p className="mt-1.5 text-[13px] font-light text-white/55">
+                  <AutoLinkedText>{"No commitment required. We respond within hours."}</AutoLinkedText>
+                </p>
+              </div>
 
-            <div className="flex flex-col gap-3">
-              <div className="grid grid-cols-2 gap-3">
+              <div className="flex flex-col gap-3">
+                <div className="grid grid-cols-2 gap-3">
+                  {[
+                    { label: "Full Name", placeholder: "Your name" },
+                    { label: "Phone",     placeholder: "(949) 000-0000" },
+                  ].map(({ label, placeholder }) => (
+                    <div key={label} className="flex flex-col gap-1.5">
+                      <label className="text-[10px] font-semibold uppercase tracking-[0.2em] text-white/50">{label}</label>
+                      <div
+                        className="px-3 py-2.5 text-[13px] text-white/35 font-light rounded-sm"
+                        style={{ background: "rgba(255,255,255,0.07)", border: "1px solid rgba(255,255,255,0.12)" }}
+                      >
+                        {placeholder}
+                      </div>
+                    </div>
+                  ))}
+                </div>
                 {[
-                  { label: "Full Name", placeholder: "Your name" },
-                  { label: "Phone",     placeholder: "(949) 000-0000" },
-                ].map(({ label, placeholder }) => (
+                  { label: "Insurance Provider", placeholder: "e.g. Blue Shield, Aetna, Cigna..." },
+                  { label: "How Can We Help?",   placeholder: "Tell us a little about what you're going through...", tall: true },
+                ].map(({ label, placeholder, tall }) => (
                   <div key={label} className="flex flex-col gap-1.5">
                     <label className="text-[10px] font-semibold uppercase tracking-[0.2em] text-white/50">{label}</label>
                     <div
-                      className="px-3 py-2.5 text-[13px] text-white/35 font-light rounded-sm"
+                      className={`px-3 text-[13px] text-white/35 font-light rounded-sm ${tall ? "pt-2.5 pb-10" : "py-2.5"}`}
                       style={{ background: "rgba(255,255,255,0.07)", border: "1px solid rgba(255,255,255,0.12)" }}
                     >
                       {placeholder}
@@ -172,42 +189,28 @@ export default function MHConditionPage({ data }: { data: MHConditionData }) {
                   </div>
                 ))}
               </div>
-              {[
-                { label: "Insurance Provider", placeholder: "e.g. Blue Shield, Aetna, Cigna..." },
-                { label: "How Can We Help?",   placeholder: "Tell us a little about what you're going through...", tall: true },
-              ].map(({ label, placeholder, tall }) => (
-                <div key={label} className="flex flex-col gap-1.5">
-                  <label className="text-[10px] font-semibold uppercase tracking-[0.2em] text-white/50">{label}</label>
-                  <div
-                    className={`px-3 text-[13px] text-white/35 font-light rounded-sm ${tall ? "pt-2.5 pb-10" : "py-2.5"}`}
-                    style={{ background: "rgba(255,255,255,0.07)", border: "1px solid rgba(255,255,255,0.12)" }}
-                  >
-                    {placeholder}
-                  </div>
-                </div>
-              ))}
+
+              <a
+                href="/admissions"
+                className="relative w-full flex items-center justify-center gap-2 rounded-sm px-6 py-3.5 text-[11px] font-semibold uppercase tracking-[0.2em] text-white overflow-hidden transition-all hover:brightness-110"
+                style={{
+                  background: "linear-gradient(135deg, var(--color-accent, #C4895A) 0%, rgba(196,137,90,0.85) 100%)",
+                  boxShadow: "0 4px 20px rgba(196,137,90,0.4), inset 0 1px 0 rgba(255,255,255,0.25)",
+                }}
+              >
+                <span
+                  className="pointer-events-none absolute inset-x-0 top-0 h-px"
+                  style={{ background: "linear-gradient(90deg, transparent, rgba(255,255,255,0.35), transparent)" }}
+                  aria-hidden
+                />
+                Request Free Consultation <i className="ri-arrow-right-line" />
+              </a>
+
+              <p className="text-[10px] font-light text-white/35 text-center leading-relaxed">
+                <AutoLinkedText>{"HIPAA-compliant · Strictly confidential · No obligation"}</AutoLinkedText>
+              </p>
             </div>
-
-            <a
-              href="/admissions"
-              className="relative w-full flex items-center justify-center gap-2 rounded-sm px-6 py-3.5 text-[11px] font-semibold uppercase tracking-[0.2em] text-white overflow-hidden transition-all hover:brightness-110"
-              style={{
-                background: "linear-gradient(135deg, var(--color-accent, #C4895A) 0%, rgba(196,137,90,0.85) 100%)",
-                boxShadow: "0 4px 20px rgba(196,137,90,0.4), inset 0 1px 0 rgba(255,255,255,0.25)",
-              }}
-            >
-              <span
-                className="pointer-events-none absolute inset-x-0 top-0 h-px"
-                style={{ background: "linear-gradient(90deg, transparent, rgba(255,255,255,0.35), transparent)" }}
-                aria-hidden
-              />
-              Request Free Consultation <i className="ri-arrow-right-line" />
-            </a>
-
-            <p className="text-[10px] font-light text-white/35 text-center leading-relaxed">
-              <AutoLinkedText>{"HIPAA-compliant · Strictly confidential · No obligation"}</AutoLinkedText>
-            </p>
-          </div>
+          )}
         </div>
       </CinematicHeroSection>
 

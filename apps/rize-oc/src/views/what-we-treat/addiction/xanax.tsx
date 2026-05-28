@@ -1,6 +1,7 @@
 import ConditionPage, { type ConditionData } from "./ConditionPage";
 
 const data: ConditionData = {
+  hideHeroForm: true,
   heroImage: "add_xanax_hero01.jpg",
   heroImageAlt: "Tranquil Japanese healing garden with autumn maple tree representing calm and recovery near Orange County California",
   category: "Xanax Addiction",

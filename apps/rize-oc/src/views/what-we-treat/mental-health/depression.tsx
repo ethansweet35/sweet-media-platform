@@ -1,6 +1,7 @@
 import MHConditionPage, { type MHConditionData } from "./MHConditionPage";
 
 const data: MHConditionData = {
+  hideHeroForm: true,
   heroImage: "mh_depression_hero01.jpg",
   heroImageAlt: "Single shaft of warm light breaking through grey clouds over a California hillside representing hope in depression treatment",
   category: "Depression",

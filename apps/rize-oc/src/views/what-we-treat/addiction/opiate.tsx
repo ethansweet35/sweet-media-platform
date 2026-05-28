@@ -1,6 +1,7 @@
 import ConditionPage, { type ConditionData } from "./ConditionPage";
 
 const data: ConditionData = {
+  hideHeroForm: true,
   heroImage: "add_opiate_hero01.jpg",
   heroImageAlt: "Warm natural light through windows of a peaceful healing room in a luxury treatment center in Orange County California",
   category: "Opiate Addiction",

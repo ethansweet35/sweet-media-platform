@@ -1,6 +1,7 @@
 import MHConditionPage, { type MHConditionData } from "./MHConditionPage";
 
 const data: MHConditionData = {
+  hideHeroForm: true,
   heroImage: "mh_anxiety_hero01.jpg",
   heroImageAlt: "Misty morning forest path with soft light filtering through eucalyptus trees representing calm emerging from anxiety treatment",
   category: "Anxiety",

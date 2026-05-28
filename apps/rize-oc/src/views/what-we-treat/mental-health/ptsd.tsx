@@ -1,6 +1,7 @@
 import MHConditionPage, { type MHConditionData } from "./MHConditionPage";
 
 const data: MHConditionData = {
+  hideHeroForm: true,
   heroImage: "mh_ptsd_hero01.jpg",
   heroImageAlt: "Wide open peaceful California meadow at sunrise representing safety and spaciousness in PTSD recovery",
   category: "PTSD",

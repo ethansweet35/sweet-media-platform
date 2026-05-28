@@ -1,6 +1,7 @@
 import ConditionPage, { type ConditionData } from "./ConditionPage";
 
 const data: ConditionData = {
+  hideHeroForm: true,
   heroImage: "add_benzo_hero01.jpg",
   heroImageAlt: "Soft morning light through a forested path representing recovery from benzodiazepine dependence in Orange County",
   category: "Benzodiazepine Addiction",
