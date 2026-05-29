@@ -1,9 +1,18 @@
+"use client";
+
 import Image from "next/image";
+import { useState } from "react";
 import type { TeamMember } from "@/data/team";
 
+/** Bios longer than this get a Read more / Read less toggle. */
+const COLLAPSE_THRESHOLD = 180;
+
 export default function TeamMemberCard({ person }: { person: TeamMember }) {
+  const [expanded, setExpanded] = useState(false);
+  const isLong = person.bio.length > COLLAPSE_THRESHOLD;
+
   return (
-    <div className="group overflow-hidden rounded-2xl bg-cream ring-1 ring-mbh-forest/8">
+    <div className="group flex flex-col overflow-hidden rounded-2xl bg-cream ring-1 ring-mbh-forest/8">
       <div className="relative overflow-hidden bg-mbh-forest/5" style={{ aspectRatio: "3/4" }}>
         <Image
           src={person.img}
@@ -25,9 +34,35 @@ export default function TeamMemberCard({ person }: { person: TeamMember }) {
           </p>
         </div>
       </div>
-      <div className="p-5">
+      <div className="flex flex-1 flex-col p-5">
         <p className="font-display text-[0.9375rem] font-semibold text-mbh-forest">{person.name}</p>
-        <p className="mt-1.5 font-body text-sm leading-relaxed text-mbh-body">{person.bio}</p>
+        {person.bio ? (
+          <>
+            <p
+              className={`mt-1.5 font-body text-sm leading-relaxed text-mbh-body ${
+                isLong && !expanded ? "line-clamp-4" : ""
+              }`}
+            >
+              {person.bio}
+            </p>
+            {isLong ? (
+              <button
+                type="button"
+                onClick={() => setExpanded((v) => !v)}
+                aria-expanded={expanded}
+                className="mt-2 inline-flex items-center gap-1 self-start font-body text-xs font-semibold text-mbh-green transition hover:text-mbh-forest"
+              >
+                {expanded ? "Read less" : "Read more"}
+                <i
+                  className={`ri-arrow-down-s-line text-sm transition-transform ${
+                    expanded ? "rotate-180" : ""
+                  }`}
+                  aria-hidden
+                />
+              </button>
+            ) : null}
+          </>
+        ) : null}
       </div>
     </div>
   );

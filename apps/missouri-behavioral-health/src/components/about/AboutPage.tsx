@@ -56,7 +56,7 @@ const FAQS = [
   },
   {
     q: "What insurance do you accept?",
-    a: "We accept most private health insurance plans including Aetna, Anthem, Blue Cross Blue Shield, Cigna, Beacon, Carelon, GEHA, and Cox Health. We do not accept Medicaid or Medicare. Our team verifies benefits at no cost before admission.",
+    a: "Missouri Behavioral Health accepts private health insurance and private pay options. Our administrative team helps verify your coverage at no cost so you understand your benefits before beginning care.",
   },
   {
     q: "How do I get started?",

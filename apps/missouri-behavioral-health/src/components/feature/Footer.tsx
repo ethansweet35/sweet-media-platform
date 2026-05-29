@@ -48,7 +48,7 @@ const COMPANY = [
 ];
 
 const TRUST_ITEMS = [
-  { icon: "ri-award-line",        label: "JCAHO Accredited" },
+  { icon: "ri-award-line",        label: "Joint Commission Accredited" },
   { icon: "ri-shield-check-line", label: "HIPAA Compliant" },
   { icon: "ri-time-line",         label: "24/7 Admissions" },
   { icon: "ri-computer-line",     label: "Statewide Telehealth" },

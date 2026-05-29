@@ -198,7 +198,7 @@ export default function LevelOfCareLayout({
         <div className={CONTAINER}>
           <div className="grid grid-cols-2 gap-x-6 gap-y-4 sm:grid-cols-4">
             {[
-              { icon: "ri-award-line",         stat: "JCAHO Accredited",  label: "Joint Commission certified" },
+              { icon: "ri-award-line",         stat: "Accredited",        label: "Joint Commission accredited" },
               { icon: "ri-shield-check-line",  stat: "Most Insurance",    label: "Accepted & verified free" },
               { icon: "ri-time-line",           stat: "Same-Day",          label: "Admissions often available" },
               { icon: "ri-map-pin-2-line",      stat: "Springfield, MO",   label: "& statewide telehealth" },
