@@ -1,0 +1,139 @@
+@import "tailwindcss";
+
+@source "../**/*.{js,ts,jsx,tsx,mdx}";
+@source "../../src/**/*.{js,ts,jsx,tsx,mdx}";
+@source "../../../../packages/admin-core/src/**/*.{js,ts,jsx,tsx}";
+
+/* Missouri Behavioral Health — upscaled from WP/Elementor tokens */
+
+@theme {
+  --color-mbh-green: #55a746;
+  --color-mbh-green-hover: #3e8633;
+  --color-mbh-forest: #1e5027;
+  --color-mbh-forest-deep: #122e18;
+  --color-mbh-mint: #99d6cf;
+  --color-mbh-sage: #7aaa6e;
+  --color-mbh-body: #4a4a4a;
+  --color-mbh-ink: #111814;
+  --color-cream: #f6f9f5;
+  --color-cream-alt: #edf2ec;
+  --color-surface: #ffffff;
+
+  --font-display: var(--font-poppins, "Poppins", system-ui, sans-serif);
+  --font-body: var(--font-open-sans, "Open Sans", system-ui, sans-serif);
+
+  --spacing-section: 5.5rem;
+  --radius-card: 1rem;
+  --radius-btn: 9999px;
+}
+
+/* ── Prose styles for substance/treatment page body content ─────── */
+.prose-mbh h2 {
+  font-family: var(--font-display);
+  font-size: clamp(1.35rem, 2.5vw, 1.75rem);
+  font-weight: 600;
+  color: var(--color-mbh-forest);
+  letter-spacing: -0.02em;
+  margin-top: 2.5rem;
+  margin-bottom: 0.875rem;
+  scroll-margin-top: 6rem;
+}
+.prose-mbh h3 {
+  font-family: var(--font-display);
+  font-size: 1.0625rem;
+  font-weight: 600;
+  color: var(--color-mbh-forest);
+  margin-top: 1.75rem;
+  margin-bottom: 0.5rem;
+}
+.prose-mbh p {
+  font-family: var(--font-body);
+  font-size: 0.9375rem;
+  line-height: 1.75;
+  color: var(--color-mbh-body);
+  margin-bottom: 1rem;
+}
+.prose-mbh ul {
+  margin: 0.75rem 0 1.25rem 0;
+  space-y: 0.5rem;
+}
+.prose-mbh li {
+  font-family: var(--font-body);
+  font-size: 0.9375rem;
+  line-height: 1.7;
+  color: var(--color-mbh-body);
+  padding-left: 1.5rem;
+  position: relative;
+  margin-bottom: 0.4rem;
+}
+.prose-mbh li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.6em;
+  width: 6px;
+  height: 6px;
+  border-radius: 9999px;
+  background: var(--color-mbh-green);
+}
+.prose-mbh strong {
+  font-weight: 600;
+  color: var(--color-mbh-ink);
+}
+.prose-mbh .section-divider {
+  border: none;
+  border-top: 1px solid rgba(30, 80, 39, 0.08);
+  margin: 2.5rem 0;
+}
+
+@layer base {
+  :root {
+    --color-primary: var(--color-mbh-green);
+    --color-secondary: var(--color-mbh-forest);
+    --color-accent: var(--color-mbh-mint);
+    --color-background: var(--color-cream);
+    --color-surface: #ffffff;
+    --color-muted: var(--color-mbh-body);
+    --font-heading: var(--font-display);
+    --max-width: 1280px;
+    --mbh-nav-offset: 5rem;
+  }
+
+  @media (min-width: 1024px) {
+    :root {
+      --mbh-nav-offset: 6.5rem;
+    }
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    margin: 0;
+    background: var(--color-background);
+    color: var(--color-mbh-ink);
+    font-family: var(--font-body);
+    font-size: 1.0625rem;
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: var(--font-heading);
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    color: var(--color-mbh-forest);
+  }
+
+  button,
+  a {
+    transition: color 180ms ease, background-color 180ms ease, border-color 180ms ease,
+      box-shadow 180ms ease;
+  }
+}
