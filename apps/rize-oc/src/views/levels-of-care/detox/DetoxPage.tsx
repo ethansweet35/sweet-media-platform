@@ -51,6 +51,7 @@ const substances = [
   {
     icon: "ri-goblet-line",
     title: "Alcohol",
+    href: "/addiction/alcohol",
     desc: "Alcohol withdrawal can be medically serious — including seizures and delirium tremens (DTs). Medical supervision is essential. We use evidence-based protocols including benzodiazepine tapering to ensure safe, comfortable withdrawal.",
     urgency: "High Medical Risk",
     urgencyColor: "text-rose-600 bg-rose-50",
@@ -58,6 +59,7 @@ const substances = [
   {
     icon: "ri-capsule-line",
     title: "Opioids",
+    href: "/addiction/opiate",
     desc: "Heroin, fentanyl, oxycodone, and other opioids cause intense physical withdrawal. Our team uses Buprenorphine (Suboxone) and other MAT protocols to dramatically reduce cravings and discomfort from day one.",
     urgency: "High Discomfort Risk",
     urgencyColor: "text-orange-600 bg-orange-50",
@@ -65,6 +67,7 @@ const substances = [
   {
     icon: "ri-medicine-bottle-line",
     title: "Benzodiazepines",
+    href: "/addiction/benzodiazepine",
     desc: "Benzo withdrawal (Xanax, Klonopin, Valium) is among the most medically dangerous of all detox processes. A slow, monitored taper under physician guidance is critical to prevent potentially life-threatening complications.",
     urgency: "Critical Medical Risk",
     urgencyColor: "text-rose-700 bg-rose-50",
@@ -72,6 +75,10 @@ const substances = [
   {
     icon: "ri-flashlight-line",
     title: "Stimulants",
+    secondaryLinks: [
+      { label: "Cocaine", href: "/addiction/cocaine" },
+      { label: "Methamphetamine", href: "/addiction/meth" },
+    ],
     desc: "Cocaine, methamphetamine, and prescription stimulants produce a distinctive psychological withdrawal — intense depression, fatigue, and powerful cravings. Psychiatric support is woven into detox from the first day.",
     urgency: "Psychiatric Risk",
     urgencyColor: "text-purple-600 bg-purple-50",
@@ -79,6 +86,7 @@ const substances = [
   {
     icon: "ri-drop-line",
     title: "Marijuana",
+    href: "/addiction",
     desc: "While not physically dangerous, cannabis withdrawal produces anxiety, insomnia, irritability, and appetite disruption that can derail early recovery. Clinical support and sleep management make a significant difference.",
     urgency: "Psychological Risk",
     urgencyColor: "text-yellow-700 bg-yellow-50",
@@ -86,6 +94,7 @@ const substances = [
   {
     icon: "ri-layers-line",
     title: "Polysubstance",
+    href: "/addiction",
     desc: "Multiple simultaneous dependencies require complex, highly individualized medical management. Our team is experienced in the layered presentation of polysubstance withdrawal and designs protocols accordingly.",
     urgency: "Complex Management",
     urgencyColor: "text-white/70 bg-white/10",
@@ -200,7 +209,7 @@ export default function DetoxPage() {
       >
         <PageHeroShell
           fullBleedBottomBar
-          topSlot={<Eyebrow colorClass="text-accent">Levels of Care — Step 1</Eyebrow>}
+          topSlot={<Eyebrow colorClass="text-accent">Medical Detox — Medically Supervised Withdrawal</Eyebrow>}
           bottomBar={
             <div className="grid grid-cols-2 lg:grid-cols-4 border-t border-white/10">
               {[
@@ -221,14 +230,14 @@ export default function DetoxPage() {
             <div className={HERO_SPLIT_LEFT}>
               <h1
                 className="font-[family-name:var(--font-display)] font-normal text-white"
-                style={{ fontSize: "clamp(52px, 6.5vw, 96px)", lineHeight: 0.95 }}
+                style={{ fontSize: "58px", lineHeight: 1.05 }}
               >
                 Drug &amp; Alcohol<br />
-                <em className="italic text-white/60">Medical Detox</em>
+                <em className="italic text-white/60">Medical Detox in Orange County, CA</em>
               </h1>
 
               <p className={cn(HERO_LEAD, "mt-6")}>
-                <AutoLinkedText>{"The medically supervised first step — eliminating substances from the body safely so that lasting recovery work can begin."}</AutoLinkedText>
+                <AutoLinkedText>{"Rize OC's drug and alcohol medical detox in Orange County, CA is the safe, supervised first step — eliminating substances from the body under 24/7 clinical care so lasting recovery work can begin."}</AutoLinkedText>
               </p>
             </div>
 
@@ -406,20 +415,56 @@ export default function DetoxPage() {
           </div>
 
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            {substances.map(({ icon, title, desc, urgency, urgencyColor }) => (
-              <div key={title} className="bg-white/5 border border-white/10 p-7 flex flex-col hover:border-accent/30 transition-colors">
-                <div className="flex items-start justify-between mb-5">
-                  <IconCircle icon={icon} variant="accent" size="sm" />
-                  <span className={`text-[11px] font-semibold uppercase tracking-[0.15em] px-2.5 py-1 rounded-sm ${urgencyColor}`}>
-                    {urgency}
-                  </span>
+            {substances.map(({ icon, title, href, secondaryLinks, desc, urgency, urgencyColor }) =>
+              secondaryLinks ? (
+                <div
+                  key={title}
+                  className="bg-white/5 border border-white/10 p-7 flex flex-col hover:border-accent/30 transition-colors"
+                >
+                  <div className="flex items-start justify-between mb-5">
+                    <IconCircle icon={icon} variant="accent" size="sm" />
+                    <span className={`text-[11px] font-semibold uppercase tracking-[0.15em] px-2.5 py-1 rounded-sm ${urgencyColor}`}>
+                      {urgency}
+                    </span>
+                  </div>
+                  <h3 className="font-[family-name:var(--font-display)] text-[22px] font-normal text-white mb-3">
+                    {title}
+                  </h3>
+                  <p className="text-[14px] font-light leading-relaxed text-white/75 flex-1"><AutoLinkedText>{desc}</AutoLinkedText></p>
+                  <div className="mt-5 flex flex-wrap gap-x-4 gap-y-2">
+                    {secondaryLinks.map(({ label, href: linkHref }) => (
+                      <Link
+                        key={linkHref}
+                        href={linkHref}
+                        className="text-[11px] font-medium uppercase tracking-[0.2em] text-accent flex items-center gap-1.5 hover:gap-3 transition-all"
+                      >
+                        {label} <i className="ri-arrow-right-line" />
+                      </Link>
+                    ))}
+                  </div>
                 </div>
-                <h3 className="font-[family-name:var(--font-display)] text-[22px] font-normal text-white mb-3">
-                  {title}
-                </h3>
-                <p className="text-[14px] font-light leading-relaxed text-white/75 flex-1"><AutoLinkedText>{desc}</AutoLinkedText></p>
-              </div>
-            ))}
+              ) : (
+                <Link
+                  key={title}
+                  href={href}
+                  className="group bg-white/5 border border-white/10 p-7 flex flex-col hover:border-accent/30 transition-colors"
+                >
+                  <div className="flex items-start justify-between mb-5">
+                    <IconCircle icon={icon} variant="accent" size="sm" />
+                    <span className={`text-[11px] font-semibold uppercase tracking-[0.15em] px-2.5 py-1 rounded-sm ${urgencyColor}`}>
+                      {urgency}
+                    </span>
+                  </div>
+                  <h3 className="font-[family-name:var(--font-display)] text-[22px] font-normal text-white mb-3 group-hover:text-accent transition-colors">
+                    {title}
+                  </h3>
+                  <p className="text-[14px] font-light leading-relaxed text-white/75 flex-1"><AutoLinkedText>{desc}</AutoLinkedText></p>
+                  <p className="mt-5 text-[11px] font-medium uppercase tracking-[0.2em] text-accent flex items-center gap-1.5 group-hover:gap-3 transition-all">
+                    Learn More <i className="ri-arrow-right-line" />
+                  </p>
+                </Link>
+              )
+            )}
           </div>
 
           <div className="mt-6 border border-white/10 bg-white/5 px-8 py-5 text-center">
