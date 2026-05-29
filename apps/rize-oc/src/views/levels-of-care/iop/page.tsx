@@ -194,7 +194,7 @@ export default function IopPage() {
       >
         <PageHeroShell
           fullBleedBottomBar
-          topSlot={<Eyebrow colorClass="text-accent">Levels of Care — Step 3</Eyebrow>}
+          topSlot={<Eyebrow colorClass="text-accent">Intensive Outpatient — Flexible Recovery</Eyebrow>}
           bottomBar={
             <div className="grid grid-cols-2 lg:grid-cols-4 border-t border-white/10">
               {[
@@ -217,10 +217,10 @@ export default function IopPage() {
                 style={{ fontSize: "clamp(52px, 6.5vw, 96px)", lineHeight: 0.95 }}
               >
                 Intensive Outpatient<br />
-                <em className="italic text-white/60">Program (IOP)</em>
+                <em className="italic text-white/60">Program (IOP) in Orange County, CA</em>
               </h1>
               <p className={cn(HERO_LEAD, "mt-6")}>
-                <AutoLinkedText>{"Structured clinical programming woven into your daily life — 3 to 9 hours weekly, with morning and evening tracks, for individuals ready to integrate recovery with living."}</AutoLinkedText>
+                <AutoLinkedText>{"Rize OC's Intensive Outpatient Program in Orange County, CA weaves structured clinical care into your daily life — 3 to 9 hours weekly, with morning and evening tracks, for individuals ready to integrate recovery with living at home."}</AutoLinkedText>
               </p>
             </div>
 
