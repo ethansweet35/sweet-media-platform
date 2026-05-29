@@ -82,6 +82,12 @@ const nextConfig: NextConfig = {
       { source: "/california-interventions", destination: "/service-areas/california",              permanent: true },
       { source: "/author/aaron",             destination: "/about-us",                               permanent: true },
 
+      // ── Legacy family-interventions-{state} → /service-areas/<state> ───
+      { source: "/family-interventions-missouri",  destination: "/service-areas/missouri",  permanent: true },
+      { source: "/family-interventions-wyoming",    destination: "/service-areas/wyoming",    permanent: true },
+      { source: "/family-interventions-colorado",  destination: "/service-areas/colorado",  permanent: true },
+      { source: "/family-interventions-alabama",   destination: "/service-areas/alabama",   permanent: true },
+
       // ── New unified substance URL structure (old flat paths → /substance-abuse-interventions/*) ──
       { source: "/alcohol-abuse-interventions",          destination: "/substance-abuse-interventions/alcohol", permanent: true },
       { source: "/drug-abuse-interventions",             destination: "/substance-abuse-interventions/drug",    permanent: true },
