@@ -1,7 +1,24 @@
 /**
- * Verbatim homepage social proof — cipherbilling.com home rotator + "Why Cipher Billing" counters.
- * Single source of truth for metrics and testimonials shown on the live homepage.
+ * Homepage social proof — testimonial rotator + "Why Cipher Billing" counters.
+ * Single source of truth for metrics reused on the homepage and service social-proof sections.
  */
+
+import type { HomeMetricSpec } from "@/views/home/components/HomeMetricsGrid";
+
+function metricSpecToTile(spec: HomeMetricSpec): { value: string; label: string } {
+  const prefix = spec.prefix ?? "";
+  const suffix = spec.suffix ?? "";
+  const num =
+    spec.decimals != null
+      ? spec.end.toLocaleString("en-US", {
+          minimumFractionDigits: spec.decimals,
+          maximumFractionDigits: spec.decimals,
+        })
+      : spec.useGrouping
+        ? Math.round(spec.end).toLocaleString("en-US")
+        : String(Math.round(spec.end));
+  return { value: `${prefix}${num}${suffix}`, label: spec.label };
+}
 
 export type CipherHomeTestimonial = {
   quote: string;
@@ -22,21 +39,29 @@ export const cipherHomeTestimonials: readonly CipherHomeTestimonial[] = [
   },
 ];
 
-/** Matches `homeMetricSpecs` on the homepage — animated counters in "Why Cipher Billing". */
-export const cipherHomeMetricTiles = [
-  { value: "$1,821", label: "Inpatient Day Rate" },
-  { value: "$1,149", label: "Outpatient Day Rate" },
-  { value: "100%", label: "Pre-Payment Review Passing Rate" },
-  { value: "30 Days", label: "To Received First Payment" },
-] as const;
+/** Animated counters in homepage "Why Cipher Billing" — also drives static tiles below. */
+export const cipherHomeMetricSpecs = [
+  { end: 82, suffix: "%", label: "Peer Review Approval Rate" },
+  { end: 1.86, suffix: "%", decimals: 2, label: "Write-off Rate" },
+  { end: 96, suffix: "%", label: "Medical Record Approval Rate" },
+  { end: 8, suffix: "%", label: "Claims That Turn Into Medical Records" },
+  { end: 30, suffix: " Days", label: "Days to First Payment" },
+  { end: 100, suffix: "%", label: "Pre-Payment Review Success" },
+] as const satisfies readonly HomeMetricSpec[];
+
+/** Static metric tiles for service-page social proof sections. */
+export const cipherHomeMetricTiles = cipherHomeMetricSpecs.map(metricSpecToTile);
 
 /** Homepage prose (not counter tiles): eligibility turnaround. */
 export const cipherHomeEligibilityTurnaroundCopy =
   "Our numbers reflect our dedication, with an eligibility turnaround averaging just 9 minutes compared to the industry standard 30 minutes.";
 
-/** Short hero-style bullets — verbatim metrics from homepage counters + eligibility copy. */
+/** Short hero-style bullets — key metrics from homepage counters + eligibility copy. */
 export const cipherHomeMetricBullets = [
-  "100% pre-payment review passing rate",
+  "82% peer review approval rate",
+  "1.86% write-off rate",
+  "96% medical record approval rate",
+  "100% pre-payment review success",
   "First payment within 30 days of onboarding",
   "9-minute average eligibility turnaround (vs. 30-minute industry standard)",
 ] as const;

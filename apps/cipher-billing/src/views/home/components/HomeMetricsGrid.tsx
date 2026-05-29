@@ -9,12 +9,24 @@ export type HomeMetricSpec = {
   suffix?: string;
   /** Use thousands separators for the animated number */
   useGrouping?: boolean;
+  /** Decimal places (e.g. 2 for 1.86%) */
+  decimals?: number;
   label: string;
 };
 
-function formatCount(n: number, useGrouping: boolean): string {
+function formatCount(n: number, useGrouping: boolean, decimals?: number): string {
+  if (decimals != null) {
+    return n.toLocaleString("en-US", {
+      minimumFractionDigits: decimals,
+      maximumFractionDigits: decimals,
+    });
+  }
   if (!useGrouping) return String(Math.round(n));
   return Math.round(n).toLocaleString("en-US");
+}
+
+function formatMetricDisplay(spec: HomeMetricSpec): string {
+  return `${spec.prefix ?? ""}${formatCount(spec.end, spec.useGrouping ?? false, spec.decimals)}${spec.suffix ?? ""}`;
 }
 
 function easeOutQuart(t: number): number {
@@ -77,14 +89,14 @@ export default function HomeMetricsGrid({ metrics }: { metrics: readonly HomeMet
         <div
           key={metric.label}
           className="flex flex-col items-center justify-center border border-white/15 bg-white/5 px-4 py-8 text-center backdrop-blur-sm"
-          aria-label={`${metric.prefix}${formatCount(metric.end, metric.useGrouping ?? false)}${metric.suffix}, ${metric.label}`}
+          aria-label={`${formatMetricDisplay({ ...metric, end: metric.end })}, ${metric.label}`}
         >
           <p className="font-marcellus text-3xl font-medium tracking-[-0.02em] text-white tabular-nums md:text-4xl md:leading-[1.1]" aria-hidden="true">
             {metric.prefix}
-            {formatCount(counts[i] ?? 0, metric.useGrouping ?? false)}
+            {formatCount(counts[i] ?? 0, metric.useGrouping ?? false, metric.decimals)}
             {metric.suffix}
           </p>
-          <p className="mt-3 max-w-[11rem] text-center font-[var(--font-body)] text-[11px] font-normal uppercase leading-snug tracking-[0.12em] text-white/95" aria-hidden="true">
+          <p className="mt-3 max-w-[12.5rem] text-center font-[var(--font-body)] text-[11px] font-normal uppercase leading-snug tracking-[0.12em] text-white/95" aria-hidden="true">
             {metric.label}
           </p>
         </div>

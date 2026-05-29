@@ -11,18 +11,14 @@ import {
 import HomeHeroVideo from "./components/HomeHeroVideo";
 import HomeLeadForm from "./components/HomeLeadForm";
 import HomeMetricsGrid from "./components/HomeMetricsGrid";
-import { cipherHomeTestimonials } from "@/lib/cipherHomeSocialProof";
+import {
+  cipherHomeMetricSpecs,
+  cipherHomeTestimonials,
+} from "@/lib/cipherHomeSocialProof";
 import HomeTestimonialRotator from "./components/HomeTestimonialRotator";
 
 const HERO_VIDEO =
   "https://nstzjqmtsqgeihkyvkqq.supabase.co/storage/v1/object/public/site-assets/images/video2-compressed.mp4";
-
-const homeMetricSpecs = [
-  { end: 1821, prefix: "$", useGrouping: true, label: "Inpatient Day Rate" },
-  { end: 1149, prefix: "$", useGrouping: true, label: "Outpatient Day Rate" },
-  { end: 100, suffix: "%", label: "Pre-Payment Review Passing Rate" },
-  { end: 30, suffix: " Days", label: "To Received First Payment" },
-] as const;
 
 /** Remix Icon classes (`ri-*`) — platform standard; stylesheet loaded in `src/app/layout.tsx`. */
 const differentiators = [
@@ -148,7 +144,7 @@ function HomePageBody({ mappings, registry }: HomePageBodyProps) {
               </p>
             </div>
 
-            <div className="mt-16 grid gap-10 md:grid-cols-2 md:items-start">
+            <div className="mt-16 grid gap-10 md:grid-cols-2 md:items-center">
               <div className="max-w-xl">
                 <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-[#166C96]">
                   BY THE NUMBERS
@@ -173,7 +169,7 @@ function HomePageBody({ mappings, registry }: HomePageBodyProps) {
                 </Link>
               </div>
 
-              <HomeMetricsGrid metrics={homeMetricSpecs} />
+              <HomeMetricsGrid metrics={cipherHomeMetricSpecs} />
             </div>
           </div>
         </section>

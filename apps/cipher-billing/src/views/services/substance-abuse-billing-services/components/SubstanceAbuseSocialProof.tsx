@@ -52,7 +52,7 @@ export default function SubstanceAbuseSocialProof() {
                   <p className="font-[var(--font-heading)] text-3xl font-medium tracking-tight text-white md:text-4xl">
                     {item.value}
                   </p>
-                  <p className="mt-3 max-w-[10rem] text-[10px] font-semibold uppercase leading-snug tracking-[0.12em] text-white/70">
+                  <p className="mt-3 max-w-[12.5rem] text-[10px] font-semibold uppercase leading-snug tracking-[0.12em] text-white/70">
                     {item.label}
                   </p>
                 </div>
