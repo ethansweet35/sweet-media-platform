@@ -12,7 +12,7 @@ const fallbackMetadata: Metadata = {
   description:
     "Mental health, addiction recovery, trauma-informed care, and wellness resources from Missouri Behavioral Health.",
   keywords:
-    "clients’s mental health resources, virtual outpatient treatment, addiction recovery resources, trauma-informed care, Service Area mental health support",
+    "mental health resources, virtual outpatient treatment, addiction recovery resources, trauma-informed care, Missouri behavioral health support",
   alternates: { canonical: "/blog" },
   openGraph: {
     type: "website",

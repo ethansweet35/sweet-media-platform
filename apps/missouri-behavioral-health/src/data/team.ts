@@ -38,6 +38,7 @@ export const MBH_TEAM: TeamMember[] = [
     slug: "jen",
     name: "Jen Ramsden",
     title: "Chief Marketing Officer",
+    /** Staff-only asset — do not reuse `mbh_gallery_02.jpg` as facility imagery elsewhere */
     img: img("jen", "png"),
     group: "administration",
     bio: "A decade in behavioral health marketing and outreach. Draws on her own treatment experience to help others find outpatient care that fits their lives.",

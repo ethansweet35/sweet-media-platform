@@ -1,12 +1,14 @@
 import type { Metadata } from "next";
 import { resolveTrackedPageMetadata, OptimizationStatusBanner } from "@sweetmedia/admin-core";
 import HomeHero from "@/components/home/HomeHero";
+import HomeReviews from "@/components/home/HomeReviews";
 import HomeAbout from "@/components/home/HomeAbout";
 import HomeLevelsOfCare from "@/components/home/HomeLevelsOfCare";
 import HomeWhatWeTraat from "@/components/home/HomeWhatWeTraat";
 import HomeBenefits from "@/components/home/HomeBenefits";
 import HomeTherapy from "@/components/home/HomeTherapy";
 import HomeTeam from "@/components/home/HomeTeam";
+import HomeFacilityTour from "@/components/home/HomeFacilityTour";
 import HomeInsurance from "@/components/home/HomeInsurance";
 import HomeFaq from "@/components/home/HomeFaq";
 import HomeBottomCta from "@/components/home/HomeBottomCta";
@@ -27,12 +29,14 @@ export default function Page() {
     <main>
       <OptimizationStatusBanner trackedPagePath="/" brandName="Missouri Behavioral Health" />
       <HomeHero />
+      <HomeReviews />
       <HomeAbout />
       <HomeLevelsOfCare />
       <HomeWhatWeTraat />
       <HomeBenefits />
       <HomeTherapy />
       <HomeTeam />
+      <HomeFacilityTour />
       <HomeInsurance />
       <HomeFaq />
       <HomeBottomCta />

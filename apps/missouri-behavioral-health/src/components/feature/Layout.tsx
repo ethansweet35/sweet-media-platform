@@ -29,7 +29,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   return (
     <div className="min-h-screen flex flex-col bg-cream">
       <Navbar />
-      <div className={`flex-1 ${isHome ? "" : "pt-[108px] lg:pt-[116px]"}`}>{children}</div>
+      <div className={`flex-1 ${isHome ? "" : "pt-[116px] lg:pt-[116px]"}`}>{children}</div>
       <Footer />
 
       {/* Mobile sticky CTA — only visible on small screens, fades in after scroll */}

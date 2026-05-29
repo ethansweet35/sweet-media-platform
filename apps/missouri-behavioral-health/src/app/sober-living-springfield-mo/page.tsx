@@ -99,7 +99,7 @@ export default function SoberLivingPage() {
 
             <div className="relative overflow-hidden rounded-2xl shadow-xl shadow-mbh-forest/8 lg:sticky lg:top-28">
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={SITE_IMAGES.facilityExterior} alt="Missouri Behavioral Health sober living home exterior" className="w-full object-cover" style={{ aspectRatio: "4/3", objectPosition: "center" }} />
+              <img src={SITE_IMAGES.facilityInterior} alt="Missouri Behavioral Health sober living and recovery environment" className="w-full object-cover" style={{ aspectRatio: "4/3", objectPosition: "center" }} />
               <div aria-hidden className="pointer-events-none absolute inset-0" style={{ background: "linear-gradient(to top, rgba(18,46,24,0.4) 0%, transparent 55%)" }} />
               <div className="absolute bottom-5 left-5 rounded-2xl bg-mbh-forest px-5 py-4 shadow-xl">
                 <p className="font-display text-2xl font-semibold text-white">Peer-first</p>

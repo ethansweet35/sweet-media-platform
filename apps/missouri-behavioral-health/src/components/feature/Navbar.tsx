@@ -6,6 +6,7 @@ import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import {
   BRAND_NAME,
+  NAV_LOGO_CLASS,
   NAV_LOGO_HEIGHT,
   NAV_LOGO_URL,
   NAV_LOGO_WIDTH,
@@ -19,7 +20,8 @@ import {
 } from "@/data/mainNavigation";
 
 const HEADER_OFFSET_PX = 116;
-const HEADER_OFFSET_MOBILE_PX = 108;
+/** Utility bar (1 row on mobile) + main nav */
+const HEADER_OFFSET_MOBILE_PX = 116;
 
 function NavAnchor({
   link,
@@ -83,14 +85,14 @@ function MegaPanel({
 
   return (
     <div
-      className="fixed z-40 hidden px-4 lg:block lg:px-10"
+      className="pointer-events-none fixed z-40 hidden px-4 lg:block lg:px-10"
       style={{ top: HEADER_OFFSET_PX, left: 0, right: 0 }}
       onMouseEnter={onEnter}
       onMouseLeave={onLeave}
     >
       <div className="mx-auto flex max-w-7xl justify-end">
         <div
-          className="relative w-full max-w-[min(920px,100%)] overflow-hidden rounded-2xl border border-white/10 shadow-[0_24px_80px_-12px_rgba(0,0,0,0.55)]"
+          className="pointer-events-auto relative w-full max-w-[min(920px,100%)] overflow-hidden rounded-2xl border border-white/10 shadow-[0_24px_80px_-12px_rgba(0,0,0,0.55)]"
           style={{
             background:
               "linear-gradient(145deg, rgba(18,46,24,0.98) 0%, rgba(30,80,39,0.94) 42%, rgba(18,46,24,0.98) 100%)",
@@ -228,12 +230,22 @@ function UtilityBar({ transparent }: { transparent: boolean }) {
             "linear-gradient(90deg, transparent 0%, rgba(122,170,110,0.15) 50%, transparent 100%)",
         }}
       />
-      <div className="relative mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-x-4 gap-y-1.5 px-4 py-2.5 lg:px-10">
-        <p className="flex items-center gap-2 text-[12px] font-medium tracking-wide text-white/90 lg:text-[13px]">
-          <span className="hidden h-1.5 w-1.5 rounded-full bg-mbh-sage shadow-[0_0_8px_rgba(122,170,110,0.8)] sm:inline-block" />
-          <span className="hidden sm:inline">Start Your Recovery</span>
-          <span className="sm:hidden">Start Recovery</span>
-          <span className="text-white/35" aria-hidden>|</span>
+      <div className="relative mx-auto flex max-w-7xl items-center justify-between gap-2.5 px-4 py-2.5 max-lg:flex-nowrap lg:flex-wrap lg:gap-x-4 lg:gap-y-1.5 lg:py-2.5 lg:px-10">
+        {/* Mobile: pill CTA — visual weight matches phone */}
+        <Link
+          href="/verify-insurance"
+          className="inline-flex shrink-0 items-center rounded-full border border-mbh-sage/45 bg-white/10 px-3.5 py-2 font-body text-sm font-semibold leading-none text-white shadow-sm transition hover:border-mbh-sage hover:bg-white/15 lg:hidden"
+        >
+          Verify insurance
+        </Link>
+
+        {/* Desktop: full utility copy */}
+        <p className="hidden items-center gap-2 font-body text-[13px] font-medium tracking-wide text-white/90 lg:flex">
+          <span className="h-1.5 w-1.5 rounded-full bg-mbh-sage shadow-[0_0_8px_rgba(122,170,110,0.8)]" />
+          Start Your Recovery
+          <span className="text-white/35" aria-hidden>
+            |
+          </span>
           <Link
             href="/verify-insurance"
             className="font-semibold text-mbh-sage underline-offset-4 transition hover:text-white hover:underline"
@@ -241,15 +253,16 @@ function UtilityBar({ transparent }: { transparent: boolean }) {
             Verify Your Insurance
           </Link>
         </p>
+
         <a
           href={PHONE_HREF}
-          className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-3 py-1.5 text-[12px] font-semibold text-white transition hover:border-mbh-sage/40 hover:bg-white/10 lg:text-[13px]"
+          className="inline-flex shrink-0 items-center gap-1.5 rounded-full border border-white/15 bg-white/5 px-3 py-2 font-body text-xs font-semibold leading-none text-white transition hover:border-mbh-sage/40 hover:bg-white/10 max-lg:gap-2 sm:px-3 sm:py-1.5 sm:text-[12px] lg:px-3 lg:py-1.5 lg:text-[13px]"
         >
-          <span className="flex h-6 w-6 items-center justify-center rounded-full bg-mbh-green/90">
+          <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-mbh-green/90">
             <i className="ri-phone-fill text-xs text-white" aria-hidden />
           </span>
-          <span className="hidden sm:inline text-white/50 text-[11px] font-normal">Call 24/7 —</span>
-          {PHONE_DISPLAY}
+          <span className="hidden font-normal text-white/50 lg:inline">Call 24/7 —</span>
+          <span className="whitespace-nowrap">{PHONE_DISPLAY}</span>
         </a>
       </div>
     </div>
@@ -278,13 +291,41 @@ export default function Navbar() {
   const [openMenu, setOpenMenu] = useState<string | null>(null);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [mobileExpanded, setMobileExpanded] = useState<string | null>(null);
+  const headerRef = useRef<HTMLElement>(null);
   const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const scheduleClose = () => {
-    closeTimer.current = setTimeout(() => setOpenMenu(null), 120);
-  };
   const cancelClose = () => {
-    if (closeTimer.current) clearTimeout(closeTimer.current);
+    if (closeTimer.current) {
+      clearTimeout(closeTimer.current);
+      closeTimer.current = null;
+    }
   };
+  const scheduleClose = () => {
+    cancelClose();
+    closeTimer.current = setTimeout(() => setOpenMenu(null), 80);
+  };
+
+  // Authoritative close: whenever the pointer is over anything outside the
+  // header (which contains the mega panel as a descendant), close instantly.
+  // This covers exit paths where mouseleave doesn't fire reliably (sideways
+  // off the logo, fast exits through the window edge, scroll areas, etc.).
+  useEffect(() => {
+    if (!openMenu) return;
+    const onPointerOver = (event: MouseEvent) => {
+      const target = event.target as Node | null;
+      if (target && headerRef.current?.contains(target)) {
+        cancelClose();
+      } else {
+        // Outside the header/panel — close immediately. Scheduling here would
+        // reset on every mouseover as the pointer keeps moving over the page,
+        // making the menu appear to linger until the cursor stops.
+        cancelClose();
+        setOpenMenu(null);
+      }
+    };
+    document.addEventListener("mouseover", onPointerOver);
+    return () => document.removeEventListener("mouseover", onPointerOver);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [openMenu]);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 40);
@@ -310,6 +351,7 @@ export default function Navbar() {
 
   return (
     <header
+      ref={headerRef}
       onMouseLeave={scheduleClose}
       onMouseEnter={cancelClose}
       className="fixed left-0 right-0 top-0 z-50"
@@ -317,10 +359,10 @@ export default function Navbar() {
       <UtilityBar transparent={transparent} />
 
       <div className="border-b border-mbh-forest/8 bg-white shadow-[0_4px_24px_-8px_rgba(18,46,24,0.10)]">
-        <div className="mx-auto flex max-w-7xl items-center gap-4 px-4 py-3.5 lg:px-10">
+        <div className="mx-auto flex max-w-7xl items-center gap-3 px-4 py-3 max-lg:py-3.5 lg:gap-4 lg:px-10 lg:py-3.5">
           <Link
             href="/"
-            className="relative z-10 flex shrink-0 items-center"
+            className="relative z-10 flex min-w-0 flex-1 items-center max-lg:max-w-[calc(100%-3.5rem)]"
             onClick={() => setOpenMenu(null)}
           >
             <Image
@@ -328,7 +370,7 @@ export default function Navbar() {
               alt={BRAND_NAME}
               width={NAV_LOGO_WIDTH}
               height={NAV_LOGO_HEIGHT}
-              className="h-11 w-auto sm:h-12 lg:h-14"
+              className={NAV_LOGO_CLASS}
               priority
             />
           </Link>

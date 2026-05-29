@@ -1,16 +1,14 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useState } from "react";
 import BlogHero from "@/components/pages/blog/components/BlogHero";
-import BlogFeatured from "@/components/pages/blog/components/BlogFeatured";
 import BlogGrid from "@/components/pages/blog/components/BlogGrid";
 import { useBlogPosts } from "@sweetmedia/blog-core";
 
 export default function BlogPage() {
   const [searchQuery, setSearchQuery] = useState("");
-  const { posts } = useBlogPosts();
-
-  const articleCount = useMemo(() => posts.length, [posts.length]);
+  const [activeCategory, setActiveCategory] = useState("All");
+  const { posts, loading } = useBlogPosts();
 
   return (
     <div className="min-h-screen bg-cream">
@@ -18,10 +16,15 @@ export default function BlogPage() {
         <BlogHero
           searchQuery={searchQuery}
           onSearchChange={setSearchQuery}
-          articleCount={articleCount}
+          articleCount={loading ? undefined : posts.length}
         />
-        {!searchQuery.trim() ? <BlogFeatured /> : null}
-        <BlogGrid searchQuery={searchQuery} />
+        <BlogGrid
+          allPosts={posts}
+          allLoading={loading}
+          searchQuery={searchQuery}
+          activeCategory={activeCategory}
+          onCategoryChange={setActiveCategory}
+        />
       </main>
     </div>
   );
