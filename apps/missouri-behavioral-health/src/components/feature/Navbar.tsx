@@ -4,15 +4,15 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
+import CallRailPhoneLink from "@/components/ui/CallRailPhoneLink";
 import {
   BRAND_NAME,
   NAV_LOGO_CLASS,
   NAV_LOGO_HEIGHT,
   NAV_LOGO_URL,
   NAV_LOGO_WIDTH,
-  PHONE_DISPLAY,
-  PHONE_HREF,
 } from "@/data/site";
+import { CALLRAIL_PHONE_DISPLAY } from "@/lib/callrailPhone";
 import {
   MAIN_NAV_ITEMS,
   type NavItem,
@@ -254,16 +254,13 @@ function UtilityBar({ transparent }: { transparent: boolean }) {
           </Link>
         </p>
 
-        <a
-          href={PHONE_HREF}
-          className="inline-flex shrink-0 items-center gap-1.5 rounded-full border border-white/15 bg-white/5 px-3 py-2 font-body text-xs font-semibold leading-none text-white transition hover:border-mbh-sage/40 hover:bg-white/10 max-lg:gap-2 sm:px-3 sm:py-1.5 sm:text-[12px] lg:px-3 lg:py-1.5 lg:text-[13px]"
-        >
+        <CallRailPhoneLink className="inline-flex shrink-0 items-center gap-1.5 rounded-full border border-white/15 bg-white/5 px-3 py-2 font-body text-xs font-semibold leading-none text-white transition hover:border-mbh-sage/40 hover:bg-white/10 max-lg:gap-2 sm:px-3 sm:py-1.5 sm:text-[12px] lg:px-3 lg:py-1.5 lg:text-[13px]">
           <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-mbh-green/90">
             <i className="ri-phone-fill text-xs text-white" aria-hidden />
           </span>
           <span className="hidden font-normal text-white/50 lg:inline">Call 24/7 —</span>
-          <span className="whitespace-nowrap">{PHONE_DISPLAY}</span>
-        </a>
+          <span className="whitespace-nowrap">{CALLRAIL_PHONE_DISPLAY}</span>
+        </CallRailPhoneLink>
       </div>
     </div>
   );
@@ -515,13 +512,10 @@ export default function Navbar() {
         </div>
 
         <div className="border-t border-mbh-forest/8 bg-white px-4 py-4 shadow-[0_-8px_32px_-8px_rgba(18,46,24,0.08)]">
-          <a
-            href={PHONE_HREF}
-            className="flex w-full items-center justify-center gap-2.5 rounded-full bg-gradient-to-r from-mbh-green to-mbh-green-hover py-4 font-body text-sm font-semibold text-white shadow-lg shadow-mbh-green/25"
-          >
+          <CallRailPhoneLink className="flex w-full items-center justify-center gap-2.5 rounded-full bg-gradient-to-r from-mbh-green to-mbh-green-hover py-4 font-body text-sm font-semibold text-white shadow-lg shadow-mbh-green/25">
             <i className="ri-phone-fill" aria-hidden />
-            Call 24/7 — {PHONE_DISPLAY}
-          </a>
+            Call 24/7 — {CALLRAIL_PHONE_DISPLAY}
+          </CallRailPhoneLink>
           <Link
             href="/verify-insurance"
             className="mt-2.5 flex w-full items-center justify-center gap-2 rounded-full border border-mbh-forest/15 bg-mbh-forest/[0.03] py-3.5 font-body text-sm font-semibold text-mbh-forest"

@@ -3,9 +3,10 @@
 import { usePathname } from 'next/navigation';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
+import CallRailPhoneLink from '@/components/ui/CallRailPhoneLink';
 import Navbar from './Navbar';
 import Footer from './Footer';
-import { PHONE_DISPLAY, PHONE_HREF } from '@/data/site';
+import { CALLRAIL_PHONE_DISPLAY } from '@/lib/callrailPhone';
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
@@ -39,13 +40,10 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         }`}
       >
         <div className="flex items-center gap-3 bg-mbh-forest px-4 py-3">
-          <a
-            href={PHONE_HREF}
-            className="flex flex-1 cursor-pointer items-center justify-center gap-2 rounded-full bg-mbh-green py-3.5 text-xs font-semibold uppercase tracking-widest text-white transition-colors active:bg-mbh-green-hover"
-          >
+          <CallRailPhoneLink className="flex flex-1 cursor-pointer items-center justify-center gap-2 rounded-full bg-mbh-green py-3.5 text-xs font-semibold uppercase tracking-widest text-white transition-colors active:bg-mbh-green-hover">
             <i className="ri-phone-line text-sm"></i>
-            Call {PHONE_DISPLAY}
-          </a>
+            Call {CALLRAIL_PHONE_DISPLAY}
+          </CallRailPhoneLink>
           <Link
             href="/verify-insurance"
             className="flex cursor-pointer items-center justify-center gap-2 rounded-full border border-white/30 px-5 py-3.5 text-xs font-semibold uppercase tracking-widest text-white transition-colors active:bg-white/10"
@@ -62,16 +60,15 @@ export default function Layout({ children }: { children: React.ReactNode }) {
           visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4 pointer-events-none'
         }`}
       >
-        <a
-          href={PHONE_HREF}
+        <CallRailPhoneLink
           className="group flex cursor-pointer items-center gap-3 rounded-full bg-mbh-green py-4 pl-5 pr-6 text-xs font-semibold uppercase tracking-widest text-white transition-all hover:bg-mbh-forest"
           style={{ boxShadow: "0 8px 32px rgba(30, 80, 39, 0.35)" }}
         >
           <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-white/20 transition-colors group-hover:bg-white/10">
             <i className="ri-phone-line text-sm"></i>
           </div>
-          Call {PHONE_DISPLAY}
-        </a>
+          Call {CALLRAIL_PHONE_DISPLAY}
+        </CallRailPhoneLink>
       </div>
     </div>
   );

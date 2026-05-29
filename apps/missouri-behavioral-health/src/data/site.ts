@@ -13,8 +13,10 @@ export const NAV_LOGO_HEIGHT = 140;
 /** Navbar logo — taller on mobile for legibility */
 export const NAV_LOGO_CLASS = "h-16 w-auto max-lg:max-w-[min(58vw,240px)] lg:h-14 lg:max-w-none";
 
-export const PHONE_DISPLAY = "417-771-5305";
-export const PHONE_HREF = "tel:4177715305";
+export {
+  CALLRAIL_PHONE_DISPLAY as PHONE_DISPLAY,
+  CALLRAIL_PHONE_HREF as PHONE_HREF,
+} from "@/lib/callrailPhone";
 
 export const EMAIL = "info@missouribehavioralhealth.com";
 

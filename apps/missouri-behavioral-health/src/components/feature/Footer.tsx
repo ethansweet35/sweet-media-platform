@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import CallRailPhoneLink from "@/components/ui/CallRailPhoneLink";
 import {
   BRAND_NAME,
   CONTAINER,
@@ -8,9 +9,8 @@ import {
   NAV_LOGO_HEIGHT,
   NAV_LOGO_URL,
   NAV_LOGO_WIDTH,
-  PHONE_DISPLAY,
-  PHONE_HREF,
 } from "@/data/site";
+import { CALLRAIL_PHONE_DISPLAY } from "@/lib/callrailPhone";
 
 const PROGRAMS = [
   { label: "Partial Hospitalization (PHP)", path: "/php-sober-living" },
@@ -79,17 +79,14 @@ export default function Footer() {
               </p>
 
               <div className="space-y-3">
-                <a
-                  href={PHONE_HREF}
-                  className="flex items-center gap-3 group"
-                >
+                <CallRailPhoneLink className="flex items-center gap-3 group">
                   <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-mbh-green/15 transition group-hover:bg-mbh-green/25">
                     <i className="ri-phone-fill text-sm text-mbh-sage" aria-hidden />
                   </span>
                   <span className="font-body text-sm font-semibold text-white/80 transition group-hover:text-white">
-                    {PHONE_DISPLAY}
+                    {CALLRAIL_PHONE_DISPLAY}
                   </span>
-                </a>
+                </CallRailPhoneLink>
                 <a
                   href={`mailto:${EMAIL}`}
                   className="flex items-center gap-3 group"
@@ -196,12 +193,9 @@ export default function Footer() {
                 <p className="mt-1.5 font-display text-sm font-semibold text-white leading-snug">
                   Speak with an admissions coordinator today.
                 </p>
-                <a
-                  href={PHONE_HREF}
-                  className="mt-4 flex items-center justify-center gap-2 rounded-full bg-mbh-green py-2.5 font-body text-xs font-semibold text-white transition hover:bg-mbh-green-hover"
-                >
+                <CallRailPhoneLink className="mt-4 flex items-center justify-center gap-2 rounded-full bg-mbh-green py-2.5 font-body text-xs font-semibold text-white transition hover:bg-mbh-green-hover">
                   <i className="ri-phone-fill" aria-hidden /> Call 24/7
-                </a>
+                </CallRailPhoneLink>
               </div>
             </div>
           </div>

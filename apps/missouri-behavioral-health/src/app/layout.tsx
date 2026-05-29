@@ -4,9 +4,21 @@ import Script from "next/script";
 import "./globals.css";
 import Layout from "@/components/feature/Layout";
 import { AnalyticsWrapper, PageEditorProvider } from "@sweetmedia/admin-core";
+import {
+  MBH_HERO_POSTER_URL,
+  MBH_HERO_VIDEO_URL,
+  MBH_SUPABASE_ORIGIN,
+} from "@/lib/heroMedia";
 
 const REMIXICON_CSS =
   "https://cdn.jsdelivr.net/npm/remixicon@4.6.0/fonts/remixicon.css";
+
+/**
+ * CallRail dynamic number swap (matches live missouribehavioralhealth.com).
+ * Target source number: 417-771-5305. Company id 638776964.
+ */
+const CALLRAIL_SWAP_SRC =
+  "https://cdn.callrail.com/companies/638776964/9e1a91a0c509e24d145d/12/swap.js";
 
 const poppins = Poppins({
   variable: "--font-poppins",
@@ -38,40 +50,19 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
+        <link rel="preconnect" href="https://cdn.callrail.com" crossOrigin="anonymous" />
+        <link rel="preload" as="script" href={CALLRAIL_SWAP_SRC} fetchPriority="high" />
+        <link rel="preconnect" href={MBH_SUPABASE_ORIGIN} crossOrigin="anonymous" />
+        <link rel="preload" as="image" href={MBH_HERO_POSTER_URL} fetchPriority="high" />
+        <link rel="preload" as="video" href={MBH_HERO_VIDEO_URL} type="video/mp4" />
         <link rel="preconnect" href="https://cdn.jsdelivr.net" crossOrigin="anonymous" />
-        <link rel="preload" as="style" href={REMIXICON_CSS} crossOrigin="anonymous" />
-        <Script id="load-remixicon-styles" strategy="afterInteractive">{`
-          (function() {
-            var cssHref = "${REMIXICON_CSS}";
-            var inject = function () {
-              if (document.querySelector('link[href="' + cssHref + '"][rel="stylesheet"]')) return;
-              var link = document.createElement("link");
-              link.rel = "stylesheet";
-              link.href = cssHref;
-              link.crossOrigin = "anonymous";
-              document.head.appendChild(link);
-            };
-            if (document.readyState === "complete") {
-              if ("requestIdleCallback" in window) {
-                window.requestIdleCallback(inject, { timeout: 1200 });
-              } else {
-                setTimeout(inject, 400);
-              }
-              return;
-            }
-            window.addEventListener("load", function onLoad() {
-              window.removeEventListener("load", onLoad);
-              if ("requestIdleCallback" in window) {
-                window.requestIdleCallback(inject, { timeout: 1200 });
-              } else {
-                setTimeout(inject, 400);
-              }
-            });
-          })();
-        `}</Script>
-        <noscript>
-          <link rel="stylesheet" href={REMIXICON_CSS} crossOrigin="anonymous" />
-        </noscript>
+        <link rel="stylesheet" href={REMIXICON_CSS} crossOrigin="anonymous" />
+        <Script
+          id="callrail-swap"
+          src={CALLRAIL_SWAP_SRC}
+          strategy="afterInteractive"
+          async
+        />
       </head>
       <body className={`${poppins.variable} ${openSans.variable} font-body antialiased`}>
         <PageEditorProvider>
