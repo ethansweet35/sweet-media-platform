@@ -11,6 +11,13 @@ const REMIXICON_CSS =
 
 const GA_MEASUREMENT_ID = "G-FZNMZLH54F";
 
+/**
+ * CallRail dynamic number swap (company id 798922664).
+ * Target source number on the site: 949-776-7093 — CallRail swaps per visitor.
+ */
+const CALLRAIL_SWAP_SRC =
+  "https://cdn.callrail.com/companies/798922664/0c762821e2ff487dac54/12/swap.js";
+
 const playfair = Playfair_Display({
   variable: "--font-playfair",
   subsets: ["latin"],
@@ -47,6 +54,8 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
+        <link rel="preconnect" href="https://cdn.callrail.com" crossOrigin="anonymous" />
+        <link rel="preload" as="script" href={CALLRAIL_SWAP_SRC} fetchPriority="high" />
         <link rel="preconnect" href="https://cdn.jsdelivr.net" crossOrigin="anonymous" />
         <link rel="preload" as="style" href={REMIXICON_CSS} crossOrigin="anonymous" />
         <Script id="load-remixicon-styles" strategy="afterInteractive">{`
@@ -81,6 +90,12 @@ export default function RootLayout({
         <noscript>
           <link rel="stylesheet" href={REMIXICON_CSS} crossOrigin="anonymous" />
         </noscript>
+        <Script
+          id="callrail-swap"
+          src={CALLRAIL_SWAP_SRC}
+          strategy="afterInteractive"
+          async
+        />
         <Script
           src={`https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`}
           strategy="afterInteractive"
