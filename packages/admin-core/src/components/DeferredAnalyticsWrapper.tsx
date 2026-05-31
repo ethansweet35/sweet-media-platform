@@ -17,12 +17,12 @@ export function DeferredAnalyticsWrapper() {
 
   useEffect(() => {
     const onIdle = () => setReady(true);
-    if ("requestIdleCallback" in window) {
+    if (typeof window.requestIdleCallback === "function") {
       const id = window.requestIdleCallback(onIdle, { timeout: 3000 });
       return () => window.cancelIdleCallback(id);
     }
-    const t = window.setTimeout(onIdle, 1500);
-    return () => window.clearTimeout(t);
+    const t = setTimeout(onIdle, 1500);
+    return () => clearTimeout(t);
   }, []);
 
   if (!ready) return null;

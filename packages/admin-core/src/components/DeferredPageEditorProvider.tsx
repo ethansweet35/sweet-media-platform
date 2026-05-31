@@ -44,12 +44,12 @@ export function DeferredPageEditorProvider({ children }: { children: ReactNode }
     }
 
     const onIdle = () => setLoadEditor(true);
-    if ("requestIdleCallback" in window) {
+    if (typeof window.requestIdleCallback === "function") {
       const id = window.requestIdleCallback(onIdle, { timeout: 5000 });
       return () => window.cancelIdleCallback(id);
     }
-    const t = window.setTimeout(onIdle, 2500);
-    return () => window.clearTimeout(t);
+    const t = setTimeout(onIdle, 2500);
+    return () => clearTimeout(t);
   }, [isAdminRoute, pathname]);
 
   if (isAdminRoute || !loadEditor) {
