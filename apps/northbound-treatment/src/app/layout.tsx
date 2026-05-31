@@ -5,7 +5,7 @@ import "./globals.css";
 import "@/styles/remixicon-subset.css";
 import Layout from "@/components/feature/Layout";
 import { DeferredAnalyticsWrapper, DeferredPageEditorProvider } from "@sweetmedia/admin-core";
-import { CTM_FORMREACTOR_SRC, CTM_TRACKING_SRC } from "@/lib/ctm";
+import { CTM_FORMREACTOR_SRC, CTM_SCRIPTS_ENABLED, CTM_TRACKING_SRC } from "@/lib/ctm";
 import CtmRouteReloader from "@/components/feature/CtmRouteReloader";
 import DeferredAccessiBe from "@/components/feature/DeferredAccessiBe";
 
@@ -83,12 +83,13 @@ export default function RootLayout({
         `}</Script>
 
         {/* ── CTM call tracking (account 186366) — domain-locked, only load on production ── */}
-        {process.env.NODE_ENV === "production" && (
+        {CTM_SCRIPTS_ENABLED && (
           <>
             <Script
               id="ctm-tracking"
               src={CTM_TRACKING_SRC}
               strategy="afterInteractive"
+              async
               // eslint-disable-next-line @typescript-eslint/no-explicit-any
               {...({ fetchpriority: "high" } as any)}
               data-cfasync="false"

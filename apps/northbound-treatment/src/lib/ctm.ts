@@ -20,10 +20,69 @@ type CtmTracker = {
   getSessionId?: () => string;
 };
 
+type CtmMain = {
+  runNow: (root?: ParentNode) => unknown;
+};
+
 declare global {
   interface Window {
-    __ctm?: { tracker: CtmTracker };
+    __ctm?: { tracker: CtmTracker; main?: CtmMain };
+    __ctm_loaded?: { push: (cb: () => void) => void; ready?: boolean };
+    __ctm_tracked?: boolean;
   }
+}
+
+/** True on production builds and when explicitly enabled for local QA. */
+export const CTM_SCRIPTS_ENABLED =
+  process.env.NODE_ENV === "production" ||
+  process.env.NEXT_PUBLIC_ENABLE_CTM === "true";
+
+/** Ask CTM to re-scan the DOM (safe if t.js is still booting). */
+export function rescheduleCtmNumberSwap(delayMs = 0): void {
+  if (typeof window === "undefined") return;
+
+  const run = () => {
+    try {
+      window.__ctm?.main?.runNow?.();
+      return;
+    } catch (e) {
+      console.warn("CTM runNow failed:", e);
+    }
+    const queue = window.__ctm_loaded;
+    if (queue && typeof queue.push === "function") {
+      queue.push(() => {
+        try {
+          window.__ctm?.main?.runNow?.();
+        } catch (e) {
+          console.warn("CTM deferred runNow failed:", e);
+        }
+      });
+    }
+  };
+
+  if (delayMs > 0) setTimeout(run, delayMs);
+  else run();
+}
+
+/** Full re-init for client navigations (same src will not re-execute without a cache buster). */
+export function reloadCtmTrackingScript(): void {
+  if (typeof window === "undefined") return;
+
+  try {
+    delete window.__ctm;
+  } catch {
+    /* ignore */
+  }
+  window.__ctm_tracked = false;
+
+  document.getElementById("ctm-spa-reload")?.remove();
+
+  const script = document.createElement("script");
+  script.id = "ctm-spa-reload";
+  script.src = `${CTM_TRACKING_SRC}?_r=${Date.now()}`;
+  script.async = true;
+  script.setAttribute("data-cfasync", "false");
+  document.head.appendChild(script);
 }
 
 /** Mirrors live site's wpcf7mailsent CTM form conversion hook. */

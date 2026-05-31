@@ -95,11 +95,11 @@ export default function WhyUsApart() {
                 <i className="ri-arrow-right-line" />
               </Link>
               <Link
-                href="tel:9497767093"
+                href="tel:8663110003"
                 className="inline-flex items-center gap-2 rounded-full border border-terracotta/30 px-7 py-3.5 text-sm font-semibold text-terracotta transition hover:border-terracotta hover:bg-terracotta/5"
               >
                 <i className="ri-phone-line" />
-                949-776-7093
+                (866) 311-0003
               </Link>
             </div>
           </div>
