@@ -1,5 +1,6 @@
 'use client';
 
+import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import { galleryImages } from "@/mocks/impact-report";
 
@@ -38,11 +39,12 @@ export default function ImpactGallerySection() {
                 transition: `all 600ms ease ${i * 100 + 200}ms`,
               }}
             >
-              <img
+              <Image
                 src={img.src}
                 alt={img.alt}
-                className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                loading="lazy"
+                fill
+                className="object-cover transition-transform duration-500 group-hover:scale-105"
+                sizes="(max-width: 1024px) 50vw, 25vw"
               />
               <div className="absolute inset-0 bg-deep-navy/0 group-hover:bg-deep-navy/10 transition-colors duration-300" />
             </div>

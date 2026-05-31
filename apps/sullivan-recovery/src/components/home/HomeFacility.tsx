@@ -6,19 +6,6 @@ import LandingOptionalLink from "@/components/landing/LandingOptionalLink";
 const BASE =
   "https://knvkrhwlflkulybcmgmq.supabase.co/storage/v1/object/public/site-assets/images";
 
-// Intentionally varied sizes for a masonry/editorial feel
-const PHOTOS = [
-  { src: `${BASE}/sr_facility_1.png`, alt: "Facility courtyard", span: "col-span-2 row-span-2" },
-  { src: `${BASE}/sr_facility_2.png`, alt: "Living room", span: "col-span-1 row-span-1" },
-  { src: `${BASE}/sr_facility_3.png`, alt: "Bathroom", span: "col-span-1 row-span-1" },
-  { src: `${BASE}/sr_facility_4.png`, alt: "Bedroom suite", span: "col-span-1 row-span-1" },
-  { src: `${BASE}/sr_facility_5.png`, alt: "Private room", span: "col-span-1 row-span-1" },
-  { src: `${BASE}/sr_facility_6.png`, alt: "Master bedroom", span: "col-span-1 row-span-1" },
-  { src: `${BASE}/sr_facility_7.png`, alt: "Exterior grounds", span: "col-span-2 row-span-1" },
-  { src: `${BASE}/sr_facility_8.png`, alt: "Outdoor area", span: "col-span-1 row-span-1" },
-  { src: `${BASE}/sr_facility_9.png`, alt: "Facility exterior", span: "col-span-1 row-span-1" },
-];
-
 export default function HomeFacility() {
   return (
     <section className="bg-[var(--sr-moss)] py-[100px]">

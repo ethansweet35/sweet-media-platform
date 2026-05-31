@@ -1,5 +1,3 @@
-import Image from "next/image";
-
 const FEATURES = [
   { icon: "ri-24-hours-line", title: "Available 24/7", desc: "Round-the-clock medical care and compassionate support." },
   { icon: "ri-smartphone-line", title: "Keep Your Phone", desc: "Stay connected with your loved ones and your life." },

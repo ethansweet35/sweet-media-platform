@@ -1,3 +1,4 @@
+import Image from "next/image";
 import DonorboxEmbed from "@/components/marketing/DonorboxEmbed";
 import { SITE_IMAGES } from "@/lib/site-images";
 
@@ -5,10 +6,12 @@ export default function HomeDonateSection() {
   return (
     <section id="donate" className="relative bg-pure-white">
       <div className="absolute inset-0 pointer-events-none">
-        <img
+        <Image
           src={SITE_IMAGES.lifeLinesGreyBannerPng}
           alt=""
-          className="w-full h-full object-cover opacity-20"
+          fill
+          className="object-cover opacity-20"
+          sizes="100vw"
           aria-hidden
         />
       </div>

@@ -1,7 +1,6 @@
 import SignaturePageTemplate, { type SignaturePageData } from "@/views/shared/SignaturePageTemplate";
 import {
   GARDEN_GROVE_IMAGES,
-  SERVICE_IMAGES,
   SIGNATURE_IMAGES,
   SIGNATURE_PAGE_IMAGES,
 } from "@/views/home/assets";

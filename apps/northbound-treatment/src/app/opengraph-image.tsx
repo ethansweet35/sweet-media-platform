@@ -22,7 +22,6 @@ export default function Image() {
         }}
       >
         {/* Real Garden Grove facility photo */}
-        {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           src={HERO_BG}
           alt=""
@@ -70,7 +69,6 @@ export default function Image() {
         >
           {/* Logo + name */}
           <div style={{ display: "flex", alignItems: "center", gap: "20px" }}>
-            {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src={LOGO}
               alt="Northbound logo"

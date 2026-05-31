@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { PAGE_TOP_NAV_PADDING } from "@/lib/layout";
 import {
   OKLAHOMA_GALA_SPONSOR_PATH,
@@ -13,11 +14,14 @@ export default function GalaHeroSection() {
 
       <div className="max-w-bleed mx-auto px-4 md:px-6 lg:px-8">
         {/* Hero image with overlaid text */}
-        <div className="relative rounded-2xl overflow-hidden">
-          <img
+        <div className="relative rounded-2xl overflow-hidden h-[300px] sm:h-[380px] md:h-[460px] lg:h-[520px]">
+          <Image
             src={SITE_IMAGES.galaOklahomaHero}
             alt="Oklahoma City skyline at golden hour"
-            className="w-full h-[300px] sm:h-[380px] md:h-[460px] lg:h-[520px] object-cover object-center"
+            fill
+            className="object-cover object-center"
+            priority
+            sizes="100vw"
           />
           {/* Gradient overlay for text readability */}
           <div className="absolute inset-0 bg-gradient-to-t from-deep-navy/85 via-deep-navy/40 to-deep-navy/20" />

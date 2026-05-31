@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import {
   LOGO_SRC,
   SOCIAL_LINKS,
@@ -22,9 +23,11 @@ export default function Footer() {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8">
           <div className="lg:col-span-4">
             <Link href="/" className="inline-block mb-6">
-              <img
+              <Image
                 src={LOGO_SRC}
                 alt="The Family Recovery Foundation"
+                width={220}
+                height={56}
                 className="h-12 md:h-14 w-auto object-contain brightness-0 invert"
               />
             </Link>

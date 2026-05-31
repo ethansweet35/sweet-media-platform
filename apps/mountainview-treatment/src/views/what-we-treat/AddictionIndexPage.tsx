@@ -265,7 +265,7 @@ export default function AddictionIndexPage() {
           </div>
 
           <div className="mt-14 space-y-4">
-            {JOURNEY_STEPS.map((step, i) => (
+            {JOURNEY_STEPS.map((step) => (
               <div key={step.num} className="grid items-start gap-6 border border-black/8 bg-white p-8 lg:grid-cols-[80px_1fr_2fr]">
                 {/* Number */}
                 <div className="flex items-center gap-4 lg:block">

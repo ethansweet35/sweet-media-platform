@@ -48,8 +48,6 @@ export type AddictionPageProps = {
   faqs: Faq[];
 };
 
-const SUPABASE = "https://gueqxorkktfcwiakepcp.supabase.co/storage/v1/object/public/site-assets/images/wp-inline/2026/05";
-
 const LOC_ITEMS = [
   { num: "01", title: "Partial Hospitalization Program (PHP)", href: "/levels-of-care/partial-hospitalization-program/", body: "Intensive daytime programming 5–6 hours per day while you return to supportive housing each evening. Ideal as a first step when full residential treatment isn't required." },
   { num: "02", title: "Intensive Outpatient Program (IOP)", href: "/levels-of-care/intensive-outpatient-program/", body: "Approximately 9–12 structured hours per week, designed for individuals stepping down from PHP or whose lives allow continued work, school, or family engagement." },

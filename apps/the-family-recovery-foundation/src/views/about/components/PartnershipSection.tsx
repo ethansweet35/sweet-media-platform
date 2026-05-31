@@ -1,5 +1,6 @@
 'use client';
 
+import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 
 export default function PartnershipSection() {
@@ -27,10 +28,12 @@ export default function PartnershipSection() {
     >
       {/* Background image */}
       <div className="absolute inset-0">
-        <img
+        <Image
           src="https://jkiafgbizwufsycqlfyr.supabase.co/storage/v1/object/public/site-assets/images/tfrf_sq_8d7904a2_LifeLinesGrey_Banner.png"
           alt="Decorative grey banner background"
-          className="w-full h-full object-cover object-center"
+          fill
+          className="object-cover object-center"
+          sizes="100vw"
         />
         <div className="absolute inset-0 bg-soft-white/60" />
       </div>

@@ -1,4 +1,3 @@
-import Image from "next/image";
 import Link from "next/link";
 import { EditableImage, EditableText } from "@sweetmedia/admin-core/page-editor";
 import { PHONE_DISPLAY, PHONE_HREF } from "@/data/site";

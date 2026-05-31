@@ -1,5 +1,6 @@
 'use client';
 
+import Image from "next/image";
 import { useEffect, useState, useRef } from "react";
 import { HERO_COMMUNITY_AVATARS, SITE_IMAGES } from "@/lib/site-images";
 
@@ -38,10 +39,14 @@ export default function HeroSection() {
     <section ref={sectionRef} className="relative min-h-[100svh] w-full overflow-hidden">
       {/* Background Image */}
       <div className="absolute inset-0">
-        <img
+        <Image
           src={SITE_IMAGES.homeHero}
           alt="Hopeful family in recovery walking together outdoors"
-          className="w-full h-full object-cover object-top"
+          fill
+          priority
+          fetchPriority="high"
+          className="object-cover object-top"
+          sizes="100vw"
         />
         {/* Blue-tinted gradient overlays for text readability */}
         <div className="absolute inset-0 bg-gradient-to-r from-tfrf-blue/80 via-tfrf-blue/40 to-transparent" />
@@ -142,9 +147,11 @@ export default function HeroSection() {
                     key={avatar.id}
                     className="w-7 h-7 md:w-8 md:h-8 shrink-0 overflow-hidden rounded-full border-2 border-pure-white/30"
                   >
-                    <img
+                    <Image
                       src={avatar.src}
                       alt={avatar.alt}
+                      width={32}
+                      height={32}
                       className="h-full w-full object-cover object-[center_20%]"
                     />
                   </div>

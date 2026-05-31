@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { stories } from "@/mocks/stories";
 import { SITE_IMAGES } from "@/lib/site-images";
 
@@ -42,10 +43,12 @@ export default function StoriesSection() {
           <div className="w-full lg:w-[45%] shrink-0 relative">
             <div className="absolute -top-4 -left-4 w-[65%] h-[65%] rounded-[30px] bg-powder-blue -z-10" />
             <div className="relative aspect-[4/3] rounded-2xl overflow-hidden bg-deep-navy/5">
-              <img
+              <Image
                 src={SITE_IMAGES.familiesImpact}
                 alt="A family having a supportive conversation together at home"
-                className="w-full h-full object-cover object-top"
+                fill
+                className="object-cover object-top"
+                sizes="(max-width: 1024px) 100vw, 45vw"
               />
             </div>
           </div>

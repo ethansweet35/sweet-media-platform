@@ -1,5 +1,4 @@
 const image_2fbb6e75f35136041ec417b947e1d0adfeb79371 = '/images/2fbb6e75f35136041ec417b947e1d0adfeb79371.png'
-const image_0e1828873ea13f5b53015347e5453e5123698f94 = '/images/0e1828873ea13f5b53015347e5453e5123698f94.png'
 import Image from 'next/image';
 import Link from 'next/link';
 

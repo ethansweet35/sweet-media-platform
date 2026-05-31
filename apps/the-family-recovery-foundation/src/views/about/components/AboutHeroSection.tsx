@@ -1,5 +1,6 @@
 'use client';
 
+import Image from "next/image";
 import { useEffect, useState } from "react";
 import { PAGE_TOP_NAV_PADDING } from "@/lib/layout";
 
@@ -48,10 +49,12 @@ export default function AboutHeroSection() {
           >
             <div className="absolute -top-6 -right-6 w-[85%] h-[85%] rounded-[32px] bg-powder-blue/40 -z-10" />
             <div className="relative aspect-[3/2] rounded-2xl overflow-hidden bg-deep-navy/5">
-              <img
+              <Image
                 src="https://jkiafgbizwufsycqlfyr.supabase.co/storage/v1/object/public/site-assets/images/tfrf_sq_71278bf2_AboutLifeLines-Image.jpg"
                 alt="Hands joined together in a circle symbolizing unity and recovery support"
-                className="w-full h-full object-cover object-top"
+                fill
+                className="object-cover object-top"
+                sizes="(max-width: 1024px) 100vw, 48vw"
               />
             </div>
           </div>

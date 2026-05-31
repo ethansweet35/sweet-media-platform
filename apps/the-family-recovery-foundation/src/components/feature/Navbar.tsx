@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useCallback, useRef } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
 
@@ -75,10 +76,13 @@ export default function Navbar() {
           )}
         >
           <Link href="/" className="flex items-center shrink-0 min-w-0">
-            <img
+            <Image
               src={LOGO_SRC}
               alt="The Family Recovery Foundation"
+              width={220}
+              height={48}
               className="h-10 md:h-11 lg:h-12 w-auto max-w-[min(100%,220px)] object-contain object-left"
+              priority
             />
           </Link>
 
@@ -187,9 +191,11 @@ export default function Navbar() {
         <div className="h-full flex flex-col px-8 py-6">
           <div className="flex items-center justify-between mb-16">
             <Link href="/" onClick={closeMobile} className="inline-block">
-              <img
+              <Image
                 src={LOGO_SRC}
                 alt="The Family Recovery Foundation"
+                width={220}
+                height={40}
                 className="h-10 w-auto object-contain"
               />
             </Link>

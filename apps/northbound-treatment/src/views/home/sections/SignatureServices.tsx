@@ -1,4 +1,3 @@
-import type { ReactNode } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { SIGNATURE_IMAGES, SIGNATURE_PAGE_IMAGES } from "../assets";

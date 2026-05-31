@@ -265,7 +265,7 @@ export default function ContactPage() {
       <div className="bg-ink border-t border-white/8">
         <div className="mx-auto w-full max-w-[1300px] px-[30px] lg:px-6">
           <div className="grid md:grid-cols-3 divide-y md:divide-y-0 md:divide-x divide-white/8">
-            {contactMethods.map(({ icon, label, value, sub, href, cta }) => (
+            {contactMethods.map(({ icon, label, value, sub, href }) => (
               <a
                 key={label}
                 href={href}

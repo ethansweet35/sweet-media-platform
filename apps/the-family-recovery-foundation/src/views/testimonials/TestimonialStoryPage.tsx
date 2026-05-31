@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { PAGE_TOP_NAV_PADDING } from "@/lib/layout";
@@ -55,10 +56,12 @@ export default function TestimonialStoryPage({ slug }: TestimonialStoryPageProps
               />
             ) : (
               <>
-                <img
+                <Image
                   src={story.thumbnail}
                   alt={story.title}
-                  className="w-full h-full object-cover object-top"
+                  fill
+                  className="object-cover object-top"
+                  sizes="(max-width: 896px) 100vw, 896px"
                 />
                 <a
                   href="https://www.youtube.com/@tfrfoundation"

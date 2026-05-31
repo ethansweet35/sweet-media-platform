@@ -1,18 +1,10 @@
 'use client';
 
 const image_62ac083475cf065354b63ce4cb18d2499553f06b = '/images/62ac083475cf065354b63ce4cb18d2499553f06b.png'
-const image_b444155e1a0a8e5f3cf1bb5c7e8fb7c9c672319d = '/images/b444155e1a0a8e5f3cf1bb5c7e8fb7c9c672319d.png'
-import { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 
 export default function HomePage() {
-  const [openFaq, setOpenFaq] = useState<number | null>(null);
-
-  const toggleFaq = (index: number) => {
-    setOpenFaq(openFaq === index ? null : index);
-  };
-
   return (
     <>
     <style>{`

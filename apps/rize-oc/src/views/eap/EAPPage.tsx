@@ -8,7 +8,6 @@ import {
   CinematicHeroGrid,
   HERO_COPY_BLOCK,
   HERO_LEAD,
-  PAGE_GRID,
 } from "@/components/ui/PageHeroShell";
 import { cn } from "@/lib/cn";
 import SectionWrapper from "@/components/ui/SectionWrapper";

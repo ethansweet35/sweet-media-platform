@@ -1,5 +1,6 @@
 'use client';
 
+import Image from "next/image";
 import { useEffect, useState } from "react";
 
 export default function MissionBannerSection() {
@@ -14,10 +15,12 @@ export default function MissionBannerSection() {
     <section className="relative overflow-hidden min-h-[420px] md:min-h-[480px] flex items-center">
       {/* Background image */}
       <div className="absolute inset-0">
-        <img
+        <Image
           src="https://jkiafgbizwufsycqlfyr.supabase.co/storage/v1/object/public/site-assets/images/tfrf_sq_744a3663_LifeLinesBlue_Banner.png"
           alt="Decorative blue banner background"
-          className="w-full h-full object-cover object-center"
+          fill
+          className="object-cover object-center"
+          sizes="100vw"
         />
         <div className="absolute inset-0 bg-deep-navy/50" />
       </div>

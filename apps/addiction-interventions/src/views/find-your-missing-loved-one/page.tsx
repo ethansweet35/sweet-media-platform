@@ -1,5 +1,4 @@
 import Image from "next/image";
-import Link from "next/link";
 import TrustStrip from "@/components/sections/TrustStrip";
 import FaqAccordion from "@/components/sections/FaqAccordion";
 import BottomCta from "@/components/sections/BottomCta";

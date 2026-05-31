@@ -1,5 +1,6 @@
 'use client';
 
+import Image from "next/image";
 import { useState, useEffect, useRef } from "react";
 import { boardMembers } from "@/mocks/team";
 
@@ -65,11 +66,13 @@ export default function BoardSection() {
               key={member.id}
               className="bg-pure-white rounded-xl border border-mist p-5 md:p-6"
             >
-              <div className="aspect-square rounded-lg overflow-hidden bg-deep-navy/5 mb-4">
-                <img
+              <div className="relative aspect-square rounded-lg overflow-hidden bg-deep-navy/5 mb-4">
+                <Image
                   src={member.image}
                   alt={`Portrait of ${member.name}`}
-                  className="w-full h-full object-cover object-top"
+                  fill
+                  className="object-cover object-top"
+                  sizes="(max-width: 768px) 100vw, 33vw"
                 />
               </div>
               <h3 className="text-xl font-display text-deep-navy">
@@ -128,11 +131,13 @@ export default function BoardSection() {
               key={member.id}
               className="bg-pure-white rounded-xl border border-mist p-5 md:p-6"
             >
-              <div className="aspect-square rounded-lg overflow-hidden bg-deep-navy/5 mb-4">
-                <img
+              <div className="relative aspect-square rounded-lg overflow-hidden bg-deep-navy/5 mb-4">
+                <Image
                   src={member.image}
                   alt={`Portrait of ${member.name}`}
-                  className="w-full h-full object-cover object-top"
+                  fill
+                  className="object-cover object-top"
+                  sizes="(max-width: 768px) 100vw, 33vw"
                 />
               </div>
               <h3 className="text-xl font-display text-deep-navy">

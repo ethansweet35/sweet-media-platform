@@ -1,5 +1,6 @@
 'use client';
 
+import Image from "next/image";
 import { useState, useEffect, useRef } from "react";
 import { partners, tierBadge } from "@/mocks/partnerships";
 
@@ -78,12 +79,13 @@ export default function PartnersGridSection() {
                   <div className="p-6 md:p-7">
                     {/* Logo area */}
                     <div className="flex items-center gap-4 mb-5">
-                      <div className="w-16 h-16 rounded-xl bg-soft-white border border-mist flex items-center justify-center shrink-0 overflow-hidden p-1.5">
-                        <img
+                      <div className="relative w-16 h-16 rounded-xl bg-soft-white border border-mist flex items-center justify-center shrink-0 overflow-hidden p-1.5">
+                        <Image
                           src={partner.logo}
                           alt={partner.logoAlt}
+                          width={64}
+                          height={64}
                           className="w-full h-full object-contain"
-                          loading="lazy"
                         />
                       </div>
                       <div>
@@ -156,12 +158,13 @@ export default function PartnersGridSection() {
                 <div className="p-5 md:p-6">
                   {/* Compact header */}
                   <div className="flex items-start gap-3 mb-4">
-                    <div className="w-12 h-12 rounded-lg bg-soft-white border border-mist flex items-center justify-center shrink-0 overflow-hidden p-1">
-                      <img
+                    <div className="relative w-12 h-12 rounded-lg bg-soft-white border border-mist flex items-center justify-center shrink-0 overflow-hidden p-1">
+                      <Image
                         src={partner.logo}
                         alt={partner.logoAlt}
+                        width={48}
+                        height={48}
                         className="w-full h-full object-contain"
-                        loading="lazy"
                       />
                     </div>
                     <div className="min-w-0">

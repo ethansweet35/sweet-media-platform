@@ -422,6 +422,10 @@ export default function ContactUsPage() {
                   </div>
                 )}
 
+                {submitError && (
+                  <p style={{ color: "#b91c1c", fontSize: "0.875rem", marginBottom: "1rem" }}>{submitError}</p>
+                )}
+
                 <form onSubmit={handleSubmit}>
                   <div className="form-group">
                     <label htmlFor="name">Full Name *</label>
@@ -509,8 +513,8 @@ export default function ContactUsPage() {
                     />
                   </div>
 
-                  <button type="submit" className="submit-btn">
-                    Send Message
+                  <button type="submit" className="submit-btn" disabled={submitting}>
+                    {submitting ? "Sending..." : "Send Message"}
                   </button>
                 </form>
 

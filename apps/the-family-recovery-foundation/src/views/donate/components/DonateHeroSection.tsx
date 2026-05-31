@@ -1,3 +1,4 @@
+import Image from "next/image";
 import DonorboxEmbed from "@/components/marketing/DonorboxEmbed";
 import { PAGE_TOP_NAV_PADDING } from "@/lib/layout";
 
@@ -5,10 +6,13 @@ export default function DonateHeroSection() {
   return (
     <section className="relative min-h-[700px] md:min-h-[800px]">
       <div className="absolute inset-0 z-0">
-        <img
+        <Image
           src="https://jkiafgbizwufsycqlfyr.supabase.co/storage/v1/object/public/site-assets/images/tfrf_sq_8d7904a2_LifeLinesGrey_Banner.png"
           alt=""
-          className="w-full h-full object-cover"
+          fill
+          className="object-cover"
+          sizes="100vw"
+          aria-hidden
         />
       </div>
 

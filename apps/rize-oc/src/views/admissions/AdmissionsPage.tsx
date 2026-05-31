@@ -12,7 +12,6 @@ import {
   CinematicHeroGrid,
   HERO_COPY_BLOCK,
   HERO_LEAD,
-  PAGE_GRID,
 } from "@/components/ui/PageHeroShell";
 import { cn } from "@/lib/cn";
 import FaqAccordion, { type FaqItem } from "@/components/ui/FaqAccordion";

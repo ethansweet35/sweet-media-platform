@@ -1,5 +1,6 @@
 'use client';
 
+import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { videoStories } from "@/mocks/testimonials";
@@ -63,10 +64,12 @@ export default function VideoStoriesSection() {
             >
               {/* Thumbnail with play overlay */}
               <div className="relative aspect-[16/10] rounded-xl overflow-hidden bg-deep-navy/5 mb-4">
-                <img
+                <Image
                   src={story.thumbnail}
                   alt={story.title}
-                  className="w-full h-full object-cover object-top transition-transform duration-500 group-hover:scale-105"
+                  fill
+                  className="object-cover object-top transition-transform duration-500 group-hover:scale-105"
+                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                 />
                 {/* Dark overlay on hover */}
                 <div className="absolute inset-0 bg-deep-navy/0 group-hover:bg-deep-navy/20 transition-colors duration-300" />

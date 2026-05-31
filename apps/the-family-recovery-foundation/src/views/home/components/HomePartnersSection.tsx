@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import { HOME_PARTNER_LOGOS, SITE_IMAGES } from "@/lib/site-images";
 
@@ -8,10 +9,12 @@ export default function HomePartnersSection() {
       className="relative overflow-hidden bg-soft-white py-20 md:py-28 border-t border-mist/80"
     >
       <div className="absolute inset-0 pointer-events-none opacity-[0.07]">
-        <img
+        <Image
           src={SITE_IMAGES.partnership}
           alt=""
-          className="w-full h-full object-cover"
+          fill
+          className="object-cover"
+          sizes="100vw"
           aria-hidden
         />
       </div>
@@ -30,11 +33,12 @@ export default function HomePartnersSection() {
               key={logo.id}
               className="flex h-20 md:h-24 w-full max-w-[180px] items-center justify-center"
             >
-              <img
+              <Image
                 src={logo.src}
                 alt={logo.alt}
+                width={180}
+                height={96}
                 className="max-h-full max-w-full object-contain"
-                loading="lazy"
               />
             </div>
           ))}

@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import MarketingPageHero, { MarketingCtaLink } from "@/components/marketing/MarketingPageHero";
 import { videoStories } from "@/mocks/testimonials";
@@ -26,10 +27,12 @@ export default function StoriesPage() {
                 className="group rounded-2xl overflow-hidden bg-pure-white border border-mist/60 shadow-sm hover:border-tfrf-blue/30 hover:shadow-md transition-all"
               >
                 <div className="relative aspect-[16/10] overflow-hidden bg-deep-navy/5">
-                  <img
+                  <Image
                     src={story.thumbnail}
                     alt={story.title}
-                    className="w-full h-full object-cover object-top transition-transform duration-500 group-hover:scale-105"
+                    fill
+                    className="object-cover object-top transition-transform duration-500 group-hover:scale-105"
+                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                   />
                   <div className="absolute inset-0 flex items-center justify-center">
                     <span className="flex h-14 w-14 items-center justify-center rounded-full bg-pure-white/90 shadow-lg group-hover:scale-110 transition-transform">

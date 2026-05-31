@@ -1,7 +1,6 @@
 "use client";
 
 import Image from "next/image";
-import Link from "next/link";
 import SectionWrapper from "@/components/ui/SectionWrapper";
 import Eyebrow from "@/components/ui/Eyebrow";
 import SectionHeader from "@/components/ui/SectionHeader";
@@ -13,7 +12,6 @@ import {
   CinematicHeroGrid,
   HERO_COPY_BLOCK,
   HERO_LEAD,
-  PAGE_GRID,
 } from "@/components/ui/PageHeroShell";
 import { cn } from "@/lib/cn";
 import AccreditationsBar from "@/views/home/components/AccreditationsBar";

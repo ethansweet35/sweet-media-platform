@@ -11,8 +11,6 @@ import { CINEMATIC_BOTTOM_HERO_GRADIENT } from "@/lib/cinematicHeroStyles";
 import { AutoLinkedText } from "@sweetmedia/blog-core";
 import { cn } from "@/lib/cn";
 
-const BASE = "https://nfjlvkxrbzytjefmcvhg.supabase.co/storage/v1/object/public/site-assets/images";
-
 const levels = [
   {
     num: "1",

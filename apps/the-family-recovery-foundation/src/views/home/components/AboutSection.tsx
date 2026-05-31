@@ -30,10 +30,12 @@ export default function AboutSection() {
           <div className="relative aspect-video w-full rounded-2xl overflow-hidden bg-deep-navy shadow-xl ring-1 ring-mist/80">
             {!isPlaying ? (
               <>
-                <img
+                <Image
                   src={HOME_ABOUT_VIDEO_POSTER}
                   alt="The Family Recovery Foundation introduction video"
-                  className="absolute inset-0 w-full h-full object-cover"
+                  fill
+                  className="object-cover"
+                  sizes="(max-width: 1024px) 100vw, 58vw"
                 />
                 <button
                   type="button"

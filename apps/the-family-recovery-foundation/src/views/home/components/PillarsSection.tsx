@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import { pillars } from "@/mocks/pillars";
 
@@ -75,10 +76,12 @@ export default function PillarsSection() {
               {/* Compact image strip with icon watermark */}
               <div className="relative mx-6 mb-6 mt-1">
                 <div className="relative h-28 md:h-32 overflow-hidden rounded-xl bg-mist ring-1 ring-mist/80">
-                  <img
+                  <Image
                     src={pillar.image}
                     alt=""
-                    className="absolute inset-0 h-full w-full object-cover object-center opacity-85 transition-transform duration-500 group-hover:scale-[1.04]"
+                    fill
+                    className="object-cover object-center opacity-85 transition-transform duration-500 group-hover:scale-[1.04]"
+                    sizes="(max-width: 768px) 100vw, 33vw"
                   />
                   <div className="absolute inset-0 bg-gradient-to-tr from-deep-navy/35 via-transparent to-tfrf-blue/10 pointer-events-none" />
                   <div className="absolute bottom-2 right-2 flex h-9 w-9 items-center justify-center rounded-lg bg-pure-white/90 backdrop-blur-sm shadow-sm">

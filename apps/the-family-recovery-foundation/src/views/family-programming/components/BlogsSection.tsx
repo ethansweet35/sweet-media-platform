@@ -1,5 +1,6 @@
 'use client';
 
+import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { useBlogPosts } from "@sweetmedia/blog-core";
@@ -24,11 +25,12 @@ function BlogCard({
     >
       <div className="relative aspect-[16/10] overflow-hidden">
         {post.image ? (
-          <img
+          <Image
             src={post.image}
             alt={post.title}
-            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-            loading="lazy"
+            fill
+            className="object-cover transition-transform duration-500 group-hover:scale-105"
+            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
           />
         ) : (
           <div className="w-full h-full bg-mist" />

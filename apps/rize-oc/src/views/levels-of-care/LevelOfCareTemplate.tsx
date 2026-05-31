@@ -72,11 +72,6 @@ export default function LevelOfCareTemplate({ data }: { data: LevelOfCareData })
       <div className="bg-ink border-t border-white/5">
         <div className="mx-auto max-w-[1300px] w-full px-6 py-4 flex items-center gap-0 overflow-x-auto">
           {levelsOfCare.map((lvl, i) => {
-            const isActive = lvl.href === `/${data.heading.toLowerCase().replace(/\s+/g, "-")}` ||
-              (data.prevLevel?.href === levelsOfCare[i - 1]?.href && !data.prevLevel) ||
-              lvl.label === levelsOfCare.find(l =>
-                l.href === (data.prevLevel ? data.nextLevel?.href : data.nextLevel?.href)
-              )?.label;
             return (
               <div key={lvl.href} className="flex items-center shrink-0">
                 <Link

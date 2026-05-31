@@ -1,5 +1,6 @@
 'use client';
 
+import Image from "next/image";
 import { useState, useEffect, useRef } from "react";
 import { staffMembers } from "@/mocks/team";
 
@@ -23,11 +24,13 @@ function StaffCard({
 }) {
   return (
     <div className="flex flex-col items-center text-center">
-      <div className="w-full max-w-[240px] aspect-square rounded-full overflow-hidden bg-deep-navy/5 mb-5">
-        <img
+      <div className="relative w-full max-w-[240px] aspect-square rounded-full overflow-hidden bg-deep-navy/5 mb-5">
+        <Image
           src={member.image}
           alt={`Portrait of ${member.name}`}
-          className="w-full h-full object-cover object-top"
+          fill
+          className="object-cover object-top"
+          sizes="240px"
         />
       </div>
       <h3 className="text-lg font-display text-deep-navy">{member.name}</h3>

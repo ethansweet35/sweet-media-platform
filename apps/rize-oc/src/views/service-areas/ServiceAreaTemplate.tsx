@@ -8,7 +8,6 @@ import {
   CinematicHeroGrid,
   HERO_COPY_BLOCK,
   HERO_LEAD,
-  PAGE_GRID,
 } from "@/components/ui/PageHeroShell";
 import { cn } from "@/lib/cn";
 import SectionWrapper from "@/components/ui/SectionWrapper";
@@ -149,7 +148,7 @@ const WHY_RIZE = [
 
 export default function ServiceAreaTemplate({ data }: { data: ServiceAreaData }) {
   const {
-    slug, city, heroImage, heroImageAlt, heroEyebrow,
+    city, heroImage, heroImageAlt, heroEyebrow,
     heroHeadline, heroHeadlineEmphasis, heroBody,
     driveTime, introQuote, introParagraphs, faqs,
   } = data;
