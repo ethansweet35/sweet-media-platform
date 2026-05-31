@@ -11,6 +11,19 @@ const nextConfig: NextConfig = {
   // from server-side API routes via @sweetmedia/admin-core/server.
   serverExternalPackages: ["@cursor/sdk"],
   trailingSlash: true,
+  typescript: {
+    ignoreBuildErrors: false,
+  },
+  async headers() {
+    return [
+      {
+        source: "/admin/:path*",
+        headers: [
+          { key: "X-Robots-Tag", value: "noindex, nofollow, noarchive" },
+        ],
+      },
+    ];
+  },
   async redirects() {
     return [
       // /locations/garden-grove/ was the original WP path; canonical is now /locations/california/garden-grove/

@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 import { NB_LOGO } from "../assets";
 
 /**
@@ -42,29 +43,29 @@ export default function HomeFooter() {
               </h4>
               <ul className="space-y-4 text-sm font-light text-white/70">
                 <li>
-                  <a href="/programs/detox/" className="transition-colors hover:text-white">
+                  <Link href="/programs/detox/" className="transition-colors hover:text-white">
                     Drug & Alcohol Detox
-                  </a>
+                  </Link>
                 </li>
                 <li>
-                  <a href="/programs/residential-treatment-center/" className="transition-colors hover:text-white">
+                  <Link href="/programs/residential-treatment-center/" className="transition-colors hover:text-white">
                     Residential Treatment
-                  </a>
+                  </Link>
                 </li>
                 <li>
-                  <a href="/programs/partial-hospitalization-program/" className="transition-colors hover:text-white">
+                  <Link href="/programs/partial-hospitalization-program/" className="transition-colors hover:text-white">
                     Partial Hospitalization (PHP)
-                  </a>
+                  </Link>
                 </li>
                 <li>
-                  <a href="/telehealth-iop-services/" className="transition-colors hover:text-white">
+                  <Link href="/telehealth-iop-services/" className="transition-colors hover:text-white">
                     Virtual IOP (Online)
-                  </a>
+                  </Link>
                 </li>
                 <li>
-                  <a href="/programs/aftercare/" className="transition-colors hover:text-white">
+                  <Link href="/programs/aftercare/" className="transition-colors hover:text-white">
                     Aftercare & Alumni
-                  </a>
+                  </Link>
                 </li>
               </ul>
             </div>
@@ -74,29 +75,29 @@ export default function HomeFooter() {
               </h4>
               <ul className="space-y-4 text-sm font-light text-white/70">
                 <li>
-                  <a href="/insurance/" className="transition-colors hover:text-white">
+                  <Link href="/insurance/" className="transition-colors hover:text-white">
                     Verify Insurance
-                  </a>
+                  </Link>
                 </li>
                 <li>
-                  <a href="/admissions/" className="transition-colors hover:text-white">
+                  <Link href="/admissions/" className="transition-colors hover:text-white">
                     Admissions Process
-                  </a>
+                  </Link>
                 </li>
                 <li>
-                  <a href="/programs/family-therapy/" className="transition-colors hover:text-white">
+                  <Link href="/programs/family-therapy/" className="transition-colors hover:text-white">
                     Family Support
-                  </a>
+                  </Link>
                 </li>
                 <li>
-                  <a href="/referring-professionals/" className="transition-colors hover:text-white">
+                  <Link href="/referring-professionals/" className="transition-colors hover:text-white">
                     Careers
-                  </a>
+                  </Link>
                 </li>
                 <li>
-                  <a href="/contact-us/" className="transition-colors hover:text-white">
+                  <Link href="/contact-us/" className="transition-colors hover:text-white">
                     Contact Us
-                  </a>
+                  </Link>
                 </li>
               </ul>
             </div>
@@ -125,12 +126,12 @@ export default function HomeFooter() {
           </div>
           <div className="flex flex-col items-center gap-2 md:items-end">
             <p>&copy; 2026 Northbound Addiction Treatment.</p>
-            <a
+            <Link
               href="/privacy-policy/"
               className="underline underline-offset-4 transition-colors hover:text-white/70"
             >
               Privacy Policy
-            </a>
+            </Link>
           </div>
         </div>
       </div>
