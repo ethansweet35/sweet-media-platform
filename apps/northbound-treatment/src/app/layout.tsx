@@ -71,6 +71,7 @@ export default function RootLayout({
       <head>
         <link rel="preconnect" href="https://186366.tctm.co" crossOrigin="anonymous" />
         <link rel="preconnect" href="https://www.googletagmanager.com" crossOrigin="anonymous" />
+        <link rel="preconnect" href="https://cdn.jsdelivr.net" crossOrigin="anonymous" />
         <link
           rel="stylesheet"
           href="https://cdn.jsdelivr.net/npm/remixicon@4.6.0/fonts/remixicon.css"
@@ -107,10 +108,13 @@ export default function RootLayout({
           </>
         )}
 
-        {/* ── TalkFurther + ACSB — domain-locked, only load on production ── */}
+        {/* ── TalkFurther + ACSB — domain-locked, only load on production ──
+            These are corner widgets (chat + accessibility menu) that don't need
+            to block initial render. lazyOnload defers them to browser idle time
+            after the page has loaded, cutting Total Blocking Time. */}
         {process.env.NODE_ENV === "production" && (
           <>
-            <Script id="talkfurther" strategy="afterInteractive">{`
+            <Script id="talkfurther" strategy="lazyOnload">{`
               (function () {
                 var a = document.createElement('script');
                 var b = document.getElementsByTagName('script')[0];
@@ -120,7 +124,7 @@ export default function RootLayout({
                 b.parentNode.insertBefore(a, b);
               })();
             `}</Script>
-            <Script id="acsb-init" strategy="afterInteractive">{`
+            <Script id="acsb-init" strategy="lazyOnload">{`
               (function () {
                 var s = document.createElement('script');
                 s.src = 'https://acsbapp.com/apps/app/dist/js/app.js';

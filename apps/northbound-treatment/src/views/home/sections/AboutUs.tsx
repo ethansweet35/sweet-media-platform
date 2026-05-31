@@ -1,4 +1,5 @@
 import { AutoLinkedText } from "@sweetmedia/blog-core";
+import YouTubeFacade from "@/components/feature/YouTubeFacade";
 /**
  * About — header + two-column (copy | video) + bottom stats strip.
  * Quote dropped; alumni point folded into the body copy.
@@ -58,15 +59,9 @@ export default function AboutUs() {
             </a>
           </div>
 
-          {/* Right — YouTube embed */}
+          {/* Right — YouTube embed (lazy facade: full player loads only on click) */}
           <div className="architectural-border relative aspect-video overflow-hidden bg-espresso/5 shadow-2xl">
-            <iframe
-              src="https://www.youtube.com/embed/C7v5X5WD8qg"
-              title="Northbound Treatment Services"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowFullScreen
-              className="absolute inset-0 h-full w-full"
-            />
+            <YouTubeFacade videoId="C7v5X5WD8qg" title="Northbound Treatment Services" />
           </div>
         </div>
 

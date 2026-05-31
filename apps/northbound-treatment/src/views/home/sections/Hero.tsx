@@ -130,24 +130,21 @@ export default function Hero() {
 
               {/* Accreditation badges — official logos, original brand colors */}
               <div className="flex flex-wrap items-center gap-5">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
+                <Image
                   src="https://ahufsygjwpbymomfdazb.supabase.co/storage/v1/object/public/site-assets/logos/legitscript-certified.png"
                   alt="LegitScript Certified"
                   width={48}
                   height={52}
                   className="h-12 w-auto object-contain"
                 />
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
+                <Image
                   src="https://ahufsygjwpbymomfdazb.supabase.co/storage/v1/object/public/site-assets/logos/naatp-icon.png"
                   alt="NAATP Member"
                   width={48}
                   height={48}
                   className="h-12 w-auto object-contain"
                 />
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
+                <Image
                   src="https://ahufsygjwpbymomfdazb.supabase.co/storage/v1/object/public/site-assets/logos/joint-commission.png"
                   alt="The Joint Commission Accredited"
                   width={48}
