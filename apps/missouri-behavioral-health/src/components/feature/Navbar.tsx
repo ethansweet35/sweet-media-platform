@@ -283,6 +283,10 @@ function navTriggerClass(opts: { isActive: boolean; isOpen: boolean }) {
 
 export default function Navbar() {
   const pathname = usePathname();
+  return <NavbarInteractive key={pathname} pathname={pathname} />;
+}
+
+function NavbarInteractive({ pathname }: { pathname: string }) {
   const isHome = pathname === "/";
   const [scrolled, setScrolled] = useState(false);
   const [openMenu, setOpenMenu] = useState<string | null>(null);
@@ -321,7 +325,7 @@ export default function Navbar() {
     };
     document.addEventListener("mouseover", onPointerOver);
     return () => document.removeEventListener("mouseover", onPointerOver);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+     
   }, [openMenu]);
 
   useEffect(() => {
@@ -330,11 +334,6 @@ export default function Navbar() {
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
-
-  useEffect(() => {
-    setMobileOpen(false);
-    setOpenMenu(null);
-  }, [pathname]);
 
   useEffect(() => {
     document.body.style.overflow = mobileOpen ? "hidden" : "";

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback, useMemo } from "react";
+import { useState, useCallback, useEffect } from "react";
 import { supabase } from "@/lib/supabase";
 import type { FoundLink, Suggestion } from "@sweetmedia/admin-core";
 
@@ -40,6 +40,18 @@ function SuggestionCard({ suggestion, selected, onSelect }: { suggestion: Sugges
 }
 
 export default function AutoReplaceModal({ link, onClose, onReplace, actionLoading }: AutoReplaceModalProps) {
+  return (
+    <AutoReplaceModalBody
+      key={link.url}
+      link={link}
+      onClose={onClose}
+      onReplace={onReplace}
+      actionLoading={actionLoading}
+    />
+  );
+}
+
+function AutoReplaceModalBody({ link, onClose, onReplace, actionLoading }: AutoReplaceModalProps) {
   const [suggestions, setSuggestions] = useState<Suggestion[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -66,7 +78,28 @@ export default function AutoReplaceModal({ link, onClose, onReplace, actionLoadi
     setLoading(false);
   }, [link]);
 
-  useMemo(() => { fetchSuggestions(); }, []); // eslint-disable-line react-hooks/exhaustive-deps
+  useEffect(() => {
+    let cancelled = false;
+    (async () => {
+      try {
+        const { data, error: fnError } = await supabase.functions.invoke("suggest-replacement-link", {
+          body: { anchorText: link.anchorText, currentUrl: link.url, brokenUrl: link.url, isExternal: link.isExternal },
+        });
+        if (cancelled) return;
+        if (fnError) throw fnError;
+        setSuggestions(data?.suggestions || []);
+      } catch (err) {
+        if (!cancelled) {
+          setError(err instanceof Error ? err.message : "Failed to fetch suggestions");
+        }
+      } finally {
+        if (!cancelled) setLoading(false);
+      }
+    })();
+    return () => {
+      cancelled = true;
+    };
+  }, [link]);
 
   const internalSuggestions = suggestions.filter((s) => s.source === "internal");
   const webSuggestions = suggestions.filter((s) => s.source === "web");

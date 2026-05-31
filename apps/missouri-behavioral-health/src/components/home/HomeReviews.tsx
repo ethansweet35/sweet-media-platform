@@ -54,10 +54,7 @@ export default function HomeReviews() {
   }, []);
 
   const pageCount = Math.max(1, Math.ceil(GOOGLE_REVIEWS.length / slidesPerView));
-
-  useEffect(() => {
-    setActive((prev) => Math.min(prev, pageCount - 1));
-  }, [pageCount]);
+  const safeActive = Math.min(active, pageCount - 1);
 
   const goToPage = useCallback(
     (page: number) => {
@@ -67,8 +64,8 @@ export default function HomeReviews() {
   );
 
   const visibleReviews = GOOGLE_REVIEWS.slice(
-    active * slidesPerView,
-    active * slidesPerView + slidesPerView,
+    safeActive * slidesPerView,
+    safeActive * slidesPerView + slidesPerView,
   );
 
   return (
@@ -120,7 +117,7 @@ export default function HomeReviews() {
 
         <div className="relative mt-10">
           <div
-            key={active}
+            key={safeActive}
             className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3"
             aria-label="Google reviews"
             aria-live="polite"
@@ -134,7 +131,7 @@ export default function HomeReviews() {
             <>
               <button
                 type="button"
-                onClick={() => goToPage(active - 1)}
+                onClick={() => goToPage(safeActive - 1)}
                 className="absolute -left-2 top-1/2 z-10 hidden h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full bg-white text-mbh-forest shadow-lg ring-1 ring-mbh-forest/10 transition hover:bg-cream sm:flex lg:-left-5"
                 aria-label="Previous reviews"
               >
@@ -142,7 +139,7 @@ export default function HomeReviews() {
               </button>
               <button
                 type="button"
-                onClick={() => goToPage(active + 1)}
+                onClick={() => goToPage(safeActive + 1)}
                 className="absolute -right-2 top-1/2 z-10 hidden h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full bg-white text-mbh-forest shadow-lg ring-1 ring-mbh-forest/10 transition hover:bg-cream sm:flex lg:-right-5"
                 aria-label="Next reviews"
               >
@@ -156,10 +153,10 @@ export default function HomeReviews() {
                     type="button"
                     onClick={() => goToPage(i)}
                     className={`h-2 rounded-full transition-all ${
-                      i === active ? "w-7 bg-mbh-green" : "w-2 bg-mbh-forest/20 hover:bg-mbh-forest/35"
+                      i === safeActive ? "w-7 bg-mbh-green" : "w-2 bg-mbh-forest/20 hover:bg-mbh-forest/35"
                     }`}
                     aria-label={`Reviews page ${i + 1}`}
-                    aria-current={i === active ? "true" : undefined}
+                    aria-current={i === safeActive ? "true" : undefined}
                   />
                 ))}
               </div>

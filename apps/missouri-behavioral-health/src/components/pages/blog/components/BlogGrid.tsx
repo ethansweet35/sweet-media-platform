@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import type { BlogPost } from "@sweetmedia/blog-core";
 import { useSearchBlogPosts, useBlogCategories } from "@sweetmedia/blog-core";
 import { CONTAINER, PHONE_DISPLAY, PHONE_HREF } from "@/data/site";
@@ -178,7 +178,9 @@ export default function BlogGrid({
   activeCategory,
   onCategoryChange,
 }: BlogGridProps) {
-  const [page, setPage] = useState(0);
+  const filterKey = `${searchQuery}|${activeCategory}`;
+  const [pagination, setPagination] = useState({ page: 0, filterKey });
+  const page = pagination.filterKey === filterKey ? pagination.page : 0;
 
   const { posts: searchResults, loading: searchLoading } = useSearchBlogPosts(searchQuery);
   const { categories, loading: catsLoading } = useBlogCategories();
@@ -195,12 +197,8 @@ export default function BlogGrid({
   const totalPages = Math.max(1, Math.ceil(filtered.length / PAGE_SIZE));
   const pagePosts = filtered.slice(page * PAGE_SIZE, page * PAGE_SIZE + PAGE_SIZE);
 
-  useEffect(() => {
-    setPage(0);
-  }, [searchQuery, activeCategory]);
-
   const handlePageChange = (next: number) => {
-    setPage(next);
+    setPagination({ page: next, filterKey });
     const el = document.getElementById("blog-grid");
     el?.scrollIntoView({ behavior: "smooth", block: "start" });
   };
