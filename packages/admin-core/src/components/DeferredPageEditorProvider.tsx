@@ -8,11 +8,29 @@ const PageEditorProvider = dynamic(() => import("./page-editor/PageEditorProvide
   ssr: false,
 });
 
+/**
+ * Detects whether the current visitor is (or is becoming) an admin, so we only
+ * ever ship the inline-editor bundle (Supabase auth + toolbar, ~hundreds of KB)
+ * to people who can actually use it. Anonymous visitors never download it.
+ */
 function hasAdminSessionHint(): boolean {
   if (typeof document === "undefined") return false;
+
+  // Set by AuthContext on admin login; cleared on sign-out.
   if (document.cookie.split(";").some((c) => c.trim() === "sm_internal=1")) {
     return true;
   }
+  // Set whenever an admin toggles inline edit mode.
+  if (document.cookie.split(";").some((c) => c.trim() === "sm_edit_mode=1")) {
+    return true;
+  }
+  // Explicit opt-in via query param (e.g. an admin opening ?sm_edit=1).
+  try {
+    if (new URLSearchParams(window.location.search).has("sm_edit")) return true;
+  } catch {
+    /* ignore */
+  }
+  // Persisted Supabase session token.
   try {
     for (let i = 0; i < localStorage.length; i++) {
       const key = localStorage.key(i);
@@ -25,10 +43,13 @@ function hasAdminSessionHint(): boolean {
 }
 
 /**
- * Loads the inline page editor bundle only when needed:
- * - immediately for signed-in admins (cookie / Supabase session hint)
- * - after idle for anonymous visitors (toolbar is unused)
- * - never on /admin/* (admin chrome is separate)
+ * Loads the inline page editor bundle only for signed-in admins:
+ * - never on /admin/* (admin chrome handles its own shell)
+ * - only when an admin session hint is present (cookie / token / ?sm_edit)
+ * - anonymous visitors render published content with zero editor JS
+ *
+ * EditableText / EditableImage fall back to a safe no-op stub when the provider
+ * is absent, so public pages render their published values unchanged.
  */
 export function DeferredPageEditorProvider({ children }: { children: ReactNode }) {
   const pathname = usePathname() ?? "";
@@ -36,20 +57,13 @@ export function DeferredPageEditorProvider({ children }: { children: ReactNode }
   const [loadEditor, setLoadEditor] = useState(false);
 
   useEffect(() => {
-    if (isAdminRoute) return;
-
-    if (hasAdminSessionHint()) {
-      setLoadEditor(true);
+    if (isAdminRoute) {
+      setLoadEditor(false);
       return;
     }
-
-    const onIdle = () => setLoadEditor(true);
-    if (typeof window.requestIdleCallback === "function") {
-      const id = window.requestIdleCallback(onIdle, { timeout: 5000 });
-      return () => window.cancelIdleCallback(id);
-    }
-    const t = setTimeout(onIdle, 2500);
-    return () => clearTimeout(t);
+    // Re-check on each navigation: an admin who just logged in elsewhere will
+    // have the hint on their next public-page view.
+    setLoadEditor(hasAdminSessionHint());
   }, [isAdminRoute, pathname]);
 
   if (isAdminRoute || !loadEditor) {
