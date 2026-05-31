@@ -111,16 +111,20 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     if (!normalized) return { error: "Email is required." };
 
     try {
-      const { data: adminRow } = await supabase
-        .from("admin_users")
-        .select("id")
-        .eq("email", normalized)
-        .maybeSingle();
-
-      if (adminRow) {
-        const redirectTo = `${window.location.origin.replace(/\/+$/, "")}/admin/reset-password`;
-        const { error } = await supabase.auth.resetPasswordForEmail(normalized, { redirectTo });
-        if (error) return { error: error.message };
+      const res = await fetch("/api/admin/forgot-password", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email: normalized }),
+      });
+      if (!res.ok) {
+        let message = "Something went wrong. Please try again.";
+        try {
+          const json = (await res.json()) as { message?: string; error?: string };
+          message = json.message || json.error || message;
+        } catch {
+          /* ignore */
+        }
+        return { error: message };
       }
     } catch (err) {
       console.error("Password reset request failed:", err);

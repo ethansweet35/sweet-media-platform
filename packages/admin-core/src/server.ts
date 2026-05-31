@@ -316,6 +316,8 @@ export {
   type AdminUserRow,
 } from "./lib/server/adminUsers";
 
+export { handleAdminForgotPasswordPost } from "./lib/server/adminForgotPassword";
+
 export {
   handleSaveDraft,
   handlePublish,
