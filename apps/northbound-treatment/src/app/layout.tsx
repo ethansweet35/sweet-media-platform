@@ -4,9 +4,10 @@ import Script from "next/script";
 import "./globals.css";
 import "@/styles/remixicon-subset.css";
 import Layout from "@/components/feature/Layout";
-import { AnalyticsWrapper, PageEditorProvider } from "@sweetmedia/admin-core";
+import { DeferredAnalyticsWrapper, DeferredPageEditorProvider } from "@sweetmedia/admin-core";
 import { CTM_FORMREACTOR_SRC, CTM_TRACKING_SRC } from "@/lib/ctm";
 import CtmRouteReloader from "@/components/feature/CtmRouteReloader";
+import DeferredAccessiBe from "@/components/feature/DeferredAccessiBe";
 
 const dmSans = DM_Sans({
   variable: "--font-dm-sans",
@@ -73,7 +74,7 @@ export default function RootLayout({
         <link rel="preconnect" href="https://186366.tctm.co" crossOrigin="anonymous" />
         <link rel="preconnect" href="https://www.googletagmanager.com" crossOrigin="anonymous" />
         {/* ── Google Tag Manager ── */}
-        <Script id="gtm-init" strategy="afterInteractive">{`
+        <Script id="gtm-init" strategy="lazyOnload">{`
           (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
           new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
           j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
@@ -102,10 +103,8 @@ export default function RootLayout({
           </>
         )}
 
-        {/* ── TalkFurther + ACSB — domain-locked, only load on production ──
-            These are corner widgets (chat + accessibility menu) that don't need
-            to block initial render. lazyOnload defers them to browser idle time
-            after the page has loaded, cutting Total Blocking Time. */}
+        {/* ── TalkFurther — domain-locked, production only (lazyOnload).
+            AccessiBe loads via <DeferredAccessiBe /> after interaction. */}
         {process.env.NODE_ENV === "production" && (
           <>
             <Script id="talkfurther" strategy="lazyOnload">{`
@@ -116,26 +115,6 @@ export default function RootLayout({
                 a.src = 'https://js.talkfurther.com/talkfurther_init.min.js';
                 a.async = true;
                 b.parentNode.insertBefore(a, b);
-              })();
-            `}</Script>
-            <Script id="acsb-init" strategy="lazyOnload">{`
-              (function () {
-                var s = document.createElement('script');
-                s.src = 'https://acsbapp.com/apps/app/dist/js/app.js';
-                s.async = true;
-                s.onload = function () {
-                  acsbJS.init({
-                    statementLink: '', footerHtml: '', hideMobile: false, hideTrigger: false,
-                    disableBgProcess: false, language: 'en', position: 'right',
-                    leadColor: '#146FF8', triggerColor: '#146FF8', triggerRadius: '50%',
-                    triggerPositionX: 'right', triggerPositionY: 'bottom',
-                    triggerIcon: 'people', triggerSize: 'bottom',
-                    triggerOffsetX: 20, triggerOffsetY: 20,
-                    mobile: { triggerSize: 'small', triggerPositionX: 'right', triggerPositionY: 'bottom',
-                              triggerOffsetX: 10, triggerOffsetY: 10, triggerRadius: '50%' },
-                  });
-                };
-                (document.querySelector('head') || document.body).appendChild(s);
               })();
             `}</Script>
           </>
@@ -151,10 +130,11 @@ export default function RootLayout({
             style={{ display: "none", visibility: "hidden" }}
           />
         </noscript>
-        <PageEditorProvider>
+        <DeferredPageEditorProvider>
           <Layout>{children}</Layout>
-        </PageEditorProvider>
-        <AnalyticsWrapper />
+        </DeferredPageEditorProvider>
+        <DeferredAnalyticsWrapper />
+        <DeferredAccessiBe />
         <CtmRouteReloader />
       </body>
     </html>

@@ -3,7 +3,7 @@ import { Open_Sans, Poppins } from "next/font/google";
 import Script from "next/script";
 import "./globals.css";
 import Layout from "@/components/feature/Layout";
-import { AnalyticsWrapper, PageEditorProvider } from "@sweetmedia/admin-core";
+import { DeferredAnalyticsWrapper, DeferredPageEditorProvider } from "@sweetmedia/admin-core";
 import {
   MBH_HERO_POSTER_URL,
   MBH_HERO_VIDEO_URL,
@@ -68,10 +68,10 @@ export default function RootLayout({
         />
       </head>
       <body className={`${poppins.variable} ${openSans.variable} font-body antialiased`}>
-        <PageEditorProvider>
+        <DeferredPageEditorProvider>
           <Layout>{children}</Layout>
-        </PageEditorProvider>
-        <AnalyticsWrapper />
+        </DeferredPageEditorProvider>
+        <DeferredAnalyticsWrapper />
       </body>
     </html>
   );

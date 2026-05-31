@@ -163,6 +163,7 @@ export default function TreatmentServices() {
               <div className="relative z-10 mt-auto border-t border-sand-dark pt-6 transition-colors duration-500 group-hover:border-terracotta/30">
                 <Link
                   href={service.href}
+                  prefetch={false}
                   className="flex items-center gap-2 text-xs font-bold uppercase tracking-[0.22em] text-terracotta transition-all duration-300 group-hover:gap-4"
                 >
                   Explore {service.title.split(" ").slice(0, 2).join(" ")}

@@ -3,7 +3,6 @@ import { heroHomeSection } from "@/lib/heroSpacing";
 import Link from "next/link";
 import CtmLeadFormCard from "@/components/feature/CtmLeadFormCard";
 import { HERO_BG } from "../assets";
-import { AutoLinkedText } from "@sweetmedia/blog-core";
 
 /**
  * Hero — full-bleed coastal highway image background.
@@ -24,7 +23,7 @@ export default function Hero() {
         alt="California coastal highway heading north at golden hour"
         fill
         priority
-        quality={70}
+        quality={65}
         className="object-cover object-center"
         sizes="(max-width: 1280px) 100vw, 1280px"
       />
@@ -87,6 +86,7 @@ export default function Hero() {
             <div className="mb-4 flex flex-wrap gap-3">
               <Link
                 href="/programs/detox/"
+                prefetch={false}
                 className="inline-flex items-center gap-1.5 text-xs font-semibold text-white/60 underline-offset-4 hover:text-terracotta hover:underline"
               >
                 Detox
@@ -94,6 +94,7 @@ export default function Hero() {
               <span className="text-white/20">·</span>
               <Link
                 href="/programs/residential-treatment-center/"
+                prefetch={false}
                 className="inline-flex items-center gap-1.5 text-xs font-semibold text-white/60 underline-offset-4 hover:text-terracotta hover:underline"
               >
                 Residential
@@ -101,6 +102,7 @@ export default function Hero() {
               <span className="text-white/20">·</span>
               <Link
                 href="/programs/partial-hospitalization-program/"
+                prefetch={false}
                 className="inline-flex items-center gap-1.5 text-xs font-semibold text-white/60 underline-offset-4 hover:text-terracotta hover:underline"
               >
                 PHP
@@ -108,6 +110,7 @@ export default function Hero() {
               <span className="text-white/20">·</span>
               <Link
                 href="/telehealth-iop-services/"
+                prefetch={false}
                 className="inline-flex items-center gap-1.5 text-xs font-semibold text-white/60 underline-offset-4 hover:text-terracotta hover:underline"
               >
                 Virtual IOP
@@ -115,6 +118,7 @@ export default function Hero() {
               <span className="text-white/20">·</span>
               <Link
                 href="/programs/aftercare/"
+                prefetch={false}
                 className="inline-flex items-center gap-1.5 text-xs font-semibold text-white/60 underline-offset-4 hover:text-terracotta hover:underline"
               >
                 Aftercare

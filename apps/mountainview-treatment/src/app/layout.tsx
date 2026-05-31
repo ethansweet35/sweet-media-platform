@@ -3,7 +3,7 @@ import { Cormorant_Garamond, Montserrat } from "next/font/google";
 import Script from "next/script";
 import "./globals.css";
 import Layout from "@/components/feature/Layout";
-import { AnalyticsWrapper, PageEditorProvider } from "@sweetmedia/admin-core";
+import { DeferredAnalyticsWrapper, DeferredPageEditorProvider } from "@sweetmedia/admin-core";
 
 const REMIXICON_CSS =
   "https://cdn.jsdelivr.net/npm/remixicon@4.6.0/fonts/remixicon.css";
@@ -82,10 +82,10 @@ export default function RootLayout({
         </noscript>
       </head>
       <body className={`${cormorant.variable} ${montserrat.variable} antialiased`}>
-        <PageEditorProvider>
+        <DeferredPageEditorProvider>
           <Layout>{children}</Layout>
-        <AnalyticsWrapper />
-        </PageEditorProvider>
+        <DeferredAnalyticsWrapper />
+        </DeferredPageEditorProvider>
       </body>
     </html>
   );

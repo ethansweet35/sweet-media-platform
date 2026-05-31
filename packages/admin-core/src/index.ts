@@ -25,6 +25,8 @@ export {
 } from "./lib/seedCleaner";
 
 export { AnalyticsWrapper } from "./components/AnalyticsWrapper";
+export { DeferredAnalyticsWrapper } from "./components/DeferredAnalyticsWrapper";
+export { DeferredPageEditorProvider } from "./components/DeferredPageEditorProvider";
 export { default as AdminPageHeader } from "./components/AdminPageHeader";
 export { default as OptimizationStatusBanner } from "./components/OptimizationStatusBanner";
 export { default as ContentEditorCell, type ContentEditorCellRow } from "./components/ContentEditorCell";

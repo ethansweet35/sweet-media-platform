@@ -30,6 +30,9 @@ const nextConfig: NextConfig = {
     remotePatterns: [
       { protocol: "https", hostname: "ahufsygjwpbymomfdazb.supabase.co" },
     ],
+    // Cap generated widths so LCP hero does not pull 1920px when 1280px suffices.
+    deviceSizes: [640, 750, 828, 1080, 1200, 1280],
+    imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
   },
 };
 

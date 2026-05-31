@@ -3,7 +3,7 @@ import { Marcellus, Montserrat } from "next/font/google";
 import Script from "next/script";
 import "./globals.css";
 import Layout from "@/components/feature/Layout";
-import { AnalyticsWrapper, PageEditorProvider } from "@sweetmedia/admin-core";
+import { DeferredAnalyticsWrapper, DeferredPageEditorProvider } from "@sweetmedia/admin-core";
 
 /** Same Remix Icon major version as `@sweetmedia/inner-peak-colorado` — platform standard (CDN, no npm dep). */
 const REMIXICON_CSS =
@@ -141,10 +141,10 @@ export default function RootLayout({
         `}</Script>
       </head>
       <body className={`${marcellus.variable} ${montserrat.variable} antialiased`}>
-        <PageEditorProvider>
+        <DeferredPageEditorProvider>
           <Layout>{children}</Layout>
-        <AnalyticsWrapper />
-        </PageEditorProvider>
+        <DeferredAnalyticsWrapper />
+        </DeferredPageEditorProvider>
       </body>
     </html>
   );

@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { initPageAutoLinks } from "@sweetmedia/blog-core";
 import { resolveTrackedPageMetadata } from "@sweetmedia/admin-core";
 import { buildMedicalOrganizationSchema, buildFAQPageSchema, type FaqItem } from "@sweetmedia/seo-schema";
 
@@ -72,6 +73,7 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function Page() {
+  initPageAutoLinks("/");
   const settings = await fetchBrandSettingsForServer();
 
   const orgSchema = settings ? buildMedicalOrganizationSchema(settings) : null;
