@@ -21,6 +21,10 @@ import SectionWrapper from "@/components/ui/SectionWrapper";
 import IconCircle from "@/components/ui/IconCircle";
 import Button from "@/components/ui/Button";
 import CinematicHeroSection from "@/components/ui/CinematicHeroSection";
+import {
+  CINEMATIC_BOTTOM_HERO_GRADIENT,
+  CINEMATIC_CONDITION_LEFT_VIGNETTE,
+} from "@/lib/cinematicHeroStyles";
 import { PAGE_GRID } from "@/components/ui/PageHeroShell";
 import FaqAccordion, { type FaqItem } from "@/components/ui/FaqAccordion";
 import { AutoLinkedText } from "@sweetmedia/blog-core";
@@ -107,10 +111,13 @@ export default function ConditionPage({ data }: { data: ConditionData }) {
             />
             <div
               className="absolute inset-0"
-              style={{
-                background:
-                  "linear-gradient(105deg, rgba(44,48,46,0.97) 0%, rgba(44,48,46,0.82) 45%, rgba(44,48,46,0.55) 70%, rgba(44,48,46,0.35) 100%)",
-              }}
+              style={{ background: CINEMATIC_BOTTOM_HERO_GRADIENT }}
+              aria-hidden
+            />
+            <div
+              className="absolute inset-0"
+              style={{ background: CINEMATIC_CONDITION_LEFT_VIGNETTE }}
+              aria-hidden
             />
           </>
         }
