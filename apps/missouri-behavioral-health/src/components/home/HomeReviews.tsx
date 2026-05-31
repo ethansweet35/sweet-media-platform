@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { CONTAINER } from "@/data/site";
 import {
   GOOGLE_REVIEWS,
@@ -22,7 +22,7 @@ function StarRow({ className = "" }: { className?: string }) {
 
 function ReviewCard({ review }: { review: GoogleReview }) {
   return (
-    <article className="rounded-2xl border border-mbh-forest/10 bg-white p-5 shadow-sm ring-1 ring-mbh-forest/5 sm:p-6">
+    <article className="h-full rounded-2xl border border-mbh-forest/10 bg-white p-5 shadow-sm ring-1 ring-mbh-forest/5 sm:p-6">
       <StarRow className="mb-3" />
       <blockquote className="font-body text-[0.9375rem] leading-relaxed text-mbh-body">
         &ldquo;{review.text}&rdquo;
@@ -40,7 +40,6 @@ function ReviewCard({ review }: { review: GoogleReview }) {
 }
 
 export default function HomeReviews() {
-  const trackRef = useRef<HTMLDivElement>(null);
   const [active, setActive] = useState(0);
   const [slidesPerView, setSlidesPerView] = useState(1);
 
@@ -56,29 +55,21 @@ export default function HomeReviews() {
 
   const pageCount = Math.max(1, Math.ceil(GOOGLE_REVIEWS.length / slidesPerView));
 
-  const scrollToPage = useCallback(
+  useEffect(() => {
+    setActive((prev) => Math.min(prev, pageCount - 1));
+  }, [pageCount]);
+
+  const goToPage = useCallback(
     (page: number) => {
-      const track = trackRef.current;
-      if (!track) return;
-      const next = ((page % pageCount) + pageCount) % pageCount;
-      const slideWidth = track.clientWidth / slidesPerView;
-      track.scrollTo({ left: slideWidth * slidesPerView * next, behavior: "smooth" });
-      setActive(next);
+      setActive(((page % pageCount) + pageCount) % pageCount);
     },
-    [pageCount, slidesPerView],
+    [pageCount],
   );
 
-  useEffect(() => {
-    const track = trackRef.current;
-    if (!track) return;
-    const onScroll = () => {
-      const slideWidth = track.clientWidth / slidesPerView;
-      if (!slideWidth) return;
-      setActive(Math.round(track.scrollLeft / (slideWidth * slidesPerView)));
-    };
-    track.addEventListener("scroll", onScroll, { passive: true });
-    return () => track.removeEventListener("scroll", onScroll);
-  }, [slidesPerView]);
+  const visibleReviews = GOOGLE_REVIEWS.slice(
+    active * slidesPerView,
+    active * slidesPerView + slidesPerView,
+  );
 
   return (
     <section className="border-b border-mbh-forest/10 bg-cream py-16 lg:py-20" aria-labelledby="home-reviews-heading">
@@ -129,17 +120,13 @@ export default function HomeReviews() {
 
         <div className="relative mt-10">
           <div
-            ref={trackRef}
-            className="flex items-start snap-x snap-mandatory gap-5 overflow-x-auto pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
-            aria-label="Google reviews carousel"
+            key={active}
+            className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3"
+            aria-label="Google reviews"
+            aria-live="polite"
           >
-            {GOOGLE_REVIEWS.map((review) => (
-              <div
-                key={review.name}
-                className="w-[min(100%,340px)] shrink-0 snap-start self-start sm:w-[calc(50%-10px)] lg:w-[calc(33.333%-14px)]"
-              >
-                <ReviewCard review={review} />
-              </div>
+            {visibleReviews.map((review) => (
+              <ReviewCard key={review.name} review={review} />
             ))}
           </div>
 
@@ -147,16 +134,16 @@ export default function HomeReviews() {
             <>
               <button
                 type="button"
-                onClick={() => scrollToPage(active - 1)}
-                className="absolute -left-2 top-8 z-10 hidden h-11 w-11 items-center justify-center rounded-full bg-white text-mbh-forest shadow-lg ring-1 ring-mbh-forest/10 transition hover:bg-cream sm:flex lg:-left-5"
+                onClick={() => goToPage(active - 1)}
+                className="absolute -left-2 top-1/2 z-10 hidden h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full bg-white text-mbh-forest shadow-lg ring-1 ring-mbh-forest/10 transition hover:bg-cream sm:flex lg:-left-5"
                 aria-label="Previous reviews"
               >
                 <i className="ri-arrow-left-s-line text-xl" aria-hidden />
               </button>
               <button
                 type="button"
-                onClick={() => scrollToPage(active + 1)}
-                className="absolute -right-2 top-8 z-10 hidden h-11 w-11 items-center justify-center rounded-full bg-white text-mbh-forest shadow-lg ring-1 ring-mbh-forest/10 transition hover:bg-cream sm:flex lg:-right-5"
+                onClick={() => goToPage(active + 1)}
+                className="absolute -right-2 top-1/2 z-10 hidden h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full bg-white text-mbh-forest shadow-lg ring-1 ring-mbh-forest/10 transition hover:bg-cream sm:flex lg:-right-5"
                 aria-label="Next reviews"
               >
                 <i className="ri-arrow-right-s-line text-xl" aria-hidden />
@@ -167,7 +154,7 @@ export default function HomeReviews() {
                   <button
                     key={i}
                     type="button"
-                    onClick={() => scrollToPage(i)}
+                    onClick={() => goToPage(i)}
                     className={`h-2 rounded-full transition-all ${
                       i === active ? "w-7 bg-mbh-green" : "w-2 bg-mbh-forest/20 hover:bg-mbh-forest/35"
                     }`}

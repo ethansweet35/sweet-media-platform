@@ -32,8 +32,11 @@ const openSans = Open_Sans({
   weight: ["400", "500", "600", "700"],
 });
 
+/** Tab / PWA icons: RealFaviconGenerator assets in `src/app/` + `public/site.webmanifest`. */
+
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? "https://missouribehavioralhealth.com"),
+  manifest: "/site.webmanifest",
   title: {
     default: "Missouri Behavioral Health | Mental Health & Addiction Treatment",
     template: "%s | Missouri Behavioral Health",

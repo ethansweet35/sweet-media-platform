@@ -140,9 +140,9 @@ export default function AboutPage() {
       </section>
 
       {/* Story */}
-      <section className="bg-cream py-[100px]">
+      <section className="bg-cream py-16 lg:py-20">
         <div className={CONTAINER}>
-          <div className="grid items-center gap-12 lg:grid-cols-2 lg:gap-16 xl:gap-20">
+          <div className="grid items-start gap-10 lg:grid-cols-2 lg:gap-14 xl:gap-16">
             <div className="relative">
               <div className="relative overflow-hidden rounded-2xl shadow-xl shadow-mbh-forest/10">
                 <Image
@@ -204,7 +204,7 @@ export default function AboutPage() {
       </section>
 
       {/* Values */}
-      <section className="bg-white py-[100px]">
+      <section className="bg-white py-16 lg:py-20">
         <div className={CONTAINER}>
           <div className="mx-auto max-w-2xl text-center">
             <div className="mb-5 flex items-center justify-center gap-3">
@@ -219,7 +219,7 @@ export default function AboutPage() {
             </h2>
           </div>
 
-          <div className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+          <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
             {VALUES.map((item) => (
               <div
                 key={item.title}
@@ -237,35 +237,35 @@ export default function AboutPage() {
       </section>
 
       {/* Differentiators strip */}
-      <section className="relative overflow-hidden bg-mbh-forest py-16 text-white">
+      <section className="relative overflow-hidden bg-mbh-forest py-12 text-white lg:py-14">
         <div className="pointer-events-none absolute -right-32 -top-32 h-96 w-96 rounded-full bg-mbh-green/20" aria-hidden />
         <div className={CONTAINER}>
-          <div className="grid gap-10 lg:grid-cols-2 lg:items-center">
+          <div className="grid items-start gap-8 lg:grid-cols-2 lg:gap-12">
             <div>
               <p className="font-body text-[11px] font-semibold uppercase tracking-[0.3em] text-mbh-sage">
                 Why families choose MBH
               </p>
-              <h2 className="mt-4 font-display text-[clamp(1.5rem,3vw,2.25rem)] font-semibold leading-[1.12] text-white">
+              <h2 className="mt-3 font-display text-[clamp(1.5rem,3vw,2.25rem)] font-semibold leading-[1.12] text-white">
                 Structured outpatient care with the intensity recovery often requires.
               </h2>
-              <p className="mt-4 max-w-lg font-body text-sm leading-relaxed text-white/65">
+              <p className="mt-3 max-w-lg font-body text-sm leading-relaxed text-white/65">
                 We combine medical direction, licensed therapy, group process, and holistic
                 modalities — so you receive comprehensive treatment without the disruption of
                 residential placement when a lower level of care is clinically appropriate.
               </p>
               <Link
                 href="/levels-of-care-missouri"
-                className="mt-6 inline-flex items-center gap-2 font-body text-sm font-semibold text-mbh-mint underline-offset-4 hover:underline"
+                className="mt-5 inline-flex items-center gap-2 font-body text-sm font-semibold text-mbh-mint underline-offset-4 hover:underline"
               >
                 Explore levels of care
                 <i className="ri-arrow-right-line" aria-hidden />
               </Link>
             </div>
-            <div className="grid grid-cols-2 gap-px overflow-hidden rounded-2xl border border-white/10 bg-white/10 sm:grid-cols-4 lg:grid-cols-2 xl:grid-cols-4">
+            <div className="grid grid-cols-2 gap-px overflow-hidden rounded-2xl border border-white/10 bg-white/10 sm:grid-cols-4">
               {DIFFERENTIATORS.map((stat, i) => (
                 <div
                   key={stat.label}
-                  className={`px-5 py-6 text-center ${i % 2 === 0 ? "bg-white/5" : "bg-white/[0.08]"}`}
+                  className={`px-4 py-5 text-center sm:px-5 sm:py-5 ${i % 2 === 0 ? "bg-white/5" : "bg-white/[0.08]"}`}
                 >
                   <p className="font-display text-2xl font-semibold text-white">{stat.value}</p>
                   <p className="mt-1 font-body text-[10px] font-semibold uppercase tracking-[0.18em] text-white/50">
@@ -279,9 +279,9 @@ export default function AboutPage() {
       </section>
 
       {/* Clinical approach */}
-      <section className="bg-cream py-[100px]">
+      <section className="bg-cream py-16 lg:py-20">
         <div className={CONTAINER}>
-          <div className="grid gap-12 lg:grid-cols-2 lg:gap-16">
+          <div className="grid items-start gap-10 lg:grid-cols-2 lg:gap-14">
             <div>
               <div className="mb-5 flex items-center gap-3">
                 <div className="h-px w-8 bg-mbh-green" aria-hidden />
@@ -292,12 +292,12 @@ export default function AboutPage() {
               <h2 className="font-display text-[clamp(1.75rem,3.5vw,2.75rem)] font-semibold leading-[1.1] tracking-tight text-mbh-forest">
                 Evidence-based therapies, integrated under one team.
               </h2>
-              <p className="mt-6 font-body text-base leading-relaxed text-mbh-body">
+              <p className="mt-5 font-body text-base leading-relaxed text-mbh-body">
                 Our clinicians draw on CBT, DBT, EMDR, group therapy, family therapy, and holistic
                 practices including yoga and music therapy. Psychiatric evaluation and medication
                 management are available when clinically appropriate.
               </p>
-              <ul className="mt-8 space-y-3">
+              <ul className="mt-6 space-y-3">
                 {[
                   "Addiction treatment for alcohol, opioids, stimulants, and more",
                   "Mental health care for depression, anxiety, PTSD, OCD, and trauma",
@@ -314,7 +314,7 @@ export default function AboutPage() {
                   </li>
                 ))}
               </ul>
-              <div className="mt-9 flex flex-wrap gap-3">
+              <div className="mt-7 flex flex-wrap gap-3">
                 <Link
                   href="/services"
                   className="inline-flex items-center gap-2 rounded-full bg-mbh-forest px-7 py-3.5 font-body text-sm font-semibold text-white transition hover:bg-mbh-forest-deep"
@@ -331,15 +331,15 @@ export default function AboutPage() {
               </div>
             </div>
 
-            <div className="relative overflow-hidden rounded-2xl shadow-lg ring-1 ring-mbh-forest/8">
+            <div className="relative overflow-hidden rounded-2xl shadow-lg ring-1 ring-mbh-forest/8 lg:max-w-xl lg:justify-self-end">
               <Image
                 src={SITE_IMAGES.facilityInterior}
                 alt="Missouri Behavioral Health facility interior common area"
                 width={900}
                 height={600}
-                className="h-full min-h-[320px] w-full object-cover"
+                className="aspect-[3/2] w-full object-cover"
               />
-              <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-mbh-forest-deep/90 to-transparent p-6 pt-16">
+              <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-mbh-forest-deep/90 to-transparent p-5 pt-12">
                 <p className="font-body text-[10px] font-semibold uppercase tracking-[0.22em] text-mbh-sage">
                   Our Springfield campus
                 </p>
@@ -359,7 +359,7 @@ export default function AboutPage() {
       />
 
       {/* FAQ */}
-      <section className="bg-cream py-[100px]">
+      <section className="bg-cream py-16 lg:py-20">
         <div className={CONTAINER}>
           <div className="mx-auto max-w-3xl text-center">
             <div className="mb-5 flex items-center justify-center gap-3">
