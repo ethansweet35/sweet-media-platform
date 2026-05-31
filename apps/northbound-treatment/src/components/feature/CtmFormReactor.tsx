@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import { CTM_FORM_REACTOR_IFRAME_SRC } from "@/lib/ctm";
 
 export type CtmFormReactorProps = {
@@ -15,6 +16,12 @@ export default function CtmFormReactor({
   className = "",
   title = "Northbound Treatment — contact form",
 }: CtmFormReactorProps) {
+  const [src, setSrc] = useState<string | null>(null);
+
+  useEffect(() => {
+    setSrc(CTM_FORM_REACTOR_IFRAME_SRC);
+  }, []);
+
   /*
    * The iframe is absolutely positioned and pinned to all four edges of a
    * fixed-height wrapper. Even when CTM's formreactor.js or its own resize
@@ -29,8 +36,9 @@ export default function CtmFormReactor({
       style={{ height: `${height}px` }}
     >
       <iframe
-        src={CTM_FORM_REACTOR_IFRAME_SRC}
+        src={src ?? "about:blank"}
         title={title}
+        loading="lazy"
         className="absolute inset-0 h-full w-full border-none"
       />
     </div>

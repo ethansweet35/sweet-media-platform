@@ -35,25 +35,15 @@ export default function DeferredHeroLeadForm(props: CtmLeadFormCardProps) {
             io?.disconnect();
           }
         },
-        { rootMargin: "200px 0px" },
+        { rootMargin: "0px 0px 80px 0px" },
       );
       io.observe(host);
     } else {
       activate();
     }
 
-    const idle =
-      typeof window.requestIdleCallback === "function"
-        ? window.requestIdleCallback(activate, { timeout: 4000 })
-        : undefined;
-    const fallback = window.setTimeout(activate, 4000);
-
     return () => {
       io?.disconnect();
-      window.clearTimeout(fallback);
-      if (idle !== undefined && typeof window.cancelIdleCallback === "function") {
-        window.cancelIdleCallback(idle);
-      }
     };
   }, []);
 

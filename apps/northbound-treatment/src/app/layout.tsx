@@ -4,16 +4,17 @@ import Script from "next/script";
 import "./globals.css";
 import Layout from "@/components/feature/Layout";
 import { DeferredAnalyticsWrapper } from "@sweetmedia/admin-core/public-layout";
-import { CTM_SCRIPTS_ENABLED, CTM_TRACKING_SRC } from "@/lib/ctm";
 import CtmRouteReloader from "@/components/feature/CtmRouteReloader";
 import DeferredAccessiBe from "@/components/feature/DeferredAccessiBe";
+import DeferredCtm from "@/components/feature/DeferredCtm";
+import DeferredGtm from "@/components/feature/DeferredGtm";
 import DeferredTalkFurther from "@/components/feature/DeferredTalkFurther";
 
 const dmSans = DM_Sans({
   variable: "--font-dm-sans",
   subsets: ["latin"],
   display: "swap",
-  preload: true,
+  preload: false,
   weight: ["400", "700"],
 });
 
@@ -85,27 +86,6 @@ export default function RootLayout({
             document.head.appendChild(l);
           })();
         `}</Script>
-        {/* ── Google Tag Manager ── */}
-        <Script id="gtm-init" strategy="lazyOnload">{`
-          (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-          new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-          j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-          'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-          })(window,document,'script','dataLayer','${GTM_ID}');
-        `}</Script>
-
-        {/* ── CTM call tracking (account 186366) — domain-locked, only load on production ── */}
-        {CTM_SCRIPTS_ENABLED && (
-          <>
-            <Script
-              id="ctm-tracking"
-              src={CTM_TRACKING_SRC}
-              strategy="lazyOnload"
-              async
-              data-cfasync="false"
-            />
-          </>
-        )}
       </head>
       <body className="antialiased">
         {/* GTM noscript fallback */}
@@ -119,6 +99,8 @@ export default function RootLayout({
         </noscript>
         <Layout>{children}</Layout>
         <DeferredAnalyticsWrapper />
+        <DeferredGtm />
+        <DeferredCtm />
         <DeferredAccessiBe />
         <DeferredTalkFurther />
         <CtmRouteReloader />
