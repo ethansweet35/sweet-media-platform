@@ -31,8 +31,12 @@ export default function AdminChrome({
     pathname === "/admin/login" || pathname === "/admin/login/";
   const isSetup =
     pathname === "/admin/setup" || pathname === "/admin/setup/";
+  const isForgotPassword =
+    pathname === "/admin/forgot-password" || pathname === "/admin/forgot-password/";
+  const isResetPassword =
+    pathname === "/admin/reset-password" || pathname === "/admin/reset-password/";
 
-  if (isLogin || isSetup) {
+  if (isLogin || isSetup || isForgotPassword || isResetPassword) {
     return (
       <>
         <AdminFonts />

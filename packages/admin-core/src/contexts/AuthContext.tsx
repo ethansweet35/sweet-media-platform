@@ -10,6 +10,8 @@ interface AuthContextValue {
   isAdmin: boolean;
   isLoading: boolean;
   signIn: (email: string, password: string) => Promise<{ error: string | null }>;
+  requestPasswordReset: (email: string) => Promise<{ error: string | null }>;
+  updatePassword: (password: string) => Promise<{ error: string | null }>;
   signOut: () => Promise<void>;
 }
 
@@ -104,13 +106,45 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     return { error: null };
   };
 
+  const requestPasswordReset = async (email: string) => {
+    const normalized = email.trim().toLowerCase();
+    if (!normalized) return { error: "Email is required." };
+
+    try {
+      const { data: adminRow } = await supabase
+        .from("admin_users")
+        .select("id")
+        .eq("email", normalized)
+        .maybeSingle();
+
+      if (adminRow) {
+        const redirectTo = `${window.location.origin.replace(/\/+$/, "")}/admin/reset-password`;
+        const { error } = await supabase.auth.resetPasswordForEmail(normalized, { redirectTo });
+        if (error) return { error: error.message };
+      }
+    } catch (err) {
+      console.error("Password reset request failed:", err);
+      return { error: "Something went wrong. Please try again." };
+    }
+
+    return { error: null };
+  };
+
+  const updatePassword = async (password: string) => {
+    const { error } = await supabase.auth.updateUser({ password });
+    if (error) return { error: error.message };
+    return { error: null };
+  };
+
   const signOut = async () => {
     await supabase.auth.signOut();
     // Don't manually set state — onAuthStateChange will fire with null session
   };
 
   return (
-    <AuthContext.Provider value={{ session, user, isAdmin, isLoading, signIn, signOut }}>
+    <AuthContext.Provider
+      value={{ session, user, isAdmin, isLoading, signIn, requestPasswordReset, updatePassword, signOut }}
+    >
       {children}
     </AuthContext.Provider>
   );

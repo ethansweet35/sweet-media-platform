@@ -112,6 +112,8 @@ export { default as AdminSitemapPage } from "./views/AdminSitemapPage";
 export { default as AdminIndexingStatusPage } from "./views/AdminIndexingStatusPage";
 export { default as AdminTrackedPagesPage } from "./views/AdminTrackedPagesPage";
 export { default as AdminLoginPage } from "./views/AdminLoginPage";
+export { default as AdminForgotPasswordPage } from "./views/AdminForgotPasswordPage";
+export { default as AdminResetPasswordPage } from "./views/AdminResetPasswordPage";
 export { default as AdminDashboardPage } from "./views/AdminDashboardPage";
 export { default as AdminSearchConsolePage } from "./views/AdminSearchConsolePage";
 export { default as AdminBlogsPage } from "./views/AdminBlogsPage";

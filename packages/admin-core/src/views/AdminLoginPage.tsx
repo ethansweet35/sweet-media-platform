@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useAuth } from "../contexts/AuthContext";
 import { supabaseConfigured } from "../lib/supabase";
@@ -138,9 +139,18 @@ export default function AdminLoginPage() {
             </div>
 
             <div>
-              <label className="block text-sm font-medium mb-1.5" style={{ color: ADMIN_TEXT }}>
-                Password
-              </label>
+              <div className="flex items-center justify-between mb-1.5">
+                <label className="block text-sm font-medium" style={{ color: ADMIN_TEXT }}>
+                  Password
+                </label>
+                <Link
+                  href="/admin/forgot-password"
+                  className="text-xs font-semibold underline-offset-4 hover:underline"
+                  style={{ color: ADMIN_ACCENT }}
+                >
+                  Forgot password?
+                </Link>
+              </div>
               <div className="relative">
                 <input
                   type={showPassword ? "text" : "password"}
