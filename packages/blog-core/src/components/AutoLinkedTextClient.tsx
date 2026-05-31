@@ -9,6 +9,9 @@
  * subsequent instances reuse the result, and renders real <a> tags into
  * the DOM. Google's modern crawler executes JS and indexes these links.
  *
+ * Prefer wrapping the route in `<AutoLinkPageShell routePath="...">` so
+ * mappings are fetched once on the server and links appear in the initial HTML.
+ *
  * Platform linking rules enforced automatically:
  *   1. No self-links — automatically detected via usePathname() so no prop
  *      needed. The current page's href is always excluded from linking.
@@ -29,6 +32,8 @@ import { usePathname } from "next/navigation";
 import Link from "next/link";
 import { autoLinkText, type AutoLinkMapping } from "../lib/autoInternalLinks";
 import { fetchManualLinkMappings } from "../lib/autoInternalLinks";
+import { AutoLinkedTextSync } from "./AutoLinkedTextSync";
+import { useAutoLinkPageContext } from "./AutoLinkPageContext";
 
 interface Props {
   children: ReactNode;
@@ -63,6 +68,22 @@ export function AutoLinkedTextClient({
   maxLinks = 2,
   linkClassName = DEFAULT_LINK_CLASS,
 }: Props) {
+  const pageContext = useAutoLinkPageContext();
+
+  if (pageContext) {
+    return (
+      <AutoLinkedTextSync
+        mappings={pageContext.mappings}
+        registry={pageContext.registry}
+        currentPath={currentPath}
+        maxLinks={maxLinks}
+        linkClassName={linkClassName}
+      >
+        {children}
+      </AutoLinkedTextSync>
+    );
+  }
+
   const pathname = usePathname();
   const effectivePath = currentPath ?? pathname;
 

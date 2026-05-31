@@ -15,6 +15,11 @@ export { getInternalLinkMappings, getPageAutoLinkRegistry } from "./lib/getInter
 export { AutoLinkedText, initPageAutoLinks } from "./components/AutoLinkedText";
 export { AutoLinkedTextSync } from "./components/AutoLinkedTextSync";
 export { AutoLinkedTextClient } from "./components/AutoLinkedTextClient";
+export { AutoLinkPageShell } from "./components/AutoLinkPageShell";
+export {
+  AutoLinkPageContextProvider,
+  useAutoLinkPageContext,
+} from "./components/AutoLinkPageContext";
 
 export * from "./types/brandSettings";
 export { getBrandSettings } from "./lib/getBrandSettings";

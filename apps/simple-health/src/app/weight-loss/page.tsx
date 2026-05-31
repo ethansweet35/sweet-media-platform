@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { resolveTrackedPageMetadata } from "@sweetmedia/admin-core";
+import { AutoLinkPageShell } from "@sweetmedia/blog-core";
 import { WeightLossPage } from "@/views/weight-loss/page";
 
 const fallback: Metadata = {
@@ -13,6 +14,10 @@ export async function generateMetadata(): Promise<Metadata> {
   return resolveTrackedPageMetadata("/weight-loss", fallback);
 }
 
-export default function Page() {
-  return <WeightLossPage />;
+export default async function Page() {
+  return (
+    <AutoLinkPageShell routePath="/weight-loss">
+      <WeightLossPage />
+    </AutoLinkPageShell>
+  );
 }

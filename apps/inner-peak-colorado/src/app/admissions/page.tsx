@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { resolveTrackedPageMetadata } from '@sweetmedia/admin-core';
+import { AutoLinkPageShell } from '@sweetmedia/blog-core';
 import AdmissionsPage from '@/views/admissions/page';
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://innerpeakcolorado.com';
@@ -34,14 +35,16 @@ const schema = {
   ],
 };
 
-export default function Page() {
+export default async function Page() {
   return (
     <>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
       />
-      <AdmissionsPage />
+      <AutoLinkPageShell routePath="/admissions">
+        <AdmissionsPage />
+      </AutoLinkPageShell>
     </>
   );
 }

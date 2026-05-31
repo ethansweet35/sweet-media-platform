@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { resolveTrackedPageMetadata } from "@sweetmedia/admin-core";
+import { AutoLinkPageShell } from "@sweetmedia/blog-core";
 import GardenGrovePage from "@/views/locations/GardenGrovePage";
 
 const fallback: Metadata = {
@@ -14,6 +15,10 @@ export async function generateMetadata(): Promise<Metadata> {
   return resolveTrackedPageMetadata("/locations/california/garden-grove", fallback);
 }
 
-export default function Page() {
-  return <GardenGrovePage />;
+export default async function Page() {
+  return (
+    <AutoLinkPageShell routePath="/locations/california/garden-grove">
+      <GardenGrovePage />
+    </AutoLinkPageShell>
+  );
 }

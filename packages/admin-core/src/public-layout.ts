@@ -4,3 +4,4 @@
  * barrel, which pulls the entire admin app into shared client chunks.
  */
 export { DeferredAnalyticsWrapper } from "./components/DeferredAnalyticsWrapper";
+export { DeferredPageEditorProvider } from "./components/DeferredPageEditorProvider";
