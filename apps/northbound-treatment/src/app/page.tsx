@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { initPageAutoLinks } from "@sweetmedia/blog-core";
-import { resolveTrackedPageMetadata } from "@sweetmedia/admin-core";
+import { resolveTrackedPageMetadata } from "@sweetmedia/admin-core/seo";
 import { buildMedicalOrganizationSchema, buildFAQPageSchema, type FaqItem } from "@sweetmedia/seo-schema";
 
 import HomeFooter from "@/views/home/chrome/HomeFooter";

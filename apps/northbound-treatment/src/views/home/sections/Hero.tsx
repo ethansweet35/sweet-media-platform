@@ -8,7 +8,7 @@ import { HERO_BG } from "../assets";
  * Hero — full-bleed coastal highway image background.
  *
  * Layout:
- *   - Full-bleed photo (nbt_hero_bg01.jpg) sits behind everything.
+ *   - Full-bleed photo (nbt_hero_bg01.webp) sits behind everything.
  *   - Left half: navy gradient overlay so white text stays legible.
  *   - Right half: lighter navy-light overlay so the photo remains visible behind the form.
  *   - Form card: frosted dark panel so form fields stand out cleanly.
@@ -23,7 +23,7 @@ export default function Hero() {
         alt="California coastal highway heading north at golden hour"
         fill
         priority
-        quality={65}
+        quality={55}
         className="object-cover object-center"
         sizes="(max-width: 1280px) 100vw, 1280px"
       />

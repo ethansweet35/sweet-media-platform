@@ -24,6 +24,7 @@
     "migrate-clients": "node scripts/migrate-all-clients.mjs",
     "crawl-brand-data": "node scripts/crawl-brand-data.mjs",
     "migrate-wp-images": "node scripts/migrate-wp-site-images.mjs",
+    "upload:images": "node scripts/optimize-and-upload-images.mjs",
     "dev-setup": "node scripts/dev-setup.mjs",
     "sync-env": "node scripts/sync-env-to-1password.mjs",
     "smoke-test-content-editor": "pnpm --filter @sweetmedia/sweet-media exec tsx ../../scripts/smoke-test-content-editor-vendors.ts",
@@ -31,8 +32,11 @@
     "smoke-test-api": "pnpm --filter @sweetmedia/sweet-media exec tsx ../../scripts/smoke-test-content-editor-api.ts"
   },
   "devDependencies": {
+    "@supabase/supabase-js": "^2.105.1",
     "@types/turndown": "^5.0.6",
+    "dotenv": "^16.6.1",
     "playwright": "^1.59.1",
+    "sharp": "^0.34.5",
     "turbo": "^2.9.7",
     "turndown": "^7.2.4",
     "vercel": "^54.0.0"

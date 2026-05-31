@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
 import { resolveTrackedPageMetadata } from "@sweetmedia/admin-core";
 import CategoryPage from "@/views/blog/category-page";
+import { HERO_BG } from "@/views/home/assets";
 
 export const revalidate = 3600;
 
-const BLOG_OG_IMAGE =
-  "https://ahufsygjwpbymomfdazb.supabase.co/storage/v1/object/public/site-assets/images/nbt_hero_bg01.jpg";
+const BLOG_OG_IMAGE = HERO_BG;
 
 function humanizeSlug(slug: string): string {
   return slug

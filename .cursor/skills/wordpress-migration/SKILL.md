@@ -404,12 +404,13 @@ SUPABASE_BUCKET=site-assets
 LOCAL_IMAGE_DIR=./generated-images/
 ```
 
-Copy `upload-images-to-supabase.mjs` from another app's `scripts/` folder and run:
+From the client app directory (with `.upload.env` configured):
 ```bash
-node scripts/upload-images-to-supabase.mjs
+pnpm upload:images
+# optional: pnpm upload:images -- --dry-run
 ```
 
-This outputs the Supabase public URL for each file. Reference those URLs directly in page source.
+This optimizes rasters (WebP, max width 1280px), uploads to `site-assets/images/`, and writes `upload-manifest.json` with public URLs. Reference those URLs in page source (note `.jpg` inputs become `.webp` in storage).
 
 ### 7c. Replace any placeholder image URLs
 

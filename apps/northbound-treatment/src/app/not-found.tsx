@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { NOT_FOUND_PAGE_METADATA } from "@sweetmedia/admin-core";
+import { NOT_FOUND_PAGE_METADATA } from "@sweetmedia/admin-core/seo";
 
 export const metadata = NOT_FOUND_PAGE_METADATA;
 

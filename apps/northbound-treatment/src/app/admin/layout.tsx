@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { AdminGuard, AdminChrome, AuthProvider } from "@sweetmedia/admin-core";
+import { AdminGuard, AdminChrome, AuthProvider } from "@sweetmedia/admin-core/admin-shell";
 
 export const metadata: Metadata = {
   robots: {

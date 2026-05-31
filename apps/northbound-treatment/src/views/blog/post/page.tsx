@@ -13,7 +13,7 @@ import PostMoreFromCategory from "@/components/pages/blog/post/components/PostMo
 import PostCta from "@/components/pages/blog/post/components/PostCta";
 import PostBlogMobileShareRow from "@/components/pages/blog/post/components/PostBlogMobileShareRow";
 import { buildManualOnlyLinkMap, fetchManualLinkMappings } from "@sweetmedia/blog-core";
-import { useAuth } from "@sweetmedia/admin-core";
+import { useAuth } from "@sweetmedia/admin-core/auth";
 import { canonicalBlogPostUrl } from "@/lib/publicSiteUrl";
 
 /**

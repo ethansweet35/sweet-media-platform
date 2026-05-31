@@ -23,6 +23,7 @@ wp-media-migration-progress.json
 wp-screenshots/
 apps/*-migration/
 .upload.env
+upload-manifest.json
 uploaded-image-files.txt
 .env*.local
 

@@ -2,6 +2,9 @@ import type { NextConfig } from "next";
 import { wpRedirects } from "./src/lib/wp-redirects";
 
 const nextConfig: NextConfig = {
+  experimental: {
+    optimizePackageImports: ["@sweetmedia/admin-core", "@sweetmedia/blog-core"],
+  },
   // Keep @cursor/sdk out of the Turbopack bundle. The SDK ships a sibling
   // index.js.LICENSE.txt artifact Turbopack can't parse and ships native
   // bindings (sqlite3, statsig) that should resolve at runtime. Only used
@@ -30,6 +33,7 @@ const nextConfig: NextConfig = {
     remotePatterns: [
       { protocol: "https", hostname: "ahufsygjwpbymomfdazb.supabase.co" },
     ],
+    formats: ["image/avif", "image/webp"],
     // Cap generated widths so LCP hero does not pull 1920px when 1280px suffices.
     deviceSizes: [640, 750, 828, 1080, 1200, 1280],
     imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],

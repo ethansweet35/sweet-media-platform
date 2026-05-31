@@ -12,7 +12,7 @@ import {
   fetchPublishedBlogPostsForListing,
   fetchPublishedBlogPostSlugs,
 } from "@sweetmedia/blog-core";
-import { AuthProvider } from "@sweetmedia/admin-core";
+import { AuthProvider } from "@sweetmedia/admin-core/auth";
 import { buildArticleSchema } from "@sweetmedia/seo-schema";
 import { fetchBrandSettingsForServer } from "@/lib/fetchBrandSettings";
 

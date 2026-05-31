@@ -5,6 +5,10 @@
   "type": "module",
   "exports": {
     ".": "./src/index.ts",
+    "./public-layout": "./src/public-layout.ts",
+    "./admin-shell": "./src/admin-shell.ts",
+    "./auth": "./src/auth.ts",
+    "./seo": "./src/seo.ts",
     "./page-editor": "./src/page-editor.ts",
     "./server": "./src/server.ts",
     "./middleware": "./src/middleware/withPageEditorPathname.ts"

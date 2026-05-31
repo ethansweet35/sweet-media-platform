@@ -2,9 +2,8 @@ import type { Metadata } from "next";
 import { DM_Sans, Playfair_Display } from "next/font/google";
 import Script from "next/script";
 import "./globals.css";
-import "@/styles/remixicon-subset.css";
 import Layout from "@/components/feature/Layout";
-import { DeferredAnalyticsWrapper, DeferredPageEditorProvider } from "@sweetmedia/admin-core";
+import { DeferredAnalyticsWrapper } from "@sweetmedia/admin-core/public-layout";
 import { CTM_FORMREACTOR_SRC, CTM_SCRIPTS_ENABLED, CTM_TRACKING_SRC } from "@/lib/ctm";
 import CtmRouteReloader from "@/components/feature/CtmRouteReloader";
 import DeferredAccessiBe from "@/components/feature/DeferredAccessiBe";
@@ -13,7 +12,7 @@ const dmSans = DM_Sans({
   variable: "--font-dm-sans",
   subsets: ["latin"],
   display: "swap",
-  weight: ["300", "400", "500", "700"],
+  weight: ["400", "700"],
 });
 
 const playfair = Playfair_Display({
@@ -21,7 +20,7 @@ const playfair = Playfair_Display({
   subsets: ["latin"],
   display: "swap",
   style: ["normal", "italic"],
-  weight: ["400", "500", "600", "700"],
+  weight: ["400", "700"],
 });
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.northboundtreatment.com";
@@ -71,8 +70,18 @@ export default function RootLayout({
   return (
     <html lang="en" data-scroll-behavior="smooth" className={`${dmSans.variable} ${playfair.variable}`}>
       <head>
-        <link rel="preconnect" href="https://186366.tctm.co" crossOrigin="anonymous" />
-        <link rel="preconnect" href="https://www.googletagmanager.com" crossOrigin="anonymous" />
+        <link rel="preconnect" href="https://ahufsygjwpbymomfdazb.supabase.co" crossOrigin="anonymous" />
+        <link rel="dns-prefetch" href="https://186366.tctm.co" />
+        <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
+        {/* Icons: inject after first paint — remixicon.woff2 was on PSI critical path. */}
+        <Script id="remixicon-css" strategy="lazyOnload">{`
+          (function () {
+            var l = document.createElement('link');
+            l.rel = 'stylesheet';
+            l.href = '/styles/remixicon-subset.css';
+            document.head.appendChild(l);
+          })();
+        `}</Script>
         {/* ── Google Tag Manager ── */}
         <Script id="gtm-init" strategy="lazyOnload">{`
           (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
@@ -131,9 +140,7 @@ export default function RootLayout({
             style={{ display: "none", visibility: "hidden" }}
           />
         </noscript>
-        <DeferredPageEditorProvider>
-          <Layout>{children}</Layout>
-        </DeferredPageEditorProvider>
+        <Layout>{children}</Layout>
         <DeferredAnalyticsWrapper />
         <DeferredAccessiBe />
         <CtmRouteReloader />

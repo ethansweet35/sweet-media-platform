@@ -8,7 +8,7 @@ const SUPABASE_BASE =
 
 export const NB_LOGO = `${SUPABASE_BASE}/logos/northbound-logo.png`;
 
-export const HERO_BG = `${SUPABASE_BASE}/images/nbt_hero_bg01.jpg`;
+export const HERO_BG = `${SUPABASE_BASE}/images/nbt_hero_bg01.webp`;
 
 /** Real Grove campus photography for the homepage three-step process timeline. */
 export const PROCESS_IMAGES = {

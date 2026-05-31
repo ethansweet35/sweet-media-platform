@@ -717,13 +717,15 @@ CONTACT_BRAND_NAME=${name}
 ─── Next steps ──────────────────────────────────────
 
 1. Dev: pnpm --filter @sweetmedia/${slug} dev
-2. Build: pnpm --filter @sweetmedia/${slug} build
-3. Vercel: node scripts/publish-client-to-vercel.mjs --slug ${slug} --name "${name.replace(/"/g, '\\"')}" --domain <apex-domain>
+2. Images: set LOCAL_IMAGE_DIR in apps/${slug}/.upload.env, then pnpm --filter @sweetmedia/${slug} upload:images
+   (auto-resizes to WebP ≤1280px before upload — see upload-manifest.json for public URLs)
+3. Build: pnpm --filter @sweetmedia/${slug} build
+4. Vercel: node scripts/publish-client-to-vercel.mjs --slug ${slug} --name "${name.replace(/"/g, '\\"')}" --domain <apex-domain>
    (Adds optional --project <vercel-project-name> if the brand's Vercel project name differs from its slug.)
-4. 1Password: add RESEND_API_KEY to apps/${slug}/.env.local, then run:
+5. 1Password: add RESEND_API_KEY to apps/${slug}/.env.local, then run:
    node scripts/setup-new-client.mjs --slug ${slug} ... --save-to-1password
    (or save manually — open apps/${slug}/.env.local and apps/${slug}/.upload.env)
-${existsSync(appDir) ? '' : `4. Scaffold was skipped — run manually:\n   node scripts/scaffold-client-app.mjs --slug ${slug} --name "${name.replace(/"/g, '\\"')}" --url ${siteUrl} --ref ${ref} --anon-key "<anon_key>"\n`}
+${existsSync(appDir) ? '' : `6. Scaffold was skipped — run manually:\n   node scripts/scaffold-client-app.mjs --slug ${slug} --name "${name.replace(/"/g, '\\"')}" --url ${siteUrl} --ref ${ref} --anon-key "<anon_key>"\n`}
 ${adminEmail
   ? `• Admin login ready: ${adminEmail} / ChangeMe123! → change password after first login`
   : '• No admin email set — re-run with --admin-email to create admin access'
