@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import Image from "next/image";
 import { resolveTrackedPageMetadata } from "@sweetmedia/admin-core";
 import TherapyPageLayout from "@/components/therapy/TherapyPageLayout";
 import SubstanceFaq from "@/components/addiction/SubstanceFaq";
@@ -154,10 +155,12 @@ export default function CBTPage() {
             </div>
 
             <div className="relative overflow-hidden rounded-2xl shadow-xl shadow-mbh-forest/8 lg:sticky lg:top-28">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
+              <Image
                 src={SITE_IMAGES.facilityInterior}
                 alt="Individual therapy room at Missouri Behavioral Health"
+                width={1200}
+                height={900}
+                sizes="(min-width: 1024px) 50vw, 100vw"
                 className="w-full object-cover"
                 style={{ aspectRatio: "4/3", objectPosition: "center" }}
               />

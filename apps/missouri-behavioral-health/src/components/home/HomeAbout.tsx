@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { CONTAINER } from "@/data/site";
 
 /**
@@ -19,10 +20,12 @@ export default function HomeAbout() {
           {/* Photo column */}
           <div className="relative">
             <div className="relative overflow-hidden rounded-2xl shadow-xl shadow-mbh-forest/10">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
+              <Image
                 src={THERAPY_GROUP_IMG}
                 alt="Missouri Behavioral Health therapy group session"
+                width={1000}
+                height={1250}
+                sizes="(min-width: 1024px) 50vw, 100vw"
                 className="w-full object-cover"
                 style={{ aspectRatio: "4/5", objectPosition: "center top" }}
               />

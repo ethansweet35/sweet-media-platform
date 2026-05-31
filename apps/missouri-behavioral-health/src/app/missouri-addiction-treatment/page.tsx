@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import Image from "next/image";
 import { resolveTrackedPageMetadata } from "@sweetmedia/admin-core";
 import { CONTAINER, PHONE_DISPLAY, PHONE_HREF, SITE_IMAGES } from "@/data/site";
 import SubstanceFaq from "@/components/addiction/SubstanceFaq";
@@ -189,8 +190,7 @@ export default function AddictionHubPage() {
               </ul>
             </div>
             <div className="relative overflow-hidden rounded-2xl shadow-xl">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={SITE_IMAGES.therapyGroup} alt="Missouri Behavioral Health group therapy session" className="w-full object-cover" style={{ aspectRatio: "4/3", objectPosition: "center" }} />
+              <Image src={SITE_IMAGES.therapyGroup} alt="Missouri Behavioral Health group therapy session" width={1200} height={900} sizes="(min-width: 1024px) 50vw, 100vw" className="w-full object-cover" style={{ aspectRatio: "4/3", objectPosition: "center" }} />
               <div aria-hidden className="pointer-events-none absolute inset-0" style={{ background: "linear-gradient(to top, rgba(18,46,24,0.3) 0%, transparent 50%)" }} />
             </div>
           </div>

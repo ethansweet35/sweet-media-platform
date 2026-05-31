@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import Image from "next/image";
 import { resolveTrackedPageMetadata } from "@sweetmedia/admin-core";
 import MentalHealthPageLayout from "@/components/mental-health/MentalHealthPageLayout";
 import SubstanceFaq from "@/components/addiction/SubstanceFaq";
@@ -90,8 +91,7 @@ export default function PtsdPage() {
               </div>
             </div>
             <div className="relative overflow-hidden rounded-2xl shadow-xl shadow-mbh-forest/10">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={SITE_IMAGES.therapyGroup} alt="PTSD therapy session Missouri" className="w-full object-cover" style={{ aspectRatio: "4/3", objectPosition: "center" }} />
+              <Image src={SITE_IMAGES.therapyGroup} alt="PTSD therapy session Missouri" width={1200} height={900} sizes="(min-width: 1024px) 50vw, 100vw" className="w-full object-cover" style={{ aspectRatio: "4/3", objectPosition: "center" }} />
               <div className="absolute bottom-5 right-5 rounded-2xl bg-mbh-forest px-5 py-4 shadow-xl">
                 <p className="font-display text-2xl font-semibold text-white">EMDR</p>
                 <p className="mt-0.5 font-body text-[10px] font-semibold uppercase tracking-widest text-white/50">Available</p>

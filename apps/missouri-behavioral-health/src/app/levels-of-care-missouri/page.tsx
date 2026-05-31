@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import Image from "next/image";
 import { resolveTrackedPageMetadata } from "@sweetmedia/admin-core";
 import { CONTAINER, PHONE_DISPLAY, PHONE_HREF, SITE_IMAGES } from "@/data/site";
 import SubstanceFaq from "@/components/addiction/SubstanceFaq";
@@ -490,10 +491,12 @@ export default function LevelsOfCarePage() {
             </div>
 
             <div className="relative overflow-hidden rounded-2xl shadow-xl">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
+              <Image
                 src={SITE_IMAGES.facilityInterior}
                 alt="Missouri Behavioral Health treatment facility"
+                width={1200}
+                height={900}
+                sizes="(min-width: 1024px) 50vw, 100vw"
                 className="w-full object-cover"
                 style={{ aspectRatio: "4/3", objectPosition: "center" }}
               />

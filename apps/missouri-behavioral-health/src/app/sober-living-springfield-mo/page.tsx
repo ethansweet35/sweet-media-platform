@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import Image from "next/image";
 import { resolveTrackedPageMetadata } from "@sweetmedia/admin-core";
 import LevelOfCareLayout from "@/components/levels-of-care/LevelOfCareLayout";
 import LevelOfCareFaq from "@/components/levels-of-care/LevelOfCareFaq";
@@ -98,8 +99,7 @@ export default function SoberLivingPage() {
             </div>
 
             <div className="relative overflow-hidden rounded-2xl shadow-xl shadow-mbh-forest/8 lg:sticky lg:top-28">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={SITE_IMAGES.facilityInterior} alt="Missouri Behavioral Health sober living and recovery environment" className="w-full object-cover" style={{ aspectRatio: "4/3", objectPosition: "center" }} />
+              <Image src={SITE_IMAGES.facilityInterior} alt="Missouri Behavioral Health sober living and recovery environment" width={1200} height={900} sizes="(min-width: 1024px) 50vw, 100vw" className="w-full object-cover" style={{ aspectRatio: "4/3", objectPosition: "center" }} />
               <div aria-hidden className="pointer-events-none absolute inset-0" style={{ background: "linear-gradient(to top, rgba(18,46,24,0.4) 0%, transparent 55%)" }} />
               <div className="absolute bottom-5 left-5 rounded-2xl bg-mbh-forest px-5 py-4 shadow-xl">
                 <p className="font-display text-2xl font-semibold text-white">Peer-first</p>
@@ -178,8 +178,7 @@ export default function SoberLivingPage() {
               </div>
             </div>
             <div className="relative overflow-hidden rounded-2xl shadow-xl">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={SITE_IMAGES.therapyGroup} alt="Group therapy session at Missouri Behavioral Health" className="w-full object-cover" style={{ aspectRatio: "4/3", objectPosition: "center" }} />
+              <Image src={SITE_IMAGES.therapyGroup} alt="Group therapy session at Missouri Behavioral Health" width={1200} height={900} sizes="(min-width: 1024px) 50vw, 100vw" className="w-full object-cover" style={{ aspectRatio: "4/3", objectPosition: "center" }} />
               <div aria-hidden className="pointer-events-none absolute inset-0" style={{ background: "linear-gradient(to top, rgba(18,46,24,0.3) 0%, transparent 50%)" }} />
             </div>
           </div>

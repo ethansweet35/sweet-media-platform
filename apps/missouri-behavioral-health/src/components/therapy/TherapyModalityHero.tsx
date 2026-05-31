@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { CONTAINER, PHONE_DISPLAY, PHONE_HREF } from "@/data/site";
 export interface TherapyFact {
   icon: string;
@@ -105,8 +106,7 @@ function ArchPortrait({
         className="relative aspect-[3/4] w-full overflow-hidden shadow-2xl shadow-mbh-forest/20 ring-1 ring-mbh-forest/10"
         style={{ borderRadius: "3rem 3rem 1rem 3rem" }}
       >
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src={src} alt={alt} className="absolute inset-0 h-full w-full object-cover" />
+        <Image src={src} alt={alt} fill priority sizes="(min-width: 1024px) 520px, 100vw" className="object-cover" />
         <div
           aria-hidden
           className="pointer-events-none absolute inset-0 bg-gradient-to-t from-mbh-forest-deep/55 via-transparent to-mbh-mint/10"
