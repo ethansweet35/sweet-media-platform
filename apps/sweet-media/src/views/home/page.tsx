@@ -1,5 +1,5 @@
 import SiteHeader from "@/components/feature/SiteHeader";
-import HomeFaq, { HOME_FAQS } from "@/components/pages/home/components/HomeFaq";
+import HomeFaq from "@/components/pages/home/components/HomeFaq";
 import HeroSection from "@/components/pages/home/components/HeroSection";
 import IndustriesSection from "@/components/pages/home/components/IndustriesSection";
 import SeoSection from "@/components/pages/home/components/SeoSection";

@@ -114,38 +114,6 @@ const steps = [
   },
 ];
 
-/* ─── Pillar Cards ───────────────────────────────────────────────── */
-const pillars = [
-  {
-    icon: "ri-focus-3-line",
-    title: "Exclusive BH Focus",
-    desc: "We only work with behavioral health. Every strategy is informed by deep market expertise — not a generic playbook.",
-    proof: "100% Behavioral Health Clients",
-    color: "from-black to-gray-800",
-  },
-  {
-    icon: "ri-user-star-line",
-    title: "Boutique, Not a Factory",
-    desc: "You work directly with senior strategists from day one. No handoffs, no junior coordinators — just experts who know your world.",
-    proof: "10+ Yrs Avg. Experience",
-    color: "from-gray-800 to-gray-700",
-  },
-  {
-    icon: "ri-eye-2-line",
-    title: "Full Transparency",
-    desc: "Real-time dashboards, weekly calls, zero black boxes. Every dollar is tracked to a real admission outcome.",
-    proof: "Live Reporting Included",
-    color: "from-gray-700 to-gray-600",
-  },
-  {
-    icon: "ri-hospital-line",
-    title: "Results-First Mindset",
-    desc: "We measure success in census growth and cost-per-admission — not impressions or click-through rates.",
-    proof: "Avg. $420 Cost-Per-Admission",
-    color: "from-gray-600 to-gray-500",
-  },
-];
-
 /* ─── Comparison Rows ────────────────────────────────────────────── */
 const compRows = [
   { label: "Industry Focus", us: "Behavioral health only", them: "All industries" },

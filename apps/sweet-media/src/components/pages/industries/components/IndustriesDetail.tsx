@@ -168,7 +168,7 @@ const industries = [
   },
 ];
 
-function IndustrySection({ ind, index }: { ind: typeof industries[0]; index: number }) {
+function IndustrySection({ ind }: { ind: typeof industries[0] }) {
   const ref = useRef<HTMLDivElement>(null);
   const [visible, setVisible] = useState(false);
 
@@ -313,8 +313,8 @@ export default function IndustriesDetail() {
       </div>
 
       {/* One full section per industry */}
-      {industries.map((ind, i) => (
-        <IndustrySection key={ind.label} ind={ind} index={i} />
+      {industries.map((ind) => (
+        <IndustrySection key={ind.label} ind={ind} />
       ))}
 
       {/* Bottom CTA strip */}

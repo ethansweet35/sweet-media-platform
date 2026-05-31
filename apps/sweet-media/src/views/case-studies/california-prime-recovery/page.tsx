@@ -76,7 +76,6 @@ function AnimatedBar({ pct, animate }: { pct: number; animate: boolean }) {
 
 export default function CaliforniaPrimeRecoveryPage() {
   const router = useRouter();
-  const heroRef = useRef<HTMLDivElement>(null);
   const metricsRef = useRef<HTMLDivElement>(null);
   const [heroVisible, setHeroVisible] = useState(false);
   const [metricsAnimate, setMetricsAnimate] = useState(false);

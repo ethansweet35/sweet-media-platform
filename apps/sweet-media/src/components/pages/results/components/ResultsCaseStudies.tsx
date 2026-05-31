@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState, type ReactNode } from "react";
 import { useRouter } from "next/navigation";
 import LazyImage from "@/components/base/LazyImage";
-import { RESULTS_CASE_STUDIES, type CaseStudyData } from "@/views/results/resultsContentDefaults";
+import { RESULTS_CASE_STUDIES } from "@/views/results/resultsContentDefaults";
 
 function MiniSparkline({ pts, animate }: { pts: number[]; animate: boolean }) {
   const w = 280, h = 48, pad = 5;
@@ -59,24 +59,6 @@ function MiniSparkline({ pts, animate }: { pts: number[]; animate: boolean }) {
     </svg>
   );
 }
-
-function MiniBarChart({ bars, animate }: { bars: { label: string; val: number; highlight?: boolean }[]; animate: boolean }) {
-  const max = Math.max(...bars.map((b) => b.val));
-  return (
-    <div className="flex items-end gap-2 h-20 w-full">
-      {bars.map((b) => (
-        <div key={b.label} className="flex flex-col items-center gap-1 flex-1">
-          <div className="w-full relative" style={{ height: "64px" }}>
-            <div className={`absolute bottom-0 left-0 right-0 rounded-sm transition-all duration-1000 ${b.highlight ? "bg-white" : "bg-white/20"}`} style={{ height: animate ? `${(b.val / max) * 100}%` : "0%" }} />
-          </div>
-          <span className="text-[8px] text-white/50 tracking-widest uppercase whitespace-nowrap">{b.label}</span>
-        </div>
-      ))}
-    </div>
-  );
-}
-
-type CaseStudy = CaseStudyData;
 
 export interface CaseStudyContentSlots {
   image?: ReactNode;

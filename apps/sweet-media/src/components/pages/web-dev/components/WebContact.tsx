@@ -201,6 +201,10 @@ export default function WebContact() {
                     <span className={`text-[10px] text-right ${charCount > 480 ? "text-red-400" : "text-white/25"}`}>{charCount}/500</span>
                   </div>
 
+                  {submitError && (
+                    <p className="text-red-400 text-xs">{submitError}</p>
+                  )}
+
                   <button
                     type="submit"
                     disabled={submitting || charCount > 500}
