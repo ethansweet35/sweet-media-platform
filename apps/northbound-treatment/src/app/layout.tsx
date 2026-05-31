@@ -4,9 +4,9 @@ import Script from "next/script";
 import "./globals.css";
 import Layout from "@/components/feature/Layout";
 import { DeferredAnalyticsWrapper } from "@sweetmedia/admin-core/public-layout";
+import { CTM_SCRIPTS_ENABLED, CTM_TRACKING_SRC } from "@/lib/ctm";
 import CtmRouteReloader from "@/components/feature/CtmRouteReloader";
 import DeferredAccessiBe from "@/components/feature/DeferredAccessiBe";
-import DeferredCtm from "@/components/feature/DeferredCtm";
 import DeferredGtm from "@/components/feature/DeferredGtm";
 import DeferredTalkFurther from "@/components/feature/DeferredTalkFurther";
 
@@ -75,8 +75,17 @@ export default function RootLayout({
     <html lang="en" data-scroll-behavior="smooth" className={`${dmSans.variable} ${playfair.variable}`}>
       <head>
         <link rel="dns-prefetch" href="https://ahufsygjwpbymomfdazb.supabase.co" />
-        <link rel="dns-prefetch" href="https://186366.tctm.co" />
+        <link rel="preconnect" href="https://186366.tctm.co" crossOrigin="anonymous" />
         <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
+        {/* CTM t.js — must run ASAP for dynamic number swap (no deferral). */}
+        {CTM_SCRIPTS_ENABLED && (
+          <Script
+            id="ctm-tracking"
+            src={CTM_TRACKING_SRC}
+            strategy="beforeInteractive"
+            data-cfasync="false"
+          />
+        )}
         {/* Icons: inject after first paint — remixicon.woff2 was on PSI critical path. */}
         <Script id="remixicon-css" strategy="lazyOnload">{`
           (function () {
@@ -100,7 +109,6 @@ export default function RootLayout({
         <Layout>{children}</Layout>
         <DeferredAnalyticsWrapper />
         <DeferredGtm />
-        <DeferredCtm />
         <DeferredAccessiBe />
         <DeferredTalkFurther />
         <CtmRouteReloader />
