@@ -81,7 +81,7 @@ const SUBSTANCE_ITEMS = [
   },
   {
     name: "Polysubstance Use",
-    icon: "ri-layers-line",
+    icon: "ri-stack-line",
     href: "/addiction-treatment-resources/",
     shortDesc: "Multiple dependencies",
     description:

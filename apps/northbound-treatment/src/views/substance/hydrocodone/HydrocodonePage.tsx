@@ -98,7 +98,7 @@ const data: SubstancePageData = {
       body: "Anxiety, depression, and trauma are extremely common in opioid-dependent individuals. Northbound treats the full clinical picture simultaneously, not sequentially.",
     },
     {
-      icon: "ri-family-line",
+      icon: "ri-group-line",
       title: "Family Therapy Program",
       body: "Hydrocodone addiction affects everyone who loves you. Northbound's family program rebuilds the communication and trust that addiction damages — a critical component of sustained recovery.",
     },

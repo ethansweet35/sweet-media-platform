@@ -103,7 +103,7 @@ const data: SubstancePageData = {
       body: "Meth destroys careers, education, and productive life trajectories. Collegebound® and Careerbound® — available exclusively during residential treatment — help clients rebuild professional and academic goals with structure, motivation, and accountability alongside clinical care.",
     },
     {
-      icon: "ri-family-line",
+      icon: "ri-group-line",
       title: "Family Recovery Support",
       body: "Living with or loving someone with a meth addiction is profoundly disorienting and traumatic. Northbound's Family Program helps loved ones understand meth addiction, heal from the damage it causes, and develop the tools to support recovery without enabling continued use.",
     },

@@ -98,7 +98,7 @@ const data: SubstancePageData = {
       body: "Depression, anxiety, PTSD, and trauma are extremely common in OxyContin-dependent individuals. Northbound's psychiatrists and therapists treat the full clinical picture simultaneously.",
     },
     {
-      icon: "ri-family-line",
+      icon: "ri-group-line",
       title: "Family Therapy & Support",
       body: "OxyContin addiction devastates families. Northbound's family program rebuilds communication, trust, and healthy boundaries — a critical factor in sustained long-term recovery.",
     },

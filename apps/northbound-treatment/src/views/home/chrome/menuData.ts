@@ -224,10 +224,10 @@ export const PRIMARY_NAV: TopLevelItem[] = [
       },
       {
         heading: "Accreditation & Trust",
-        icon: "ri-award-2-line",
+        icon: "ri-award-line",
         description: "38+ years of certified clinical excellence",
         links: [
-          { label: "Accreditation & Recognition", href: "/about/accreditation-recognition/", icon: "ri-award-2-line" },
+          { label: "Accreditation & Recognition", href: "/about/accreditation-recognition/", icon: "ri-award-line" },
           { label: "Code of Ethics", href: "/about/code-of-ethics/", icon: "ri-shield-check-line" },
           { label: "Referring Professionals", href: "/referring-professionals/", icon: "ri-user-star-line" },
           { label: "Blog & Resources", href: "/blog/", icon: "ri-article-line" },

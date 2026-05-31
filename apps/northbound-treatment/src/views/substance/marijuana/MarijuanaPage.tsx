@@ -103,7 +103,7 @@ const data: SubstancePageData = {
       body: "Many marijuana-dependent clients are young adults whose educational trajectories have been disrupted. Collegebound® and Careerbound® — available exclusively during residential treatment at Garden Grove — help them pursue academic and career goals while in the residential program.",
     },
     {
-      icon: "ri-family-line",
+      icon: "ri-group-line",
       title: "Family-Inclusive Recovery",
       body: "Northbound's Family Program helps loved ones understand cannabis use disorder, break enabling patterns, and develop the tools to support recovery effectively. Isolation is a key feature of marijuana dependency — rebuilding family connection is part of the treatment.",
     },

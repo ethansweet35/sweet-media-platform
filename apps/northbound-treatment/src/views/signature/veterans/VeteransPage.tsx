@@ -152,7 +152,7 @@ const data: SignaturePageData = {
   relatedServices: [
     { name: "Dual-Diagnosis Treatment", href: "/treatment/dual-diagnosis/", tag: "Specialty Program", icon: "ri-brain-line" },
     { name: "Adventure Therapy", href: "/adventure-therapy-program/", tag: "Signature Service", icon: "ri-compass-3-line" },
-    { name: "Family Therapy Services", href: "/programs/family-therapy/", tag: "Signature Service", icon: "ri-family-line" },
+    { name: "Family Therapy Services", href: "/programs/family-therapy/", tag: "Signature Service", icon: "ri-group-line" },
     { name: "Aftercare Program", href: "/programs/aftercare/", tag: "Continuum of Care", icon: "ri-refresh-line" },
   ],
 

@@ -103,7 +103,7 @@ const data: SubstancePageData = {
       body: "Northbound has been treating substance use disorders since 1987. Our track record, verified by USC research, reflects nearly four decades of refining what works in real clinical practice.",
     },
     {
-      icon: "ri-family-line",
+      icon: "ri-group-line",
       title: "Family Involvement",
       body: "Cocaine addiction damages relationships. Northbound's family therapy program rebuilds the trust and communication skills essential for sustained recovery after treatment.",
     },

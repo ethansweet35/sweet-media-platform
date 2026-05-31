@@ -105,7 +105,7 @@ const data: TreatmentPageData = {
       body: "Northbound coaches families to approach intervention with love, not confrontation. The goal is not to attack or shame — it is to clearly communicate the devastating impact of addiction and present a concrete, ready solution. This approach is more effective and more likely to preserve the relationships that are vital to long-term recovery.",
     },
     {
-      icon: "ri-family-line",
+      icon: "ri-group-line",
       title: "Ongoing Family Support",
       body: "The intervention is just the beginning of the family's role in recovery. Northbound's Family Program — four days each month — provides structured family therapy, education about addiction as a disease, and tools for rebuilding the trust and relationships that addiction has strained.",
     },

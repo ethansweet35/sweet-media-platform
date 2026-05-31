@@ -95,7 +95,7 @@ const data: TreatmentPageData = {
       body: "Experiential therapies — including art, yoga, and meditation — continue through PHP, providing positive emotional outlets and coping tools clients carry with them long after treatment ends. These modalities complement traditional therapy by engaging the whole person.",
     },
     {
-      icon: "ri-pray-line",
+      icon: "ri-hand-heart-line",
       title: "Faith-Based Recovery Option",
       body: "For clients whose spirituality is foundational to recovery, Northbound's faith-centered track provides PHP programming that integrates faith principles with evidence-based clinical care — offering additional meaning, community, and accountability.",
     },

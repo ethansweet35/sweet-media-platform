@@ -103,7 +103,7 @@ const data: SubstancePageData = {
       body: "Founded in 1988, Northbound has treated alcohol addiction across decades of evolving clinical practice. Our leadership team brings 200+ combined years of behavioral healthcare expertise to every case.",
     },
     {
-      icon: "ri-family-line",
+      icon: "ri-group-line",
       title: "Family-Inclusive Recovery",
       body: "Northbound's monthly Family Program helps loved ones understand alcohol use disorder, heal relational damage, and learn how to support recovery without enabling — because alcoholism is a family disease.",
     },

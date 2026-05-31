@@ -103,7 +103,7 @@ const data: SubstancePageData = {
       body: "Eating disorders disproportionately — but not exclusively — affect women. Northbound's residential program offers gender-specific clinical tracks that create the psychological safety needed for authentic healing.",
     },
     {
-      icon: "ri-family-line",
+      icon: "ri-group-line",
       title: "Family Therapy",
       body: "Family dynamics often play a significant role in both eating disorders and addiction. Northbound's family therapy program addresses relational patterns, enabling behaviors, and communication skills essential to lasting recovery.",
     },

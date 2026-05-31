@@ -103,7 +103,7 @@ const data: SubstancePageData = {
       body: "Founded in 1988, Northbound has treated stimulant addiction across every phase of its evolving clinical landscape. Our team has the depth of experience to meet each case with precision and care.",
     },
     {
-      icon: "ri-family-line",
+      icon: "ri-group-line",
       title: "Family-Inclusive Treatment",
       body: "Northbound's monthly Family Program brings loved ones into the healing process — addressing the codependency, enabling, and relational damage that often surround stimulant addiction.",
     },

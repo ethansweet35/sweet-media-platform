@@ -21,7 +21,7 @@ const WHY_GENDER = [
     body: "Group therapy is most powerful when the experiences being discussed feel genuinely shared. Women's groups allow deeper exploration of trauma, relationships, body image, and identity.",
   },
   {
-    icon: "ri-family-line",
+    icon: "ri-group-line",
     title: "Relational Recovery",
     body: "Women's addiction often has stronger relational dimensions — codependency, enabling relationships, parenting guilt. Gender-specific treatment gives these factors the clinical attention they deserve.",
   },

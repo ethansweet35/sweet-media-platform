@@ -210,7 +210,7 @@ export default function SanDiegoPage() {
                 {[
                   { icon: "ri-group-line", label: "Evidence-based group therapy" },
                   { icon: "ri-user-heart-line", label: "Individual one-on-one sessions" },
-                  { icon: "ri-family-line", label: "Family therapy integration" },
+                  { icon: "ri-group-line", label: "Family therapy integration" },
                   { icon: "ri-map-pin-2-line", label: "Strong local sober community" },
                   { icon: "ri-water-flash-line", label: "7 miles of coastal trails for wellness" },
                 ].map((d) => (

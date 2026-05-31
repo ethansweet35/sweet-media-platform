@@ -98,7 +98,7 @@ const data: SubstancePageData = {
       body: "Heroin recovery is intensive work. Northbound's 2:1 staff-to-client ratio ensures every client receives the individualized clinical attention their recovery demands — particularly critical in the dangerous early weeks of opioid detox.",
     },
     {
-      icon: "ri-family-line",
+      icon: "ri-group-line",
       title: "Family Counseling Program",
       body: "Northbound recognizes that heroin addiction is a family disease. Our Family Program helps loved ones understand what the person in recovery is going through, heal relational damage, and develop the tools to provide healthy, non-enabling support throughout recovery.",
     },

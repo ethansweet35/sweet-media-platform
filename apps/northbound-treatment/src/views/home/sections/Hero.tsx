@@ -24,8 +24,9 @@ export default function Hero() {
         alt="California coastal highway heading north at golden hour"
         fill
         priority
+        quality={70}
         className="object-cover object-center"
-        sizes="100vw"
+        sizes="(max-width: 1280px) 100vw, 1280px"
       />
 
       {/* ── Mobile: full-bleed overlay so text stays legible at any width ─── */}

@@ -15,7 +15,7 @@ const therapyServices = [
   { icon: "ri-heart-pulse-line", label: "Trauma-Informed Care" },
   { icon: "ri-user-heart-line", label: "Individual Therapy" },
   { icon: "ri-team-line", label: "Group Counseling" },
-  { icon: "ri-family-line", label: "Family Therapy" },
+  { icon: "ri-group-line", label: "Family Therapy" },
   { icon: "ri-book-open-line", label: "Psychoeducational Lectures" },
   { icon: "ri-leaf-line", label: "12-Step Immersion" },
   { icon: "ri-shield-check-line", label: "Daily Nursing Attention" },

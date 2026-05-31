@@ -7,7 +7,7 @@ const SUPABASE = "https://ahufsygjwpbymomfdazb.supabase.co/storage/v1/object/pub
 const subPages = [
   { icon: "ri-history-line", label: "Our History", href: "/about/our-history/", desc: "38+ years of transforming lives in Orange County and beyond." },
   { icon: "ri-team-line", label: "Our Team", href: "/team/", desc: "Meet the executive, medical, and clinical leadership behind Northbound." },
-  { icon: "ri-award-2-line", label: "Accreditation", href: "/about/accreditation-recognition/", desc: "JCAHO accredited — the highest standard in behavioral healthcare." },
+  { icon: "ri-award-line", label: "Accreditation", href: "/about/accreditation-recognition/", desc: "JCAHO accredited — the highest standard in behavioral healthcare." },
   { icon: "ri-shield-check-line", label: "Code of Ethics", href: "/about/code-of-ethics/", desc: "The core values and operating principles that guide everything we do." },
   { icon: "ri-star-line", label: "Reviews & Testimonials", href: "/impact-reach/reviews-testimonials/", desc: "Hear from the clients and families whose lives Northbound has changed." },
   { icon: "ri-book-open-line", label: "Resources", href: "/resources/", desc: "Educational resources on addiction, treatment, and recovery." },

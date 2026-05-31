@@ -103,7 +103,7 @@ const data: SubstancePageData = {
       body: "Depression, anxiety, PTSD, and chronic pain co-occur with opioid use disorder at very high rates. Northbound's integrated dual-diagnosis program treats both conditions simultaneously — with psychiatrists and licensed therapists working together to ensure neither condition undermines the other's treatment.",
     },
     {
-      icon: "ri-family-line",
+      icon: "ri-group-line",
       title: "Family Therapy & Recovery Support",
       body: "Opioid addiction devastates families. Northbound's Family Program helps loved ones understand OUD, heal relational damage, and develop the tools to support recovery without enabling. We treat the family system alongside the individual.",
     },

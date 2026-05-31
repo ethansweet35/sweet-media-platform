@@ -93,7 +93,7 @@ const WHY = [
     body: "Our group therapy tracks are diagnosis-specific — clients with co-occurring depression, anxiety, or trauma work alongside peers who share their clinical profile.",
   },
   {
-    icon: "ri-family-line",
+    icon: "ri-group-line",
     title: "Family Therapy Integration",
     body: "Mental health conditions affect families profoundly. Northbound's family program rebuilds relationships and equips loved ones with tools to support sustained recovery.",
   },

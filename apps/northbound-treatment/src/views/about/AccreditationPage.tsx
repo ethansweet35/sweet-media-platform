@@ -3,7 +3,7 @@ import { AutoLinkedText } from "@sweetmedia/blog-core";
 
 const accreditations = [
   {
-    icon: "ri-award-2-line",
+    icon: "ri-award-line",
     name: "Joint Commission (JCAHO)",
     body: "In 2016, Northbound became accredited by the Joint Commission on Accreditation of Healthcare Organizations — the industry's most sought-after stamp of approval, bestowed only on organizations that provide the safest, highest quality, best-value healthcare. We wear our JCAHO accreditation with pride.",
   },

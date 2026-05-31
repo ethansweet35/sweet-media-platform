@@ -41,12 +41,10 @@ export default function YouTubeFacade({ videoId, title }: YouTubeFacadeProps) {
     >
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
-        src={`https://i.ytimg.com/vi/${videoId}/maxresdefault.jpg`}
-        onError={(e) => {
-          // maxresdefault is missing for some uploads; hqdefault always exists.
-          e.currentTarget.src = `https://i.ytimg.com/vi/${videoId}/hqdefault.jpg`;
-        }}
+        src={`https://i.ytimg.com/vi/${videoId}/hqdefault.jpg`}
         alt={title}
+        width={480}
+        height={360}
         loading="lazy"
         decoding="async"
         className="absolute inset-0 h-full w-full object-cover"

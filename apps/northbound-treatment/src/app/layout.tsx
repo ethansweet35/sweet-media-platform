@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { DM_Sans, Playfair_Display } from "next/font/google";
 import Script from "next/script";
 import "./globals.css";
+import "@/styles/remixicon-subset.css";
 import Layout from "@/components/feature/Layout";
 import { AnalyticsWrapper, PageEditorProvider } from "@sweetmedia/admin-core";
 import { CTM_FORMREACTOR_SRC, CTM_TRACKING_SRC } from "@/lib/ctm";
@@ -71,13 +72,6 @@ export default function RootLayout({
       <head>
         <link rel="preconnect" href="https://186366.tctm.co" crossOrigin="anonymous" />
         <link rel="preconnect" href="https://www.googletagmanager.com" crossOrigin="anonymous" />
-        <link rel="preconnect" href="https://cdn.jsdelivr.net" crossOrigin="anonymous" />
-        <link
-          rel="stylesheet"
-          href="https://cdn.jsdelivr.net/npm/remixicon@4.6.0/fonts/remixicon.css"
-          crossOrigin="anonymous"
-        />
-
         {/* ── Google Tag Manager ── */}
         <Script id="gtm-init" strategy="afterInteractive">{`
           (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':

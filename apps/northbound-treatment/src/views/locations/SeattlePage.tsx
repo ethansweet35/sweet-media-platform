@@ -33,7 +33,7 @@ const services = [
     desc: "Assessment results feed directly into a personalized treatment plan using ASAM dimensions — from withdrawal risk to recovery environment — recommending the right intensity of care.",
   },
   {
-    icon: "ri-family-line",
+    icon: "ri-group-line",
     name: "Family Assessment",
     desc: "We evaluate family dynamics, communication patterns, codependency, and trauma history. Family-inclusive planning supports both the client's recovery and the family's own healing.",
   },

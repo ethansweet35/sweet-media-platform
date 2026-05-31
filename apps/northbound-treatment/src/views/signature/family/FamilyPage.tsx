@@ -98,7 +98,7 @@ const data: SignaturePageData = {
     "Research consistently shows that involving family in addiction treatment significantly improves outcomes — for the client and for every member of the family system.",
   evidencePoints: [
     {
-      icon: "ri-family-line",
+      icon: "ri-group-line",
       title: "Systemic Healing",
       body: "Addiction develops within a relational context. Family therapy addresses the systemic patterns — communication breakdowns, enabling, enmeshment — that both contribute to and sustain substance use.",
     },

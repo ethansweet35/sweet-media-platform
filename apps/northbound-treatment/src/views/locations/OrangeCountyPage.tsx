@@ -66,7 +66,7 @@ const therapies = [
   { icon: "ri-emotion-line", name: "Dialectical Behavior Therapy (DBT)", desc: "Build emotional regulation, distress tolerance, and mindfulness." },
   { icon: "ri-eye-line", name: "EMDR", desc: "Safely rewire how the brain stores traumatic memories." },
   { icon: "ri-user-heart-line", name: "Individual & Group Therapy", desc: "One-on-one work with master's-level clinicians plus community accountability." },
-  { icon: "ri-family-line", name: "Family Therapy", desc: "Rebuild trust, establish healthy boundaries, and heal the family unit." },
+  { icon: "ri-group-line", name: "Family Therapy", desc: "Rebuild trust, establish healthy boundaries, and heal the family unit." },
 ];
 
 const mentalHealthConditions = [

@@ -6,7 +6,7 @@ const features = [
   { icon: "ri-shield-check-line", title: "Safe, Judgment-Free Environment", body: "Every Northbound campus is a space where LGBTQ+ clients can be fully themselves. We do not tolerate discrimination of any kind, and our community norms are explicitly inclusive." },
   { icon: "ri-brain-line", title: "Dual Diagnosis Integration", body: "LGBTQ+ individuals have significantly higher rates of co-occurring mental health conditions including anxiety, depression, and PTSD. Our dual diagnosis program addresses both addiction and underlying mental health simultaneously." },
   { icon: "ri-group-line", title: "Peer Community", body: "Group therapy and community support are integral to recovery. We foster peer connections among LGBTQ+ clients and create group settings where shared experience deepens the healing process." },
-  { icon: "ri-family-line", title: "Family & Chosen Family", body: "We recognize that 'family' means different things for different LGBTQ+ people. Our family services program is open to biological family, chosen family, and partners — whoever is part of your support network." },
+  { icon: "ri-group-line", title: "Family & Chosen Family", body: "We recognize that 'family' means different things for different LGBTQ+ people. Our family services program is open to biological family, chosen family, and partners — whoever is part of your support network." },
   { icon: "ri-lock-line", title: "Confidential & Private", body: "Your identity and your story are yours. We maintain the strictest confidentiality standards and will never disclose any information about your treatment without your explicit consent." },
 ];
 

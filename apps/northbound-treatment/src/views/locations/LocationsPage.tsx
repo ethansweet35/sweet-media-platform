@@ -296,7 +296,7 @@ export default function LocationsPage() {
               { icon: "ri-shield-check-line", title: "DHCS Licensed", sub: "License #300661CP" },
               { icon: "ri-award-line", title: "NAATP Member", sub: "Highest Ethical Standards" },
               { icon: "ri-verified-badge-line", title: "38 Years in Operation", sub: "Founded 1988" },
-              { icon: "ri-insurance-line", title: "15+ Insurance Plans", sub: "In-Network Provider" },
+              { icon: "ri-shield-check-line", title: "15+ Insurance Plans", sub: "In-Network Provider" },
             ].map((item) => (
               <div key={item.title} className="flex items-center gap-4 border border-white/10 bg-white/5 px-5 py-4">
                 <span className="flex h-10 w-10 shrink-0 items-center justify-center bg-terracotta/20">

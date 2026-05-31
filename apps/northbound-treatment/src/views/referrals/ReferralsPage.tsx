@@ -75,7 +75,7 @@ const PROGRAMS = [
   { icon: "ri-hospital-line", label: "Partial Hospitalization (PHP)" },
   { icon: "ri-wifi-line", label: "Virtual IOP (HomeBound) — California" },
   { icon: "ri-brain-line", label: "Dual Diagnosis / Co-Occurring Disorders" },
-  { icon: "ri-family-line", label: "Family Therapy & Education" },
+  { icon: "ri-group-line", label: "Family Therapy & Education" },
   { icon: "ri-graduation-cap-line", label: "Collegebound® & Careerbound® (Residential)" },
 ];
 
