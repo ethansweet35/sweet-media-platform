@@ -17,6 +17,8 @@ const POSTS = [
   { platform: "YouTube", type: "Short", title: "Patient Success Story — 1 Year Sober", likes: "5.1K", comments: "412", shares: "1.2K", color: "bg-red-600" },
 ];
 
+const ENGAGEMENT_TARGET = 12400;
+
 function ContentFeedVisual() {
   const [revealed, setRevealed] = useState(0);
   const [engagementCount, setEngagementCount] = useState(0);
@@ -26,14 +28,15 @@ function ContentFeedVisual() {
       setTimeout(() => setRevealed((n) => n + 1), 200 + i * 180);
     });
     let count = 0;
-    const target = 12400;
     const interval = setInterval(() => {
       count += 280;
-      if (count >= target) { setEngagementCount(target); clearInterval(interval); }
+      if (count >= ENGAGEMENT_TARGET) { setEngagementCount(ENGAGEMENT_TARGET); clearInterval(interval); }
       else setEngagementCount(count);
     }, 30);
     return () => clearInterval(interval);
   }, []);
+
+  const engagementBarWidth = `${Math.min((engagementCount / ENGAGEMENT_TARGET) * 78, 78)}%`;
 
   return (
     <div className="w-full h-full flex flex-col gap-3">
@@ -83,7 +86,7 @@ function ContentFeedVisual() {
           </span>
         </div>
         <div className="h-1.5 bg-gray-100 rounded-full overflow-hidden">
-          <div className="h-full bg-black rounded-full transition-all duration-1000" style={{ width: active ? "78%" : "0%" }} />
+          <div className="h-full bg-black rounded-full transition-all duration-1000" style={{ width: engagementBarWidth }} />
         </div>
       </div>
     </div>
