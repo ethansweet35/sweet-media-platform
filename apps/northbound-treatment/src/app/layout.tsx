@@ -4,21 +4,24 @@ import Script from "next/script";
 import "./globals.css";
 import Layout from "@/components/feature/Layout";
 import { DeferredAnalyticsWrapper } from "@sweetmedia/admin-core/public-layout";
-import { CTM_FORMREACTOR_SRC, CTM_SCRIPTS_ENABLED, CTM_TRACKING_SRC } from "@/lib/ctm";
+import { CTM_SCRIPTS_ENABLED, CTM_TRACKING_SRC } from "@/lib/ctm";
 import CtmRouteReloader from "@/components/feature/CtmRouteReloader";
 import DeferredAccessiBe from "@/components/feature/DeferredAccessiBe";
+import DeferredTalkFurther from "@/components/feature/DeferredTalkFurther";
 
 const dmSans = DM_Sans({
   variable: "--font-dm-sans",
   subsets: ["latin"],
   display: "swap",
+  preload: true,
   weight: ["400", "700"],
 });
 
 const playfair = Playfair_Display({
   variable: "--font-playfair",
   subsets: ["latin"],
-  display: "swap",
+  display: "optional",
+  preload: false,
   style: ["normal", "italic"],
   weight: ["400", "700"],
 });
@@ -70,7 +73,7 @@ export default function RootLayout({
   return (
     <html lang="en" data-scroll-behavior="smooth" className={`${dmSans.variable} ${playfair.variable}`}>
       <head>
-        <link rel="preconnect" href="https://ahufsygjwpbymomfdazb.supabase.co" crossOrigin="anonymous" />
+        <link rel="dns-prefetch" href="https://ahufsygjwpbymomfdazb.supabase.co" />
         <link rel="dns-prefetch" href="https://186366.tctm.co" />
         <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
         {/* Icons: inject after first paint — remixicon.woff2 was on PSI critical path. */}
@@ -97,36 +100,10 @@ export default function RootLayout({
             <Script
               id="ctm-tracking"
               src={CTM_TRACKING_SRC}
-              strategy="afterInteractive"
+              strategy="lazyOnload"
               async
-              // eslint-disable-next-line @typescript-eslint/no-explicit-any
-              {...({ fetchpriority: "high" } as any)}
               data-cfasync="false"
             />
-            <Script
-              id="ctm-formreactor"
-              src={CTM_FORMREACTOR_SRC}
-              strategy="afterInteractive"
-              defer
-              async
-            />
-          </>
-        )}
-
-        {/* ── TalkFurther — domain-locked, production only (lazyOnload).
-            AccessiBe loads via <DeferredAccessiBe /> after interaction. */}
-        {process.env.NODE_ENV === "production" && (
-          <>
-            <Script id="talkfurther" strategy="lazyOnload">{`
-              (function () {
-                var a = document.createElement('script');
-                var b = document.getElementsByTagName('script')[0];
-                a.type = 'text/javascript';
-                a.src = 'https://js.talkfurther.com/talkfurther_init.min.js';
-                a.async = true;
-                b.parentNode.insertBefore(a, b);
-              })();
-            `}</Script>
           </>
         )}
       </head>
@@ -143,6 +120,7 @@ export default function RootLayout({
         <Layout>{children}</Layout>
         <DeferredAnalyticsWrapper />
         <DeferredAccessiBe />
+        <DeferredTalkFurther />
         <CtmRouteReloader />
       </body>
     </html>

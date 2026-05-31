@@ -3,7 +3,7 @@
  * Account: 186366 (https://186366.tctm.co).
  *
  * t.js — dynamic number replacement on tel: links (source number on site: 866-311-0003).
- * formreactor.js — FormReactor embeds (see CTM_FORM_REACTOR_SRC).
+ * formreactor.js — only if you use CTM’s JS embed API (homepage uses iframe only).
  */
 
 export const CTM_TRACKING_SRC = "https://186366.tctm.co/t.js";

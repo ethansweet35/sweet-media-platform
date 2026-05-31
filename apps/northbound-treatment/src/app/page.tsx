@@ -9,6 +9,7 @@ import HomeTopBar from "@/views/home/chrome/HomeTopBar";
 import AboutUs from "@/views/home/sections/AboutUs";
 import ClinicalModalities from "@/views/home/sections/ClinicalModalities";
 import Hero from "@/views/home/sections/Hero";
+import { HERO_BG } from "@/views/home/assets";
 import InsuranceMarquee from "@/views/home/sections/InsuranceMarquee";
 import Locations from "@/views/home/sections/Locations";
 import WhyUsApart from "@/views/home/sections/WhyUsApart";
@@ -81,6 +82,7 @@ export default async function Page() {
 
   return (
     <div className="min-h-screen bg-sand-light">
+      <link rel="preload" as="image" href={HERO_BG} fetchPriority="high" />
       {orgSchema && (
         <script
           type="application/ld+json"

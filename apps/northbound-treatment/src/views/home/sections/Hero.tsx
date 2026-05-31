@@ -1,7 +1,7 @@
 import Image from "next/image";
 import { heroHomeSection } from "@/lib/heroSpacing";
 import Link from "next/link";
-import CtmLeadFormCard from "@/components/feature/CtmLeadFormCard";
+import DeferredHeroLeadForm from "@/components/feature/DeferredHeroLeadForm";
 import { HERO_BG } from "../assets";
 
 /**
@@ -17,15 +17,14 @@ export default function Hero() {
   return (
     <section className={heroHomeSection}>
 
-      {/* ── Full-bleed background photo ───────────────────────────────── */}
-      <Image
+      {/* Direct Supabase WebP (already optimized) — avoids /_next/image on LCP path */}
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img
         src={HERO_BG}
         alt="California coastal highway heading north at golden hour"
-        fill
-        priority
-        quality={55}
-        className="object-cover object-center"
-        sizes="(max-width: 1280px) 100vw, 1280px"
+        fetchPriority="high"
+        decoding="async"
+        className="absolute inset-0 h-full w-full object-cover object-center"
       />
 
       {/* ── Mobile: full-bleed overlay so text stays legible at any width ─── */}
@@ -53,9 +52,11 @@ export default function Hero() {
             </div>
 
             <div className="mb-6 flex items-center gap-2">
-              <div className="flex text-terracotta">
+              <div className="flex text-terracotta" aria-hidden>
                 {Array.from({ length: 5 }).map((_, i) => (
-                  <i key={i} className="ri-star-fill text-base leading-none" />
+                  <span key={i} className="text-base leading-none">
+                    ★
+                  </span>
                 ))}
               </div>
               <span className="text-sm font-bold tracking-wide text-terracotta lg:hidden">
@@ -170,7 +171,7 @@ export default function Hero() {
 
           {/* Right — CTM FormReactor (matches live northboundtreatment.com) */}
           <div className="relative z-30 mt-12 lg:col-span-6 lg:mt-0 lg:flex lg:items-start lg:justify-end">
-            <CtmLeadFormCard
+            <DeferredHeroLeadForm
               eyebrow="Available 24/7"
               title="Start Your Recovery"
               subtitle="Fill out the form and we'll call you immediately."

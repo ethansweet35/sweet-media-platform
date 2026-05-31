@@ -1,6 +1,6 @@
 import CtmFormReactor from "@/components/feature/CtmFormReactor";
 
-type CtmLeadFormCardProps = {
+export type CtmLeadFormCardProps = {
   eyebrow: string;
   title: string;
   subtitle?: string;
