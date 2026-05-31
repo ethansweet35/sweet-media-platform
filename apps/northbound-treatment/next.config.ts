@@ -12,6 +12,8 @@ const nextConfig: NextConfig = {
     return [
       // /locations/garden-grove/ was the original WP path; canonical is now /locations/california/garden-grove/
       { source: "/locations/garden-grove/", destination: "/locations/california/garden-grove/", permanent: true },
+      { source: "/drug-rehab-orange-county/", destination: "/locations/california/orange-county/", permanent: true },
+      { source: "/drug-rehab-orange-county", destination: "/locations/california/orange-county/", permanent: true },
       // /contact/ was the scaffold default; live site uses /contact-us/
       { source: "/contact/", destination: "/contact-us/", permanent: true },
       // Leadership page aliases → /team/

@@ -103,6 +103,7 @@ export const SUBSTANCE_PAGE_IMAGES = {
 } as const;
 
 export const LOCATION_IMAGES = {
+  orangeCounty: `${SUPABASE_BASE}/images/nbt_oc_county_hero01.jpg`,
   newportBeach: `${SUPABASE_BASE}/images/facility/newport/1.webp`,
   gardenGrove: `${SUPABASE_BASE}/images/facility/grove/2.webp`,
   sanDiego: `${SUPABASE_BASE}/images/facility/sandiego/1.webp`,
@@ -126,6 +127,14 @@ export const SEATTLE_IMAGES = {
   hero: `${SUPABASE_BASE}/images/facility/seattle/1.webp`,
   neighborhood: `${SUPABASE_BASE}/images/facility/seattle/3.webp`,
   nature: `${SUPABASE_BASE}/images/facility/seattle/5.webp`,
+} as const;
+
+export const ORANGE_COUNTY_IMAGES = {
+  hero: `${SUPABASE_BASE}/images/nbt_oc_county_hero01.jpg`,
+  intro: `${SUPABASE_BASE}/images/facility/newport/2.webp`,
+  groveCampus: `${SUPABASE_BASE}/images/facility/grove/3.webp`,
+  newportCampus: `${SUPABASE_BASE}/images/facility/newport/3.webp`,
+  holistic: `${SUPABASE_BASE}/images/facility/newport/5.webp`,
 } as const;
 
 export const GARDEN_GROVE_IMAGES = {

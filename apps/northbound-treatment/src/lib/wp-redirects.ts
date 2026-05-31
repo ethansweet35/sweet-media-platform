@@ -545,8 +545,8 @@ export const wpRedirects: NextRedirect[] = [
   { source: "/more-articles/drug-rehab-costa-mesa/", destination: "/blog/", permanent: true }, // dropped (zero clicks, ≤119 impressions over 12mo - dead doorway page)
   { source: "/more-articles/drug-rehab-in-orange-county/", destination: "/blog/", permanent: true }, // dropped (zero clicks, ≤119 impressions over 12mo - dead doorway page)
   { source: "/more-articles/drug-rehab-newport-beach/", destination: "/blog/", permanent: true }, // dropped (zero clicks, ≤119 impressions over 12mo - dead doorway page)
-  { source: "/more-articles/drug-rehab-orange-county-ca/", destination: "/blog/", permanent: true }, // dropped (zero clicks, ≤119 impressions over 12mo - dead doorway page)
-  { source: "/more-articles/drug-rehab-orange-county/", destination: "/blog/", permanent: true }, // dropped (zero clicks, ≤119 impressions over 12mo - dead doorway page)
+  { source: "/more-articles/drug-rehab-orange-county-ca/", destination: "/locations/california/orange-county/", permanent: true },
+  { source: "/more-articles/drug-rehab-orange-county/", destination: "/locations/california/orange-county/", permanent: true },
   { source: "/more-articles/drug-rehab-san-diego/", destination: "/blog/", permanent: true }, // dropped (zero clicks, ≤119 impressions over 12mo - dead doorway page)
   { source: "/more-articles/drug-rehab-san-jose-ca/", destination: "/blog/", permanent: true }, // dropped (zero clicks, ≤119 impressions over 12mo - dead doorway page)
   { source: "/more-articles/drug-rehab-san-jose/", destination: "/blog/", permanent: true }, // dropped (zero clicks, ≤119 impressions over 12mo - dead doorway page)
@@ -561,7 +561,7 @@ export const wpRedirects: NextRedirect[] = [
   { source: "/more-articles/dual-diagnosis-treatment-orange-county/", destination: "/blog/", permanent: true }, // dropped (zero clicks, ≤119 impressions over 12mo - dead doorway page)
   { source: "/more-articles/heroin-detox-orange-county/", destination: "/blog/", permanent: true }, // dropped (zero clicks, ≤119 impressions over 12mo - dead doorway page)
   { source: "/more-articles/huntington-beach-rehab-center/", destination: "/blog/", permanent: true }, // dropped (zero clicks, ≤119 impressions over 12mo - dead doorway page)
-  { source: "/more-articles/inpatient-drug-rehab-orange-county/", destination: "/blog/", permanent: true }, // dropped (zero clicks, ≤119 impressions over 12mo - dead doorway page)
+  { source: "/more-articles/inpatient-drug-rehab-orange-county/", destination: "/locations/california/orange-county/", permanent: true },
   { source: "/more-articles/inpatient-drug-rehab-san-jose/", destination: "/blog/", permanent: true }, // dropped (zero clicks, ≤119 impressions over 12mo - dead doorway page)
   { source: "/more-articles/inpatient-rehab-orange-county/", destination: "/blog/", permanent: true }, // dropped (zero clicks, ≤119 impressions over 12mo - dead doorway page)
   { source: "/more-articles/iop-program-orange-county/", destination: "/blog/", permanent: true }, // dropped (zero clicks, ≤119 impressions over 12mo - dead doorway page)
@@ -585,7 +585,7 @@ export const wpRedirects: NextRedirect[] = [
   { source: "/more-articles/orange-county-residential-treatment-centers/", destination: "/blog/", permanent: true }, // dropped (zero clicks, ≤119 impressions over 12mo - dead doorway page)
   { source: "/more-articles/orange-county-treatment-centers/", destination: "/blog/", permanent: true }, // dropped (zero clicks, ≤119 impressions over 12mo - dead doorway page)
   { source: "/more-articles/outpatient-drug-rehab-california/", destination: "/blog/", permanent: true }, // dropped (zero clicks, ≤119 impressions over 12mo - dead doorway page)
-  { source: "/more-articles/outpatient-drug-rehab-orange-county/", destination: "/blog/", permanent: true }, // dropped (zero clicks, ≤119 impressions over 12mo - dead doorway page)
+  { source: "/more-articles/outpatient-drug-rehab-orange-county/", destination: "/locations/california/orange-county/", permanent: true },
   { source: "/more-articles/outpatient-rehab-orange-county-ca/", destination: "/blog/", permanent: true }, // dropped (zero clicks, ≤119 impressions over 12mo - dead doorway page)
   { source: "/more-articles/outpatient-rehab-orange-county/", destination: "/blog/", permanent: true }, // dropped (zero clicks, ≤119 impressions over 12mo - dead doorway page)
   { source: "/more-articles/rehab-centers-in-orange-county-ca/", destination: "/blog/", permanent: true }, // dropped (zero clicks, ≤119 impressions over 12mo - dead doorway page)

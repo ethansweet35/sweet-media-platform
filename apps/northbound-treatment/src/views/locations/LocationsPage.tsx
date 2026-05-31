@@ -10,6 +10,27 @@ const HERO_IMAGE =
 
 const LOCATIONS = [
   {
+    name: "Orange County",
+    tagline: "Regional Drug Rehab & Full Continuum of Care",
+    state: "California",
+    address: "Garden Grove & Newport Beach campuses",
+    href: "/locations/california/orange-county/",
+    image: LOCATION_IMAGES.orangeCounty,
+    alt: "Orange County California coastline — Northbound drug rehab serving Garden Grove, Newport Beach, and surrounding communities",
+    levelOfCare: "Detox through Aftercare",
+    ages: "18+",
+    programLength: "30–90+ Days",
+    description:
+      "Northbound's Orange County drug rehab centers in Garden Grove and Newport Beach deliver medically supervised detox, residential treatment, PHP, outpatient care, and aftercare — so families across OC can heal close to home.",
+    highlights: [
+      { icon: "ri-map-pin-2-line", text: "The Grove (Garden Grove) + Newport Beach PHP" },
+      { icon: "ri-first-aid-kit-line", text: "Full Continuum: Detox, Residential, PHP, IOP" },
+      { icon: "ri-shield-check-line", text: "Joint Commission Accredited · DHCS Licensed" },
+      { icon: "ri-wallet-3-line", text: "In-Network with 15+ Insurance Carriers" },
+    ],
+    accent: "terracotta" as const,
+  },
+  {
     name: "Newport Beach",
     tagline: "Partial Hospitalization (PHP) Campus",
     state: "California",

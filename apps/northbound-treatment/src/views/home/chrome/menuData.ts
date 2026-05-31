@@ -184,6 +184,7 @@ export const PRIMARY_NAV: TopLevelItem[] = [
         icon: "ri-map-pin-2-line",
         description: "Southern California & Pacific Northwest",
         links: [
+          { label: "Orange County, CA", href: "/locations/california/orange-county/", icon: "ri-map-pin-2-line" },
           { label: "Newport Beach, CA", href: "/locations/california/newport-beach/", icon: "ri-map-pin-2-line" },
           { label: "Garden Grove, CA", href: "/locations/california/garden-grove/", icon: "ri-map-pin-2-line" },
           { label: "San Diego, CA", href: "/locations/california/san-diego/", icon: "ri-map-pin-2-line" },
