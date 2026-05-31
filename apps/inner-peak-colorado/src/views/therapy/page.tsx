@@ -138,41 +138,6 @@ const therapyCategories = [
   },
 ];
 
-const clinicians = [
-  {
-    name: 'Dr. Amara Osei, PsyD',
-    role: 'Clinical Director',
-    specialty: 'Trauma & EMDR',
-    image: 'https://papiwmobmdbtzeeebmpr.supabase.co/storage/v1/object/public/site-assets/images/clinician01.jpg',
-    bio: '15 years specializing in complex trauma and EMDR with women in recovery. Certified EMDR therapist and trainer.',
-    credentials: ['PsyD, Clinical Psychology', 'EMDR Certified Therapist', 'Trauma-Focused CBT Specialist'],
-  },
-  {
-    name: 'Dr. Lucia Reyes, PhD',
-    role: 'Lead Therapist',
-    specialty: 'DBT & Emotion Regulation',
-    image: 'https://papiwmobmdbtzeeebmpr.supabase.co/storage/v1/object/public/site-assets/images/clinician02.jpg',
-    bio: 'DBT-Linehan Board of Certification member with a decade of experience helping women with BPD and complex trauma.',
-    credentials: ['PhD, Clinical Psychology', 'DBT-LBC Certified', 'Somatic Experiencing Practitioner'],
-  },
-  {
-    name: 'Maya Thornton, LCSW',
-    role: 'Senior Therapist',
-    specialty: 'Addiction & Family Systems',
-    image: 'https://papiwmobmdbtzeeebmpr.supabase.co/storage/v1/object/public/site-assets/images/clinician03.jpg',
-    bio: 'Specializes in the intersection of addiction, trauma, and family systems. Trained in CRAFT and family-based recovery.',
-    credentials: ['LCSW, Licensed Clinical Social Worker', 'CRAFT Certified', 'Family Systems Specialist'],
-  },
-  {
-    name: 'Dr. Priya Nair, MD',
-    role: 'Psychiatrist',
-    specialty: 'Medication Management',
-    image: 'https://papiwmobmdbtzeeebmpr.supabase.co/storage/v1/object/public/site-assets/images/clinician04.jpg',
-    bio: 'Board-certified psychiatrist with expertise in women\'s mental health, hormonal influences on mood, and medication-assisted treatment.',
-    credentials: ['MD, Psychiatry', 'Board Certified Psychiatrist', 'Women\'s Mental Health Specialist'],
-  },
-];
-
 const faqs = [
   {
     q: 'How do you decide which therapies are right for me?',

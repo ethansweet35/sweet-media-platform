@@ -126,7 +126,6 @@ export default function AboutPage() {
 
   const heroParallax = useParallax<HTMLDivElement>({ speed: 0.2, maxOffset: 60 });
   const womenParallax = useParallax<HTMLDivElement>({ speed: 0.18, maxOffset: 55 });
-  const missionTopParallax = useParallax<HTMLDivElement>({ speed: 0.15, maxOffset: 45 });
   const ctaParallax = useParallax<HTMLDivElement>({ speed: 0.15, maxOffset: 45 });
 
   // InView refs

@@ -183,10 +183,13 @@ export default function VirtualOutpatientPage() {
       {/* ── HERO ── */}
       <section className="relative w-full h-[620px] max-h-[calc(100vh-112px)] flex items-end overflow-hidden">
         <div className="absolute inset-0">
-          <img
+          <Image
             src="https://papiwmobmdbtzeeebmpr.supabase.co/storage/v1/object/public/site-assets/images/vop_hero01.jpg?v=20260503f"
             alt="Virtual Outpatient Program"
+            fill
             className="w-full h-full object-contain object-center bg-black"
+            priority
+            sizes="100vw"
           />
           <div className="absolute inset-0 bg-[#2C3B2E]/60" />
           <div className="absolute inset-0 bg-gradient-to-r from-[#2C3B2E]/80 via-[#2C3B2E]/50 to-transparent" />

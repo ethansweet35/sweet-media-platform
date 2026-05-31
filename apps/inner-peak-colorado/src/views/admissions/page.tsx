@@ -56,12 +56,6 @@ const steps = [
   },
 ];
 
-const insurances = [
-  'Aetna', 'Cigna', 'United Healthcare', 'Blue Cross Blue Shield',
-  'Anthem', 'Humana', 'Magellan Health', 'Beacon Health Options',
-  'ComPsych', 'Optum', 'Kaiser Permanente', 'Tricare',
-];
-
 const faqs = [
   {
     q: 'How quickly can I start treatment?',
@@ -169,8 +163,6 @@ export default function AdmissionsPage() {
   const [processDetailRef, processDetailVisible] = useInView<HTMLDivElement>();
   const [insuranceHeaderRef, insuranceHeaderVisible] = useInView<HTMLDivElement>();
   const [insuranceGridRef, insuranceGridVisible] = useInView<HTMLDivElement>();
-  const [formLeftRef, formLeftVisible] = useInView<HTMLDivElement>();
-  const [formRightRef, formRightVisible] = useInView<HTMLDivElement>();
   const [faqHeaderRef, faqHeaderVisible] = useInView<HTMLDivElement>();
   const [faqListRef, faqListVisible] = useInView<HTMLDivElement>();
   const [ctaImgRef, ctaImgVisible] = useInView<HTMLDivElement>();
