@@ -44,9 +44,12 @@ function buildAllowList(siteUrl) {
   const origin = siteUrl.replace(/\/+$/, '');
   return [
     `${origin}/admin/reset-password`,
+    `${origin}/admin/reset-password/`,
     `${origin}/admin/**`,
     'http://localhost:3000/admin/reset-password',
+    'http://localhost:3000/admin/reset-password/',
     'http://localhost:3001/admin/reset-password',
+    'http://localhost:3001/admin/reset-password/',
   ].join(',');
 }
 

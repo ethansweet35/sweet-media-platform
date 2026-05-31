@@ -3,6 +3,7 @@
  * Uses service role so admin_users lookup works without a session.
  */
 import { createClient, type SupabaseClient } from "@supabase/supabase-js";
+import { getAdminResetPasswordUrl } from "../adminResetPasswordUrl";
 import { type PageContentEditorError } from "./pageContentEditor";
 
 function getServiceRoleClient(): SupabaseClient {
@@ -31,15 +32,12 @@ function normalizeEmail(value: unknown): string {
   return email;
 }
 
-function getSiteOrigin(): string {
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL?.trim();
-  if (!siteUrl) {
-    throw {
-      status: 500,
-      message: "NEXT_PUBLIC_SITE_URL is not configured for this app.",
-    } satisfies PageContentEditorError;
+function friendlyAuthError(message: string): string {
+  const lower = message.toLowerCase();
+  if (lower.includes("rate limit") || lower.includes("over_email_send_rate_limit")) {
+    return "Too many reset emails were sent recently. Please wait about an hour and try again, or contact your site administrator.";
   }
-  return siteUrl.replace(/\/+$/, "");
+  return message;
 }
 
 export async function handleAdminForgotPasswordPost(
@@ -73,12 +71,12 @@ export async function handleAdminForgotPasswordPost(
     return { ok: true };
   }
 
-  const redirectTo = `${getSiteOrigin()}/admin/reset-password`;
+  const redirectTo = getAdminResetPasswordUrl();
   const { error } = await admin.auth.resetPasswordForEmail(email, { redirectTo });
   if (error) {
     throw {
-      status: 500,
-      message: error.message,
+      status: 429,
+      message: friendlyAuthError(error.message),
     } satisfies PageContentEditorError;
   }
 

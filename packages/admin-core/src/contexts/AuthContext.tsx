@@ -120,7 +120,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         let message = "Something went wrong. Please try again.";
         try {
           const json = (await res.json()) as { message?: string; error?: string };
-          message = json.message || json.error || message;
+          message = json.error || json.message || message;
         } catch {
           /* ignore */
         }

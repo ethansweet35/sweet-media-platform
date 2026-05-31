@@ -185,7 +185,18 @@ async function main() {
     'NEXT_PUBLIC_SUPABASE_ANON_KEY',
     'NEXT_PUBLIC_SITE_ID',
     'NEXT_PUBLIC_SITE_URL',
+    'NEXT_PUBLIC_TRAILING_SLASH',
   ];
+
+  /** Apps with next.config trailingSlash: true — password reset redirects need a trailing slash. */
+  const TRAILING_SLASH_SLUGS = new Set([
+    'sullivan-recovery',
+    'northbound-treatment',
+    'mountainview-treatment',
+    'missouri-behavioral-health',
+    'simple-health',
+    'the-family-recovery-foundation',
+  ]);
 
   const SECRET_VARS = [
     'SUPABASE_SERVICE_ROLE_KEY',
@@ -242,6 +253,15 @@ async function main() {
     const value = resolve(key);
     if (!value) { warn(`Missing secret ${key} — skipping`); continue; }
     envPayload.push({ key, value, target: ['production', 'preview'], type: 'encrypted' });
+  }
+
+  if (TRAILING_SLASH_SLUGS.has(slug) && !envPayload.some((e) => e.key === 'NEXT_PUBLIC_TRAILING_SLASH')) {
+    envPayload.push({
+      key: 'NEXT_PUBLIC_TRAILING_SLASH',
+      value: 'true',
+      target: ['production', 'preview', 'development'],
+      type: 'plain',
+    });
   }
 
   if (envPayload.length === 0) die('No env vars collected — aborting.');

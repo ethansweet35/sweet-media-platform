@@ -49,46 +49,81 @@ export default function AdminResetPasswordPage() {
     if (!supabaseConfigured) return;
 
     let mounted = true;
+    let timeoutId: number | undefined;
 
     const markReady = () => {
-      if (mounted) setReady(true);
+      if (mounted) {
+        setReady(true);
+        setInvalidLink(false);
+      }
+    };
+
+    const markInvalid = () => {
+      if (mounted) setInvalidLink(true);
+    };
+
+    const cleanAuthParamsFromUrl = () => {
+      if (typeof window === "undefined") return;
+      const url = new URL(window.location.href);
+      url.searchParams.delete("code");
+      url.searchParams.delete("type");
+      url.hash = "";
+      window.history.replaceState({}, "", `${url.pathname}${url.search}`);
     };
 
     const { data: { subscription } } = supabase.auth.onAuthStateChange((event) => {
-      if (event === "PASSWORD_RECOVERY") {
+      if (event === "PASSWORD_RECOVERY" || event === "SIGNED_IN") {
         markReady();
       }
     });
 
-    supabase.auth.getSession().then(({ data: { session } }) => {
+    async function bootstrapRecoverySession() {
+      const params = new URLSearchParams(window.location.search);
+      const code = params.get("code");
+
+      if (code) {
+        const { error } = await supabase.auth.exchangeCodeForSession(code);
+        if (error) {
+          console.error("exchangeCodeForSession failed:", error);
+          markInvalid();
+          return;
+        }
+        cleanAuthParamsFromUrl();
+        markReady();
+        return;
+      }
+
+      const hash = window.location.hash || "";
+      if (hash.includes("access_token=") || hash.includes("type=recovery")) {
+        const { data: { session }, error } = await supabase.auth.getSession();
+        if (error || !session) {
+          markInvalid();
+          return;
+        }
+        cleanAuthParamsFromUrl();
+        markReady();
+        return;
+      }
+
+      const { data: { session } } = await supabase.auth.getSession();
       if (session) {
         markReady();
         return;
       }
-      if (typeof window !== "undefined") {
-        const hash = window.location.hash || "";
-        const hasRecoveryToken =
-          hash.includes("type=recovery") ||
-          hash.includes("access_token=") ||
-          new URLSearchParams(window.location.search).has("code");
-        if (!hasRecoveryToken) {
-          if (mounted) setInvalidLink(true);
-        }
-      }
-    });
 
-    const timeout = window.setTimeout(() => {
-      if (mounted && !ready) {
-        setInvalidLink(true);
-      }
-    }, 4000);
+      timeoutId = window.setTimeout(() => {
+        if (mounted) markInvalid();
+      }, 8000);
+    }
+
+    void bootstrapRecoverySession();
 
     return () => {
       mounted = false;
       subscription.unsubscribe();
-      window.clearTimeout(timeout);
+      if (timeoutId) window.clearTimeout(timeoutId);
     };
-  }, [ready]);
+  }, []);
 
   const handleSubmit = useCallback(
     async (e: React.FormEvent) => {
