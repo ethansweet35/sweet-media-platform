@@ -1,0 +1,60 @@
+---
+description: State-of-the-art web infrastructure checklist every client app must meet. Enforces consistent rendering, image optimization, fonts/icons, and bundle settings so new migrations match the platform standard.
+alwaysApply: true
+---
+
+# Platform Web Performance & Infrastructure Standards
+
+Every client app (`apps/*`) must meet this checklist. When migrating a new client or scaffolding a brand, bring it to this standard before launch. The reference implementation is **`apps/northbound-treatment`** (best-tuned config) — copy its patterns, do not invent new ones.
+
+For metadata / canonical / robots / sitemap / revalidate rules, `platform-seo-infrastructure.mdc` is the source of truth — this rule does not override it.
+
+## A. Rendering & routing
+- Marketing pages are **Server Components** (SSG/ISR) — never `"use client"` at the page root.
+- Internal navigation uses **`next/link`**, never raw `<a href="/...">` for in-app routes.
+- Blog index + `[slug]` keep `export const revalidate = 3600` + `generateStaticParams`. Never `force-dynamic`.
+- Legacy/WP URL changes go through **`redirects()`** (301) in `next.config.ts`, not client-side redirects.
+- `trailingSlash` must match how the live domain is indexed in Search Console and be consistent with sibling brands sharing that URL convention.
+
+## B. Image optimization (most common migration gap)
+- **Zero raw `<img>` on marketing pages** — always `next/image`. (Exception: WP-migrated `blog_posts` body HTML.)
+- `next.config.ts` `images` MUST enable AVIF and cap device sizes. AVIF is **not** on by default — opt in:
+
+```ts
+images: {
+  remotePatterns: [{ protocol: "https", hostname: "<ref>.supabase.co" }],
+  formats: ["image/avif", "image/webp"],
+  deviceSizes: [640, 750, 828, 1080, 1200, 1280],
+  imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
+},
+```
+
+- LCP hero gets `priority`; below-the-fold images lazy-load (default).
+- Every `<Image>` has explicit `sizes` + `width`/`height` (or `fill` + a sized container) to prevent CLS.
+- Remove stray migration CDNs (squarespace, readdy, etc.) from `remotePatterns` once images are re-hosted on Supabase.
+
+## C. Fonts & icons
+- Fonts via **`next/font`** (self-hosted, no render-block, no layout shift) — never a Google `<link>`.
+- Prefer a **self-hosted Remix Icon subset** (see `apps/northbound-treatment/scripts/build-remixicon-subset.mjs`) over a render-blocking CDN `<link>`.
+
+## D. JS / bundle
+- `serverExternalPackages: ["@cursor/sdk"]` in every `next.config.ts`.
+- `experimental.optimizePackageImports: ["@sweetmedia/admin-core", "@sweetmedia/blog-core"]`.
+- Heavy/interactive-only widgets (forms, carousels, maps, modals) load via **`next/dynamic`**.
+
+## E. Build, security & monitoring
+- `typescript.ignoreBuildErrors: false`.
+- Block `/admin` from indexing with both `robots.ts` disallow AND an `X-Robots-Tag` header:
+
+```ts
+async headers() {
+  return [{ source: "/admin/:path*", headers: [
+    { key: "X-Robots-Tag", value: "noindex, nofollow, noarchive" },
+  ]}];
+},
+```
+
+- `@vercel/analytics` + `@vercel/speed-insights` wired; `postbuild` runs `sync-tracked-pages.ts`.
+
+## Rollout rule
+Fix `apps/client-template` first so every future brand inherits the standard, then bring existing brands in sync. PPC landers intentionally marked `robots: { index: false }` are exempt from the dynamic-metadata requirement.
