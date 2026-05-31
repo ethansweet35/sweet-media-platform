@@ -24,6 +24,10 @@ const linkClass = (active: boolean) =>
 
 export default function Navbar() {
   const pathname = usePathname();
+  return <NavbarInteractive key={pathname ?? ''} pathname={pathname ?? ''} />;
+}
+
+function NavbarInteractive({ pathname }: { pathname: string }) {
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [openMega, setOpenMega] = useState<string | null>(null);
@@ -34,12 +38,6 @@ export default function Navbar() {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
-
-  useEffect(() => {
-    setMenuOpen(false);
-    setMobileExpanded(null);
-    setOpenMega(null);
-  }, [pathname]);
 
   const isHome = pathname === "/";
   const isTransparent = isHome && !scrolled;

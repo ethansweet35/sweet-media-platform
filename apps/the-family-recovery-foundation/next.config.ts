@@ -1,7 +1,23 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  experimental: {
+    optimizePackageImports: ["@sweetmedia/admin-core", "@sweetmedia/blog-core"],
+  },
   trailingSlash: true,
+  typescript: {
+    ignoreBuildErrors: false,
+  },
+  async headers() {
+    return [
+      {
+        source: "/admin/:path*",
+        headers: [
+          { key: "X-Robots-Tag", value: "noindex, nofollow, noarchive" },
+        ],
+      },
+    ];
+  },
   async redirects() {
     return [
       { source: "/testimonials", destination: "/stories/", permanent: true },
@@ -42,6 +58,9 @@ const nextConfig: NextConfig = {
       { protocol: "https", hostname: "static.readdy.ai" },
       { protocol: "https", hostname: "readdy.ai" },
     ],
+    formats: ["image/avif", "image/webp"],
+    deviceSizes: [640, 750, 828, 1080, 1200, 1280],
+    imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
   },
 };
 

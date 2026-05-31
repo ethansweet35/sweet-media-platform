@@ -111,16 +111,14 @@ function SimpleDropdown({
 
 export default function Navbar() {
   const pathname = usePathname() ?? "";
+  return <NavbarInteractive key={pathname} pathname={pathname} />;
+}
+
+function NavbarInteractive({ pathname }: { pathname: string }) {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [openMenu, setOpenMenu] = useState<string | null>(null);
   const [mobileExpanded, setMobileExpanded] = useState<string | null>(null);
   const navRef = useRef<HTMLElement>(null);
-
-  useEffect(() => {
-    setMobileOpen(false);
-    setOpenMenu(null);
-    setMobileExpanded(null);
-  }, [pathname]);
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {

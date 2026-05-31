@@ -1,6 +1,5 @@
 import Image from "next/image";
 import Link from "next/link";
-import type { ComponentProps } from "react";
 import {
   AutoLinkedTextSync,
   getInternalLinkMappings,
@@ -91,10 +90,6 @@ type HomePageBodyProps = {
 };
 
 function HomePageBody({ mappings, registry }: HomePageBodyProps) {
-  const LinkText = (props: Omit<ComponentProps<typeof AutoLinkedTextSync>, "mappings" | "registry">) => (
-    <AutoLinkedTextSync mappings={mappings} registry={registry} {...props} />
-  );
-
   return (
     <main className="bg-[#101E3F]">
       {/* Hero — video background (matches Elementor) */}
@@ -114,10 +109,10 @@ function HomePageBody({ mappings, registry }: HomePageBodyProps) {
             A Higher-Level Partnership
           </h1>
           <p className="mt-4 text-xs font-semibold uppercase leading-normal tracking-[0.28em] text-white/95 md:text-sm">
-            <LinkText>{"Your Partner In Behavioral Health Billing"}</LinkText>
+            <AutoLinkedTextSync mappings={mappings} registry={registry}>{"Your Partner In Behavioral Health Billing"}</AutoLinkedTextSync>
           </p>
           <p className="mt-4 max-w-2xl font-[var(--font-heading)] text-xs italic leading-[1.42] text-white/90 md:text-lg">
-            <LinkText>{"Delivering Airtight Compliance & Real Financial Results"}</LinkText>
+            <AutoLinkedTextSync mappings={mappings} registry={registry}>{"Delivering Airtight Compliance & Real Financial Results"}</AutoLinkedTextSync>
           </p>
         </div>
       </section>
@@ -134,13 +129,13 @@ function HomePageBody({ mappings, registry }: HomePageBodyProps) {
           <div className="cipher-home-welcome-band mx-auto max-w-[1140px] px-6 py-20 md:py-32">
             <div className="mx-auto max-w-3xl text-center">
               <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-[#166C96]">
-                <LinkText>{"WELCOME TO CIPHER BILLING"}</LinkText>
+                <AutoLinkedTextSync mappings={mappings} registry={registry}>{"WELCOME TO CIPHER BILLING"}</AutoLinkedTextSync>
               </p>
               <h2 className="mt-4 font-[var(--font-heading)] text-3xl font-medium leading-tight text-white md:text-5xl">
                 The Trusted Experts In Behavioral Health Billing Services
               </h2>
               <p className="mx-auto mt-6 max-w-2xl text-sm leading-[1.42] text-white/85 md:text-base">
-                <LinkText>{"Cipher Billing is your trusted partner in behavioral health billing services — delivering airtight\n                compliance, transparent service, and maximized revenue so you can focus on patient care."}</LinkText>
+                <AutoLinkedTextSync mappings={mappings} registry={registry}>{"Cipher Billing is your trusted partner in behavioral health billing services — delivering airtight\n                compliance, transparent service, and maximized revenue so you can focus on patient care."}</AutoLinkedTextSync>
               </p>
             </div>
 
@@ -153,10 +148,10 @@ function HomePageBody({ mappings, registry }: HomePageBodyProps) {
                   Why Cipher Billing
                 </h3>
                 <p className="mt-5 text-sm leading-[1.42] text-white/85 md:text-base">
-                  <LinkText>{"We believe in delivering unmatched service, airtight compliance, and real financial results for our\n                  partners."}</LinkText>
+                  <AutoLinkedTextSync mappings={mappings} registry={registry}>{"We believe in delivering unmatched service, airtight compliance, and real financial results for our\n                  partners."}</AutoLinkedTextSync>
                 </p>
                 <p className="mt-5 text-sm leading-[1.42] text-white/85 md:text-base">
-                  <LinkText>{"Our numbers reflect our dedication, with an eligibility turnaround averaging just 9 minutes compared to\n                  the industry standard 30 minutes. To maximize your revenue, request a consultation today."}</LinkText>
+                  <AutoLinkedTextSync mappings={mappings} registry={registry}>{"Our numbers reflect our dedication, with an eligibility turnaround averaging just 9 minutes compared to\n                  the industry standard 30 minutes. To maximize your revenue, request a consultation today."}</AutoLinkedTextSync>
                 </p>
                 <Link
                   href="/contact-us"
@@ -192,7 +187,7 @@ function HomePageBody({ mappings, registry }: HomePageBodyProps) {
                     <i className={`${item.icon} text-[1.65rem] leading-none`} />
                   </div>
                   <h3 className="font-[var(--font-body)] text-lg font-semibold text-white md:text-xl">{item.title}</h3>
-                  <p className="mt-4 text-sm leading-[1.42] text-white/85"><LinkText>{item.body}</LinkText></p>
+                  <p className="mt-4 text-sm leading-[1.42] text-white/85"><AutoLinkedTextSync mappings={mappings} registry={registry}>{item.body}</AutoLinkedTextSync></p>
                 </article>
               ))}
               <div className="relative mx-auto aspect-square w-full max-w-[280px] overflow-hidden rounded-full border border-white/15 lg:mx-0 lg:justify-self-end">
@@ -215,7 +210,7 @@ function HomePageBody({ mappings, registry }: HomePageBodyProps) {
               <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-[#166C96]">ABOUT US</p>
               <h2 className="mt-3 font-[var(--font-heading)] text-3xl font-medium md:text-5xl">Who We Are</h2>
               <p className="mt-6 text-sm leading-[1.42] text-white/85 md:text-base">
-                <LinkText>{"We are trusted experts in behavioral health billing. We take pride in having a seamless partnership with\n                our clients, working closely with you and your team to understand your business's unique needs and\n                goals. We operate with the end in mind, optimizing your billing process to increase revenue so you can\n                focus on your patients."}</LinkText>
+                <AutoLinkedTextSync mappings={mappings} registry={registry}>{"We are trusted experts in behavioral health billing. We take pride in having a seamless partnership with\n                our clients, working closely with you and your team to understand your business's unique needs and\n                goals. We operate with the end in mind, optimizing your billing process to increase revenue so you can\n                focus on your patients."}</AutoLinkedTextSync>
               </p>
               <Link
                 href="/our-company"
@@ -255,7 +250,7 @@ function HomePageBody({ mappings, registry }: HomePageBodyProps) {
               <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-[#166C96]">OUR PARTNERSHIP</p>
               <h2 className="mt-3 font-[var(--font-heading)] text-3xl font-medium md:text-5xl">What You Can Expect</h2>
               <p className="mt-6 text-sm leading-[1.42] text-white/85 md:text-base">
-                <LinkText>{"Our job is to deliver an unparalleled experience to our clients. A Higher-Level Partnership means we go\n                above and beyond to ensure maximum reimbursement for our clients and leave no stone unturned in pursuing\n                successful claims. You can expect a simple, transparent service when you choose Cipher as your billing\n                partner."}</LinkText>
+                <AutoLinkedTextSync mappings={mappings} registry={registry}>{"Our job is to deliver an unparalleled experience to our clients. A Higher-Level Partnership means we go\n                above and beyond to ensure maximum reimbursement for our clients and leave no stone unturned in pursuing\n                successful claims. You can expect a simple, transparent service when you choose Cipher as your billing\n                partner."}</AutoLinkedTextSync>
               </p>
               <Link
                 href="/behavioral-health-revenue-cycle-management"
@@ -275,13 +270,13 @@ function HomePageBody({ mappings, registry }: HomePageBodyProps) {
           <div className="mx-auto max-w-[1140px] px-6 py-20 md:py-28">
             <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.1fr)] lg:items-end lg:gap-12">
               <div>
-                <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-[#166C96]"><LinkText>{"SIMPLE & EFFECTIVE"}</LinkText></p>
+                <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-[#166C96]"><AutoLinkedTextSync mappings={mappings} registry={registry}>{"SIMPLE & EFFECTIVE"}</AutoLinkedTextSync></p>
                 <h2 className="mt-4 font-[var(--font-heading)] text-3xl font-medium md:text-5xl">
                   Our{" "}
                   <span className="text-[#166C96]">Process.</span>
                 </h2>
               </div>
-              <p className="text-sm leading-[1.42] text-white/85 md:text-base lg:pb-2"><LinkText>{processIntro}</LinkText></p>
+              <p className="text-sm leading-[1.42] text-white/85 md:text-base lg:pb-2"><AutoLinkedTextSync mappings={mappings} registry={registry}>{processIntro}</AutoLinkedTextSync></p>
             </div>
 
             <div className="mt-12 grid gap-5 md:grid-cols-2 lg:grid-cols-4">
@@ -300,7 +295,7 @@ function HomePageBody({ mappings, registry }: HomePageBodyProps) {
                     <span className="font-[var(--font-heading)] text-4xl font-medium text-white/90">{step.step}</span>
                   </div>
                   <h3 className="mt-6 font-[var(--font-heading)] text-lg font-medium text-white">{step.title}</h3>
-                  <p className="mt-3 flex-1 text-sm leading-[1.42] text-white/75"><LinkText>{step.body}</LinkText></p>
+                  <p className="mt-3 flex-1 text-sm leading-[1.42] text-white/75"><AutoLinkedTextSync mappings={mappings} registry={registry}>{step.body}</AutoLinkedTextSync></p>
                 </article>
               ))}
             </div>
@@ -312,13 +307,13 @@ function HomePageBody({ mappings, registry }: HomePageBodyProps) {
           <div className="mx-auto grid max-w-[1140px] gap-14 px-6 py-20 md:grid-cols-[1.08fr_0.92fr] md:items-start md:py-28">
             <div className="max-w-xl">
               <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-[#166C96]">
-                <LinkText>{"READY TO TRANSFORM YOUR REVENUE CYCLE?"}</LinkText>
+                <AutoLinkedTextSync mappings={mappings} registry={registry}>{"READY TO TRANSFORM YOUR REVENUE CYCLE?"}</AutoLinkedTextSync>
               </p>
               <h2 className="mt-4 font-[var(--font-heading)] text-3xl font-medium leading-[1.15] md:text-[2.65rem]">
                 Let's Discuss How We Can{" "}
                 <span className="text-[#166C96]">Maximize Your Revenue.</span>
               </h2>
-              <p className="mt-6 text-sm leading-[1.42] text-white/90"><LinkText>{leadIntro}</LinkText></p>
+              <p className="mt-6 text-sm leading-[1.42] text-white/90"><AutoLinkedTextSync mappings={mappings} registry={registry}>{leadIntro}</AutoLinkedTextSync></p>
 
               <div className="mt-10">
                 <HomeTestimonialRotator testimonials={cipherHomeTestimonials} />
@@ -339,7 +334,7 @@ function HomePageBody({ mappings, registry }: HomePageBodyProps) {
                     <a href={contactPhoneHref} suppressHydrationWarning className="mt-1 block text-sm font-medium text-white hover:text-[#166C96]">
                       {contactPhoneDisplay}
                     </a>
-                    <p className="mt-1 text-xs leading-[1.35] text-white/75"><LinkText>{"Mon–Fri, 8AM–5:30PM PST"}</LinkText></p>
+                    <p className="mt-1 text-xs leading-[1.35] text-white/75"><AutoLinkedTextSync mappings={mappings} registry={registry}>{"Mon–Fri, 8AM–5:30PM PST"}</AutoLinkedTextSync></p>
                   </div>
                 </div>
 
@@ -367,7 +362,7 @@ function HomePageBody({ mappings, registry }: HomePageBodyProps) {
             <div className="rounded-lg border border-white/10 bg-[#0a1428]/80 backdrop-blur-md p-8 shadow-lg md:p-10">
               <h3 className="font-marcellus text-2xl font-medium text-white md:text-[1.75rem]">Get Started Today</h3>
               <p className="mt-3 max-w-md font-[var(--font-body)] text-sm leading-[1.42] text-white/85">
-                <LinkText>{"Fill out the form below and we'll contact you within 24 hours."}</LinkText>
+                <AutoLinkedTextSync mappings={mappings} registry={registry}>{"Fill out the form below and we'll contact you within 24 hours."}</AutoLinkedTextSync>
               </p>
 
               <HomeLeadForm />

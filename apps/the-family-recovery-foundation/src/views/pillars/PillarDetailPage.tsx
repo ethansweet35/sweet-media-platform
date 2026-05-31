@@ -1,5 +1,6 @@
 'use client';
 
+import Image from "next/image";
 import Link from "next/link";
 import { PAGE_TOP_NAV_PADDING } from "@/lib/layout";
 import { pillars } from "@/mocks/pillars";
@@ -58,7 +59,13 @@ export default function PillarDetailPage({ slug }: PillarDetailPageProps) {
               </div>
             </div>
             <div className="relative aspect-[4/5] rounded-2xl overflow-hidden shadow-lg">
-              <img src={pillar.image} alt={pillar.title} className="w-full h-full object-cover object-top" />
+              <Image
+                src={pillar.image}
+                alt={pillar.title}
+                fill
+                className="object-cover object-top"
+                sizes="(max-width: 1024px) 100vw, 50vw"
+              />
             </div>
           </div>
         </div>

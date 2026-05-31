@@ -17,14 +17,11 @@ const REVIEWS = [
   { platform: "Yelp", rating: 4.6, count: 56, trend: "flat" },
 ];
 
-function ReputationDashboardVisual({ active }: { active: boolean }) {
+function ReputationDashboardVisual() {
   const [revealed, setRevealed] = useState(0);
   const [totalCount, setTotalCount] = useState(0);
 
   useEffect(() => {
-    if (!active) return;
-    setRevealed(0);
-    setTotalCount(0);
     REVIEWS.forEach((_, i) => {
       setTimeout(() => setRevealed((n) => n + 1), 200 + i * 180);
     });
@@ -36,7 +33,7 @@ function ReputationDashboardVisual({ active }: { active: boolean }) {
       else setTotalCount(count);
     }, 30);
     return () => clearInterval(interval);
-  }, [active]);
+  }, []);
 
   return (
     <div className="w-full h-full flex flex-col gap-3">
@@ -164,7 +161,7 @@ export default function SocialReputationSection() {
           {/* Right — animated visual */}
           <div className="w-full lg:w-[460px] flex-shrink-0 order-1 lg:order-2">
             <div className="bg-[#f7f6f4] rounded-3xl p-6 h-[480px] flex flex-col">
-              <ReputationDashboardVisual active={visible} />
+              {visible ? <ReputationDashboardVisual /> : null}
             </div>
           </div>
 

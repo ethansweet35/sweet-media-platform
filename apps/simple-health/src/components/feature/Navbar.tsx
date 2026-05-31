@@ -121,6 +121,10 @@ export const NAV_ITEMS: NavItem[] = [
 
 export default function Navbar() {
   const pathname = usePathname();
+  return <NavbarInteractive key={pathname ?? ""} pathname={pathname ?? ""} />;
+}
+
+function NavbarInteractive({ pathname }: { pathname: string }) {
   const [openDesktop, setOpenDesktop] = useState<string | null>(null);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [mobileExpanded, setMobileExpanded] = useState<string | null>(null);
@@ -133,12 +137,6 @@ export default function Navbar() {
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
-
-  useEffect(() => {
-    setMobileOpen(false);
-    setMobileExpanded(null);
-    setOpenDesktop(null);
-  }, [pathname]);
 
   useEffect(() => {
     if (!openDesktop) return;

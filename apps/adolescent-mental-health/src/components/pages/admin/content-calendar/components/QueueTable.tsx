@@ -59,6 +59,8 @@ export default function QueueTable({
     return () => clearTimeout(t);
   }, [highlightedId, onHighlightedConsumed]);
 
+  const isRowOpen = (id: string) => expanded.has(id) || id === highlightedId;
+
   const toggleRow = (id: string) => {
     setExpanded((prev) => {
       const next = new Set(prev);
@@ -121,7 +123,7 @@ export default function QueueTable({
         <tbody>
           {items.map((item) => {
           const sty = STATUS_STYLES[item.status];
-          const isOpen = expanded.has(item.id) || item.id === highlightedId;
+          const isOpen = isRowOpen(item.id);
           const isHi = highlightedId === item.id;
           const showGeneratingPulse =
             item.status === "generating" || busyId === item.id;

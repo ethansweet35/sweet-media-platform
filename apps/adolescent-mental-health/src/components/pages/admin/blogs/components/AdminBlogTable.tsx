@@ -4,7 +4,6 @@ import Image from "next/image";
 import { useState } from "react";
 import { ADMIN_OCEAN } from "@sweetmedia/admin-core";
 import type { BlogPost } from "@sweetmedia/blog-core";
-import { blogAuthorInitials, blogAuthorName } from "@/components/pages/blog/blogTokens";
 
 function formatScheduledLine(iso: string): string {
   try {
@@ -44,11 +43,6 @@ interface AdminBlogTableProps {
 type SortField = "title" | "category" | "author" | "date" | "status";
 type SortDir = "asc" | "desc";
 
-function sortIconClass(field: SortField, sortField: SortField, sortDir: SortDir) {
-  if (sortField !== field) return "ri-arrow-up-down-line text-neutral-300";
-  return sortDir === "asc" ? "ri-arrow-up-line text-[#3d6f7f]" : "ri-arrow-down-line text-[#3d6f7f]";
-}
-
 function SortIcon({
   field,
   sortField,
@@ -58,7 +52,17 @@ function SortIcon({
   sortField: SortField;
   sortDir: SortDir;
 }) {
-  return <i className={`text-[10px] ml-1 ${sortIconClass(field, sortField, sortDir)}`} />;
+  return (
+    <i
+      className={`text-[10px] ml-1 ${
+        sortField === field
+          ? sortDir === "asc"
+            ? "ri-arrow-up-line text-[#3d6f7f]"
+            : "ri-arrow-down-line text-[#3d6f7f]"
+          : "ri-arrow-up-down-line text-neutral-300"
+      }`}
+    />
+  );
 }
 
 export default function AdminBlogTable({
@@ -294,10 +298,10 @@ export default function AdminBlogTable({
                     <div className="flex items-center gap-2">
                       <div className="w-6 h-6 rounded-full bg-[#3d6f7f] flex items-center justify-center flex-shrink-0">
                         <span className="text-white text-[9px] font-bold">
-                          {blogAuthorInitials(post.author)}
+                          {post.author.split(" ").map((n) => n[0]).join("")}
                         </span>
                       </div>
-                      <span className="text-sm text-neutral-600 whitespace-nowrap">{blogAuthorName(post.author)}</span>
+                      <span className="text-sm text-neutral-600 whitespace-nowrap">{post.author}</span>
                     </div>
                   </td>
 

@@ -24,12 +24,11 @@ function Counter({
   const started = useRef(false);
 
   useEffect(() => {
-    // Reset to 0 immediately so the animation plays from zero
-    setVal(0);
     const obs = new IntersectionObserver(
       ([e]) => {
         if (e.isIntersecting && !started.current) {
           started.current = true;
+          setVal(0);
           const dur = 2000;
           const start = performance.now();
           const tick = (now: number) => {

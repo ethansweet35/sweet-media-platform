@@ -230,12 +230,16 @@ const simpleLinks = [
 ];
 
 export default function Navbar() {
+  const pathname = usePathname();
+  return <NavbarInteractive key={pathname ?? ''} pathname={pathname ?? ''} />;
+}
+
+function NavbarInteractive({ pathname }: { pathname: string }) {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [mobileExpanded, setMobileExpanded] = useState<string | null>(null);
   const [activeMenu, setActiveMenu] = useState<string | null>(null);
   const closeTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const pathname = usePathname();
   const isHome = pathname === '/';
 
   useEffect(() => {
@@ -255,11 +259,6 @@ export default function Navbar() {
       if (frame != null) window.cancelAnimationFrame(frame);
     };
   }, []);
-
-  useEffect(() => {
-    setMobileOpen(false);
-    setActiveMenu(null);
-  }, [pathname]);
 
   const solid = scrolled || !isHome || mobileOpen;
   const navBg = solid ? 'bg-[#FAF8F5] shadow-sm' : 'bg-transparent';

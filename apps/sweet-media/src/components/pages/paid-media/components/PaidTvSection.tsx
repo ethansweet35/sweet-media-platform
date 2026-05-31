@@ -26,7 +26,7 @@ const DMA_MARKETS = [
   "Denver, CO",
 ];
 
-function CtvReachTracker({ active }: { active: boolean }) {
+function CtvReachTracker() {
   const [revealedPlatforms, setRevealedPlatforms] = useState(0);
   const [totalImpressions, setTotalImpressions] = useState(0);
   const [totalSpend, setTotalSpend] = useState(0);
@@ -37,9 +37,6 @@ function CtvReachTracker({ active }: { active: boolean }) {
   const totalMax = PLATFORMS.reduce((a, p) => a + p.impressions, 0);
 
   useEffect(() => {
-    if (!active) return;
-    setRevealedPlatforms(0); setTotalImpressions(0); setTotalSpend(0); setCallsCount(0);
-
     // Reveal platforms
     PLATFORMS.forEach((_, i) => {
       setTimeout(() => setRevealedPlatforms((n) => Math.max(n, i + 1)), 200 + i * 250);
@@ -68,7 +65,7 @@ function CtvReachTracker({ active }: { active: boolean }) {
       }, 300);
     }, 2000);
     return () => clearInterval(mt);
-  }, [active, totalMax]);
+  }, [totalMax]);
 
   const formatNum = (n: number) => n >= 1000000 ? `${(n / 1000000).toFixed(1)}M` : n >= 1000 ? `${(n / 1000).toFixed(0)}K` : String(n);
 
@@ -225,7 +222,7 @@ export default function PaidTvSection() {
           {/* Right — animated visual */}
           <div className="w-full lg:w-[460px] flex-shrink-0 order-1 lg:order-2">
             <div className="bg-[#f7f6f4] rounded-3xl p-6 h-[520px] flex flex-col">
-              <CtvReachTracker active={visible} />
+              {visible ? <CtvReachTracker /> : null}
             </div>
           </div>
 

@@ -38,7 +38,7 @@ function generateBidders(keywordIdx: number): Bidder[] {
   ].sort((a, b) => a.rank - b.rank);
 }
 
-function GoogleBidAuction({ active }: { active: boolean }) {
+function GoogleBidAuction() {
   const [kwIdx, setKwIdx] = useState(0);
   const [auctionPhase, setAuctionPhase] = useState<"idle" | "bidding" | "result">("idle");
   const [revealedBidders, setRevealedBidders] = useState(0);
@@ -49,26 +49,23 @@ function GoogleBidAuction({ active }: { active: boolean }) {
   const bidders = generateBidders(kwIdx);
   const kw = KEYWORDS[kwIdx];
 
-  // Start on visibility
   useEffect(() => {
-    if (!active) return;
-    setKwIdx(0); setAuctionPhase("idle"); setRevealedBidders(0); setTypeLen(0); setCpcCount(0); setConvCount(0);
     const t = setTimeout(() => setAuctionPhase("bidding"), 300);
     return () => clearTimeout(t);
-  }, [active]);
+  }, []);
 
   // Type keyword
   useEffect(() => {
-    if (!active || auctionPhase === "idle") return;
+    if (auctionPhase === "idle") return;
     if (typeLen < kw.length) {
       const t = setTimeout(() => setTypeLen((l) => l + 1), 42);
       return () => clearTimeout(t);
     }
-  }, [active, auctionPhase, typeLen, kw]);
+  }, [auctionPhase, typeLen, kw]);
 
   // Reveal bidders one by one
   useEffect(() => {
-    if (!active || auctionPhase !== "bidding") return;
+    if (auctionPhase !== "bidding") return;
     if (typeLen < kw.length) return;
     if (revealedBidders < bidders.length) {
       const t = setTimeout(() => setRevealedBidders((n) => n + 1), 250);
@@ -76,11 +73,11 @@ function GoogleBidAuction({ active }: { active: boolean }) {
     }
     const t = setTimeout(() => setAuctionPhase("result"), 400);
     return () => clearTimeout(t);
-  }, [active, auctionPhase, revealedBidders, bidders.length, typeLen, kw.length]);
+  }, [auctionPhase, revealedBidders, bidders.length, typeLen, kw.length]);
 
   // Animate CPC and conv counters
   useEffect(() => {
-    if (!active || auctionPhase !== "result") return;
+    if (auctionPhase !== "result") return;
     const target = bidders[0].cpc * 100;
     const convTarget = 84;
     let frame = 0;
@@ -91,11 +88,11 @@ function GoogleBidAuction({ active }: { active: boolean }) {
       if (frame >= 30) clearInterval(t);
     }, 30);
     return () => clearInterval(t);
-  }, [auctionPhase, active, bidders]);
+  }, [auctionPhase, bidders]);
 
   // Cycle to next keyword
   useEffect(() => {
-    if (!active || auctionPhase !== "result") return;
+    if (auctionPhase !== "result") return;
     const t = setTimeout(() => {
       setKwIdx((i) => (i + 1) % KEYWORDS.length);
       setAuctionPhase("idle");
@@ -106,7 +103,7 @@ function GoogleBidAuction({ active }: { active: boolean }) {
       setTimeout(() => setAuctionPhase("bidding"), 200);
     }, 2800);
     return () => clearTimeout(t);
-  }, [active, auctionPhase]);
+  }, [auctionPhase]);
 
   return (
     <div className="w-full h-full flex flex-col gap-3">
@@ -245,7 +242,7 @@ export default function PaidGoogleSection() {
           {/* Right — animated visual */}
           <div className="w-full lg:w-[460px] flex-shrink-0 order-1 lg:order-2">
             <div className="bg-[#f7f6f4] rounded-3xl p-6 h-[480px] flex flex-col">
-              <GoogleBidAuction active={visible} />
+              {visible ? <GoogleBidAuction /> : null}
             </div>
           </div>
 

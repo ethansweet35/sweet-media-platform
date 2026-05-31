@@ -5,13 +5,21 @@ import nextTs from "eslint-config-next/typescript";
 const eslintConfig = defineConfig([
   ...nextVitals,
   ...nextTs,
-  // Override default ignores of eslint-config-next.
+  {
+    rules: {
+      // Marketing copy uses apostrophes and quotes freely — only forbid chars that break JSX.
+      "react/no-unescaped-entities": ["error", { forbid: [">", "}"] }],
+    },
+  },
   globalIgnores([
-    // Default ignores of eslint-config-next:
     ".next/**",
+    "simple-health/**",
     "out/**",
     "build/**",
     "next-env.d.ts",
+    "scripts/**",
+    "supabase/functions/**",
+    "readdy-export/**",
   ]),
 ]);
 

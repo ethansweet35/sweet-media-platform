@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useState, useRef, useEffect } from "react";
 import EmailReportModal from "./EmailReportModal";
 
@@ -398,12 +399,12 @@ function ResultsPanel(p: ResultsProps) {
       </div>
 
       {/* CTA */}
-      <a
+      <Link
         href="/contact-us?source=cost-calculator"
         className="flex items-center justify-center gap-2 rounded-lg bg-[#050a14] px-4 py-3.5 text-[11px] font-bold uppercase tracking-[0.16em] text-white transition hover:bg-black"
       >
         Schedule a Free Revenue Audit <i className="ri-arrow-right-line" />
-      </a>
+      </Link>
 
       <p className="text-center text-[11px] leading-relaxed text-[#8a9299]">
         Based on industry averages.{" "}

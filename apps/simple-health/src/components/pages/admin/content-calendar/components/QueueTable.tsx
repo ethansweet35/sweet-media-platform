@@ -55,10 +55,11 @@ export default function QueueTable({
   useEffect(() => {
     if (!highlightedId) return;
     rowRefs.current[highlightedId]?.scrollIntoView({ behavior: "smooth", block: "center" });
-    setExpanded((prev) => new Set(prev).add(highlightedId));
     const t = setTimeout(() => onHighlightedConsumed?.(), 1200);
     return () => clearTimeout(t);
   }, [highlightedId, onHighlightedConsumed]);
+
+  const isRowOpen = (id: string) => expanded.has(id) || id === highlightedId;
 
   const toggleRow = (id: string) => {
     setExpanded((prev) => {
@@ -122,7 +123,7 @@ export default function QueueTable({
         <tbody>
           {items.map((item) => {
           const sty = STATUS_STYLES[item.status];
-          const isOpen = expanded.has(item.id);
+          const isOpen = isRowOpen(item.id);
           const isHi = highlightedId === item.id;
           const showGeneratingPulse =
             item.status === "generating" || busyId === item.id;

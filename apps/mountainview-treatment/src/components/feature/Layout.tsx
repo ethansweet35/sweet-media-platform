@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import Navbar from "./Navbar";
@@ -43,12 +44,12 @@ export default function Layout({ children }: { children: React.ReactNode }) {
           >
             <i className="ri-phone-fill" aria-hidden="true" /> Call Now
           </a>
-          <a
+          <Link
             href="/admissions/"
             className="flex flex-1 items-center justify-center gap-2 rounded-full border border-white/40 py-3 text-xs font-semibold uppercase tracking-[0.18em] text-white"
           >
             Verify Insurance
-          </a>
+          </Link>
         </div>
       </div>
     </div>

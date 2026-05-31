@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { AmhButton } from "@/components/marketing";
 import {
   usePaginatedBlogPosts,
@@ -104,7 +104,9 @@ function PaginationControls({
 }
 
 export default function BlogGrid({ searchQuery, activeCategory, onCategoryChange }: BlogGridProps) {
-  const [page, setPage] = useState(0);
+  const filterKey = `${searchQuery}|${activeCategory}`;
+  const [pagination, setPagination] = useState({ page: 0, filterKey });
+  const page = pagination.filterKey === filterKey ? pagination.page : 0;
 
   const { posts, total, loading } = usePaginatedBlogPosts(page, BLOG_PAGE_SIZE, activeCategory);
   const { posts: searchResults, loading: searchLoading } = useSearchBlogPosts(searchQuery);
@@ -123,17 +125,12 @@ export default function BlogGrid({ searchQuery, activeCategory, onCategoryChange
   const totalPages = isSearching ? searchTotalPages : Math.ceil(total / BLOG_PAGE_SIZE);
   const resultTotal = isSearching ? searchTotal : total;
 
-  useEffect(() => {
-    setPage(0);
-  }, [searchQuery, activeCategory]);
-
   function handleCategoryChange(category: string) {
     onCategoryChange(category);
-    setPage(0);
   }
 
   function handlePageChange(nextPage: number) {
-    setPage(nextPage);
+    setPagination({ page: nextPage, filterKey });
     window.scrollTo({ top: 0, behavior: "smooth" });
   }
 

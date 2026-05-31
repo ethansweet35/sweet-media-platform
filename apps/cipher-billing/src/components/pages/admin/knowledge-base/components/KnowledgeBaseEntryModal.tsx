@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import type { KbEntry, KbEntryInput } from "@sweetmedia/admin-core";
 
 interface KnowledgeBaseEntryModalProps {
@@ -18,41 +18,24 @@ function splitTags(csv: string): string[] {
     .filter(Boolean);
 }
 
-export default function KnowledgeBaseEntryModal({
+function KnowledgeBaseEntryModalForm({
   entry,
-  isOpen,
   onClose,
   onSubmit,
-}: KnowledgeBaseEntryModalProps) {
+}: {
+  entry: KbEntry | null;
+  onClose: () => void;
+  onSubmit: (payload: KbEntryInput) => Promise<boolean>;
+}) {
   const isEdit = !!entry;
 
-  const [title, setTitle] = useState("");
-  const [category, setCategory] = useState("");
-  const [content, setContent] = useState("");
-  const [tagsInput, setTagsInput] = useState("");
-  const [isActive, setIsActive] = useState(true);
+  const [title, setTitle] = useState(entry?.title ?? "");
+  const [category, setCategory] = useState(entry?.category ?? "");
+  const [content, setContent] = useState(entry?.content ?? "");
+  const [tagsInput, setTagsInput] = useState(entry?.tags.join(", ") ?? "");
+  const [isActive, setIsActive] = useState(entry?.is_active ?? true);
   const [fieldError, setFieldError] = useState<string | null>(null);
   const [saving, setSaving] = useState(false);
-
-  useEffect(() => {
-    if (!isOpen) return;
-    setFieldError(null);
-    if (entry) {
-      setTitle(entry.title);
-      setCategory(entry.category ?? "");
-      setContent(entry.content);
-      setTagsInput(entry.tags.join(", "));
-      setIsActive(entry.is_active);
-    } else {
-      setTitle("");
-      setCategory("");
-      setContent("");
-      setTagsInput("");
-      setIsActive(true);
-    }
-  }, [entry, isOpen]);
-
-  if (!isOpen) return null;
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -211,5 +194,23 @@ export default function KnowledgeBaseEntryModal({
         </form>
       </div>
     </div>
+  );
+}
+
+export default function KnowledgeBaseEntryModal({
+  entry,
+  isOpen,
+  onClose,
+  onSubmit,
+}: KnowledgeBaseEntryModalProps) {
+  if (!isOpen) return null;
+
+  return (
+    <KnowledgeBaseEntryModalForm
+      key={entry?.id ?? "new"}
+      entry={entry}
+      onClose={onClose}
+      onSubmit={onSubmit}
+    />
   );
 }

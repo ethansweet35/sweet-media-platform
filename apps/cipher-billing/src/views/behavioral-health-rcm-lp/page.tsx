@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { useState } from "react";
 
 const TEL_DISPLAY = "949-676-2252";
@@ -399,7 +400,7 @@ export default function BehavioralHealthRcmLpPage() {
         {/* Main bar */}
         <nav className="border-b border-slate-200 bg-white px-4 md:px-6">
           <div className="mx-auto flex max-w-[1200px] items-center justify-between gap-4 py-3">
-            <a href="/" className="shrink-0">
+            <Link href="/" className="shrink-0">
               <Image
                 src={LOGO_SRC}
                 alt="Cipher Billing"
@@ -408,7 +409,7 @@ export default function BehavioralHealthRcmLpPage() {
                 priority
                 className="h-auto w-[130px] sm:w-[160px] lg:w-[175px]"
               />
-            </a>
+            </Link>
 
             {/* Section anchor links — desktop */}
             <div className="hidden items-center gap-5 xl:flex">
@@ -931,7 +932,7 @@ export default function BehavioralHealthRcmLpPage() {
       {/* ── LP Footer ─────────────────────────────────────────────────────── */}
       <footer className="border-t border-white/10 bg-[#080f1e] px-5 py-8 md:px-8">
         <div className="mx-auto flex max-w-[1200px] flex-col items-center justify-between gap-5 text-center md:flex-row md:text-left">
-          <a href="/">
+          <Link href="/">
             <Image
               src={LOGO_SRC}
               alt="Cipher Billing"
@@ -939,7 +940,7 @@ export default function BehavioralHealthRcmLpPage() {
               height={36}
               className="h-auto w-[110px] brightness-0 invert opacity-50"
             />
-          </a>
+          </Link>
           <p className="text-[11px] text-white/25">
             © {new Date().getFullYear()} Cipher Billing. All rights reserved.
           </p>

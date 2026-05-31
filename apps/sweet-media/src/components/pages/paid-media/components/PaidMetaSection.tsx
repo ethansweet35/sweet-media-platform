@@ -32,16 +32,13 @@ const AUDIENCES = [
   { name: "Insurance Seekers", size: "2.1M", match: 71 },
 ];
 
-function MetaCampaignFeed({ active }: { active: boolean }) {
+function MetaCampaignFeed() {
   const [revealedVariants, setRevealedVariants] = useState(0);
   const [revealedAudiences, setRevealedAudiences] = useState(0);
   const [impressions, setImpressions] = useState(0);
   const [spend, setSpend] = useState(0);
 
   useEffect(() => {
-    if (!active) return;
-    setRevealedVariants(0); setRevealedAudiences(0); setImpressions(0); setSpend(0);
-
     // Stagger variant reveals
     AD_VARIANTS.forEach((_, i) => {
       const t = setTimeout(() => setRevealedVariants((n) => Math.max(n, i + 1)), 300 + i * 220);
@@ -67,7 +64,7 @@ function MetaCampaignFeed({ active }: { active: boolean }) {
       return () => clearInterval(ticker);
     }, startAt);
     return () => clearTimeout(t);
-  }, [active]);
+  }, []);
 
   const statusColor = (s: AdVariant["status"]) =>
     s === "winning" ? "bg-green-100 text-green-700 border-green-200" :
@@ -181,7 +178,7 @@ export default function PaidMetaSection() {
           {/* Left — animated visual */}
           <div className="w-full lg:w-[460px] flex-shrink-0">
             <div className="bg-white rounded-3xl border border-black/8 p-6 h-[520px] flex flex-col">
-              <MetaCampaignFeed active={visible} />
+              {visible ? <MetaCampaignFeed /> : null}
             </div>
           </div>
 

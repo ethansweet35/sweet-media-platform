@@ -13,7 +13,9 @@ interface BlogGridProps {
 
 export default function BlogGrid({ searchQuery }: BlogGridProps) {
   const [activeCategory, setActiveCategory] = useState("All");
-  const [page, setPage] = useState(0);
+  const filterKey = `${searchQuery}|${activeCategory}`;
+  const [pagination, setPagination] = useState({ page: 0, filterKey });
+  const page = pagination.filterKey === filterKey ? pagination.page : 0;
 
   const { posts, total, loading } = usePaginatedBlogPosts(page, PAGE_SIZE, activeCategory);
   const { posts: searchResults, loading: searchLoading } = useSearchBlogPosts(searchQuery);
@@ -27,11 +29,10 @@ export default function BlogGrid({ searchQuery }: BlogGridProps) {
 
   function handleCategory(cat: string) {
     setActiveCategory(cat);
-    setPage(0);
   }
 
   function handlePage(p: number) {
-    setPage(p);
+    setPagination({ page: p, filterKey });
     window.scrollTo({ top: 0, behavior: "smooth" });
   }
 

@@ -1,3 +1,4 @@
+import Link from "next/link";
 import PostBody from "@/components/pages/blog/post/components/PostBody";
 import PostAuthor from "@/components/pages/blog/post/components/PostAuthor";
 import PostInlineRelated from "@/components/pages/blog/post/components/PostInlineRelated";
@@ -148,12 +149,12 @@ export default function BlogPostArticle({
                 >
                   <i className="ri-phone-line text-xs" /> (949) 461-2620
                 </a>
-                <a
+                <Link
                   href="/admissions"
                   className="flex items-center justify-center gap-2 border border-white/15 text-white/50 text-[9.5px] font-semibold uppercase tracking-[0.18em] px-4 py-2.5 hover:border-white/35 hover:text-white/80 transition-colors"
                 >
                   Verify Insurance
-                </a>
+                </Link>
               </div>
 
             </div>

@@ -4,10 +4,14 @@ import { useState, useEffect } from "react";
 import { useRouter, usePathname } from "next/navigation";
 
 export default function FloatingCta() {
+  const pathname = usePathname();
+  return <FloatingCtaInteractive key={pathname ?? ""} />;
+}
+
+function FloatingCtaInteractive() {
   const [visible, setVisible] = useState(false);
   const [expanded, setExpanded] = useState(false);
   const router = useRouter();
-  const pathname = usePathname();
 
   // Show after scrolling 300px
   useEffect(() => {
@@ -16,11 +20,6 @@ export default function FloatingCta() {
     onScroll();
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
-
-  // Collapse when route changes
-  useEffect(() => {
-    setExpanded(false);
-  }, [pathname]);
 
   const handleCall = () => {
     window.location.href = "tel:+17143005115";

@@ -3,6 +3,7 @@
 const image_62ac083475cf065354b63ce4cb18d2499553f06b = '/images/62ac083475cf065354b63ce4cb18d2499553f06b.png'
 const image_b444155e1a0a8e5f3cf1bb5c7e8fb7c9c672319d = '/images/b444155e1a0a8e5f3cf1bb5c7e8fb7c9c672319d.png'
 import { useState } from 'react';
+import Image from 'next/image';
 import Link from 'next/link';
 
 export default function HomePage() {
@@ -512,9 +513,11 @@ export default function HomePage() {
           <div className="bio-wrapper">
             <div className="bio-img-stack">
               <div className="tape-top" style={{ transform: 'rotate(-2deg)', left: '40%' }}></div>
-              <img 
-                src={image_62ac083475cf065354b63ce4cb18d2499553f06b} 
-                alt="Professional counseling and support" 
+              <Image
+                src={image_62ac083475cf065354b63ce4cb18d2499553f06b}
+                alt="Professional counseling and support"
+                width={800}
+                height={500}
                 className="bio-photo-main"
               />
               <div className="bio-photo-accent" style={{

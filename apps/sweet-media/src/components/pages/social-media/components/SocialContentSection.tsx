@@ -17,14 +17,11 @@ const POSTS = [
   { platform: "YouTube", type: "Short", title: "Patient Success Story — 1 Year Sober", likes: "5.1K", comments: "412", shares: "1.2K", color: "bg-red-600" },
 ];
 
-function ContentFeedVisual({ active }: { active: boolean }) {
+function ContentFeedVisual() {
   const [revealed, setRevealed] = useState(0);
   const [engagementCount, setEngagementCount] = useState(0);
 
   useEffect(() => {
-    if (!active) return;
-    setRevealed(0);
-    setEngagementCount(0);
     POSTS.forEach((_, i) => {
       setTimeout(() => setRevealed((n) => n + 1), 200 + i * 180);
     });
@@ -36,7 +33,7 @@ function ContentFeedVisual({ active }: { active: boolean }) {
       else setEngagementCount(count);
     }, 30);
     return () => clearInterval(interval);
-  }, [active]);
+  }, []);
 
   return (
     <div className="w-full h-full flex flex-col gap-3">
@@ -153,7 +150,7 @@ export default function SocialContentSection() {
           {/* Right — animated visual */}
           <div className="w-full lg:w-[460px] flex-shrink-0 order-1 lg:order-2">
             <div className="bg-[#f7f6f4] rounded-3xl p-6 h-[480px] flex flex-col">
-              <ContentFeedVisual active={visible} />
+              {visible ? <ContentFeedVisual /> : null}
             </div>
           </div>
 

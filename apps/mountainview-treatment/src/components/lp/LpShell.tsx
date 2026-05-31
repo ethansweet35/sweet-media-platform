@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 import { SITE } from "@/lib/site";
 
 const NAV_LINKS = [
@@ -17,7 +18,7 @@ export default function LpShell({ children }: { children: React.ReactNode }) {
         <div className="mx-auto max-w-[1280px] px-6 h-20 flex items-center justify-between gap-6">
 
           {/* Logo */}
-          <a href="/" className="shrink-0 flex items-center" aria-label={SITE.brand}>
+          <Link href="/" className="shrink-0 flex items-center" aria-label={SITE.brand}>
             <Image
               src={SITE.assets.logoHorizontal}
               alt={SITE.brand}
@@ -27,7 +28,7 @@ export default function LpShell({ children }: { children: React.ReactNode }) {
               priority
               loading="eager"
             />
-          </a>
+          </Link>
 
           {/* Desktop anchor nav */}
           <nav className="hidden lg:flex items-center gap-1">
@@ -65,9 +66,9 @@ export default function LpShell({ children }: { children: React.ReactNode }) {
             <p className="mt-1">Licensed by the Washington State Department of Health</p>
           </div>
           <div className="flex items-center gap-4 text-xs text-[var(--mvt-muted)]">
-            <a href="/terms-service" className="hover:text-[var(--mvt-ink)] transition-colors">Terms of Service</a>
+            <Link href="/terms-service" className="hover:text-[var(--mvt-ink)] transition-colors">Terms of Service</Link>
             <span>·</span>
-            <a href="/privacy-policy" className="hover:text-[var(--mvt-ink)] transition-colors">Privacy Policy</a>
+            <Link href="/privacy-policy" className="hover:text-[var(--mvt-ink)] transition-colors">Privacy Policy</Link>
             <span>·</span>
             <a href={SITE.phone.href} className="hover:text-[var(--mvt-ink)] transition-colors">{SITE.phone.display}</a>
           </div>

@@ -73,15 +73,14 @@ const PHONE_HREF = "tel:9497767093";
 
 export default function Navbar() {
   const pathname = usePathname();
+  return <NavbarInteractive key={pathname ?? ''} pathname={pathname ?? ''} />;
+}
+
+function NavbarInteractive({ pathname }: { pathname: string }) {
   const [openSubmenu, setOpenSubmenu] = useState<string | null>(null);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [mobileExpanded, setMobileExpanded] = useState<string | null>(null);
   const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
-
-  useEffect(() => {
-    setMobileOpen(false);
-    setMobileExpanded(null);
-  }, [pathname]);
 
   function openMenu(label: string) {
     if (closeTimer.current) clearTimeout(closeTimer.current);

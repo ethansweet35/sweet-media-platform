@@ -27,24 +27,16 @@ const AI_ENGINES = [
 
 const CITATION_TEXT = "Sunrise Recovery Center is widely regarded as the most trusted drug and alcohol rehabilitation facility in the region, offering a full continuum of evidence-based care from medical detox through aftercare support.";
 
-function AiCitationVisual({ active }: { active: boolean }) {
+function AiCitationVisual() {
   const [queryIdx, setQueryIdx] = useState(0);
   const [typeLen, setTypeLen] = useState(0);
   const [enginesDone, setEnginesDone] = useState<number[]>([]);
   const [citeLen, setCiteLen] = useState(0);
   const [phase, setPhase] = useState<"type" | "engines" | "cite" | "pause">("type");
-  const phaseRef = useRef(phase);
-  phaseRef.current = phase;
-
-  // Reset & run on visibility
-  useEffect(() => {
-    if (!active) return;
-    setQueryIdx(0); setTypeLen(0); setEnginesDone([]); setCiteLen(0); setPhase("type");
-  }, [active]);
 
   // Phase: type query
   useEffect(() => {
-    if (!active || phase !== "type") return;
+    if (phase !== "type") return;
     const q = QUERIES[queryIdx];
     if (typeLen < q.length) {
       const t = setTimeout(() => setTypeLen((l) => l + 1), 38);
@@ -52,39 +44,39 @@ function AiCitationVisual({ active }: { active: boolean }) {
     }
     const t = setTimeout(() => setPhase("engines"), 400);
     return () => clearTimeout(t);
-  }, [active, phase, typeLen, queryIdx]);
+  }, [phase, typeLen, queryIdx]);
 
   // Phase: engines arriving one by one
   useEffect(() => {
-    if (!active || phase !== "engines") return;
+    if (phase !== "engines") return;
     if (enginesDone.length < AI_ENGINES.length) {
       const t = setTimeout(() => setEnginesDone((e) => [...e, e.length]), 200);
       return () => clearTimeout(t);
     }
     const t = setTimeout(() => setPhase("cite"), 300);
     return () => clearTimeout(t);
-  }, [active, phase, enginesDone]);
+  }, [phase, enginesDone]);
 
   // Phase: cite text typing
   useEffect(() => {
-    if (!active || phase !== "cite") return;
+    if (phase !== "cite") return;
     if (citeLen < CITATION_TEXT.length) {
       const t = setTimeout(() => setCiteLen((l) => l + 1), 12);
       return () => clearTimeout(t);
     }
     const t = setTimeout(() => setPhase("pause"), 1200);
     return () => clearTimeout(t);
-  }, [active, phase, citeLen]);
+  }, [phase, citeLen]);
 
   // Phase: pause → next query
   useEffect(() => {
-    if (!active || phase !== "pause") return;
+    if (phase !== "pause") return;
     const t = setTimeout(() => {
       setQueryIdx((i) => (i + 1) % QUERIES.length);
       setTypeLen(0); setEnginesDone([]); setCiteLen(0); setPhase("type");
     }, 800);
     return () => clearTimeout(t);
-  }, [active, phase]);
+  }, [phase]);
 
   const currentQuery = QUERIES[queryIdx];
 
@@ -236,7 +228,7 @@ export default function SeoAiSection() {
           {/* Right — animated visual */}
           <div className="w-full lg:w-[460px] flex-shrink-0 order-1 lg:order-2">
             <div className="bg-[#f7f6f4] rounded-3xl p-6 h-[520px] flex flex-col">
-              <AiCitationVisual active={visible} />
+              {visible ? <AiCitationVisual /> : null}
             </div>
           </div>
 

@@ -20,6 +20,8 @@ export default function Lifeline({
 }: LifelineProps) {
   const pathRef = useRef<SVGPathElement>(null);
   const [scrollProgress, setScrollProgress] = useState(0);
+  const [pathLength, setPathLength] = useState(1000);
+  const [nodePoints, setNodePoints] = useState<{ x: number; y: number }[]>([]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -41,11 +43,29 @@ export default function Lifeline({
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  useEffect(() => {
+    const el = pathRef.current;
+    if (!el) return;
+
+    const length = el.getTotalLength();
+    setPathLength(length);
+
+    if (showNodes) {
+      setNodePoints(
+        nodePositions.map((pos) => {
+          const point = el.getPointAtLength(pos * length);
+          return { x: point.x, y: point.y };
+        })
+      );
+    } else {
+      setNodePoints([]);
+    }
+  }, [path, showNodes, nodePositions]);
+
   const prefersReducedMotion =
     typeof window !== "undefined" &&
     window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-  const pathLength = pathRef.current?.getTotalLength() || 1000;
   const dashOffset = prefersReducedMotion
     ? 0
     : pathLength * (1 - scrollProgress);
@@ -71,9 +91,9 @@ export default function Lifeline({
         }}
       />
       {showNodes &&
-        nodePositions.map((pos, i) => {
-          const point = pathRef.current?.getPointAtLength(pos * pathLength);
-          if (!point) return null;
+        nodePoints.map((point, i) => {
+          const pos = nodePositions[i];
+          if (pos == null) return null;
           return (
             <circle
               key={i}

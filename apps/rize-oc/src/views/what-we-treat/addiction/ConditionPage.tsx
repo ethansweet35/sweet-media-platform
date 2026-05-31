@@ -256,7 +256,7 @@ export default function ConditionPage({ data }: { data: ConditionData }) {
               </div>
 
               {/* CTA button — accent with glass shimmer */}
-              <a
+              <Link
                 href="/admissions"
                 className="relative w-full flex items-center justify-center gap-2 rounded-sm px-6 py-3.5 text-[11px] font-semibold uppercase tracking-[0.2em] text-white overflow-hidden transition-all hover:brightness-110"
                 style={{
@@ -270,7 +270,7 @@ export default function ConditionPage({ data }: { data: ConditionData }) {
                   aria-hidden
                 />
                 Request Free Consultation <i className="ri-arrow-right-line" />
-              </a>
+              </Link>
 
               <p className="text-[10px] font-light text-white/35 text-center leading-relaxed">
                 <AutoLinkedText>{"HIPAA-compliant · Strictly confidential · No obligation"}</AutoLinkedText>

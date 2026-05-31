@@ -1,6 +1,7 @@
 "use client";
 
 import { ReactNode, useState } from "react";
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { LOGO_PATH, SITE } from "@/data/site";
@@ -39,7 +40,13 @@ export default function SiteLayout({ children }: SiteLayoutProps) {
 
       <div className={`mobile-menu ${mobileMenuOpen ? "open" : ""}`}>
         <div className="mobile-menu-header">
-          <img src={LOGO_PATH} alt={SITE.name} style={{ height: "3rem" }} />
+          <Image
+            src={LOGO_PATH}
+            alt={SITE.name}
+            width={200}
+            height={48}
+            style={{ height: "3rem", width: "auto" }}
+          />
           <button
             type="button"
             className="mobile-menu-close"
@@ -105,7 +112,13 @@ export default function SiteLayout({ children }: SiteLayoutProps) {
       <nav className="site-nav">
         <div className="container nav-content">
           <Link href="/" className="logo">
-            <img src={LOGO_PATH} alt={SITE.name} style={{ height: "5rem" }} />
+            <Image
+              src={LOGO_PATH}
+              alt={SITE.name}
+              width={200}
+              height={80}
+              style={{ height: "5rem", width: "auto" }}
+            />
           </Link>
           <button
             type="button"

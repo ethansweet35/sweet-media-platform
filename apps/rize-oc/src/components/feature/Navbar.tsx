@@ -125,12 +125,21 @@ const navItems: NavItem[] = [
 // ── Component ─────────────────────────────────────────────────────────────────
 export default function Navbar() {
   const pathname = usePathname();
+  return <NavbarInteractive key={pathname} pathname={pathname ?? ""} />;
+}
+
+function NavbarInteractive({ pathname }: { pathname: string }) {
   const [mobileOpen, setMobileOpen]         = useState(false);
   const [mobileExpanded, setMobileExpanded] = useState<string | null>(null);
   const [activeMenu, setActiveMenu]         = useState<string | null>(null);
   const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  useEffect(() => { setMobileOpen(false); setActiveMenu(null); }, [pathname]);
+  useEffect(() => {
+    document.body.style.overflow = mobileOpen ? "hidden" : "";
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [mobileOpen]);
 
   const openMenu     = (label: string) => { if (closeTimer.current) clearTimeout(closeTimer.current); setActiveMenu(label); };
   const scheduleClose = () => { closeTimer.current = setTimeout(() => setActiveMenu(null), 200); };

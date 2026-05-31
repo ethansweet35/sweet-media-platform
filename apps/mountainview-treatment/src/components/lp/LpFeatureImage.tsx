@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 import { SITE } from "@/lib/site";
 
 interface LpFeatureImageProps {
@@ -78,12 +79,12 @@ export default function LpFeatureImage({
           <i className="ri-phone-fill text-xs" aria-hidden="true" />
           {ctaLabel}
         </a>
-        <a
+        <Link
           href="/admissions/"
           className="inline-flex items-center gap-2 border border-[var(--mvt-forest)]/40 px-7 py-3.5 text-[11px] font-semibold uppercase tracking-[0.14em] text-[var(--mvt-forest)] hover:border-[var(--mvt-forest)] hover:bg-[var(--mvt-cream)] transition-colors"
         >
           Verify Insurance
-        </a>
+        </Link>
       </div>
     </div>
   );

@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 
 export const metadata: Metadata = {
   robots: { index: false, follow: false },
@@ -162,12 +163,12 @@ export default function BlogDemoPage() {
                   >
                     <i className="ri-phone-line text-xs" /> (949) 461-2620
                   </a>
-                  <a
+                  <Link
                     href="/admissions"
                     className="flex items-center justify-center gap-2 border border-white/20 text-white/65 text-[10px] font-semibold uppercase tracking-[0.18em] px-4 py-2.5 hover:border-white/40 hover:text-white transition-colors"
                   >
                     Verify Insurance
-                  </a>
+                  </Link>
                 </div>
 
               </div>

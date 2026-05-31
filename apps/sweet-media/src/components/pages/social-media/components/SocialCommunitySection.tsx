@@ -18,14 +18,11 @@ const MESSAGES = [
   { name: "Amanda P.", msg: "Can you send me more info about your PHP program?", time: "2h ago", platform: "Facebook", urgent: false },
 ];
 
-function CommunityInboxVisual({ active }: { active: boolean }) {
+function CommunityInboxVisual() {
   const [revealed, setRevealed] = useState(0);
   const [responseCount, setResponseCount] = useState(0);
 
   useEffect(() => {
-    if (!active) return;
-    setRevealed(0);
-    setResponseCount(0);
     MESSAGES.forEach((_, i) => {
       setTimeout(() => setRevealed((n) => n + 1), 150 + i * 160);
     });
@@ -37,7 +34,7 @@ function CommunityInboxVisual({ active }: { active: boolean }) {
       else setResponseCount(count);
     }, 30);
     return () => clearInterval(interval);
-  }, [active]);
+  }, []);
 
   return (
     <div className="w-full h-full flex flex-col gap-3">
@@ -121,7 +118,7 @@ export default function SocialCommunitySection() {
           {/* Right — animated visual */}
           <div className="w-full lg:w-[460px] flex-shrink-0">
             <div className="bg-white rounded-3xl border border-black/8 p-6 h-[520px] flex flex-col">
-              <CommunityInboxVisual active={visible} />
+              {visible ? <CommunityInboxVisual /> : null}
             </div>
           </div>
 

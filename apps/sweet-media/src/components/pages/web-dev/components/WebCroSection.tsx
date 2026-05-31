@@ -17,16 +17,14 @@ const tests = [
   { name: "Hero Image", variantA: "Facility", variantB: "Team", winner: "A", uplift: "+23%" },
 ];
 
-function CroDashboardVisual({ active }: { active: boolean }) {
+function CroDashboardVisual() {
   const [revealed, setRevealed] = useState(0);
 
   useEffect(() => {
-    if (!active) return;
-    setRevealed(0);
     tests.forEach((_, i) => {
       setTimeout(() => setRevealed((n) => n + 1), 200 + i * 180);
     });
-  }, [active]);
+  }, []);
 
   return (
     <div className="w-full h-full flex flex-col gap-3">
@@ -139,7 +137,7 @@ export default function WebCroSection() {
           {/* Right — animated visual */}
           <div className="w-full lg:w-[460px] flex-shrink-0 order-1 lg:order-2">
             <div className="bg-white/[0.06] border border-white/10 rounded-3xl p-6 h-[480px] flex flex-col">
-              <CroDashboardVisual active={visible} />
+              {visible ? <CroDashboardVisual /> : null}
             </div>
           </div>
 

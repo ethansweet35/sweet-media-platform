@@ -70,7 +70,7 @@ function ParticleCanvasLayer() {
     if (!root) return;
 
     let rafId = 0;
-    let start = performance.now();
+    const start = performance.now();
     let resizeRaf = 0;
 
     const layout = () => {

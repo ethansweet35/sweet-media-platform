@@ -1,3 +1,4 @@
+import Link from "next/link";
 import PostBody from "@/components/pages/blog/post/components/PostBody";
 import PostAuthor from "@/components/pages/blog/post/components/PostAuthor";
 import PostInlineRelated from "@/components/pages/blog/post/components/PostInlineRelated";
@@ -142,13 +143,13 @@ export default function BlogPostArticle({
                 >
                   Our team specializes in behavioral health RCM.
                 </p>
-                <a
+                <Link
                   href="/contact-us"
                   className="block text-center bg-white text-[#166C96] text-[10px] tracking-[0.2em] uppercase font-bold px-4 py-2.5 hover:bg-[#F5F7FA] transition-colors"
                   style={{ fontFamily: "'Montserrat', sans-serif" }}
                 >
                   Free Consultation
-                </a>
+                </Link>
               </div>
             </div>
           </div>

@@ -9,6 +9,10 @@ import { SITE } from "@/lib/site";
 
 export default function Navbar() {
   const pathname = usePathname();
+  return <NavbarInteractive key={pathname} pathname={pathname ?? ""} />;
+}
+
+function NavbarInteractive({ pathname }: { pathname: string }) {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
 
@@ -20,8 +24,11 @@ export default function Navbar() {
   }, []);
 
   useEffect(() => {
-    setMobileOpen(false);
-  }, [pathname]);
+    document.body.style.overflow = mobileOpen ? "hidden" : "";
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [mobileOpen]);
 
   return (
     <header className="sticky top-0 z-50">

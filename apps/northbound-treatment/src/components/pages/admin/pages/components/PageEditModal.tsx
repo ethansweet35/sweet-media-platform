@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import type { TrackedPage, TrackedPageInput } from "@sweetmedia/admin-core";
 
 interface PageEditModalProps {
@@ -10,45 +10,26 @@ interface PageEditModalProps {
   onSubmit: (payload: TrackedPageInput) => Promise<boolean>;
 }
 
-export default function PageEditModal({ page, isOpen, onClose, onSubmit }: PageEditModalProps) {
+function PageEditModalForm({
+  page,
+  onClose,
+  onSubmit,
+}: {
+  page: TrackedPage | null;
+  onClose: () => void;
+  onSubmit: (payload: TrackedPageInput) => Promise<boolean>;
+}) {
   const isEdit = !!page;
 
-  const [routePath, setRoutePath] = useState("");
-  const [pageTitle, setPageTitle] = useState("");
-  const [seoTitle, setSeoTitle] = useState("");
-  const [metaDescription, setMetaDescription] = useState("");
-  const [primaryKeyword, setPrimaryKeyword] = useState("");
-  const [notes, setNotes] = useState("");
-  const [isActive, setIsActive] = useState(true);
+  const [routePath, setRoutePath] = useState(page?.route_path ?? "");
+  const [pageTitle, setPageTitle] = useState(page?.page_title ?? "");
+  const [seoTitle, setSeoTitle] = useState(page?.seo_title ?? "");
+  const [metaDescription, setMetaDescription] = useState(page?.meta_description ?? "");
+  const [primaryKeyword, setPrimaryKeyword] = useState(page?.primary_keyword ?? "");
+  const [notes, setNotes] = useState(page?.notes ?? "");
+  const [isActive, setIsActive] = useState(page?.is_active ?? true);
   const [fieldError, setFieldError] = useState<string | null>(null);
   const [saving, setSaving] = useState(false);
-
-  useEffect(() => {
-    if (!isOpen) return;
-    const timer = window.setTimeout(() => {
-      setFieldError(null);
-      if (page) {
-        setRoutePath(page.route_path);
-        setPageTitle(page.page_title);
-        setSeoTitle(page.seo_title ?? "");
-        setMetaDescription(page.meta_description ?? "");
-        setPrimaryKeyword(page.primary_keyword ?? "");
-        setNotes(page.notes ?? "");
-        setIsActive(page.is_active);
-      } else {
-        setRoutePath("");
-        setPageTitle("");
-        setSeoTitle("");
-        setMetaDescription("");
-        setPrimaryKeyword("");
-        setNotes("");
-        setIsActive(true);
-      }
-    }, 0);
-    return () => window.clearTimeout(timer);
-  }, [page, isOpen]);
-
-  if (!isOpen) return null;
 
   const metaLen = metaDescription.length;
 
@@ -244,5 +225,18 @@ export default function PageEditModal({ page, isOpen, onClose, onSubmit }: PageE
         </form>
       </div>
     </div>
+  );
+}
+
+export default function PageEditModal({ page, isOpen, onClose, onSubmit }: PageEditModalProps) {
+  if (!isOpen) return null;
+
+  return (
+    <PageEditModalForm
+      key={page?.id ?? "new"}
+      page={page}
+      onClose={onClose}
+      onSubmit={onSubmit}
+    />
   );
 }

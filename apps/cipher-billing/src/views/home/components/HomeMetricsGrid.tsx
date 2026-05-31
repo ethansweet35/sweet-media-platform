@@ -46,14 +46,14 @@ export default function HomeMetricsGrid({ metrics }: { metrics: readonly HomeMet
       typeof window !== "undefined" &&
       window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-    if (reduced) {
-      setCounts(metrics.map((m) => m.end));
-      return;
-    }
-
     const io = new IntersectionObserver(
       (entries) => {
         if (!entries.some((e) => e.isIntersecting)) return;
+        if (reduced) {
+          setCounts(metrics.map((m) => m.end));
+          io.disconnect();
+          return;
+        }
         setStarted(true);
         io.disconnect();
       },

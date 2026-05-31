@@ -1,3 +1,4 @@
+import Link from "next/link";
 import Calculator from "./components/Calculator";
 import OurCompanyLeadSection from "@/views/our-company/components/OurCompanyLeadSection";
 import CompanyFaqAccordion, {
@@ -132,12 +133,12 @@ export default function InHouseCalculatorPage() {
                 Get a precise quote based on your facility&rsquo;s actual claim mix.
               </p>
             </div>
-            <a
+            <Link
               href="/contact-us?source=cost-calculator"
               className="inline-flex shrink-0 items-center gap-2 rounded bg-[#166C96] px-6 py-3 text-[11px] font-bold uppercase tracking-[0.16em] text-white transition hover:bg-[#145a82]"
             >
               Schedule a Free Revenue Audit <i className="ri-arrow-right-line" />
-            </a>
+            </Link>
           </div>
         </div>
       </section>

@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 import CallRailPhoneLink from "@/components/ui/CallRailPhoneLink";
 import { CALLRAIL_PHONE_DISPLAY } from "@/lib/callrailPhone";
 const LOGO_SRC      = "https://nfjlvkxrbzytjefmcvhg.supabase.co/storage/v1/object/public/site-assets/images/wp-migrated/rize-logo.png";
@@ -19,7 +20,7 @@ export default function LpShell({ children }: { children: React.ReactNode }) {
         <div className="mx-auto max-w-[1300px] px-6 h-20 flex items-center justify-between gap-6">
 
           {/* Logo */}
-          <a href="/" className="shrink-0 flex items-center">
+          <Link href="/" className="shrink-0 flex items-center">
             <Image
               src={LOGO_SRC}
               alt="Rize OC"
@@ -28,7 +29,7 @@ export default function LpShell({ children }: { children: React.ReactNode }) {
               className="h-12 w-auto object-contain"
               priority
             />
-          </a>
+          </Link>
 
           {/* Desktop anchor nav */}
           <nav className="hidden lg:flex items-center gap-1">
@@ -63,9 +64,9 @@ export default function LpShell({ children }: { children: React.ReactNode }) {
             <p className="mt-1">Certified by the State of California, Department of Health Care Services</p>
           </div>
           <div className="flex items-center gap-4 text-xs text-ink/40">
-            <a href="/terms-and-service" className="hover:text-ink/70 transition-colors">Terms of Service</a>
+            <Link href="/terms-and-service" className="hover:text-ink/70 transition-colors">Terms of Service</Link>
             <span>·</span>
-            <a href="/privacy-policy" className="hover:text-ink/70 transition-colors">Privacy Policy</a>
+            <Link href="/privacy-policy" className="hover:text-ink/70 transition-colors">Privacy Policy</Link>
             <span>·</span>
             <CallRailPhoneLink className="hover:text-ink/70 transition-colors">{CALLRAIL_PHONE_DISPLAY}</CallRailPhoneLink>
           </div>

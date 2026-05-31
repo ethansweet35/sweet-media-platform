@@ -55,10 +55,11 @@ export default function QueueTable({
   useEffect(() => {
     if (!highlightedId) return;
     rowRefs.current[highlightedId]?.scrollIntoView({ behavior: "smooth", block: "center" });
-    setExpanded((prev) => new Set(prev).add(highlightedId));
     const t = setTimeout(() => onHighlightedConsumed?.(), 1200);
     return () => clearTimeout(t);
   }, [highlightedId, onHighlightedConsumed]);
+
+  const isRowOpen = (id: string) => expanded.has(id) || id === highlightedId;
 
   const toggleRow = (id: string) => {
     setExpanded((prev) => {
@@ -122,7 +123,7 @@ export default function QueueTable({
         <tbody>
           {items.map((item) => {
           const sty = STATUS_STYLES[item.status];
-          const isOpen = expanded.has(item.id);
+          const isOpen = isRowOpen(item.id);
           const isHi = highlightedId === item.id;
           const showGeneratingPulse =
             item.status === "generating" || busyId === item.id;
@@ -170,7 +171,7 @@ export default function QueueTable({
                   <div className="flex flex-wrap justify-end gap-2">
                     {item.generated_post_id && (
                       <Link
-                        href={`/${item.url_slug}?preview=admin`}
+                        href={`/blog/${item.url_slug}?preview=admin`}
                         target="_blank"
                         rel="noreferrer"
                         className="rounded-lg px-3 py-1.5 text-[10px] font-bold uppercase tracking-[0.08em] text-black/65 ring-1 ring-black/10 hover:bg-black/[0.03]"
