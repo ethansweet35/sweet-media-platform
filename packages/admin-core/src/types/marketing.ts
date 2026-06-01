@@ -6,7 +6,27 @@
  * the admin dashboard and the public client report at /report/[token].
  */
 
-export type MarketingChannel = "gsc" | "psi" | "ga4" | "gmb" | "ads" | "callrail";
+export type MarketingChannel = "gsc" | "psi" | "ga4" | "gmb" | "ads" | "callrail" | "ctm";
+
+export type CallTrackingProvider = "callrail" | "ctm";
+
+export interface CallTrackingTagSummary {
+  tag: string;
+  calls: MetricDelta;
+}
+
+/** Rolled-up call + form metrics for one provider (CallRail or CTM). */
+export interface CallTrackingSourceSummary {
+  provider: CallTrackingProvider;
+  label: string;
+  calls: MetricDelta;
+  forms: MetricDelta;
+  top_tags: CallTrackingTagSummary[];
+}
+
+export interface CallTrackingReport {
+  sources: CallTrackingSourceSummary[];
+}
 
 export interface ChannelMetricRow {
   channel: MarketingChannel;
@@ -90,7 +110,7 @@ export interface MarketingReportPayload {
   ads: MarketingChannelBlock<AdsSourceSummary[]>;
   gmb: MarketingChannelBlock<GmbSummary>;
   ga4: MarketingChannelBlock<null>;
-  callrail: MarketingChannelBlock<null>;
+  callTracking: MarketingChannelBlock<CallTrackingReport>;
 }
 
 export interface ReportShareRow {
@@ -113,6 +133,18 @@ export interface WindsorAccountConfig {
   bing?: string;
   google_my_business?: string;
   searchconsole?: string;
+  /** Windsor `account_name` filter for the CallRail connector */
+  callrail?: string;
+}
+
+/** Per-brand call tracking IDs (system_settings.marketing_call_tracking). */
+export interface MarketingCallTrackingConfig {
+  /** CallRail API account id (ACC…) — required for form submissions via API */
+  callrail_account_id?: string;
+  /** Windsor account_name for CallRail (often matches company name in Windsor) */
+  windsor_callrail_account?: string;
+  /** CTM numeric account id */
+  ctm_account_id?: string;
 }
 
 export interface IngestResult {

@@ -105,9 +105,14 @@ create trigger report_shares_updated_at
 -- populate them. Keys used by the ingest pipeline / report builder:
 --   marketing_psi_urls           : ["https://brand.com/", "https://brand.com/contact"]
 --   marketing_windsor_accounts   : { "google_ads": "...", "facebook": "...",
---                                     "google_my_business": "...", "searchconsole": "..." }
+--                                     "google_my_business": "...", "searchconsole": "...",
+--                                     "callrail": "<windsor account_name>" }
+--   marketing_call_tracking      : { "callrail_account_id": "ACC…",
+--                                     "windsor_callrail_account": "…",
+--                                     "ctm_account_id": "186366" }
 insert into public.system_settings (key, value)
 values
   ('marketing_psi_urls', '[]'::jsonb),
-  ('marketing_windsor_accounts', '{}'::jsonb)
+  ('marketing_windsor_accounts', '{}'::jsonb),
+  ('marketing_call_tracking', '{}'::jsonb)
 on conflict (key) do nothing;

@@ -17,6 +17,10 @@ import {
 } from "./channelMetrics";
 import type {
   AdsSourceSummary,
+  CallTrackingProvider,
+  CallTrackingReport,
+  CallTrackingSourceSummary,
+  CallTrackingTagSummary,
   ChannelMetricRow,
   GmbSummary,
   MarketingReportPayload,
@@ -110,6 +114,90 @@ function buildGmb(rows: ChannelMetricRow[], ranges: ComparisonRanges): GmbSummar
     directions: metricDelta("directions"),
     website_clicks: metricDelta("website_clicks"),
   };
+}
+
+function sumTagsInRange(
+  rows: ChannelMetricRow[],
+  channel: CallTrackingProvider,
+  start: string,
+  end: string,
+): Map<string, number> {
+  const out = new Map<string, number>();
+  for (const r of rows) {
+    if (r.channel !== channel || r.metric !== "calls_by_tag") continue;
+    if (!inRange(r.metric_date, start, end)) continue;
+    const tag = String(r.dimensions?.tag ?? (r.dim_key.replace(/^tag\|/, "") || "(untagged)"));
+    out.set(tag, (out.get(tag) ?? 0) + Number(r.value || 0));
+  }
+  return out;
+}
+
+function buildCallTracking(
+  rows: ChannelMetricRow[],
+  ranges: ComparisonRanges,
+): CallTrackingReport | null {
+  const providers: { channel: CallTrackingProvider; label: string }[] = [
+    { channel: "callrail", label: "CallRail" },
+    { channel: "ctm", label: "Call Tracking Metrics" },
+  ];
+
+  const sources: CallTrackingSourceSummary[] = [];
+
+  for (const { channel, label } of providers) {
+    const channelRows = rows.filter((r) => r.channel === channel);
+    if (channelRows.length === 0) continue;
+
+    const callsCur = sumBy(
+      channelRows,
+      (r) =>
+        r.metric === "calls" &&
+        r.dim_key === "total" &&
+        inRange(r.metric_date, ranges.curStart, ranges.curEnd),
+    );
+    const callsPrev = sumBy(
+      channelRows,
+      (r) =>
+        r.metric === "calls" &&
+        r.dim_key === "total" &&
+        inRange(r.metric_date, ranges.prevStart, ranges.prevEnd),
+    );
+
+    const formsCur = sumBy(
+      channelRows,
+      (r) =>
+        r.metric === "forms" &&
+        r.dim_key === "total" &&
+        inRange(r.metric_date, ranges.curStart, ranges.curEnd),
+    );
+    const formsPrev = sumBy(
+      channelRows,
+      (r) =>
+        r.metric === "forms" &&
+        r.dim_key === "total" &&
+        inRange(r.metric_date, ranges.prevStart, ranges.prevEnd),
+    );
+
+    const curTags = sumTagsInRange(channelRows, channel, ranges.curStart, ranges.curEnd);
+    const prevTags = sumTagsInRange(channelRows, channel, ranges.prevStart, ranges.prevEnd);
+
+    const top_tags: CallTrackingTagSummary[] = [...curTags.entries()]
+      .sort((a, b) => b[1] - a[1])
+      .slice(0, 15)
+      .map(([tag, count]) => ({
+        tag,
+        calls: delta(count, prevTags.get(tag) ?? 0),
+      }));
+
+    sources.push({
+      provider: channel,
+      label,
+      calls: delta(Math.round(callsCur), Math.round(callsPrev)),
+      forms: delta(Math.round(formsCur), Math.round(formsPrev)),
+      top_tags,
+    });
+  }
+
+  return sources.length > 0 ? { sources } : null;
 }
 
 function buildPageSpeed(rows: ChannelMetricRow[]): PageSpeedEntry[] {
@@ -213,6 +301,7 @@ export async function buildMarketingReport(periodDays = 28): Promise<MarketingRe
   const ads = buildAds(metrics, ranges);
   const gmb = buildGmb(metrics, ranges);
   const pagespeed = buildPageSpeed(metrics);
+  const callTracking = buildCallTracking(metrics, ranges);
 
   return {
     ok: true,
@@ -252,7 +341,10 @@ export async function buildMarketingReport(periodDays = 28): Promise<MarketingRe
       data: gmb,
     },
     ga4: { status: "not_configured", data: null },
-    callrail: { status: "not_configured", data: null },
+    callTracking: {
+      status: callTracking ? "connected" : "not_configured",
+      data: callTracking,
+    },
   };
 }
 

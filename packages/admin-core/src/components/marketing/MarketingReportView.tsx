@@ -12,6 +12,8 @@ import {
 import TrafficLineChart from "../dashboard/TrafficLineChart";
 import type {
   AdsSourceSummary,
+  CallTrackingReport,
+  CallTrackingSourceSummary,
   ChannelStatus,
   GmbSummary,
   MarketingReportPayload,
@@ -218,6 +220,90 @@ function AdsGrid({ sources }: { sources: AdsSourceSummary[] }) {
   );
 }
 
+function CallTrackingBlock({ report }: { report: CallTrackingReport }) {
+  return (
+    <div className="space-y-6">
+      {report.sources.map((source) => (
+        <CallTrackingSourcePanel key={source.provider} source={source} />
+      ))}
+    </div>
+  );
+}
+
+function CallTrackingSourcePanel({ source }: { source: CallTrackingSourceSummary }) {
+  return (
+    <div className={`${adminCardCls} overflow-hidden`}>
+      <div
+        className="flex flex-wrap items-center justify-between gap-3 border-b px-5 py-4"
+        style={{ borderColor: ADMIN_BORDER }}
+      >
+        <div className="flex items-center gap-2">
+          <i
+            className={
+              source.provider === "callrail" ? "ri-phone-find-line text-lg" : "ri-phone-line text-lg"
+            }
+            style={{ color: ADMIN_NAVY }}
+          />
+          <h3 className={`text-base font-semibold ${adminFontSerif}`} style={{ color: ADMIN_TEXT }}>
+            {source.label}
+          </h3>
+        </div>
+      </div>
+
+      <div className="grid gap-3 p-5 sm:grid-cols-2">
+        <StatCard
+          label="Call volume"
+          value={fmtInt(source.calls.current)}
+          footer={<DeltaBadge d={source.calls} />}
+        />
+        <StatCard
+          label="Form submissions"
+          value={fmtInt(source.forms.current)}
+          footer={<DeltaBadge d={source.forms} />}
+        />
+      </div>
+
+      {source.top_tags.length > 0 ? (
+        <div className="border-t px-5 py-4" style={{ borderColor: ADMIN_BORDER }}>
+          <p className="mb-3 text-[10px] font-bold uppercase tracking-[0.12em]" style={{ color: ADMIN_TEXT_MUTED }}>
+            Call tags (current period)
+          </p>
+          <div className="overflow-x-auto">
+            <table className="w-full min-w-[320px] text-left text-sm">
+              <thead>
+                <tr className="text-[10px] uppercase tracking-widest" style={{ color: ADMIN_TEXT_MUTED }}>
+                  <th className="pb-2 pr-4 font-semibold">Tag</th>
+                  <th className="pb-2 pr-4 text-right font-semibold">Calls</th>
+                  <th className="pb-2 text-right font-semibold">vs prior</th>
+                </tr>
+              </thead>
+              <tbody>
+                {source.top_tags.map((row) => (
+                  <tr key={row.tag} className="border-t" style={{ borderColor: `${ADMIN_BORDER}88` }}>
+                    <td className="py-2.5 pr-4 font-medium" style={{ color: ADMIN_TEXT }}>
+                      {row.tag}
+                    </td>
+                    <td className="py-2.5 pr-4 text-right tabular-nums" style={{ color: ADMIN_TEXT }}>
+                      {fmtInt(row.calls.current)}
+                    </td>
+                    <td className="py-2.5 text-right">
+                      <DeltaBadge d={row.calls} />
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      ) : (
+        <p className="px-5 pb-4 text-xs" style={{ color: ADMIN_TEXT_MUTED }}>
+          No call tags recorded in this period.
+        </p>
+      )}
+    </div>
+  );
+}
+
 function GmbBlock({ gmb }: { gmb: GmbSummary }) {
   const items: { label: string; icon: string; d: MetricDelta }[] = [
     { label: "Profile views", icon: "ri-eye-line", d: gmb.views },
@@ -377,11 +463,25 @@ export default function MarketingReportView({ data, publicMode = false }: Market
         )}
       </section>
 
+      {/* ── Call tracking (CallRail + CTM) ─────────────────────────── */}
+      <section>
+        <SectionHeader
+          icon="ri-phone-find-line"
+          title="Call & form tracking"
+          subtitle="CallRail · Call Tracking Metrics"
+          status={data.callTracking.status}
+        />
+        {data.callTracking.status === "connected" && data.callTracking.data ? (
+          <CallTrackingBlock report={data.callTracking.data} />
+        ) : (
+          <NotConnected label="Call tracking (set Windsor CallRail account, CallRail API keys, or CTM credentials — then run Sync metrics)" />
+        )}
+      </section>
+
       {/* ── Coming soon channels ───────────────────────────────────── */}
       {!publicMode ? (
         <section className="grid gap-3 sm:grid-cols-2">
           <NotConnected label="Google Analytics 4" />
-          <NotConnected label="CallRail call tracking" />
         </section>
       ) : null}
     </div>

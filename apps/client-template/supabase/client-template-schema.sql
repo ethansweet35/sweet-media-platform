@@ -967,7 +967,8 @@ create trigger report_shares_updated_at
 insert into public.system_settings (key, value)
 values
   ('marketing_psi_urls', '[]'::jsonb),
-  ('marketing_windsor_accounts', '{}'::jsonb)
+  ('marketing_windsor_accounts', '{}'::jsonb),
+  ('marketing_call_tracking', '{}'::jsonb)
 on conflict (key) do nothing;
 
 -- Storage expectation: create a public bucket named site-assets.

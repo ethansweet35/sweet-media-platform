@@ -13,10 +13,14 @@ import { createClient, type SupabaseClient } from "@supabase/supabase-js";
 import type {
   ChannelMetricRow,
   IngestResult,
+  MarketingCallTrackingConfig,
   WindsorAccountConfig,
 } from "../../types/marketing";
+import { fetchCallrailFormMetrics } from "./connectors/callrailClient";
+import { fetchCtmMetrics } from "./connectors/ctmClient";
 import { fetchPageSpeed } from "./connectors/psiClient";
 import { fetchWindsorAds, fetchWindsorGmb } from "./connectors/windsorClient";
+import { fetchWindsorCallrail } from "./connectors/windsorCallrail";
 
 export function getMetricsAdminClient(): SupabaseClient | null {
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
@@ -167,6 +171,61 @@ export async function ingestChannelMetrics(lookbackDays = 35): Promise<IngestRes
         result.ok = false;
         result.errors.push({ channel: "gmb", message: e instanceof Error ? e.message : String(e) });
       }
+    }
+
+    const callrailAccount =
+      windsor.callrail?.trim() ||
+      (await readJsonSetting<MarketingCallTrackingConfig>(admin, "marketing_call_tracking", {}))
+        .windsor_callrail_account?.trim();
+    if (callrailAccount) {
+      try {
+        const callRows = await fetchWindsorCallrail(callrailAccount, startDate, today);
+        result.written += await upsertChannelMetrics(admin, callRows);
+        result.ran.push("callrail");
+      } catch (e) {
+        result.ok = false;
+        result.errors.push({
+          channel: "callrail",
+          message: e instanceof Error ? e.message : String(e),
+        });
+      }
+    }
+  }
+
+  const callTracking = await readJsonSetting<MarketingCallTrackingConfig>(
+    admin,
+    "marketing_call_tracking",
+    {},
+  );
+  const callrailAccountId =
+    callTracking.callrail_account_id?.trim() || process.env.CALLRAIL_ACCOUNT_ID?.trim();
+  if (process.env.CALLRAIL_API_KEY?.trim() && callrailAccountId) {
+    try {
+      const formRows = await fetchCallrailFormMetrics(callrailAccountId, startDate, today);
+      result.written += await upsertChannelMetrics(admin, formRows);
+      if (!result.ran.includes("callrail")) result.ran.push("callrail");
+    } catch (e) {
+      result.ok = false;
+      result.errors.push({
+        channel: "callrail-forms",
+        message: e instanceof Error ? e.message : String(e),
+      });
+    }
+  }
+
+  const ctmAccountId = callTracking.ctm_account_id?.trim() || process.env.CTM_ACCOUNT_ID?.trim();
+  const hasCtm =
+    (process.env.CTM_ACCESS_KEY ?? process.env.CTM_API_KEY)?.trim() &&
+    (process.env.CTM_SECRET_KEY ?? process.env.CTM_API_SECRET)?.trim() &&
+    ctmAccountId;
+  if (hasCtm) {
+    try {
+      const ctmRows = await fetchCtmMetrics(ctmAccountId, startDate, today);
+      result.written += await upsertChannelMetrics(admin, ctmRows);
+      result.ran.push("ctm");
+    } catch (e) {
+      result.ok = false;
+      result.errors.push({ channel: "ctm", message: e instanceof Error ? e.message : String(e) });
     }
   }
 

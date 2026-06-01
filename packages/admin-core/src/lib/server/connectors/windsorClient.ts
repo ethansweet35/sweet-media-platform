@@ -30,7 +30,7 @@ function num(v: unknown): number {
   return Number.isFinite(n) ? n : 0;
 }
 
-async function queryWindsor(
+export async function queryWindsor(
   connector: string,
   accountName: string,
   fields: string[],
