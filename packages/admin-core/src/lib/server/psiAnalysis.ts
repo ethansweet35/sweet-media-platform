@@ -478,7 +478,66 @@ export function normalizeSpeedTestUrl(input: string): { ok: true; url: string } 
   return { ok: true, url: parsed.toString() };
 }
 
-async function fetchPsi(url: string, strategy: PsiStrategy): Promise<{
+export interface PsiQuickMetrics {
+  performance: number | null;
+  lcp_ms: number | null;
+  cls: number | null;
+  topIssues: string[];
+  error?: string;
+}
+
+/**
+ * Lightweight PSI fetch for composite tools (SEO strategy). Skips platform
+ * detection and recommendation building. Uses a short timeout so serverless
+ * routes stay within Vercel limits.
+ */
+export async function fetchPsiMetricsQuick(
+  url: string,
+  strategy: PsiStrategy = "mobile",
+  timeoutMs = 28_000,
+): Promise<PsiQuickMetrics> {
+  const empty = {
+    performance: null,
+    lcp_ms: null,
+    cls: null,
+    topIssues: [] as string[],
+  };
+  if (!process.env.GOOGLE_PSI_API_KEY?.trim()) {
+    return { ...empty, error: "PSI not configured" };
+  }
+
+  try {
+    const psi = await fetchPsi(url, strategy, timeoutMs);
+    if (!psi.ok) return { ...empty, error: psi.error };
+
+    const metrics = parseMetrics(psi.audits);
+    const topIssues = Object.entries(psi.audits)
+      .filter(([, a]) => typeof a.score === "number" && a.score < 0.9 && a.title)
+      .sort(([, a], [, b]) => {
+        const sa = a.details?.overallSavingsMs ?? a.metricSavings?.LCP ?? 0;
+        const sb = b.details?.overallSavingsMs ?? b.metricSavings?.LCP ?? 0;
+        return sb - sa;
+      })
+      .slice(0, 4)
+      .map(([, a]) => a.title as string);
+
+    return {
+      performance: psi.perfScore,
+      lcp_ms: metrics.lcp_ms,
+      cls: metrics.cls,
+      topIssues,
+    };
+  } catch (e) {
+    const msg = e instanceof Error ? e.message : "PSI request failed";
+    return { ...empty, error: msg };
+  }
+}
+
+async function fetchPsi(
+  url: string,
+  strategy: PsiStrategy,
+  timeoutMs = 120_000,
+): Promise<{
   ok: boolean;
   error?: string;
   audits: Record<string, PsiAudit>;
@@ -490,7 +549,7 @@ async function fetchPsi(url: string, strategy: PsiStrategy): Promise<{
 
   const res = await fetch(`${PSI_ENDPOINT}?${params.toString()}`, {
     cache: "no-store",
-    signal: AbortSignal.timeout(120_000),
+    signal: AbortSignal.timeout(timeoutMs),
   });
 
   const json = (await res.json()) as PsiLhResponse;

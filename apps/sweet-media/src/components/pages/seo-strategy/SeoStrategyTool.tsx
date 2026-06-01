@@ -175,19 +175,28 @@ export default function SeoStrategyTool() {
       .filter(Boolean);
 
     try {
+      const controller = new AbortController();
+      const clientTimeout = window.setTimeout(() => controller.abort(), 280_000);
       const res = await fetch("/api/seo-strategy", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ url, competitors: competitorList }),
+        signal: controller.signal,
       });
+      clearTimeout(clientTimeout);
       const json = (await res.json()) as { error?: string; result?: SeoStrategyResult };
       if (!res.ok) {
         setError(json.error ?? "Something went wrong. Please try again.");
         return;
       }
       if (json.result) setResult(json.result);
-    } catch {
-      setError("Network error. Check your connection and try again.");
+    } catch (err) {
+      const msg = err instanceof Error ? err.message : "";
+      setError(
+        /aborted|timeout/i.test(msg)
+          ? "The audit timed out before it could finish. Please try again in a moment."
+          : "Network error. Check your connection and try again.",
+      );
     } finally {
       clearInterval(stepTimer);
       setLoading(false);

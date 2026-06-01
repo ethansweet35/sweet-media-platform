@@ -1,4 +1,12 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
-  "ignoreCommand": "npx turbo-ignore @sweetmedia/sweet-media"
+  "ignoreCommand": "npx turbo-ignore @sweetmedia/sweet-media",
+  "functions": {
+    "src/app/api/seo-strategy/route.ts": {
+      "maxDuration": 300
+    },
+    "src/app/api/site-speed-test/route.ts": {
+      "maxDuration": 120
+    }
+  }
 }

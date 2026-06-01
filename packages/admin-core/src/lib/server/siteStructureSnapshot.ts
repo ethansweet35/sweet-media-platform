@@ -79,7 +79,7 @@ function extractFromHtml(html: string, pageUrl: string): Omit<SiteStructureSnaps
   };
 }
 
-async function fetchHtml(url: string, timeoutMs = 8000): Promise<string> {
+async function fetchHtml(url: string, timeoutMs = 5000): Promise<string> {
   const controller = new AbortController();
   const timer = setTimeout(() => controller.abort(), timeoutMs);
   try {
@@ -102,7 +102,7 @@ async function fetchSitemapPaths(origin: string, maxPaths: number): Promise<stri
   const paths = new Set<string>();
 
   for (const sitemapUrl of candidates) {
-    const xml = await fetchHtml(sitemapUrl, 6000);
+    const xml = await fetchHtml(sitemapUrl, 4000);
     if (!xml || !xml.includes("<")) continue;
 
     for (const m of xml.matchAll(/<loc>([^<]+)<\/loc>/gi)) {

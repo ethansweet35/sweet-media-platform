@@ -3,7 +3,7 @@ import type {
   SeoStrategyReport,
   SeoStrategyResult,
 } from "../../types/seo-strategy";
-import { normalizeSpeedTestUrl, runSpeedTestAnalysis } from "./psiAnalysis";
+import { fetchPsiMetricsQuick, normalizeSpeedTestUrl } from "./psiAnalysis";
 import { buildSiteStructureSnapshot } from "./siteStructureSnapshot";
 import {
   getDomainMissingKeywords,
@@ -15,7 +15,10 @@ import {
 } from "./semrushClient";
 
 const OPENROUTER_URL = "https://openrouter.ai/api/v1/chat/completions";
-const STRATEGY_MODEL = "anthropic/claude-sonnet-4-6";
+/** Fast model — keeps total route time under Vercel limits */
+const STRATEGY_MODEL = "google/gemini-2.5-flash";
+const AI_TIMEOUT_MS = 75_000;
+const PSI_TIMEOUT_MS = 28_000;
 
 function parseAiJson(raw: string): SeoStrategyReport | null {
   const trimmed = raw.trim();
@@ -120,12 +123,12 @@ async function generateStrategyReport(
     body: JSON.stringify({
       model: STRATEGY_MODEL,
       temperature: 0.35,
-      max_tokens: 8000,
+      max_tokens: 5500,
       messages: [
         { role: "user", content: buildAiPrompt(snapshot) },
       ],
     }),
-    signal: AbortSignal.timeout(120_000),
+    signal: AbortSignal.timeout(AI_TIMEOUT_MS),
   });
 
   if (!res.ok) {
@@ -158,11 +161,11 @@ export async function runSeoStrategyAnalysis(
   const domain = hostnameToSemrushDomain(url);
   const semrushNotes: string[] = [];
 
-  const [siteCrawl, semrushBundle, psiResult] = await Promise.all([
+  const [siteCrawl, semrushBundle, psiQuick] = await Promise.all([
     buildSiteStructureSnapshot(url),
     collectSemrushSnapshot(domain, opts?.competitorDomains ?? [], semrushNotes),
     process.env.GOOGLE_PSI_API_KEY
-      ? runSpeedTestAnalysis(url, "mobile")
+      ? fetchPsiMetricsQuick(url, "mobile", PSI_TIMEOUT_MS)
       : Promise.resolve(null),
   ]);
 
@@ -185,16 +188,20 @@ export async function runSeoStrategyAnalysis(
       sitemapPathCount: siteCrawl.sitemapPathCount,
       homepageWordCount: siteCrawl.homepageWordCount,
     },
-    psi: psiResult
+    psi: psiQuick
       ? {
-          performance: psiResult.metrics.performance,
-          lcpMs: psiResult.metrics.lcp_ms,
-          cls: psiResult.metrics.cls,
-          topIssues: psiResult.recommendations.slice(0, 5).map((r) => r.title),
+          performance: psiQuick.performance,
+          lcpMs: psiQuick.lcp_ms,
+          cls: psiQuick.cls,
+          topIssues: psiQuick.topIssues,
         }
       : null,
     semrushNotes,
   };
+
+  if (psiQuick?.error) {
+    semrushNotes.push(`PageSpeed: ${psiQuick.error} (report continues without full speed data).`);
+  }
 
   const openRouterKey = (process.env.OPENROUTER_API_KEY ?? "").trim();
   if (!openRouterKey) {
@@ -207,14 +214,28 @@ export async function runSeoStrategyAnalysis(
     };
   }
 
-  const { report, error: aiError } = await generateStrategyReport(snapshot, openRouterKey);
-  return {
-    url,
-    fetchedAt,
-    snapshot,
-    report,
-    aiError: report ? undefined : aiError,
-  };
+  try {
+    const { report, error: aiError } = await generateStrategyReport(snapshot, openRouterKey);
+    return {
+      url,
+      fetchedAt,
+      snapshot,
+      report,
+      aiError: report ? undefined : aiError,
+    };
+  } catch (e) {
+    const msg = e instanceof Error ? e.message : "AI analysis failed";
+    const timedOut = /aborted|timeout/i.test(msg);
+    return {
+      url,
+      fetchedAt,
+      snapshot,
+      report: null,
+      aiError: timedOut
+        ? "AI analysis timed out. Please try again — we shortened the audit to avoid this."
+        : msg,
+    };
+  }
 }
 
 async function collectSemrushSnapshot(
@@ -246,8 +267,8 @@ async function collectSemrushSnapshot(
   try {
     const [overview, topKeywords, semrushCompetitors] = await Promise.all([
       getDomainOverview(domain).catch(() => null),
-      getDomainOrganicKeywords(domain, { displayLimit: 20 }),
-      getDomainOrganicCompetitors(domain, { displayLimit: 5 }),
+      getDomainOrganicKeywords(domain, { displayLimit: 12 }),
+      getDomainOrganicCompetitors(domain, { displayLimit: 3 }),
     ]);
 
     const competitorDomains = new Set<string>();
@@ -280,29 +301,31 @@ async function collectSemrushSnapshot(
       }
     }
 
-    const gapTargets = [...competitorDomains].filter((d) => d !== domain).slice(0, 2);
-    const missingVsCompetitors: SeoStrategyDataSnapshot["missingVsCompetitors"] = [];
-
-    for (const competitorDomain of gapTargets) {
-      try {
-        const keywords = await getDomainMissingKeywords(domain, competitorDomain, {
-          displayLimit: 12,
-        });
-        if (keywords.length > 0) {
-          missingVsCompetitors.push({
-            competitorDomain,
-            keywords: keywords.map((k) => ({
-              phrase: k.phrase,
-              searchVolume: k.searchVolume,
-              competition: k.competition,
-            })),
+    const gapTargets = [...competitorDomains].filter((d) => d !== domain).slice(0, 1);
+    const gapResults = await Promise.all(
+      gapTargets.map(async (competitorDomain) => {
+        try {
+          const keywords = await getDomainMissingKeywords(domain, competitorDomain, {
+            displayLimit: 10,
           });
+          return { competitorDomain, keywords };
+        } catch (e) {
+          const msg = e instanceof Error ? e.message : "gap analysis failed";
+          notes.push(`Keyword gap vs ${competitorDomain}: ${msg}`);
+          return { competitorDomain, keywords: [] };
         }
-      } catch (e) {
-        const msg = e instanceof Error ? e.message : "gap analysis failed";
-        notes.push(`Keyword gap vs ${competitorDomain}: ${msg}`);
-      }
-    }
+      }),
+    );
+    const missingVsCompetitors = gapResults
+      .filter((g) => g.keywords.length > 0)
+      .map((g) => ({
+        competitorDomain: g.competitorDomain,
+        keywords: g.keywords.map((k) => ({
+          phrase: k.phrase,
+          searchVolume: k.searchVolume,
+          competition: k.competition,
+        })),
+      }));
 
     return {
       available: true,

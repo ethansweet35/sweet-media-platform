@@ -58,6 +58,8 @@ export { handlePerformanceOverviewGet, fetchPerformanceOverview } from "./lib/se
 export {
   normalizeSpeedTestUrl,
   runSpeedTestAnalysis,
+  fetchPsiMetricsQuick,
+  type PsiQuickMetrics,
   type PsiStrategy,
   type SpeedTestCoreMetrics,
   type SpeedTestRecommendation,

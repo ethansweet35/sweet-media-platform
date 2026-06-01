@@ -6,7 +6,7 @@ import {
 } from "@sweetmedia/admin-core/server";
 
 export const runtime = "nodejs";
-export const maxDuration = 180;
+export const maxDuration = 300;
 
 const RATE_LIMIT_WINDOW_MS = 60 * 60 * 1000;
 const RATE_LIMIT_MAX = 4;
@@ -80,9 +80,15 @@ export async function POST(req: NextRequest) {
     }
     return NextResponse.json({ result });
   } catch (e) {
+    const msg = e instanceof Error ? e.message : "Strategy analysis failed.";
+    const timedOut = /aborted|timeout/i.test(msg);
     return NextResponse.json(
-      { error: e instanceof Error ? e.message : "Strategy analysis failed." },
-      { status: 500 },
+      {
+        error: timedOut
+          ? "The audit took too long to finish. Please try again — if it keeps failing, run Site Speed Checker separately and retry SEO Strategy."
+          : msg,
+      },
+      { status: timedOut ? 504 : 500 },
     );
   }
 }
