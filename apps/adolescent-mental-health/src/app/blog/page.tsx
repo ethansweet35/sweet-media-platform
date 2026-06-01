@@ -1,11 +1,9 @@
 import type { Metadata } from "next";
 import { resolveTrackedPageMetadata } from "@sweetmedia/admin-core";
+import { BLOG_OG_IMAGE } from "@/lib/ogDefaults";
 import BlogPage from "@/views/blog/page";
 
 export const revalidate = 3600;
-
-const BLOG_OG_IMAGE =
-  "https://ynmldknprfusujudvutq.supabase.co/storage/v1/object/public/public_bucket/og-blog.jpg";
 
 const fallbackMetadata: Metadata = {
   title: "Blog | Teen Mental Health Resources | Adolescent Mental Health",

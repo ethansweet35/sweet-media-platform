@@ -27,7 +27,7 @@ const steps = [
   "We handle ongoing authorization requests with your plan when required",
 ];
 
-export default function InsurancePage({ currentPath = "/insurance" }: { currentPath?: string }) {
+export default function InsurancePage({ currentPath = "/verify-insurance" }: { currentPath?: string }) {
   return (
     <MarketingPage currentPath={currentPath}>
       <PageHero

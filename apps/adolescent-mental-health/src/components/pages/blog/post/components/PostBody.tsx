@@ -11,7 +11,7 @@ function isExternal(href: string | undefined): boolean {
 }
 
 const linkClass =
-  "font-semibold text-accent-dark underline underline-offset-2 transition hover:text-accent";
+  "font-semibold text-accent-dark underline underline-offset-2 transition hover:text-accent [overflow-wrap:anywhere]";
 
 function AutoLinkedText({ segments }: { segments: LinkSegment[] }) {
   return (
@@ -44,7 +44,7 @@ function InlineText({
   const inlineSegments: InlineSegment[] = parseInlineLinks(text);
 
   return (
-    <>
+    <span className="min-w-0">
       {inlineSegments.map((seg, i) => {
         if (seg.type !== "link") {
           if (enableAutoLink && autoLinkMap && autoLinkMap.length > 0) {
@@ -77,7 +77,7 @@ function InlineText({
           </Link>
         );
       })}
-    </>
+    </span>
   );
 }
 
@@ -226,12 +226,14 @@ export default function PostBody({ sections, autoLinkMap, currentSlug, usedHrefs
                     <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-accent text-white">
                       <i className="ri-check-line text-[10px]" aria-hidden />
                     </span>
-                    <InlineText
-                      text={item}
-                      autoLinkMap={autoLinkMap}
-                      currentSlug={currentSlug}
-                      usedHrefs={usedHrefs}
-                    />
+                    <span className="min-w-0 flex-1 pt-0.5">
+                      <InlineText
+                        text={item}
+                        autoLinkMap={autoLinkMap}
+                        currentSlug={currentSlug}
+                        usedHrefs={usedHrefs}
+                      />
+                    </span>
                   </li>
                 ))}
               </ul>
@@ -245,7 +247,7 @@ export default function PostBody({ sections, autoLinkMap, currentSlug, usedHrefs
                     <span className="mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-dark text-[11px] font-bold text-white">
                       {j + 1}
                     </span>
-                    <span className="pt-0.5">
+                    <span className="min-w-0 flex-1 pt-0.5">
                       <InlineText
                         text={item}
                         autoLinkMap={autoLinkMap}
