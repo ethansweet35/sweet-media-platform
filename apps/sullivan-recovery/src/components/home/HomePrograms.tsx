@@ -89,7 +89,7 @@ export default function HomePrograms() {
 
           {/* Row 1: full-width hero card */}
           <LandingOptionalLink href={PROGRAMS[0].href} className="group relative w-full overflow-hidden" style={{ minHeight: 380 }}>
-            <Image src={PROGRAMS[0].img} alt={PROGRAMS[0].title} fill className="object-cover transition-transform duration-700 group-hover:scale-105" />
+            <Image src={PROGRAMS[0].img} alt={PROGRAMS[0].title} fill loading="lazy" sizes="(max-width: 1024px) 100vw, 50vw" className="object-cover transition-transform duration-700 group-hover:scale-105" />
             <div className="absolute inset-0 bg-gradient-to-r from-[var(--sr-charcoal)]/80 via-[var(--sr-charcoal)]/30 to-transparent" />
             <div className="absolute inset-0 p-10 flex flex-col justify-between">
               <span
@@ -118,7 +118,7 @@ export default function HomePrograms() {
           <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4">
             {PROGRAMS.slice(1).map((prog) => (
               <LandingOptionalLink key={prog.num} href={prog.href} className="group relative overflow-hidden" style={{ minHeight: 300 }}>
-                <Image src={prog.img} alt={prog.title} fill className="object-cover transition-transform duration-700 group-hover:scale-105" />
+                <Image src={prog.img} alt={prog.title} fill loading="lazy" sizes="(max-width: 1024px) 100vw, 50vw" className="object-cover transition-transform duration-700 group-hover:scale-105" />
                 <div className="absolute inset-0 bg-gradient-to-t from-[var(--sr-charcoal)]/90 via-[var(--sr-charcoal)]/20 to-transparent" />
                 <div className="absolute inset-0 p-7 flex flex-col justify-between">
                   <span

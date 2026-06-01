@@ -90,6 +90,8 @@ export default function HomeWhatSetsUsApart() {
                 src={STAFF_IMG}
                 alt="Sullivan Recovery staff in a one-on-one counseling session with a client"
                 fill
+                loading="lazy"
+                sizes="(max-width: 1024px) 100vw, 50vw"
                 className="object-cover object-center"
               />
             </div>

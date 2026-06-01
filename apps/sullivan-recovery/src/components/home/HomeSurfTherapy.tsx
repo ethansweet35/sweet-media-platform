@@ -81,6 +81,8 @@ export default function HomeSurfTherapy() {
               src={CORY}
               alt="Cory Sullivan surfing a barrel wave — co-founder of Sullivan Recovery"
               fill
+              loading="lazy"
+              sizes="(max-width: 1024px) 100vw, 50vw"
               className="object-cover object-top"
             />
             {/* Subtle caption at bottom */}

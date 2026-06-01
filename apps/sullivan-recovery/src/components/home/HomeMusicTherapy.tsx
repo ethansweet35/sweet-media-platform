@@ -1,4 +1,5 @@
-import LazyWhenVisible from "@/components/ui/LazyWhenVisible";
+import LazyAutoplayVideo from "@/components/ui/LazyAutoplayVideo";
+import LazyEmbedIframe from "@/components/ui/LazyEmbedIframe";
 import { BRAND_VIDEO_URL } from "@/lib/siteAssets";
 
 const SOUNDCLOUD_SRC =
@@ -29,25 +30,10 @@ export default function HomeMusicTherapy() {
         {/* Main grid: image left, content right */}
         <div className="grid grid-cols-1 items-start gap-16 lg:grid-cols-2">
 
-          {/* Left: guitar video — src only when scrolled near */}
-          <LazyWhenVisible className="relative h-[540px] w-full overflow-hidden bg-[var(--sr-charcoal)]">
-            {(visible) =>
-              visible ? (
-                <video
-                  autoPlay
-                  loop
-                  muted
-                  playsInline
-                  preload="none"
-                  className="h-full w-full object-cover object-center"
-                >
-                  <source src={BRAND_VIDEO_URL} type="video/mp4" />
-                </video>
-              ) : (
-                <div className="h-full w-full bg-[var(--sr-charcoal)]" aria-hidden />
-              )
-            }
-          </LazyWhenVisible>
+          <LazyAutoplayVideo
+            src={BRAND_VIDEO_URL}
+            wrapperClassName="relative h-[540px] w-full overflow-hidden bg-[var(--sr-charcoal)]"
+          />
 
           {/* Right: content */}
           <div className="flex flex-col justify-center lg:pt-4">
@@ -80,7 +66,6 @@ export default function HomeMusicTherapy() {
               to explore vulnerability and discover strength through music.
             </p>
 
-            {/* SoundCloud — iframe src only when scrolled near */}
             <div className="mb-3">
               <p
                 className="mb-3 text-[11px] font-medium uppercase tracking-[0.18em] text-[var(--sr-muted)]"
@@ -88,23 +73,12 @@ export default function HomeMusicTherapy() {
               >
                 Patient recording — &ldquo;Crawling&rdquo; cover by Linkin Park
               </p>
-              <LazyWhenVisible>
-                {(visible) =>
-                  visible ? (
-                    <iframe
-                      width="100%"
-                      height="120"
-                      scrolling="no"
-                      allow="autoplay; encrypted-media"
-                      src={SOUNDCLOUD_SRC}
-                      style={{ border: "none" }}
-                      title="Patient Music Therapy Recording — Crawling Cover"
-                    />
-                  ) : (
-                    <div className="h-[120px] w-full bg-[var(--sr-sand)]/40" aria-hidden />
-                  )
-                }
-              </LazyWhenVisible>
+              <LazyEmbedIframe
+                src={SOUNDCLOUD_SRC}
+                title="Patient Music Therapy Recording — Crawling Cover"
+                allow="autoplay; encrypted-media"
+                height={120}
+              />
             </div>
             <p
               className="text-[12px] italic leading-relaxed text-[var(--sr-muted)]"

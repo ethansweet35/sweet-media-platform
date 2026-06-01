@@ -49,7 +49,7 @@ export default function HomeActivities() {
           {/* Row 1: 2 tall + 1 wide spanning 2 cols */}
           {/* Col 1: tall */}
           <div className="group relative overflow-hidden md:row-span-2" style={{ minHeight: 420 }}>
-            <Image src={ACTIVITIES[0].img} alt={ACTIVITIES[0].title} fill className={`object-cover ${ACTIVITIES[0].pos} transition-transform duration-700 group-hover:scale-105`} />
+            <Image src={ACTIVITIES[0].img} alt={ACTIVITIES[0].title} fill loading="lazy" sizes="(max-width: 768px) 100vw, 33vw" className={`object-cover ${ACTIVITIES[0].pos} transition-transform duration-700 group-hover:scale-105`} />
             <div className="absolute inset-0 bg-gradient-to-t from-[var(--sr-charcoal)]/80 via-transparent to-transparent" />
             <div className="absolute inset-0 flex flex-col justify-end p-6">
               <i className={`${ACTIVITIES[0].icon} mb-2 text-xl text-white/60`} />
@@ -59,7 +59,7 @@ export default function HomeActivities() {
 
           {/* Col 2: tall */}
           <div className="group relative overflow-hidden md:row-span-2" style={{ minHeight: 420 }}>
-            <Image src={ACTIVITIES[1].img} alt={ACTIVITIES[1].title} fill className={`object-cover ${ACTIVITIES[1].pos} transition-transform duration-700 group-hover:scale-105`} />
+            <Image src={ACTIVITIES[1].img} alt={ACTIVITIES[1].title} fill loading="lazy" sizes="(max-width: 768px) 100vw, 33vw" className={`object-cover ${ACTIVITIES[1].pos} transition-transform duration-700 group-hover:scale-105`} />
             <div className="absolute inset-0 bg-gradient-to-t from-[var(--sr-charcoal)]/80 via-transparent to-transparent" />
             <div className="absolute inset-0 flex flex-col justify-end p-6">
               <i className={`${ACTIVITIES[1].icon} mb-2 text-xl text-white/60`} />
@@ -69,7 +69,7 @@ export default function HomeActivities() {
 
           {/* Col 3-4: two short stacked */}
           <div className="group relative col-span-2 overflow-hidden md:col-span-2" style={{ minHeight: 200 }}>
-            <Image src={ACTIVITIES[2].img} alt={ACTIVITIES[2].title} fill className={`object-cover ${ACTIVITIES[2].pos} transition-transform duration-700 group-hover:scale-105`} />
+            <Image src={ACTIVITIES[2].img} alt={ACTIVITIES[2].title} fill loading="lazy" sizes="(max-width: 768px) 100vw, 33vw" className={`object-cover ${ACTIVITIES[2].pos} transition-transform duration-700 group-hover:scale-105`} />
             <div className="absolute inset-0 bg-gradient-to-t from-[var(--sr-charcoal)]/80 via-transparent to-transparent" />
             <div className="absolute inset-0 flex flex-col justify-end p-6">
               <i className={`${ACTIVITIES[2].icon} mb-2 text-xl text-white/60`} />
@@ -78,7 +78,7 @@ export default function HomeActivities() {
           </div>
 
           <div className="group relative col-span-2 overflow-hidden md:col-span-2" style={{ minHeight: 200 }}>
-            <Image src={ACTIVITIES[3].img} alt={ACTIVITIES[3].title} fill className={`object-cover ${ACTIVITIES[3].pos} transition-transform duration-700 group-hover:scale-105`} />
+            <Image src={ACTIVITIES[3].img} alt={ACTIVITIES[3].title} fill loading="lazy" sizes="(max-width: 768px) 100vw, 33vw" className={`object-cover ${ACTIVITIES[3].pos} transition-transform duration-700 group-hover:scale-105`} />
             <div className="absolute inset-0 bg-gradient-to-t from-[var(--sr-charcoal)]/80 via-transparent to-transparent" />
             <div className="absolute inset-0 flex flex-col justify-end p-6">
               <i className={`${ACTIVITIES[3].icon} mb-2 text-xl text-white/60`} />
@@ -89,7 +89,7 @@ export default function HomeActivities() {
           {/* Row 2: 4 equal */}
           {ACTIVITIES.slice(4).map((act) => (
             <div key={act.title} className="group relative overflow-hidden" style={{ minHeight: 220 }}>
-              <Image src={act.img} alt={act.title} fill className={`object-cover ${act.pos} transition-transform duration-700 group-hover:scale-105`} />
+              <Image src={act.img} alt={act.title} fill loading="lazy" sizes="(max-width: 768px) 100vw, 33vw" className={`object-cover ${act.pos} transition-transform duration-700 group-hover:scale-105`} />
               <div className="absolute inset-0 bg-gradient-to-t from-[var(--sr-charcoal)]/80 via-transparent to-transparent" />
               <div className="absolute inset-0 flex flex-col justify-end p-5">
                 <i className={`${act.icon} mb-1.5 text-lg text-white/60`} />

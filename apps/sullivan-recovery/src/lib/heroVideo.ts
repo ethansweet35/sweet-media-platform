@@ -15,7 +15,7 @@ export const heroVideoProps = {
   loop: true,
   muted: true,
   playsInline: true,
-  preload: "metadata",
+  preload: "none",
   poster: HERO_POSTER_URL,
   className: "h-full w-full object-cover object-right md:object-center",
 } as const;

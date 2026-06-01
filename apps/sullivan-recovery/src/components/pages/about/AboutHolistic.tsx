@@ -1,9 +1,9 @@
 import Image from "next/image";
 import Link from "next/link";
 import AboutSectionHeader from "./AboutSectionHeader";
+import { PROCESS_TRAIL_URL } from "@/lib/siteAssets";
 
-const TRAIL_IMG =
-  "https://knvkrhwlflkulybcmgmq.supabase.co/storage/v1/object/public/site-assets/images/sr_process_trail.jpg";
+const TRAIL_IMG = PROCESS_TRAIL_URL;
 const SURF_IMG =
   "https://knvkrhwlflkulybcmgmq.supabase.co/storage/v1/object/public/site-assets/images/sr_cory_surf_v2.jpg";
 

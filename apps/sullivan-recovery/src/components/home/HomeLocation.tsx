@@ -2,7 +2,7 @@
 
 import LandingOptionalLink from "@/components/landing/LandingOptionalLink";
 import CallRailPhoneLink from "@/components/ui/CallRailPhoneLink";
-import LazyWhenVisible from "@/components/ui/LazyWhenVisible";
+import LazyEmbedIframe from "@/components/ui/LazyEmbedIframe";
 import { useLandingPage } from "@/components/landing/LandingPageContext";
 import { CALLRAIL_PHONE_DISPLAY } from "@/lib/callrailPhone";
 
@@ -41,21 +41,16 @@ export default function HomeLocation() {
 
           <div className="relative bg-[var(--sr-parchment)] lg:col-span-7">
             <div className="relative h-[360px] w-full overflow-hidden md:h-[480px] lg:h-full lg:min-h-[560px]">
-            <LazyWhenVisible className="absolute inset-0">
-              {(visible) =>
-                visible ? (
-                  <iframe
-                    title="Sullivan Recovery location on Google Maps"
-                    src={MAP_EMBED}
-                    className="h-full w-full border-0 grayscale-[20%] contrast-[1.05]"
-                    referrerPolicy="no-referrer-when-downgrade"
-                    allowFullScreen
-                  />
-                ) : (
-                  <div className="h-full w-full bg-[var(--sr-sand)]/25" aria-hidden />
-                )
-              }
-            </LazyWhenVisible>
+            <LazyEmbedIframe
+              src={MAP_EMBED}
+              title="Sullivan Recovery location on Google Maps"
+              wrapperClassName="absolute inset-0"
+              className="h-full w-full border-0 grayscale-[20%] contrast-[1.05]"
+              height={560}
+              allowFullScreen
+              rootMargin="0px"
+              fallbackClassName="h-full w-full bg-[var(--sr-sand)]/25"
+            />
               <div className="absolute left-0 top-0 max-w-sm border border-[var(--sr-sand)] bg-[var(--sr-parchment)]/95 p-6 shadow-lg backdrop-blur-sm">
                 <p
                   className="mb-1 text-[11px] font-medium uppercase tracking-[0.2em] text-[var(--sr-fern)]"

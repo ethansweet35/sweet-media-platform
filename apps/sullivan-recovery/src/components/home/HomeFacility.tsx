@@ -48,6 +48,8 @@ export default function HomeFacility() {
               src={`${BASE}/sr_facility_1.png`}
               alt="Sullivan Recovery facility courtyard"
               fill
+              loading="lazy"
+              sizes="(max-width: 768px) 100vw, 50vw"
               className="object-cover transition-transform duration-700 group-hover:scale-105"
             />
             <div className="absolute inset-0 bg-[var(--sr-moss)] opacity-0 transition-opacity duration-300 group-hover:opacity-20" />
@@ -55,21 +57,21 @@ export default function HomeFacility() {
 
           {/* Top right: 2 small tiles side by side */}
           <div className="group relative col-span-1 overflow-hidden" style={{ aspectRatio: "4/3" }}>
-            <Image src={`${BASE}/sr_facility_2.png`} alt="Living room" fill className="object-cover transition-transform duration-700 group-hover:scale-105" />
+            <Image src={`${BASE}/sr_facility_2.png`} alt="Living room" fill loading="lazy" sizes="(max-width: 768px) 50vw, 25vw" className="object-cover transition-transform duration-700 group-hover:scale-105" />
             <div className="absolute inset-0 bg-[var(--sr-moss)] opacity-0 transition-opacity duration-300 group-hover:opacity-20" />
           </div>
           <div className="group relative col-span-1 overflow-hidden" style={{ aspectRatio: "4/3" }}>
-            <Image src={`${BASE}/sr_facility_3.png`} alt="Bathroom" fill className="object-cover transition-transform duration-700 group-hover:scale-105" />
+            <Image src={`${BASE}/sr_facility_3.png`} alt="Bathroom" fill loading="lazy" sizes="(max-width: 768px) 50vw, 25vw" className="object-cover transition-transform duration-700 group-hover:scale-105" />
             <div className="absolute inset-0 bg-[var(--sr-moss)] opacity-0 transition-opacity duration-300 group-hover:opacity-20" />
           </div>
 
           {/* Middle right: 2 small tiles */}
           <div className="group relative col-span-1 overflow-hidden" style={{ aspectRatio: "4/3" }}>
-            <Image src={`${BASE}/sr_facility_4.png`} alt="Bedroom" fill className="object-cover transition-transform duration-700 group-hover:scale-105" />
+            <Image src={`${BASE}/sr_facility_4.png`} alt="Bedroom" fill loading="lazy" sizes="(max-width: 768px) 50vw, 25vw" className="object-cover transition-transform duration-700 group-hover:scale-105" />
             <div className="absolute inset-0 bg-[var(--sr-moss)] opacity-0 transition-opacity duration-300 group-hover:opacity-20" />
           </div>
           <div className="group relative col-span-1 overflow-hidden" style={{ aspectRatio: "4/3" }}>
-            <Image src={`${BASE}/sr_facility_5.png`} alt="Private room" fill className="object-cover transition-transform duration-700 group-hover:scale-105" />
+            <Image src={`${BASE}/sr_facility_5.png`} alt="Private room" fill loading="lazy" sizes="(max-width: 768px) 50vw, 25vw" className="object-cover transition-transform duration-700 group-hover:scale-105" />
             <div className="absolute inset-0 bg-[var(--sr-moss)] opacity-0 transition-opacity duration-300 group-hover:opacity-20" />
           </div>
 
@@ -84,6 +86,8 @@ export default function HomeFacility() {
                 src={`${BASE}/sr_facility_${n}.png`}
                 alt={`Facility photo ${n}`}
                 fill
+                loading="lazy"
+                sizes="(max-width: 768px) 50vw, 25vw"
                 className="object-cover transition-transform duration-700 group-hover:scale-105"
               />
               <div className="absolute inset-0 bg-[var(--sr-moss)] opacity-0 transition-opacity duration-300 group-hover:opacity-20" />

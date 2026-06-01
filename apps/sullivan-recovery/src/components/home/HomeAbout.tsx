@@ -45,6 +45,8 @@ export default function HomeAbout() {
                   alt="Sullivan Recovery team"
                   width={900}
                   height={560}
+                  loading="lazy"
+                  sizes="(max-width: 1024px) 100vw, 58vw"
                   className="h-[320px] w-full object-cover object-top md:h-[420px]"
                 />
               </div>
@@ -56,6 +58,8 @@ export default function HomeAbout() {
                   alt="Sullivan Recovery founders"
                   width={200}
                   height={200}
+                  loading="lazy"
+                  sizes="144px"
                   className="h-36 w-36 object-cover object-center"
                 />
               </div>
