@@ -30,6 +30,17 @@ function num(v: unknown): number {
   return Number.isFinite(n) ? n : 0;
 }
 
+export class WindsorQueryError extends Error {
+  constructor(
+    message: string,
+    readonly connector: string,
+    readonly accountName: string,
+  ) {
+    super(message);
+    this.name = "WindsorQueryError";
+  }
+}
+
 export async function queryWindsor(
   connector: string,
   accountName: string,
@@ -38,7 +49,9 @@ export async function queryWindsor(
   endDate: string,
 ): Promise<WindsorRow[]> {
   const apiKey = process.env.WINDSOR_API_KEY;
-  if (!apiKey) return [];
+  if (!apiKey) {
+    throw new WindsorQueryError("WINDSOR_API_KEY is not set on the server", connector, accountName);
+  }
 
   const filter = JSON.stringify([["account_name", "eq", accountName]]);
   const params = new URLSearchParams({
@@ -50,17 +63,34 @@ export async function queryWindsor(
     _max_rows: "5000",
   });
 
+  const res = await fetch(`${WINDSOR_BASE}/${connector}?${params.toString()}`, {
+    cache: "no-store",
+  });
+  const text = await res.text();
+  let json: { data?: WindsorRow[]; error?: string };
   try {
-    const res = await fetch(`${WINDSOR_BASE}/${connector}?${params.toString()}`, {
-      cache: "no-store",
-    });
-    if (!res.ok) return [];
-    const json = (await res.json()) as { data?: WindsorRow[]; error?: string };
-    if (json.error || !Array.isArray(json.data)) return [];
-    return json.data;
+    json = JSON.parse(text) as { data?: WindsorRow[]; error?: string };
   } catch {
-    return [];
+    throw new WindsorQueryError(
+      `Windsor ${connector} returned non-JSON (${res.status})`,
+      connector,
+      accountName,
+    );
   }
+  if (!res.ok) {
+    throw new WindsorQueryError(
+      json.error ?? `Windsor ${connector} HTTP ${res.status}`,
+      connector,
+      accountName,
+    );
+  }
+  if (json.error) {
+    throw new WindsorQueryError(json.error, connector, accountName);
+  }
+  if (!Array.isArray(json.data)) {
+    throw new WindsorQueryError(`Windsor ${connector} returned no data array`, connector, accountName);
+  }
+  return json.data;
 }
 
 // `connector` is the Windsor API endpoint slug; `source` is the stable label we

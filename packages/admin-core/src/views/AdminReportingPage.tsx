@@ -147,7 +147,10 @@ export default function AdminReportingPage() {
       });
       const json = (await res.json()) as { ran?: string[]; written?: number; errors?: { channel: string; message: string }[] };
       const ran = json.ran && json.ran.length ? json.ran.join(", ") : "no channels configured";
-      const errs = json.errors && json.errors.length ? ` · errors: ${json.errors.map((e) => e.channel).join(", ")}` : "";
+      const errs =
+        json.errors && json.errors.length
+          ? ` · errors: ${json.errors.map((e) => `${e.channel}: ${e.message}`).join("; ")}`
+          : "";
       setSyncMsg(`Synced ${ran} (${json.written ?? 0} rows)${errs}`);
       await refetch();
     } catch (e) {
