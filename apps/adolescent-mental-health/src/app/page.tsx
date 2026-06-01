@@ -146,7 +146,7 @@ export default function HomePage() {
                   { label: "Bipolar",          path: "/online-bipolar-treatment" },
                   { label: "Insomnia",         path: "/online-insomnia-treatment-for-teens" },
                   { label: "Schizoaffective",  path: "/schizophrenia-in-adolescence" },
-                  { label: "Gender Dysphoria", path: "/virtual-iop-for-teens" },
+                  { label: "Gender Dysphoria", path: "/lgbtq-teen-mental-health" },
                 ].map((c) => (
                   <Link
                     key={c.path}

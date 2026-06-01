@@ -67,6 +67,15 @@ export const AMH_INTERNAL_LINKS = [
   ["school avoidance", "/conditions/school-avoidance", 100],
   ["school refusal", "/conditions/school-avoidance", 98],
 
+  ["LGBTQ teen mental health", "/lgbtq-teen-mental-health", 100],
+  ["LGBTQ+ teen mental health", "/lgbtq-teen-mental-health", 100],
+  ["gender-affirming care", "/lgbtq-teen-mental-health", 98],
+  ["gender affirming care", "/lgbtq-teen-mental-health", 98],
+  ["gender dysphoria", "/lgbtq-teen-mental-health", 98],
+  ["gender dysphoria in teens", "/lgbtq-teen-mental-health", 95],
+  ["LGBTQ therapy for teens", "/lgbtq-teen-mental-health", 95],
+  ["affirming therapy", "/lgbtq-teen-mental-health", 90],
+
   ["insomnia treatment for teens", "/online-insomnia-treatment-for-teens", 100],
   ["teen insomnia", "/online-insomnia-treatment-for-teens", 90],
   ["sleep problems in teens", "/online-insomnia-treatment-for-teens", 88],
@@ -118,10 +127,24 @@ export const AMH_INTERNAL_LINKS = [
   ["about us", "/about", 65],
 
   // Insurance carriers
-  ["Cigna", "/verify-insurance", 65],
-  ["Anthem", "/verify-insurance", 65],
-  ["Aetna", "/verify-insurance", 65],
-  ["Blue Cross", "/verify-insurance", 60],
+  ["Cigna", "/insurance/cigna", 90],
+  ["Cigna insurance", "/insurance/cigna", 92],
+  ["Cigna coverage", "/insurance/cigna", 90],
+  ["Anthem", "/insurance/anthem", 90],
+  ["Anthem insurance", "/insurance/anthem", 92],
+  ["Anthem Blue Cross", "/insurance/anthem", 88],
+  ["Anthem coverage", "/insurance/anthem", 90],
+  ["Aetna", "/insurance/aetna", 90],
+  ["Aetna insurance", "/insurance/aetna", 92],
+  ["Aetna coverage", "/insurance/aetna", 90],
+  ["does Aetna cover", "/insurance/aetna", 88],
+  ["Beacon", "/insurance/beacon", 88],
+  ["Beacon insurance", "/insurance/beacon", 90],
+  ["Beacon Health", "/insurance/beacon", 85],
+  ["UMR", "/insurance/umr", 88],
+  ["UMR insurance", "/insurance/umr", 90],
+  ["UMR coverage", "/insurance/umr", 88],
+  ["Blue Cross", "/insurance/anthem", 60],
 ];
 
 function loadServiceKey() {

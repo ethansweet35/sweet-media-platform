@@ -65,6 +65,13 @@ export const TREATMENT_PROGRAM_LINKS: ProgramLink[] = [
     body: "Clinical treatment plus gradual school re-entry planning when refusal or avoidance persists.",
   },
   {
+    label: "LGBTQ+ Teen Mental Health",
+    path: "/lgbtq-teen-mental-health",
+    icon: "ri-heart-3-line",
+    tag: "Affirming",
+    body: "Gender-affirming virtual IOP for LGBTQ+ teens — identity-supportive therapy for dysphoria, anxiety, depression, and family stress.",
+  },
+  {
     label: "Online Insomnia Treatment",
     path: "/online-insomnia-treatment-for-teens",
     icon: "ri-moon-line",

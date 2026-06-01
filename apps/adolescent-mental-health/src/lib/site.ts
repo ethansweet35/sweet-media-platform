@@ -158,4 +158,16 @@ export const TREATMENT_LANDING_IMGS = {
 
 export const INSURANCE_IMGS = {
   hero: `${SB_ROOT}/amh_insurance_hero01.jpg`,
+  carriers: {
+    aetna: `${SB_ROOT}/amh_insurance_aetna_hero02.jpg`,
+    cigna: `${SB_ROOT}/amh_insurance_cigna_hero01.jpg`,
+    anthem: `${SB_ROOT}/amh_insurance_anthem_hero01.jpg`,
+    beacon: `${SB_ROOT}/amh_insurance_beacon_hero01.jpg`,
+    umr: `${SB_ROOT}/amh_insurance_umr_hero01.jpg`,
+  },
+} as const;
+
+export const LGBTQ_IMGS = {
+  hero: `${SB_ROOT}/amh_lgbtq_hero01.jpg`,
+  bento: `${SB_ROOT}/amh_lgbtq_bento01.jpg`,
 } as const;

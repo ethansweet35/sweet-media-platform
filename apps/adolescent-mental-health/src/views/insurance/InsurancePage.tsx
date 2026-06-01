@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 import {
   AccentText,
   AmhButton,
@@ -9,6 +10,7 @@ import {
   PageSection,
   SectionHeader,
 } from "@/components/marketing";
+import { INSURANCE_CARRIER_PATHS } from "@/lib/insurance-carrier-pages";
 import { CONTAINER, INSURANCE_IMGS, INSURANCE_LOGOS, SITE } from "@/lib/site";
 
 const covered = [
@@ -60,10 +62,39 @@ export default function InsurancePage({ currentPath = "/insurance" }: { currentP
           title="Plans we frequently work with"
           description="Network status varies by plan and region — admissions confirms your specific benefits during intake."
         />
-        <div className={`${CONTAINER} mt-10 flex flex-wrap items-center justify-center gap-10 opacity-80`}>
-          {Object.entries(INSURANCE_LOGOS).map(([key, src]) => (
-            <Image key={key} src={src} alt={`${key} insurance logo`} width={120} height={48} className="h-10 w-auto object-contain" />
-          ))}
+        <div className={`${CONTAINER} mt-10 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-5 lg:gap-5`}>
+          {Object.entries(INSURANCE_LOGOS).map(([key, src]) => {
+            const href = INSURANCE_CARRIER_PATHS[key as keyof typeof INSURANCE_CARRIER_PATHS];
+            const labels: Record<string, string> = {
+              aetna: "Aetna",
+              cigna: "Cigna",
+              anthem: "Anthem",
+              becn: "Beacon",
+              umr: "UMR",
+            };
+            const label = labels[key] ?? key;
+
+            const tile = (
+              <div className="flex h-full flex-col items-center justify-center rounded-2xl bg-surface px-4 py-7 text-center ring-1 ring-border transition hover:ring-accent/35">
+                <Image
+                  src={src}
+                  alt={`${label} insurance logo`}
+                  width={160}
+                  height={64}
+                  className="h-11 w-auto object-contain sm:h-12"
+                />
+                <p className="mt-4 text-xs font-semibold text-ink">{label}</p>
+              </div>
+            );
+
+            return href ? (
+              <Link key={key} href={href} className="block h-full">
+                {tile}
+              </Link>
+            ) : (
+              <div key={key}>{tile}</div>
+            );
+          })}
         </div>
       </PageSection>
 
