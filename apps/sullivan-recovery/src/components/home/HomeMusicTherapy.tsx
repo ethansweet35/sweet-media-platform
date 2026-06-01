@@ -32,6 +32,7 @@ export default function HomeMusicTherapy() {
               loop
               muted
               playsInline
+              preload="none"
               className="h-full w-full object-cover object-center"
             >
               <source src={BRAND_VIDEO} type="video/mp4" />
@@ -81,6 +82,7 @@ export default function HomeMusicTherapy() {
                 width="100%"
                 height="120"
                 scrolling="no"
+                loading="lazy"
                 allow="autoplay; encrypted-media"
                 src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/soundcloud%253Atracks%253A1852206972&color=%235C7A4E&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=false&visual=false"
                 style={{ border: "none" }}

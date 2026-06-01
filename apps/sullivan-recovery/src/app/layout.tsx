@@ -4,6 +4,7 @@ import Script from "next/script";
 import "./globals.css";
 import Layout from "@/components/feature/Layout";
 import { DeferredAnalyticsWrapper, DeferredPageEditorProvider } from "@sweetmedia/admin-core";
+import { SR_SUPABASE_ORIGIN } from "@/lib/heroVideo";
 
 /** Platform standard: Remix Icon via CDN */
 const REMIXICON_CSS =
@@ -50,8 +51,8 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
+        <link rel="preconnect" href={SR_SUPABASE_ORIGIN} crossOrigin="anonymous" />
         <link rel="preconnect" href="https://cdn.callrail.com" crossOrigin="anonymous" />
-        <link rel="preload" as="script" href={CALLRAIL_SWAP_SRC} fetchPriority="high" />
         <link rel="preconnect" href="https://cdn.jsdelivr.net" crossOrigin="anonymous" />
         <link rel="preload" as="style" href={REMIXICON_CSS} crossOrigin="anonymous" />
         <Script id="load-remixicon-styles" strategy="afterInteractive">{`

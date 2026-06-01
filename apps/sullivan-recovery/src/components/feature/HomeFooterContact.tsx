@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 import CallRailPhoneLink from "@/components/ui/CallRailPhoneLink";
 import { CALLRAIL_PHONE_DISPLAY_PARENS } from "@/lib/callrailPhone";
 
@@ -61,10 +62,17 @@ export default function HomeFooterContact() {
 
   return (
     <section className="relative overflow-hidden">
-      <div
-        className="absolute inset-0 bg-cover bg-center"
-        style={{ backgroundImage: `url(${BG})` }}
-      />
+      <div className="absolute inset-0">
+        <Image
+          src={BG}
+          alt=""
+          fill
+          className="object-cover object-center"
+          loading="lazy"
+          sizes="100vw"
+          aria-hidden
+        />
+      </div>
       <div
         className="absolute inset-0"
         style={{

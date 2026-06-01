@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { resolveTrackedPageMetadata, OptimizationStatusBanner } from "@sweetmedia/admin-core";
 import HomeHero from "@/components/home/HomeHero";
+import { HERO_POSTER_URL } from "@/lib/heroVideo";
 import HomeFeatures from "@/components/home/HomeFeatures";
 import HomeAbout from "@/components/home/HomeAbout";
 import HomeSubstances from "@/components/home/HomeSubstances";
@@ -27,21 +28,24 @@ export async function generateMetadata(): Promise<Metadata> {
 
 export default function Page() {
   return (
-    <main>
-      <OptimizationStatusBanner trackedPagePath="/" brandName="Sullivan Recovery" />
-      <HomeHero />
-      <HomeFeatures />
-      <HomeAbout />
-      <HomeSubstances />
-      <HomePrograms />
-      <HomeSurfTherapy />
-      <HomeMusicTherapy />
-      <HomeActivities />
-      <HomeInsurance />
-      <HomeWhatSetsUsApart />
-      <HomeFacility />
-      <HomeHowItWorks />
-      <HomeLocation />
-    </main>
+    <>
+      <link rel="preload" as="image" href={HERO_POSTER_URL} fetchPriority="high" />
+      <main>
+        <OptimizationStatusBanner trackedPagePath="/" brandName="Sullivan Recovery" />
+        <HomeHero />
+        <HomeFeatures />
+        <HomeAbout />
+        <HomeSubstances />
+        <HomePrograms />
+        <HomeSurfTherapy />
+        <HomeMusicTherapy />
+        <HomeActivities />
+        <HomeInsurance />
+        <HomeWhatSetsUsApart />
+        <HomeFacility />
+        <HomeHowItWorks />
+        <HomeLocation />
+      </main>
+    </>
   );
 }

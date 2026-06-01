@@ -15,11 +15,13 @@ export default async function HomeHero() {
   return (
     <section className="relative flex min-h-screen items-center justify-start overflow-hidden py-[100px]">
       <div className="absolute inset-0 z-0">
-        <video {...heroVideoProps} className={`${heroVideoProps.className} hidden md:block`}>
-          <source src={HERO_VIDEO_DESKTOP} type="video/mp4" />
-        </video>
-        <video {...heroVideoProps} className={`${heroVideoProps.className} md:hidden`}>
-          <source src={HERO_VIDEO_MOBILE} type="video/mp4" />
+        {/*
+          Single <video> with media-query sources so mobile only downloads the
+          mobile MP4 (not both desktop + mobile elements in the DOM).
+        */}
+        <video {...heroVideoProps} aria-hidden>
+          <source src={HERO_VIDEO_MOBILE} media="(max-width: 767px)" type="video/mp4" />
+          <source src={HERO_VIDEO_DESKTOP} media="(min-width: 768px)" type="video/mp4" />
         </video>
       </div>
 
