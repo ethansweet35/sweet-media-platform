@@ -38,9 +38,9 @@ export default function SiteSpeedTestPage() {
               Test your site speed
             </h1>
             <p className="text-white/55 text-sm md:text-base leading-relaxed font-light">
-              Run the same PageSpeed Insights engine Google uses. Get a performance score, Core Web
-              Vitals, and prioritized fixes you can actually implement — built for treatment center
-              and healthcare marketing sites.
+              Run the same PageSpeed Insights engine Google uses. We detect WordPress, Wix,
+              Squarespace, Elementor, and more — then explain the highest-impact fixes in plain
+              English, no developer jargon required.
             </p>
           </div>
 

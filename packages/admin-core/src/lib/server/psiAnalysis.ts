@@ -6,10 +6,17 @@ import type {
   PsiStrategy,
   RecommendationEffort,
   RecommendationImpact,
+  SitePlatformInsight,
   SpeedTestCoreMetrics,
   SpeedTestRecommendation,
   SpeedTestResult,
 } from "../../types/speed-test";
+import {
+  detectPlatformFromSignals,
+  extractUrlsFromPsiAudits,
+  fetchPageHtml,
+} from "./platformDetect";
+import { tailorRecommendation } from "./platformPlaybooks";
 
 export type {
   PsiStrategy,
@@ -384,10 +391,12 @@ function buildRecommendation(auditId: string, audit: PsiAudit): SpeedTestRecomme
       savingsMs: savingsMs || null,
       savingsLabel: audit.displayValue ?? null,
       summary: audit.description?.split("[")[0]?.trim() ?? "This audit flagged a performance issue.",
+      whyItMatters: null,
       actions: [
         "Review the audit in Chrome DevTools → Lighthouse for file-level details.",
         "Fix the highest-impact item first, then re-run this test.",
       ],
+      tailored: false,
     };
   }
 
@@ -401,7 +410,9 @@ function buildRecommendation(auditId: string, audit: PsiAudit): SpeedTestRecomme
     savingsMs: savingsMs || null,
     savingsLabel: audit.displayValue ?? null,
     summary: playbook.summary,
+    whyItMatters: null,
     actions: playbook.actions,
+    tailored: false,
   };
 }
 
@@ -467,15 +478,44 @@ export function normalizeSpeedTestUrl(input: string): { ok: true; url: string } 
   return { ok: true, url: parsed.toString() };
 }
 
+async function fetchPsi(url: string, strategy: PsiStrategy): Promise<{
+  ok: boolean;
+  error?: string;
+  audits: Record<string, PsiAudit>;
+  perfScore: number | null;
+}> {
+  const params = new URLSearchParams({ url, strategy, category: "performance" });
+  const key = process.env.GOOGLE_PSI_API_KEY;
+  if (key) params.set("key", key);
+
+  const res = await fetch(`${PSI_ENDPOINT}?${params.toString()}`, {
+    cache: "no-store",
+    signal: AbortSignal.timeout(120_000),
+  });
+
+  const json = (await res.json()) as PsiLhResponse;
+  if (!res.ok) {
+    return {
+      ok: false,
+      error: json.error?.message ?? `PageSpeed API returned ${res.status}`,
+      audits: {},
+      perfScore: null,
+    };
+  }
+
+  const lh = json.lighthouseResult;
+  return {
+    ok: true,
+    audits: lh?.audits ?? {},
+    perfScore: scorePct(lh?.categories?.performance?.score),
+  };
+}
+
 /** Run PSI and return scores plus actionable recommendations. */
 export async function runSpeedTestAnalysis(
   url: string,
   strategy: PsiStrategy = "mobile",
 ): Promise<SpeedTestResult> {
-  const params = new URLSearchParams({ url, strategy, category: "performance" });
-  const key = process.env.GOOGLE_PSI_API_KEY;
-  if (key) params.set("key", key);
-
   const emptyMetrics: SpeedTestCoreMetrics = {
     performance: null,
     fcp_ms: null,
@@ -485,35 +525,37 @@ export async function runSpeedTestAnalysis(
     speed_index_ms: null,
   };
 
+  const fetchedAt = new Date().toISOString();
+
   try {
-    const res = await fetch(`${PSI_ENDPOINT}?${params.toString()}`, {
-      cache: "no-store",
-      signal: AbortSignal.timeout(120_000),
-    });
+    const [psi, html] = await Promise.all([fetchPsi(url, strategy), fetchPageHtml(url)]);
 
-    const json = (await res.json()) as PsiLhResponse;
-
-    if (!res.ok) {
-      const msg = json.error?.message ?? `PageSpeed API returned ${res.status}`;
+    if (!psi.ok) {
       return {
         url,
         strategy,
-        fetchedAt: new Date().toISOString(),
+        fetchedAt,
         metrics: emptyMetrics,
+        platform: null,
         recommendations: [],
-        error: msg,
+        error: psi.error,
       };
     }
 
-    const lh = json.lighthouseResult;
-    const audits = lh?.audits ?? {};
-    const perfScore = scorePct(lh?.categories?.performance?.score);
-    const metrics = { ...parseMetrics(audits), performance: perfScore };
+    const audits = psi.audits;
+    const metrics = { ...parseMetrics(audits), performance: psi.perfScore };
+    const requestUrls = extractUrlsFromPsiAudits(audits);
+
+    let platform: SitePlatformInsight | null = null;
+    if (html.length > 200 || requestUrls.length > 0) {
+      platform = detectPlatformFromSignals({ html, requestUrls, pageUrl: url });
+    }
 
     const recs: SpeedTestRecommendation[] = [];
     for (const [auditId, audit] of Object.entries(audits)) {
       const rec = buildRecommendation(auditId, audit);
-      if (rec) recs.push(rec);
+      if (!rec) continue;
+      recs.push(tailorRecommendation(rec, platform?.platform ?? "unknown"));
     }
 
     recs.sort(sortRecommendations);
@@ -521,8 +563,9 @@ export async function runSpeedTestAnalysis(
     return {
       url,
       strategy,
-      fetchedAt: new Date().toISOString(),
+      fetchedAt,
       metrics,
+      platform,
       recommendations: recs.slice(0, 10),
     };
   } catch (e) {
@@ -530,8 +573,9 @@ export async function runSpeedTestAnalysis(
     return {
       url,
       strategy,
-      fetchedAt: new Date().toISOString(),
+      fetchedAt,
       metrics: emptyMetrics,
+      platform: null,
       recommendations: [],
       error: msg,
     };

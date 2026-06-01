@@ -5,15 +5,18 @@ import Link from "next/link";
 import type {
   SpeedTestResult,
   SpeedTestRecommendation,
+  SitePlatformInsight,
+  PlatformQuickWin,
   PsiStrategy,
   RecommendationImpact,
 } from "@sweetmedia/admin-core";
 
 const LOADING_STEPS = [
   "Connecting to Google PageSpeed…",
+  "Identifying your website platform…",
   "Running Lighthouse on your URL…",
   "Measuring Core Web Vitals…",
-  "Building actionable fixes…",
+  "Building fixes in plain English…",
 ];
 
 function scoreColor(score: number | null): string {
@@ -70,12 +73,96 @@ function categoryIcon(category: SpeedTestRecommendation["category"]): string {
 function effortLabel(effort: SpeedTestRecommendation["effort"]): string {
   switch (effort) {
     case "quick":
-      return "Quick win";
+      return "Easy — no code";
     case "moderate":
-      return "Half-day fix";
+      return "Settings / half day";
     default:
-      return "Project";
+      return "Ask your web person";
   }
+}
+
+const PLATFORM_ICONS: Record<string, string> = {
+  "wordpress-elementor": "ri-wordpress-line",
+  "wordpress-divi": "ri-wordpress-line",
+  "wordpress-other": "ri-wordpress-line",
+  wix: "ri-layout-masonry-line",
+  squarespace: "ri-layout-grid-line",
+  shopify: "ri-shopping-bag-3-line",
+  webflow: "ri-layout-4-line",
+  nextjs: "ri-reactjs-line",
+  hubspot: "ri-hub-line",
+  godaddy: "ri-global-line",
+  unknown: "ri-question-line",
+};
+
+function PlatformInsightPanel({ insight }: { insight: SitePlatformInsight }) {
+  return (
+    <div className="rounded-2xl border border-[#7B9FD4]/30 bg-[#7B9FD4]/10 p-6 md:p-8">
+      <div className="flex flex-wrap items-start gap-4 mb-4">
+        <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-white/15 text-2xl text-[#9BB8E8]">
+          <i className={PLATFORM_ICONS[insight.platform] ?? "ri-window-line"} aria-hidden />
+        </span>
+        <div className="min-w-0 flex-1">
+          <p className="text-[10px] uppercase tracking-[0.3em] text-[#9BB8E8] font-semibold mb-1">
+            Platform detected
+            {insight.confidence === "high" ? "" : ` · ${insight.confidence} confidence`}
+          </p>
+          <h2 className="text-xl font-semibold text-white">{insight.headline}</h2>
+          <p className="mt-2 text-sm text-white/60 leading-relaxed">{insight.explanation}</p>
+        </div>
+      </div>
+      {insight.detectedSignals.length > 0 && (
+        <ul className="mb-5 flex flex-wrap gap-2">
+          {insight.detectedSignals.map((s) => (
+            <li
+              key={s}
+              className="rounded-full bg-white/10 px-3 py-1 text-[10px] text-white/55 ring-1 ring-white/10"
+            >
+              {s}
+            </li>
+          ))}
+        </ul>
+      )}
+      {insight.realityCheck && (
+        <p className="mb-6 text-sm text-white/50 leading-relaxed border-l-2 border-[#7B9FD4]/50 pl-4">
+          <span className="font-medium text-white/70">Reality check: </span>
+          {insight.realityCheck}
+        </p>
+      )}
+      <h3 className="text-sm font-semibold text-white mb-4">Start here — highest impact for {insight.displayName}</h3>
+      <div className="grid gap-4">
+        {insight.quickWins.map((win) => (
+          <QuickWinCard key={win.id} win={win} />
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function QuickWinCard({ win }: { win: PlatformQuickWin }) {
+  return (
+    <article className="rounded-xl border border-white/10 bg-white/[0.05] p-5">
+      <div className="flex flex-wrap items-start justify-between gap-2 mb-2">
+        <h4 className="text-base font-semibold text-white pr-2">{win.title}</h4>
+        <span
+          className={`shrink-0 rounded-full px-2.5 py-0.5 text-[10px] font-semibold uppercase tracking-wider ring-1 ${impactBadge(win.impact)}`}
+        >
+          {win.impact} impact
+        </span>
+      </div>
+      <p className="text-sm text-[#B8D4F0] leading-relaxed mb-3">{win.why}</p>
+      <ol className="grid gap-2 list-none counter-reset-none">
+        {win.steps.map((step, i) => (
+          <li key={step} className="flex items-start gap-2.5 text-sm text-white/75">
+            <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-white/15 text-[10px] font-bold text-white/80">
+              {i + 1}
+            </span>
+            {step}
+          </li>
+        ))}
+      </ol>
+    </article>
+  );
 }
 
 function ScoreRing({ score }: { score: number | null }) {
@@ -121,8 +208,21 @@ function RecommendationCard({ rec }: { rec: SpeedTestRecommendation }) {
           <i className={categoryIcon(rec.category)} aria-hidden />
         </span>
         <div className="min-w-0 flex-1">
-          <h3 className="text-base font-semibold text-white">{rec.psiTitle}</h3>
+          <div className="flex flex-wrap items-center gap-2">
+            <h3 className="text-base font-semibold text-white">{rec.psiTitle}</h3>
+            {rec.tailored && (
+              <span className="rounded-full bg-[#7B9FD4]/20 px-2 py-0.5 text-[9px] font-semibold uppercase tracking-wider text-[#9BB8E8] ring-1 ring-[#7B9FD4]/30">
+                For your stack
+              </span>
+            )}
+          </div>
           <p className="mt-1 text-sm leading-relaxed text-white/55">{rec.summary}</p>
+          {rec.whyItMatters && (
+            <p className="mt-2 text-sm leading-relaxed text-white/45 border-l-2 border-white/15 pl-3">
+              <span className="text-white/60 font-medium">Why it matters: </span>
+              {rec.whyItMatters}
+            </p>
+          )}
         </div>
         <div className="flex flex-wrap gap-2">
           <span
@@ -293,12 +393,15 @@ export default function SiteSpeedTestTool() {
             </p>
           </div>
 
+          {result.platform && <PlatformInsightPanel insight={result.platform} />}
+
           {result.recommendations.length > 0 ? (
             <div>
-              <h2 className="text-xl font-semibold text-white mb-2">Recommended fixes</h2>
+              <h2 className="text-xl font-semibold text-white mb-2">What PageSpeed flagged</h2>
               <p className="text-sm text-white/50 mb-6 max-w-2xl">
-                Prioritized by impact. These are practical changes treatment-center and WordPress sites
-                commonly ship in a day or less — not theoretical audits.
+                {result.platform
+                  ? `Technical findings translated for ${result.platform.displayName} — written so you can forward them to your office manager or web vendor.`
+                  : "Prioritized by impact. Practical changes you can often do in an afternoon without touching code."}
               </p>
               <div className="grid gap-4">
                 {result.recommendations.map((rec) => (
