@@ -24,9 +24,9 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   if (isAdmin) return <>{children}</>;
 
   return (
-    <div className="flex min-h-screen flex-col bg-white" style={{ fontFamily: "var(--font-montserrat)" }}>
+    <div className="flex min-h-screen flex-col overflow-x-clip bg-white" style={{ fontFamily: "var(--font-montserrat)" }}>
       <Navbar />
-      <div className="flex-1">{children}</div>
+      <div className="flex-1 pb-[calc(4.25rem+env(safe-area-inset-bottom,0px))] md:pb-0">{children}</div>
       <Footer />
 
       <div
@@ -34,13 +34,13 @@ export default function Layout({ children }: { children: React.ReactNode }) {
           visible ? "translate-y-0" : "translate-y-full"
         }`}
       >
-        <div className="flex items-center gap-3 border-t border-white/10 bg-dark px-4 py-3">
+        <div className="flex items-center gap-3 border-t border-white/10 bg-dark px-4 py-3 pb-[max(0.75rem,env(safe-area-inset-bottom))]">
           <a
             href={SITE.phone.href}
-            className="flex flex-1 items-center justify-center gap-2 rounded-full bg-white py-3.5 text-xs font-bold uppercase tracking-widest text-black transition-colors active:bg-white/90"
+            className="flex min-w-0 flex-1 items-center justify-center gap-2 rounded-full bg-white py-3.5 text-xs font-bold uppercase tracking-wide text-black transition-colors active:bg-white/90"
           >
-            <i className="ri-phone-fill text-sm" />
-            {SITE.phone.display}
+            <i className="ri-phone-fill shrink-0 text-sm" />
+            <span className="truncate">{SITE.phone.display}</span>
           </a>
           <a
             href="/admissions"

@@ -46,8 +46,8 @@ export default function ComparisonTable({
           )}
         >
           {/* Mobile: stacked cards per row */}
-          <div className="space-y-3 p-4 md:hidden">
-            <p className="text-xs font-bold uppercase tracking-wider text-white/40">{row.label}</p>
+          <div className="space-y-3 p-4 sm:p-5 md:hidden">
+            <p className="text-[11px] font-bold uppercase tracking-wider text-white/40">{row.label}</p>
             <div className="grid gap-2">
               <div className="rounded-xl bg-white/[0.03] px-4 py-3">
                 <p className="mb-1 text-[10px] font-bold uppercase tracking-[0.15em] text-white/30">

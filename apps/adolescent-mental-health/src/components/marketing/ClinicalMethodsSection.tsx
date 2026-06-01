@@ -1,4 +1,4 @@
-import { CONTAINER } from "@/lib/site";
+import { CONTAINER, SECTION_HEADING } from "@/lib/site";
 import { cn } from "@/lib/cn";
 import { SECTION_PY } from "./tokens";
 
@@ -89,7 +89,7 @@ export default function ClinicalMethodsSection({
               <p className="text-[11px] font-bold uppercase tracking-[0.3em] text-accent">{eyebrow}</p>
             </div>
             <h2
-              className="text-4xl font-bold leading-[1.08] text-ink md:text-5xl"
+              className={`${SECTION_HEADING} leading-[1.08] text-ink`}
               style={{ fontFamily: "var(--font-heebo)" }}
             >
               {title}
@@ -132,7 +132,7 @@ export default function ClinicalMethodsSection({
             </div>
           </div>
 
-          <div className="relative grid gap-4 p-6 sm:grid-cols-2 sm:gap-5 lg:p-10">
+          <div className="relative grid gap-4 p-4 sm:grid-cols-2 sm:gap-5 sm:p-6 lg:p-10">
             {items.map((item, index) => (
               <ModalityCard key={item.title} item={item} index={index} />
             ))}

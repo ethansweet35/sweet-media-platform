@@ -12,7 +12,7 @@
  *   --color-ink          → text-ink, bg-ink, border-ink
  *   --color-accent       → text-accent, bg-accent, ring-accent
  *   --color-surface      → bg-surface
- *   --spacing-section    → py-section, pt-section
+ *   --spacing-section-lg → py-section (responsive utility)
  *   --max-width-content  → max-w-content
  */
 @theme {
@@ -37,7 +37,7 @@
   /* ── Layout ── */
   --max-width-content: 81.25rem; /* 1300px — marketing page container */
   --width-content-px: 1300;
-  --spacing-section: 6.25rem;  /* 100px — standard section vertical padding */
+  --spacing-section-lg: 6.25rem; /* 100px — desktop section vertical padding */
 }
 
 /*
@@ -50,6 +50,28 @@
   --color-brand-dark: var(--color-accent-dark);
 }
 
+/* Responsive section padding — tighter on mobile */
+@utility py-section {
+  padding-block: 4rem;
+  @media (width >= 1024px) {
+    padding-block: var(--spacing-section-lg);
+  }
+}
+
+@utility pt-section {
+  padding-top: 4rem;
+  @media (width >= 1024px) {
+    padding-top: var(--spacing-section-lg);
+  }
+}
+
+@utility pb-section {
+  padding-bottom: 4rem;
+  @media (width >= 1024px) {
+    padding-bottom: var(--spacing-section-lg);
+  }
+}
+
 /* Hero dot-grid background pattern */
 @utility bg-dot-grid {
   background-image: radial-gradient(circle at 1px 1px, var(--color-accent) 1px, transparent 0);
@@ -59,6 +81,7 @@
 @layer base {
   html {
     scroll-behavior: smooth;
+    overflow-x: clip;
   }
 
   body {
@@ -67,6 +90,7 @@
     color: var(--color-ink);
     font-family: var(--font-body);
     -webkit-font-smoothing: antialiased;
+    overflow-x: clip;
   }
 
   h1, h2, h3, h4, h5, h6 {

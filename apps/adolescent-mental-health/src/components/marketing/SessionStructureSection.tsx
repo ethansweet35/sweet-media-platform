@@ -1,4 +1,4 @@
-import { CONTAINER } from "@/lib/site";
+import { CONTAINER, SECTION_HEADING } from "@/lib/site";
 import { SECTION_PY } from "./tokens";
 
 export type SessionPhase = {
@@ -38,7 +38,7 @@ export default function SessionStructureSection({
             <span className="h-px w-10 bg-accent" aria-hidden />
             <p className="text-[11px] font-bold uppercase tracking-[0.3em] text-accent">{eyebrow}</p>
           </div>
-          <h2 className="text-4xl font-bold text-ink md:text-5xl" style={{ fontFamily: "var(--font-heebo)" }}>
+          <h2 className={`${SECTION_HEADING} text-ink`} style={{ fontFamily: "var(--font-heebo)" }}>
             {title}
           </h2>
           {description ? <p className="mt-4 text-sm leading-8 text-body">{description}</p> : null}

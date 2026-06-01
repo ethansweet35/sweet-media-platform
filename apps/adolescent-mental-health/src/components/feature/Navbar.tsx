@@ -286,11 +286,16 @@ export default function Navbar() {
 
   return (
     <header className="sticky top-0 z-50" style={{ fontFamily: "var(--font-montserrat)" }}>
-      <div className="bg-dark px-6 py-2 text-center text-xs font-semibold uppercase tracking-[0.15em] text-white/80">
-        Free Assessment |{" "}
-        <Link href={INSURANCE_NAV_PATH} className="transition-colors hover:text-white">
-          Verify Insurance
-        </Link>
+      <div className="bg-dark px-4 py-2 text-center text-[10px] font-semibold uppercase tracking-[0.12em] text-white/80 sm:px-6 sm:text-xs sm:tracking-[0.15em]">
+        <span className="inline-flex flex-wrap items-center justify-center gap-x-1.5 gap-y-0.5">
+          <span>Free Assessment</span>
+          <span className="text-white/35" aria-hidden>
+            |
+          </span>
+          <Link href={INSURANCE_NAV_PATH} className="transition-colors hover:text-white">
+            Verify Insurance
+          </Link>
+        </span>
       </div>
 
       <nav className="border-b border-border bg-white shadow-sm">
@@ -302,7 +307,7 @@ export default function Navbar() {
                 alt="Adolescent Mental Health"
                 width={200}
                 height={92}
-                className="h-14 w-auto sm:h-16"
+                className="h-11 w-auto sm:h-14 md:h-16"
                 priority
               />
             </Link>
@@ -353,7 +358,7 @@ export default function Navbar() {
         </div>
 
         {mobileOpen && (
-          <div className="border-t border-border bg-white px-6 py-4 lg:hidden lg:px-10">
+          <div className="max-h-[calc(100dvh-8.5rem)] overflow-y-auto border-t border-border bg-white px-6 py-4 lg:hidden lg:px-10">
             <div className={CONTAINER}>
               <div className="flex flex-col gap-1">
                 {mobileNavSections.map((section) => (

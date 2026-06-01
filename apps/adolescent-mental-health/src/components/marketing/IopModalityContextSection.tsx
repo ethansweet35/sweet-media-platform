@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { CONTAINER } from "@/lib/site";
+import { CONTAINER, SECTION_HEADING } from "@/lib/site";
 import { SECTION_PY } from "./tokens";
 
 export type IopModalityContextItem = {
@@ -31,22 +31,22 @@ export default function IopModalityContextSection({
   return (
     <section className={`bg-dark px-6 ${SECTION_PY} lg:px-10`}>
       <div className={`${CONTAINER} w-full`}>
-        <div className="mb-14 max-w-2xl">
+        <div className="mb-10 max-w-2xl sm:mb-14">
           <div className="mb-4 flex items-center gap-4">
             <span className="h-px w-10 bg-accent" aria-hidden />
             <p className="text-[11px] font-bold uppercase tracking-[0.3em] text-accent">{eyebrow}</p>
           </div>
-          <h2 className="text-4xl font-bold text-white md:text-5xl" style={{ fontFamily: "var(--font-heebo)" }}>
+          <h2 className={`${SECTION_HEADING} text-white`} style={{ fontFamily: "var(--font-heebo)" }}>
             {title}
           </h2>
-          <p className="mt-4 max-w-xl text-sm leading-8 text-white/45">{description}</p>
+          <p className="mt-4 max-w-xl text-sm leading-7 text-white/45 sm:leading-8">{description}</p>
         </div>
 
-        <div className="grid gap-4 lg:grid-cols-3">
+        <div className="grid gap-3 sm:gap-4 lg:grid-cols-3">
           {items.map((item) => (
             <div
               key={item.label}
-              className={`rounded-3xl p-8 ${item.active ? "ring-2 ring-accent/40" : ""}`}
+              className={`rounded-3xl p-6 sm:p-8 ${item.active ? "ring-2 ring-accent/40" : ""}`}
               style={{
                 background: item.active ? "rgba(131,179,220,0.07)" : "rgba(255,255,255,0.03)",
                 border: item.active ? undefined : "1px solid rgba(255,255,255,0.07)",
@@ -95,7 +95,7 @@ export default function IopModalityContextSection({
         <div className="mt-10">
           <Link
             href={footerHref}
-            className="inline-flex items-center gap-2 rounded-full border border-white/15 px-7 py-3.5 text-sm font-semibold text-white/60 transition hover:border-white/30 hover:text-white"
+            className="inline-flex w-full sm:w-auto items-center justify-center gap-2 rounded-full border border-white/15 px-7 py-3.5 text-sm font-semibold text-white/60 transition hover:border-white/30 hover:text-white"
           >
             {footerLabel}
             <i className="ri-arrow-right-line" aria-hidden />

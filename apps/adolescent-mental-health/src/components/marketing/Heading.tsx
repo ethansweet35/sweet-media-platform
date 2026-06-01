@@ -11,8 +11,8 @@ type HeadingProps = {
 };
 
 const levelClasses: Record<HeadingLevel, string> = {
-  1: "text-[2.75rem] font-bold leading-[1.02] tracking-tight sm:text-5xl lg:text-[4rem]",
-  2: "text-3xl font-bold md:text-4xl lg:text-5xl",
+  1: "text-3xl font-bold leading-[1.06] tracking-tight sm:text-[2.75rem] sm:leading-[1.02] lg:text-[4rem]",
+  2: "text-3xl font-bold sm:text-4xl lg:text-5xl",
   3: "text-lg font-bold md:text-xl",
 };
 

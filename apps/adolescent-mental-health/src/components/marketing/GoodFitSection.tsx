@@ -1,4 +1,4 @@
-import { CONTAINER, SITE } from "@/lib/site";
+import { CONTAINER, SECTION_HEADING, SITE } from "@/lib/site";
 import { cn } from "@/lib/cn";
 import { SECTION_PY } from "./tokens";
 
@@ -39,7 +39,7 @@ export default function GoodFitSection({
         <div className="grid gap-10 lg:grid-cols-[minmax(0,22rem)_minmax(0,1fr)] lg:gap-14">
           <div className="lg:sticky lg:top-28 lg:self-start">
             <p className="mb-3 text-[11px] font-bold uppercase tracking-[0.3em] text-accent">{eyebrow}</p>
-            <h2 className="text-4xl font-bold leading-tight text-ink md:text-5xl" style={{ fontFamily: "var(--font-heebo)" }}>
+            <h2 className={`${SECTION_HEADING} leading-tight text-ink`} style={{ fontFamily: "var(--font-heebo)" }}>
               {title}
             </h2>
             <p className="mt-5 text-sm leading-8 text-body">{description}</p>
@@ -52,7 +52,7 @@ export default function GoodFitSection({
             {showCta ? (
               <a
                 href={ctaHref}
-                className="mt-8 inline-flex items-center gap-2.5 rounded-full bg-dark px-7 py-3.5 text-sm font-bold text-white transition hover:bg-cta-hover"
+                className="mt-8 inline-flex w-full sm:w-auto items-center justify-center gap-2.5 rounded-full bg-dark px-7 py-3.5 text-sm font-bold text-white transition hover:bg-cta-hover"
               >
                 <i className="ri-phone-fill text-accent"></i>
                 {ctaLabel}
@@ -65,7 +65,7 @@ export default function GoodFitSection({
               <div
                 key={item.label}
                 className={cn(
-                  "group relative rounded-2xl border border-border bg-white/80 p-6 pr-16 transition hover:border-accent/40 hover:bg-white hover:shadow-md hover:shadow-accent/5 sm:pr-20",
+                  "group relative rounded-2xl border border-border bg-white/80 p-5 pr-14 transition hover:border-accent/40 hover:bg-white hover:shadow-md hover:shadow-accent/5 sm:p-6 sm:pr-20",
                   i === criteria.length - 1 && criteria.length % 2 === 1 ? "sm:col-span-2" : "",
                 )}
               >

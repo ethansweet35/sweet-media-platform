@@ -11,5 +11,5 @@ export default function MarketingPage({ children, currentPath }: MarketingPagePr
     initPageAutoLinks(currentPath);
   }
 
-  return <main style={{ fontFamily: "var(--font-montserrat)" }}>{children}</main>;
+  return <main className="overflow-x-clip" style={{ fontFamily: "var(--font-montserrat)" }}>{children}</main>;
 }

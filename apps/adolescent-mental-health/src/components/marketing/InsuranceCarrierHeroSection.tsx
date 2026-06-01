@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { CONTAINER, SITE } from "@/lib/site";
+import { CONTAINER, HERO_PHONE_BTN, HERO_SECONDARY_BTN, SITE } from "@/lib/site";
 
 export type InsuranceCarrierHeroStat = {
   icon: string;
@@ -59,8 +59,9 @@ export default function InsuranceCarrierHeroSection({
         <div className="pointer-events-none absolute inset-0 bg-dot-grid opacity-[0.07]" />
 
         <div className="relative grid lg:min-h-[560px] lg:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)]">
-          <div className="flex flex-col justify-center px-6 py-12 sm:px-10 lg:px-10 lg:py-14 xl:pl-[max(2.5rem,calc((100vw-var(--width-content-px)*1px)/2+2.5rem))]">
-            <div className="mb-8 inline-flex w-fit items-center gap-4 rounded-2xl border border-white/10 bg-white/5 px-5 py-3 backdrop-blur-sm">
+          <div className="flex flex-col justify-center px-6 py-10 sm:px-10 sm:py-12 lg:py-14 xl:pl-[max(2.5rem,calc((100vw-var(--width-content-px)*1px)/2+2.5rem))]">
+            <div className={`${CONTAINER} w-full xl:max-w-none xl:px-0`}>
+              <div className="mb-6 inline-flex w-full max-w-md flex-wrap items-center gap-3 rounded-2xl border border-white/10 bg-white/5 px-4 py-3 backdrop-blur-sm sm:mb-8 sm:w-fit sm:gap-4 sm:px-5">
                 <Image
                   src={logoSrc}
                   alt={`${carrierName} insurance logo`}
@@ -77,32 +78,26 @@ export default function InsuranceCarrierHeroSection({
               <p className="text-[11px] font-bold uppercase tracking-[0.3em] text-accent">{eyebrow}</p>
 
               <h1
-                className="mt-5 max-w-xl text-4xl font-bold leading-[1.08] text-white sm:text-5xl lg:text-[3.25rem]"
+                className="mt-4 max-w-xl text-3xl font-bold leading-[1.08] text-white sm:mt-5 sm:text-4xl lg:text-[3.25rem]"
                 style={{ fontFamily: "var(--font-heebo)" }}
               >
                 <span className="text-accent">{headlineAccent}</span> for teen Virtual IOP
               </h1>
 
-              <p className="mt-6 max-w-lg text-sm leading-8 text-white/65">{body}</p>
+              <p className="mt-5 max-w-lg text-sm leading-7 text-white/65 sm:mt-6 sm:leading-8">{body}</p>
 
-              <div className="mt-9 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
-                <Link
-                  href={verifyHref}
-                  className="inline-flex items-center justify-center gap-2 rounded-full bg-white px-8 py-4 text-sm font-bold text-black shadow-xl transition hover:bg-white/90"
-                >
+              <div className="mt-8 flex flex-col gap-3 sm:mt-9 sm:flex-row sm:flex-wrap">
+                <Link href={verifyHref} className={`${HERO_PHONE_BTN} px-6 text-center sm:px-8`}>
                   Verify my {carrierName} benefits
                   <i className="ri-arrow-right-line text-accent" aria-hidden />
                 </Link>
-                <a
-                  href={SITE.phone.href}
-                  className="inline-flex items-center justify-center gap-2 rounded-full border border-white/25 px-8 py-4 text-sm font-semibold text-white transition hover:border-white/45 hover:bg-white/5"
-                >
+                <a href={SITE.phone.href} className={HERO_SECONDARY_BTN}>
                   <i className="ri-phone-fill text-accent" aria-hidden />
                   {SITE.phone.display}
                 </a>
               </div>
 
-              <div className="mt-10 grid gap-3 sm:grid-cols-3">
+              <div className="mt-8 grid grid-cols-1 gap-2 sm:mt-10 sm:grid-cols-3 sm:gap-3">
                 {stats.map((stat) => (
                   <div
                     key={stat.label}
@@ -120,58 +115,59 @@ export default function InsuranceCarrierHeroSection({
                 ))}
               </div>
             </div>
+          </div>
 
-            <div className="relative min-h-[320px] lg:min-h-full">
-              <Image
-                src={imageSrc}
-                alt={imageAlt}
-                fill
-                className="object-cover object-center"
-                priority
-                sizes="(max-width: 1024px) 100vw, 50vw"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-dark via-dark/20 to-transparent lg:bg-gradient-to-r lg:from-dark lg:via-dark/35 lg:to-transparent" />
+          <div className="relative min-h-[280px] sm:min-h-[320px] lg:min-h-full">
+            <Image
+              src={imageSrc}
+              alt={imageAlt}
+              fill
+              className="object-cover object-center"
+              priority
+              sizes="(max-width: 1024px) 100vw, 50vw"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-dark via-dark/20 to-transparent lg:bg-gradient-to-r lg:from-dark lg:via-dark/35 lg:to-transparent" />
 
-              <div className="absolute bottom-6 left-6 right-6 sm:left-auto sm:right-8 sm:w-[min(100%,320px)] lg:bottom-10">
-                <div className="overflow-hidden rounded-2xl border border-white/15 bg-white/95 shadow-2xl backdrop-blur-md">
-                  <div className="border-b border-border/60 bg-surface px-5 py-4">
-                    <div className="flex items-center justify-between gap-3">
-                      <div>
-                        <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-accent">
-                          Benefits check
-                        </p>
-                        <p className="mt-1 text-sm font-bold text-ink" style={{ fontFamily: "var(--font-heebo)" }}>
-                          What we verify for you
-                        </p>
-                      </div>
-                      <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-accent/10 text-accent">
-                        <i className="ri-file-search-line text-lg" aria-hidden />
-                      </span>
+            <div className="absolute bottom-4 left-4 right-4 sm:bottom-6 sm:left-auto sm:right-6 sm:w-[min(100%,320px)] lg:bottom-10 lg:right-8">
+              <div className="overflow-hidden rounded-2xl border border-white/15 bg-white/95 shadow-2xl backdrop-blur-md">
+                <div className="border-b border-border/60 bg-surface px-5 py-4">
+                  <div className="flex items-center justify-between gap-3">
+                    <div>
+                      <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-accent">
+                        Benefits check
+                      </p>
+                      <p className="mt-1 text-sm font-bold text-ink" style={{ fontFamily: "var(--font-heebo)" }}>
+                        What we verify for you
+                      </p>
                     </div>
+                    <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-accent/10 text-accent">
+                      <i className="ri-file-search-line text-lg" aria-hidden />
+                    </span>
                   </div>
-                  <ul className="divide-y divide-border/60 px-5 py-1">
-                    {checks.map((item) => (
-                      <li key={item.label} className="flex items-center gap-3 py-3.5 text-sm text-body">
-                        <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-accent/15 text-accent">
-                          <i className="ri-check-line text-xs" aria-hidden />
-                        </span>
-                        {item.label}
-                      </li>
-                    ))}
-                  </ul>
-                  <div className="border-t border-border/60 bg-surface-muted/80 px-5 py-3.5">
-                    <p className="text-xs leading-6 text-body">
-                      Network status varies by plan — admissions confirms your specific {carrierName} policy.
-                    </p>
-                  </div>
+                </div>
+                <ul className="divide-y divide-border/60 px-5 py-1">
+                  {checks.map((item) => (
+                    <li key={item.label} className="flex items-center gap-3 py-3.5 text-sm text-body">
+                      <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-accent/15 text-accent">
+                        <i className="ri-check-line text-xs" aria-hidden />
+                      </span>
+                      {item.label}
+                    </li>
+                  ))}
+                </ul>
+                <div className="border-t border-border/60 bg-surface-muted/80 px-5 py-3.5">
+                  <p className="text-xs leading-6 text-body">
+                    Network status varies by plan — admissions confirms your specific {carrierName} policy.
+                  </p>
                 </div>
               </div>
             </div>
+          </div>
         </div>
       </section>
 
       <section className="border-b border-border bg-surface px-6 py-5 lg:px-10">
-        <div className={`${CONTAINER} flex flex-wrap items-center justify-center gap-x-8 gap-y-3 text-sm font-semibold text-body`}>
+        <div className={`${CONTAINER} flex flex-wrap items-center justify-center gap-x-6 gap-y-3 text-xs font-semibold text-body sm:gap-x-8 sm:text-sm`}>
           {[
             { icon: "ri-shield-check-line", label: "HIPAA compliant" },
             { icon: "ri-video-chat-line", label: "Telehealth IOP" },

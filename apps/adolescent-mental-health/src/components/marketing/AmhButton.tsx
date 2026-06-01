@@ -21,15 +21,15 @@ type AmhButtonProps = {
 
 const variantClasses: Record<AmhButtonVariant, string> = {
   primary:
-    "rounded-2xl bg-cta px-8 py-4 text-sm font-bold text-white shadow-lg transition hover:bg-cta-hover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2",
+    "w-full sm:w-auto rounded-2xl bg-cta px-6 py-3.5 sm:px-8 sm:py-4 text-sm font-bold text-white shadow-lg transition hover:bg-cta-hover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2",
   secondary:
-    "rounded-2xl border border-border bg-white px-8 py-4 text-sm font-semibold text-ink shadow-sm transition hover:border-accent/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2",
+    "w-full sm:w-auto rounded-2xl border border-border bg-white px-6 py-3.5 sm:px-8 sm:py-4 text-sm font-semibold text-ink shadow-sm transition hover:border-accent/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2",
   phone:
-    "rounded-2xl border border-border bg-white px-8 py-4 text-sm font-semibold text-ink shadow-sm transition hover:border-accent/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2",
+    "w-full sm:w-auto rounded-2xl border border-border bg-white px-6 py-3.5 sm:px-8 sm:py-4 text-sm font-semibold text-ink shadow-sm transition hover:border-accent/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2",
   darkPrimary:
-    "rounded-full bg-white px-8 py-4 text-sm font-bold text-black transition hover:bg-white/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-dark",
+    "w-full sm:w-auto rounded-full bg-white px-6 py-3.5 sm:px-8 sm:py-4 text-sm font-bold text-black transition hover:bg-white/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-dark",
   darkSecondary:
-    "rounded-full border border-white/20 px-8 py-4 text-sm font-semibold text-white transition hover:border-white/40 hover:bg-white/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-dark",
+    "w-full sm:w-auto rounded-full border border-white/20 px-6 py-3.5 sm:px-8 sm:py-4 text-sm font-semibold text-white transition hover:border-white/40 hover:bg-white/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-dark",
   textLink:
     "text-sm font-semibold text-accent-dark transition hover:text-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2",
 };

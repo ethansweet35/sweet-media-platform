@@ -11,7 +11,18 @@ export const SITE = {
 export const SB_ROOT =
   "https://almncgkbmooyuptdgkhe.supabase.co/storage/v1/object/public/site-assets/images";
 
-export const CONTAINER = "mx-auto max-w-content";
+export const CONTAINER = "mx-auto w-full max-w-content";
+
+/** Shared hero / section mobile patterns */
+export const HERO_CTA_ROW =
+  "flex flex-col items-stretch gap-3 sm:flex-row sm:flex-wrap sm:items-center sm:justify-center sm:gap-4";
+export const HERO_CTA_ROW_LEFT =
+  "flex flex-col items-stretch gap-3 sm:flex-row sm:flex-wrap sm:items-center sm:gap-4";
+export const HERO_PHONE_BTN =
+  "inline-flex w-full sm:w-auto items-center justify-center gap-2.5 rounded-full bg-white px-6 py-3.5 sm:px-8 sm:py-4 text-sm font-bold text-black shadow-xl transition hover:bg-white/90";
+export const HERO_SECONDARY_BTN =
+  "inline-flex w-full sm:w-auto items-center justify-center gap-2 rounded-full border border-white/30 px-6 py-3.5 sm:px-8 sm:py-4 text-sm font-semibold text-white transition hover:border-white/60 hover:bg-white/8";
+export const SECTION_HEADING = "text-3xl font-bold sm:text-4xl md:text-5xl";
 
 /** Brand logo + payer marks — live under site-assets/images/logos/, not wp-migrated. */
 export const BRAND_LOGO = `${SB_ROOT}/logos/amh-logo.png`;

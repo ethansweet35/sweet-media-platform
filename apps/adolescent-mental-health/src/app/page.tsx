@@ -4,7 +4,7 @@ import { OptimizationStatusBanner, resolveTrackedPageMetadata } from "@sweetmedi
 import { ComparisonTable, MarketingPage } from "@/components/marketing";
 import Image from "next/image";
 import Link from "next/link";
-import { CONTAINER, HOME_IMGS, INSURANCE_LOGOS, SITE } from "@/lib/site";
+import { CONTAINER, HOME_IMGS, HERO_CTA_ROW, HERO_PHONE_BTN, HERO_SECONDARY_BTN, INSURANCE_LOGOS, SECTION_HEADING, SITE } from "@/lib/site";
 
 const fallbackMetadata: Metadata = {
   title: "Virtual IOP for Teens | Adolescent Mental Health Treatment",
@@ -73,44 +73,39 @@ export default function HomePage() {
         <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent" />
 
         {/* Content — centered at the bottom of the hero */}
-        <div className="relative z-10 mt-auto w-full px-6 pb-16 pt-24 lg:pb-20">
+        <div className="relative z-10 mt-auto w-full px-6 pb-14 pt-24 sm:pb-16 sm:pt-28 lg:pb-20">
           <div className="mx-auto max-w-3xl text-center">
 
-            <p className="mb-5 text-xs font-bold uppercase tracking-[0.3em] text-accent">
+            <p className="mb-4 text-[11px] font-bold uppercase tracking-[0.28em] text-accent sm:mb-5 sm:text-xs sm:tracking-[0.3em]">
               <AutoLinkedText>{"Virtual IOP · Ages 12–17 · Insurance Accepted"}</AutoLinkedText>
             </p>
 
             <h1
-              className="text-4xl font-bold leading-[1.08] text-white sm:text-5xl lg:text-6xl xl:text-7xl"
+              className="text-3xl font-bold leading-[1.08] text-white sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl"
               style={{ fontFamily: "var(--font-heebo)" }}
             >
               Virtual IOP for Teens — Expert Mental Health Care From Home
             </h1>
 
-            <p className="mx-auto mt-6 max-w-xl text-sm leading-8 text-white/70">
+            <p className="mx-auto mt-5 max-w-xl text-sm leading-7 text-white/70 sm:mt-6 sm:leading-8">
               <AutoLinkedText>{"Structured virtual therapy from licensed clinicians — 9–20 hours per week of individual, group, and family care that fits your teen&apos;s life without disrupting it."}</AutoLinkedText>
             </p>
 
             {/* CTAs */}
-            <div className="mt-9 flex flex-wrap items-center justify-center gap-4">
-              <a
-                href={SITE.phone.href}
-                className="inline-flex items-center gap-2.5 rounded-full bg-white px-8 py-4 text-sm font-bold text-black shadow-xl transition hover:bg-white/90"
-              >
+            <div className={HERO_CTA_ROW + " mt-8 sm:mt-9"}>
+              <a href={SITE.phone.href} className={HERO_PHONE_BTN}>
                 <i className="ri-phone-fill text-base"></i>
-                Free Consultation — {SITE.phone.display}
+                <span className="sm:hidden">Call for Free Consultation</span>
+                <span className="hidden sm:inline">Free Consultation — {SITE.phone.display}</span>
               </a>
-              <a
-                href="/virtual-iop-for-teens"
-                className="inline-flex items-center gap-2 rounded-full border border-white/30 px-8 py-4 text-sm font-semibold text-white transition hover:border-white/60 hover:bg-white/8"
-              >
+              <a href="/virtual-iop-for-teens" className={HERO_SECONDARY_BTN}>
                 How It Works
                 <i className="ri-arrow-right-line"></i>
               </a>
             </div>
 
             {/* Trust strip */}
-            <div className="mt-10 flex flex-wrap items-center justify-center gap-x-7 gap-y-3">
+            <div className="mt-8 flex flex-wrap items-center justify-center gap-x-5 gap-y-2.5 sm:mt-10 sm:gap-x-7 sm:gap-y-3">
               {[
                 { icon: "ri-shield-check-line", label: "Licensed Clinicians" },
                 { icon: "ri-heart-pulse-line",  label: "Insurance Accepted" },
@@ -160,7 +155,7 @@ export default function HomePage() {
             </div>
 
             {/* Consultation */}
-            <div className="flex flex-col justify-center border-t border-border md:border-t-0 md:pl-10">
+            <div className="flex flex-col justify-center border-t border-border pt-8 md:border-t-0 md:pl-10 md:pt-0">
               <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-accent">
                 Free Consultation
               </p>
@@ -207,7 +202,7 @@ export default function HomePage() {
 
             {/* Cell 1 — main content */}
             <div
-              className="flex flex-col justify-between rounded-3xl p-10 lg:p-12"
+              className="flex flex-col justify-between rounded-3xl p-6 sm:p-8 lg:p-12"
               style={{
                 background: "rgba(255,255,255,0.08)",
                 backdropFilter: "blur(24px)",
@@ -221,7 +216,7 @@ export default function HomePage() {
                   <AutoLinkedText>{"Virtual IOP · Ages 12–17"}</AutoLinkedText>
                 </p>
                 <h2
-                  className="text-4xl font-bold leading-[1.08] text-white lg:text-5xl"
+                  className="text-3xl font-bold leading-[1.08] text-white sm:text-4xl lg:text-5xl"
                   style={{ fontFamily: "var(--font-heebo)" }}
                 >
                   What Is A Virtual Intensive Outpatient Program?
@@ -264,7 +259,7 @@ export default function HomePage() {
             </div>
 
             {/* Cell 3 — three stat tiles */}
-            <div className="grid grid-cols-3 gap-3">
+            <div className="grid grid-cols-1 gap-2 sm:grid-cols-3 sm:gap-3">
               {[
                 { icon: "ri-user-heart-line", value: "12–17",     label: "Age Range" },
                 { icon: "ri-time-line",        value: "9–20h",     label: "Per Week" },
@@ -272,7 +267,7 @@ export default function HomePage() {
               ].map((s) => (
                 <div
                   key={s.label}
-                  className="flex flex-col justify-between rounded-3xl px-5 py-6"
+                  className="flex flex-row items-center justify-between rounded-3xl px-5 py-5 sm:flex-col sm:items-start sm:justify-between sm:py-6"
                   style={{
                     background: "rgba(255,255,255,0.10)",
                     backdropFilter: "blur(24px)",
@@ -282,8 +277,8 @@ export default function HomePage() {
                   }}
                 >
                   <i className={`${s.icon} text-xl text-white/50`}></i>
-                  <div className="mt-4">
-                    <p className="text-xl font-bold text-white" style={{ fontFamily: "var(--font-heebo)" }}><AutoLinkedText>{s.value}</AutoLinkedText></p>
+                  <div className="text-right sm:mt-4 sm:text-left">
+                    <p className="text-lg font-bold text-white sm:text-xl" style={{ fontFamily: "var(--font-heebo)" }}><AutoLinkedText>{s.value}</AutoLinkedText></p>
                     <p className="mt-0.5 text-[10px] uppercase tracking-wider text-white/45"><AutoLinkedText>{s.label}</AutoLinkedText></p>
                   </div>
                 </div>
@@ -392,9 +387,9 @@ export default function HomePage() {
         <div className={CONTAINER}>
 
           {/* Header */}
-          <div className="mb-12 text-center">
+          <div className="mb-8 text-center sm:mb-12">
             <p className="mb-3 text-[11px] font-bold uppercase tracking-[0.3em] text-accent">Our Difference</p>
-            <h2 className="text-4xl font-bold text-white md:text-5xl" style={{ fontFamily: "var(--font-heebo)" }}>
+            <h2 className={`${SECTION_HEADING} text-white`} style={{ fontFamily: "var(--font-heebo)" }}>
               Traditional vs. Virtual IOP
             </h2>
           </div>
@@ -407,10 +402,10 @@ export default function HomePage() {
           />
 
           {/* CTA */}
-          <div className="mt-10 text-center">
+          <div className="mt-8 text-center sm:mt-10">
             <a
               href={SITE.phone.href}
-              className="inline-flex items-center gap-2.5 rounded-full bg-white px-8 py-4 text-sm font-bold text-black transition hover:bg-white/90"
+              className="inline-flex w-full sm:w-auto items-center justify-center gap-2.5 rounded-full bg-white px-6 py-3.5 sm:px-8 sm:py-4 text-sm font-bold text-black transition hover:bg-white/90"
             >
               <i className="ri-phone-fill"></i>
               Get Started — Free Consultation
