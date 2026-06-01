@@ -3,9 +3,7 @@
 import { useState } from "react";
 import Image from "next/image";
 import LandingOptionalLink from "@/components/landing/LandingOptionalLink";
-
-const TRAIL_IMAGE =
-  "https://knvkrhwlflkulybcmgmq.supabase.co/storage/v1/object/public/site-assets/images/sr_process_trail.jpg";
+import { PROCESS_TRAIL_URL } from "@/lib/siteAssets";
 
 const STEPS = [
   {
@@ -143,9 +141,11 @@ export default function HomeHowItWorks() {
           <div className="hidden lg:col-span-4 lg:block">
             <div className="relative h-full min-h-[420px] overflow-hidden">
               <Image
-                src={TRAIL_IMAGE}
+                src={PROCESS_TRAIL_URL}
                 alt="Person walking a California forest trail at golden hour"
                 fill
+                loading="lazy"
+                sizes="(max-width: 1024px) 0px, 320px"
                 className="object-cover object-center"
               />
               {/* Dark bottom fade with CTA */}

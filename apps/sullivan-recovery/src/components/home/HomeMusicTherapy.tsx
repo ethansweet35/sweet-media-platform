@@ -1,4 +1,8 @@
-const BRAND_VIDEO = "https://knvkrhwlflkulybcmgmq.supabase.co/storage/v1/object/public/site-assets/videos/sr_brand_video.mp4";
+import LazyWhenVisible from "@/components/ui/LazyWhenVisible";
+import { BRAND_VIDEO_URL } from "@/lib/siteAssets";
+
+const SOUNDCLOUD_SRC =
+  "https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/soundcloud%253Atracks%253A1852206972&color=%235C7A4E&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=false&visual=false";
 
 export default function HomeMusicTherapy() {
   return (
@@ -25,19 +29,25 @@ export default function HomeMusicTherapy() {
         {/* Main grid: image left, content right */}
         <div className="grid grid-cols-1 items-start gap-16 lg:grid-cols-2">
 
-          {/* Left: guitar video */}
-          <div className="relative w-full overflow-hidden bg-[var(--sr-charcoal)]" style={{ height: 540 }}>
-            <video
-              autoPlay
-              loop
-              muted
-              playsInline
-              preload="none"
-              className="h-full w-full object-cover object-center"
-            >
-              <source src={BRAND_VIDEO} type="video/mp4" />
-            </video>
-          </div>
+          {/* Left: guitar video — src only when scrolled near */}
+          <LazyWhenVisible className="relative h-[540px] w-full overflow-hidden bg-[var(--sr-charcoal)]">
+            {(visible) =>
+              visible ? (
+                <video
+                  autoPlay
+                  loop
+                  muted
+                  playsInline
+                  preload="none"
+                  className="h-full w-full object-cover object-center"
+                >
+                  <source src={BRAND_VIDEO_URL} type="video/mp4" />
+                </video>
+              ) : (
+                <div className="h-full w-full bg-[var(--sr-charcoal)]" aria-hidden />
+              )
+            }
+          </LazyWhenVisible>
 
           {/* Right: content */}
           <div className="flex flex-col justify-center lg:pt-4">
@@ -70,7 +80,7 @@ export default function HomeMusicTherapy() {
               to explore vulnerability and discover strength through music.
             </p>
 
-            {/* SoundCloud embed */}
+            {/* SoundCloud — iframe src only when scrolled near */}
             <div className="mb-3">
               <p
                 className="mb-3 text-[11px] font-medium uppercase tracking-[0.18em] text-[var(--sr-muted)]"
@@ -78,16 +88,23 @@ export default function HomeMusicTherapy() {
               >
                 Patient recording — &ldquo;Crawling&rdquo; cover by Linkin Park
               </p>
-              <iframe
-                width="100%"
-                height="120"
-                scrolling="no"
-                loading="lazy"
-                allow="autoplay; encrypted-media"
-                src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/soundcloud%253Atracks%253A1852206972&color=%235C7A4E&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=false&visual=false"
-                style={{ border: "none" }}
-                title="Patient Music Therapy Recording — Crawling Cover"
-              />
+              <LazyWhenVisible>
+                {(visible) =>
+                  visible ? (
+                    <iframe
+                      width="100%"
+                      height="120"
+                      scrolling="no"
+                      allow="autoplay; encrypted-media"
+                      src={SOUNDCLOUD_SRC}
+                      style={{ border: "none" }}
+                      title="Patient Music Therapy Recording — Crawling Cover"
+                    />
+                  ) : (
+                    <div className="h-[120px] w-full bg-[var(--sr-sand)]/40" aria-hidden />
+                  )
+                }
+              </LazyWhenVisible>
             </div>
             <p
               className="text-[12px] italic leading-relaxed text-[var(--sr-muted)]"

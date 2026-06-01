@@ -5,8 +5,7 @@ import Image from "next/image";
 import CallRailPhoneLink from "@/components/ui/CallRailPhoneLink";
 import { CALLRAIL_PHONE_DISPLAY_PARENS } from "@/lib/callrailPhone";
 
-const BG =
-  "https://knvkrhwlflkulybcmgmq.supabase.co/storage/v1/object/public/site-assets/images/sr_contact_bg01.jpg";
+import { CONTACT_BG_URL } from "@/lib/siteAssets";
 
 const EMAIL = "admissions@sullivanrecovery.com";
 const ADDRESS = "24731 Via San Fernando, Mission Viejo, CA 92692";
@@ -64,7 +63,7 @@ export default function HomeFooterContact() {
     <section className="relative overflow-hidden">
       <div className="absolute inset-0">
         <Image
-          src={BG}
+          src={CONTACT_BG_URL}
           alt=""
           fill
           className="object-cover object-center"

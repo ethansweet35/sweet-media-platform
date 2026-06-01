@@ -24,6 +24,7 @@ const cormorant = Cormorant_Garamond({
   weight: ["300", "400", "500", "600"],
   style: ["normal", "italic"],
   display: "swap",
+  preload: false,
 });
 
 const dmSans = DM_Sans({
@@ -31,6 +32,7 @@ const dmSans = DM_Sans({
   subsets: ["latin"],
   weight: ["300", "400", "500"],
   display: "swap",
+  preload: false,
 });
 
 export const metadata: Metadata = {
@@ -54,7 +56,6 @@ export default function RootLayout({
         <link rel="preconnect" href={SR_SUPABASE_ORIGIN} crossOrigin="anonymous" />
         <link rel="preconnect" href="https://cdn.callrail.com" crossOrigin="anonymous" />
         <link rel="preconnect" href="https://cdn.jsdelivr.net" crossOrigin="anonymous" />
-        <link rel="preload" as="style" href={REMIXICON_CSS} crossOrigin="anonymous" />
         <Script id="load-remixicon-styles" strategy="afterInteractive">{`
           (function() {
             var cssHref = "${REMIXICON_CSS}";
