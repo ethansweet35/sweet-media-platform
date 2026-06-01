@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { blogAuthorInitials, blogAuthorName } from "@/components/pages/blog/blogTokens";
 import { decodeEntities } from "@/lib/decodeEntities";
 import { useBlogPosts, useSearchBlogPosts, useBlogCategories } from "@sweetmedia/blog-core";
 
@@ -165,7 +166,7 @@ export default function BlogGrid({ searchQuery }: BlogGridProps) {
                           className="text-white text-[8px] font-bold"
                           style={{ fontFamily: "'Montserrat', sans-serif" }}
                         >
-                          {post.author ? post.author.split(" ").map((n) => n[0]).join("").slice(0, 2) : "CB"}
+                          {blogAuthorInitials(post.author)}
                         </span>
                       </div>
                       <div>
@@ -173,7 +174,7 @@ export default function BlogGrid({ searchQuery }: BlogGridProps) {
                           className="text-[11px] text-[#101E3F]/60 block"
                           style={{ fontFamily: "'Montserrat', sans-serif" }}
                         >
-                          {post.author || "Cipher Billing"}
+                          {blogAuthorName(post.author)}
                         </span>
                         <span
                           className="text-[10px] text-[#101E3F]/35"

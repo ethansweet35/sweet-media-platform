@@ -26,13 +26,59 @@ function resolveOpenRouterModel(bodyModel: unknown): string {
 
 const DEFAULT_AUTHOR_PHOTO = "";
 
-function resolveAuthor() {
+type ResolvedAuthor = {
+  name: string;
+  role: string;
+  bio: string;
+  photo: string;
+};
+
+const SWEET_MEDIA_AUTHOR_FALLBACK: ResolvedAuthor = {
+  name: "Ethan Sweet",
+  role: "Founder",
+  bio: "Founder of Sweet Media — boutique digital marketing for behavioral health treatment centers.",
+  photo: DEFAULT_AUTHOR_PHOTO,
+};
+
+function resolveAuthorFromEnv(): ResolvedAuthor | null {
+  const name = Deno.env.get("BLOG_AUTHOR_NAME")?.trim();
+  if (!name) return null;
   return {
-    name: Deno.env.get("BLOG_AUTHOR_NAME") || "Ethan Sweet",
-    role: Deno.env.get("BLOG_AUTHOR_ROLE") || "Founder",
-    bio: Deno.env.get("BLOG_AUTHOR_BIO") || "Founder of Sweet Media — boutique digital marketing for behavioral health treatment centers.",
-    photo: Deno.env.get("BLOG_AUTHOR_PHOTO") || DEFAULT_AUTHOR_PHOTO,
+    name,
+    role: Deno.env.get("BLOG_AUTHOR_ROLE")?.trim() || "Editorial Team",
+    bio: Deno.env.get("BLOG_AUTHOR_BIO")?.trim() || "",
+    photo: Deno.env.get("BLOG_AUTHOR_PHOTO")?.trim() || DEFAULT_AUTHOR_PHOTO,
   };
+}
+
+async function resolveAuthor(
+  adminClient: ReturnType<typeof createClient>
+): Promise<ResolvedAuthor> {
+  const fromEnv = resolveAuthorFromEnv();
+  if (fromEnv) return fromEnv;
+
+  const { data: brand, error } = await adminClient
+    .from("brand_settings")
+    .select("author_name, author_title, author_bio")
+    .order("updated_at", { ascending: false })
+    .limit(1)
+    .maybeSingle();
+
+  if (error) {
+    console.warn("[generate-blog-post] brand_settings lookup failed:", error.message);
+  }
+
+  const name = brand?.author_name?.trim();
+  if (name) {
+    return {
+      name,
+      role: brand.author_title?.trim() || "Editorial Team",
+      bio: brand.author_bio?.trim() || "",
+      photo: DEFAULT_AUTHOR_PHOTO,
+    };
+  }
+
+  return SWEET_MEDIA_AUTHOR_FALLBACK;
 }
 
 function jsonHeaders() {
@@ -494,6 +540,7 @@ Deno.serve(async (req) => {
 
     const postId = crypto.randomUUID();
     const isQueuedDraft = Boolean(scheduledPublishAt && scheduledPublishAt.length > 0);
+    const author = await resolveAuthor(adminClient);
 
     const row: Record<string, unknown> = {
       id: postId,
@@ -507,10 +554,10 @@ Deno.serve(async (req) => {
       tags,
       hero_image_url: imageUrl ?? "",
       status: "draft",
-      author: resolveAuthor().name,
-      author_title: resolveAuthor().role,
-      author_bio: resolveAuthor().bio,
-      author_photo: resolveAuthor().photo,
+      author: author.name,
+      author_title: author.role,
+      author_bio: author.bio,
+      author_photo: author.photo,
       read_time: readTime,
       featured: false,
     };

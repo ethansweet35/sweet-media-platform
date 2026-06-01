@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useBlogPosts } from "@sweetmedia/blog-core";
+import { blogAuthorInitials, blogAuthorName, blogAuthorRole } from "@/components/pages/blog/blogTokens";
 import { decodeEntities } from "@/lib/decodeEntities";
 
 export default function BlogFeatured() {
@@ -112,7 +113,7 @@ export default function BlogFeatured() {
                     className="text-white text-[10px] font-bold"
                     style={{ fontFamily: "'Montserrat', sans-serif" }}
                   >
-                    {post.author ? post.author.split(" ").map((n) => n[0]).join("").slice(0, 2) : "CB"}
+                    {blogAuthorInitials(post.author)}
                   </span>
                 </div>
                 <div>
@@ -120,13 +121,13 @@ export default function BlogFeatured() {
                     className="text-[12px] text-white/80 font-medium"
                     style={{ fontFamily: "'Montserrat', sans-serif" }}
                   >
-                    {post.author || "Cipher Billing"}
+                    {blogAuthorName(post.author)}
                   </p>
                   <p
                     className="text-[10px] text-white/35"
                     style={{ fontFamily: "'Montserrat', sans-serif" }}
                   >
-                    {post.authorRole || "Billing Team"}
+                    {blogAuthorRole(post.author, post.authorRole)}
                   </p>
                 </div>
               </div>

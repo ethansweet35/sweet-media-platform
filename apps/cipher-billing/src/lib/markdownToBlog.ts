@@ -1,4 +1,9 @@
 import type { BlogSection } from "@sweetmedia/blog-core";
+import {
+  DEFAULT_BLOG_AUTHOR,
+  DEFAULT_BLOG_AUTHOR_BIO,
+  DEFAULT_BLOG_AUTHOR_ROLE,
+} from "@/components/pages/blog/blogTokens";
 
 interface ParsedBlogPost {
   title: string;
@@ -267,9 +272,9 @@ export function parseMarkdownPost(md: string): ParsedBlogPost {
     slug,
     excerpt,
     category: frontmatter.category || "Mental Health",
-    author: frontmatter.author || "Cipher Billing",
-    authorRole: frontmatter.authorRole || "Behavioral Health Billing Team",
-    authorBio: frontmatter.authorBio || "Expert billing and revenue cycle management for behavioral health organizations.",
+    author: frontmatter.author || DEFAULT_BLOG_AUTHOR,
+    authorRole: frontmatter.authorRole || DEFAULT_BLOG_AUTHOR_ROLE,
+    authorBio: frontmatter.authorBio || DEFAULT_BLOG_AUTHOR_BIO,
     authorPhoto: frontmatter.authorPhoto || "",
     readTime: frontmatter.readTime || `${readTimeMinutes} min read`,
     image: normalizeImageUrl(frontmatter.image || frontmatter.featuredImage || frontmatter.featured_image || ""),

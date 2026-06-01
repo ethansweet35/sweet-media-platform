@@ -3,6 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import type { BlogPost } from "@sweetmedia/blog-core";
+import { blogAuthorName, blogAuthorRole } from "@/components/pages/blog/blogTokens";
 import { decodeEntities } from "@/lib/decodeEntities";
 
 interface PostHeroProps {
@@ -77,13 +78,13 @@ export default function PostHero({ post }: PostHeroProps) {
                     className="text-[12px] text-white/80 font-medium leading-tight"
                     style={{ fontFamily: "'Montserrat', sans-serif" }}
                   >
-                    {post.author || "Cipher Admin"}
+                    {blogAuthorName(post.author)}
                   </p>
                   <p
                     className="text-[10px] text-white/35"
                     style={{ fontFamily: "'Montserrat', sans-serif" }}
                   >
-                    {post.authorRole || "Cipher Billing Team"}
+                    {blogAuthorRole(post.author, post.authorRole)}
                   </p>
                 </div>
               </div>

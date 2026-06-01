@@ -1,4 +1,5 @@
 import type { BlogPost } from "@sweetmedia/blog-core";
+import { blogAuthorName, blogAuthorRole } from "@/components/pages/blog/blogTokens";
 
 interface PostAuthorProps {
   post: BlogPost;
@@ -25,13 +26,13 @@ export default function PostAuthor({ post }: PostAuthorProps) {
             className="text-[#101E3F] font-semibold"
             style={{ fontFamily: "'Marcellus', serif", fontSize: "17px" }}
           >
-            {post.author || "Cipher Admin"}
+            {blogAuthorName(post.author)}
           </h3>
           <p
             className="mt-1 text-[12px] text-[#101E3F]/50"
             style={{ fontFamily: "'Montserrat', sans-serif" }}
           >
-            {post.authorRole || "Cipher Billing Team"}
+            {blogAuthorRole(post.author, post.authorRole)}
           </p>
         </div>
       </div>
