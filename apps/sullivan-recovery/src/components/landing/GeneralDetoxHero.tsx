@@ -1,11 +1,12 @@
 "use client";
 
+import DeferredHeroVideo from "@/components/home/DeferredHeroVideo";
 import LandingHeroForm from "@/components/landing/LandingHeroForm";
 import CallNowLink from "@/components/ui/CallNowLink";
 import {
+  HERO_POSTER_URL,
   HERO_VIDEO_DESKTOP,
   HERO_VIDEO_MOBILE,
-  heroVideoProps,
 } from "@/lib/heroVideo";
 
 const HERO_HIGHLIGHTS = [
@@ -21,13 +22,20 @@ export default function GeneralDetoxHero() {
       id="top"
       className="relative flex min-h-screen items-center overflow-hidden py-28 md:py-32"
     >
-      <div className="absolute inset-0 z-0">
-        <video {...heroVideoProps} className={`${heroVideoProps.className} hidden md:block`}>
-          <source src={HERO_VIDEO_DESKTOP} type="video/mp4" />
-        </video>
-        <video {...heroVideoProps} className={`${heroVideoProps.className} md:hidden`}>
-          <source src={HERO_VIDEO_MOBILE} type="video/mp4" />
-        </video>
+      <div className="absolute inset-0 z-0 bg-[#1E1F1B]">
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src={HERO_POSTER_URL}
+          alt=""
+          fetchPriority="high"
+          decoding="async"
+          className="h-full w-full object-cover object-right md:object-center"
+          aria-hidden
+        />
+        <DeferredHeroVideo
+          mobileSrc={HERO_VIDEO_MOBILE}
+          desktopSrc={HERO_VIDEO_DESKTOP}
+        />
       </div>
 
       <div

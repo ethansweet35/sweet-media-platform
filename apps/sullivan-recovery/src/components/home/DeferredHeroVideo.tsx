@@ -8,9 +8,19 @@ type DeferredHeroVideoProps = {
   className?: string;
 };
 
+function scheduleIdle(callback: () => void, timeoutMs: number): () => void {
+  if (typeof window.requestIdleCallback === "function") {
+    const id = window.requestIdleCallback(callback, { timeout: timeoutMs });
+    return () => window.cancelIdleCallback(id);
+  }
+
+  const id = window.setTimeout(callback, Math.min(timeoutMs, 5000));
+  return () => window.clearTimeout(id);
+}
+
 /**
- * Loads hero background video only after window load + idle so the poster
- * image can finish LCP without competing for bandwidth with the MP4.
+ * Loads hero background video only after LCP + idle so the poster image
+ * finishes painting without competing for bandwidth with the MP4.
  */
 export default function DeferredHeroVideo({
   mobileSrc,
@@ -22,35 +32,61 @@ export default function DeferredHeroVideo({
 
   useEffect(() => {
     let cancelled = false;
-    let idleId: number | undefined;
-    let timerId: ReturnType<typeof setTimeout> | undefined;
+    let cancelIdle: (() => void) | undefined;
+    let fallbackTimer: ReturnType<typeof setTimeout> | undefined;
+    let lcpObserver: PerformanceObserver | undefined;
+    let scheduled = false;
 
     const start = () => {
       if (cancelled) return;
       setLoad(true);
     };
 
-    const schedule = () => {
-      if (typeof window.requestIdleCallback === "function") {
-        idleId = window.requestIdleCallback(start, { timeout: 6000 });
-      } else {
-        timerId = setTimeout(start, 5000);
+    const scheduleVideo = () => {
+      if (scheduled || cancelled) return;
+      scheduled = true;
+      lcpObserver?.disconnect();
+      if (fallbackTimer !== undefined) clearTimeout(fallbackTimer);
+      cancelIdle = scheduleIdle(start, 8000);
+    };
+
+    const afterLcp = () => {
+      if (cancelled) return;
+
+      if (typeof PerformanceObserver === "function") {
+        try {
+          lcpObserver = new PerformanceObserver((list) => {
+            if (list.getEntries().length > 0) scheduleVideo();
+          });
+          lcpObserver.observe({ type: "largest-contentful-paint", buffered: true });
+
+          fallbackTimer = setTimeout(scheduleVideo, 10000);
+          return;
+        } catch {
+          // Fall through to idle scheduling below.
+        }
       }
+
+      scheduleVideo();
+    };
+
+    const onLoad = () => {
+      if (cancelled) return;
+      afterLcp();
     };
 
     if (document.readyState === "complete") {
-      schedule();
+      onLoad();
     } else {
-      window.addEventListener("load", schedule, { once: true });
+      window.addEventListener("load", onLoad, { once: true });
     }
 
     return () => {
       cancelled = true;
-      if (idleId !== undefined && typeof window.cancelIdleCallback === "function") {
-        window.cancelIdleCallback(idleId);
-      }
-      if (timerId !== undefined) clearTimeout(timerId);
-      window.removeEventListener("load", schedule);
+      cancelIdle?.();
+      if (fallbackTimer !== undefined) clearTimeout(fallbackTimer);
+      lcpObserver?.disconnect();
+      window.removeEventListener("load", onLoad);
     };
   }, []);
 

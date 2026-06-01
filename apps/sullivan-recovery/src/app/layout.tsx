@@ -6,9 +6,8 @@ import Layout from "@/components/feature/Layout";
 import { DeferredAnalyticsWrapper } from "@sweetmedia/admin-core";
 import { SR_SUPABASE_ORIGIN } from "@/lib/heroVideo";
 
-/** Platform standard: Remix Icon via CDN */
-const REMIXICON_CSS =
-  "https://cdn.jsdelivr.net/npm/remixicon@4.6.0/fonts/remixicon.css";
+/** Platform standard: self-hosted Remix Icon subset (built pre-build). */
+const REMIXICON_CSS = "/styles/remixicon-subset.css";
 
 /**
  * CallRail dynamic number swap (matches live sullivanrecovery.com head snippet).
@@ -62,7 +61,6 @@ export default function RootLayout({
               var link = document.createElement("link");
               link.rel = "stylesheet";
               link.href = cssHref;
-              link.crossOrigin = "anonymous";
               document.head.appendChild(link);
             };
             var schedule = function () {
@@ -77,7 +75,7 @@ export default function RootLayout({
           })();
         `}</Script>
         <noscript>
-          <link rel="stylesheet" href={REMIXICON_CSS} crossOrigin="anonymous" />
+          <link rel="stylesheet" href={REMIXICON_CSS} />
         </noscript>
         <Script
           id="callrail-swap"

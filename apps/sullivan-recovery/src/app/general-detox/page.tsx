@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { OptimizationStatusBanner, resolveTrackedPageMetadata } from "@sweetmedia/admin-core";
+import { HERO_POSTER_URL } from "@/lib/heroVideo";
 import GeneralDetoxLandingPage from "@/views/general-detox/page";
 
 const fallbackMetadata: Metadata = {
@@ -16,6 +17,7 @@ export async function generateMetadata(): Promise<Metadata> {
 export default function Page() {
   return (
     <>
+      <link rel="preload" as="image" href={HERO_POSTER_URL} fetchPriority="high" />
       <OptimizationStatusBanner
         trackedPagePath="/general-detox/"
         brandName="Sullivan Recovery"
