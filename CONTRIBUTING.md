@@ -177,10 +177,10 @@ cd apps/sweet-media
 If this is your first time using this app, link it to its Vercel project (one-time only per app):
 
 ```bash
-vercel link
+vercel link --project sweet-media-platform --yes
 ```
 
-When prompted, select the **sweetmedia** team and choose the project that matches the app name.
+The Vercel project is **`sweet-media-platform`**, not `sweet-media` — using the folder name creates a duplicate project.
 
 Then pull the environment variables:
 
@@ -250,10 +250,17 @@ cd apps/cipher-billing
 Link it to its Vercel project (one-time only):
 
 ```bash
-vercel link
+vercel link --project <vercel-project-name> --yes
 ```
 
-Select the **sweetmedia** team and the matching project name. Then pull the env vars:
+Use the slug for most brands (e.g. `cipher-billing`). Two exceptions — the Vercel project name differs from the folder:
+
+| App folder | Vercel project name |
+|---|---|
+| `apps/sweet-media` | `sweet-media-platform` |
+| `apps/inner-peak-colorado` | `inner-peak-colorado-platform` |
+
+Or run `node scripts/dev-setup.mjs` from the repo root to link and pull every brand automatically. Then pull the env vars:
 
 ```bash
 vercel env pull .env.local
@@ -414,7 +421,7 @@ All of these are run from the **repo root** (`sweet-media-platform/`) unless the
 | `pnpm build` | repo root | Build all apps |
 | `pnpm lint` | repo root | Check code for errors |
 | `pnpm typecheck` | repo root | Check TypeScript types |
-| `vercel link` | inside `apps/<name>/` | Connect the folder to its Vercel project (one-time) |
+| `vercel link --project <name> --yes` | inside `apps/<name>/` | Connect the folder to its Vercel project (one-time). Use `sweet-media-platform` / `inner-peak-colorado-platform` for those two brands. |
 | `vercel env pull .env.local` | inside `apps/<name>/` | Download all environment variables from Vercel |
 | `pnpm new-client` | repo root | Provision a brand-new client from scratch |
 | `pnpm scaffold-client` | repo root | Scaffold a new app from the client template |

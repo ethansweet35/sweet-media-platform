@@ -5,10 +5,9 @@
  * All Sweet Media brands use ONE agency Google account (ethan@sweetmediaservices.com)
  * that has access to every brand's Search Console property. Rather than running the
  * OAuth connect flow 14× (and registering 14 callback URLs), we connect once and
- * propagate the same refresh token into every brand's `system_settings`. Both GSC
- * code paths — the centralized `resolveGscAccessToken` and the per-app
- * `/api/admin/search-console` route — read `google_search_console_refresh_token`
- * from `system_settings`, so this makes Search Console light up on every brand.
+ * propagate the same refresh token into every brand's `system_settings`. All GSC
+ * API routes use `resolveGscAccessToken`, which reads system_settings first, then
+ * falls back to GOOGLE_SEARCH_CONSOLE_REFRESH_TOKEN in the deployment environment.
  *
  * The token is read directly from the source brand's Supabase (via its own service
  * role key) and written to each target the same way — it never needs to be pasted
@@ -19,6 +18,7 @@
  *   node scripts/sync-gsc-token.mjs --source northbound-treatment
  *   node scripts/sync-gsc-token.mjs --verify-only   # just list accessible properties
  *   node scripts/sync-gsc-token.mjs --dry-run
+ *   node scripts/sync-gsc-token.mjs --push-vercel   # also upsert shared secrets on Vercel
  *
  * Resolution order for the canonical token:
  *   1. GOOGLE_SEARCH_CONSOLE_REFRESH_TOKEN in repo-root .env (single source of truth)
@@ -28,12 +28,35 @@
 import { existsSync, readFileSync, readdirSync, appendFileSync } from "node:fs";
 import { join, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
+import { execSync } from "node:child_process";
 
 const REPO_ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
 const APPS_DIR = join(REPO_ROOT, "apps");
 
 const REFRESH_KEY = "google_search_console_refresh_token";
 const EMAIL_KEY = "google_search_console_connected_email";
+
+/** Keep in sync with scripts/publish-client-to-vercel.mjs */
+const VERCEL_PROJECT_NAMES = {
+  "sweet-media": "sweet-media-platform",
+  "inner-peak-colorado": "inner-peak-colorado-platform",
+};
+
+const VERCEL_BRANDS = [
+  { slug: "sweet-media", name: "Sweet Media" },
+  { slug: "northbound-treatment", name: "Northbound Treatment" },
+  { slug: "inner-peak-colorado", name: "Inner Peak Colorado" },
+  { slug: "addiction-interventions", name: "Addiction Interventions" },
+  { slug: "cipher-billing", name: "Cipher Billing" },
+  { slug: "rize-oc", name: "Rize OC" },
+  { slug: "simple-health", name: "Simple Health" },
+  { slug: "adolescent-mental-health", name: "Adolescent Mental Health" },
+  { slug: "mountainview-treatment", name: "Mountainview Treatment" },
+  { slug: "missouri-behavioral-health", name: "Missouri Behavioral Health" },
+  { slug: "an-invite-to-life", name: "An Invite to Life" },
+  { slug: "the-family-recovery-foundation", name: "The Family Recovery Foundation" },
+  { slug: "sullivan-recovery", name: "Sullivan Recovery" },
+];
 
 function loadEnvFile(filePath) {
   if (!existsSync(filePath)) return {};
@@ -128,11 +151,33 @@ async function verifyAccess(rootEnv, refreshToken) {
   return siteEntry.map((s) => s.siteUrl).sort();
 }
 
+function pushSharedEnvToVercel(dryRun) {
+  for (const brand of VERCEL_BRANDS) {
+    const project = VERCEL_PROJECT_NAMES[brand.slug];
+    const projectFlag = project ? ` --project ${project}` : "";
+    const cmd =
+      `node scripts/publish-client-to-vercel.mjs --slug ${brand.slug} --name "${brand.name}"${projectFlag} --update-env --skip-deploy`;
+    if (dryRun) {
+      log(`[dry-run] would push env to Vercel: ${brand.slug}`);
+      continue;
+    }
+    process.stdout.write(`Vercel ${brand.slug} … `);
+    try {
+      execSync(cmd, { cwd: REPO_ROOT, stdio: ["pipe", "pipe", "pipe"] });
+      console.log("OK");
+    } catch (e) {
+      console.log("FAILED");
+      warn(String(e.stderr || e.message).slice(0, 300));
+    }
+  }
+}
+
 async function main() {
   const rootEnv = loadEnvFile(join(REPO_ROOT, ".env"));
   const sourceSlug = arg("--source") || "sweet-media";
   const dryRun = hasFlag("--dry-run");
   const verifyOnly = hasFlag("--verify-only");
+  const pushVercel = hasFlag("--push-vercel");
 
   const brands = discoverBrands();
   ok(`Discovered ${brands.length} brand(s) with Supabase credentials.`);
@@ -193,6 +238,11 @@ async function main() {
   }
 
   if (!dryRun) ok(`Done — Search Console token shared across ${synced}/${brands.length} brand(s).`);
+
+  if (pushVercel && !verifyOnly) {
+    ok("Pushing shared platform secrets (incl. GSC token) to Vercel projects…");
+    pushSharedEnvToVercel(dryRun);
+  }
 }
 
 main().catch((e) => {

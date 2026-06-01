@@ -318,6 +318,17 @@ async function main() {
       log('Project exists — pass --update-env to re-push env vars, --redeploy to trigger deploy.');
     }
   } else {
+    if (hasFlag('--update-env') || hasFlag('--redeploy')) {
+      const mapped = VERCEL_PROJECT_NAMES[slug];
+      const hint = mapped
+        ? ` For slug "${slug}", the live project is "${mapped}" — omit --project or pass --project ${mapped}.`
+        : '';
+      die(
+        `Vercel project "${projectName}" not found.${hint} ` +
+        'Refusing to create a project when --update-env or --redeploy is set.',
+      );
+    }
+
     // ── Create new project ─────────────────────────────────────────────────
     step(`Creating Vercel project "${name}" (${projectName})`);
 
