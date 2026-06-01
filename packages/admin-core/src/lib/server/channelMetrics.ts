@@ -197,11 +197,17 @@ export async function ingestChannelMetrics(lookbackDays = 35): Promise<IngestRes
     }
   }
 
+  // CallRail forms via direct API. The per-brand ctrk_ tracking id doubles as
+  // the API key, so no separate secret is required — fall back to it when
+  // CALLRAIL_API_KEY env is not set.
+  const callrailApiKey =
+    process.env.CALLRAIL_API_KEY?.trim() || callTracking.callrail_tracking_id?.trim();
   const callrailAccountId =
     callTracking.callrail_account_id?.trim() || process.env.CALLRAIL_ACCOUNT_ID?.trim();
-  if (process.env.CALLRAIL_API_KEY?.trim() && callrailAccountId) {
+  if (callrailApiKey && callrailAccountId) {
     try {
       const formRows = await fetchCallrailFormMetrics(callrailAccountId, startDate, today, {
+        apiKey: callrailApiKey,
         companyId: callTracking.callrail_company_id,
       });
       result.written += await upsertChannelMetrics(admin, formRows);

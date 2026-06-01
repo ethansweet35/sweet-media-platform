@@ -50,14 +50,24 @@ if (!slug) {
 const appEnv = parseEnv(join(REPO_ROOT, "apps", slug, ".env.local"));
 const rootEnv = parseEnv(join(REPO_ROOT, ".env"));
 
+const PASSTHROUGH = [
+  "WINDSOR_API_KEY",
+  "GOOGLE_PSI_API_KEY",
+  "GOOGLE_NLP_API_KEY",
+  "GOOGLE_API_KEY",
+  "CALLRAIL_API_KEY",
+  "CALLRAIL_ACCOUNT_ID",
+  "CTM_ACCESS_KEY",
+  "CTM_SECRET_KEY",
+  "CTM_ACCOUNT_ID",
+];
+
 process.env.NEXT_PUBLIC_SUPABASE_URL = appEnv.NEXT_PUBLIC_SUPABASE_URL;
 process.env.SUPABASE_SERVICE_ROLE_KEY = appEnv.SUPABASE_SERVICE_ROLE_KEY;
-process.env.WINDSOR_API_KEY = rootEnv.WINDSOR_API_KEY ?? appEnv.WINDSOR_API_KEY;
-process.env.CALLRAIL_API_KEY = rootEnv.CALLRAIL_API_KEY ?? appEnv.CALLRAIL_API_KEY;
-process.env.CALLRAIL_ACCOUNT_ID = rootEnv.CALLRAIL_ACCOUNT_ID ?? appEnv.CALLRAIL_ACCOUNT_ID;
-process.env.CTM_ACCESS_KEY = rootEnv.CTM_ACCESS_KEY ?? appEnv.CTM_ACCESS_KEY;
-process.env.CTM_SECRET_KEY = rootEnv.CTM_SECRET_KEY ?? appEnv.CTM_SECRET_KEY;
-process.env.CTM_ACCOUNT_ID = rootEnv.CTM_ACCOUNT_ID ?? appEnv.CTM_ACCOUNT_ID;
+for (const k of PASSTHROUGH) {
+  const v = rootEnv[k] ?? appEnv[k];
+  if (v) process.env[k] = v;
+}
 
 const { ingestChannelMetrics } = await import(
   join(REPO_ROOT, "packages/admin-core/src/lib/server/channelMetrics.ts")

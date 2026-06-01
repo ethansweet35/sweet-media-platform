@@ -20,39 +20,53 @@ import { fileURLToPath } from "url";
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const REPO_ROOT = join(__dirname, "..");
 
-/** @type {Record<string, { phone: string, ctrk: string, companyId?: string }>} */
+/**
+ * Per-brand CallRail config.
+ * - phone:   Windsor `account_name` for calls/tags (= CallRail account numeric_id)
+ * - ctrk:    CallRail API key (also the swap.js tracking id); used for the forms API
+ * - accId:   CallRail v3 account id (ACC…) for the forms endpoint
+ * - companyId: numeric swap.js company id (reference only; not a form filter)
+ * @type {Record<string, { phone: string, ctrk: string, accId: string, companyId?: string }>}
+ */
 export const CALLRAIL_BRAND_CONFIG = {
   "addiction-interventions": {
     phone: "548-983-303",
     ctrk: "ctrk_6640eee2678971ece57f351cc65cf6f67acb264f",
+    accId: "ACC0199542459527b7b92678f400ef5c2b7",
     companyId: "798922664",
   },
   "adolescent-mental-health": {
     phone: "195-912-153",
     ctrk: "ctrk_617a7fc3a9b0b6e6ee10ce8e35251b0dce82f299",
+    accId: "ACCea3227c5084a4574accf69abe18ca2f0",
   },
   "cipher-billing": {
     phone: "554-633-833",
     ctrk: "ctrk_255e100938f6bfe0a7adca03ef6c54f5cc19539b",
+    accId: "ACC019e035d2f9f7f83a4785b40c33169f5",
     companyId: "748580956",
   },
   "inner-peak-colorado": {
     phone: "473-429-729",
     ctrk: "ctrk_8e62a7178a5ef88c4eadf93e5242a0ba4e0adfbd",
+    accId: "ACC019dace6a3ec7c39a9cba53c8ab650b6",
   },
   "missouri-behavioral-health": {
     phone: "601-907-337",
     ctrk: "ctrk_a291898d4e08f9af7fd1cad7f72eb413f092faa7",
+    accId: "ACCbd9569bd28ac4a93b67d10e3518aacc7",
     companyId: "638776964",
   },
   "rize-oc": {
     phone: "171-561-452",
     ctrk: "ctrk_f21381f6fb8b1ca56de71671e1d5a32575a58e3d",
+    accId: "ACC1c7747ab2ee34683a9fe88537f39f101",
     companyId: "528779673",
   },
   "sullivan-recovery": {
     phone: "275-664-175",
     ctrk: "ctrk_5439e1726f38d556b25e1c04437fe6fdb62574d7",
+    accId: "ACCfb331a6da6fe4816999c0cbb26ed3383",
     companyId: "669252576",
   },
 };
@@ -130,6 +144,7 @@ async function seedSlug(slug, { dryRun }) {
   const trackingPatch = {
     windsor_callrail_account: cfg.phone,
     callrail_tracking_id: cfg.ctrk,
+    callrail_account_id: cfg.accId,
   };
   if (cfg.companyId) trackingPatch.callrail_company_id = cfg.companyId;
   const trackingNext = mergeJson(trackingExisting, trackingPatch);

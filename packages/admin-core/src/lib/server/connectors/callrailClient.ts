@@ -18,8 +18,8 @@ interface FormSubmissionRow {
   submitted_at?: string;
 }
 
-function authHeader(): string | null {
-  const key = (process.env.CALLRAIL_API_KEY ?? "").trim();
+function authHeader(explicitKey?: string): string | null {
+  const key = (explicitKey ?? process.env.CALLRAIL_API_KEY ?? "").trim();
   if (!key) return null;
   return `Token token=${key}`;
 }
@@ -30,7 +30,9 @@ function dateFromIso(iso: string): string | null {
 }
 
 export interface CallrailFormMetricsOptions {
-  /** Numeric company id — filters submissions when using one agency ACC account */
+  /** CallRail API key (ctrk_…) — overrides CALLRAIL_API_KEY env when provided */
+  apiKey?: string;
+  /** CallRail company id (COM…) — filters submissions when an account has many companies */
   companyId?: string;
 }
 
@@ -41,7 +43,7 @@ export async function fetchCallrailFormMetrics(
   endDate: string,
   options?: CallrailFormMetricsOptions,
 ): Promise<ChannelMetricRow[]> {
-  const auth = authHeader();
+  const auth = authHeader(options?.apiKey);
   if (!auth || !accountId.trim()) return [];
 
   const counts = new Map<string, number>();
@@ -56,8 +58,9 @@ export async function fetchCallrailFormMetrics(
       page: String(page),
       fields: "id,submitted_at",
     });
+    // Only CallRail COM… ids are valid form filters; the numeric swap.js id is not.
     const companyId = options?.companyId?.trim();
-    if (companyId) params.set("company_id", companyId);
+    if (companyId && companyId.startsWith("COM")) params.set("company_id", companyId);
 
     const res = await fetch(
       `${CALLRAIL_BASE}/${encodeURIComponent(accountId)}/form_submissions.json?${params}`,
