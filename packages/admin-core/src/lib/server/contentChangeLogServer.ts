@@ -1,5 +1,10 @@
 import { createClient, type SupabaseClient } from "@supabase/supabase-js";
-import type { ContentChangeInput, ContentEntityType } from "../contentChangeLog";
+import {
+  diffBlogPostUpdates,
+  diffTrackedPageUpdates,
+  type ContentChangeInput,
+  type ContentEntityType,
+} from "../contentChangeLog";
 
 export type ContentChangeLogRow = {
   id: string;
@@ -53,6 +58,80 @@ export async function insertContentChangeLogEntries(payload: {
   const { error } = await client.from("content_change_log").insert(rows);
   if (error) return { ok: false, error: error.message };
   return { ok: true, inserted: rows.length };
+}
+
+/** Non-blocking server-side logging for tracked page edits. */
+export async function recordTrackedPageChanges(opts: {
+  entity_id: string;
+  route_path: string;
+  prior: Parameters<typeof diffTrackedPageUpdates>[0];
+  updates: Parameters<typeof diffTrackedPageUpdates>[1];
+  changed_by?: string | null;
+}): Promise<void> {
+  const changes = diffTrackedPageUpdates(opts.prior, opts.updates);
+  if (!changes.length) return;
+  const result = await insertContentChangeLogEntries({
+    entity_type: "page",
+    entity_id: opts.entity_id,
+    route_path: opts.route_path,
+    changes,
+    changed_by: opts.changed_by,
+  });
+  if (!result.ok) {
+    console.warn("[content_change_log] failed to record page changes:", result.error);
+  }
+}
+
+/** Non-blocking server-side logging for blog post edits. */
+export async function recordBlogPostChanges(opts: {
+  entity_id: string;
+  route_path: string;
+  prior: Record<string, unknown>;
+  updates: Record<string, unknown>;
+  changed_by?: string | null;
+}): Promise<void> {
+  const changes = diffBlogPostUpdates(opts.prior, opts.updates);
+  if (!changes.length) return;
+  const result = await insertContentChangeLogEntries({
+    entity_type: "blog",
+    entity_id: opts.entity_id,
+    route_path: opts.route_path,
+    changes,
+    changed_by: opts.changed_by,
+  });
+  if (!result.ok) {
+    console.warn("[content_change_log] failed to record blog changes:", result.error);
+  }
+}
+
+/** Log routes discovered by post-build sync-tracked-pages. */
+export async function recordNewTrackedPageInventoryEntries(
+  pages: Array<{ id: string; route_path: string }>,
+  changed_by = "system:sync-tracked-pages",
+): Promise<void> {
+  for (const page of pages) {
+    const result = await insertContentChangeLogEntries({
+      entity_type: "page",
+      entity_id: page.id,
+      route_path: page.route_path,
+      changes: [
+        {
+          field_key: "route_path",
+          field_label: "Route",
+          summary: "Page added to inventory",
+          old_value: null,
+          new_value: page.route_path,
+        },
+      ],
+      changed_by,
+    });
+    if (!result.ok) {
+      console.warn(
+        `[content_change_log] failed to record inventory sync for ${page.route_path}:`,
+        result.error,
+      );
+    }
+  }
 }
 
 export async function fetchContentChangeLog(

@@ -896,5 +896,79 @@ create trigger page_content_overrides_updated_at
   before update on public.page_content_overrides
   for each row execute function public.tg_page_content_overrides_updated_at();
 
+-- =========================================================
+-- MARKETING REPORTING (channel_metrics + report_shares)
+-- See migrations/2026-06-01_marketing_reporting.sql for full docs.
+-- Powers the unified marketing dashboard + tokenized public
+-- client report at /report/[token].
+-- =========================================================
+
+create table if not exists public.channel_metrics (
+  id uuid primary key default gen_random_uuid(),
+  channel text not null,                       -- 'gsc' | 'psi' | 'ga4' | 'gmb' | 'ads' | 'callrail'
+  metric text not null,                        -- 'clicks','impressions','spend','performance','lcp_ms',...
+  metric_date date not null,
+  value numeric not null default 0,
+  dimensions jsonb not null default '{}'::jsonb,
+  dim_key text not null default '',            -- stable string form of dimensions for idempotent upsert
+  ingested_at timestamptz not null default now(),
+  constraint channel_metrics_unique unique (channel, metric, metric_date, dim_key)
+);
+
+create index if not exists channel_metrics_channel_date_idx
+  on public.channel_metrics (channel, metric_date desc);
+create index if not exists channel_metrics_channel_metric_idx
+  on public.channel_metrics (channel, metric, metric_date desc);
+
+alter table public.channel_metrics enable row level security;
+
+drop policy if exists "Admins can manage channel metrics" on public.channel_metrics;
+create policy "Admins can manage channel metrics" on public.channel_metrics for all to authenticated
+  using (exists (select 1 from public.admin_users au where lower(au.email) = lower(auth.jwt() ->> 'email')))
+  with check (exists (select 1 from public.admin_users au where lower(au.email) = lower(auth.jwt() ->> 'email')));
+
+create table if not exists public.report_shares (
+  id uuid primary key default gen_random_uuid(),
+  token text not null unique,
+  label text not null default 'Client report',
+  period_days integer not null default 28,
+  is_active boolean not null default true,
+  created_by text,
+  last_viewed_at timestamptz,
+  view_count integer not null default 0,
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now()
+);
+
+create index if not exists report_shares_active_idx on public.report_shares (is_active, created_at desc);
+
+alter table public.report_shares enable row level security;
+
+-- Public report rendering uses the service role (keyed on token) and bypasses
+-- RLS — there is intentionally no anon SELECT policy.
+drop policy if exists "Admins can manage report shares" on public.report_shares;
+create policy "Admins can manage report shares" on public.report_shares for all to authenticated
+  using (exists (select 1 from public.admin_users au where lower(au.email) = lower(auth.jwt() ->> 'email')))
+  with check (exists (select 1 from public.admin_users au where lower(au.email) = lower(auth.jwt() ->> 'email')));
+
+create or replace function public.tg_report_shares_updated_at()
+returns trigger language plpgsql as $fn$
+begin
+  new.updated_at = now();
+  return new;
+end;
+$fn$;
+
+drop trigger if exists report_shares_updated_at on public.report_shares;
+create trigger report_shares_updated_at
+  before update on public.report_shares
+  for each row execute function public.tg_report_shares_updated_at();
+
+insert into public.system_settings (key, value)
+values
+  ('marketing_psi_urls', '[]'::jsonb),
+  ('marketing_windsor_accounts', '{}'::jsonb)
+on conflict (key) do nothing;
+
 -- Storage expectation: create a public bucket named site-assets.
 -- Recommended folders: images/, blog-featured/, logos/, og/, page-edits/.

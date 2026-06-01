@@ -28,6 +28,11 @@ import BulkPickKeywordModal from "../components/BulkPickKeywordModal";
 import { ADMIN_OCEAN, adminInputCls, adminPrimaryActionCls, adminSecondaryBtnCls, adminToastErrorCls, adminToastSuccessCls } from "../lib/adminTheme";
 import { callGenerateSeoMetadata, type SeoGenResult } from "../lib/generateSeoMetadata";
 import { getPublicSiteOrigin } from "../lib/publicSiteUrl";
+import {
+  blogPostForChangeDiff,
+  diffBlogPostUpdates,
+  postContentChangeLog,
+} from "../lib/contentChangeLog";
 import type { BlogSection } from "@sweetmedia/blog-core";
 
 /**
@@ -437,6 +442,9 @@ export default function AdminBlogDashboard() {
   const handleApplyAllSeo = useCallback(async () => {
     const toApply = posts.filter((p) => seoStatuses[p.id]?.status === "done" && seoStatuses[p.id]?.result);
     let saved = 0;
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
     for (const p of toApply) {
       const result = seoStatuses[p.id]?.result!;
       const updates: Record<string, string> = { meta_description: result.meta_description };
@@ -445,6 +453,16 @@ export default function AdminBlogDashboard() {
       const { error: updErr } = await supabase.from("blog_posts").update(updates).eq("id", p.id);
       if (!updErr) {
         saved++;
+        const changes = diffBlogPostUpdates(blogPostForChangeDiff(p), updates);
+        if (changes.length > 0) {
+          void postContentChangeLog({
+            entity_type: "blog",
+            entity_id: p.id,
+            route_path: `/blog/${p.slug}`,
+            changes,
+            changed_by: user?.email ?? null,
+          });
+        }
         void revalidateBlogPost(p.slug);
       }
     }

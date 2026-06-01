@@ -9,6 +9,7 @@ import KeywordSuggestPopover from "../components/KeywordSuggestPopover";
 import { useAdminBlogCategories } from "../hooks/useAdminBlogCategories";
 import { supabase } from "../lib/supabase";
 import { AI_MODELS, DEFAULT_MODEL_ID } from "../lib/aiModels";
+import { postContentChangeLog } from "../lib/contentChangeLog";
 import { adminInputCls, adminPrimaryBtnCls, ADMIN_NAVY } from "../lib/adminTheme";
 import type { ContentEditorListRow } from "../types/content-editor";
 
@@ -221,10 +222,25 @@ export default function BlogWriterPage() {
       // Persist the primary keyword on the post — the edge function doesn't write it.
       const focusKeyword = form.primaryKeyword.trim();
       if (focusKeyword) {
-        await supabase
-          .from("blog_posts")
-          .update({ focus_keyword: focusKeyword })
-          .eq("id", postId);
+        await supabase.from("blog_posts").update({ focus_keyword: focusKeyword }).eq("id", postId);
+        const {
+          data: { user },
+        } = await supabase.auth.getUser();
+        void postContentChangeLog({
+          entity_type: "blog",
+          entity_id: postId,
+          route_path: `/blog/${slug}`,
+          changes: [
+            {
+              field_key: "focus_keyword",
+              field_label: "Focus keyword",
+              summary: "Focus keyword set",
+              old_value: null,
+              new_value: focusKeyword,
+            },
+          ],
+          changed_by: user?.email ?? null,
+        });
       }
 
       setGenerationStage("image");

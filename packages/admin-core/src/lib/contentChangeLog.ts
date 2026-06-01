@@ -1,5 +1,9 @@
 /** Client-safe helpers for content change logging (field labels + diff builders). */
 
+import { SEO_OVERRIDE_KEY_LIST } from "../components/page-editor/pageEditorSeoTypes";
+
+const SEO_OVERRIDE_KEY_SET = new Set<string>(SEO_OVERRIDE_KEY_LIST);
+
 export type ContentEntityType = "page" | "blog";
 
 export type ContentChangeInput = {
@@ -57,6 +61,9 @@ export function diffTrackedPageUpdates(
     route_path?: string;
     is_active?: boolean;
     notes?: string | null;
+    is_blog_hub?: boolean;
+    blog_hub_target_count?: number | null;
+    default_seo_title?: string | null;
   },
   updates: {
     page_title?: string;
@@ -66,6 +73,9 @@ export function diffTrackedPageUpdates(
     route_path?: string;
     is_active?: boolean;
     notes?: string | null;
+    is_blog_hub?: boolean;
+    blog_hub_target_count?: number | null;
+    default_seo_title?: string | null;
   },
 ): ContentChangeInput[] {
   const changes: ContentChangeInput[] = [];
@@ -84,6 +94,63 @@ export function diffTrackedPageUpdates(
     });
   }
   pushIfChanged(changes, "notes", "Notes", prior.notes, updates.notes);
+  if (updates.is_blog_hub !== undefined && prior.is_blog_hub !== updates.is_blog_hub) {
+    changes.push({
+      field_key: "is_blog_hub",
+      field_label: "Blog hub",
+      summary: updates.is_blog_hub ? "Marked as blog hub" : "Removed from blog hubs",
+      old_value: prior.is_blog_hub ? "yes" : "no",
+      new_value: updates.is_blog_hub ? "yes" : "no",
+    });
+  }
+  pushIfChanged(
+    changes,
+    "blog_hub_target_count",
+    "Blog hub target",
+    prior.blog_hub_target_count,
+    updates.blog_hub_target_count,
+  );
+  pushIfChanged(changes, "default_seo_title", "Default SEO title", prior.default_seo_title, updates.default_seo_title);
+  return changes;
+}
+
+function humanizeOverrideFieldKey(fieldKey: string): string {
+  return fieldKey
+    .split(".")
+    .map((part) => part.replace(/_/g, " "))
+    .map((part) => (part ? part.charAt(0).toUpperCase() + part.slice(1) : part))
+    .join(" · ");
+}
+
+function formatOverrideLogValue(fieldKey: string, value: string): string {
+  if (!value) return "";
+  const lowerKey = fieldKey.toLowerCase();
+  if (lowerKey.includes("image") || lowerKey.includes("icon") || value.startsWith("http")) {
+    return truncate(value);
+  }
+  if (value.length > MAX_VALUE_LEN) return `${value.length} chars`;
+  return truncate(value);
+}
+
+/** Diff non-SEO page_content_overrides rows when drafts are published live. */
+export function diffPageContentOverridePublishes(
+  rows: Array<{ field_key: string; draft_value: string | null; published_value: string | null }>,
+): ContentChangeInput[] {
+  const changes: ContentChangeInput[] = [];
+  for (const row of rows) {
+    if (SEO_OVERRIDE_KEY_SET.has(row.field_key)) continue;
+    const oldVal = norm(row.published_value);
+    const newVal = norm(row.draft_value);
+    if (oldVal === newVal) continue;
+    const label = humanizeOverrideFieldKey(row.field_key);
+    changes.push({
+      field_key: row.field_key,
+      field_label: label,
+      summary: changeSummary(label, oldVal, newVal),
+      old_value: formatOverrideLogValue(row.field_key, oldVal) || null,
+      new_value: formatOverrideLogValue(row.field_key, newVal) || null,
+    });
+  }
   return changes;
 }
 

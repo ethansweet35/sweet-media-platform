@@ -2,6 +2,10 @@ import { readdirSync, statSync } from "node:fs";
 import { dirname, join, relative } from "node:path";
 import { createClient } from "@supabase/supabase-js";
 import type { SitemapPageRow } from "./sitemap";
+import {
+  recordNewTrackedPageInventoryEntries,
+  recordTrackedPageChanges,
+} from "./server/contentChangeLogServer";
 
 function collectPageFiles(dir: string): string[] {
   const paths: string[] = [];
@@ -207,6 +211,19 @@ export async function syncTrackedPages(cwd: string): Promise<void> {
       return;
     }
     insertedAttempted = payloads.length;
+
+    const { data: insertedRows } = await supabase
+      .from("tracked_pages")
+      .select("id, route_path")
+      .in(
+        "route_path",
+        payloads.map((p) => p.route_path),
+      );
+    if (insertedRows?.length) {
+      await recordNewTrackedPageInventoryEntries(
+        insertedRows as Array<{ id: string; route_path: string }>,
+      );
+    }
   }
 
   // Back-fill default_seo_title on existing rows that still have it null.
@@ -214,11 +231,15 @@ export async function syncTrackedPages(cwd: string): Promise<void> {
   if (existingNullRows.length > 0) {
     const { data: nullTitleRows } = await supabase
       .from("tracked_pages")
-      .select("id, route_path")
+      .select("id, route_path, default_seo_title")
       .in("route_path", existingNullRows.map((k) => k.routePath))
       .is("default_seo_title", null);
 
-    const toBackfill = (nullTitleRows ?? []) as { id: string; route_path: string }[];
+    const toBackfill = (nullTitleRows ?? []) as {
+      id: string;
+      route_path: string;
+      default_seo_title: string | null;
+    }[];
     for (const row of toBackfill) {
       const match = kept.find((k) => k.routePath === row.route_path);
       if (!match) continue;
@@ -226,6 +247,13 @@ export async function syncTrackedPages(cwd: string): Promise<void> {
         .from("tracked_pages")
         .update({ default_seo_title: match.derivedTitle })
         .eq("id", row.id);
+      await recordTrackedPageChanges({
+        entity_id: row.id,
+        route_path: row.route_path,
+        prior: { default_seo_title: row.default_seo_title },
+        updates: { default_seo_title: match.derivedTitle },
+        changed_by: "system:sync-tracked-pages",
+      });
     }
     if (toBackfill.length > 0) {
       console.log(`[sync-tracked-pages] Back-filled default_seo_title for ${toBackfill.length} existing rows.`);

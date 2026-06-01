@@ -43,6 +43,9 @@ export {
 
 export {
   insertContentChangeLogEntries,
+  recordTrackedPageChanges,
+  recordBlogPostChanges,
+  recordNewTrackedPageInventoryEntries,
   fetchContentChangeLog,
   fetchRecentSiteContentChanges,
   handleContentChangeLogPost,

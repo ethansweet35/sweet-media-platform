@@ -192,19 +192,42 @@ export function useTrackedPages() {
   const toggleActive = useCallback(
     async (id: string, currentValue: boolean): Promise<boolean> => {
       try {
+        const prior = pages.find((p) => p.id === id);
         const next = !currentValue;
         const { error: updErr } = await supabase
           .from("tracked_pages")
           .update({ is_active: next, updated_at: new Date().toISOString() })
           .eq("id", id);
         if (updErr) throw updErr;
+
+        if (prior) {
+          const {
+            data: { user },
+          } = await supabase.auth.getUser();
+          void postContentChangeLog({
+            entity_type: "page",
+            entity_id: id,
+            route_path: prior.route_path.trim(),
+            changes: [
+              {
+                field_key: "is_active",
+                field_label: "Status",
+                summary: next ? "Page activated" : "Page deactivated",
+                old_value: currentValue ? "active" : "inactive",
+                new_value: next ? "active" : "inactive",
+              },
+            ],
+            changed_by: user?.email ?? null,
+          });
+        }
+
         await fetchPages();
         return true;
       } catch {
         return false;
       }
     },
-    [fetchPages],
+    [fetchPages, pages],
   );
 
   return {

@@ -8,6 +8,7 @@ import {
   type PageEditorSeoSnapshot,
 } from "../../components/page-editor/pageEditorSeoTypes";
 import { revalidatePageContentCaches } from "./revalidatePageContentCaches";
+import { recordBlogPostChanges, recordTrackedPageChanges } from "./contentChangeLogServer";
 
 export {
   SEO_OVERRIDE_KEYS,
@@ -367,7 +368,7 @@ async function syncBlogSeo(
 
   const { data: existing } = await client
     .from("blog_posts")
-    .select("id, slug")
+    .select("id, slug, title, seo_title, meta_title, meta_description, seo_description, focus_keyword, status, excerpt, content")
     .eq("slug", info.blogSlug)
     .maybeSingle();
 
@@ -403,6 +404,14 @@ async function syncBlogSeo(
     throw new Error(`Failed to sync blog SEO: ${error.message}`);
   }
 
+  await recordBlogPostChanges({
+    entity_id: row.id,
+    route_path: `/blog/${newSlug}`,
+    prior: existing as Record<string, unknown>,
+    updates,
+    changed_by: adminEmail,
+  });
+
   const newRoutePath = `/blog/${newSlug}`;
   if (slugChanged) {
     await migrateOverrideRoute(client, info.routePath, newRoutePath);
@@ -435,7 +444,7 @@ async function syncTrackedPageSeo(
 ): Promise<{ routePath: string; slugChanged: boolean }> {
   const { data: existing } = await client
     .from("tracked_pages")
-    .select("id, route_path")
+    .select("id, route_path, page_title, seo_title, meta_description, is_active, notes")
     .eq("route_path", routePath)
     .maybeSingle();
 
@@ -461,6 +470,15 @@ async function syncTrackedPageSeo(
   if (slugChanged) row.route_path = targetRoute;
 
   if (existing) {
+    const prior = existing as {
+      id: string;
+      route_path: string;
+      page_title?: string;
+      seo_title?: string | null;
+      meta_description?: string | null;
+      is_active?: boolean;
+      notes?: string | null;
+    };
     const { error } = await client
       .from("tracked_pages")
       .update(row)
@@ -468,6 +486,26 @@ async function syncTrackedPageSeo(
     if (error) {
       throw new Error(`Failed to sync page SEO: ${error.message}`);
     }
+    await recordTrackedPageChanges({
+      entity_id: prior.id,
+      route_path: targetRoute,
+      prior: {
+        page_title: prior.page_title,
+        seo_title: prior.seo_title,
+        meta_description: prior.meta_description,
+        route_path: prior.route_path,
+        is_active: prior.is_active,
+        notes: prior.notes,
+      },
+      updates: {
+        page_title: seo.pageTitle !== undefined ? seo.pageTitle.trim() : undefined,
+        seo_title: seo.seoTitle !== undefined ? seo.seoTitle.trim() || null : undefined,
+        meta_description:
+          seo.metaDescription !== undefined ? seo.metaDescription.trim() || null : undefined,
+        route_path: slugChanged ? targetRoute : undefined,
+      },
+      changed_by: adminEmail,
+    });
   } else {
     const { error } = await client.from("tracked_pages").insert({
       route_path: targetRoute,

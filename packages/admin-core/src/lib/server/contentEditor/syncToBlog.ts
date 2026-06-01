@@ -5,6 +5,7 @@ import { markdownToSections, type BlogSection } from "@sweetmedia/blog-core";
 import { ContentEditorError } from "./errors";
 import { getAdminClient, loadEditor } from "./db";
 import { getContentEditorState } from "./api";
+import { recordBlogPostChanges } from "../contentChangeLogServer";
 
 function countSectionWords(sections: BlogSection[]): number {
   let total = 0;
@@ -96,7 +97,7 @@ export async function syncEditorDraftToBlogPost(
 
   const { data: post, error: loadErr } = await client
     .from("blog_posts")
-    .select("id, slug, excerpt, title")
+    .select("id, slug, excerpt, title, meta_title, meta_description, content")
     .eq("id", blogPostId)
     .maybeSingle();
   if (loadErr || !post) {
@@ -121,19 +122,21 @@ export async function syncEditorDraftToBlogPost(
   const excerpt = excerptFromMarkdown(bodyMd) || (post as { excerpt?: string }).excerpt || "";
   const syncedAt = new Date().toISOString();
 
+  const updatePayload = {
+    title,
+    meta_title: titleTag || title,
+    meta_description: metaDescription || null,
+    excerpt,
+    content: JSON.stringify(sections),
+    read_time: estimateReadTime(sections),
+    content_editor_id: editorId,
+    content_editor_synced_at: syncedAt,
+    updated_at: syncedAt,
+  };
+
   const { error: updErr } = await client
     .from("blog_posts")
-    .update({
-      title,
-      meta_title: titleTag || title,
-      meta_description: metaDescription || null,
-      excerpt,
-      content: JSON.stringify(sections),
-      read_time: estimateReadTime(sections),
-      content_editor_id: editorId,
-      content_editor_synced_at: syncedAt,
-      updated_at: syncedAt,
-    })
+    .update(updatePayload)
     .eq("id", blogPostId);
 
   if (updErr) {
@@ -142,6 +145,28 @@ export async function syncEditorDraftToBlogPost(
       status: 500,
     });
   }
+
+  const priorPost = post as {
+    id: string;
+    slug: string;
+    title: string;
+    meta_title?: string | null;
+    meta_description?: string | null;
+    excerpt?: string | null;
+    content?: string | null;
+  };
+  await recordBlogPostChanges({
+    entity_id: priorPost.id,
+    route_path: `/blog/${priorPost.slug}`,
+    prior: {
+      title: priorPost.title,
+      meta_title: priorPost.meta_title ?? null,
+      meta_description: priorPost.meta_description ?? null,
+      excerpt: priorPost.excerpt ?? null,
+      content: priorPost.content ?? null,
+    },
+    updates: updatePayload,
+  });
 
   if (!editor.blog_post_id) {
     await client

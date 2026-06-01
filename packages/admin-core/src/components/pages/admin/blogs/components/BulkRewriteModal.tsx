@@ -3,6 +3,11 @@
 import { useRef, useState } from "react";
 import { supabase } from "../../../../../lib/supabase";
 import { AI_MODELS, DEFAULT_MODEL_ID } from "../../../../../lib/aiModels";
+import {
+  blogPostForChangeDiff,
+  diffBlogPostUpdates,
+  postContentChangeLog,
+} from "../../../../../lib/contentChangeLog";
 import type { BlogPost } from "@sweetmedia/blog-core";
 import type { BlogSection } from "@sweetmedia/blog-core";
 
@@ -260,16 +265,28 @@ export default function BulkRewriteModal({ posts, onClose, onComplete }: BulkRew
     throw new Error("Auto-Optimize timed out after 6 minutes.");
   }
 
-  async function markPostDraftForReview(postId: string): Promise<void> {
-    const { error } = await supabase
-      .from("blog_posts")
-      .update({
-        status: "draft",
-        approved_for_publish: false,
-        updated_at: new Date().toISOString(),
-      })
-      .eq("id", postId);
+  async function markPostDraftForReview(post: BlogPost): Promise<void> {
+    const updates = {
+      status: "draft",
+      approved_for_publish: false,
+      updated_at: new Date().toISOString(),
+    };
+    const { error } = await supabase.from("blog_posts").update(updates).eq("id", post.id);
     if (error) throw new Error(error.message);
+
+    const changes = diffBlogPostUpdates(blogPostForChangeDiff(post), updates);
+    if (changes.length > 0) {
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+      void postContentChangeLog({
+        entity_type: "blog",
+        entity_id: post.id,
+        route_path: `/blog/${post.slug}`,
+        changes,
+        changed_by: user?.email ?? null,
+      });
+    }
   }
 
   async function processPost(post: BlogPost): Promise<void> {
@@ -309,19 +326,32 @@ export default function BulkRewriteModal({ posts, onClose, onComplete }: BulkRew
           throw new Error(typeof json.error === "string" ? json.error : "Generation failed.");
         }
         const content = json.content as BlogSection[];
-        const { error: saveErr } = await supabase
-          .from("blog_posts")
-          .update({
-            title: String(json.title ?? post.title),
-            excerpt: String(json.excerpt ?? post.excerpt),
-            meta_description: String(json.metaDescription ?? post.metaDescription ?? ""),
-            content: JSON.stringify(content),
-            read_time: estimateReadTime(content as unknown[]),
-            status: "draft",
-            approved_for_publish: false,
-          })
-          .eq("id", post.id);
+        const updates = {
+          title: String(json.title ?? post.title),
+          excerpt: String(json.excerpt ?? post.excerpt),
+          meta_description: String(json.metaDescription ?? post.metaDescription ?? ""),
+          content: JSON.stringify(content),
+          read_time: estimateReadTime(content as unknown[]),
+          status: "draft",
+          approved_for_publish: false,
+        };
+        const { error: saveErr } = await supabase.from("blog_posts").update(updates).eq("id", post.id);
         if (saveErr) throw new Error(saveErr.message);
+
+        const changes = diffBlogPostUpdates(blogPostForChangeDiff(post), updates);
+        if (changes.length > 0) {
+          const {
+            data: { user },
+          } = await supabase.auth.getUser();
+          void postContentChangeLog({
+            entity_type: "blog",
+            entity_id: post.id,
+            route_path: `/blog/${post.slug}`,
+            changes,
+            changed_by: user?.email ?? null,
+          });
+        }
+
         updateRow(post.id, { status: "done" });
       } catch (err) {
         updateRow(post.id, {
@@ -361,7 +391,7 @@ export default function BulkRewriteModal({ posts, onClose, onComplete }: BulkRew
       }
 
       await pollUntilOptimized(post.id, editorId, optimizeStartedAt);
-      await markPostDraftForReview(post.id);
+      await markPostDraftForReview(post);
       updateRow(post.id, { status: "done", briefStatusMsg: "Synced · set to draft" });
     } catch (err) {
       updateRow(post.id, {

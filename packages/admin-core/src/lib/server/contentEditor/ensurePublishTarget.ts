@@ -3,6 +3,7 @@
  */
 import { ContentEditorError } from "./errors";
 import { getAdminClient, loadEditor, type ContentEditorRow } from "./db";
+import { recordTrackedPageChanges } from "../contentChangeLogServer";
 
 export type PublishTargetKind = "blog" | "page";
 
@@ -287,12 +288,19 @@ export async function applyTrackedPageSeoFromEditorDraft(
 
   const { data: page, error: loadErr } = await client
     .from("tracked_pages")
-    .select("id, route_path")
+    .select("id, route_path, seo_title, meta_description")
     .eq("id", editor.linked_tracked_page_id)
     .maybeSingle();
   if (loadErr || !page) {
     throw new ContentEditorError("Tracked page not found.", { source: "api", status: 404 });
   }
+
+  const prior = page as {
+    id: string;
+    route_path: string;
+    seo_title: string | null;
+    meta_description: string | null;
+  };
 
   const { error: updErr } = await client
     .from("tracked_pages")
@@ -305,6 +313,16 @@ export async function applyTrackedPageSeoFromEditorDraft(
       status: 500,
     });
   }
+
+  await recordTrackedPageChanges({
+    entity_id: prior.id,
+    route_path: prior.route_path,
+    prior: {
+      seo_title: prior.seo_title,
+      meta_description: prior.meta_description,
+    },
+    updates,
+  });
 
   return {
     routePath: (page as { route_path: string }).route_path,

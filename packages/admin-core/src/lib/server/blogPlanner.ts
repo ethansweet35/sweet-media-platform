@@ -8,6 +8,7 @@ import { ContentEditorError } from "./contentEditor/errors";
 import { getAdminClient } from "./contentEditor/db";
 import { createContentEditor, saveDraft } from "./contentEditor/api";
 import { runContentEditorPipeline } from "./contentEditor/pipeline";
+import { recordTrackedPageChanges } from "./contentChangeLogServer";
 import { getKeywordSuggestions, SemrushApiError } from "./semrushClient";
 import {
   BLOG_PLANNER_MISC_ROUTE,
@@ -66,6 +67,13 @@ export async function ensureMiscellaneousHub(client: ReturnType<typeof getAdminC
     if (!row.is_blog_hub) {
       await client.from("tracked_pages").update({ is_blog_hub: true }).eq("id", row.id);
       row.is_blog_hub = true;
+      await recordTrackedPageChanges({
+        entity_id: row.id,
+        route_path: row.route_path,
+        prior: { is_blog_hub: false },
+        updates: { is_blog_hub: true },
+        changed_by: "system:blog-planner",
+      });
     }
     return row;
   }
@@ -91,7 +99,19 @@ export async function ensureMiscellaneousHub(client: ReturnType<typeof getAdminC
       { source: "blog-planner", status: 500 },
     );
   }
-  return inserted as HubRow;
+  const hub = inserted as HubRow;
+  await recordTrackedPageChanges({
+    entity_id: hub.id,
+    route_path: hub.route_path,
+    prior: {},
+    updates: {
+      route_path: hub.route_path,
+      page_title: hub.page_title,
+      is_blog_hub: true,
+    },
+    changed_by: "system:blog-planner",
+  });
+  return hub;
 }
 
 export function computeCoverage(
@@ -642,6 +662,15 @@ export async function handleBlogPlannerHubPatch(request: Request): Promise<Respo
 
   try {
     const client = getAdminClient();
+    const { data: priorRow, error: priorErr } = await client
+      .from("tracked_pages")
+      .select("id, route_path, is_blog_hub, blog_hub_target_count")
+      .eq("id", id)
+      .maybeSingle();
+    if (priorErr || !priorRow) {
+      return NextResponse.json({ ok: false, error: priorErr?.message ?? "Hub not found." }, { status: 404 });
+    }
+
     const updates: Record<string, unknown> = { updated_at: new Date().toISOString() };
     if (typeof body.is_blog_hub === "boolean") updates.is_blog_hub = body.is_blog_hub;
     if (body.blog_hub_target_count !== undefined) {
@@ -662,6 +691,28 @@ export async function handleBlogPlannerHubPatch(request: Request): Promise<Respo
     if (error) {
       return NextResponse.json({ ok: false, error: error.message }, { status: 500 });
     }
+
+    const prior = priorRow as {
+      id: string;
+      route_path: string;
+      is_blog_hub?: boolean;
+      blog_hub_target_count?: number | null;
+    };
+    await recordTrackedPageChanges({
+      entity_id: prior.id,
+      route_path: prior.route_path,
+      prior: {
+        is_blog_hub: prior.is_blog_hub,
+        blog_hub_target_count: prior.blog_hub_target_count,
+      },
+      updates: {
+        is_blog_hub: typeof body.is_blog_hub === "boolean" ? body.is_blog_hub : undefined,
+        blog_hub_target_count:
+          body.blog_hub_target_count !== undefined
+            ? (updates.blog_hub_target_count as number | null)
+            : undefined,
+      },
+    });
 
     return NextResponse.json({ ok: true, hub: hubFromRow(data as HubRow) });
   } catch (err) {

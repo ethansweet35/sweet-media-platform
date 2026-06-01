@@ -15,11 +15,14 @@ import { createClient, type SupabaseClient } from "@supabase/supabase-js";
 import { SEO_OVERRIDE_KEY_LIST } from "../../components/page-editor/pageEditorSeoTypes";
 import {
   fetchPageEditorSeoContext,
+  parsePageEditorRoute,
   syncPublishedSeoToCanonical,
   type PageEditorSeoContextResult,
 } from "./pageContentSeo";
 import { revalidatePageContentCaches } from "./revalidatePageContentCaches";
 import type { PageContentFieldType } from "./pageContentOverrides";
+import { diffPageContentOverridePublishes, type ContentEntityType } from "../contentChangeLog";
+import { insertContentChangeLogEntries } from "./contentChangeLogServer";
 
 export interface PageContentEditorError {
   status: number;
@@ -147,6 +150,67 @@ function normalizeFieldKey(value: unknown): string {
 
 function getSiteKey(): string {
   return process.env.NEXT_PUBLIC_SITE_ID?.trim() ?? "";
+}
+
+async function resolveContentLogEntity(
+  client: SupabaseClient,
+  routePath: string,
+): Promise<{ entity_type: ContentEntityType; entity_id: string; route_path: string } | null> {
+  const info = parsePageEditorRoute(routePath);
+  if (info.entityType === "unsupported") return null;
+
+  if (info.entityType === "blog" && info.blogSlug) {
+    const { data } = await client.from("blog_posts").select("id").eq("slug", info.blogSlug).maybeSingle();
+    if (!data) return null;
+    return {
+      entity_type: "blog",
+      entity_id: (data as { id: string }).id,
+      route_path: info.routePath,
+    };
+  }
+
+  const { data } = await client
+    .from("tracked_pages")
+    .select("id")
+    .eq("route_path", info.routePath)
+    .maybeSingle();
+  if (data) {
+    return {
+      entity_type: "page",
+      entity_id: (data as { id: string }).id,
+      route_path: info.routePath,
+    };
+  }
+
+  return {
+    entity_type: "page",
+    entity_id: info.routePath,
+    route_path: info.routePath,
+  };
+}
+
+async function recordPublishedPageContentOverrides(
+  client: SupabaseClient,
+  routePath: string,
+  drafts: Array<{ field_key: string; draft_value: string | null; published_value: string | null }>,
+  changed_by: string,
+): Promise<void> {
+  const changes = diffPageContentOverridePublishes(drafts);
+  if (!changes.length) return;
+
+  const entity = await resolveContentLogEntity(client, routePath);
+  if (!entity) return;
+
+  const result = await insertContentChangeLogEntries({
+    entity_type: entity.entity_type,
+    entity_id: entity.entity_id,
+    route_path: entity.route_path,
+    changes,
+    changed_by,
+  });
+  if (!result.ok) {
+    console.warn("[content_change_log] failed to record page content publish:", result.error);
+  }
 }
 
 // ─────────────────────────────────────────────────────────────────────
@@ -313,6 +377,8 @@ export async function handlePublish(request: Request): Promise<PageContentPublis
       message: `Failed to publish drafts: ${publishErr.message}`,
     } satisfies PageContentEditorError;
   }
+
+  await recordPublishedPageContentOverrides(client, routePath, drafts, admin.email);
 
   revalidatePageContentCaches(routePath);
 
