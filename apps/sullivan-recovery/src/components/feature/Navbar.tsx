@@ -17,10 +17,16 @@ import { CALLRAIL_PHONE_DISPLAY } from "@/lib/callrailPhone";
 const LOGO_URL =
   "https://knvkrhwlflkulybcmgmq.supabase.co/storage/v1/object/public/site-assets/logos/sr_logo.png";
 
-const linkClass = (active: boolean) =>
-  `flex items-center gap-1 text-[13px] font-light tracking-[0.05em] transition-colors ${
+function navLinkClass(active: boolean, onHomeHero: boolean) {
+  if (onHomeHero) {
+    return `flex items-center gap-1 text-[13px] font-light tracking-[0.05em] transition-colors ${
+      active ? "text-white font-medium" : "text-white/80 hover:text-white"
+    }`;
+  }
+  return `flex items-center gap-1 text-[13px] font-light tracking-[0.05em] transition-colors ${
     active ? "text-white font-medium" : "text-white/70 hover:text-white"
   }`;
+}
 
 export default function Navbar() {
   const pathname = usePathname();
@@ -40,7 +46,7 @@ function NavbarInteractive({ pathname }: { pathname: string }) {
   }, []);
 
   const isHome = pathname === "/";
-  const isTransparent = isHome && !scrolled;
+  const onHomeHero = isHome && !scrolled;
 
   function renderDesktopItem(item: NavItem) {
     const hasMega = !!item.mega;
@@ -49,7 +55,7 @@ function NavbarInteractive({ pathname }: { pathname: string }) {
 
     if (!hasMega) {
       return (
-        <Link key={item.label} href={item.path} className={linkClass(active)}>
+        <Link key={item.label} href={item.path} className={navLinkClass(active, onHomeHero)}>
           {item.label}
         </Link>
       );
@@ -61,7 +67,7 @@ function NavbarInteractive({ pathname }: { pathname: string }) {
         className="relative"
         onMouseEnter={() => setOpenMega(item.label)}
       >
-        <Link href={item.path} className={linkClass(active || isOpen)}>
+        <Link href={item.path} className={navLinkClass(active || isOpen, onHomeHero)}>
           {item.label}
           <i
             className={`ri-arrow-down-s-line text-base opacity-60 transition-transform duration-200 ${
@@ -79,8 +85,8 @@ function NavbarInteractive({ pathname }: { pathname: string }) {
   return (
     <header
       className={`fixed left-0 right-0 top-0 z-50 transition-all duration-300 ${
-        isTransparent
-          ? "border-b border-white/10 bg-transparent"
+        onHomeHero
+          ? "border-b border-white/10 bg-[#1E1F1B]/88 backdrop-blur-md"
           : "border-b border-[#3D3028] bg-[#1E1F1B] shadow-lg"
       }`}
       onMouseLeave={() => setOpenMega(null)}
@@ -94,7 +100,7 @@ function NavbarInteractive({ pathname }: { pathname: string }) {
             height={56}
             className="h-10 w-auto object-contain transition-all"
             style={{ filter: "brightness(0) invert(1)" }}
-            priority
+            priority={!isHome}
           />
         </Link>
 

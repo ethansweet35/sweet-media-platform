@@ -54,9 +54,7 @@ export default function RootLayout({
     <html lang="en">
       <head>
         <link rel="preconnect" href={SR_SUPABASE_ORIGIN} crossOrigin="anonymous" />
-        <link rel="preconnect" href="https://cdn.callrail.com" crossOrigin="anonymous" />
-        <link rel="preconnect" href="https://cdn.jsdelivr.net" crossOrigin="anonymous" />
-        <Script id="load-remixicon-styles" strategy="afterInteractive">{`
+        <Script id="load-remixicon-styles" strategy="lazyOnload">{`
           (function() {
             var cssHref = "${REMIXICON_CSS}";
             var inject = function () {
@@ -67,22 +65,15 @@ export default function RootLayout({
               link.crossOrigin = "anonymous";
               document.head.appendChild(link);
             };
-            if (document.readyState === "complete") {
+            var schedule = function () {
               if ("requestIdleCallback" in window) {
-                window.requestIdleCallback(inject, { timeout: 1200 });
+                window.requestIdleCallback(inject, { timeout: 4000 });
               } else {
-                setTimeout(inject, 400);
+                setTimeout(inject, 3000);
               }
-              return;
-            }
-            window.addEventListener("load", function onLoad() {
-              window.removeEventListener("load", onLoad);
-              if ("requestIdleCallback" in window) {
-                window.requestIdleCallback(inject, { timeout: 1200 });
-              } else {
-                setTimeout(inject, 400);
-              }
-            });
+            };
+            if (document.readyState === "complete") schedule();
+            else window.addEventListener("load", schedule, { once: true });
           })();
         `}</Script>
         <noscript>
@@ -91,8 +82,7 @@ export default function RootLayout({
         <Script
           id="callrail-swap"
           src={CALLRAIL_SWAP_SRC}
-          strategy="afterInteractive"
-          async
+          strategy="lazyOnload"
         />
       </head>
       <body className={`${cormorant.variable} ${dmSans.variable} antialiased`}>

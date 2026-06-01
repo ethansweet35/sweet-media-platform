@@ -9,8 +9,8 @@ type DeferredHeroVideoProps = {
 };
 
 /**
- * Loads hero background video after the browser is idle so the poster image
- * can paint first (LCP) without competing for bandwidth with the MP4.
+ * Loads hero background video only after window load + idle so the poster
+ * image can finish LCP without competing for bandwidth with the MP4.
  */
 export default function DeferredHeroVideo({
   mobileSrc,
@@ -21,13 +21,37 @@ export default function DeferredHeroVideo({
   const [ready, setReady] = useState(false);
 
   useEffect(() => {
-    const start = () => setLoad(true);
-    if (typeof window.requestIdleCallback === "function") {
-      const id = window.requestIdleCallback(start, { timeout: 2500 });
-      return () => window.cancelIdleCallback(id);
+    let cancelled = false;
+    let idleId: number | undefined;
+    let timerId: ReturnType<typeof setTimeout> | undefined;
+
+    const start = () => {
+      if (cancelled) return;
+      setLoad(true);
+    };
+
+    const schedule = () => {
+      if (typeof window.requestIdleCallback === "function") {
+        idleId = window.requestIdleCallback(start, { timeout: 6000 });
+      } else {
+        timerId = setTimeout(start, 5000);
+      }
+    };
+
+    if (document.readyState === "complete") {
+      schedule();
+    } else {
+      window.addEventListener("load", schedule, { once: true });
     }
-    const timer = setTimeout(start, 1500);
-    return () => clearTimeout(timer);
+
+    return () => {
+      cancelled = true;
+      if (idleId !== undefined && typeof window.cancelIdleCallback === "function") {
+        window.cancelIdleCallback(idleId);
+      }
+      if (timerId !== undefined) clearTimeout(timerId);
+      window.removeEventListener("load", schedule);
+    };
   }, []);
 
   if (!load) return null;
