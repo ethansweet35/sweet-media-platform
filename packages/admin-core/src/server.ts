@@ -56,6 +56,17 @@ export { handleSeoImpactGet } from "./lib/server/seoImpact";
 export { handlePerformanceOverviewGet, fetchPerformanceOverview } from "./lib/server/performanceOverview";
 
 export {
+  normalizeSpeedTestUrl,
+  runSpeedTestAnalysis,
+  type PsiStrategy,
+  type SpeedTestCoreMetrics,
+  type SpeedTestRecommendation,
+  type SpeedTestResult,
+  type RecommendationImpact,
+  type RecommendationEffort,
+} from "./lib/server/psiAnalysis";
+
+export {
   queryGscPagePeriodComparison,
   queryGscSiteDailySeries,
   queryGscSiteTotals,

@@ -5,6 +5,8 @@ import Link from "next/link";
 
 const pills = ["Custom Websites", "Landing Pages", "CRO", "PageSpeed", "HIPAA Hosting", "A/B Testing"];
 
+const toolLinks = [{ label: "Free speed test", href: "/site-speed-test" }];
+
 export default function WebDevHero() {
   const [visible, setVisible] = useState(false);
   const lineRef = useRef<HTMLDivElement>(null);
@@ -191,6 +193,13 @@ export default function WebDevHero() {
                 Get My Free Site Audit
                 <i className="ri-arrow-right-line text-sm"></i>
               </a>
+              <Link
+                href={toolLinks[0].href}
+                className="inline-flex items-center gap-2 text-[11px] tracking-[0.2em] uppercase font-medium text-white/50 hover:text-white border border-white/20 px-5 py-3.5 rounded-full transition-colors whitespace-nowrap"
+              >
+                <i className="ri-speed-line text-sm" aria-hidden />
+                {toolLinks[0].label}
+              </Link>
               <a href="#web-custom" className="hidden sm:inline-flex items-center gap-2 text-[11px] tracking-[0.2em] uppercase font-medium text-white/40 hover:text-white transition-colors cursor-pointer whitespace-nowrap">
                 See Our Services
                 <i className="ri-arrow-down-line text-xs"></i>
