@@ -556,3 +556,205 @@ export async function pickKeyword(
       .slice(0, 5),
   };
 }
+
+// =========================================================
+// Domain-level reports (SEO Strategy tool)
+// =========================================================
+
+/** Extract bare domain for Semrush (no protocol, no www). */
+export function hostnameToSemrushDomain(input: string): string {
+  const trimmed = input.trim();
+  try {
+    const host = trimmed.includes("://")
+      ? new URL(trimmed).hostname
+      : trimmed.split("/")[0] ?? trimmed;
+    return host.replace(/^www\./i, "").toLowerCase();
+  } catch {
+    return trimmed.replace(/^www\./i, "").toLowerCase();
+  }
+}
+
+export interface SemrushDomainOverview {
+  domain: string;
+  rank: number;
+  organicKeywords: number;
+  organicTraffic: number;
+  organicCost: number;
+}
+
+export interface SemrushDomainOrganicKeyword {
+  phrase: string;
+  position: number;
+  searchVolume: number;
+  trafficPercent: number;
+  difficulty: number;
+  rankingUrl: string;
+}
+
+export interface SemrushOrganicCompetitor {
+  domain: string;
+  relevance: number;
+  commonKeywords: number;
+  organicKeywords: number;
+  organicTraffic: number;
+}
+
+export interface SemrushDomainGapKeyword {
+  phrase: string;
+  searchVolume: number;
+  competition: number;
+}
+
+/**
+ * Domain overview (organic size, traffic estimate).
+ * Endpoint: type=domain_ranks · ~10 units per call.
+ */
+export async function getDomainOverview(
+  domain: string,
+  opts?: { database?: string },
+): Promise<SemrushDomainOverview | null> {
+  const { apiKey, database } = getSemrushEnv();
+  const cleanDomain = hostnameToSemrushDomain(domain);
+  if (!cleanDomain) {
+    throw new SemrushApiError("domain is required", 400, null);
+  }
+
+  const body = await semrushFetch({
+    type: "domain_ranks",
+    key: apiKey,
+    domain: cleanDomain,
+    database: opts?.database ?? database,
+    export_columns: "Dn,Rk,Or,Ot,Oc",
+    export_decode: 1,
+  });
+
+  const rows = parseSemrushRows(body);
+  if (rows.length === 0) return null;
+  const [dn, rk, or, ot, oc] = rows[0];
+  return {
+    domain: dn || cleanDomain,
+    rank: toNumber(rk),
+    organicKeywords: toNumber(or),
+    organicTraffic: toNumber(ot),
+    organicCost: toNumber(oc),
+  };
+}
+
+/**
+ * Top organic keywords for a domain (by traffic share).
+ * Endpoint: type=domain_organic · ~10 units per 10 rows.
+ */
+export async function getDomainOrganicKeywords(
+  domain: string,
+  opts?: { displayLimit?: number; database?: string },
+): Promise<SemrushDomainOrganicKeyword[]> {
+  const { apiKey, database } = getSemrushEnv();
+  const cleanDomain = hostnameToSemrushDomain(domain);
+  if (!cleanDomain) {
+    throw new SemrushApiError("domain is required", 400, null);
+  }
+
+  const limit = Math.max(1, Math.min(50, opts?.displayLimit ?? 20));
+
+  const body = await semrushFetch({
+    type: "domain_organic",
+    key: apiKey,
+    domain: cleanDomain,
+    database: opts?.database ?? database,
+    display_limit: limit,
+    display_sort: "tr_desc",
+    export_columns: "Ph,Po,Nq,Kd,Ur,Tr",
+    export_decode: 1,
+  });
+
+  const rows = parseSemrushRows(body);
+  return rows
+    .map(([ph, po, nq, kd, ur, tr]) => ({
+      phrase: ph ?? "",
+      position: toNumber(po),
+      searchVolume: toNumber(nq),
+      difficulty: toNumber(kd),
+      rankingUrl: ur ?? "",
+      trafficPercent: toNumber(tr),
+    }))
+    .filter((r) => r.phrase.length > 0);
+}
+
+/**
+ * Organic search competitors for a domain.
+ * Endpoint: type=domain_organic_organic · 40 units per row returned.
+ */
+export async function getDomainOrganicCompetitors(
+  domain: string,
+  opts?: { displayLimit?: number; database?: string },
+): Promise<SemrushOrganicCompetitor[]> {
+  const { apiKey, database } = getSemrushEnv();
+  const cleanDomain = hostnameToSemrushDomain(domain);
+  if (!cleanDomain) {
+    throw new SemrushApiError("domain is required", 400, null);
+  }
+
+  const limit = Math.max(1, Math.min(10, opts?.displayLimit ?? 5));
+
+  const body = await semrushFetch({
+    type: "domain_organic_organic",
+    key: apiKey,
+    domain: cleanDomain,
+    database: opts?.database ?? database,
+    display_limit: limit,
+    display_sort: "cr_desc",
+    export_columns: "Dn,Cr,Np,Or,Ot",
+    export_decode: 1,
+  });
+
+  const rows = parseSemrushRows(body);
+  return rows
+    .map(([dn, cr, np, or, ot]) => ({
+      domain: dn ?? "",
+      relevance: toNumber(cr),
+      commonKeywords: toNumber(np),
+      organicKeywords: toNumber(or),
+      organicTraffic: toNumber(ot),
+    }))
+    .filter((r) => r.domain.length > 0);
+}
+
+/**
+ * Keywords a competitor ranks for that the target domain does not (gap).
+ * Endpoint: type=domain_domains · 40 units per row.
+ */
+export async function getDomainMissingKeywords(
+  targetDomain: string,
+  competitorDomain: string,
+  opts?: { displayLimit?: number; database?: string },
+): Promise<SemrushDomainGapKeyword[]> {
+  const { apiKey, database } = getSemrushEnv();
+  const target = hostnameToSemrushDomain(targetDomain);
+  const competitor = hostnameToSemrushDomain(competitorDomain);
+  if (!target || !competitor) {
+    throw new SemrushApiError("target and competitor domains are required", 400, null);
+  }
+
+  const limit = Math.max(1, Math.min(25, opts?.displayLimit ?? 12));
+  const domains = `*|or|${target}|*|or|${competitor}|-|or|${target}`;
+
+  const body = await semrushFetch({
+    type: "domain_domains",
+    key: apiKey,
+    domains,
+    database: opts?.database ?? database,
+    display_limit: limit,
+    display_sort: "nq_desc",
+    export_columns: "Ph,Nq,Co",
+    export_decode: 1,
+  });
+
+  const rows = parseSemrushRows(body);
+  return rows
+    .map(([ph, nq, co]) => ({
+      phrase: ph ?? "",
+      searchVolume: toNumber(nq),
+      competition: toNumber(co),
+    }))
+    .filter((r) => r.phrase.length > 0);
+}

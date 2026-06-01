@@ -5,7 +5,10 @@ import Link from "next/link";
 
 const pills = ["Custom Websites", "Landing Pages", "CRO", "PageSpeed", "HIPAA Hosting", "A/B Testing"];
 
-const toolLinks = [{ label: "Free speed test", href: "/site-speed-test" }];
+const toolLinks = [
+  { label: "Free speed test", href: "/site-speed-test" },
+  { label: "SEO strategy audit", href: "/seo-strategy" },
+];
 
 export default function WebDevHero() {
   const [visible, setVisible] = useState(false);

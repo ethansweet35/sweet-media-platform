@@ -10,6 +10,7 @@ export * from "./types/knowledge-base";
 export * from "./types/tracked-page";
 export * from "./types/semrush";
 export * from "./types/speed-test";
+export * from "./types/seo-strategy";
 export * from "./types/blog-planner";
 export * from "./types/blog-planner-bulk-job";
 export { BlogPlannerBulkJobProvider, useBlogPlannerBulkJob } from "./contexts/BlogPlannerBulkJobContext";

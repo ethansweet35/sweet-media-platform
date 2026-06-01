@@ -99,7 +99,24 @@ export {
   type KeywordPickMode,
   type SemrushAutoPickResult,
   type SemrushRankingKeyword,
+  hostnameToSemrushDomain,
+  getDomainOverview,
+  getDomainOrganicKeywords,
+  getDomainOrganicCompetitors,
+  getDomainMissingKeywords,
+  type SemrushDomainOverview,
+  type SemrushDomainOrganicKeyword,
+  type SemrushOrganicCompetitor,
+  type SemrushDomainGapKeyword,
 } from "./lib/server/semrushClient";
+
+export {
+  normalizeSeoStrategyUrl,
+  runSeoStrategyAnalysis,
+  type RunSeoStrategyOptions,
+} from "./lib/server/seoStrategyAnalysis";
+
+export { buildSiteStructureSnapshot, type SiteStructureSnapshot } from "./lib/server/siteStructureSnapshot";
 
 // ─── Content Editor — full pipeline + vendor wrappers ──────────────────
 // Surfer/Rankability-style content optimization. Each vendor wrapper

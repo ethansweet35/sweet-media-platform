@@ -43,12 +43,28 @@ const services = [
   },
 ];
 
+const aiTools = [
+  {
+    label: "Site Speed Checker",
+    href: "/site-speed-test",
+    icon: "ri-speed-line",
+    desc: "Google PageSpeed scores, Core Web Vitals, and platform-specific fixes.",
+    tag: null as string | null,
+  },
+  {
+    label: "SEO Strategy",
+    href: "/seo-strategy",
+    icon: "ri-search-eye-line",
+    desc: "Semrush snapshot + AI audit for CRO, keywords, structure, and technical SEO.",
+    tag: "New",
+  },
+];
+
 const navLinks = [
   { label: "Industries", href: "/industries" },
   { label: "Results", href: "/results" },
   { label: "Blog", href: "/blog" },
   { label: "About", href: "/about" },
-  { label: "Contact", href: "/contact" },
 ];
 
 export default function SiteHeader({
@@ -59,8 +75,11 @@ export default function SiteHeader({
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [servicesOpen, setServicesOpen] = useState(false);
+  const [aiToolsOpen, setAiToolsOpen] = useState(false);
   const [mobileServicesOpen, setMobileServicesOpen] = useState(false);
+  const [mobileAiToolsOpen, setMobileAiToolsOpen] = useState(false);
   const megaRef = useRef<HTMLDivElement>(null);
+  const aiToolsRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
   const pathname = usePathname();
 
@@ -72,8 +91,12 @@ export default function SiteHeader({
 
   useEffect(() => {
     const handleClick = (e: MouseEvent) => {
-      if (megaRef.current && !megaRef.current.contains(e.target as Node)) {
+      const target = e.target as Node;
+      if (megaRef.current && !megaRef.current.contains(target)) {
         setServicesOpen(false);
+      }
+      if (aiToolsRef.current && !aiToolsRef.current.contains(target)) {
+        setAiToolsOpen(false);
       }
     };
     document.addEventListener("mousedown", handleClick);
@@ -83,6 +106,7 @@ export default function SiteHeader({
   const handleNav = (href: string) => {
     setMobileOpen(false);
     setServicesOpen(false);
+    setAiToolsOpen(false);
     if (href.startsWith("/#")) {
       if (pathname === "/") {
         const el = document.querySelector(href.replace("/", ""));
@@ -152,7 +176,10 @@ export default function SiteHeader({
             {/* Services mega trigger */}
             <div className="relative" ref={megaRef}>
               <button
-                onClick={() => setServicesOpen((v) => !v)}
+                onClick={() => {
+                  setServicesOpen((v) => !v);
+                  setAiToolsOpen(false);
+                }}
                 className={`flex items-center gap-1.5 text-[11px] tracking-[0.2em] uppercase font-medium transition-colors duration-200 cursor-pointer whitespace-nowrap ${servicesOpen ? (isInverted ? "text-white" : "text-black") : navTextClass}`}
               >
                 Services
@@ -236,6 +263,71 @@ export default function SiteHeader({
               )}
             </div>
 
+            {/* AI Tools mega trigger */}
+            <div className="relative" ref={aiToolsRef}>
+              <button
+                onClick={() => {
+                  setAiToolsOpen((v) => !v);
+                  setServicesOpen(false);
+                }}
+                className={`flex items-center gap-1.5 text-[11px] tracking-[0.2em] uppercase font-medium transition-colors duration-200 cursor-pointer whitespace-nowrap ${aiToolsOpen ? (isInverted ? "text-white" : "text-black") : navTextClass}`}
+              >
+                AI Tools
+                <i className={`ri-arrow-down-s-line text-sm transition-transform duration-200 ${aiToolsOpen ? "rotate-180" : ""}`}></i>
+              </button>
+
+              {aiToolsOpen && (
+                <div
+                  className="absolute top-[calc(100%+20px)] left-1/2 -translate-x-1/2 w-[520px] bg-white border border-black/8 rounded-2xl overflow-hidden"
+                  style={{ boxShadow: "0 20px 60px rgba(0,0,0,0.12)" }}
+                >
+                  <div className="h-1 w-full bg-gradient-to-r from-[#7B9FD4] via-[#0A1F44] to-[#7B9FD4]" />
+                  <div className="p-6">
+                    <div className="mb-5">
+                      <p className="text-[10px] tracking-[0.3em] uppercase font-bold text-black/35 mb-0.5">
+                        Free tools
+                      </p>
+                      <h3
+                        className="text-base font-semibold text-black"
+                        style={{ fontFamily: "'Playfair Display', serif" }}
+                      >
+                        AI-Powered Site Audits
+                      </h3>
+                    </div>
+                    <div className="flex flex-col gap-3">
+                      {aiTools.map((tool) => (
+                        <button
+                          key={tool.label}
+                          onClick={() => handleNav(tool.href)}
+                          className="group relative text-left p-4 rounded-xl border border-black/6 hover:border-[#0A1F44]/20 hover:bg-[#0A1F44]/3 transition-all duration-200 cursor-pointer"
+                        >
+                          {tool.tag && (
+                            <span className="absolute top-3 right-3 text-[9px] tracking-[0.15em] uppercase font-bold text-[#0A1F44] bg-[#0A1F44]/8 px-2 py-0.5 rounded-full">
+                              {tool.tag}
+                            </span>
+                          )}
+                          <div className="flex items-start gap-3">
+                            <div className="w-9 h-9 flex items-center justify-center rounded-lg bg-[#0A1F44]/6 group-hover:bg-[#0A1F44]/12 transition-colors flex-shrink-0">
+                              <i className={`${tool.icon} text-[#0A1F44] text-base`}></i>
+                            </div>
+                            <div className="min-w-0 pr-12">
+                              <div className="flex items-center gap-1.5 mb-1">
+                                <span className="text-[12px] font-semibold text-black leading-tight">
+                                  {tool.label}
+                                </span>
+                                <i className="ri-arrow-right-line text-[10px] text-black/30 group-hover:text-[#0A1F44] group-hover:translate-x-0.5 transition-all duration-200"></i>
+                              </div>
+                              <p className="text-[11px] text-black/45 leading-relaxed">{tool.desc}</p>
+                            </div>
+                          </div>
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              )}
+            </div>
+
             {/* Other nav links */}
             {navLinks.map((link) => (
               <button
@@ -300,6 +392,28 @@ export default function SiteHeader({
                   >
                     <i className={`${s.icon} text-base text-neutral-300`}></i>
                     {s.label}
+                  </button>
+                ))}
+              </div>
+            )}
+
+            <button
+              onClick={() => setMobileAiToolsOpen((v) => !v)}
+              className="flex items-center justify-between w-full py-4 text-[13px] tracking-[0.15em] uppercase font-semibold text-neutral-500 hover:text-black cursor-pointer"
+            >
+              AI Tools
+              <i className={`ri-arrow-down-s-line text-lg transition-transform duration-200 ${mobileAiToolsOpen ? "rotate-180" : ""}`}></i>
+            </button>
+            {mobileAiToolsOpen && (
+              <div className="flex flex-col gap-0.5 pl-4 pb-3 border-l-2 border-neutral-100 ml-1 mb-1">
+                {aiTools.map((tool) => (
+                  <button
+                    key={tool.label}
+                    onClick={() => handleNav(tool.href)}
+                    className="flex items-center gap-3 py-3 text-[13px] text-neutral-500 hover:text-black transition-colors text-left cursor-pointer"
+                  >
+                    <i className={`${tool.icon} text-base text-neutral-300`}></i>
+                    {tool.label}
                   </button>
                 ))}
               </div>
