@@ -139,10 +139,17 @@ export interface WindsorAccountConfig {
 
 /** Per-brand call tracking IDs (system_settings.marketing_call_tracking). */
 export interface MarketingCallTrackingConfig {
-  /** CallRail API account id (ACC…) — required for form submissions via API */
+  /** CallRail API account id (ACC…) — agency account; required for form submissions via API */
   callrail_account_id?: string;
-  /** Windsor account_name for CallRail (often matches company name in Windsor) */
+  /**
+   * Windsor `account_name` for the CallRail connector — use the tracking number with dashes
+   * (e.g. `548-983-303`), not the `ctrk_*` script id.
+   */
   windsor_callrail_account?: string;
+  /** CallRail company id from swap.js URL (numeric) — scopes form API under agency account */
+  callrail_company_id?: string;
+  /** CallRail tracking script id (`ctrk_…`) — stored for reference; not used by Windsor ingest */
+  callrail_tracking_id?: string;
   /** CTM numeric account id */
   ctm_account_id?: string;
 }

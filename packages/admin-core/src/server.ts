@@ -56,6 +56,11 @@ export { handleSeoImpactGet } from "./lib/server/seoImpact";
 export { handlePerformanceOverviewGet, fetchPerformanceOverview } from "./lib/server/performanceOverview";
 
 export {
+  handleSearchConsoleGet,
+  handleSearchConsolePageQueriesGet,
+} from "./lib/server/searchConsoleRoute";
+
+export {
   normalizeSpeedTestUrl,
   runSpeedTestAnalysis,
   fetchPsiMetricsQuick,

@@ -148,11 +148,17 @@ export async function ingestChannelMetrics(lookbackDays = 35): Promise<IngestRes
     }
   }
 
-  // ── Windsor (ads + GMB) ─────────────────────────────────────────────
   const windsor = await readJsonSetting<WindsorAccountConfig>(admin, "marketing_windsor_accounts", {});
-  const hasWindsor = !!process.env.WINDSOR_API_KEY && windsor && Object.keys(windsor).length > 0;
+  const callTracking = await readJsonSetting<MarketingCallTrackingConfig>(
+    admin,
+    "marketing_call_tracking",
+    {},
+  );
+  const windsorApiKey = process.env.WINDSOR_API_KEY?.trim();
+  const hasWindsorAccounts = windsor && Object.keys(windsor).length > 0;
 
-  if (hasWindsor) {
+  // ── Windsor (ads + GMB) ─────────────────────────────────────────────
+  if (windsorApiKey && hasWindsorAccounts) {
     try {
       const adsRows = await fetchWindsorAds(windsor, startDate, today);
       result.written += await upsertChannelMetrics(admin, adsRows);
@@ -172,36 +178,32 @@ export async function ingestChannelMetrics(lookbackDays = 35): Promise<IngestRes
         result.errors.push({ channel: "gmb", message: e instanceof Error ? e.message : String(e) });
       }
     }
+  }
 
-    const callrailAccount =
-      windsor.callrail?.trim() ||
-      (await readJsonSetting<MarketingCallTrackingConfig>(admin, "marketing_call_tracking", {}))
-        .windsor_callrail_account?.trim();
-    if (callrailAccount) {
-      try {
-        const callRows = await fetchWindsorCallrail(callrailAccount, startDate, today);
-        result.written += await upsertChannelMetrics(admin, callRows);
-        result.ran.push("callrail");
-      } catch (e) {
-        result.ok = false;
-        result.errors.push({
-          channel: "callrail",
-          message: e instanceof Error ? e.message : String(e),
-        });
-      }
+  // ── Windsor CallRail (calls + tags) — phone account_name, not ctrk_* ──
+  const callrailWindsorAccount =
+    windsor?.callrail?.trim() || callTracking.windsor_callrail_account?.trim();
+  if (windsorApiKey && callrailWindsorAccount) {
+    try {
+      const callRows = await fetchWindsorCallrail(callrailWindsorAccount, startDate, today);
+      result.written += await upsertChannelMetrics(admin, callRows);
+      result.ran.push("callrail");
+    } catch (e) {
+      result.ok = false;
+      result.errors.push({
+        channel: "callrail",
+        message: e instanceof Error ? e.message : String(e),
+      });
     }
   }
 
-  const callTracking = await readJsonSetting<MarketingCallTrackingConfig>(
-    admin,
-    "marketing_call_tracking",
-    {},
-  );
   const callrailAccountId =
     callTracking.callrail_account_id?.trim() || process.env.CALLRAIL_ACCOUNT_ID?.trim();
   if (process.env.CALLRAIL_API_KEY?.trim() && callrailAccountId) {
     try {
-      const formRows = await fetchCallrailFormMetrics(callrailAccountId, startDate, today);
+      const formRows = await fetchCallrailFormMetrics(callrailAccountId, startDate, today, {
+        companyId: callTracking.callrail_company_id,
+      });
       result.written += await upsertChannelMetrics(admin, formRows);
       if (!result.ran.includes("callrail")) result.ran.push("callrail");
     } catch (e) {

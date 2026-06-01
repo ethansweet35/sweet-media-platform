@@ -29,11 +29,17 @@ function dateFromIso(iso: string): string | null {
   return iso.slice(0, 10);
 }
 
+export interface CallrailFormMetricsOptions {
+  /** Numeric company id — filters submissions when using one agency ACC account */
+  companyId?: string;
+}
+
 /** Daily form submission counts → channel_metrics rows. */
 export async function fetchCallrailFormMetrics(
   accountId: string,
   startDate: string,
   endDate: string,
+  options?: CallrailFormMetricsOptions,
 ): Promise<ChannelMetricRow[]> {
   const auth = authHeader();
   if (!auth || !accountId.trim()) return [];
@@ -50,6 +56,8 @@ export async function fetchCallrailFormMetrics(
       page: String(page),
       fields: "id,submitted_at",
     });
+    const companyId = options?.companyId?.trim();
+    if (companyId) params.set("company_id", companyId);
 
     const res = await fetch(
       `${CALLRAIL_BASE}/${encodeURIComponent(accountId)}/form_submissions.json?${params}`,
