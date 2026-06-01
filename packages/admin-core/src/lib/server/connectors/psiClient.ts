@@ -29,9 +29,24 @@ interface PsiResponse {
   };
 }
 
+/**
+ * Resolve a Google API key for PSI. Falls back to the shared Google Cloud key
+ * (same project as the NLP key) so PSI works without a dedicated secret — just
+ * enable the PageSpeed Insights API on that project. Without a key the public
+ * endpoint quota is tiny and returns 429s during ingest.
+ */
+function resolvePsiKey(): string | undefined {
+  return (
+    process.env.GOOGLE_PSI_API_KEY?.trim() ||
+    process.env.GOOGLE_NLP_API_KEY?.trim() ||
+    process.env.GOOGLE_API_KEY?.trim() ||
+    undefined
+  );
+}
+
 async function runPsi(url: string, strategy: PsiStrategy): Promise<PageSpeedEntry> {
   const params = new URLSearchParams({ url, strategy, category: "performance" });
-  const key = process.env.GOOGLE_PSI_API_KEY;
+  const key = resolvePsiKey();
   if (key) params.set("key", key);
 
   const empty: PageSpeedEntry = {
