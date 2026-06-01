@@ -22,6 +22,8 @@
  *   Plus any secrets in repo-root .env: SUPABASE_SERVICE_ROLE_KEY, RESEND_API_KEY
  *
  * Flags:
+ *   --project     Override Vercel project name (sweet-media and inner-peak-colorado
+ *                 default to *-platform; all other brands default to slug)
  *   --update-env    Re-push env vars to an existing project (upsert)
  *   --redeploy      Trigger a new production deployment after env update
  *   --skip-deploy   Create project + set env but do NOT trigger a deploy
@@ -35,6 +37,12 @@ import { execSync } from 'child_process';
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const REPO_ROOT = join(__dirname, '..');
 const VERCEL_API = 'https://api.vercel.com';
+
+/** Brands whose live Vercel project name differs from the app slug (keep in sync with dev-setup.mjs). */
+const VERCEL_PROJECT_NAMES = {
+  'sweet-media':         'sweet-media-platform',
+  'inner-peak-colorado': 'inner-peak-colorado-platform',
+};
 
 const OP_VAULT = 'sweet media platform';
 const OP_ITEM  = 'platform \u2014 root .env'; // em dash
@@ -166,9 +174,8 @@ async function main() {
   const slug   = getArg('--slug')   || die('--slug required');
   const name   = getArg('--name')   || die('--name required');
   const domain = getArg('--domain') || null;
-  // Vercel project name; defaults to slug. Use --project when the brand's
-  // Vercel project name differs from its slug (e.g. sweet-media-platform).
-  const projectName = getArg('--project') || slug;
+  // Vercel project name: explicit --project flag, then VERCEL_PROJECT_NAMES, then slug.
+  const projectName = getArg('--project') || VERCEL_PROJECT_NAMES[slug] || slug;
 
   const appDir    = join(REPO_ROOT, 'apps', slug);
   const envLocal  = join(appDir, '.env.local');
@@ -388,7 +395,7 @@ async function main() {
 ✅  ${name} → Vercel
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-Project   : ${slug}
+Project   : ${projectName}
 Dashboard : https://vercel.com/dashboard${teamId ? '' : ''}
 ${domain ? `Domain    : https://${domain} (DNS still needed — see below)` : ''}
 

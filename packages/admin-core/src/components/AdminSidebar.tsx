@@ -28,6 +28,7 @@ function defaultExpandedGroups(pathname: string): Record<AdminNavGroupId, boolea
   const expanded: Record<AdminNavGroupId, boolean> = {
     content: true,
     seo: false,
+    reporting: false,
     health: false,
     settings: false,
   };

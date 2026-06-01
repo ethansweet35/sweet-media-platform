@@ -3,7 +3,7 @@
  * Single source of truth for sidebar groups and top-bar wayfinding.
  */
 
-export type AdminNavGroupId = "content" | "seo" | "health" | "settings";
+export type AdminNavGroupId = "content" | "seo" | "reporting" | "health" | "settings";
 
 export interface AdminNavItem {
   href: string;
@@ -45,6 +45,13 @@ export const ADMIN_NAV_GROUPS: AdminNavGroup[] = [
       { href: "/admin/keyword-research", label: "Keyword Research", icon: "ri-search-eye-line", shortLabel: "Keywords" },
       { href: "/admin/blog-planner", label: "Blog Planner", icon: "ri-node-tree", shortLabel: "Planner" },
       { href: "/admin/internal-links", label: "Internal Links", icon: "ri-links-line", shortLabel: "Links" },
+    ],
+  },
+  {
+    id: "reporting",
+    label: "Reporting",
+    items: [
+      { href: "/admin/reporting", label: "Marketing Report", icon: "ri-bar-chart-box-line", shortLabel: "Reporting" },
     ],
   },
   {

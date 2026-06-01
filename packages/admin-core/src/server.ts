@@ -351,3 +351,18 @@ export {
   type PageContentEditorError,
   type AdminContext,
 } from "./lib/server/pageContentEditor";
+
+export {
+  buildMarketingReport,
+  handleMarketingOverviewGet,
+  handleIngestMetricsPost,
+  resolveReportShare,
+  type ResolvedShareReport,
+} from "./lib/server/marketingReport";
+
+export {
+  handleReportSharesGet,
+  handleReportSharesPost,
+  handleReportSharePatch,
+  handleReportShareDelete,
+} from "./lib/server/reportShares";

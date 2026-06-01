@@ -63,10 +63,13 @@ async function queryWindsor(
   }
 }
 
-const ADS_CONNECTORS: { connector: string; source: string }[] = [
-  { connector: "google", source: "google" },
-  { connector: "facebook", source: "facebook" },
-  { connector: "bing", source: "bing" },
+// `connector` is the Windsor API endpoint slug; `source` is the stable label we
+// store/display. Note the Google Ads endpoint is `google_ads` even though the
+// blended feed labels the source `google`.
+const ADS_CONNECTORS: { connector: string; source: string; configKey: keyof WindsorAccountConfig }[] = [
+  { connector: "google_ads", source: "google", configKey: "google_ads" },
+  { connector: "facebook", source: "facebook", configKey: "facebook" },
+  { connector: "bing", source: "bing", configKey: "bing" },
 ];
 
 /**
@@ -82,13 +85,8 @@ export async function fetchWindsorAds(
   const out: ChannelMetricRow[] = [];
   const metricFields = ["clicks", "impressions", "spend", "conversions"];
 
-  for (const { connector, source } of ADS_CONNECTORS) {
-    const accountName =
-      connector === "google"
-        ? config.google_ads
-        : connector === "facebook"
-          ? config.facebook
-          : config.bing;
+  for (const { connector, source, configKey } of ADS_CONNECTORS) {
+    const accountName = config[configKey];
     if (!accountName) continue;
 
     const rows = await queryWindsor(connector, accountName, metricFields, startDate, endDate);

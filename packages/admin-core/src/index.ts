@@ -133,6 +133,18 @@ export { default as AdminKeywordResearchPage } from "./views/AdminKeywordResearc
 export { default as AdminBlogPlannerPage } from "./views/AdminBlogPlannerPage";
 export { default as AdminContentEditorPage } from "./views/AdminContentEditorPage";
 export { default as AdminContentEditorBriefPage } from "./views/AdminContentEditorBriefPage";
+export { default as AdminReportingPage } from "./views/AdminReportingPage";
+export { default as MarketingReportView } from "./components/marketing/MarketingReportView";
+export { useMarketingOverview } from "./hooks/useMarketingOverview";
+export { useReportShares } from "./hooks/useReportShares";
+export type {
+  MarketingReportPayload,
+  MarketingChannel,
+  MetricDelta,
+  AdsSourceSummary,
+  GmbSummary,
+  ReportShareRow,
+} from "./types/marketing";
 export {
   useContentEditors,
   useContentEditor,

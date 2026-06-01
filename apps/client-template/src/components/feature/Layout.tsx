@@ -8,7 +8,8 @@ import Footer from './Footer';
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
-  const isAdmin = pathname?.startsWith('/admin');
+  // Admin and public client reports render without the marketing site chrome.
+  const isAdmin = pathname?.startsWith('/admin') || pathname?.startsWith('/report');
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {

@@ -9,7 +9,6 @@
  */
 
 import type { SupabaseClient } from "@supabase/supabase-js";
-import { gscComparisonDateRanges } from "./gscClient";
 import { fetchPerformanceOverview } from "./performanceOverview";
 import {
   fetchChannelMetrics,
@@ -31,6 +30,25 @@ function delta(current: number, previous: number): MetricDelta {
   return { current, previous, delta: d, deltaPct: pct };
 }
 
+type ComparisonRanges = { curStart: string; curEnd: string; prevStart: string; prevEnd: string };
+
+/**
+ * Comparison windows for stored channels (PSI / ads / GMB), which—unlike GSC—do
+ * not have a multi-day reporting lag. Current window ends *today* so fresh ad
+ * spend and today's PageSpeed snapshot are included.
+ */
+function storedComparisonRanges(periodDays: number): ComparisonRanges {
+  const end = new Date();
+  const curStart = new Date(end);
+  curStart.setUTCDate(curStart.getUTCDate() - periodDays + 1);
+  const prevEnd = new Date(curStart);
+  prevEnd.setUTCDate(prevEnd.getUTCDate() - 1);
+  const prevStart = new Date(prevEnd);
+  prevStart.setUTCDate(prevStart.getUTCDate() - periodDays + 1);
+  const fmt = (d: Date) => d.toISOString().slice(0, 10);
+  return { curStart: fmt(curStart), curEnd: fmt(end), prevStart: fmt(prevStart), prevEnd: fmt(prevEnd) };
+}
+
 function inRange(date: string, start: string, end: string): boolean {
   return date >= start && date <= end;
 }
@@ -42,10 +60,7 @@ function sumBy(
   return rows.reduce((acc, r) => (predicate(r) ? acc + Number(r.value || 0) : acc), 0);
 }
 
-function buildAds(
-  rows: ChannelMetricRow[],
-  ranges: ReturnType<typeof gscComparisonDateRanges>,
-): AdsSourceSummary[] {
+function buildAds(rows: ChannelMetricRow[], ranges: ComparisonRanges): AdsSourceSummary[] {
   const ads = rows.filter((r) => r.channel === "ads");
   if (ads.length === 0) return [];
   const sources = Array.from(
@@ -79,10 +94,7 @@ function buildAds(
   }));
 }
 
-function buildGmb(
-  rows: ChannelMetricRow[],
-  ranges: ReturnType<typeof gscComparisonDateRanges>,
-): GmbSummary | null {
+function buildGmb(rows: ChannelMetricRow[], ranges: ComparisonRanges): GmbSummary | null {
   const gmb = rows.filter((r) => r.channel === "gmb");
   if (gmb.length === 0) return null;
 
@@ -163,7 +175,9 @@ async function resolveBrand(
 /** Build the full multi-channel report for a period (default 28 days). */
 export async function buildMarketingReport(periodDays = 28): Promise<MarketingReportPayload> {
   const days = Math.min(90, Math.max(7, periodDays));
-  const ranges = gscComparisonDateRanges(days);
+  // Search Console lags ~3 days; PSI/ads/GMB are fresh, so stored channels use
+  // their own windows ending today.
+  const ranges = storedComparisonRanges(days);
   const admin = getMetricsAdminClient();
 
   const [brand, perf, metrics] = await Promise.all([
