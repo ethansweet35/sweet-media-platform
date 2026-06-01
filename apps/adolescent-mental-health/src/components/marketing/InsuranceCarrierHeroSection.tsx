@@ -59,7 +59,7 @@ export default function InsuranceCarrierHeroSection({
         <div className="pointer-events-none absolute inset-0 bg-dot-grid opacity-[0.07]" />
 
         <div className="relative grid lg:min-h-[560px] lg:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)]">
-          <div className="flex flex-col justify-center px-6 py-12 sm:px-10 lg:px-10 lg:py-14 xl:pl-[max(2.5rem,calc((100vw-1350px)/2+2.5rem))]">
+          <div className="flex flex-col justify-center px-6 py-12 sm:px-10 lg:px-10 lg:py-14 xl:pl-[max(2.5rem,calc((100vw-var(--width-content-px)*1px)/2+2.5rem))]">
             <div className="mb-8 inline-flex w-fit items-center gap-4 rounded-2xl border border-white/10 bg-white/5 px-5 py-3 backdrop-blur-sm">
                 <Image
                   src={logoSrc}

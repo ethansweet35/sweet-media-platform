@@ -13,7 +13,7 @@
  *   --color-accent       → text-accent, bg-accent, ring-accent
  *   --color-surface      → bg-surface
  *   --spacing-section    → py-section, pt-section
- *   --width-content      → max-w-content
+ *   --max-width-content  → max-w-content
  */
 @theme {
   /* ── Brand palette (Virtual IOP marketing language) ── */
@@ -35,7 +35,8 @@
   --font-body:    var(--font-montserrat, "Montserrat", system-ui, sans-serif);
 
   /* ── Layout ── */
-  --width-content: 84.375rem; /* 1350px — marketing page container */
+  --max-width-content: 81.25rem; /* 1300px — marketing page container */
+  --width-content-px: 1300;
   --spacing-section: 6.25rem;  /* 100px — standard section vertical padding */
 }
 
