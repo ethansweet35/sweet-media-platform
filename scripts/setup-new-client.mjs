@@ -231,6 +231,9 @@ async function main() {
   let   webhookSecret    = envVars.BLOG_WEBHOOK_SECRET   || process.env.BLOG_WEBHOOK_SECRET   || opRead('BLOG_WEBHOOK_SECRET')           || null;
   const googleClientEmail = envVars.GOOGLE_INDEXING_CLIENT_EMAIL || process.env.GOOGLE_INDEXING_CLIENT_EMAIL || opRead('GOOGLE_INDEXING_CLIENT_EMAIL') || null;
   const googlePrivateKey  = envVars.GOOGLE_INDEXING_PRIVATE_KEY  || process.env.GOOGLE_INDEXING_PRIVATE_KEY  || opRead('GOOGLE_INDEXING_PRIVATE_KEY')  || null;
+  // Shared agency Search Console OAuth token — one Google account for all brands.
+  const gscRefreshToken   = envVars.GOOGLE_SEARCH_CONSOLE_REFRESH_TOKEN   || process.env.GOOGLE_SEARCH_CONSOLE_REFRESH_TOKEN   || opRead('GOOGLE_SEARCH_CONSOLE_REFRESH_TOKEN')   || null;
+  const gscConnectedEmail = envVars.GOOGLE_SEARCH_CONSOLE_CONNECTED_EMAIL || process.env.GOOGLE_SEARCH_CONSOLE_CONNECTED_EMAIL || opRead('GOOGLE_SEARCH_CONSOLE_CONNECTED_EMAIL') || null;
 
   if (!openrouterKey) warn('OPENROUTER_API_KEY not found in .env — add it for edge function secrets.');
   if (!openaiKey)     warn('OPENAI_API_KEY not found in .env — add it for edge function secrets.');
@@ -345,6 +348,24 @@ async function main() {
       }
     } else {
       warn(`No migrations directory at ${migrationsDir} — skipped incremental migrations`);
+    }
+
+    // ── 7c. Seed shared Search Console OAuth token ──────────────────────────
+    // All brands share one agency Google account that has access to every
+    // property, so new brands inherit the token instead of connecting manually.
+    if (gscRefreshToken) {
+      step('Seeding shared Search Console OAuth token');
+      const tok = gscRefreshToken.replace(/'/g, "''");
+      const email = (gscConnectedEmail || '').replace(/'/g, "''");
+      await runSQL(token, ref, `
+        insert into public.system_settings (key, value) values
+          ('google_search_console_refresh_token', to_jsonb('${tok}'::text)),
+          ('google_search_console_connected_email', to_jsonb('${email}'::text))
+        on conflict (key) do update set value = excluded.value, updated_at = now();
+      `);
+      log('Search Console token seeded');
+    } else {
+      warn('GOOGLE_SEARCH_CONSOLE_REFRESH_TOKEN missing from .env — Search Console will need manual connect for this brand.');
     }
 
     // ── 8. Seed brand_settings ──────────────────────────────────────────────

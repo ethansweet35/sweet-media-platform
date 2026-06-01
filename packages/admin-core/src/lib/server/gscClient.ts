@@ -151,10 +151,11 @@ export type GscAuthResult =
   | { accessToken: null; needsOAuth: true; connectedEmail?: string | null };
 
 /**
- * Resolve a Google access token using the same priority order as all app routes:
- *   1. OAuth refresh token from `system_settings`
- *   2. Service account from env vars
- *   3. Returns `{ needsOAuth: true }` when neither is configured.
+ * Resolve a Google access token using this priority order:
+ *   1. OAuth refresh token from `system_settings` (per-brand override)
+ *   2. Shared agency OAuth token from GOOGLE_SEARCH_CONSOLE_REFRESH_TOKEN env
+ *   3. Service account from env vars
+ *   4. Returns `{ needsOAuth: true }` when none is configured.
  */
 export async function resolveGscAccessToken(): Promise<GscAuthResult> {
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
@@ -191,11 +192,28 @@ export async function resolveGscAccessToken(): Promise<GscAuthResult> {
         return { accessToken, method: "oauth", connectedEmail };
       }
     } catch {
+      // fall through to shared env token / service account
+    }
+  }
+
+  // 2. Shared agency OAuth token (single source of truth across all brands).
+  //    One Google account has access to every brand's Search Console property,
+  //    so a brand that hasn't been individually connected still resolves here.
+  const sharedRefreshToken = process.env.GOOGLE_SEARCH_CONSOLE_REFRESH_TOKEN;
+  if (sharedRefreshToken) {
+    try {
+      const accessToken = await getOAuthAccessToken(sharedRefreshToken);
+      return {
+        accessToken,
+        method: "oauth",
+        connectedEmail: process.env.GOOGLE_SEARCH_CONSOLE_CONNECTED_EMAIL ?? null,
+      };
+    } catch {
       // fall through to service account
     }
   }
 
-  // 2. Fall back to service account
+  // 3. Fall back to service account
   const clientEmail = process.env.GOOGLE_INDEXING_CLIENT_EMAIL;
   const privateKey = process.env.GOOGLE_INDEXING_PRIVATE_KEY;
 
