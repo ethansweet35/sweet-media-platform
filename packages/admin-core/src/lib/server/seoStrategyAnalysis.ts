@@ -59,17 +59,17 @@ ${JSON.stringify(payload, null, 2)}
 
 Return ONLY valid JSON (no markdown fences) matching this schema:
 {
-  "executiveSummary": "2-4 sentences, honest and encouraging",
+  "executiveSummary": "Max 2 short sentences. Lead with the single biggest win, then one honest gap.",
   "scorecard": {
-    "organicVisibility": "1 sentence grade + why",
-    "contentOpportunity": "1 sentence",
-    "technicalHealth": "1 sentence",
-    "conversionReadiness": "1 sentence"
+    "organicVisibility": "Format: Grade (Strong|Fair|Weak) — max 12 words on why",
+    "contentOpportunity": "Grade — max 12 words",
+    "technicalHealth": "Grade — max 12 words",
+    "conversionReadiness": "Grade — max 12 words"
   },
   "cro": {
     "title": "Conversion & user experience",
-    "summary": "1-2 sentences",
-    "items": [{ "title": "", "finding": "", "recommendation": "", "impact": "high|medium|low", "effort": "quick|moderate|project" }]
+    "summary": "One sentence only",
+    "items": [{ "title": "3-6 word label", "finding": "Max 15 words — what you observed", "recommendation": "Max 25 words — start with a verb; use semicolons between 2-3 actions", "impact": "high|medium|low", "effort": "quick|moderate|project" }]
   },
   "siteStructure": {
     "title": "URL & site hierarchy",
@@ -101,7 +101,8 @@ Return ONLY valid JSON (no markdown fences) matching this schema:
 }
 
 Rules:
-- 3-6 items per section with items array; prioritize high-impact.
+- 3-5 items per section; prioritize high-impact first. No paragraph longer than 2 sentences anywhere.
+- finding = observation only; recommendation = actions only (never repeat the finding).
 - If Semrush data is missing, still analyze crawl + PSI and say what you'd verify with a full audit.
 - For BH/treatment sites: tie CRO to calls, insurance, admissions, trust signals.
 - Never invent keyword volumes — only use provided data.
