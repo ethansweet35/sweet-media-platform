@@ -1,4 +1,3 @@
-import { EditableText } from "@sweetmedia/admin-core/page-editor";
 import { SITE } from "@/lib/site";
 
 /**
@@ -15,7 +14,7 @@ export type PageHeroProps = {
   useVideo?: boolean;
 };
 
-export default async function PageHero({
+export default function PageHero({
   eyebrow,
   headline,
   body,
@@ -46,25 +45,10 @@ export default async function PageHero({
       <div className="pointer-events-none absolute inset-0 -z-10 bg-gradient-to-b from-[var(--mvt-ink)]/55 via-[var(--mvt-ink)]/45 to-[var(--mvt-ink)]/70" />
 
       <div className="mx-auto max-w-[1280px] px-6 pb-16 pt-16 sm:pb-20 sm:pt-20 lg:px-12 lg:pb-24 lg:pt-24">
-        <EditableText
-          fieldKey="hero.eyebrow"
-          defaultValue={eyebrow}
-          as="p"
-          className="flex items-center gap-3 text-[11px] font-semibold uppercase tracking-[0.28em] text-white/85"
-        />
-        <EditableText
-          fieldKey="hero.headline"
-          defaultValue={headline}
-          as="h1"
-          className="mt-6 max-w-3xl font-heading text-[44px] leading-[1.06] tracking-tight text-white sm:text-5xl lg:text-[64px]"
-        />
+        <p className="flex items-center gap-3 text-[11px] font-semibold uppercase tracking-[0.28em] text-white/85">{eyebrow}</p>
+        <h1 className="mt-6 max-w-3xl font-heading text-[44px] leading-[1.06] tracking-tight text-white sm:text-5xl lg:text-[64px]">{headline}</h1>
         {body ? (
-          <EditableText
-            fieldKey="hero.body"
-            defaultValue={body}
-            as="p"
-            className="mt-6 max-w-3xl text-base leading-7 text-white/85 sm:text-[17px]"
-          />
+          <p className="mt-6 max-w-3xl text-base leading-7 text-white/85 sm:text-[17px]">{body}</p>
         ) : null}
       </div>
     </section>

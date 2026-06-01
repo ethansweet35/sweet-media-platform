@@ -6,7 +6,7 @@ export const HERO_VIDEO_DESKTOP =
 export const HERO_VIDEO_MOBILE =
   `${SR_SUPABASE_ORIGIN}/storage/v1/object/public/site-assets/videos/sr_home_hero_video_mobile.mp4`;
 
-/** First frame of the mobile hero loop — preloaded on `/` for fast LCP. */
+/** First frame of the hero loop — LCP background on `/` (see HomeHero). */
 export const HERO_POSTER_URL =
   `${SR_SUPABASE_ORIGIN}/storage/v1/object/public/site-assets/images/sr_home_hero_poster.webp`;
 

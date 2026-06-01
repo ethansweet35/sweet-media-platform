@@ -41,6 +41,7 @@ function hasFlag(flag) {
 }
 
 function loadPsiApiKey() {
+  if (process.env.GOOGLE_PSI_API_KEY?.trim()) return process.env.GOOGLE_PSI_API_KEY.trim();
   const envPath = join(REPO_ROOT, '.env');
   if (!existsSync(envPath)) return null;
   return readFileSync(envPath, 'utf8').match(/^GOOGLE_PSI_API_KEY=(.+)$/m)?.[1]?.trim() || null;

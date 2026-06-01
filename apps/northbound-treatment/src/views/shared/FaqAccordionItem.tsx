@@ -10,7 +10,7 @@ interface FaqAccordionItemProps {
 
 /**
  * Client accordion shell. Question + answer are passed as JSX so the parent
- * server component can wrap them in EditableText.
+ * server component can wrap them in AutoLinkedText.
  */
 export default function FaqAccordionItem({
   question,

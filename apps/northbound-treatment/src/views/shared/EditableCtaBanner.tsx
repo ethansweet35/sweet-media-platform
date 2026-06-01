@@ -1,6 +1,5 @@
 import Link from "next/link";
 import { AutoLinkedText } from "@sweetmedia/blog-core";
-import { EditableText } from "@sweetmedia/admin-core/page-editor";
 
 interface CtaItem {
   label: string;
@@ -31,31 +30,10 @@ export default function EditableCtaBanner({
       <div className="relative z-10 mx-auto w-full max-w-7xl px-6 lg:px-10">
         <div className="flex flex-col items-start gap-8 lg:flex-row lg:items-center lg:justify-between">
           <div className="max-w-2xl">
-            <EditableText
-              fieldKey="cta.eyebrow"
-              defaultValue={eyebrow}
-              as="p"
-              className="mb-3 text-xs font-semibold uppercase tracking-[0.14em] text-terracotta"
-            >
-              <AutoLinkedText>{eyebrow}</AutoLinkedText>
-            </EditableText>
-            <EditableText
-              fieldKey="cta.headline"
-              defaultValue={headline}
-              as="h2"
-              className="font-heading text-3xl font-bold text-white md:text-4xl"
-            >
-              <AutoLinkedText>{headline}</AutoLinkedText>
-            </EditableText>
+            <p className="mb-3 text-xs font-semibold uppercase tracking-[0.14em] text-terracotta"><AutoLinkedText>{eyebrow}</AutoLinkedText></p>
+            <h2 className="font-heading text-3xl font-bold text-white md:text-4xl"><AutoLinkedText>{headline}</AutoLinkedText></h2>
             {body ? (
-              <EditableText
-                fieldKey="cta.body"
-                defaultValue={body}
-                as="p"
-                className="mt-3 text-base leading-relaxed text-white/70"
-              >
-                <AutoLinkedText>{body}</AutoLinkedText>
-              </EditableText>
+              <p className="mt-3 text-base leading-relaxed text-white/70"><AutoLinkedText>{body}</AutoLinkedText></p>
             ) : null}
           </div>
 

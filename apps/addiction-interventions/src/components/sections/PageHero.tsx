@@ -1,5 +1,5 @@
+import Image from "next/image";
 import Link from "next/link";
-import { EditableImage, EditableText } from "@sweetmedia/admin-core/page-editor";
 import { PHONE_DISPLAY, PHONE_HREF } from "@/data/site";
 
 export type PageHeroProps = {
@@ -47,7 +47,7 @@ function HeadlineContent({
   return headline;
 }
 
-export default async function PageHero({
+export default function PageHero({
   eyebrow,
   headline,
   italicWord,
@@ -61,24 +61,15 @@ export default async function PageHero({
   const isPhone = primaryCta.href.startsWith("tel:");
 
   const headlineField = (
-    <EditableText
-      fieldKey="hero.headline"
-      defaultValue={headline}
-      as="span"
-      className={image ? "text-white" : "text-[#1A1A17]"}
-    >
-      <HeadlineContent headline={headline} italicWord={italicWord} onDark={!!image} />
-    </EditableText>
+    <span className={image ? "text-white" : "text-[#1A1A17]"}><HeadlineContent headline={headline} italicWord={italicWord} onDark={!!image} /></span>
   );
 
   if (image) {
     return (
       <section className="relative w-full overflow-hidden min-h-[480px] md:min-h-[560px] flex items-end">
-        <EditableImage
-          fieldKey="hero.image"
-          defaultSrc={image}
+        <Image
+          src={image}
           alt={imageAlt ?? headline}
-          label="Hero image"
           fill
           priority
           sizes="100vw"
@@ -89,22 +80,13 @@ export default async function PageHero({
 
         <div className="relative w-full mx-auto max-w-7xl px-6 lg:px-10 py-16 md:py-24">
           {eyebrow ? (
-            <EditableText
-              fieldKey="hero.eyebrow"
-              defaultValue={eyebrow}
-              className="brand-eyebrow mb-4 block text-[#8FAC87]"
-            />
+            <span className="brand-eyebrow mb-4 block text-[#8FAC87]">{eyebrow}</span>
           ) : null}
           <h1 className="font-heading max-w-3xl text-4xl font-bold leading-tight text-white md:text-5xl lg:text-6xl">
             {headlineField}
           </h1>
           {body ? (
-            <EditableText
-              fieldKey="hero.body"
-              defaultValue={body}
-              as="p"
-              className="mt-6 max-w-xl text-base leading-relaxed text-white/75 md:text-lg"
-            />
+            <p className="mt-6 max-w-xl text-base leading-relaxed text-white/75 md:text-lg">{body}</p>
           ) : null}
           <div className="mt-8 flex flex-wrap gap-4">
             <a
@@ -145,22 +127,13 @@ export default async function PageHero({
     <section className="bg-[#F5F3E7] py-20 md:py-28">
       <div className="mx-auto w-full max-w-7xl px-6 lg:px-10">
         {eyebrow ? (
-          <EditableText
-            fieldKey="hero.eyebrow"
-            defaultValue={eyebrow}
-            className="brand-eyebrow mb-4 block text-[#8FAC87]"
-          />
+          <span className="brand-eyebrow mb-4 block text-[#8FAC87]">{eyebrow}</span>
         ) : null}
         <h1 className="font-heading max-w-3xl text-4xl font-bold leading-tight text-[#1A1A17] md:text-5xl lg:text-6xl">
           {headlineField}
         </h1>
         {body ? (
-          <EditableText
-            fieldKey="hero.body"
-            defaultValue={body}
-            as="p"
-            className="mt-6 max-w-2xl text-base leading-relaxed text-[#4B4B4B] md:text-lg"
-          />
+          <p className="mt-6 max-w-2xl text-base leading-relaxed text-[#4B4B4B] md:text-lg">{body}</p>
         ) : null}
         <div className="mt-8 flex flex-wrap gap-4">
           <a

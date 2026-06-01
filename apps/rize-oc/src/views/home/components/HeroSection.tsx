@@ -1,4 +1,4 @@
-import { EditableImage, EditableText } from "@sweetmedia/admin-core/page-editor";
+import Image from "next/image";
 import InsuranceForm from "./InsuranceForm";
 import IconCircle from "@/components/ui/IconCircle";
 import CallRailPhoneLink from "@/components/ui/CallRailPhoneLink";
@@ -20,18 +20,16 @@ const trustBadges = [
   { icon: "ri-checkbox-circle-line", label: "24/7 Admissions" },
 ];
 
-export default async function HeroSection() {
+export default function HeroSection() {
   return (
     <CinematicHeroSection
       minHeight="min-h-[min(720px,90dvh)]"
       contentClassName="justify-center"
       media={
         <>
-          <EditableImage
-            fieldKey="hero.image"
-            defaultSrc={HERO_IMAGE}
+          <Image
+            src={HERO_IMAGE}
             alt="Rize OC Mental Health and Addiction Treatment Center"
-            label="Hero image"
             fill
             className="object-cover object-center opacity-40"
             priority
@@ -42,43 +40,30 @@ export default async function HeroSection() {
       }
     >
       <div className={`${PAGE_GRID} py-section grid lg:grid-cols-[1fr_460px] items-center gap-8 lg:gap-12`}>
-        
-        {/* Left — content */}
         <div className="relative flex flex-col justify-center">
-          {/* Eyebrow pill */}
           <div className="flex items-center gap-2 mb-6">
             <div className="border border-white/20 px-4 py-1.5 flex items-center gap-2.5 bg-white/5 backdrop-blur-sm">
               <i className="ri-user-line text-accent text-sm" />
-              <EditableText
-                fieldKey="hero.eyebrow"
-                defaultValue={EYEBROW}
-                className="text-[10px] font-medium uppercase tracking-[0.35em] text-white"
-              />
+              <span className="text-[10px] font-medium uppercase tracking-[0.35em] text-white">
+                {EYEBROW}
+              </span>
             </div>
           </div>
 
-          <EditableText
-            fieldKey="hero.headline"
-            defaultValue={HEADLINE}
-            as="h1"
+          <h1
             className="font-[family-name:var(--font-display)] font-normal text-white"
             style={{ fontSize: "clamp(40px, 5vw, 72px)", lineHeight: 1.05 }}
           >
             Mental Health &amp; Addiction Treatment
             <br />
             <em className="italic text-white/90">In California</em>
-          </EditableText>
+          </h1>
 
           <div className="mt-6 mb-7 w-16 h-[2px] bg-accent" />
 
-          <EditableText
-            fieldKey="hero.body"
-            defaultValue={BODY}
-            as="p"
-            className="max-w-lg text-base font-light leading-relaxed text-white/80"
-          >
+          <p className="max-w-lg text-base font-light leading-relaxed text-white/80">
             <AutoLinkedText>{BODY}</AutoLinkedText>
-          </EditableText>
+          </p>
 
           <div className="mt-8 flex flex-wrap gap-x-6 gap-y-3">
             {trustBadges.map(({ icon, label }) => (
@@ -105,7 +90,6 @@ export default async function HeroSection() {
           </div>
         </div>
 
-        {/* Right — floating form card */}
         <div id="verify" className="flex items-center justify-center">
           <div
             className="w-full bg-white border border-white/10"

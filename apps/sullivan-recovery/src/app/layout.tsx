@@ -3,7 +3,7 @@ import { Cormorant_Garamond, DM_Sans } from "next/font/google";
 import Script from "next/script";
 import "./globals.css";
 import Layout from "@/components/feature/Layout";
-import { DeferredAnalyticsWrapper, DeferredPageEditorProvider } from "@sweetmedia/admin-core";
+import { DeferredAnalyticsWrapper } from "@sweetmedia/admin-core";
 import { SR_SUPABASE_ORIGIN } from "@/lib/heroVideo";
 
 /** Platform standard: Remix Icon via CDN */
@@ -96,9 +96,7 @@ export default function RootLayout({
         />
       </head>
       <body className={`${cormorant.variable} ${dmSans.variable} antialiased`}>
-        <DeferredPageEditorProvider>
-          <Layout>{children}</Layout>
-        </DeferredPageEditorProvider>
+        <Layout>{children}</Layout>
         <DeferredAnalyticsWrapper />
       </body>
     </html>

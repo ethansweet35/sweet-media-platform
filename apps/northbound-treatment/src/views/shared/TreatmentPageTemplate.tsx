@@ -1,6 +1,6 @@
+import Image from "next/image";
 import Link from "next/link";
 import { AutoLinkedText } from "@sweetmedia/blog-core";
-import { EditableImage, EditableText } from "@sweetmedia/admin-core/page-editor";
 import { heroInnerWrap, heroViewportSection } from "@/lib/heroSpacing";
 import CtmLeadFormCard from "@/components/feature/CtmLeadFormCard";
 import EditableCtaBanner from "./EditableCtaBanner";
@@ -87,11 +87,9 @@ function ProgramNameHeadline({
 function TreatmentHero({ data }: { data: TreatmentPageData }) {
   return (
     <section className={heroViewportSection}>
-      <EditableImage
-        fieldKey="hero.image"
-        defaultSrc={data.heroImage}
+      <Image
+        src={data.heroImage}
         alt={data.heroImageAlt}
-        label="Hero image"
         fill
         priority
         className="object-cover object-center"
@@ -122,43 +120,15 @@ function TreatmentHero({ data }: { data: TreatmentPageData }) {
               ))}
             </nav>
 
-            <EditableText
-              fieldKey="hero.eyebrow"
-              defaultValue={data.eyebrow}
-              as="p"
-              className="mb-4 text-xs font-semibold uppercase tracking-[0.14em] text-terracotta"
-            >
-              <AutoLinkedText>{data.eyebrow}</AutoLinkedText>
-            </EditableText>
+            <p className="mb-4 text-xs font-semibold uppercase tracking-[0.14em] text-terracotta"><AutoLinkedText>{data.eyebrow}</AutoLinkedText></p>
 
             <h1 className="font-heading text-4xl font-bold leading-tight text-white md:text-5xl lg:text-6xl">
-              <EditableText
-                fieldKey="hero.programName"
-                defaultValue={data.programName}
-                as="span"
-                className="text-white"
-              >
-                <ProgramNameHeadline programName={data.programName} italicWord={data.italicWord} />
-              </EditableText>
+              <span className="text-white"><ProgramNameHeadline programName={data.programName} italicWord={data.italicWord} /></span>
             </h1>
 
-            <EditableText
-              fieldKey="hero.tagline"
-              defaultValue={data.tagline}
-              as="p"
-              className="mt-2 text-base font-semibold text-white/50"
-            >
-              <AutoLinkedText>{data.tagline}</AutoLinkedText>
-            </EditableText>
+            <p className="mt-2 text-base font-semibold text-white/50"><AutoLinkedText>{data.tagline}</AutoLinkedText></p>
 
-            <EditableText
-              fieldKey="hero.body"
-              defaultValue={data.heroBody}
-              as="p"
-              className="mt-4 max-w-lg text-sm leading-relaxed text-white/70"
-            >
-              <AutoLinkedText>{data.heroBody}</AutoLinkedText>
-            </EditableText>
+            <p className="mt-4 max-w-lg text-sm leading-relaxed text-white/70"><AutoLinkedText>{data.heroBody}</AutoLinkedText></p>
 
             <ul className="mt-7 flex flex-col gap-2.5">
               {[
@@ -210,25 +180,10 @@ export default function TreatmentPageTemplate({ data }: { data: TreatmentPageDat
           <div className="grid gap-16 lg:grid-cols-[1fr_360px] lg:gap-20">
             <div>
               <p className="mb-3 text-xs font-semibold uppercase tracking-[0.14em] text-terracotta">Overview</p>
-              <EditableText
-                fieldKey="overview.headline"
-                defaultValue={data.overviewHeadline}
-                as="h2"
-                className="font-heading text-4xl font-bold leading-tight text-navy md:text-5xl"
-              >
-                <AutoLinkedText>{data.overviewHeadline}</AutoLinkedText>
-              </EditableText>
+              <h2 className="font-heading text-4xl font-bold leading-tight text-navy md:text-5xl"><AutoLinkedText>{data.overviewHeadline}</AutoLinkedText></h2>
               <div className="mt-6 space-y-4">
                 {data.overviewBody.map((para, i) => (
-                  <EditableText
-                    key={i}
-                    fieldKey={`overview.body.${i}`}
-                    defaultValue={para}
-                    as="p"
-                    className="text-base leading-relaxed text-espresso/70"
-                  >
-                    <AutoLinkedText>{para}</AutoLinkedText>
-                  </EditableText>
+                  <p className="text-base leading-relaxed text-espresso/70"><AutoLinkedText>{para}</AutoLinkedText></p>
                 ))}
               </div>
               <a
@@ -251,22 +206,8 @@ export default function TreatmentPageTemplate({ data }: { data: TreatmentPageDat
                         <i className={`${fact.icon} text-base text-navy`} />
                       </span>
                       <div>
-                        <EditableText
-                          fieldKey={`keyFacts.${i}.label`}
-                          defaultValue={fact.label}
-                          as="p"
-                          className="text-[10px] font-semibold uppercase tracking-[0.1em] text-espresso/40"
-                        >
-                          <AutoLinkedText>{fact.label}</AutoLinkedText>
-                        </EditableText>
-                        <EditableText
-                          fieldKey={`keyFacts.${i}.value`}
-                          defaultValue={fact.value}
-                          as="p"
-                          className="mt-0.5 text-sm font-bold text-navy"
-                        >
-                          <AutoLinkedText>{fact.value}</AutoLinkedText>
-                        </EditableText>
+                        <p className="text-[10px] font-semibold uppercase tracking-[0.1em] text-espresso/40"><AutoLinkedText>{fact.label}</AutoLinkedText></p>
+                        <p className="mt-0.5 text-sm font-bold text-navy"><AutoLinkedText>{fact.value}</AutoLinkedText></p>
                       </div>
                     </div>
                   ))}
@@ -294,23 +235,9 @@ export default function TreatmentPageTemplate({ data }: { data: TreatmentPageDat
           <div className="mb-12 grid gap-8 lg:grid-cols-[1fr_auto] lg:items-end">
             <div>
               <p className="mb-3 text-xs font-semibold uppercase tracking-[0.14em] text-terracotta">The Process</p>
-              <EditableText
-                fieldKey="steps.headline"
-                defaultValue={data.stepsHeadline}
-                as="h2"
-                className="font-heading text-4xl font-bold text-white md:text-5xl"
-              >
-                <AutoLinkedText>{data.stepsHeadline}</AutoLinkedText>
-              </EditableText>
+              <h2 className="font-heading text-4xl font-bold text-white md:text-5xl"><AutoLinkedText>{data.stepsHeadline}</AutoLinkedText></h2>
               {data.stepsIntro && (
-                <EditableText
-                  fieldKey="steps.intro"
-                  defaultValue={data.stepsIntro}
-                  as="p"
-                  className="mt-4 max-w-xl text-base leading-relaxed text-white/55"
-                >
-                  <AutoLinkedText>{data.stepsIntro}</AutoLinkedText>
-                </EditableText>
+                <p className="mt-4 max-w-xl text-base leading-relaxed text-white/55"><AutoLinkedText>{data.stepsIntro}</AutoLinkedText></p>
               )}
             </div>
             <div className="hidden shrink-0 flex-col items-center justify-center border border-white/10 bg-white/5 px-8 py-5 lg:flex">
@@ -339,24 +266,10 @@ export default function TreatmentPageTemplate({ data }: { data: TreatmentPageDat
                     <span className="mb-1 font-heading text-6xl font-bold leading-none text-white/8 transition group-hover:text-white/12">
                       {step.number}
                     </span>
-                    <EditableText
-                      fieldKey={`steps.${i}.title`}
-                      defaultValue={step.title}
-                      as="h3"
-                      className="font-heading text-xl font-bold leading-snug text-white"
-                    >
-                      <AutoLinkedText>{step.title}</AutoLinkedText>
-                    </EditableText>
+                    <h3 className="font-heading text-xl font-bold leading-snug text-white"><AutoLinkedText>{step.title}</AutoLinkedText></h3>
                   </div>
                   <div className="flex items-center">
-                    <EditableText
-                      fieldKey={`steps.${i}.body`}
-                      defaultValue={step.body}
-                      as="p"
-                      className="text-sm leading-relaxed text-white/60"
-                    >
-                      <AutoLinkedText>{step.body}</AutoLinkedText>
-                    </EditableText>
+                    <p className="text-sm leading-relaxed text-white/60"><AutoLinkedText>{step.body}</AutoLinkedText></p>
                   </div>
                 </div>
               ))}
@@ -364,16 +277,9 @@ export default function TreatmentPageTemplate({ data }: { data: TreatmentPageDat
           </div>
 
           <div className="mt-10 flex items-center justify-between border-t border-white/10 pt-8">
-            <EditableText
-              fieldKey="steps.footerNote"
-              defaultValue="Each step is guided by our clinical team — you are never alone in this process."
-              as="p"
-              className="text-xs font-semibold text-white/30"
-            >
-              <AutoLinkedText>
+            <p className="text-xs font-semibold text-white/30"><AutoLinkedText>
                 Each step is guided by our clinical team — you are never alone in this process.
-              </AutoLinkedText>
-            </EditableText>
+              </AutoLinkedText></p>
             <a
               href="tel:8663110003"
               className="inline-flex items-center gap-2 bg-terracotta px-6 py-3 text-xs font-bold uppercase tracking-widest text-white transition hover:bg-terracotta-light"
@@ -390,38 +296,16 @@ export default function TreatmentPageTemplate({ data }: { data: TreatmentPageDat
             <div className="grid gap-16 lg:grid-cols-2 lg:gap-24">
               <div>
                 <p className="mb-3 text-xs font-semibold uppercase tracking-[0.14em] text-terracotta">Important</p>
-                <EditableText
-                  fieldKey="warning.headline"
-                  defaultValue={data.warningHeadline}
-                  as="h2"
-                  className="font-heading text-4xl font-bold leading-tight text-navy md:text-5xl"
-                >
-                  <AutoLinkedText>{data.warningHeadline}</AutoLinkedText>
-                </EditableText>
+                <h2 className="font-heading text-4xl font-bold leading-tight text-navy md:text-5xl"><AutoLinkedText>{data.warningHeadline}</AutoLinkedText></h2>
                 <div className="mt-5 space-y-4">
                   {(data.warningBody ?? []).map((p, i) => (
-                    <EditableText
-                      key={i}
-                      fieldKey={`warning.body.${i}`}
-                      defaultValue={p}
-                      as="p"
-                      className="text-base leading-relaxed text-espresso/70"
-                    >
-                      <AutoLinkedText>{p}</AutoLinkedText>
-                    </EditableText>
+                    <p className="text-base leading-relaxed text-espresso/70"><AutoLinkedText>{p}</AutoLinkedText></p>
                   ))}
                 </div>
               </div>
               {data.warningPoints && (
                 <div className="flex flex-col gap-4">
-                  <EditableText
-                    fieldKey="warning.pointsTitle"
-                    defaultValue="Withdrawal Symptoms Without Medical Support"
-                    as="p"
-                    className="text-xs font-semibold uppercase tracking-[0.1em] text-espresso/40"
-                  >
-                    <AutoLinkedText>Withdrawal Symptoms Without Medical Support</AutoLinkedText>
-                  </EditableText>
+                  <p className="text-xs font-semibold uppercase tracking-[0.1em] text-espresso/40"><AutoLinkedText>Withdrawal Symptoms Without Medical Support</AutoLinkedText></p>
                   <div className="grid grid-cols-2 gap-px overflow-hidden border border-sand-dark bg-sand-dark">
                     {data.warningPoints.map((point, i) => (
                       <div
@@ -429,28 +313,14 @@ export default function TreatmentPageTemplate({ data }: { data: TreatmentPageDat
                         className={`flex items-center gap-3 px-5 py-4 ${i % 2 === 0 ? "bg-white" : "bg-sand"}`}
                       >
                         <i className="ri-error-warning-line text-terracotta" />
-                        <EditableText
-                          fieldKey={`warning.points.${i}`}
-                          defaultValue={point}
-                          as="span"
-                          className="text-sm font-semibold text-navy"
-                        >
-                          {point}
-                        </EditableText>
+                        <span className="text-sm font-semibold text-navy">{point}</span>
                       </div>
                     ))}
                   </div>
-                  <EditableText
-                    fieldKey="warning.closing"
-                    defaultValue="At Northbound, our clinical team is present around the clock to manage every symptom safely — so you never face this alone."
-                    as="p"
-                    className="text-sm leading-relaxed text-espresso/60"
-                  >
-                    <AutoLinkedText>
+                  <p className="text-sm leading-relaxed text-espresso/60"><AutoLinkedText>
                       At Northbound, our clinical team is present around the clock to manage every symptom safely — so
                       you never face this alone.
-                    </AutoLinkedText>
-                  </EditableText>
+                    </AutoLinkedText></p>
                   <a
                     href="tel:8663110003"
                     className="inline-flex items-center gap-2 bg-terracotta px-7 py-3.5 text-sm font-semibold text-white transition hover:bg-terracotta-light"
@@ -481,22 +351,8 @@ export default function TreatmentPageTemplate({ data }: { data: TreatmentPageDat
                 <div className="mb-4 flex h-12 w-12 items-center justify-center bg-sand transition group-hover:bg-navy">
                   <i className={`${d.icon} text-xl text-navy transition group-hover:text-terracotta`} />
                 </div>
-                <EditableText
-                  fieldKey={`differentiators.${i}.title`}
-                  defaultValue={d.title}
-                  as="h3"
-                  className="font-heading text-lg font-bold text-navy"
-                >
-                  <AutoLinkedText>{d.title}</AutoLinkedText>
-                </EditableText>
-                <EditableText
-                  fieldKey={`differentiators.${i}.body`}
-                  defaultValue={d.body}
-                  as="p"
-                  className="mt-3 text-sm leading-relaxed text-espresso/65"
-                >
-                  <AutoLinkedText>{d.body}</AutoLinkedText>
-                </EditableText>
+                <h3 className="font-heading text-lg font-bold text-navy"><AutoLinkedText>{d.title}</AutoLinkedText></h3>
+                <p className="mt-3 text-sm leading-relaxed text-espresso/65"><AutoLinkedText>{d.body}</AutoLinkedText></p>
               </div>
             ))}
           </div>
@@ -505,14 +361,7 @@ export default function TreatmentPageTemplate({ data }: { data: TreatmentPageDat
 
       <section className="bg-navy py-16 lg:py-20">
         <div className="mx-auto w-full max-w-7xl px-6 lg:px-10">
-          <EditableText
-            fieldKey="continuum.eyebrow"
-            defaultValue="Your Recovery Journey"
-            as="p"
-            className="mb-8 text-center text-xs font-semibold uppercase tracking-[0.14em] text-terracotta"
-          >
-            <AutoLinkedText>Your Recovery Journey</AutoLinkedText>
-          </EditableText>
+          <p className="mb-8 text-center text-xs font-semibold uppercase tracking-[0.14em] text-terracotta"><AutoLinkedText>Your Recovery Journey</AutoLinkedText></p>
           <div className="relative flex flex-wrap items-stretch justify-center gap-px overflow-hidden border border-white/10">
             {data.continuum.map((step, i) => (
               <Link
@@ -525,28 +374,14 @@ export default function TreatmentPageTemplate({ data }: { data: TreatmentPageDat
                 <i
                   className={`${step.icon} text-xl ${step.current ? "text-white" : "text-white/50 group-hover:text-terracotta"}`}
                 />
-                <EditableText
-                  fieldKey={`continuum.${i}.label`}
-                  defaultValue={step.label}
-                  as="span"
-                  className={`text-xs font-bold leading-tight ${step.current ? "text-white" : "text-white/60 group-hover:text-white"}`}
-                >
-                  {step.label}
-                </EditableText>
+                <span className={`text-xs font-bold leading-tight ${step.current ? "text-white" : "text-white/60 group-hover:text-white"}`}>{step.label}</span>
                 {step.current && (
                   <span className="absolute -bottom-px left-1/2 h-0.5 w-8 -translate-x-1/2 bg-white" />
                 )}
               </Link>
             ))}
           </div>
-          <EditableText
-            fieldKey="continuum.hint"
-            defaultValue="Highlighted step = current program · Click any step to learn more"
-            as="p"
-            className="mt-5 text-center text-[11px] text-white/30"
-          >
-            <AutoLinkedText>Highlighted step = current program · Click any step to learn more</AutoLinkedText>
-          </EditableText>
+          <p className="mt-5 text-center text-[11px] text-white/30"><AutoLinkedText>Highlighted step = current program · Click any step to learn more</AutoLinkedText></p>
         </div>
       </section>
 
@@ -558,16 +393,9 @@ export default function TreatmentPageTemplate({ data }: { data: TreatmentPageDat
               <h2 className="font-heading text-4xl font-bold leading-tight text-navy md:text-5xl">
                 Frequently Asked <span className="italic text-terracotta">Questions</span>
               </h2>
-              <EditableText
-                fieldKey="faqs.intro"
-                defaultValue="Have a question not answered here? Call our admissions team — they're available 24/7."
-                as="p"
-                className="mt-5 text-base leading-relaxed text-espresso/65"
-              >
-                <AutoLinkedText>
+              <p className="mt-5 text-base leading-relaxed text-espresso/65"><AutoLinkedText>
                   Have a question not answered here? Call our admissions team — they&apos;re available 24/7.
-                </AutoLinkedText>
-              </EditableText>
+                </AutoLinkedText></p>
               <a
                 href="tel:8663110003"
                 className="mt-7 inline-flex items-center gap-2 bg-navy px-7 py-3.5 text-sm font-semibold text-white transition hover:bg-terracotta"
@@ -582,14 +410,10 @@ export default function TreatmentPageTemplate({ data }: { data: TreatmentPageDat
                   key={faq.q}
                   initialOpen={i === 0}
                   question={
-                    <EditableText fieldKey={`faqs.${i}.q`} defaultValue={faq.q} as="span">
-                      <AutoLinkedText>{faq.q}</AutoLinkedText>
-                    </EditableText>
+                    <span><AutoLinkedText>{faq.q}</AutoLinkedText></span>
                   }
                   answer={
-                    <EditableText fieldKey={`faqs.${i}.a`} defaultValue={faq.a} as="span">
-                      <AutoLinkedText>{faq.a}</AutoLinkedText>
-                    </EditableText>
+                    <span><AutoLinkedText>{faq.a}</AutoLinkedText></span>
                   }
                 />
               ))}

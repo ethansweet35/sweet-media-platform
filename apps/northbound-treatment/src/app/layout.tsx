@@ -3,7 +3,7 @@ import { DM_Sans, Playfair_Display } from "next/font/google";
 import Script from "next/script";
 import "./globals.css";
 import Layout from "@/components/feature/Layout";
-import { DeferredAnalyticsWrapper, DeferredPageEditorProvider } from "@sweetmedia/admin-core/public-layout";
+import { DeferredAnalyticsWrapper } from "@sweetmedia/admin-core/public-layout";
 import { CTM_SCRIPTS_ENABLED, CTM_TRACKING_SRC } from "@/lib/ctm";
 import CtmRouteReloader from "@/components/feature/CtmRouteReloader";
 import DeferredAccessiBe from "@/components/feature/DeferredAccessiBe";
@@ -106,9 +106,7 @@ export default function RootLayout({
             style={{ display: "none", visibility: "hidden" }}
           />
         </noscript>
-        <DeferredPageEditorProvider>
-          <Layout>{children}</Layout>
-        </DeferredPageEditorProvider>
+        <Layout>{children}</Layout>
         <DeferredAnalyticsWrapper />
         <DeferredGtm />
         <DeferredAccessiBe />

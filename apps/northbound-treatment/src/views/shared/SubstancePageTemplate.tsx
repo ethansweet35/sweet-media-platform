@@ -20,9 +20,9 @@
  * 10. Related substances
  */
 
+import Image from "next/image";
 import Link from "next/link";
 import { AutoLinkedText } from "@sweetmedia/blog-core";
-import { EditableImage, EditableText } from "@sweetmedia/admin-core/page-editor";
 import { heroContentPad, heroOverlayClass } from "@/lib/heroSpacing";
 import SubstanceFaqAccordion from "./SubstanceFaqAccordion";
 
@@ -85,11 +85,9 @@ export default function SubstancePageTemplate({ data }: { data: SubstancePageDat
       <section className={`relative overflow-hidden bg-navy ${heroOverlayClass}`}>
         {/* Background image */}
         <div className="absolute inset-0">
-          <EditableImage
-            fieldKey="hero.image"
-            defaultSrc={data.heroImage}
+          <Image
+            src={data.heroImage}
             alt={data.heroImageAlt}
-            label="Hero image"
             fill
             className="object-cover object-center opacity-20"
             priority
@@ -107,8 +105,7 @@ export default function SubstancePageTemplate({ data }: { data: SubstancePageDat
                 <AutoLinkedText>{"Addiction Treatment — Northbound Treatment Services"}</AutoLinkedText>
               </p>
               <h1 className="font-heading mt-4 text-5xl font-bold leading-[1.05] text-white md:text-6xl lg:text-7xl">
-                <EditableText fieldKey="hero.headline" defaultValue={data.heroHeadline} as="span">
-                  {heroWords.map((part, i) =>
+                <span>{heroWords.map((part, i) =>
                     part.toLowerCase() === data.heroItalicWord.toLowerCase() ? (
                       <span key={i} className="italic text-terracotta-light">
                         {part}
@@ -116,17 +113,9 @@ export default function SubstancePageTemplate({ data }: { data: SubstancePageDat
                     ) : (
                       <span key={i}>{part}</span>
                     ),
-                  )}
-                </EditableText>
+                  )}</span>
               </h1>
-              <EditableText
-                fieldKey="hero.body"
-                defaultValue={data.heroBody}
-                as="p"
-                className="mt-5 max-w-xl text-lg leading-relaxed text-white/70"
-              >
-                <AutoLinkedText>{data.heroBody}</AutoLinkedText>
-              </EditableText>
+              <p className="mt-5 max-w-xl text-lg leading-relaxed text-white/70"><AutoLinkedText>{data.heroBody}</AutoLinkedText></p>
               <div className="mt-8 flex flex-wrap gap-4">
                 <Link
                   href="tel:8663110003"
@@ -177,22 +166,8 @@ export default function SubstancePageTemplate({ data }: { data: SubstancePageDat
                 <div className="mt-6 flex-1 space-y-4 border-t border-white/10 pt-5">
                   {data.quickStats.map((s, si) => (
                     <div key={s.label} className="flex items-center justify-between">
-                      <EditableText
-                        fieldKey={`quickStats.${si}.label`}
-                        defaultValue={s.label}
-                        as="span"
-                        className="text-xs text-white/50"
-                      >
-                        {s.label}
-                      </EditableText>
-                      <EditableText
-                        fieldKey={`quickStats.${si}.value`}
-                        defaultValue={s.value}
-                        as="span"
-                        className="font-heading text-lg font-bold text-terracotta"
-                      >
-                        {s.value}
-                      </EditableText>
+                      <span className="text-xs text-white/50">{s.label}</span>
+                      <span className="font-heading text-lg font-bold text-terracotta">{s.value}</span>
                     </div>
                   ))}
                 </div>
@@ -229,35 +204,18 @@ export default function SubstancePageTemplate({ data }: { data: SubstancePageDat
             <p className="text-xs font-semibold uppercase tracking-[0.14em] text-terracotta">
               <AutoLinkedText>{"Understanding the Disease"}</AutoLinkedText>
             </p>
-            <EditableText
-              fieldKey="whatItIs.headline"
-              defaultValue={data.whatItIsHeadline}
-              as="h2"
-              className="font-heading mt-3 text-4xl font-bold text-navy md:text-5xl"
-            >
-              <AutoLinkedText>{data.whatItIsHeadline}</AutoLinkedText>
-            </EditableText>
+            <h2 className="font-heading mt-3 text-4xl font-bold text-navy md:text-5xl"><AutoLinkedText>{data.whatItIsHeadline}</AutoLinkedText></h2>
             {data.whatItIsBody.map((para, i) => (
-              <EditableText
-                key={i}
-                fieldKey={`whatItIs.body.${i}`}
-                defaultValue={para}
-                as="p"
-                className={`${i === 0 ? "mt-5" : "mt-4"} leading-relaxed text-espresso/80`}
-              >
-                <AutoLinkedText>{para}</AutoLinkedText>
-              </EditableText>
+              <p className={`${i === 0 ? "mt-5" : "mt-4"} leading-relaxed text-espresso/80`}><AutoLinkedText>{para}</AutoLinkedText></p>
             ))}
           </div>
 
           {/* Right: image fills the full column, stats pinned below */}
           <div className="flex flex-col">
             <div className="relative min-h-[280px] flex-1">
-              <EditableImage
-                fieldKey="whatItIs.image"
-                defaultSrc={data.whatItIsImage}
+              <Image
+                src={data.whatItIsImage}
                 alt={data.whatItIsImageAlt}
-                label="Overview image"
                 fill
                 className="object-cover"
                 sizes="(max-width: 1024px) 100vw, 40vw"
@@ -276,22 +234,8 @@ export default function SubstancePageTemplate({ data }: { data: SubstancePageDat
             <div className="grid grid-cols-3 divide-x divide-sand-dark border-t border-sand-dark">
               {data.quickStats.map((s, si) => (
                 <div key={s.label} className="px-4 py-5 text-center">
-                  <EditableText
-                    fieldKey={`quickStats.${si}.value`}
-                    defaultValue={s.value}
-                    as="p"
-                    className="font-heading text-2xl font-bold text-terracotta"
-                  >
-                    {s.value}
-                  </EditableText>
-                  <EditableText
-                    fieldKey={`quickStats.${si}.label`}
-                    defaultValue={s.label}
-                    as="p"
-                    className="mt-1 text-[10px] leading-snug text-espresso/55"
-                  >
-                    {s.label}
-                  </EditableText>
+                  <p className="font-heading text-2xl font-bold text-terracotta">{s.value}</p>
+                  <p className="mt-1 text-[10px] leading-snug text-espresso/55">{s.label}</p>
                 </div>
               ))}
             </div>
@@ -312,14 +256,7 @@ export default function SubstancePageTemplate({ data }: { data: SubstancePageDat
                 Signs of{" "}
                 <span className="italic text-terracotta">{data.substanceName} Addiction</span>
               </h2>
-              <EditableText
-                fieldKey="warning.body"
-                defaultValue={data.warningBody}
-                as="p"
-                className="mt-3 max-w-2xl text-base leading-relaxed text-espresso/70"
-              >
-                <AutoLinkedText>{data.warningBody}</AutoLinkedText>
-              </EditableText>
+              <p className="mt-3 max-w-2xl text-base leading-relaxed text-espresso/70"><AutoLinkedText>{data.warningBody}</AutoLinkedText></p>
             </div>
             <Link
               href="tel:8663110003"
@@ -338,14 +275,7 @@ export default function SubstancePageTemplate({ data }: { data: SubstancePageDat
                 className="flex items-start gap-3 border border-sand-dark bg-white px-5 py-4"
               >
                 <i className="ri-alert-line mt-0.5 shrink-0 text-base text-terracotta" />
-                <EditableText
-                  fieldKey={`warning.signs.${wi}`}
-                  defaultValue={sign}
-                  as="span"
-                  className="text-sm leading-relaxed text-espresso/80"
-                >
-                  {sign}
-                </EditableText>
+                <span className="text-sm leading-relaxed text-espresso/80">{sign}</span>
               </div>
             ))}
           </div>
@@ -359,22 +289,8 @@ export default function SubstancePageTemplate({ data }: { data: SubstancePageDat
             <p className="text-xs font-semibold uppercase tracking-[0.14em] text-terracotta">
               <AutoLinkedText>{"The Path to Recovery"}</AutoLinkedText>
             </p>
-            <EditableText
-              fieldKey="recovery.headline"
-              defaultValue={data.recoveryHeadline}
-              as="h2"
-              className="font-heading mt-2 text-4xl font-bold text-white md:text-5xl"
-            >
-              <AutoLinkedText>{data.recoveryHeadline}</AutoLinkedText>
-            </EditableText>
-            <EditableText
-              fieldKey="recovery.intro"
-              defaultValue={data.recoveryIntro}
-              as="p"
-              className="mt-3 max-w-2xl text-base leading-relaxed text-white/55"
-            >
-              <AutoLinkedText>{data.recoveryIntro}</AutoLinkedText>
-            </EditableText>
+            <h2 className="font-heading mt-2 text-4xl font-bold text-white md:text-5xl"><AutoLinkedText>{data.recoveryHeadline}</AutoLinkedText></h2>
+            <p className="mt-3 max-w-2xl text-base leading-relaxed text-white/55"><AutoLinkedText>{data.recoveryIntro}</AutoLinkedText></p>
           </div>
 
           {/* Steps — compact horizontal cards that stack on mobile */}
@@ -389,30 +305,9 @@ export default function SubstancePageTemplate({ data }: { data: SubstancePageDat
                     Phase {idx + 1}
                   </span>
                 </div>
-                <EditableText
-                  fieldKey={`careSteps.${idx}.phase`}
-                  defaultValue={step.phase}
-                  as="p"
-                  className="mb-1 text-[10px] font-semibold uppercase tracking-[0.1em] text-white/35"
-                >
-                  <AutoLinkedText>{step.phase}</AutoLinkedText>
-                </EditableText>
-                <EditableText
-                  fieldKey={`careSteps.${idx}.title`}
-                  defaultValue={step.title}
-                  as="h3"
-                  className="font-heading text-base font-bold text-white"
-                >
-                  <AutoLinkedText>{step.title}</AutoLinkedText>
-                </EditableText>
-                <EditableText
-                  fieldKey={`careSteps.${idx}.body`}
-                  defaultValue={step.body}
-                  as="p"
-                  className="mt-2 flex-1 text-xs leading-relaxed text-white/55"
-                >
-                  <AutoLinkedText>{step.body}</AutoLinkedText>
-                </EditableText>
+                <p className="mb-1 text-[10px] font-semibold uppercase tracking-[0.1em] text-white/35"><AutoLinkedText>{step.phase}</AutoLinkedText></p>
+                <h3 className="font-heading text-base font-bold text-white"><AutoLinkedText>{step.title}</AutoLinkedText></h3>
+                <p className="mt-2 flex-1 text-xs leading-relaxed text-white/55"><AutoLinkedText>{step.body}</AutoLinkedText></p>
               </div>
             ))}
           </div>
@@ -446,22 +341,8 @@ export default function SubstancePageTemplate({ data }: { data: SubstancePageDat
                 <div className="mb-3 flex h-10 w-10 items-center justify-center bg-terracotta/10">
                   <i className={`${d.icon} text-xl text-terracotta`} />
                 </div>
-                <EditableText
-                  fieldKey={`differentiators.${di}.title`}
-                  defaultValue={d.title}
-                  as="h3"
-                  className="font-heading text-base font-bold text-navy"
-                >
-                  <AutoLinkedText>{d.title}</AutoLinkedText>
-                </EditableText>
-                <EditableText
-                  fieldKey={`differentiators.${di}.body`}
-                  defaultValue={d.body}
-                  as="p"
-                  className="mt-2 text-sm leading-relaxed text-espresso/70"
-                >
-                  <AutoLinkedText>{d.body}</AutoLinkedText>
-                </EditableText>
+                <h3 className="font-heading text-base font-bold text-navy"><AutoLinkedText>{d.title}</AutoLinkedText></h3>
+                <p className="mt-2 text-sm leading-relaxed text-espresso/70"><AutoLinkedText>{d.body}</AutoLinkedText></p>
               </div>
             ))}
           </div>
@@ -471,11 +352,9 @@ export default function SubstancePageTemplate({ data }: { data: SubstancePageDat
       {/* ══ 7. CLOSING — full-bleed image with overlay ═══════════════════ */}
       <section className="relative overflow-hidden">
         <div className="absolute inset-0">
-          <EditableImage
-            fieldKey="closing.image"
-            defaultSrc={data.closingImage}
+          <Image
+            src={data.closingImage}
             alt={data.closingImageAlt}
-            label="Closing image"
             fill
             className="object-cover object-center"
             sizes="100vw"
@@ -486,34 +365,12 @@ export default function SubstancePageTemplate({ data }: { data: SubstancePageDat
           <p className="text-xs font-semibold uppercase tracking-[0.18em] text-terracotta">
             <AutoLinkedText>{"Recovery Is Possible"}</AutoLinkedText>
           </p>
-          <EditableText
-            fieldKey="closing.headline"
-            defaultValue={data.closingHeadline}
-            as="h2"
-            className="font-heading mt-4 text-4xl font-bold text-white md:text-5xl lg:text-6xl"
-          >
-            <AutoLinkedText>{data.closingHeadline}</AutoLinkedText>
-          </EditableText>
+          <h2 className="font-heading mt-4 text-4xl font-bold text-white md:text-5xl lg:text-6xl"><AutoLinkedText>{data.closingHeadline}</AutoLinkedText></h2>
           {data.closingBody.map((para, i) => (
-            <EditableText
-              key={i}
-              fieldKey={`closing.body.${i}`}
-              defaultValue={para}
-              as="p"
-              className={`${i === 0 ? "mt-6" : "mt-4"} mx-auto max-w-2xl leading-relaxed text-white/75`}
-            >
-              <AutoLinkedText>{para}</AutoLinkedText>
-            </EditableText>
+            <p className={`${i === 0 ? "mt-6" : "mt-4"} mx-auto max-w-2xl leading-relaxed text-white/75`}><AutoLinkedText>{para}</AutoLinkedText></p>
           ))}
           <div className="mx-auto mt-8 max-w-lg border border-white/20 px-6 py-5">
-            <EditableText
-              fieldKey="closing.quote"
-              defaultValue={data.closingQuote}
-              as="p"
-              className="font-heading text-base italic text-white/85"
-            >
-              &ldquo;{data.closingQuote}&rdquo;
-            </EditableText>
+            <p className="font-heading text-base italic text-white/85">&ldquo;{data.closingQuote}&rdquo;</p>
             <p className="mt-2 text-xs font-semibold uppercase tracking-[0.1em] text-terracotta">
               <AutoLinkedText>{"— Northbound Treatment Services"}</AutoLinkedText>
             </p>
@@ -566,14 +423,10 @@ export default function SubstancePageTemplate({ data }: { data: SubstancePageDat
             <SubstanceFaqAccordion
               items={data.faqs.map((faq, i) => ({
                 question: (
-                  <EditableText fieldKey={`faqs.${i}.question`} defaultValue={faq.question} as="span">
-                    <AutoLinkedText>{faq.question}</AutoLinkedText>
-                  </EditableText>
+                  <span><AutoLinkedText>{faq.question}</AutoLinkedText></span>
                 ),
                 answer: (
-                  <EditableText fieldKey={`faqs.${i}.answer`} defaultValue={faq.answer} as="span">
-                    <AutoLinkedText>{faq.answer}</AutoLinkedText>
-                  </EditableText>
+                  <span><AutoLinkedText>{faq.answer}</AutoLinkedText></span>
                 ),
               }))}
             />

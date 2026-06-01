@@ -1,4 +1,3 @@
-import { EditableIcon, EditableText } from "@sweetmedia/admin-core/page-editor";
 import VirtualLpCtaBanner from "./VirtualLpCtaBanner";
 import VirtualLpFaq from "./VirtualLpFaq";
 import VirtualLpHero from "./VirtualLpHero";
@@ -19,7 +18,6 @@ import {
   VIRTUAL_LP_SCROLL_MARGIN,
 } from "./content";
 
-const ROUTE = "/virtual-lp";
 const CONTAINER = "mx-auto w-full max-w-7xl px-6 lg:px-10";
 const SECTION = `py-20 lg:py-28 ${VIRTUAL_LP_SCROLL_MARGIN}`;
 
@@ -39,8 +37,6 @@ export default function VirtualLpPage() {
             body="Not every person needs the same type of virtual treatment. This page helps you find the right program based on what you are facing, how you want to receive care, and what type of support environment fits you best."
             align="center"
             bodyWidth="max-w-3xl"
-            editRoutePath={ROUTE}
-            editFieldPrefix="network"
           />
 
           <div className="mt-14 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
@@ -52,29 +48,10 @@ export default function VirtualLpPage() {
                 <span
                   className={`mb-4 flex h-11 w-11 items-center justify-center ${brand.iconBg}`}
                 >
-                  <EditableIcon
-                    routePath={ROUTE}
-                    fieldKey={`network.brands.${idx}.icon`}
-                    defaultIconClass={brand.icon}
-                    iconClassName="text-xl"
-                    defaultImageSize={44}
-                    label={`${brand.name} icon`}
-                  />
+                  <i className={[brand.icon, "text-xl"].filter(Boolean).join(" ")} aria-hidden />
                 </span>
-                <EditableText
-                  routePath={ROUTE}
-                  fieldKey={`network.brands.${idx}.name`}
-                  defaultValue={brand.name}
-                  as="p"
-                  className="text-xs font-bold uppercase tracking-[0.12em] text-navy/60"
-                />
-                <EditableText
-                  routePath={ROUTE}
-                  fieldKey={`network.brands.${idx}.focus`}
-                  defaultValue={brand.focus}
-                  as="p"
-                  className="mt-2 text-sm leading-relaxed text-espresso/80"
-                />
+                <p className="text-xs font-bold uppercase tracking-[0.12em] text-navy/60">{brand.name}</p>
+                <p className="mt-2 text-sm leading-relaxed text-espresso/80">{brand.focus}</p>
               </div>
             ))}
           </div>
@@ -97,14 +74,7 @@ export default function VirtualLpPage() {
                   <span
                     className={`flex h-14 w-14 items-center justify-center rounded-full text-white shadow-md ${node.color}`}
                   >
-                    <EditableIcon
-                      routePath={ROUTE}
-                      fieldKey={`network.map.${mapIdx}.icon`}
-                      defaultIconClass={node.icon}
-                      iconClassName="text-2xl text-white"
-                      defaultImageSize={56}
-                      label={node.label}
-                    />
+                    <i className={[node.icon, "text-2xl text-white"].filter(Boolean).join(" ")} aria-hidden />
                   </span>
                   <span className="text-center text-xs font-semibold uppercase tracking-wide text-navy">
                     {node.label}
@@ -126,8 +96,6 @@ export default function VirtualLpPage() {
             body="Each program is delivered through secure video sessions with licensed clinicians. Explore the option that best matches your clinical needs and personal preferences."
             align="center"
             bodyWidth="max-w-3xl"
-            editRoutePath={ROUTE}
-            editFieldPrefix="programs"
           />
 
           <div className="mt-16 grid gap-8 lg:grid-cols-2">
@@ -138,60 +106,24 @@ export default function VirtualLpPage() {
               >
                 <div className={`absolute left-0 top-0 h-1 w-full ${card.accentBar}`} />
                 <div className="flex flex-wrap items-center justify-between gap-3">
-                  <EditableText
-                    routePath={ROUTE}
-                    fieldKey={`pathways.${cardIdx}.brand`}
-                    defaultValue={card.brand}
-                    as="span"
-                    className="text-[10px] font-bold uppercase tracking-[0.18em] text-terracotta"
-                  />
-                  <EditableText
-                    routePath={ROUTE}
-                    fieldKey={`pathways.${cardIdx}.brandTag`}
-                    defaultValue={card.brandTag}
-                    as="span"
-                    className="rounded-full border border-sand-dark bg-white px-3 py-1 text-[10px] font-semibold uppercase tracking-wide text-navy/70"
-                  />
+                  <span className="text-[10px] font-bold uppercase tracking-[0.18em] text-terracotta">{card.brand}</span>
+                  <span className="rounded-full border border-sand-dark bg-white px-3 py-1 text-[10px] font-semibold uppercase tracking-wide text-navy/70">{card.brandTag}</span>
                 </div>
                 <span
                   className={`mt-6 flex h-12 w-12 items-center justify-center ${card.accentBar} text-white`}
                 >
-                  <EditableIcon
-                    routePath={ROUTE}
-                    fieldKey={`pathways.${cardIdx}.icon`}
-                    defaultIconClass={card.icon}
-                    iconClassName="text-2xl text-white"
-                    defaultImageSize={48}
-                    label={card.programName}
-                  />
+                  <i className={[card.icon, "text-2xl text-white"].filter(Boolean).join(" ")} aria-hidden />
                 </span>
-                <EditableText
-                  routePath={ROUTE}
-                  fieldKey={`pathways.${cardIdx}.programName`}
-                  defaultValue={card.programName}
-                  as="h3"
-                  className="mt-5 font-heading text-2xl font-bold text-navy"
-                />
+                <h3 className="mt-5 font-heading text-2xl font-bold text-navy">{card.programName}</h3>
                 <p className="mt-2 text-xs font-semibold uppercase tracking-wide text-espresso/50">
                   Best for
                 </p>
-                <EditableText
-                  routePath={ROUTE}
-                  fieldKey={`pathways.${cardIdx}.bestFor`}
-                  defaultValue={card.bestFor}
-                  as="p"
-                  className="mt-1 text-sm leading-relaxed text-espresso/75"
-                />
+                <p className="mt-1 text-sm leading-relaxed text-espresso/75">{card.bestFor}</p>
                 <ul className="mt-6 flex flex-1 flex-col gap-2.5">
                   {card.features.map((feature, featureIdx) => (
                     <li key={feature} className="flex items-start gap-2.5 text-sm text-espresso/70">
                       <i className="ri-check-line mt-0.5 shrink-0 text-terracotta" />
-                      <EditableText
-                        routePath={ROUTE}
-                        fieldKey={`pathways.${cardIdx}.features.${featureIdx}`}
-                        defaultValue={feature}
-                        as="span"
-                      />
+                      <span>{feature}</span>
                     </li>
                   ))}
                 </ul>
@@ -212,8 +144,6 @@ export default function VirtualLpPage() {
             dark
             align="center"
             bodyWidth="max-w-3xl"
-            editRoutePath={ROUTE}
-            editFieldPrefix="findProgram"
           />
 
           <div className="mt-14 space-y-4">
@@ -224,33 +154,14 @@ export default function VirtualLpPage() {
               >
                 <div className="flex items-start gap-4">
                   <span className="flex h-11 w-11 shrink-0 items-center justify-center bg-terracotta/20 text-terracotta">
-                    <EditableIcon
-                      routePath={ROUTE}
-                      fieldKey={`findProgram.items.${idx}.icon`}
-                      defaultIconClass={item.icon}
-                      iconClassName="text-xl"
-                      defaultImageSize={44}
-                      label="Program finder"
-                    />
+                    <i className={[item.icon, "text-xl"].filter(Boolean).join(" ")} aria-hidden />
                   </span>
                   <div>
                     <p className="text-sm text-white/60">If you are looking for…</p>
-                    <EditableText
-                      routePath={ROUTE}
-                      fieldKey={`findProgram.items.${idx}.scenario`}
-                      defaultValue={item.scenario}
-                      as="p"
-                      className="mt-1 font-heading text-lg font-bold text-white md:text-xl"
-                    />
+                    <p className="mt-1 font-heading text-lg font-bold text-white md:text-xl">{item.scenario}</p>
                     <p className="mt-2 text-sm text-white/75">
                       We recommend{" "}
-                      <EditableText
-                        routePath={ROUTE}
-                        fieldKey={`findProgram.items.${idx}.recommend`}
-                        defaultValue={item.recommend}
-                        as="span"
-                        className="font-semibold text-terracotta-light"
-                      />
+                      <span className="font-semibold text-terracotta-light">{item.recommend}</span>
                     </p>
                   </div>
                 </div>
@@ -260,13 +171,7 @@ export default function VirtualLpPage() {
           </div>
 
           <div className="mt-12 text-center">
-            <EditableText
-              routePath={ROUTE}
-              fieldKey="findProgram.footnote"
-              defaultValue="Not sure where to start? Speak with admissions and we'll help you find the right fit."
-              as="p"
-              className="text-sm text-white/70"
-            />
+            <p className="text-sm text-white/70">Not sure where to start? Speak with admissions and we'll help you find the right fit.</p>
             <LpCallCta
               label={`Speak With Admissions — ${ADMISSIONS_PHONE_DISPLAY}`}
               className="mt-5"
@@ -284,8 +189,6 @@ export default function VirtualLpPage() {
               headline="Structured Treatment Without Leaving Home"
               italicWord="Home"
               body="Virtual outpatient care across the Northbound network combines clinical structure with the flexibility many people need to stay engaged in daily life."
-              editRoutePath={ROUTE}
-              editFieldPrefix="benefits"
             />
             <ul className="grid gap-3 sm:grid-cols-2">
               {VIRTUAL_BENEFITS.map((benefit, idx) => (
@@ -294,12 +197,7 @@ export default function VirtualLpPage() {
                   className="flex items-start gap-3 border border-sand-dark bg-white p-4 text-sm leading-relaxed text-espresso/75"
                 >
                   <i className="ri-wifi-line mt-0.5 shrink-0 text-terracotta" />
-                  <EditableText
-                    routePath={ROUTE}
-                    fieldKey={`benefits.items.${idx}`}
-                    defaultValue={benefit}
-                    as="span"
-                  />
+                  <span>{benefit}</span>
                 </li>
               ))}
             </ul>
@@ -316,8 +214,6 @@ export default function VirtualLpPage() {
             italicWord="Works"
             align="center"
             bodyWidth="max-w-3xl"
-            editRoutePath={ROUTE}
-            editFieldPrefix="howItWorks"
           />
           <div className="mt-16 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {HOW_IT_WORKS_STEPS.map((step, idx) => (
@@ -328,20 +224,8 @@ export default function VirtualLpPage() {
                 <span className="absolute -top-4 left-6 bg-terracotta px-3 py-1 font-heading text-sm font-bold text-white">
                   {step.number}
                 </span>
-                <EditableText
-                  routePath={ROUTE}
-                  fieldKey={`howItWorks.steps.${idx}.title`}
-                  defaultValue={step.title}
-                  as="h3"
-                  className="font-heading text-xl font-bold text-navy"
-                />
-                <EditableText
-                  routePath={ROUTE}
-                  fieldKey={`howItWorks.steps.${idx}.body`}
-                  defaultValue={step.body}
-                  as="p"
-                  className="mt-3 text-sm leading-relaxed text-espresso/70"
-                />
+                <h3 className="font-heading text-xl font-bold text-navy">{step.title}</h3>
+                <p className="mt-3 text-sm leading-relaxed text-espresso/70">{step.body}</p>
               </div>
             ))}
           </div>
@@ -358,8 +242,6 @@ export default function VirtualLpPage() {
             align="center"
             body="Depending on your program and clinical assessment, services may include the following when clinically appropriate."
             bodyWidth="max-w-3xl"
-            editRoutePath={ROUTE}
-            editFieldPrefix="clinicalServices"
           />
           <ul className="mt-12 flex flex-wrap justify-center gap-2">
             {CLINICAL_SERVICES.map((service, idx) => (
@@ -367,12 +249,7 @@ export default function VirtualLpPage() {
                 key={service}
                 className="border border-sand-dark bg-white px-4 py-2.5 text-sm font-medium text-navy"
               >
-                <EditableText
-                  routePath={ROUTE}
-                  fieldKey={`clinicalServices.tags.${idx}`}
-                  defaultValue={service}
-                  as="span"
-                />
+                <span>{service}</span>
               </li>
             ))}
           </ul>
@@ -388,50 +265,26 @@ export default function VirtualLpPage() {
             italicWord="Appropriate"
             align="center"
             bodyWidth="max-w-3xl"
-            editRoutePath={ROUTE}
-            editFieldPrefix="clinicalFit"
           />
           <div className="mt-14 grid gap-8 lg:grid-cols-2">
             <div className="border border-sand-dark bg-sand/40 p-8">
-              <EditableText
-                routePath={ROUTE}
-                fieldKey="clinicalFit.appropriateFor.heading"
-                defaultValue="Virtual outpatient care may be appropriate for people who:"
-                as="h3"
-                className="font-heading text-xl font-bold text-navy"
-              />
+              <h3 className="font-heading text-xl font-bold text-navy">Virtual outpatient care may be appropriate for people who:</h3>
               <ul className="mt-6 space-y-3">
                 {APPROPRIATE_FOR.map((item, idx) => (
                   <li key={item} className="flex items-start gap-3 text-sm text-espresso/75">
                     <i className="ri-check-line mt-0.5 shrink-0 text-agave" />
-                    <EditableText
-                      routePath={ROUTE}
-                      fieldKey={`clinicalFit.appropriateFor.items.${idx}`}
-                      defaultValue={item}
-                      as="span"
-                    />
+                    <span>{item}</span>
                   </li>
                 ))}
               </ul>
             </div>
             <div className="border border-sand-dark p-8">
-              <EditableText
-                routePath={ROUTE}
-                fieldKey="clinicalFit.notAppropriateFor.heading"
-                defaultValue="Virtual outpatient may not be appropriate for people who:"
-                as="h3"
-                className="font-heading text-xl font-bold text-navy"
-              />
+              <h3 className="font-heading text-xl font-bold text-navy">Virtual outpatient may not be appropriate for people who:</h3>
               <ul className="mt-6 space-y-3">
                 {NOT_APPROPRIATE_FOR.map((item, idx) => (
                   <li key={item} className="flex items-start gap-3 text-sm text-espresso/75">
                     <i className="ri-close-line mt-0.5 shrink-0 text-terracotta" />
-                    <EditableText
-                      routePath={ROUTE}
-                      fieldKey={`clinicalFit.notAppropriateFor.items.${idx}`}
-                      defaultValue={item}
-                      as="span"
-                    />
+                    <span>{item}</span>
                   </li>
                 ))}
               </ul>
@@ -467,28 +320,15 @@ export default function VirtualLpPage() {
             align="center"
             body="Many major insurance plans provide coverage for virtual IOP and outpatient care. Our admissions team can verify your benefits confidentially and explain your options before you begin treatment. Coverage is not guaranteed and depends on your plan."
             bodyWidth="max-w-3xl"
-            editRoutePath={ROUTE}
-            editFieldPrefix="insurance"
           />
           <a
             href={VERIFY_INSURANCE_HREF}
             className="mt-10 inline-flex items-center gap-2 bg-terracotta px-10 py-4 text-sm font-semibold text-white shadow-lg transition hover:bg-terracotta-light"
           >
             <i className="ri-shield-check-line" />
-            <EditableText
-              routePath={ROUTE}
-              fieldKey="insurance.ctaLabel"
-              defaultValue="Verify Insurance"
-              as="span"
-            />
+            <span>Verify Insurance</span>
           </a>
-          <EditableText
-            routePath={ROUTE}
-            fieldKey="insurance.disclaimer"
-            defaultValue="Benefits verification is confidential. We do not guarantee coverage or reimbursement."
-            as="p"
-            className="mt-6 text-xs text-white/45"
-          />
+          <p className="mt-6 text-xs text-white/45">Benefits verification is confidential. We do not guarantee coverage or reimbursement.</p>
         </div>
       </section>
 
@@ -501,8 +341,6 @@ export default function VirtualLpPage() {
             italicWord="Virtual"
             align="center"
             bodyWidth="max-w-3xl"
-            editRoutePath={ROUTE}
-            editFieldPrefix="faq"
           />
           <div className="mx-auto mt-14 max-w-3xl">
             <VirtualLpFaq />

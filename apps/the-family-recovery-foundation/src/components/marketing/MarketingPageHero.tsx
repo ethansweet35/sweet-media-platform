@@ -1,5 +1,4 @@
 import Link from "next/link";
-import { EditableText } from "@sweetmedia/admin-core/page-editor";
 import { PAGE_TOP_NAV_PADDING } from "@/lib/layout";
 
 interface MarketingPageHeroProps {
@@ -10,7 +9,7 @@ interface MarketingPageHeroProps {
   children?: React.ReactNode;
 }
 
-export default async function MarketingPageHero({
+export default function MarketingPageHero({
   eyebrow,
   title,
   body,
@@ -29,31 +28,16 @@ export default async function MarketingPageHero({
     >
       <div className="max-w-content mx-auto px-6 lg:px-16">
         {eyebrow ? (
-          <EditableText
-            fieldKey="hero.eyebrow"
-            defaultValue={eyebrow}
-            as="p"
-            className={`text-[12px] font-body font-semibold uppercase tracking-[0.2em] mb-4 ${
+          <p className={`text-[12px] font-body font-semibold uppercase tracking-[0.2em] mb-4 ${
               isDark ? "text-sky-blue" : "text-tfrf-blue"
-            }`}
-          />
+            }`}>{eyebrow}</p>
         ) : null}
-        <EditableText
-          fieldKey="hero.title"
-          defaultValue={title}
-          as="h1"
-          className={`text-[clamp(32px,4vw,52px)] font-display leading-[1.08] max-w-3xl mb-6 ${
+        <h1 className={`text-[clamp(32px,4vw,52px)] font-display leading-[1.08] max-w-3xl mb-6 ${
             isDark ? "text-pure-white" : "text-deep-navy"
-          }`}
-        />
-        <EditableText
-          fieldKey="hero.body"
-          defaultValue={body}
-          as="p"
-          className={`text-[17px] font-body leading-relaxed max-w-2xl ${
+          }`}>{title}</h1>
+        <p className={`text-[17px] font-body leading-relaxed max-w-2xl ${
             isDark ? "text-pure-white/80" : "text-slate"
-          }`}
-        />
+          }`}>{body}</p>
         {children ? <div className="mt-8">{children}</div> : null}
       </div>
     </section>

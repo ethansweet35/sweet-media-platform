@@ -3,7 +3,7 @@ import { DM_Serif_Text, DM_Sans } from "next/font/google";
 import Script from "next/script";
 import "./globals.css";
 import Layout from "@/components/feature/Layout";
-import { DeferredAnalyticsWrapper, DeferredPageEditorProvider } from "@sweetmedia/admin-core";
+import { DeferredAnalyticsWrapper } from "@sweetmedia/admin-core";
 
 const REMIXICON_CSS =
   "https://cdn.jsdelivr.net/npm/remixicon@4.6.0/fonts/remixicon.css";
@@ -93,10 +93,8 @@ export default function RootLayout({
         </noscript>
       </head>
       <body className="min-h-full">
-        <DeferredPageEditorProvider>
-          <Layout>{children}</Layout>
+        <Layout>{children}</Layout>
         <DeferredAnalyticsWrapper />
-        </DeferredPageEditorProvider>
       </body>
     </html>
   );

@@ -1,6 +1,6 @@
+import Image from "next/image";
 import Link from "next/link";
 import { AutoLinkedText } from "@sweetmedia/blog-core";
-import { EditableImage, EditableText } from "@sweetmedia/admin-core/page-editor";
 import { heroContentPad, heroPageHeroSection } from "@/lib/heroSpacing";
 
 export type Breadcrumb = { label: string; href?: string };
@@ -45,7 +45,7 @@ function HeadlineRich({
 /**
  * Full-width dark hero for all Northbound inner pages.
  */
-export default async function PageHero({
+export default function PageHero({
   eyebrow,
   headline,
   italicWord,
@@ -58,11 +58,9 @@ export default async function PageHero({
 }: PageHeroProps) {
   return (
     <section className={heroPageHeroSection}>
-      <EditableImage
-        fieldKey="hero.image"
-        defaultSrc={image}
+      <Image
+        src={image}
         alt={imageAlt}
-        label="Hero image"
         fill
         className="object-cover object-center"
         priority
@@ -94,29 +92,13 @@ export default async function PageHero({
           </nav>
         )}
 
-        <EditableText
-          fieldKey="hero.eyebrow"
-          defaultValue={eyebrow}
-          as="p"
-          className="mb-4 text-xs font-semibold uppercase tracking-[0.14em] text-terracotta"
-        >
-          <AutoLinkedText>{eyebrow}</AutoLinkedText>
-        </EditableText>
+        <p className="mb-4 text-xs font-semibold uppercase tracking-[0.14em] text-terracotta"><AutoLinkedText>{eyebrow}</AutoLinkedText></p>
 
         <h1 className="font-heading max-w-2xl text-4xl font-bold leading-tight text-white md:text-5xl lg:text-6xl">
-          <EditableText fieldKey="hero.headline" defaultValue={headline} as="span" className="text-white">
-            <HeadlineRich headline={headline} italicWord={italicWord} />
-          </EditableText>
+          <span className="text-white"><HeadlineRich headline={headline} italicWord={italicWord} /></span>
         </h1>
 
-        <EditableText
-          fieldKey="hero.body"
-          defaultValue={body}
-          as="p"
-          className="mt-5 max-w-xl text-base leading-relaxed text-white/75"
-        >
-          <AutoLinkedText>{body}</AutoLinkedText>
-        </EditableText>
+        <p className="mt-5 max-w-xl text-base leading-relaxed text-white/75"><AutoLinkedText>{body}</AutoLinkedText></p>
 
         {(primaryCta || secondaryCta) && (
           <div className="mt-8 flex flex-wrap items-center gap-4">

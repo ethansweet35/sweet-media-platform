@@ -1,4 +1,4 @@
-import { EditableImage, EditableText } from "@sweetmedia/admin-core/page-editor";
+import Image from "next/image";
 import CtmLeadFormCard from "@/components/feature/CtmLeadFormCard";
 import {
   ADMISSIONS_PHONE,
@@ -8,8 +8,6 @@ import {
   VIRTUAL_LP_HERO_IMAGE,
 } from "./content";
 
-const ROUTE = "/virtual-lp";
-
 /** Extra vertical room vs default `heroViewportSection` (LP has dense copy + form). */
 const virtualLpHeroSection =
   "nb-hero-overlay relative flex min-h-[min(760px,calc(100dvh-4.75rem))] items-start overflow-hidden py-20 lg:max-h-[880px] lg:items-center lg:py-28";
@@ -17,12 +15,9 @@ const virtualLpHeroSection =
 export default function VirtualLpHero() {
   return (
     <section className={virtualLpHeroSection}>
-      <EditableImage
-        routePath={ROUTE}
-        fieldKey="hero.image"
-        defaultSrc={VIRTUAL_LP_HERO_IMAGE}
+      <Image
+        src={VIRTUAL_LP_HERO_IMAGE}
         alt="Woman attending a secure virtual outpatient therapy session from home"
-        label="hero image"
         fill
         priority
         className="object-cover object-center"
@@ -38,47 +33,19 @@ export default function VirtualLpHero() {
           <div>
             <div className="mb-5 flex items-center gap-3">
               <div className="h-[2px] w-10 bg-terracotta" />
-              <EditableText
-                routePath={ROUTE}
-                fieldKey="hero.eyebrow"
-                defaultValue="Northbound Treatment Network"
-                as="span"
-                className="text-[10px] font-bold uppercase tracking-[0.2em] text-terracotta"
-              />
+              <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-terracotta">Northbound Treatment Network</span>
             </div>
 
             <h1 className="font-heading text-4xl font-bold leading-[1.1] text-white md:text-5xl lg:text-[3.25rem]">
-              <EditableText
-                routePath={ROUTE}
-                fieldKey="hero.headline.line1"
-                defaultValue="Virtual Outpatient Treatment, "
-                as="span"
-              />
+              <span>Virtual Outpatient Treatment, </span>
               <span className="italic text-terracotta">
-                <EditableText
-                  routePath={ROUTE}
-                  fieldKey="hero.headline.line2"
-                  defaultValue="Matched to Your Needs"
-                  as="span"
-                />
+                <span>Matched to Your Needs</span>
               </span>
             </h1>
 
-            <EditableText
-              routePath={ROUTE}
-              fieldKey="hero.body.primary"
-              defaultValue="Access substance use, mental health, women's-only recovery, and eating disorder outpatient care from home through the Northbound Treatment network."
-              as="p"
-              className="mt-5 max-w-xl text-base leading-relaxed text-white/80 md:text-lg"
-            />
+            <p className="mt-5 max-w-xl text-base leading-relaxed text-white/80 md:text-lg">Access substance use, mental health, women's-only recovery, and eating disorder outpatient care from home through the Northbound Treatment network.</p>
 
-            <EditableText
-              routePath={ROUTE}
-              fieldKey="hero.body.secondary"
-              defaultValue="Whether you need addiction treatment, mental health support, a women's-only recovery environment, or specialized eating disorder care, our virtual programs may help you receive structured clinical support without leaving home."
-              as="p"
-              className="mt-4 max-w-xl text-sm leading-relaxed text-white/65"
-            />
+            <p className="mt-4 max-w-xl text-sm leading-relaxed text-white/65">Whether you need addiction treatment, mental health support, a women's-only recovery environment, or specialized eating disorder care, our virtual programs may help you receive structured clinical support without leaving home.</p>
 
             <ul className="mt-8 flex flex-col gap-2.5">
               {HERO_TRUST_BULLETS.map((item, idx) => (
@@ -86,12 +53,7 @@ export default function VirtualLpHero() {
                   <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center bg-terracotta/25">
                     <i className="ri-check-line text-xs text-terracotta" />
                   </span>
-                  <EditableText
-                    routePath={ROUTE}
-                    fieldKey={`hero.trustBullets.${idx}`}
-                    defaultValue={item}
-                    as="span"
-                  />
+                  <span>{item}</span>
                 </li>
               ))}
             </ul>
@@ -102,34 +64,18 @@ export default function VirtualLpHero() {
                 className="inline-flex items-center gap-2 bg-terracotta px-7 py-3.5 text-sm font-semibold text-white shadow-md transition hover:bg-terracotta-light"
               >
                 <i className="ri-shield-check-line" />
-                <EditableText
-                  routePath={ROUTE}
-                  fieldKey="hero.cta.verify"
-                  defaultValue="Verify Insurance"
-                  as="span"
-                />
+                <span>Verify Insurance</span>
               </a>
               <a
                 href={ADMISSIONS_PHONE}
                 className="inline-flex items-center gap-2 border border-white/35 px-7 py-3.5 text-sm font-semibold text-white transition hover:border-white/60 hover:bg-white/10"
               >
                 <i className="ri-phone-line" />
-                <EditableText
-                  routePath={ROUTE}
-                  fieldKey="hero.cta.call"
-                  defaultValue="Speak With Admissions"
-                  as="span"
-                />
+                <span>Speak With Admissions</span>
               </a>
             </div>
 
-            <EditableText
-              routePath={ROUTE}
-              fieldKey="hero.availability"
-              defaultValue={`Available 24/7 · ${ADMISSIONS_PHONE_DISPLAY} · Confidential admissions`}
-              as="p"
-              className="mt-6 text-xs text-white/40"
-            />
+            <p className="mt-6 text-xs text-white/40">{`Available 24/7 · ${ADMISSIONS_PHONE_DISPLAY} · Confidential admissions`}</p>
           </div>
 
           <div id="verify-insurance" className="relative scroll-mt-24 lg:flex lg:justify-end">

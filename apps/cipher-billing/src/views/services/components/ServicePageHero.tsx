@@ -1,5 +1,5 @@
+import Image from "next/image";
 import Link from "next/link";
-import { EditableImage, EditableText } from "@sweetmedia/admin-core/page-editor";
 import { SERVICE_CONTAINER, SERVICE_TEL_DISPLAY, SERVICE_TEL_HREF } from "./servicePageConstants";
 
 type ServicePageHeroProps = {
@@ -12,7 +12,7 @@ type ServicePageHeroProps = {
   secondaryCta?: { label: string; href: string };
 };
 
-export default async function ServicePageHero({
+export default function ServicePageHero({
   eyebrow,
   title,
   titleAccent,
@@ -26,11 +26,9 @@ export default async function ServicePageHero({
   return (
     <section className="relative overflow-hidden bg-[#101E3F]">
       <div className="absolute inset-0">
-        <EditableImage
-          fieldKey="hero.image"
-          defaultSrc={imageSrc}
+        <Image
+          src={imageSrc}
           alt={imageAlt}
-          label="Hero image"
           fill
           priority
           className="object-cover object-center"
@@ -47,19 +45,11 @@ export default async function ServicePageHero({
         <div className="max-w-3xl">
           <div className="flex items-center gap-4">
             <span className="h-px w-12 min-w-[48px] bg-white/80" aria-hidden />
-            <EditableText
-              fieldKey="hero.eyebrow"
-              defaultValue={eyebrow}
-              as="p"
-              className="text-[11px] font-semibold uppercase tracking-[0.24em] text-[#166C96]"
-            />
+            <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-[#166C96]">
+              {eyebrow}
+            </p>
           </div>
-          <EditableText
-            fieldKey="hero.headline"
-            defaultValue={headlineDefault}
-            as="h1"
-            className="mt-4 font-[var(--font-heading)] text-4xl font-medium leading-[1.1] tracking-[-0.02em] text-white md:text-5xl"
-          >
+          <h1 className="mt-4 font-[var(--font-heading)] text-4xl font-medium leading-[1.1] tracking-[-0.02em] text-white md:text-5xl">
             {title}
             {titleAccent ? (
               <>
@@ -67,13 +57,10 @@ export default async function ServicePageHero({
                 <span className="text-[#166C96]">{titleAccent}</span>
               </>
             ) : null}
-          </EditableText>
-          <EditableText
-            fieldKey="hero.body"
-            defaultValue={description}
-            as="p"
-            className="mt-6 max-w-2xl border-l-[3px] border-white/90 pl-8 text-sm leading-[1.65] text-white/90 md:text-base"
-          />
+          </h1>
+          <p className="mt-6 max-w-2xl border-l-[3px] border-white/90 pl-8 text-sm leading-[1.65] text-white/90 md:text-base">
+            {description}
+          </p>
           <div className="mt-10 flex flex-wrap gap-4">
             <a
               href={SERVICE_TEL_HREF}

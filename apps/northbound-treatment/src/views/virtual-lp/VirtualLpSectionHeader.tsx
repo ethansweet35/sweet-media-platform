@@ -1,5 +1,3 @@
-import { EditableText } from "@sweetmedia/admin-core/page-editor";
-
 interface VirtualLpSectionHeaderProps {
   eyebrow: string;
   headline: string;
@@ -8,12 +6,6 @@ interface VirtualLpSectionHeaderProps {
   align?: "left" | "center";
   dark?: boolean;
   bodyWidth?: string;
-  /**
-   * When provided, wires up the eyebrow / headline / body in inline-editor
-   * mode. Field keys are derived as `${editFieldPrefix}.{eyebrow,headline,body}`.
-   */
-  editRoutePath?: string;
-  editFieldPrefix?: string;
 }
 
 /** Section header without auto-internal-links (keeps users on the LP). */
@@ -25,8 +17,6 @@ export default function VirtualLpSectionHeader({
   align = "left",
   dark = false,
   bodyWidth = "max-w-2xl",
-  editRoutePath,
-  editFieldPrefix,
 }: VirtualLpSectionHeaderProps) {
   const center = align === "center";
   const headlineParts = italicWord
@@ -48,69 +38,29 @@ export default function VirtualLpSectionHeader({
       )
     : headline;
 
-  const editable = Boolean(editRoutePath && editFieldPrefix);
-
   return (
     <div className={center ? "mx-auto text-center" : ""}>
-      {editable ? (
-        <EditableText
-          routePath={editRoutePath!}
-          fieldKey={`${editFieldPrefix}.eyebrow`}
-          defaultValue={eyebrow}
-          as="p"
-          className="mb-3 text-xs font-semibold uppercase tracking-[0.14em] text-terracotta"
-        />
-      ) : (
-        <p className="mb-3 text-xs font-semibold uppercase tracking-[0.14em] text-terracotta">
-          {eyebrow}
+      <p className="mb-3 text-xs font-semibold uppercase tracking-[0.14em] text-terracotta">
+        {eyebrow}
+      </p>
+
+      <h2
+        className={`font-heading text-4xl font-bold leading-tight md:text-5xl ${
+          dark ? "text-white" : "text-navy"
+        }`}
+      >
+        {headlineJsx}
+      </h2>
+
+      {body ? (
+        <p
+          className={`mt-4 text-base leading-relaxed ${bodyWidth} ${
+            center ? "mx-auto" : ""
+          } ${dark ? "text-white/70" : "text-espresso/70"}`}
+        >
+          {body}
         </p>
-      )}
-
-      {editable ? (
-        <EditableText
-          routePath={editRoutePath!}
-          fieldKey={`${editFieldPrefix}.headline`}
-          defaultValue={headline}
-          as="h2"
-          className={`font-heading text-4xl font-bold leading-tight md:text-5xl ${
-            dark ? "text-white" : "text-navy"
-          }`}
-        >
-          {headlineJsx}
-        </EditableText>
-      ) : (
-        <h2
-          className={`font-heading text-4xl font-bold leading-tight md:text-5xl ${
-            dark ? "text-white" : "text-navy"
-          }`}
-        >
-          {headlineJsx}
-        </h2>
-      )}
-
-      {body
-        ? editable
-          ? (
-              <EditableText
-                routePath={editRoutePath!}
-                fieldKey={`${editFieldPrefix}.body`}
-                defaultValue={body}
-                as="p"
-                className={`mt-4 text-base leading-relaxed ${bodyWidth} ${
-                  center ? "mx-auto" : ""
-                } ${dark ? "text-white/70" : "text-espresso/70"}`}
-              />
-            )
-          : (
-              <p
-                className={`mt-4 text-base leading-relaxed ${bodyWidth} ${
-                  center ? "mx-auto" : ""
-                } ${dark ? "text-white/70" : "text-espresso/70"}`}
-              >
-                {body}
-              </p>
-            )
-        : null}
+      ) : null}
     </div>
   );
 }

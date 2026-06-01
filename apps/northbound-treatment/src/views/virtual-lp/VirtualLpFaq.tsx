@@ -1,8 +1,5 @@
-import { EditableText } from "@sweetmedia/admin-core/page-editor";
 import VirtualLpFaqItem from "./VirtualLpFaqItem";
 import { VIRTUAL_LP_FAQS } from "./content";
-
-const ROUTE = "/virtual-lp";
 
 export default function VirtualLpFaq() {
   return (
@@ -12,20 +9,10 @@ export default function VirtualLpFaq() {
           key={faq.q}
           initialOpen={i === 0}
           question={
-            <EditableText
-              routePath={ROUTE}
-              fieldKey={`faqs.${i}.q`}
-              defaultValue={faq.q}
-              as="span"
-            />
+            <span>{faq.q}</span>
           }
           answer={
-            <EditableText
-              routePath={ROUTE}
-              fieldKey={`faqs.${i}.a`}
-              defaultValue={faq.a}
-              as="span"
-            />
+            <span>{faq.a}</span>
           }
         />
       ))}
