@@ -17,7 +17,6 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const isAdmin = pathname?.startsWith('/admin');
   const isGeneralDetoxLanding = isGeneralDetoxPath(pathname ?? null);
-  const isFullBleedHero = pathname === '/' || isGeneralDetoxLanding;
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
@@ -73,7 +72,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   return (
     <div className="min-h-screen flex flex-col" style={{ background: '#F2EDE4' }}>
       <Navbar />
-      <div className={`flex-1 ${isFullBleedHero ? '' : 'pt-[88px]'}`}>
+      <div className="flex-1 sr-site-content">
         {children}
       </div>
       <HomeFooterContact />

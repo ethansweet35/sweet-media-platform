@@ -70,6 +70,15 @@
 
 /* ── Utility classes ─────────────────────────────────────────────────── */
 
+/* Site content offset for fixed navbar (skipped on full-bleed hero pages via data attr) */
+.sr-site-content {
+  padding-top: 88px;
+}
+
+.sr-site-content:has(> main[data-full-bleed-hero]) {
+  padding-top: 0;
+}
+
 /* Consistent section container */
 .sr-container {
   margin-left: auto;

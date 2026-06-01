@@ -30,7 +30,7 @@ export default function Page() {
   return (
     <>
       <link rel="preload" as="image" href={HERO_POSTER_URL} fetchPriority="high" />
-      <main>
+      <main data-full-bleed-hero>
         <OptimizationStatusBanner trackedPagePath="/" brandName="Sullivan Recovery" />
         <HomeHero />
         <HomeFeatures />

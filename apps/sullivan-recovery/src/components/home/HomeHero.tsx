@@ -13,7 +13,7 @@ const BODY =
 
 export default function HomeHero() {
   return (
-    <section className="relative flex min-h-screen items-center justify-start overflow-hidden py-[100px]">
+    <section className="relative flex min-h-[100svh] items-center overflow-hidden pb-[100px] pt-32 md:pt-36">
       <div className="absolute inset-0 z-0 bg-[#1E1F1B]">
         {/*
           Poster paints immediately as LCP (direct Supabase WebP, no next/image).
