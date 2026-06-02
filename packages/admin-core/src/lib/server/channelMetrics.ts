@@ -81,21 +81,38 @@ export interface FetchMetricsOptions {
   endDate: string;
 }
 
+/** PostgREST caps responses at 1,000 rows — paginate so reports are not truncated. */
+const METRICS_PAGE_SIZE = 1000;
+
 export async function fetchChannelMetrics(
   admin: SupabaseClient,
   opts: FetchMetricsOptions,
 ): Promise<ChannelMetricRow[]> {
-  let query = admin
-    .from("channel_metrics")
-    .select("channel, metric, metric_date, value, dimensions, dim_key")
-    .gte("metric_date", opts.startDate)
-    .lte("metric_date", opts.endDate)
-    .order("metric_date", { ascending: true });
-  if (opts.channel) query = query.eq("channel", opts.channel);
+  const out: ChannelMetricRow[] = [];
+  let offset = 0;
 
-  const { data, error } = await query;
-  if (error) throw new Error(error.message);
-  return (data ?? []) as ChannelMetricRow[];
+  while (true) {
+    let query = admin
+      .from("channel_metrics")
+      .select("channel, metric, metric_date, value, dimensions, dim_key")
+      .gte("metric_date", opts.startDate)
+      .lte("metric_date", opts.endDate)
+      .order("metric_date", { ascending: true })
+      .order("channel", { ascending: true })
+      .order("metric", { ascending: true })
+      .order("dim_key", { ascending: true })
+      .range(offset, offset + METRICS_PAGE_SIZE - 1);
+    if (opts.channel) query = query.eq("channel", opts.channel);
+
+    const { data, error } = await query;
+    if (error) throw new Error(error.message);
+    const batch = (data ?? []) as ChannelMetricRow[];
+    out.push(...batch);
+    if (batch.length < METRICS_PAGE_SIZE) break;
+    offset += METRICS_PAGE_SIZE;
+  }
+
+  return out;
 }
 
 /** ISO date N days back from today (UTC). */
