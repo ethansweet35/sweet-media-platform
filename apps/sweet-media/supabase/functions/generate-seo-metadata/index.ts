@@ -60,7 +60,7 @@ async function callOpenRouter(
       "X-Title": "Sweet Media Admin",
     },
     body: JSON.stringify({
-      model: "google/gemini-flash-1.5",
+      model: "anthropic/claude-haiku-4.5",
       messages: [{ role: "user", content: prompt }],
       max_tokens: 300,
       temperature: 0.4,

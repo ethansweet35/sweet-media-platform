@@ -14,7 +14,7 @@ import {
   SemrushApiError,
 } from "./semrushClient";
 
-import { OPENROUTER_GEMINI_FLASH_MODEL } from "../openRouterModels";
+import { OPENROUTER_HAIKU_MODEL } from "../openRouterModels";
 
 const OPENROUTER_URL = "https://openrouter.ai/api/v1/chat/completions";
 const AI_TIMEOUT_MS = 75_000;
@@ -122,7 +122,7 @@ async function generateStrategyReport(
       "X-Title": "Sweet Media SEO Strategy",
     },
     body: JSON.stringify({
-      model: OPENROUTER_GEMINI_FLASH_MODEL,
+      model: OPENROUTER_HAIKU_MODEL,
       temperature: 0.35,
       max_tokens: 5500,
       messages: [

@@ -4,7 +4,7 @@
  */
 import { NextResponse } from "next/server";
 import { after } from "next/server";
-import { OPENROUTER_GEMINI_FLASH_MODEL } from "../openRouterModels";
+import { OPENROUTER_HAIKU_MODEL } from "../openRouterModels";
 import { ContentEditorError } from "./contentEditor/errors";
 import { getAdminClient } from "./contentEditor/db";
 import { createContentEditor, saveDraft } from "./contentEditor/api";
@@ -257,7 +257,7 @@ primary_keyword, suggested_title, suggested_meta_description, suggested_h1`;
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
-      model: OPENROUTER_GEMINI_FLASH_MODEL,
+      model: OPENROUTER_HAIKU_MODEL,
       messages: [{ role: "user", content: prompt }],
       temperature: 0.5,
       max_tokens: 4000,

@@ -1,4 +1,4 @@
-import { OPENROUTER_GEMINI_FLASH_MODEL } from "../openRouterModels";
+import { OPENROUTER_HAIKU_MODEL } from "../openRouterModels";
 import {
   isDistinctiveRouteSlug,
   routeSlugToSeed,
@@ -108,7 +108,7 @@ ${extraLines.length > 0 ? extraLines.join("\n\n") : "(none)"}`;
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        model: OPENROUTER_GEMINI_FLASH_MODEL,
+        model: OPENROUTER_HAIKU_MODEL,
         messages: [{ role: "user", content: prompt }],
         temperature: 0.2,
         max_tokens: 20,

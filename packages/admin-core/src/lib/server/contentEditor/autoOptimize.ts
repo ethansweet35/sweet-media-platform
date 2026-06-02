@@ -39,7 +39,7 @@ const ALLOWED_MODELS = new Set([
   "anthropic/claude-opus-4.7",
   "openai/gpt-5.5-pro",
   "openai/gpt-5.4-mini",
-  "google/gemini-pro-latest",
+  "anthropic/claude-haiku-4.5",
 ]);
 
 const MAX_KB_CHARS = 40_000;

@@ -1,3 +1,5 @@
+import { OPENROUTER_HAIKU_MODEL } from "./openRouterModels";
+
 export interface AIModel {
   id: string;
   displayName: string;
@@ -29,9 +31,9 @@ export const AI_MODELS: AIModel[] = [
     description: "Cheap and fast. Use for low-stakes filler posts.",
   },
   {
-    id: "google/gemini-flash-1.5",
-    displayName: "Gemini Flash 1.5",
-    description: "Strong at research-heavy posts. Different angle on the same topic.",
+    id: OPENROUTER_HAIKU_MODEL,
+    displayName: "Claude Haiku 4.5",
+    description: "Fast and capable. Good for research-heavy posts or lower-cost drafts.",
   },
 ];
 

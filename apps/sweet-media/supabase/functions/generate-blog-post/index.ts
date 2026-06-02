@@ -14,7 +14,7 @@ const ALLOWED_MODEL_IDS = new Set([
   "anthropic/claude-opus-4-7",
   "openai/gpt-4.1",
   "openai/gpt-4o-mini",
-  "google/gemini-flash-1.5",
+  "anthropic/claude-haiku-4.5",
 ]);
 
 function resolveOpenRouterModel(bodyModel: unknown): string {

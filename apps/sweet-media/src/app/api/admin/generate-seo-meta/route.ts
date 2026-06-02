@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { fetchPageTextContent } from "@sweetmedia/admin-core/server";
+import { fetchPageTextContent, OPENROUTER_HAIKU_MODEL } from "@sweetmedia/admin-core/server";
 
 interface GenerateSeoMetaRequest {
   type?: "page" | "post";
@@ -113,7 +113,7 @@ export async function POST(request: Request) {
       "X-Title": " Admin",
     },
     body: JSON.stringify({
-      model: "google/gemini-2.0-flash-001",
+      model: OPENROUTER_HAIKU_MODEL,
       messages: [{ role: "user", content: prompt }],
       temperature: 0.5,
       max_tokens: 400,
