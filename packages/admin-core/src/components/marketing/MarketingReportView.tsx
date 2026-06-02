@@ -446,9 +446,14 @@ function SeoDeliverablesBlock({ deliverables }: { deliverables: SeoDeliverables 
     <div className="space-y-4">
       {blogs_published.length > 0 ? (
         <div className={`${adminCardCls} px-5 py-5`}>
-          <h3 className={`mb-3 text-base font-semibold ${adminFontSerif}`} style={{ color: ADMIN_TEXT }}>
+          <h3 className={`mb-1 text-base font-semibold ${adminFontSerif}`} style={{ color: ADMIN_TEXT }}>
             Blog posts published ({blogs_published.length})
           </h3>
+          <p className="mb-3 text-[11px] leading-snug" style={{ color: ADMIN_TEXT_MUTED }}>
+            Counts posts that went live this period (publish date, first publish without a date, or
+            draft → published in the change log). Edits to posts already live with an older publish
+            date are not included.
+          </p>
           <ul className="space-y-2">
             {blogs_published.map((b) => (
               <li

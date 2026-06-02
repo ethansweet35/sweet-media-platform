@@ -50,20 +50,51 @@ export function useAdminBlogPosts() {
 
   const toggleStatus = useCallback(async (id: string, currentStatus: string): Promise<boolean> => {
     const newStatus = currentStatus === "published" ? "draft" : "published";
+    const prior = posts.find((p) => p.id === id);
+    const now = new Date().toISOString();
+    const updates: Partial<DbBlogPost> = { status: newStatus, updated_at: now };
+    if (newStatus === "published" && currentStatus !== "published") {
+      updates.published_at = now;
+    }
     try {
-      const { error } = await supabase
-        .from("blog_posts")
-        .update({ status: newStatus, updated_at: new Date().toISOString() })
-        .eq("id", id);
+      const { error } = await supabase.from("blog_posts").update(updates).eq("id", id);
       if (error) throw error;
+
+      if (prior && newStatus === "published" && currentStatus !== "published") {
+        const changes = diffBlogPostUpdates(blogPostForChangeDiff(prior), { status: newStatus });
+        if (changes.length > 0) {
+          const {
+            data: { user },
+          } = await supabase.auth.getUser();
+          void postContentChangeLog({
+            entity_type: "blog",
+            entity_id: id,
+            route_path: `/blog/${prior.slug}`,
+            changes,
+            changed_by: user?.email ?? null,
+          });
+        }
+      }
+
       setPosts((prev) =>
-        prev.map((p) => (p.id === id ? { ...p, status: newStatus } : p))
+        prev.map((p) =>
+          p.id === id
+            ? {
+                ...p,
+                status: newStatus,
+                updatedAt: now,
+                ...(newStatus === "published" && currentStatus !== "published"
+                  ? { publishedAt: now, date: new Date(now).toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" }) }
+                  : {}),
+              }
+            : p,
+        ),
       );
       return true;
     } catch {
       return false;
     }
-  }, []);
+  }, [posts]);
 
   const toggleApprovedForPublish = useCallback(
     async (id: string, currentValue: boolean): Promise<boolean> => {
@@ -119,11 +150,15 @@ export function useAdminBlogPosts() {
   const updatePost = useCallback(
     async (id: string, updates: Partial<DbBlogPost>): Promise<boolean> => {
       const prior = posts.find((p) => p.id === id);
+      const now = new Date().toISOString();
+      const payload: Partial<DbBlogPost> = { ...updates, updated_at: now };
+
+      if (updates.status === "published" && prior?.status !== "published") {
+        if (!updates.published_at) payload.published_at = now;
+      }
+
       try {
-        const { error } = await supabase
-          .from("blog_posts")
-          .update({ ...updates, updated_at: new Date().toISOString() })
-          .eq("id", id);
+        const { error } = await supabase.from("blog_posts").update(payload).eq("id", id);
         if (error) throw error;
 
         if (prior) {

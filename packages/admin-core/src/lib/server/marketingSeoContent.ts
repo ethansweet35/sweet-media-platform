@@ -21,30 +21,102 @@ function periodEndExclusive(endDate: string): string {
   return d.toISOString();
 }
 
+function periodStartIso(startDate: string): string {
+  return `${startDate}T00:00:00.000Z`;
+}
+
+function isTimestampInPeriod(
+  iso: string | null | undefined,
+  startDate: string,
+  endExclusive: string,
+): boolean {
+  if (!iso) return false;
+  const t = String(iso);
+  return t >= periodStartIso(startDate) && t < endExclusive;
+}
+
+/** Status flips to published logged in content_change_log for the report window. */
+async function fetchBlogPublishEventsFromLog(
+  admin: SupabaseClient,
+  startDate: string,
+  endExclusive: string,
+): Promise<Map<string, string>> {
+  const sid = siteId();
+  let query = admin
+    .from("content_change_log")
+    .select("entity_id, created_at, old_value, new_value, field_key")
+    .eq("entity_type", "blog")
+    .eq("field_key", "status")
+    .gte("created_at", periodStartIso(startDate))
+    .lt("created_at", endExclusive);
+
+  if (sid) query = query.eq("site_id", sid);
+
+  const { data, error } = await query;
+  if (error || !data) return new Map();
+
+  const out = new Map<string, string>();
+  for (const row of data) {
+    const newVal = String(row.new_value ?? "").toLowerCase();
+    const oldVal = String(row.old_value ?? "").toLowerCase();
+    if (newVal !== "published" || oldVal === "published") continue;
+    const id = String(row.entity_id);
+    if (!out.has(id)) out.set(id, String(row.created_at));
+  }
+  return out;
+}
+
+/**
+ * Blogs that went live in the report window.
+ *
+ * Uses published_at when set; otherwise updated_at (toggle publish without a date)
+ * or a draft→published row in content_change_log. WP migrations often keep an old
+ * published_at even when the post is made live later — the changelog path catches those.
+ */
 export async function fetchPublishedBlogsInPeriod(
   admin: SupabaseClient,
   startDate: string,
   endDate: string,
 ): Promise<SeoPublishedBlog[]> {
   const endExclusive = periodEndExclusive(endDate);
-  const { data, error } = await admin
-    .from("blog_posts")
-    .select("title, slug, published_at")
-    .eq("status", "published")
-    .gte("published_at", `${startDate}T00:00:00.000Z`)
-    .lt("published_at", endExclusive)
-    .order("published_at", { ascending: false });
 
+  const [postsResult, publishEvents] = await Promise.all([
+    admin
+      .from("blog_posts")
+      .select("id, title, slug, published_at, updated_at, status")
+      .eq("status", "published"),
+    fetchBlogPublishEventsFromLog(admin, startDate, endExclusive),
+  ]);
+
+  const { data, error } = postsResult;
   if (error || !data) return [];
 
-  return data
-    .filter((row) => row.slug && row.title)
-    .map((row) => ({
+  const byId = new Map<string, SeoPublishedBlog>();
+
+  for (const row of data) {
+    if (!row.slug || !row.title) continue;
+    const id = String(row.id);
+    let shippedAt: string | null = null;
+
+    if (isTimestampInPeriod(row.published_at, startDate, endExclusive)) {
+      shippedAt = String(row.published_at);
+    } else if (!row.published_at && isTimestampInPeriod(row.updated_at, startDate, endExclusive)) {
+      shippedAt = String(row.updated_at);
+    } else if (publishEvents.has(id)) {
+      shippedAt = publishEvents.get(id)!;
+    }
+
+    if (!shippedAt) continue;
+
+    byId.set(id, {
       title: String(row.title),
       slug: String(row.slug),
       route_path: `/blog/${row.slug}`,
-      published_at: String(row.published_at),
-    }));
+      published_at: shippedAt,
+    });
+  }
+
+  return [...byId.values()].sort((a, b) => b.published_at.localeCompare(a.published_at));
 }
 
 export async function fetchNewTrackedPagesInPeriod(
