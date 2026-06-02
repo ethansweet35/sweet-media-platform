@@ -56,6 +56,13 @@ const aiTools = [
     href: "/seo-strategy",
     icon: "ri-search-eye-line",
     desc: "Semrush snapshot + AI audit for CRO, keywords, structure, and technical SEO.",
+    tag: null,
+  },
+  {
+    label: "Ad Budget Calculator",
+    href: "/ad-budget-calculator",
+    icon: "ri-funds-line",
+    desc: "Minimum Google Ads spend, lead volume, and impression-share ceilings for BH programs.",
     tag: "New",
   },
 ];

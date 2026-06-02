@@ -17,7 +17,8 @@
     "start": "next start",
     "lint": "eslint",
     "typecheck": "tsc --noEmit",
-    "upload:images": "node scripts/upload-images-to-supabase.mjs"
+    "upload:images": "node scripts/upload-images-to-supabase.mjs",
+    "prebuild": "node ../../scripts/generate-admin-changelog.mjs"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.105.1",
@@ -30,6 +31,7 @@
     "next": "16.2.4",
     "react": "19.2.4",
     "react-dom": "19.2.4",
+    "recharts": "3.2.0",
     "resend": "^6.12.2"
   },
   "devDependencies": {

@@ -191,6 +191,13 @@ export default function PaidMediaHero() {
                 See Our Channels
                 <i className="ri-arrow-down-line text-xs"></i>
               </a>
+              <Link
+                href="/ad-budget-calculator"
+                className="inline-flex items-center gap-2 text-[11px] tracking-[0.2em] uppercase font-medium text-[#9BB8E8]/80 hover:text-[#9BB8E8] transition-colors whitespace-nowrap"
+              >
+                Ad budget calculator
+                <i className="ri-calculator-line text-xs" aria-hidden />
+              </Link>
             </div>
           </div>
 

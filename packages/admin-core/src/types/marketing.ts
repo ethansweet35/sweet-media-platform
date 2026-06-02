@@ -78,11 +78,11 @@ export interface AdsSourceSummary {
   spend: MetricDelta;
   /** Platform-reported conversions (all actions). */
   conversions: MetricDelta;
-  /** Sum of tracked goal actions (phone, VOB, opportunity, etc.) — Google Ads only. */
+  /** Sum of tracked goal actions (Google: phone/VOB; Meta: leads/calls/forms). */
   goal_conversions: MetricDelta | null;
-  /** Spend ÷ goal conversions — Google Ads only. */
+  /** Spend ÷ goal conversions when goals are tracked for this source. */
   cpa: MetricDelta | null;
-  /** Per-goal breakdown — Google Ads only. */
+  /** Per-goal breakdown when tracked for this source. */
   conversion_goals: AdsConversionGoalRow[];
 }
 

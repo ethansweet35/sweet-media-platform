@@ -8,6 +8,7 @@ const pills = ["Custom Websites", "Landing Pages", "CRO", "PageSpeed", "HIPAA Ho
 const toolLinks = [
   { label: "Free speed test", href: "/site-speed-test" },
   { label: "SEO strategy audit", href: "/seo-strategy" },
+  { label: "Ad budget calculator", href: "/ad-budget-calculator" },
 ];
 
 export default function WebDevHero() {

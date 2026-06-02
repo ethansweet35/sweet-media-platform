@@ -9,7 +9,8 @@
     "postbuild": "tsx scripts/sync-tracked-pages.ts",
     "start": "next start",
     "lint": "eslint",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "prebuild": "node ../../scripts/generate-admin-changelog.mjs"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.105.1",

@@ -17,7 +17,8 @@
     "migrate:worksheets": "node scripts/migrate-worksheet-pdfs.mjs",
     "migrate:documents": "node scripts/migrate-family-documents.mjs",
     "reparse:blogs": "tsx scripts/reparse-tfrf-blog-content.ts",
-    "upload:home-about-video": "node scripts/upload-home-about-video.mjs /tmp/tfrf_home_about_video_compressed.mp4"
+    "upload:home-about-video": "node scripts/upload-home-about-video.mjs /tmp/tfrf_home_about_video_compressed.mp4",
+    "prebuild": "node ../../scripts/generate-admin-changelog.mjs"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.105.1",

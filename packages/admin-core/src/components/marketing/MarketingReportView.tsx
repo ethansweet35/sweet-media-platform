@@ -216,7 +216,9 @@ function AdsGrid({ sources }: { sources: AdsSourceSummary[] }) {
                   <DeltaBadge d={s.goal_conversions} />
                 </p>
                 <p className="mt-1 text-[10px]" style={{ color: ADMIN_TEXT_MUTED }}>
-                  Phone · VOB · Opportunity goals
+                  {s.source === "facebook"
+                    ? "Leads · Calls · Form submissions"
+                    : "Phone · VOB · Opportunity goals"}
                 </p>
               </div>
               {s.cpa != null ? (

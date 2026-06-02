@@ -10,7 +10,8 @@
     "start": "next start",
     "lint": "eslint",
     "typecheck": "tsc --noEmit",
-    "upload:images": "node scripts/upload-images-to-supabase.mjs"
+    "upload:images": "node scripts/upload-images-to-supabase.mjs",
+    "prebuild": "node ../../scripts/generate-admin-changelog.mjs"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.105.1",

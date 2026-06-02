@@ -11,8 +11,11 @@
 import type { SupabaseClient } from "@supabase/supabase-js";
 import {
   ADS_CONVERSION_GOALS,
+  META_ADS_CONVERSION_GOALS,
   goalLabelForAction,
   isTrackedAdsGoal,
+  isTrackedMetaGoal,
+  metaGoalLabelForAction,
 } from "../adsConversionGoals";
 import {
   gscRangesForPeriod,
@@ -76,17 +79,23 @@ function sumBy(
   return rows.reduce((acc, r) => (predicate(r) ? acc + Number(r.value || 0) : acc), 0);
 }
 
-function buildGoogleConversionGoals(
+function buildConversionGoalsForSource(
   ads: ChannelMetricRow[],
   ranges: ComparisonRanges,
+  source: string,
+  goalDefs: typeof ADS_CONVERSION_GOALS,
+  isTracked: (action: string) => boolean,
+  labelFor: (action: string) => string | null,
 ): { goals: AdsConversionGoalRow[]; total: MetricDelta } {
-  const actionRows = ads.filter((r) => r.metric === "conversions_by_action");
+  const actionRows = ads.filter(
+    (r) => r.metric === "conversions_by_action" && String(r.dimensions?.source ?? "") === source,
+  );
   const byLabel = new Map<string, { cur: number; prev: number }>();
 
   for (const row of actionRows) {
     const action = String(row.dimensions?.conversion_action ?? "");
-    if (!isTrackedAdsGoal(action)) continue;
-    const label = goalLabelForAction(action) ?? action;
+    if (!isTracked(action)) continue;
+    const label = labelFor(action) ?? action;
     const bucket = byLabel.get(label) ?? { cur: 0, prev: 0 };
     const v = Number(row.value || 0);
     if (inRange(row.metric_date, ranges.curStart, ranges.curEnd)) bucket.cur += v;
@@ -94,7 +103,7 @@ function buildGoogleConversionGoals(
     byLabel.set(label, bucket);
   }
 
-  const order = new Map(ADS_CONVERSION_GOALS.map((g, i) => [g.label, i]));
+  const order = new Map(goalDefs.map((g, i) => [g.label, i]));
   const goals: AdsConversionGoalRow[] = [...byLabel.entries()]
     .sort((a, b) => (order.get(a[0]) ?? 99) - (order.get(b[0]) ?? 99))
     .map(([name, { cur, prev }]) => ({
@@ -105,6 +114,34 @@ function buildGoogleConversionGoals(
   const totalCur = goals.reduce((s, g) => s + g.conversions.current, 0);
   const totalPrev = goals.reduce((s, g) => s + g.conversions.previous, 0);
   return { goals, total: delta(Math.round(totalCur * 10) / 10, Math.round(totalPrev * 10) / 10) };
+}
+
+function buildGoogleConversionGoals(
+  ads: ChannelMetricRow[],
+  ranges: ComparisonRanges,
+): { goals: AdsConversionGoalRow[]; total: MetricDelta } {
+  return buildConversionGoalsForSource(
+    ads,
+    ranges,
+    "google",
+    ADS_CONVERSION_GOALS,
+    isTrackedAdsGoal,
+    goalLabelForAction,
+  );
+}
+
+function buildMetaConversionGoals(
+  ads: ChannelMetricRow[],
+  ranges: ComparisonRanges,
+): { goals: AdsConversionGoalRow[]; total: MetricDelta } {
+  return buildConversionGoalsForSource(
+    ads,
+    ranges,
+    "facebook",
+    META_ADS_CONVERSION_GOALS,
+    isTrackedMetaGoal,
+    metaGoalLabelForAction,
+  );
 }
 
 function buildAds(rows: ChannelMetricRow[], ranges: ComparisonRanges): AdsSourceSummary[] {
@@ -138,13 +175,16 @@ function buildAds(rows: ChannelMetricRow[], ranges: ComparisonRanges): AdsSource
   };
 
   const googleGoals = buildGoogleConversionGoals(ads, ranges);
+  const metaGoals = buildMetaConversionGoals(ads, ranges);
 
   return sources.map((source) => {
     const spend = metricDelta(source, "spend");
     const isGoogle = source === "google";
-    const goalConversions = isGoogle ? googleGoals.total : null;
+    const isMeta = source === "facebook";
+    const platformGoals = isGoogle ? googleGoals : isMeta ? metaGoals : null;
+    const goalConversions = platformGoals?.total ?? null;
     const cpa =
-      isGoogle && goalConversions && goalConversions.current > 0
+      platformGoals && goalConversions && goalConversions.current > 0
         ? cpaDelta(spend, goalConversions)
         : null;
 
@@ -156,7 +196,7 @@ function buildAds(rows: ChannelMetricRow[], ranges: ComparisonRanges): AdsSource
       conversions: metricDelta(source, "conversions"),
       goal_conversions: goalConversions,
       cpa,
-      conversion_goals: isGoogle ? googleGoals.goals : [],
+      conversion_goals: platformGoals?.goals ?? [],
     };
   });
 }

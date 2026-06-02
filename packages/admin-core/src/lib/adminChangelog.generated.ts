@@ -7,6 +7,27 @@ import type { AdminChangelogEntry } from "./adminChangelog";
 
 export const ADMIN_CHANGELOG_GENERATED: AdminChangelogEntry[] = [
   {
+    id: "2026-06-01-add-flexible-report-periods-google-ads-goal-cpa-",
+    date: "2026-06-01",
+    category: "new",
+    title: "Add flexible report periods, Google Ads goal CPA, and fix PageSpeed display.",
+    summary: "Add flexible report periods, Google Ads goal CPA, and fix PageSpeed display.",
+  },
+  {
+    id: "2026-06-01-ingest-callrail-form-submissions-via-the-per-bra",
+    date: "2026-06-01",
+    category: "improved",
+    title: "Ingest CallRail form submissions via the per-brand tracking API key.",
+    summary: "Ingest CallRail form submissions via the per-brand tracking API key.",
+  },
+  {
+    id: "2026-06-01-reuse-shared-google-api-key-for-pagespeed-ingest",
+    date: "2026-06-01",
+    category: "improved",
+    title: "Reuse shared Google API key for PageSpeed ingest.",
+    summary: "Reuse shared Google API key for PageSpeed ingest.",
+  },
+  {
     id: "2026-06-01-fix-marketing-reporting-db-gap-and-surface-winds",
     date: "2026-06-01",
     category: "new",
@@ -111,30 +132,5 @@ export const ADMIN_CHANGELOG_GENERATED: AdminChangelogEntry[] = [
     summary: "Fix auto-optimize to prioritize brand knowledge base over competitor facts.",
     href: "/admin/knowledge-base",
     hrefLabel: "Knowledge Base",
-  },
-  {
-    id: "2026-05-26-add-admin-user-management-across-client-panels",
-    date: "2026-05-26",
-    category: "new",
-    title: "Add admin user management across client panels.",
-    summary: "Add admin user management across client panels.",
-    href: "/admin/users",
-    hrefLabel: "User Management",
-  },
-  {
-    id: "2026-05-25-block-next-in-robots-txt-for-all-brands-via-merg",
-    date: "2026-05-25",
-    category: "improved",
-    title: "Block /_next/ in robots.txt for all brands via mergeRobotsDisallow.",
-    summary: "Block /_next/ in robots.txt for all brands via mergeRobotsDisallow.",
-  },
-  {
-    id: "2026-05-24-fix-inline-editor-caret-jumping-to-start-on-each",
-    date: "2026-05-24",
-    category: "improved",
-    title: "Fix inline editor caret jumping to start on each keystroke.",
-    summary: "Fix inline editor caret jumping to start on each keystroke.",
-    href: "/admin/pages",
-    hrefLabel: "Pages",
   }
 ];

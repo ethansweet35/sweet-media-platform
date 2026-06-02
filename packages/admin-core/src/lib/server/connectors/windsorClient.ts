@@ -21,14 +21,60 @@ import type { ChannelMetricRow, WindsorAccountConfig } from "../../../types/mark
 
 const WINDSOR_BASE = "https://connectors.windsor.ai";
 
+interface FacebookConversionAction {
+  action_type?: string;
+  value?: string | number | null;
+}
+
 interface WindsorRow {
   date?: string;
-  [field: string]: string | number | null | undefined;
+  [field: string]: string | number | null | undefined | FacebookConversionAction[];
 }
 
 function num(v: unknown): number {
   const n = typeof v === "string" ? parseFloat(v) : (v as number);
   return Number.isFinite(n) ? n : 0;
+}
+
+/** Windsor returns Meta `conversions` as an array of { action_type, value }, not a scalar. */
+function parseFacebookConversionsArray(raw: unknown): { action: string; value: number }[] {
+  if (!Array.isArray(raw)) return [];
+  const out: { action: string; value: number }[] = [];
+  for (const item of raw) {
+    if (!item || typeof item !== "object") continue;
+    const action = String((item as FacebookConversionAction).action_type ?? "").trim();
+    if (!action) continue;
+    const value = num((item as FacebookConversionAction).value);
+    if (value > 0) out.push({ action, value });
+  }
+  return out;
+}
+
+function pushFacebookConversionRows(
+  out: ChannelMetricRow[],
+  date: string,
+  accountName: string,
+  actions: { action: string; value: number }[],
+): void {
+  const total = actions.reduce((s, a) => s + a.value, 0);
+  out.push({
+    channel: "ads",
+    metric: "conversions",
+    metric_date: date,
+    value: total,
+    dimensions: { source: "facebook", account_name: accountName },
+    dim_key: "facebook",
+  });
+  for (const { action, value } of actions) {
+    out.push({
+      channel: "ads",
+      metric: "conversions_by_action",
+      metric_date: date,
+      value,
+      dimensions: { source: "facebook", conversion_action: action, account_name: accountName },
+      dim_key: `facebook|action|${slugConversionAction(action)}`,
+    });
+  }
 }
 
 export class WindsorQueryError extends Error {
@@ -114,22 +160,42 @@ export async function fetchWindsorAds(
   endDate: string,
 ): Promise<ChannelMetricRow[]> {
   const out: ChannelMetricRow[] = [];
-  const metricFields = ["clicks", "impressions", "spend", "conversions"];
+  const standardMetrics = ["clicks", "impressions", "spend", "conversions"] as const;
 
   for (const { connector, source, configKey } of ADS_CONNECTORS) {
     const accountName = config[configKey];
     if (!accountName) continue;
 
-    const rows = await queryWindsor(connector, accountName, metricFields, startDate, endDate);
+    const isFacebook = connector === "facebook";
+    const requestFields = isFacebook
+      ? ["clicks", "impressions", "spend", "conversions"]
+      : [...standardMetrics];
+
+    const rows = await queryWindsor(connector, accountName, requestFields, startDate, endDate);
     for (const row of rows) {
       const date = typeof row.date === "string" ? row.date : null;
       if (!date) continue;
-      for (const metric of metricFields) {
+
+      for (const metric of ["clicks", "impressions", "spend"] as const) {
         out.push({
           channel: "ads",
           metric,
           metric_date: date,
           value: num(row[metric]),
+          dimensions: { source, account_name: accountName },
+          dim_key: source,
+        });
+      }
+
+      if (isFacebook) {
+        const fbActions = parseFacebookConversionsArray(row.conversions);
+        pushFacebookConversionRows(out, date, accountName, fbActions);
+      } else {
+        out.push({
+          channel: "ads",
+          metric: "conversions",
+          metric_date: date,
+          value: num(row.conversions),
           dimensions: { source, account_name: accountName },
           dim_key: source,
         });
@@ -144,8 +210,61 @@ export async function fetchWindsorAds(
       );
       out.push(...actionRows);
     }
+
+    if (connector === "facebook") {
+      const supplemental = await fetchWindsorFacebookSupplementalActions(
+        accountName,
+        startDate,
+        endDate,
+      );
+      out.push(...supplemental);
+    }
   }
 
+  return out;
+}
+
+/** Standard Meta lead / click-to-call fields (separate Windsor request from spend). */
+export async function fetchWindsorFacebookSupplementalActions(
+  accountName: string,
+  startDate: string,
+  endDate: string,
+): Promise<ChannelMetricRow[]> {
+  const supplemental: { field: string; actionLabel: string }[] = [
+    { field: "actions_lead", actionLabel: "actions_lead" },
+    { field: "actions_click_to_call_native_call_placed", actionLabel: "click_to_call" },
+    { field: "actions_offsite_conversion_fb_pixel_lead", actionLabel: "fb_pixel_lead" },
+  ];
+
+  const rows = await queryWindsor(
+    "facebook",
+    accountName,
+    supplemental.map((s) => s.field),
+    startDate,
+    endDate,
+  );
+
+  const out: ChannelMetricRow[] = [];
+  for (const row of rows) {
+    const date = typeof row.date === "string" ? row.date : null;
+    if (!date) continue;
+    for (const { field, actionLabel } of supplemental) {
+      const value = num(row[field]);
+      if (value <= 0) continue;
+      out.push({
+        channel: "ads",
+        metric: "conversions_by_action",
+        metric_date: date,
+        value,
+        dimensions: {
+          source: "facebook",
+          conversion_action: actionLabel,
+          account_name: accountName,
+        },
+        dim_key: `facebook|action|${slugConversionAction(actionLabel)}`,
+      });
+    }
+  }
   return out;
 }
 
