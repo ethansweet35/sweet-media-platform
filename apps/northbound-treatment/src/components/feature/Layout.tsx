@@ -18,6 +18,7 @@ import VirtualLpChrome from "@/views/virtual-lp/VirtualLpChrome";
 export default function Layout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const isAdmin = pathname?.startsWith("/admin");
+  const isReport = pathname?.startsWith("/report");
   const isHome = pathname === "/";
   const isVirtualLp = pathname === "/virtual-lp" || pathname === "/virtual-lp/";
 
@@ -26,9 +27,9 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     // Skip homepage (chrome is owned by page.tsx) and avoid smooth scroll — it fights
     // fixed header compositing and causes visible flicker on route changes in dev.
-    if (isAdmin || isHome) return;
+    if (isAdmin || isHome || isReport) return;
     window.scrollTo({ top: 0, left: 0 });
-  }, [pathname, isAdmin, isHome]);
+  }, [pathname, isAdmin, isHome, isReport]);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 300);
@@ -36,7 +37,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  if (isAdmin || isHome) return <>{children}</>;
+  if (isAdmin || isHome || isReport) return <>{children}</>;
 
   if (isVirtualLp) {
     return (

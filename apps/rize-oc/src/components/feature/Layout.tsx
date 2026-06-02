@@ -7,7 +7,8 @@ import Footer from './Footer';
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
-  const isAdmin = pathname?.startsWith('/admin');
+  const isAdmin =
+    pathname?.startsWith('/admin') || pathname?.startsWith('/report');
   const isLp = pathname?.startsWith('/lp');
 
   useEffect(() => {

@@ -8,7 +8,8 @@ import Footer from './Footer';
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
-  const isAdminRoute = (pathname ?? '').startsWith('/admin');
+  const isAdminRoute =
+    (pathname ?? '').startsWith('/admin') || (pathname ?? '').startsWith('/report');
   const [visible, setVisible] = useState(false);
   const frameRef = useRef<number | null>(null);
 
