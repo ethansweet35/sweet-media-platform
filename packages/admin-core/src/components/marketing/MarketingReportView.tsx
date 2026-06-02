@@ -1,5 +1,6 @@
 "use client";
 
+import { useMemo, useState } from "react";
 import {
   ADMIN_ACCENT,
   ADMIN_BORDER,
@@ -542,6 +543,14 @@ function CallTrackingBlock({ report }: { report: CallTrackingReport }) {
 }
 
 function CallTrackingSourcePanel({ source }: { source: CallTrackingSourceSummary }) {
+  const [tagFilter, setTagFilter] = useState("");
+
+  const filteredTags = useMemo(() => {
+    const q = tagFilter.trim().toLowerCase();
+    if (!q) return source.top_tags;
+    return source.top_tags.filter((row) => row.tag.toLowerCase().includes(q));
+  }, [source.top_tags, tagFilter]);
+
   return (
     <div className={`${adminCardCls} overflow-hidden`}>
       <div
@@ -576,35 +585,78 @@ function CallTrackingSourcePanel({ source }: { source: CallTrackingSourceSummary
 
       {source.top_tags.length > 0 ? (
         <div className="border-t px-5 py-4" style={{ borderColor: ADMIN_BORDER }}>
-          <p className="mb-3 text-[10px] font-bold uppercase tracking-[0.12em]" style={{ color: ADMIN_TEXT_MUTED }}>
-            Call tags (current period)
-          </p>
-          <div className="overflow-x-auto">
-            <table className="w-full min-w-[320px] text-left text-sm">
-              <thead>
-                <tr className="text-[10px] uppercase tracking-widest" style={{ color: ADMIN_TEXT_MUTED }}>
-                  <th className="pb-2 pr-4 font-semibold">Tag</th>
-                  <th className="pb-2 pr-4 text-right font-semibold">Calls</th>
-                  <th className="pb-2 text-right font-semibold">vs prior</th>
-                </tr>
-              </thead>
-              <tbody>
-                {source.top_tags.map((row) => (
-                  <tr key={row.tag} className="border-t" style={{ borderColor: `${ADMIN_BORDER}88` }}>
-                    <td className="py-2.5 pr-4 font-medium" style={{ color: ADMIN_TEXT }}>
-                      {row.tag}
-                    </td>
-                    <td className="py-2.5 pr-4 text-right tabular-nums" style={{ color: ADMIN_TEXT }}>
-                      {fmtInt(row.calls.current)}
-                    </td>
-                    <td className="py-2.5 text-right">
-                      <DeltaBadge d={row.calls} />
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+          <div className="mb-3 flex flex-wrap items-end justify-between gap-3">
+            <p className="text-[10px] font-bold uppercase tracking-[0.12em]" style={{ color: ADMIN_TEXT_MUTED }}>
+              Call tags (current period)
+            </p>
+            <div className="relative w-full max-w-xs sm:w-56">
+              <i
+                className="ri-search-line pointer-events-none absolute left-2.5 top-1/2 -translate-y-1/2 text-sm"
+                style={{ color: ADMIN_TEXT_MUTED }}
+                aria-hidden
+              />
+              <input
+                type="search"
+                value={tagFilter}
+                onChange={(e) => setTagFilter(e.target.value)}
+                placeholder="Filter tags…"
+                aria-label="Filter call tags"
+                className="w-full rounded-lg border py-2 pl-8 pr-8 text-sm outline-none focus:ring-2"
+                style={{
+                  borderColor: ADMIN_BORDER,
+                  color: ADMIN_TEXT,
+                }}
+              />
+              {tagFilter ? (
+                <button
+                  type="button"
+                  onClick={() => setTagFilter("")}
+                  className="absolute right-2 top-1/2 -translate-y-1/2 rounded p-0.5 transition hover:bg-black/5"
+                  style={{ color: ADMIN_TEXT_MUTED }}
+                  aria-label="Clear tag filter"
+                >
+                  <i className="ri-close-line text-base" aria-hidden />
+                </button>
+              ) : null}
+            </div>
           </div>
+          {tagFilter.trim() ? (
+            <p className="mb-2 text-xs" style={{ color: ADMIN_TEXT_MUTED }}>
+              Showing {filteredTags.length} of {source.top_tags.length} tags
+            </p>
+          ) : null}
+          {filteredTags.length > 0 ? (
+            <div className="overflow-x-auto max-h-80 overflow-y-auto">
+              <table className="w-full min-w-[320px] text-left text-sm">
+                <thead className="sticky top-0 bg-white">
+                  <tr className="text-[10px] uppercase tracking-widest" style={{ color: ADMIN_TEXT_MUTED }}>
+                    <th className="pb-2 pr-4 font-semibold">Tag</th>
+                    <th className="pb-2 pr-4 text-right font-semibold">Calls</th>
+                    <th className="pb-2 text-right font-semibold">vs prior</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {filteredTags.map((row) => (
+                    <tr key={row.tag} className="border-t" style={{ borderColor: `${ADMIN_BORDER}88` }}>
+                      <td className="py-2.5 pr-4 font-medium" style={{ color: ADMIN_TEXT }}>
+                        {row.tag}
+                      </td>
+                      <td className="py-2.5 pr-4 text-right tabular-nums" style={{ color: ADMIN_TEXT }}>
+                        {fmtInt(row.calls.current)}
+                      </td>
+                      <td className="py-2.5 text-right">
+                        <DeltaBadge d={row.calls} />
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          ) : (
+            <p className="text-sm" style={{ color: ADMIN_TEXT_MUTED }}>
+              No tags match &ldquo;{tagFilter.trim()}&rdquo;.
+            </p>
+          )}
         </div>
       ) : (
         <p className="px-5 pb-4 text-xs" style={{ color: ADMIN_TEXT_MUTED }}>
