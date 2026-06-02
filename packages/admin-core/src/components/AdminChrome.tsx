@@ -57,12 +57,12 @@ export default function AdminChrome({
           >
             <AdminSidebar brandName={brandName} brandInitial={brandInitial} />
             <div
-              className="flex min-h-screen min-w-0 flex-1 flex-col"
+              className="flex min-h-screen min-w-0 flex-1 flex-col overflow-x-hidden"
               style={{ backgroundColor: ADMIN_SURFACE }}
             >
               <AdminTopBar />
-              <main className="flex-1">
-                <div className="mx-auto max-w-[1400px] px-5 py-7 md:px-8 md:py-8">
+              <main className="min-w-0 flex-1 overflow-x-hidden">
+                <div className="mx-auto min-w-0 max-w-[1400px] px-4 py-6 sm:px-5 md:px-8 md:py-8">
                   {children}
                 </div>
               </main>

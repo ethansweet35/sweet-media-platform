@@ -35,13 +35,13 @@ export default async function ClientReportPage({ params }: PageProps) {
   const range = `${fmtDate(payload.date_ranges.current.start)} – ${fmtDate(payload.date_ranges.current.end)}`;
 
   return (
-    <main className="min-h-screen bg-[#F4F7FB]">
+    <main className="min-h-screen overflow-x-hidden bg-[#F4F7FB]">
       <header className="border-b border-[#E2E8F0] bg-white">
-        <div className="mx-auto flex max-w-5xl flex-col gap-1 px-6 py-8 lg:px-10">
+        <div className="mx-auto flex max-w-5xl min-w-0 flex-col gap-1 px-4 py-6 sm:px-6 sm:py-8 lg:px-10">
           <p className="text-[11px] font-bold uppercase tracking-[0.18em] text-[#64748B]">
             {label}
           </p>
-          <h1 className="text-3xl font-semibold tracking-tight text-[#0A1F44]">
+          <h1 className="text-2xl font-semibold tracking-tight break-words text-[#0A1F44] sm:text-3xl">
             {payload.brand.name} — Marketing Report
           </h1>
           <p className="text-sm text-[#64748B]">
@@ -50,7 +50,7 @@ export default async function ClientReportPage({ params }: PageProps) {
         </div>
       </header>
 
-      <div className="mx-auto max-w-5xl px-6 py-10 lg:px-10">
+      <div className="mx-auto min-w-0 max-w-5xl px-4 py-8 sm:px-6 sm:py-10 lg:px-10">
         <MarketingReportView data={payload} publicMode />
       </div>
 

@@ -49,7 +49,7 @@ function DeltaBadge({ d, invert = false, suffix = "" }: { d: MetricDelta; invert
   const color = flat ? "#94A3B8" : good ? "#047857" : "#DC2626";
   const arrow = flat ? "" : up ? "ri-arrow-up-line" : "ri-arrow-down-line";
   return (
-    <span className="inline-flex items-center gap-1 text-xs font-semibold" style={{ color }}>
+    <span className="inline-flex max-w-full flex-wrap items-center gap-1 text-xs font-semibold" style={{ color }}>
       {arrow ? <i className={arrow} /> : null}
       {up ? "+" : ""}
       {fmtInt(d.delta)}
@@ -69,7 +69,7 @@ function StatCard({
   footer?: React.ReactNode;
 }) {
   return (
-    <div className={`${adminCardCls} px-4 py-4`}>
+    <div className={`${adminCardCls} min-w-0 px-4 py-4`}>
       <p className="text-[10px] font-bold uppercase tracking-[0.12em]" style={{ color: ADMIN_TEXT_MUTED }}>
         {label}
       </p>
@@ -93,14 +93,14 @@ function SectionHeader({
   status?: ChannelStatus;
 }) {
   return (
-    <div className="mb-4 flex items-center gap-3">
+    <div className="mb-4 flex flex-col gap-3 sm:flex-row sm:items-center">
       <span
-        className="flex h-9 w-9 items-center justify-center rounded-xl"
+        className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl"
         style={{ backgroundColor: `${ADMIN_NAVY}0d`, color: ADMIN_NAVY }}
       >
         <i className={`${icon} text-lg`} />
       </span>
-      <div className="flex-1">
+      <div className="min-w-0 flex-1">
         <h2 className={`text-lg font-semibold ${adminFontSerif}`} style={{ color: ADMIN_TEXT }}>
           {title}
         </h2>
@@ -154,7 +154,7 @@ function PageSpeedGrid({ entries }: { entries: PageSpeedEntry[] }) {
           /* keep raw */
         }
         return (
-          <div key={`${e.strategy}|${e.url}`} className={`${adminCardCls} px-4 py-4`}>
+          <div key={`${e.strategy}|${e.url}`} className={`${adminCardCls} min-w-0 px-4 py-4`}>
             <div className="flex items-center justify-between gap-2">
               <span className="truncate font-mono text-xs" style={{ color: ADMIN_TEXT }} title={e.url}>
                 {path}
@@ -172,7 +172,7 @@ function PageSpeedGrid({ entries }: { entries: PageSpeedEntry[] }) {
                 performance
               </span>
             </div>
-            <div className="mt-2 flex gap-4 text-[11px]" style={{ color: ADMIN_TEXT_MUTED }}>
+            <div className="mt-2 flex flex-wrap gap-x-4 gap-y-1 text-[11px]" style={{ color: ADMIN_TEXT_MUTED }}>
               <span>LCP {lcpLabel(e.lcp_ms)}</span>
               <span>CLS {e.cls != null ? e.cls.toFixed(2) : "—"}</span>
               {e.inp_ms != null ? <span>INP {Math.round(e.inp_ms)}ms</span> : null}
@@ -236,9 +236,14 @@ function AccountSummaryCard({ s }: { s: AdsSourceSummary }) {
               </p>
               <div className="space-y-2">
                 {s.conversion_goals.map((g) => (
-                  <div key={g.name} className="flex items-center justify-between gap-2 text-sm">
-                    <span style={{ color: ADMIN_TEXT }}>{g.name}</span>
-                    <span className="flex items-center gap-2 tabular-nums">
+                  <div
+                    key={g.name}
+                    className="flex flex-col gap-1 text-sm sm:flex-row sm:items-center sm:justify-between sm:gap-2"
+                  >
+                    <span className="min-w-0 break-words" style={{ color: ADMIN_TEXT }}>
+                      {g.name}
+                    </span>
+                    <span className="flex shrink-0 flex-wrap items-center gap-2 tabular-nums sm:justify-end">
                       <span className="font-semibold">{fmtInt(g.conversions.current)}</span>
                       <DeltaBadge d={g.conversions} />
                     </span>
@@ -255,11 +260,14 @@ function AccountSummaryCard({ s }: { s: AdsSourceSummary }) {
               { label: "All conversions", d: s.conversions, money: false },
               { label: "Impressions", d: s.impressions, money: false },
             ].map((row) => (
-              <div key={row.label} className="flex items-center justify-between gap-3">
+              <div
+                key={row.label}
+                className="flex flex-col gap-1 sm:flex-row sm:items-center sm:justify-between sm:gap-3"
+              >
                 <dt className="text-xs" style={{ color: ADMIN_TEXT_MUTED }}>
                   {row.label}
                 </dt>
-                <dd className="flex items-center gap-2 text-right">
+                <dd className="flex flex-wrap items-center gap-2 sm:justify-end sm:text-right">
                   <span className="text-sm font-semibold tabular-nums" style={{ color: ADMIN_TEXT }}>
                     {row.money ? fmtMoney(row.d.current) : fmtInt(row.d.current)}
                   </span>
@@ -282,11 +290,14 @@ function CampaignTable({ platform }: { platform: AdsPlatformSection }) {
   }
 
   return (
-    <div className="overflow-x-auto border-t px-5 py-4" style={{ borderColor: ADMIN_BORDER }}>
+    <div
+      className="max-w-full min-w-0 overflow-x-auto border-t px-5 py-4 [-webkit-overflow-scrolling:touch]"
+      style={{ borderColor: ADMIN_BORDER }}
+    >
       <p className="mb-3 text-[10px] font-bold uppercase tracking-[0.12em]" style={{ color: ADMIN_TEXT_MUTED }}>
         Campaign performance
       </p>
-      <table className="w-full min-w-[640px] text-left text-sm">
+      <table className="w-full min-w-[520px] text-left text-sm">
         <thead>
           <tr className="text-[10px] uppercase tracking-widest" style={{ color: ADMIN_TEXT_MUTED }}>
             <th className="pb-2 pr-4 font-semibold">Campaign</th>
@@ -338,12 +349,12 @@ function CampaignTable({ platform }: { platform: AdsPlatformSection }) {
 
 function AdsPlatformSectionBlock({ platform }: { platform: AdsPlatformSection }) {
   return (
-    <div className={`${adminCardCls} overflow-hidden`}>
+    <div className={`${adminCardCls} max-w-full min-w-0 overflow-hidden`}>
       <div
         className="flex flex-wrap items-center justify-between gap-2 border-b px-5 py-4"
         style={{ borderColor: ADMIN_BORDER }}
       >
-        <h3 className={`text-base font-semibold ${adminFontSerif}`} style={{ color: ADMIN_TEXT }}>
+        <h3 className={`min-w-0 text-base font-semibold ${adminFontSerif}`} style={{ color: ADMIN_TEXT }}>
           {platform.label}
         </h3>
         <span className="text-[10px] uppercase tracking-wide" style={{ color: ADMIN_TEXT_MUTED }}>
@@ -388,7 +399,10 @@ function LiveChangelogBlock({ entries }: { entries: LiveChangelogEntry[] }) {
   return (
     <ul className={`${adminCardCls} divide-y`} style={{ borderColor: ADMIN_BORDER }}>
       {entries.map((entry, i) => (
-        <li key={`${entry.route_path}-${entry.occurred_at}-${i}`} className="flex gap-3 px-5 py-4">
+        <li
+          key={`${entry.route_path}-${entry.occurred_at}-${i}`}
+          className="flex flex-col gap-2 px-5 py-4 sm:flex-row sm:gap-3"
+        >
           <span
             className="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-lg text-sm"
             style={{
@@ -414,7 +428,7 @@ function LiveChangelogBlock({ entries }: { entries: LiveChangelogEntry[] }) {
           </span>
           <div className="min-w-0 flex-1">
             <div className="flex flex-wrap items-center gap-2">
-              <span className="font-mono text-[11px]" style={{ color: ADMIN_TEXT }}>
+              <span className="break-all font-mono text-[11px]" style={{ color: ADMIN_TEXT }}>
                 {entry.route_path || "—"}
               </span>
               {entry.kind === "in_progress" ? (
@@ -431,7 +445,10 @@ function LiveChangelogBlock({ entries }: { entries: LiveChangelogEntry[] }) {
               {entry.status ? ` · ${entry.status}` : ""}
             </p>
           </div>
-          <time className="shrink-0 text-xs tabular-nums" style={{ color: ADMIN_TEXT_MUTED }}>
+          <time
+            className="shrink-0 text-xs tabular-nums sm:self-start sm:pt-0.5"
+            style={{ color: ADMIN_TEXT_MUTED }}
+          >
             {fmtChangelogWhen(entry.occurred_at)}
           </time>
         </li>
@@ -445,7 +462,7 @@ function SeoDeliverablesBlock({ deliverables }: { deliverables: SeoDeliverables 
   return (
     <div className="space-y-4">
       {blogs_published.length > 0 ? (
-        <div className={`${adminCardCls} px-5 py-5`}>
+        <div className={`${adminCardCls} min-w-0 px-5 py-5`}>
           <h3 className={`mb-1 text-base font-semibold ${adminFontSerif}`} style={{ color: ADMIN_TEXT }}>
             Blog posts published ({blogs_published.length})
           </h3>
@@ -458,17 +475,17 @@ function SeoDeliverablesBlock({ deliverables }: { deliverables: SeoDeliverables 
             {blogs_published.map((b) => (
               <li
                 key={b.route_path}
-                className="flex flex-wrap items-center justify-between gap-2 rounded-lg bg-[#F0FDF4] px-3 py-2"
+                className="flex flex-col gap-1 rounded-lg bg-[#F0FDF4] px-3 py-2 sm:flex-row sm:items-center sm:justify-between sm:gap-2"
               >
-                <div className="min-w-0">
-                  <p className="text-sm font-medium" style={{ color: ADMIN_TEXT }}>
+                <div className="min-w-0 flex-1">
+                  <p className="text-sm font-medium break-words" style={{ color: ADMIN_TEXT }}>
                     {b.title}
                   </p>
-                  <p className="font-mono text-[11px]" style={{ color: ADMIN_TEXT_MUTED }}>
+                  <p className="break-all font-mono text-[11px]" style={{ color: ADMIN_TEXT_MUTED }}>
                     {b.route_path}
                   </p>
                 </div>
-                <time className="shrink-0 text-xs" style={{ color: ADMIN_TEXT_MUTED }}>
+                <time className="shrink-0 text-xs sm:text-right" style={{ color: ADMIN_TEXT_MUTED }}>
                   {fmtChangelogWhen(b.published_at)}
                 </time>
               </li>
@@ -478,7 +495,7 @@ function SeoDeliverablesBlock({ deliverables }: { deliverables: SeoDeliverables 
       ) : null}
 
       {pages_added.length > 0 ? (
-        <div className={`${adminCardCls} px-5 py-5`}>
+        <div className={`${adminCardCls} min-w-0 px-5 py-5`}>
           <h3 className={`mb-3 text-base font-semibold ${adminFontSerif}`} style={{ color: ADMIN_TEXT }}>
             New pages added ({pages_added.length})
           </h3>
@@ -486,17 +503,17 @@ function SeoDeliverablesBlock({ deliverables }: { deliverables: SeoDeliverables 
             {pages_added.map((p) => (
               <li
                 key={p.route_path}
-                className="flex flex-wrap items-center justify-between gap-2 rounded-lg bg-[#EFF6FF] px-3 py-2"
+                className="flex flex-col gap-1 rounded-lg bg-[#EFF6FF] px-3 py-2 sm:flex-row sm:items-center sm:justify-between sm:gap-2"
               >
-                <div className="min-w-0">
-                  <p className="text-sm font-medium" style={{ color: ADMIN_TEXT }}>
+                <div className="min-w-0 flex-1">
+                  <p className="text-sm font-medium break-words" style={{ color: ADMIN_TEXT }}>
                     {p.page_title}
                   </p>
-                  <p className="font-mono text-[11px]" style={{ color: ADMIN_TEXT_MUTED }}>
+                  <p className="break-all font-mono text-[11px]" style={{ color: ADMIN_TEXT_MUTED }}>
                     {p.route_path}
                   </p>
                 </div>
-                <time className="shrink-0 text-xs" style={{ color: ADMIN_TEXT_MUTED }}>
+                <time className="shrink-0 text-xs sm:text-right" style={{ color: ADMIN_TEXT_MUTED }}>
                   {fmtChangelogWhen(p.added_at)}
                 </time>
               </li>
@@ -506,7 +523,7 @@ function SeoDeliverablesBlock({ deliverables }: { deliverables: SeoDeliverables 
       ) : null}
 
       {updates.length > 0 ? (
-        <div className={`${adminCardCls} px-5 py-5`}>
+        <div className={`${adminCardCls} min-w-0 px-5 py-5`}>
           <h3 className={`mb-3 text-base font-semibold ${adminFontSerif}`} style={{ color: ADMIN_TEXT }}>
             SEO & content updates ({updates.length})
           </h3>
@@ -514,18 +531,18 @@ function SeoDeliverablesBlock({ deliverables }: { deliverables: SeoDeliverables 
             {updates.map((u) => (
               <li
                 key={u.id}
-                className="flex flex-wrap items-start justify-between gap-2 border-b pb-2 last:border-0"
+                className="flex flex-col gap-1 border-b pb-2 last:border-0 sm:flex-row sm:items-start sm:justify-between sm:gap-2"
                 style={{ borderColor: `${ADMIN_BORDER}66` }}
               >
-                <div className="min-w-0">
-                  <span className="font-mono text-[11px]" style={{ color: ADMIN_TEXT_MUTED }}>
+                <div className="min-w-0 flex-1">
+                  <span className="break-all font-mono text-[11px]" style={{ color: ADMIN_TEXT_MUTED }}>
                     {u.route_path}
                   </span>
-                  <p className="text-sm" style={{ color: ADMIN_TEXT }}>
+                  <p className="text-sm break-words" style={{ color: ADMIN_TEXT }}>
                     {u.summary}
                   </p>
                 </div>
-                <time className="shrink-0 text-xs" style={{ color: ADMIN_TEXT_MUTED }}>
+                <time className="shrink-0 text-xs sm:text-right" style={{ color: ADMIN_TEXT_MUTED }}>
                   {fmtChangelogWhen(u.created_at)}
                 </time>
               </li>
@@ -557,12 +574,12 @@ function CallTrackingSourcePanel({ source }: { source: CallTrackingSourceSummary
   }, [source.top_tags, tagFilter]);
 
   return (
-    <div className={`${adminCardCls} overflow-hidden`}>
+    <div className={`${adminCardCls} max-w-full min-w-0 overflow-hidden`}>
       <div
         className="flex flex-wrap items-center justify-between gap-3 border-b px-5 py-4"
         style={{ borderColor: ADMIN_BORDER }}
       >
-        <div className="flex items-center gap-2">
+        <div className="flex min-w-0 items-center gap-2">
           <i
             className={
               source.provider === "callrail" ? "ri-phone-find-line text-lg" : "ri-phone-line text-lg"
@@ -631,8 +648,8 @@ function CallTrackingSourcePanel({ source }: { source: CallTrackingSourceSummary
             </p>
           ) : null}
           {filteredTags.length > 0 ? (
-            <div className="overflow-x-auto max-h-80 overflow-y-auto">
-              <table className="w-full min-w-[320px] text-left text-sm">
+            <div className="max-w-full min-w-0 overflow-x-auto max-h-80 overflow-y-auto [-webkit-overflow-scrolling:touch]">
+              <table className="w-full min-w-[280px] text-left text-sm">
                 <thead className="sticky top-0 bg-white">
                   <tr className="text-[10px] uppercase tracking-widest" style={{ color: ADMIN_TEXT_MUTED }}>
                     <th className="pb-2 pr-4 font-semibold">Tag</th>
@@ -643,7 +660,7 @@ function CallTrackingSourcePanel({ source }: { source: CallTrackingSourceSummary
                 <tbody>
                   {filteredTags.map((row) => (
                     <tr key={row.tag} className="border-t" style={{ borderColor: `${ADMIN_BORDER}88` }}>
-                      <td className="py-2.5 pr-4 font-medium" style={{ color: ADMIN_TEXT }}>
+                      <td className="max-w-[200px] py-2.5 pr-4 font-medium break-words" style={{ color: ADMIN_TEXT }}>
                         {row.tag}
                       </td>
                       <td className="py-2.5 pr-4 text-right tabular-nums" style={{ color: ADMIN_TEXT }}>
@@ -706,7 +723,7 @@ export default function MarketingReportView({ data, publicMode = false }: Market
   const s = data.search.summary;
 
   return (
-    <div className="space-y-10">
+    <div className="min-w-0 max-w-full space-y-10">
       {/* ── Live activity ──────────────────────────────────────────── */}
       <section>
         <SectionHeader
@@ -744,24 +761,30 @@ export default function MarketingReportView({ data, publicMode = false }: Market
               />
             </div>
             {data.search.daily.length > 0 ? (
-              <article className={`${adminCardCls} px-6 py-6`}>
+              <article className={`${adminCardCls} min-w-0 overflow-hidden px-4 py-5 sm:px-6 sm:py-6`}>
                 <TrafficLineChart daily={data.search.daily} periodLabel={periodLabel} />
               </article>
             ) : null}
             {(data.search.top_pages.length > 0 || data.search.top_queries.length > 0) && (
               <div className="grid gap-6 lg:grid-cols-2">
                 {data.search.top_queries.length > 0 ? (
-                  <div className={`${adminCardCls} px-5 py-5`}>
+                  <div className={`${adminCardCls} min-w-0 px-5 py-5`}>
                     <h3 className={`mb-3 text-base font-semibold ${adminFontSerif}`} style={{ color: ADMIN_TEXT }}>
                       Top growing searches
                     </h3>
                     <ul className="space-y-2">
                       {data.search.top_queries.map((q) => (
-                        <li key={q.query} className="flex items-center justify-between gap-3 rounded-lg bg-[#F0FDF4] px-3 py-2">
-                          <span className="text-sm font-medium" style={{ color: ADMIN_TEXT }}>
+                        <li
+                          key={q.query}
+                          className="flex flex-col gap-1 rounded-lg bg-[#F0FDF4] px-3 py-2 sm:flex-row sm:items-center sm:justify-between sm:gap-3"
+                        >
+                          <span className="min-w-0 text-sm font-medium break-words" style={{ color: ADMIN_TEXT }}>
                             {q.query}
                           </span>
-                          <span className="shrink-0 text-xs font-semibold" style={{ color: ADMIN_TEXT_MUTED }}>
+                          <span
+                            className="shrink-0 text-xs font-semibold sm:text-right"
+                            style={{ color: ADMIN_TEXT_MUTED }}
+                          >
                             {fmtInt(q.clicks)} clicks · pos {q.position.toFixed(1)}
                           </span>
                         </li>
@@ -770,17 +793,20 @@ export default function MarketingReportView({ data, publicMode = false }: Market
                   </div>
                 ) : null}
                 {data.search.top_pages.length > 0 ? (
-                  <div className={`${adminCardCls} px-5 py-5`}>
+                  <div className={`${adminCardCls} min-w-0 px-5 py-5`}>
                     <h3 className={`mb-3 text-base font-semibold ${adminFontSerif}`} style={{ color: ADMIN_TEXT }}>
                       Top growing pages
                     </h3>
                     <ul className="space-y-2">
                       {data.search.top_pages.map((p) => (
-                        <li key={p.path} className="flex items-center justify-between gap-3 rounded-lg bg-[#EFF6FF] px-3 py-2">
-                          <span className="truncate font-mono text-xs" style={{ color: ADMIN_TEXT }}>
+                        <li
+                          key={p.path}
+                          className="flex flex-col gap-1 rounded-lg bg-[#EFF6FF] px-3 py-2 sm:flex-row sm:items-center sm:justify-between sm:gap-3"
+                        >
+                          <span className="min-w-0 break-all font-mono text-xs" style={{ color: ADMIN_TEXT }}>
                             {p.path}
                           </span>
-                          <span className="shrink-0 text-xs font-bold" style={{ color: ADMIN_ACCENT }}>
+                          <span className="shrink-0 text-xs font-bold sm:text-right" style={{ color: ADMIN_ACCENT }}>
                             +{fmtInt(p.clicks_delta)} clicks
                           </span>
                         </li>

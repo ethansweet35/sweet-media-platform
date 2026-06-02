@@ -111,10 +111,10 @@ export default function TrafficLineChart({
         </div>
       </div>
 
-      <div className="overflow-x-auto">
+      <div className="max-w-full min-w-0 overflow-x-auto [-webkit-overflow-scrolling:touch]">
         <svg
           viewBox={`0 0 ${width} ${height}`}
-          className="w-full min-w-[320px] max-w-full"
+          className="h-auto w-full max-w-none min-w-[280px]"
           role="img"
           aria-label={`${METRIC_LABEL[metric]} over time`}
         >

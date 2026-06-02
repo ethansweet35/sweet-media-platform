@@ -203,18 +203,24 @@ export default function AdminReportingPage() {
   );
 
   return (
-    <div>
+    <div className="min-w-0 max-w-full">
       <section className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
-        <div>
-          <h1 className={`text-[2.4rem] font-semibold tracking-tight ${adminFontSerif}`} style={{ color: ADMIN_TEXT }}>
+        <div className="min-w-0">
+          <h1
+            className={`text-3xl font-semibold tracking-tight sm:text-[2.4rem] ${adminFontSerif}`}
+            style={{ color: ADMIN_TEXT }}
+          >
             Marketing Reporting
           </h1>
           <p className="mt-2 text-sm" style={{ color: ADMIN_TEXT_MUTED }}>
             One live view across search, ads, local, and site performance — and a shareable link for your client.
           </p>
         </div>
-        <div className="flex flex-wrap items-center gap-2">
-          <div className="inline-flex rounded-xl border bg-white p-1" style={{ borderColor: ADMIN_BORDER }}>
+        <div className="flex w-full min-w-0 flex-wrap items-center gap-2 sm:w-auto">
+          <div
+            className="inline-flex max-w-full flex-wrap rounded-xl border bg-white p-1"
+            style={{ borderColor: ADMIN_BORDER }}
+          >
             {periodTabs}
           </div>
           <button
@@ -237,7 +243,7 @@ export default function AdminReportingPage() {
       ) : null}
 
       {/* Share links */}
-      <section className={`${adminCardCls} mb-8 overflow-hidden`}>
+      <section className={`${adminCardCls} mb-8 max-w-full min-w-0 overflow-hidden`}>
         <div className="flex flex-wrap items-end justify-between gap-3 border-b px-5 py-4" style={{ borderColor: ADMIN_BORDER }}>
           <div>
             <h2 className={`text-lg font-semibold ${adminFontSerif}`} style={{ color: ADMIN_TEXT }}>
