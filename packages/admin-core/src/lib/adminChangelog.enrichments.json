@@ -1,0 +1,24 @@
+{
+  "2026-06-01-fix-marketing-reporting-db-gap-and-surface-winds": {
+    "title": "Marketing Report",
+    "summary": "Unified admin reporting: GSC, Google/Meta/Bing ads, CallRail & CTM calls/forms, GMB, and PageSpeed. Sync metrics, pick 7/28/90-day windows, and create shareable client report links.",
+    "category": "new",
+    "tips": [
+      "Open Reporting in the sidebar — run Sync metrics after connecting channels.",
+      "Share links live at /report/{token}; disable or delete from the admin page anytime.",
+      "Requires the marketing reporting migration on each Supabase project."
+    ]
+  },
+  "2026-06-01-share-one-agency-search-console-oauth-token-acro": {
+    "tips": [
+      "Connect GSC once on any brand — other sites pick up the shared agency token after deploy."
+    ]
+  },
+  "2026-05-31-add-forgot-password-flow-for-all-client-apps": {
+    "href": "/admin/login",
+    "hrefLabel": "Admin login",
+    "tips": [
+      "Use Forgot password? on the login screen; reset links land on /admin/reset-password."
+    ]
+  }
+}

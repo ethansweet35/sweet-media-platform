@@ -8,6 +8,14 @@
 
 export type MarketingChannel = "gsc" | "psi" | "ga4" | "gmb" | "ads" | "callrail" | "ctm";
 
+export type MarketingPeriodId =
+  | "today"
+  | "yesterday"
+  | "last_7_days"
+  | "this_week"
+  | "last_month"
+  | "this_month";
+
 export type CallTrackingProvider = "callrail" | "ctm";
 
 export interface CallTrackingTagSummary {
@@ -55,13 +63,27 @@ export interface PageSpeedEntry {
   fetched_at: string | null;
 }
 
+/** One tracked Google Ads conversion action in the report window. */
+export interface AdsConversionGoalRow {
+  /** Display label (e.g. "First time phone call") */
+  name: string;
+  conversions: MetricDelta;
+}
+
 /** Paid media (Google Ads / Meta / Bing) rolled up per source. */
 export interface AdsSourceSummary {
   source: string; // 'google' | 'facebook' | 'bing' | ...
   clicks: MetricDelta;
   impressions: MetricDelta;
   spend: MetricDelta;
+  /** Platform-reported conversions (all actions). */
   conversions: MetricDelta;
+  /** Sum of tracked goal actions (phone, VOB, opportunity, etc.) — Google Ads only. */
+  goal_conversions: MetricDelta | null;
+  /** Spend ÷ goal conversions — Google Ads only. */
+  cpa: MetricDelta | null;
+  /** Per-goal breakdown — Google Ads only. */
+  conversion_goals: AdsConversionGoalRow[];
 }
 
 /** Google Business Profile engagement summary. */
@@ -87,7 +109,12 @@ export interface MarketingChannelBlock<T> {
 export interface MarketingReportPayload {
   ok: true;
   brand: { name: string; site_url: string };
+  /** @deprecated Use period.id — kept for share links / backward compat */
   period_days: number;
+  period: {
+    id: MarketingPeriodId | "custom";
+    label: string;
+  };
   generated_at: string;
   date_ranges: {
     current: { start: string; end: string };

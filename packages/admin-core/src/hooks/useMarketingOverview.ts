@@ -1,9 +1,9 @@
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
-import type { MarketingReportPayload } from "../types/marketing";
+import type { MarketingPeriodId, MarketingReportPayload } from "../types/marketing";
 
-export function useMarketingOverview(days = 28) {
+export function useMarketingOverview(period: MarketingPeriodId = "last_7_days") {
   const [data, setData] = useState<MarketingReportPayload | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -12,7 +12,7 @@ export function useMarketingOverview(days = 28) {
     setLoading(true);
     setError(null);
     try {
-      const res = await fetch(`/api/admin/marketing-overview?days=${days}`, {
+      const res = await fetch(`/api/admin/marketing-overview?period=${encodeURIComponent(period)}`, {
         credentials: "include",
       });
       if (!res.ok) {
@@ -27,7 +27,7 @@ export function useMarketingOverview(days = 28) {
     } finally {
       setLoading(false);
     }
-  }, [days]);
+  }, [period]);
 
   useEffect(() => {
     void fetchOverview();

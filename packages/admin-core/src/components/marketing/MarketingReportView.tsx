@@ -121,14 +121,14 @@ function SectionHeader({
   );
 }
 
-function NotConnected({ label }: { label: string }) {
+function NotConnected({ label, hint }: { label: string; hint?: string }) {
   return (
     <div
       className="rounded-2xl border border-dashed px-5 py-6 text-sm"
       style={{ borderColor: ADMIN_BORDER, color: ADMIN_TEXT_MUTED }}
     >
       <i className="ri-plug-line mr-2" />
-      {label} isn’t connected yet — it’ll appear here once linked.
+      {hint ?? `${label} isn’t connected yet — it’ll appear here once linked.`}
     </div>
   );
 }
@@ -186,6 +186,11 @@ function PageSpeedGrid({ entries }: { entries: PageSpeedEntry[] }) {
   );
 }
 
+function fmtCpa(n: number): string {
+  if (n <= 0) return "—";
+  return n.toLocaleString(undefined, { style: "currency", currency: "USD", maximumFractionDigits: 2 });
+}
+
 function AdsGrid({ sources }: { sources: AdsSourceSummary[] }) {
   return (
     <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
@@ -194,11 +199,66 @@ function AdsGrid({ sources }: { sources: AdsSourceSummary[] }) {
           <h3 className={`text-base font-semibold ${adminFontSerif}`} style={{ color: ADMIN_TEXT }}>
             {SOURCE_LABELS[s.source] ?? s.source}
           </h3>
-          <dl className="mt-4 space-y-3">
+
+          {s.goal_conversions != null ? (
+            <div
+              className="mt-4 grid gap-3 border-b pb-4 sm:grid-cols-2"
+              style={{ borderColor: ADMIN_BORDER }}
+            >
+              <div>
+                <p className="text-[10px] font-bold uppercase tracking-[0.12em]" style={{ color: ADMIN_TEXT_MUTED }}>
+                  Goal conversions
+                </p>
+                <p className={`mt-1 text-xl font-semibold tabular-nums ${adminFontSerif}`} style={{ color: ADMIN_TEXT }}>
+                  {fmtInt(s.goal_conversions.current)}
+                </p>
+                <p className="mt-0.5 text-xs">
+                  <DeltaBadge d={s.goal_conversions} />
+                </p>
+                <p className="mt-1 text-[10px]" style={{ color: ADMIN_TEXT_MUTED }}>
+                  Phone · VOB · Opportunity goals
+                </p>
+              </div>
+              {s.cpa != null ? (
+                <div>
+                  <p className="text-[10px] font-bold uppercase tracking-[0.12em]" style={{ color: ADMIN_TEXT_MUTED }}>
+                    CPA (goals)
+                  </p>
+                  <p className={`mt-1 text-xl font-semibold tabular-nums ${adminFontSerif}`} style={{ color: ADMIN_TEXT }}>
+                    {fmtCpa(s.cpa.current)}
+                  </p>
+                  <p className="mt-0.5 text-xs">
+                    <DeltaBadge d={s.cpa} invert />
+                  </p>
+                </div>
+              ) : null}
+            </div>
+          ) : null}
+
+          {s.conversion_goals.length > 0 ? (
+            <div className="mt-3 mb-4">
+              <p className="mb-2 text-[10px] font-bold uppercase tracking-[0.12em]" style={{ color: ADMIN_TEXT_MUTED }}>
+                Conversion goals
+              </p>
+              <div className="space-y-2">
+                {s.conversion_goals.map((g) => (
+                  <div key={g.name} className="flex items-center justify-between gap-2 text-sm">
+                    <span style={{ color: ADMIN_TEXT }}>{g.name}</span>
+                    <span className="flex items-center gap-2 tabular-nums">
+                      <span className="font-semibold">{fmtInt(g.conversions.current)}</span>
+                      <DeltaBadge d={g.conversions} />
+                    </span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          ) : null}
+
+          <dl className="mt-2 space-y-3">
             {[
               { label: "Spend", d: s.spend, money: true },
               { label: "Clicks", d: s.clicks, money: false },
-              { label: "Conversions", d: s.conversions, money: false },
+              { label: "All conversions", d: s.conversions, money: false },
               { label: "Impressions", d: s.impressions, money: false },
             ].map((row) => (
               <div key={row.label} className="flex items-center justify-between gap-3">
@@ -458,6 +518,11 @@ export default function MarketingReportView({ data, publicMode = false }: Market
         />
         {data.pagespeed.status === "connected" && data.pagespeed.data ? (
           <PageSpeedGrid entries={data.pagespeed.data} />
+        ) : data.pagespeed.status === "no_data" ? (
+          <NotConnected
+            label="PageSpeed monitoring"
+            hint="PageSpeed URLs are configured — click Sync data to pull the latest scores (requires GOOGLE_PSI_API_KEY on the server)."
+          />
         ) : (
           <NotConnected label="PageSpeed monitoring" />
         )}

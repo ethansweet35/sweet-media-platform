@@ -116,7 +116,7 @@ function ChangelogEntryRow({ entry }: { entry: AdminChangelogEntry }) {
  * Collapse state persists in localStorage per browser.
  */
 export default function AdminWhatsNew() {
-  const entries = useMemo(() => getRecentAdminChangelog(90, 10), []);
+  const entries = useMemo(() => getRecentAdminChangelog(90, 14), []);
   const [collapsed, setCollapsed] = useState(false);
 
   useEffect(() => {
@@ -181,8 +181,8 @@ export default function AdminWhatsNew() {
             className={`mt-4 border-t pt-4 text-center text-[11px] leading-relaxed ${adminFontSans}`}
             style={{ borderColor: ADMIN_BORDER, color: ADMIN_TEXT_MUTED }}
           >
-            Updates are added to this feed whenever admin features ship. Questions? Ask Ethan or
-            check the repo changelog.
+            Updates are generated automatically from admin-core git history on each deploy.
+            Optional tips/links: <code className="text-[10px]">adminChangelog.enrichments.json</code> in admin-core.
           </p>
         </div>
       ) : null}

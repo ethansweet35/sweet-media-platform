@@ -14,9 +14,9 @@ import {
   SemrushApiError,
 } from "./semrushClient";
 
+import { OPENROUTER_GEMINI_FLASH_MODEL } from "../openRouterModels";
+
 const OPENROUTER_URL = "https://openrouter.ai/api/v1/chat/completions";
-/** Fast model — keeps total route time under Vercel limits */
-const STRATEGY_MODEL = "google/gemini-2.5-flash";
 const AI_TIMEOUT_MS = 75_000;
 const PSI_TIMEOUT_MS = 28_000;
 
@@ -122,7 +122,7 @@ async function generateStrategyReport(
       "X-Title": "Sweet Media SEO Strategy",
     },
     body: JSON.stringify({
-      model: STRATEGY_MODEL,
+      model: OPENROUTER_GEMINI_FLASH_MODEL,
       temperature: 0.35,
       max_tokens: 5500,
       messages: [

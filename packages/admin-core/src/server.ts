@@ -3,6 +3,7 @@
  * Import from "@sweetmedia/admin-core/server" in Node.js / Next API routes only.
  * Never import this in React components or browser code.
  */
+export { OPENROUTER_GEMINI_FLASH_MODEL } from "./lib/openRouterModels";
 export { scanAppRoutes, derivePageTitle, syncTrackedPages } from "./lib/scanAppRoutes";
 
 export {

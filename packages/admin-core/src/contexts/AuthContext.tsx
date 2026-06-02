@@ -22,7 +22,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
   const [isAdmin, setIsAdmin] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
-  const checkingRef = useRef(false);
+  const sessionSeqRef = useRef(0);
 
   const checkAdmin = useCallback(async (userEmail: string | null | undefined) => {
     if (!userEmail) return false;
@@ -30,7 +30,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       const { data, error } = await supabase
         .from("admin_users")
         .select("id")
-        .eq("email", userEmail)
+        .ilike("email", userEmail)
         .maybeSingle();
       if (error) {
         console.error("Admin check failed:", error);
@@ -48,24 +48,18 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
     const handleSession = async (s: Session | null) => {
       if (!mounted) return;
+      const seq = ++sessionSeqRef.current;
       setSession(s);
       setUser(s?.user ?? null);
 
-      if (checkingRef.current) return;
-
       if (s?.user?.email) {
-        checkingRef.current = true;
-        try {
-          const admin = await checkAdmin(s.user.email);
-          if (mounted) setIsAdmin(admin);
-        } finally {
-          checkingRef.current = false;
-        }
-      } else {
-        if (mounted) setIsAdmin(false);
+        const admin = await checkAdmin(s.user.email);
+        if (mounted && seq === sessionSeqRef.current) setIsAdmin(admin);
+      } else if (mounted && seq === sessionSeqRef.current) {
+        setIsAdmin(false);
       }
 
-      if (mounted) setIsLoading(false);
+      if (mounted && seq === sessionSeqRef.current) setIsLoading(false);
     };
 
     // Get the initial session explicitly. This always resolves, even if no session exists.

@@ -13,9 +13,8 @@ import { getPublicSiteOrigin } from "../lib/publicSiteUrl";
 import { useMarketingOverview } from "../hooks/useMarketingOverview";
 import { useReportShares } from "../hooks/useReportShares";
 import MarketingReportView from "../components/marketing/MarketingReportView";
-import type { ReportShareRow } from "../types/marketing";
-
-const PERIODS = [7, 28, 90] as const;
+import { MARKETING_PERIOD_OPTIONS } from "../lib/marketingPeriod";
+import type { MarketingPeriodId, ReportShareRow } from "../types/marketing";
 
 function reportUrl(token: string): string {
   let origin = "";
@@ -125,15 +124,15 @@ function ShareRow({
 }
 
 export default function AdminReportingPage() {
-  const [days, setDays] = useState<number>(28);
-  const { data, loading, error, refetch } = useMarketingOverview(days);
+  const [period, setPeriod] = useState<MarketingPeriodId>("last_7_days");
+  const { data, loading, error, refetch } = useMarketingOverview(period);
   const shares = useReportShares();
 
   const [syncing, setSyncing] = useState(false);
   const [syncMsg, setSyncMsg] = useState<string | null>(null);
   const [creating, setCreating] = useState(false);
   const [newLabel, setNewLabel] = useState("");
-  const [newPeriod, setNewPeriod] = useState<number>(28);
+  const [newPeriod, setNewPeriod] = useState<number>(7);
 
   const onSync = useCallback(async () => {
     setSyncing(true);
@@ -163,7 +162,10 @@ export default function AdminReportingPage() {
   const onCreate = useCallback(async () => {
     setCreating(true);
     try {
-      await shares.createShare({ label: newLabel || undefined, period_days: newPeriod });
+      await shares.createShare({
+        label: newLabel || undefined,
+        period_days: newPeriod,
+      });
       setNewLabel("");
     } catch {
       /* surfaced via shares.error */
@@ -186,18 +188,18 @@ export default function AdminReportingPage() {
 
   const periodTabs = useMemo(
     () =>
-      PERIODS.map((p) => (
+      MARKETING_PERIOD_OPTIONS.map((p) => (
         <button
-          key={p}
+          key={p.id}
           type="button"
-          onClick={() => setDays(p)}
-          className={`rounded-lg px-3 py-2 text-[11px] font-bold uppercase tracking-[0.1em] transition ${days === p ? "text-white shadow-sm" : ""}`}
-          style={days === p ? { backgroundColor: ADMIN_NAVY } : { color: ADMIN_TEXT_MUTED }}
+          onClick={() => setPeriod(p.id)}
+          className={`rounded-lg px-2.5 py-2 text-[10px] font-bold uppercase tracking-[0.08em] transition ${period === p.id ? "text-white shadow-sm" : ""}`}
+          style={period === p.id ? { backgroundColor: ADMIN_NAVY } : { color: ADMIN_TEXT_MUTED }}
         >
-          {p}d
+          {p.label}
         </button>
       )),
-    [days],
+    [period],
   );
 
   return (
@@ -260,11 +262,10 @@ export default function AdminReportingPage() {
               className="rounded-lg border px-3 py-2 text-sm"
               style={{ borderColor: ADMIN_BORDER, color: ADMIN_TEXT }}
             >
-              {PERIODS.map((p) => (
-                <option key={p} value={p}>
-                  {p} days
-                </option>
-              ))}
+              <option value={1}>1 day (legacy share)</option>
+              <option value={7}>7 days (legacy share)</option>
+              <option value={28}>28 days (legacy share)</option>
+              <option value={90}>90 days (legacy share)</option>
             </select>
             <button
               type="button"

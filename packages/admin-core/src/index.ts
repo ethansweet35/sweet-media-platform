@@ -137,6 +137,7 @@ export { default as AdminContentEditorBriefPage } from "./views/AdminContentEdit
 export { default as AdminReportingPage } from "./views/AdminReportingPage";
 export { default as MarketingReportView } from "./components/marketing/MarketingReportView";
 export { useMarketingOverview } from "./hooks/useMarketingOverview";
+export { MARKETING_PERIOD_OPTIONS } from "./lib/marketingPeriod";
 export { useReportShares } from "./hooks/useReportShares";
 export type {
   MarketingReportPayload,

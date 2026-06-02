@@ -1,3 +1,4 @@
+import { OPENROUTER_GEMINI_FLASH_MODEL } from "../openRouterModels";
 import {
   isDistinctiveRouteSlug,
   routeSlugToSeed,
@@ -107,7 +108,7 @@ ${extraLines.length > 0 ? extraLines.join("\n\n") : "(none)"}`;
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        model: "google/gemini-2.0-flash-001",
+        model: OPENROUTER_GEMINI_FLASH_MODEL,
         messages: [{ role: "user", content: prompt }],
         temperature: 0.2,
         max_tokens: 20,

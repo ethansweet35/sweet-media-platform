@@ -14,9 +14,10 @@
     "./middleware": "./src/middleware/withPageEditorPathname.ts"
   },
   "scripts": {
-    "build": "tsc --noEmit",
+    "generate-changelog": "node ../../scripts/generate-admin-changelog.mjs",
+    "build": "pnpm run generate-changelog && tsc --noEmit",
     "lint": "echo Linting @sweetmedia/admin-core",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "pnpm run generate-changelog && tsc --noEmit"
   },
   "dependencies": {
     "server-only": "^0.0.1",

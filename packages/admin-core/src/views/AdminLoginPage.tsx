@@ -47,8 +47,13 @@ export default function AdminLoginPage() {
   useEffect(() => {
     if (!isLoading && isAdmin) {
       router.replace("/admin");
+      return;
     }
-  }, [isAdmin, isLoading, router]);
+    if (!isLoading && user && !isAdmin && submitting) {
+      setError("Your account is not authorized for admin access.");
+      setSubmitting(false);
+    }
+  }, [isAdmin, isLoading, user, submitting, router]);
 
   const handleSubmit = useCallback(async (e: React.FormEvent) => {
     e.preventDefault();

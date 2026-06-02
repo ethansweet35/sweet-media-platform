@@ -16,6 +16,7 @@
  * Never import from a client component.
  */
 
+import { slugConversionAction } from "../../adsConversionGoals";
 import type { ChannelMetricRow, WindsorAccountConfig } from "../../../types/marketing";
 
 const WINDSOR_BASE = "https://connectors.windsor.ai";
@@ -134,8 +135,51 @@ export async function fetchWindsorAds(
         });
       }
     }
+
+    if (connector === "google_ads") {
+      const actionRows = await fetchWindsorGoogleAdsConversionActions(
+        accountName,
+        startDate,
+        endDate,
+      );
+      out.push(...actionRows);
+    }
   }
 
+  return out;
+}
+
+/**
+ * Google Ads conversions broken out by conversion_action_name (cannot mix with spend in one request).
+ */
+export async function fetchWindsorGoogleAdsConversionActions(
+  accountName: string,
+  startDate: string,
+  endDate: string,
+): Promise<ChannelMetricRow[]> {
+  const rows = await queryWindsor(
+    "google_ads",
+    accountName,
+    ["conversion_action_name", "conversions"],
+    startDate,
+    endDate,
+  );
+
+  const out: ChannelMetricRow[] = [];
+  for (const row of rows) {
+    const date = typeof row.date === "string" ? row.date : null;
+    const action = String(row.conversion_action_name ?? "").trim();
+    if (!date || !action) continue;
+    const slug = slugConversionAction(action);
+    out.push({
+      channel: "ads",
+      metric: "conversions_by_action",
+      metric_date: date,
+      value: num(row.conversions),
+      dimensions: { source: "google", conversion_action: action },
+      dim_key: `google|action|${slug}`,
+    });
+  }
   return out;
 }
 

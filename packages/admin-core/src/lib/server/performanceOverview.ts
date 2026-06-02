@@ -121,19 +121,25 @@ export function buildTopPageMovers(
 
 export async function fetchPerformanceOverview(periodDays: number): Promise<PerformanceOverviewPayload> {
   const days = Math.min(90, Math.max(7, periodDays));
+  return fetchPerformanceOverviewForRanges(gscComparisonDateRanges(days), days);
+}
+
+/** GSC overview for explicit comparison windows (marketing report presets). */
+export async function fetchPerformanceOverviewForRanges(
+  ranges: { curStart: string; curEnd: string; prevStart: string; prevEnd: string },
+  periodDaysForLabel = 28,
+): Promise<PerformanceOverviewPayload> {
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "") ?? "";
-  const cacheKey = `${siteUrl}:${days}`;
+  const cacheKey = `${siteUrl}:${ranges.curStart}:${ranges.curEnd}:${ranges.prevStart}:${ranges.prevEnd}`;
   const cached = cache.get(cacheKey);
   if (cached && Date.now() - cached.fetchedAt < CACHE_TTL_MS) {
     return cached.data;
   }
-
-  const ranges = gscComparisonDateRanges(days);
   const recent_changes = await fetchRecentSiteContentChanges(12);
 
   const empty: PerformanceOverviewPayload = {
     ok: true,
-    period_days: days,
+    period_days: periodDaysForLabel,
     date_ranges: {
       current: { start: ranges.curStart, end: ranges.curEnd },
       previous: { start: ranges.prevStart, end: ranges.prevEnd },
@@ -195,7 +201,7 @@ export async function fetchPerformanceOverview(periodDays: number): Promise<Perf
 
   const payload: PerformanceOverviewPayload = {
     ok: true,
-    period_days: days,
+    period_days: periodDaysForLabel,
     date_ranges: {
       current: { start: ranges.curStart, end: ranges.curEnd },
       previous: { start: ranges.prevStart, end: ranges.prevEnd },

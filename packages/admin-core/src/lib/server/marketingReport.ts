@@ -9,13 +9,26 @@
  */
 
 import type { SupabaseClient } from "@supabase/supabase-js";
-import { fetchPerformanceOverview } from "./performanceOverview";
+import {
+  ADS_CONVERSION_GOALS,
+  goalLabelForAction,
+  isTrackedAdsGoal,
+} from "../adsConversionGoals";
+import {
+  gscRangesForPeriod,
+  isoDateInTz,
+  parseMarketingPeriodParam,
+  resolveMarketingPeriod,
+  type MarketingPeriodRanges,
+} from "../marketingPeriod";
+import { fetchPerformanceOverviewForRanges } from "./performanceOverview";
 import {
   fetchChannelMetrics,
   getMetricsAdminClient,
   ingestChannelMetrics,
 } from "./channelMetrics";
 import type {
+  AdsConversionGoalRow,
   AdsSourceSummary,
   CallTrackingProvider,
   CallTrackingReport,
@@ -23,6 +36,7 @@ import type {
   CallTrackingTagSummary,
   ChannelMetricRow,
   GmbSummary,
+  MarketingPeriodId,
   MarketingReportPayload,
   MetricDelta,
   PageSpeedEntry,
@@ -36,21 +50,19 @@ function delta(current: number, previous: number): MetricDelta {
 
 type ComparisonRanges = { curStart: string; curEnd: string; prevStart: string; prevEnd: string };
 
-/**
- * Comparison windows for stored channels (PSI / ads / GMB), which—unlike GSC—do
- * not have a multi-day reporting lag. Current window ends *today* so fresh ad
- * spend and today's PageSpeed snapshot are included.
- */
-function storedComparisonRanges(periodDays: number): ComparisonRanges {
-  const end = new Date();
-  const curStart = new Date(end);
-  curStart.setUTCDate(curStart.getUTCDate() - periodDays + 1);
-  const prevEnd = new Date(curStart);
-  prevEnd.setUTCDate(prevEnd.getUTCDate() - 1);
-  const prevStart = new Date(prevEnd);
-  prevStart.setUTCDate(prevStart.getUTCDate() - periodDays + 1);
-  const fmt = (d: Date) => d.toISOString().slice(0, 10);
-  return { curStart: fmt(curStart), curEnd: fmt(end), prevStart: fmt(prevStart), prevEnd: fmt(prevEnd) };
+function periodToRanges(period: MarketingPeriodRanges): ComparisonRanges {
+  return {
+    curStart: period.curStart,
+    curEnd: period.curEnd,
+    prevStart: period.prevStart,
+    prevEnd: period.prevEnd,
+  };
+}
+
+function cpaDelta(spend: MetricDelta, goals: MetricDelta): MetricDelta {
+  const cur = goals.current > 0 ? spend.current / goals.current : 0;
+  const prev = goals.previous > 0 ? spend.previous / goals.previous : 0;
+  return delta(Math.round(cur * 100) / 100, Math.round(prev * 100) / 100);
 }
 
 function inRange(date: string, start: string, end: string): boolean {
@@ -64,11 +76,47 @@ function sumBy(
   return rows.reduce((acc, r) => (predicate(r) ? acc + Number(r.value || 0) : acc), 0);
 }
 
+function buildGoogleConversionGoals(
+  ads: ChannelMetricRow[],
+  ranges: ComparisonRanges,
+): { goals: AdsConversionGoalRow[]; total: MetricDelta } {
+  const actionRows = ads.filter((r) => r.metric === "conversions_by_action");
+  const byLabel = new Map<string, { cur: number; prev: number }>();
+
+  for (const row of actionRows) {
+    const action = String(row.dimensions?.conversion_action ?? "");
+    if (!isTrackedAdsGoal(action)) continue;
+    const label = goalLabelForAction(action) ?? action;
+    const bucket = byLabel.get(label) ?? { cur: 0, prev: 0 };
+    const v = Number(row.value || 0);
+    if (inRange(row.metric_date, ranges.curStart, ranges.curEnd)) bucket.cur += v;
+    if (inRange(row.metric_date, ranges.prevStart, ranges.prevEnd)) bucket.prev += v;
+    byLabel.set(label, bucket);
+  }
+
+  const order = new Map(ADS_CONVERSION_GOALS.map((g, i) => [g.label, i]));
+  const goals: AdsConversionGoalRow[] = [...byLabel.entries()]
+    .sort((a, b) => (order.get(a[0]) ?? 99) - (order.get(b[0]) ?? 99))
+    .map(([name, { cur, prev }]) => ({
+      name,
+      conversions: delta(Math.round(cur * 10) / 10, Math.round(prev * 10) / 10),
+    }));
+
+  const totalCur = goals.reduce((s, g) => s + g.conversions.current, 0);
+  const totalPrev = goals.reduce((s, g) => s + g.conversions.previous, 0);
+  return { goals, total: delta(Math.round(totalCur * 10) / 10, Math.round(totalPrev * 10) / 10) };
+}
+
 function buildAds(rows: ChannelMetricRow[], ranges: ComparisonRanges): AdsSourceSummary[] {
   const ads = rows.filter((r) => r.channel === "ads");
   if (ads.length === 0) return [];
+
   const sources = Array.from(
-    new Set(ads.map((r) => String(r.dimensions?.source ?? r.dim_key ?? "unknown"))),
+    new Set(
+      ads
+        .filter((r) => r.metric !== "conversions_by_action")
+        .map((r) => String(r.dimensions?.source ?? r.dim_key ?? "unknown")),
+    ),
   ).sort();
 
   const metricDelta = (source: string, metric: string): MetricDelta => {
@@ -89,13 +137,28 @@ function buildAds(rows: ChannelMetricRow[], ranges: ComparisonRanges): AdsSource
     return delta(Math.round(cur * 100) / 100, Math.round(prev * 100) / 100);
   };
 
-  return sources.map((source) => ({
-    source,
-    clicks: metricDelta(source, "clicks"),
-    impressions: metricDelta(source, "impressions"),
-    spend: metricDelta(source, "spend"),
-    conversions: metricDelta(source, "conversions"),
-  }));
+  const googleGoals = buildGoogleConversionGoals(ads, ranges);
+
+  return sources.map((source) => {
+    const spend = metricDelta(source, "spend");
+    const isGoogle = source === "google";
+    const goalConversions = isGoogle ? googleGoals.total : null;
+    const cpa =
+      isGoogle && goalConversions && goalConversions.current > 0
+        ? cpaDelta(spend, goalConversions)
+        : null;
+
+    return {
+      source,
+      clicks: metricDelta(source, "clicks"),
+      impressions: metricDelta(source, "impressions"),
+      spend,
+      conversions: metricDelta(source, "conversions"),
+      goal_conversions: goalConversions,
+      cpa,
+      conversion_goals: isGoogle ? googleGoals.goals : [],
+    };
+  });
 }
 
 function buildGmb(rows: ChannelMetricRow[], ranges: ComparisonRanges): GmbSummary | null {
@@ -260,20 +323,50 @@ async function resolveBrand(
   return { name, site_url: fallbackUrl };
 }
 
-/** Build the full multi-channel report for a period (default 28 days). */
-export async function buildMarketingReport(periodDays = 28): Promise<MarketingReportPayload> {
-  const days = Math.min(90, Math.max(7, periodDays));
-  // Search Console lags ~3 days; PSI/ads/GMB are fresh, so stored channels use
-  // their own windows ending today.
-  const ranges = storedComparisonRanges(days);
+function daysInPeriod(period: MarketingPeriodRanges): number {
+  const a = new Date(`${period.curStart}T12:00:00Z`).getTime();
+  const b = new Date(`${period.curEnd}T12:00:00Z`).getTime();
+  return Math.max(1, Math.round((b - a) / 86_400_000) + 1);
+}
+
+/** Build the full multi-channel report for a lookback preset or legacy day count. */
+export async function buildMarketingReport(
+  periodOrDays: MarketingPeriodId | number = "last_7_days",
+): Promise<MarketingReportPayload> {
+  const period =
+    typeof periodOrDays === "number"
+      ? parseMarketingPeriodParam(null, String(periodOrDays))
+      : resolveMarketingPeriod(periodOrDays);
+
+  const ranges = periodToRanges(period);
+  const gscRanges = gscRangesForPeriod(period);
+  const periodDays = daysInPeriod(period);
   const admin = getMetricsAdminClient();
 
-  const [brand, perf, metrics] = await Promise.all([
+  const psiLookbackStart = (() => {
+    const d = new Date(`${isoDateInTz()}T12:00:00Z`);
+    d.setUTCDate(d.getUTCDate() - 90);
+    return d.toISOString().slice(0, 10);
+  })();
+
+  const [brand, perf, metrics, psiMetrics, psiUrlsSetting] = await Promise.all([
     resolveBrand(admin),
-    fetchPerformanceOverview(days),
+    fetchPerformanceOverviewForRanges(gscRanges, periodDays),
     admin
-      ? fetchChannelMetrics(admin, { startDate: ranges.prevStart, endDate: ranges.curEnd }).catch(() => [])
+      ? fetchChannelMetrics(admin, { startDate: ranges.prevStart, endDate: ranges.curEnd }).catch(
+          () => [],
+        )
       : Promise.resolve([] as ChannelMetricRow[]),
+    admin
+      ? fetchChannelMetrics(admin, {
+          channel: "psi",
+          startDate: psiLookbackStart,
+          endDate: isoDateInTz(),
+        }).catch(() => [])
+      : Promise.resolve([] as ChannelMetricRow[]),
+    admin
+      ? readJsonSetting<string[]>(admin, "marketing_psi_urls", [])
+      : Promise.resolve([] as string[]),
   ]);
 
   // ── Search block (live GSC) ─────────────────────────────────────────
@@ -300,13 +393,22 @@ export async function buildMarketingReport(periodDays = 28): Promise<MarketingRe
   // ── Stored channels ─────────────────────────────────────────────────
   const ads = buildAds(metrics, ranges);
   const gmb = buildGmb(metrics, ranges);
-  const pagespeed = buildPageSpeed(metrics);
+  const pagespeed = buildPageSpeed(psiMetrics.length > 0 ? psiMetrics : metrics.filter((r) => r.channel === "psi"));
   const callTracking = buildCallTracking(metrics, ranges);
+
+  const psiConfigured = Array.isArray(psiUrlsSetting) && psiUrlsSetting.length > 0;
+  const pagespeedStatus =
+    pagespeed.length > 0
+      ? ("connected" as const)
+      : psiConfigured
+        ? ("no_data" as const)
+        : ("not_configured" as const);
 
   return {
     ok: true,
     brand,
-    period_days: days,
+    period_days: periodDays,
+    period: { id: period.id, label: period.label },
     generated_at: new Date().toISOString(),
     date_ranges: {
       current: { start: ranges.curStart, end: ranges.curEnd },
@@ -329,7 +431,7 @@ export async function buildMarketingReport(periodDays = 28): Promise<MarketingRe
       })),
     },
     pagespeed: {
-      status: pagespeed.length > 0 ? "connected" : "not_configured",
+      status: pagespeedStatus,
       data: pagespeed.length > 0 ? pagespeed : null,
     },
     ads: {
@@ -373,7 +475,7 @@ export async function resolveReportShare(token: string): Promise<ResolvedShareRe
 
   if (!share || share.is_active === false) return null;
 
-  const payload = await buildMarketingReport(share.period_days ?? 28);
+  const payload = await buildMarketingReport(share.period_days ?? "last_7_days");
 
   // Best-effort view tracking (never blocks the render).
   try {
@@ -393,10 +495,30 @@ export async function resolveReportShare(token: string): Promise<ResolvedShareRe
 
 // ─── Route handlers ───────────────────────────────────────────────────────────
 
+async function readJsonSetting<T>(admin: SupabaseClient, key: string, fallback: T): Promise<T> {
+  try {
+    const { data } = await admin.from("system_settings").select("value").eq("key", key).maybeSingle();
+    if (data?.value == null) return fallback;
+    return data.value as T;
+  } catch {
+    return fallback;
+  }
+}
+
 export async function handleMarketingOverviewGet(request: Request): Promise<Response> {
   const { searchParams } = new URL(request.url);
-  const days = parseInt(searchParams.get("days") ?? "28", 10);
-  const data = await buildMarketingReport(days);
+  const periodParam = searchParams.get("period");
+  const daysParam = searchParams.get("days");
+
+  let data: MarketingReportPayload;
+  if (periodParam) {
+    data = await buildMarketingReport(parseMarketingPeriodParam(periodParam, daysParam).id);
+  } else if (daysParam) {
+    data = await buildMarketingReport(parseInt(daysParam, 10) || 28);
+  } else {
+    data = await buildMarketingReport("last_7_days");
+  }
+
   return Response.json(data);
 }
 
