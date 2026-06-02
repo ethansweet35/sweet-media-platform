@@ -38,6 +38,14 @@ export const ADS_CONVERSION_GOALS: AdsGoalDefinition[] = [
   },
 ];
 
+export function slugCampaign(name: string): string {
+  return name
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "_")
+    .replace(/^_|_$/g, "")
+    .slice(0, 80) || "campaign";
+}
+
 export function slugConversionAction(name: string): string {
   return name
     .toLowerCase()

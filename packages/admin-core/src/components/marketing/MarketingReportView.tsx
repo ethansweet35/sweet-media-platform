@@ -11,14 +11,17 @@ import {
 } from "../../lib/adminTheme";
 import TrafficLineChart from "../dashboard/TrafficLineChart";
 import type {
+  AdsPlatformSection,
   AdsSourceSummary,
   CallTrackingReport,
   CallTrackingSourceSummary,
   ChannelStatus,
   GmbSummary,
+  LiveChangelogEntry,
   MarketingReportPayload,
   MetricDelta,
   PageSpeedEntry,
+  SeoDeliverables,
 } from "../../types/marketing";
 
 function fmtShortDate(iso: string): string {
@@ -36,12 +39,6 @@ function fmtInt(n: number): string {
 function fmtMoney(n: number): string {
   return n.toLocaleString(undefined, { style: "currency", currency: "USD", maximumFractionDigits: 0 });
 }
-
-const SOURCE_LABELS: Record<string, string> = {
-  google: "Google Ads",
-  facebook: "Meta (Facebook)",
-  bing: "Microsoft (Bing)",
-};
 
 /** Colored delta pill. `invert` = lower-is-better (position, LCP, CLS, spend-neutral). */
 function DeltaBadge({ d, invert = false, suffix = "" }: { d: MetricDelta; invert?: boolean; suffix?: string }) {
@@ -191,16 +188,10 @@ function fmtCpa(n: number): string {
   return n.toLocaleString(undefined, { style: "currency", currency: "USD", maximumFractionDigits: 2 });
 }
 
-function AdsGrid({ sources }: { sources: AdsSourceSummary[] }) {
+function AccountSummaryCard({ s }: { s: AdsSourceSummary }) {
   return (
-    <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-      {sources.map((s) => (
-        <div key={s.source} className={`${adminCardCls} px-5 py-5`}>
-          <h3 className={`text-base font-semibold ${adminFontSerif}`} style={{ color: ADMIN_TEXT }}>
-            {SOURCE_LABELS[s.source] ?? s.source}
-          </h3>
-
-          {s.goal_conversions != null ? (
+    <div>
+      {s.goal_conversions != null ? (
             <div
               className="mt-4 grid gap-3 border-b pb-4 sm:grid-cols-2"
               style={{ borderColor: ADMIN_BORDER }}
@@ -276,8 +267,266 @@ function AdsGrid({ sources }: { sources: AdsSourceSummary[] }) {
               </div>
             ))}
           </dl>
-        </div>
+    </div>
+  );
+}
+
+function CampaignTable({ platform }: { platform: AdsPlatformSection }) {
+  if (platform.campaigns.length === 0) {
+    return (
+      <p className="px-5 pb-4 text-xs" style={{ color: ADMIN_TEXT_MUTED }}>
+        No campaign-level data yet — run Sync metrics after Windsor campaign fields are connected.
+      </p>
+    );
+  }
+
+  return (
+    <div className="overflow-x-auto border-t px-5 py-4" style={{ borderColor: ADMIN_BORDER }}>
+      <p className="mb-3 text-[10px] font-bold uppercase tracking-[0.12em]" style={{ color: ADMIN_TEXT_MUTED }}>
+        Campaign performance
+      </p>
+      <table className="w-full min-w-[640px] text-left text-sm">
+        <thead>
+          <tr className="text-[10px] uppercase tracking-widest" style={{ color: ADMIN_TEXT_MUTED }}>
+            <th className="pb-2 pr-4 font-semibold">Campaign</th>
+            <th className="pb-2 pr-4 text-right font-semibold">Spend</th>
+            <th className="pb-2 pr-4 text-right font-semibold">Clicks</th>
+            <th className="pb-2 pr-4 text-right font-semibold">Conv.</th>
+            <th className="pb-2 text-right font-semibold">Impr.</th>
+          </tr>
+        </thead>
+        <tbody>
+          {platform.campaigns.map((c) => (
+            <tr key={c.name} className="border-t" style={{ borderColor: `${ADMIN_BORDER}88` }}>
+              <td className="max-w-[220px] py-2.5 pr-4 font-medium" style={{ color: ADMIN_TEXT }}>
+                <span className="line-clamp-2" title={c.name}>
+                  {c.name}
+                </span>
+              </td>
+              <td className="py-2.5 pr-4 text-right">
+                <div className="font-semibold tabular-nums" style={{ color: ADMIN_TEXT }}>
+                  {fmtMoney(c.spend.current)}
+                </div>
+                <DeltaBadge d={c.spend} />
+              </td>
+              <td className="py-2.5 pr-4 text-right">
+                <div className="font-semibold tabular-nums" style={{ color: ADMIN_TEXT }}>
+                  {fmtInt(c.clicks.current)}
+                </div>
+                <DeltaBadge d={c.clicks} />
+              </td>
+              <td className="py-2.5 pr-4 text-right">
+                <div className="font-semibold tabular-nums" style={{ color: ADMIN_TEXT }}>
+                  {fmtInt(c.conversions.current)}
+                </div>
+                <DeltaBadge d={c.conversions} />
+              </td>
+              <td className="py-2.5 text-right">
+                <div className="font-semibold tabular-nums" style={{ color: ADMIN_TEXT }}>
+                  {fmtInt(c.impressions.current)}
+                </div>
+                <DeltaBadge d={c.impressions} />
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );
+}
+
+function AdsPlatformSectionBlock({ platform }: { platform: AdsPlatformSection }) {
+  return (
+    <div className={`${adminCardCls} overflow-hidden`}>
+      <div
+        className="flex flex-wrap items-center justify-between gap-2 border-b px-5 py-4"
+        style={{ borderColor: ADMIN_BORDER }}
+      >
+        <h3 className={`text-base font-semibold ${adminFontSerif}`} style={{ color: ADMIN_TEXT }}>
+          {platform.label}
+        </h3>
+        <span className="text-[10px] uppercase tracking-wide" style={{ color: ADMIN_TEXT_MUTED }}>
+          Account summary
+        </span>
+      </div>
+      <div className="p-5">
+        <AccountSummaryCard s={platform.account} />
+      </div>
+      <CampaignTable platform={platform} />
+    </div>
+  );
+}
+
+function AdsPlatforms({ platforms }: { platforms: AdsPlatformSection[] }) {
+  return (
+    <div className="space-y-8">
+      {platforms.map((p) => (
+        <AdsPlatformSectionBlock key={p.source} platform={p} />
       ))}
+    </div>
+  );
+}
+
+function fmtChangelogWhen(iso: string): string {
+  try {
+    return new Intl.DateTimeFormat("en-US", { month: "short", day: "numeric" }).format(new Date(iso));
+  } catch {
+    return iso;
+  }
+}
+
+function LiveChangelogBlock({ entries }: { entries: LiveChangelogEntry[] }) {
+  if (entries.length === 0) {
+    return (
+      <p className={`${adminCardCls} px-5 py-6 text-sm`} style={{ color: ADMIN_TEXT_MUTED }}>
+        No recent site activity logged yet. Blog publishes, page SEO edits, and drafts will show here.
+      </p>
+    );
+  }
+
+  return (
+    <ul className={`${adminCardCls} divide-y`} style={{ borderColor: ADMIN_BORDER }}>
+      {entries.map((entry, i) => (
+        <li key={`${entry.route_path}-${entry.occurred_at}-${i}`} className="flex gap-3 px-5 py-4">
+          <span
+            className="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-lg text-sm"
+            style={{
+              backgroundColor:
+                entry.kind === "in_progress"
+                  ? "#FEF3C7"
+                  : entry.kind === "published"
+                    ? "#DCFCE7"
+                    : `${ADMIN_NAVY}0d`,
+              color: entry.kind === "in_progress" ? "#B45309" : entry.kind === "published" ? "#047857" : ADMIN_NAVY,
+            }}
+          >
+            <i
+              className={
+                entry.kind === "in_progress"
+                  ? "ri-draft-line"
+                  : entry.entity_type === "blog"
+                    ? "ri-article-line"
+                    : "ri-file-edit-line"
+              }
+              aria-hidden
+            />
+          </span>
+          <div className="min-w-0 flex-1">
+            <div className="flex flex-wrap items-center gap-2">
+              <span className="font-mono text-[11px]" style={{ color: ADMIN_TEXT }}>
+                {entry.route_path || "—"}
+              </span>
+              {entry.kind === "in_progress" ? (
+                <span className="rounded-full bg-amber-50 px-2 py-0.5 text-[9px] font-bold uppercase tracking-wide text-amber-800">
+                  In progress
+                </span>
+              ) : null}
+            </div>
+            <p className="mt-1 text-sm font-medium" style={{ color: ADMIN_TEXT }}>
+              {entry.title}
+            </p>
+            <p className="mt-0.5 text-xs" style={{ color: ADMIN_TEXT_MUTED }}>
+              {entry.summary}
+              {entry.status ? ` · ${entry.status}` : ""}
+            </p>
+          </div>
+          <time className="shrink-0 text-xs tabular-nums" style={{ color: ADMIN_TEXT_MUTED }}>
+            {fmtChangelogWhen(entry.occurred_at)}
+          </time>
+        </li>
+      ))}
+    </ul>
+  );
+}
+
+function SeoDeliverablesBlock({ deliverables }: { deliverables: SeoDeliverables }) {
+  const { blogs_published, pages_added, updates } = deliverables;
+  return (
+    <div className="space-y-4">
+      {blogs_published.length > 0 ? (
+        <div className={`${adminCardCls} px-5 py-5`}>
+          <h3 className={`mb-3 text-base font-semibold ${adminFontSerif}`} style={{ color: ADMIN_TEXT }}>
+            Blog posts published ({blogs_published.length})
+          </h3>
+          <ul className="space-y-2">
+            {blogs_published.map((b) => (
+              <li
+                key={b.route_path}
+                className="flex flex-wrap items-center justify-between gap-2 rounded-lg bg-[#F0FDF4] px-3 py-2"
+              >
+                <div className="min-w-0">
+                  <p className="text-sm font-medium" style={{ color: ADMIN_TEXT }}>
+                    {b.title}
+                  </p>
+                  <p className="font-mono text-[11px]" style={{ color: ADMIN_TEXT_MUTED }}>
+                    {b.route_path}
+                  </p>
+                </div>
+                <time className="shrink-0 text-xs" style={{ color: ADMIN_TEXT_MUTED }}>
+                  {fmtChangelogWhen(b.published_at)}
+                </time>
+              </li>
+            ))}
+          </ul>
+        </div>
+      ) : null}
+
+      {pages_added.length > 0 ? (
+        <div className={`${adminCardCls} px-5 py-5`}>
+          <h3 className={`mb-3 text-base font-semibold ${adminFontSerif}`} style={{ color: ADMIN_TEXT }}>
+            New pages added ({pages_added.length})
+          </h3>
+          <ul className="space-y-2">
+            {pages_added.map((p) => (
+              <li
+                key={p.route_path}
+                className="flex flex-wrap items-center justify-between gap-2 rounded-lg bg-[#EFF6FF] px-3 py-2"
+              >
+                <div className="min-w-0">
+                  <p className="text-sm font-medium" style={{ color: ADMIN_TEXT }}>
+                    {p.page_title}
+                  </p>
+                  <p className="font-mono text-[11px]" style={{ color: ADMIN_TEXT_MUTED }}>
+                    {p.route_path}
+                  </p>
+                </div>
+                <time className="shrink-0 text-xs" style={{ color: ADMIN_TEXT_MUTED }}>
+                  {fmtChangelogWhen(p.added_at)}
+                </time>
+              </li>
+            ))}
+          </ul>
+        </div>
+      ) : null}
+
+      {updates.length > 0 ? (
+        <div className={`${adminCardCls} px-5 py-5`}>
+          <h3 className={`mb-3 text-base font-semibold ${adminFontSerif}`} style={{ color: ADMIN_TEXT }}>
+            SEO & content updates ({updates.length})
+          </h3>
+          <ul className="space-y-2 max-h-80 overflow-y-auto">
+            {updates.map((u) => (
+              <li
+                key={u.id}
+                className="flex flex-wrap items-start justify-between gap-2 border-b pb-2 last:border-0"
+                style={{ borderColor: `${ADMIN_BORDER}66` }}
+              >
+                <div className="min-w-0">
+                  <span className="font-mono text-[11px]" style={{ color: ADMIN_TEXT_MUTED }}>
+                    {u.route_path}
+                  </span>
+                  <p className="text-sm" style={{ color: ADMIN_TEXT }}>
+                    {u.summary}
+                  </p>
+                </div>
+                <time className="shrink-0 text-xs" style={{ color: ADMIN_TEXT_MUTED }}>
+                  {fmtChangelogWhen(u.created_at)}
+                </time>
+              </li>
+            ))}
+          </ul>
+        </div>
+      ) : null}
     </div>
   );
 }
@@ -401,6 +650,16 @@ export default function MarketingReportView({ data, publicMode = false }: Market
 
   return (
     <div className="space-y-10">
+      {/* ── Live activity ──────────────────────────────────────────── */}
+      <section>
+        <SectionHeader
+          icon="ri-pulse-line"
+          title="What we're working on"
+          subtitle="Live changelog — recent publishes, SEO edits, and drafts in progress"
+        />
+        <LiveChangelogBlock entries={data.live_changelog} />
+      </section>
+
       {/* ── Organic search ─────────────────────────────────────────── */}
       <section>
         <SectionHeader
@@ -478,6 +737,14 @@ export default function MarketingReportView({ data, publicMode = false }: Market
         ) : (
           <NotConnected label="Search Console" />
         )}
+        {data.search.deliverables ? (
+          <div className="mt-6">
+            <h3 className={`mb-3 text-base font-semibold ${adminFontSerif}`} style={{ color: ADMIN_TEXT }}>
+              Content shipped this period
+            </h3>
+            <SeoDeliverablesBlock deliverables={data.search.deliverables} />
+          </div>
+        ) : null}
       </section>
 
       {/* ── Paid media ─────────────────────────────────────────────── */}
@@ -485,11 +752,11 @@ export default function MarketingReportView({ data, publicMode = false }: Market
         <SectionHeader
           icon="ri-megaphone-line"
           title="Paid Advertising"
-          subtitle="Google Ads · Meta · Microsoft"
+          subtitle="Google Ads · Meta · Microsoft — account summary and campaign breakdown"
           status={data.ads.status}
         />
         {data.ads.status === "connected" && data.ads.data ? (
-          <AdsGrid sources={data.ads.data} />
+          <AdsPlatforms platforms={data.ads.data} />
         ) : (
           <NotConnected label="Paid advertising" />
         )}

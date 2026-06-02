@@ -86,6 +86,62 @@ export interface AdsSourceSummary {
   conversion_goals: AdsConversionGoalRow[];
 }
 
+/** Campaign-level paid media metrics for one reporting period. */
+export interface AdsCampaignSummary {
+  name: string;
+  clicks: MetricDelta;
+  impressions: MetricDelta;
+  spend: MetricDelta;
+  conversions: MetricDelta;
+}
+
+/** One ad platform (Google, Meta, Bing) with account rollup + campaigns. */
+export interface AdsPlatformSection {
+  source: string;
+  label: string;
+  account: AdsSourceSummary;
+  campaigns: AdsCampaignSummary[];
+}
+
+export interface SeoPublishedBlog {
+  title: string;
+  slug: string;
+  route_path: string;
+  published_at: string;
+}
+
+export interface SeoNewPage {
+  route_path: string;
+  page_title: string;
+  added_at: string;
+}
+
+export interface SeoContentUpdate {
+  id: string;
+  entity_type: "page" | "blog";
+  route_path: string;
+  summary: string;
+  field_label: string;
+  created_at: string;
+}
+
+export interface SeoDeliverables {
+  blogs_published: SeoPublishedBlog[];
+  pages_added: SeoNewPage[];
+  updates: SeoContentUpdate[];
+}
+
+/** Recent or in-flight work visible to clients on the marketing report. */
+export interface LiveChangelogEntry {
+  kind: "published" | "update" | "in_progress";
+  entity_type: "page" | "blog";
+  route_path: string;
+  title: string;
+  summary: string;
+  status?: string | null;
+  occurred_at: string;
+}
+
 /** Google Business Profile engagement summary. */
 export interface GmbSummary {
   views: MetricDelta;
@@ -132,9 +188,13 @@ export interface MarketingReportPayload {
     daily: { date: string; clicks: number; impressions: number }[];
     top_pages: { path: string; clicks: number; clicks_delta: number }[];
     top_queries: { query: string; clicks: number; impressions: number; position: number }[];
+    /** Blogs published and site work completed in the current report window. */
+    deliverables: SeoDeliverables | null;
   };
+  /** Recent edits and in-progress content — live activity feed for clients. */
+  live_changelog: LiveChangelogEntry[];
   pagespeed: MarketingChannelBlock<PageSpeedEntry[]>;
-  ads: MarketingChannelBlock<AdsSourceSummary[]>;
+  ads: MarketingChannelBlock<AdsPlatformSection[]>;
   gmb: MarketingChannelBlock<GmbSummary>;
   ga4: MarketingChannelBlock<null>;
   callTracking: MarketingChannelBlock<CallTrackingReport>;

@@ -31,7 +31,9 @@ import {
   ingestChannelMetrics,
 } from "./channelMetrics";
 import type {
+  AdsCampaignSummary,
   AdsConversionGoalRow,
+  AdsPlatformSection,
   AdsSourceSummary,
   CallTrackingProvider,
   CallTrackingReport,
@@ -39,11 +41,17 @@ import type {
   CallTrackingTagSummary,
   ChannelMetricRow,
   GmbSummary,
+  LiveChangelogEntry,
   MarketingPeriodId,
   MarketingReportPayload,
   MetricDelta,
   PageSpeedEntry,
+  SeoDeliverables,
 } from "../../types/marketing";
+import {
+  fetchLiveSiteChangelog,
+  fetchSeoDeliverablesForPeriod,
+} from "./marketingSeoContent";
 
 function delta(current: number, previous: number): MetricDelta {
   const d = current - previous;
@@ -144,61 +152,140 @@ function buildMetaConversionGoals(
   );
 }
 
-function buildAds(rows: ChannelMetricRow[], ranges: ComparisonRanges): AdsSourceSummary[] {
-  const ads = rows.filter((r) => r.channel === "ads");
-  if (ads.length === 0) return [];
+const ADS_PLATFORM_ORDER = ["google", "facebook", "bing"] as const;
 
-  const sources = Array.from(
-    new Set(
-      ads
-        .filter((r) => r.metric !== "conversions_by_action")
-        .map((r) => String(r.dimensions?.source ?? r.dim_key ?? "unknown")),
-    ),
-  ).sort();
+const ADS_PLATFORM_LABELS: Record<string, string> = {
+  google: "Google Ads",
+  facebook: "Meta (Facebook)",
+  bing: "Microsoft (Bing)",
+};
 
-  const metricDelta = (source: string, metric: string): MetricDelta => {
+function isAccountLevelAdsRow(r: ChannelMetricRow, source: string): boolean {
+  return r.dim_key === source && r.metric !== "conversions_by_action";
+}
+
+function isCampaignAdsRow(r: ChannelMetricRow, source: string): boolean {
+  return r.dim_key.startsWith(`${source}|campaign|`);
+}
+
+function buildAdsSourceSummary(
+  ads: ChannelMetricRow[],
+  ranges: ComparisonRanges,
+  source: string,
+): AdsSourceSummary {
+  const metricDelta = (metric: string): MetricDelta => {
     const cur = sumBy(
       ads,
       (r) =>
-        String(r.dimensions?.source ?? r.dim_key) === source &&
+        isAccountLevelAdsRow(r, source) &&
         r.metric === metric &&
         inRange(r.metric_date, ranges.curStart, ranges.curEnd),
     );
     const prev = sumBy(
       ads,
       (r) =>
-        String(r.dimensions?.source ?? r.dim_key) === source &&
+        isAccountLevelAdsRow(r, source) &&
         r.metric === metric &&
         inRange(r.metric_date, ranges.prevStart, ranges.prevEnd),
     );
     return delta(Math.round(cur * 100) / 100, Math.round(prev * 100) / 100);
   };
 
-  const googleGoals = buildGoogleConversionGoals(ads, ranges);
-  const metaGoals = buildMetaConversionGoals(ads, ranges);
+  const isGoogle = source === "google";
+  const isMeta = source === "facebook";
+  const platformGoals = isGoogle
+    ? buildGoogleConversionGoals(ads, ranges)
+    : isMeta
+      ? buildMetaConversionGoals(ads, ranges)
+      : null;
+  const goalConversions = platformGoals?.total ?? null;
+  const spend = metricDelta("spend");
+  const cpa =
+    platformGoals && goalConversions && goalConversions.current > 0
+      ? cpaDelta(spend, goalConversions)
+      : null;
 
-  return sources.map((source) => {
-    const spend = metricDelta(source, "spend");
-    const isGoogle = source === "google";
-    const isMeta = source === "facebook";
-    const platformGoals = isGoogle ? googleGoals : isMeta ? metaGoals : null;
-    const goalConversions = platformGoals?.total ?? null;
-    const cpa =
-      platformGoals && goalConversions && goalConversions.current > 0
-        ? cpaDelta(spend, goalConversions)
-        : null;
+  return {
+    source,
+    clicks: metricDelta("clicks"),
+    impressions: metricDelta("impressions"),
+    spend,
+    conversions: metricDelta("conversions"),
+    goal_conversions: goalConversions,
+    cpa,
+    conversion_goals: platformGoals?.goals ?? [],
+  };
+}
 
-    return {
-      source,
-      clicks: metricDelta(source, "clicks"),
-      impressions: metricDelta(source, "impressions"),
-      spend,
-      conversions: metricDelta(source, "conversions"),
-      goal_conversions: goalConversions,
-      cpa,
-      conversion_goals: platformGoals?.goals ?? [],
-    };
-  });
+function buildAdsCampaigns(
+  ads: ChannelMetricRow[],
+  ranges: ComparisonRanges,
+  source: string,
+): AdsCampaignSummary[] {
+  const names = new Set<string>();
+  for (const r of ads) {
+    if (!isCampaignAdsRow(r, source)) continue;
+    const name = String(r.dimensions?.campaign_name ?? "").trim();
+    if (name) names.add(name);
+  }
+
+  const campaignMetricDelta = (campaign: string, metric: string): MetricDelta => {
+    const slug = campaign;
+    const cur = sumBy(
+      ads,
+      (r) =>
+        isCampaignAdsRow(r, source) &&
+        String(r.dimensions?.campaign_name ?? "") === slug &&
+        r.metric === metric &&
+        inRange(r.metric_date, ranges.curStart, ranges.curEnd),
+    );
+    const prev = sumBy(
+      ads,
+      (r) =>
+        isCampaignAdsRow(r, source) &&
+        String(r.dimensions?.campaign_name ?? "") === slug &&
+        r.metric === metric &&
+        inRange(r.metric_date, ranges.prevStart, ranges.prevEnd),
+    );
+    return delta(Math.round(cur * 100) / 100, Math.round(prev * 100) / 100);
+  };
+
+  return [...names]
+    .sort((a, b) => campaignMetricDelta(b, "spend").current - campaignMetricDelta(a, "spend").current)
+    .map((name) => ({
+      name,
+      clicks: campaignMetricDelta(name, "clicks"),
+      impressions: campaignMetricDelta(name, "impressions"),
+      spend: campaignMetricDelta(name, "spend"),
+      conversions: campaignMetricDelta(name, "conversions"),
+    }));
+}
+
+function buildAdsPlatforms(
+  rows: ChannelMetricRow[],
+  ranges: ComparisonRanges,
+): AdsPlatformSection[] {
+  const ads = rows.filter((r) => r.channel === "ads");
+  if (ads.length === 0) return [];
+
+  const discovered = new Set(
+    ads
+      .filter((r) => r.metric !== "conversions_by_action")
+      .map((r) => String(r.dimensions?.source ?? "").trim())
+      .filter(Boolean),
+  );
+
+  const ordered = [
+    ...ADS_PLATFORM_ORDER.filter((s) => discovered.has(s)),
+    ...[...discovered].filter((s) => !ADS_PLATFORM_ORDER.includes(s as (typeof ADS_PLATFORM_ORDER)[number])).sort(),
+  ];
+
+  return ordered.map((source) => ({
+    source,
+    label: ADS_PLATFORM_LABELS[source] ?? source,
+    account: buildAdsSourceSummary(ads, ranges, source),
+    campaigns: buildAdsCampaigns(ads, ranges, source),
+  }));
 }
 
 function buildGmb(rows: ChannelMetricRow[], ranges: ComparisonRanges): GmbSummary | null {
@@ -389,25 +476,30 @@ export async function buildMarketingReport(
     return d.toISOString().slice(0, 10);
   })();
 
-  const [brand, perf, metrics, psiMetrics, psiUrlsSetting] = await Promise.all([
-    resolveBrand(admin),
-    fetchPerformanceOverviewForRanges(gscRanges, periodDays),
-    admin
-      ? fetchChannelMetrics(admin, { startDate: ranges.prevStart, endDate: ranges.curEnd }).catch(
-          () => [],
-        )
-      : Promise.resolve([] as ChannelMetricRow[]),
-    admin
-      ? fetchChannelMetrics(admin, {
-          channel: "psi",
-          startDate: psiLookbackStart,
-          endDate: isoDateInTz(),
-        }).catch(() => [])
-      : Promise.resolve([] as ChannelMetricRow[]),
-    admin
-      ? readJsonSetting<string[]>(admin, "marketing_psi_urls", [])
-      : Promise.resolve([] as string[]),
-  ]);
+  const [brand, perf, metrics, psiMetrics, psiUrlsSetting, seoDeliverables, liveChangelog] =
+    await Promise.all([
+      resolveBrand(admin),
+      fetchPerformanceOverviewForRanges(gscRanges, periodDays),
+      admin
+        ? fetchChannelMetrics(admin, { startDate: ranges.prevStart, endDate: ranges.curEnd }).catch(
+            () => [],
+          )
+        : Promise.resolve([] as ChannelMetricRow[]),
+      admin
+        ? fetchChannelMetrics(admin, {
+            channel: "psi",
+            startDate: psiLookbackStart,
+            endDate: isoDateInTz(),
+          }).catch(() => [])
+        : Promise.resolve([] as ChannelMetricRow[]),
+      admin
+        ? readJsonSetting<string[]>(admin, "marketing_psi_urls", [])
+        : Promise.resolve([] as string[]),
+      admin
+        ? fetchSeoDeliverablesForPeriod(admin, ranges.curStart, ranges.curEnd)
+        : Promise.resolve(null as SeoDeliverables | null),
+      fetchLiveSiteChangelog(admin, 18),
+    ]);
 
   // ── Search block (live GSC) ─────────────────────────────────────────
   const searchStatus = perf.needs_oauth
@@ -431,7 +523,7 @@ export async function buildMarketingReport(
       : null;
 
   // ── Stored channels ─────────────────────────────────────────────────
-  const ads = buildAds(metrics, ranges);
+  const ads = buildAdsPlatforms(metrics, ranges);
   const gmb = buildGmb(metrics, ranges);
   const pagespeed = buildPageSpeed(psiMetrics.length > 0 ? psiMetrics : metrics.filter((r) => r.channel === "psi"));
   const callTracking = buildCallTracking(metrics, ranges);
@@ -469,7 +561,9 @@ export async function buildMarketingReport(
         impressions: q.impressions,
         position: q.position,
       })),
+      deliverables: seoDeliverables,
     },
+    live_changelog: liveChangelog as LiveChangelogEntry[],
     pagespeed: {
       status: pagespeedStatus,
       data: pagespeed.length > 0 ? pagespeed : null,

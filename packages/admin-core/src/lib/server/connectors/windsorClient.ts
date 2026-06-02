@@ -16,7 +16,7 @@
  * Never import from a client component.
  */
 
-import { slugConversionAction } from "../../adsConversionGoals";
+import { slugCampaign, slugConversionAction } from "../../adsConversionGoals";
 import type { ChannelMetricRow, WindsorAccountConfig } from "../../../types/marketing";
 
 const WINDSOR_BASE = "https://connectors.windsor.ai";
@@ -218,6 +218,90 @@ export async function fetchWindsorAds(
         endDate,
       );
       out.push(...supplemental);
+    }
+
+    const campaignRows = await fetchWindsorAdsCampaignMetrics(
+      connector,
+      source,
+      accountName,
+      startDate,
+      endDate,
+    );
+    out.push(...campaignRows);
+  }
+
+  return out;
+}
+
+function campaignNameFromRow(row: WindsorRow): string {
+  const raw = row.campaign ?? row.campaign_name;
+  const name = typeof raw === "string" ? raw.trim() : "";
+  return name || "(unnamed campaign)";
+}
+
+/**
+ * Campaign-level spend and delivery — dim_key `{source}|campaign|{slug}`.
+ * Account rollups continue to use dim_key = source only.
+ */
+export async function fetchWindsorAdsCampaignMetrics(
+  connector: string,
+  source: string,
+  accountName: string,
+  startDate: string,
+  endDate: string,
+): Promise<ChannelMetricRow[]> {
+  const isFacebook = connector === "facebook";
+  const fields = isFacebook
+    ? ["campaign", "clicks", "impressions", "spend", "conversions"]
+    : (["campaign", "clicks", "impressions", "spend", "conversions"] as const);
+
+  let rows: WindsorRow[];
+  try {
+    rows = await queryWindsor(connector, accountName, [...fields], startDate, endDate);
+  } catch {
+    return [];
+  }
+
+  const out: ChannelMetricRow[] = [];
+  for (const row of rows) {
+    const date = typeof row.date === "string" ? row.date : null;
+    if (!date) continue;
+
+    const campaign = campaignNameFromRow(row);
+    const slug = slugCampaign(campaign);
+    const dims = { source, campaign_name: campaign, account_name: accountName };
+
+    for (const metric of ["clicks", "impressions", "spend"] as const) {
+      out.push({
+        channel: "ads",
+        metric,
+        metric_date: date,
+        value: num(row[metric]),
+        dimensions: dims,
+        dim_key: `${source}|campaign|${slug}`,
+      });
+    }
+
+    if (isFacebook) {
+      const fbActions = parseFacebookConversionsArray(row.conversions);
+      const total = fbActions.reduce((s, a) => s + a.value, 0);
+      out.push({
+        channel: "ads",
+        metric: "conversions",
+        metric_date: date,
+        value: total,
+        dimensions: dims,
+        dim_key: `${source}|campaign|${slug}`,
+      });
+    } else {
+      out.push({
+        channel: "ads",
+        metric: "conversions",
+        metric_date: date,
+        value: num(row.conversions),
+        dimensions: dims,
+        dim_key: `${source}|campaign|${slug}`,
+      });
     }
   }
 
