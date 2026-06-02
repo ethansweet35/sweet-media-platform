@@ -1,38 +1,14 @@
 import type { Metadata } from "next";
-import { Open_Sans, Poppins } from "next/font/google";
 import Script from "next/script";
-import "./globals.css";
-import Layout from "@/components/feature/Layout";
+import ConditionalMarketingChrome from "@/components/feature/ConditionalMarketingChrome";
 import { DeferredAnalyticsWrapper } from "@sweetmedia/admin-core";
-import {
-  MBH_HERO_POSTER_URL,
-  MBH_HERO_VIDEO_URL,
-  MBH_SUPABASE_ORIGIN,
-} from "@/lib/heroMedia";
+import "./globals.css";
 
-const REMIXICON_CSS =
-  "https://cdn.jsdelivr.net/npm/remixicon@4.6.0/fonts/remixicon.css";
+/** Self-hosted Remix Icon subset (built in prebuild). */
+const REMIXICON_CSS = "/styles/remixicon-subset.css";
 
-/**
- * CallRail dynamic number swap (matches live missouribehavioralhealth.com).
- * Target source number: 417-771-5305. Company id 638776964.
- */
 const CALLRAIL_SWAP_SRC =
   "https://cdn.callrail.com/companies/638776964/9e1a91a0c509e24d145d/12/swap.js";
-
-const poppins = Poppins({
-  variable: "--font-poppins",
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
-});
-
-const openSans = Open_Sans({
-  variable: "--font-open-sans",
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
-});
-
-/** Tab / PWA icons: RealFaviconGenerator assets in `src/app/` + `public/site.webmanifest`. */
 
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? "https://missouribehavioralhealth.com"),
@@ -53,22 +29,34 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
-        <link rel="preconnect" href="https://cdn.callrail.com" crossOrigin="anonymous" />
-        <link rel="preload" as="script" href={CALLRAIL_SWAP_SRC} fetchPriority="high" />
-        <link rel="preconnect" href={MBH_SUPABASE_ORIGIN} crossOrigin="anonymous" />
-        <link rel="preload" as="image" href={MBH_HERO_POSTER_URL} fetchPriority="high" />
-        <link rel="preload" as="video" href={MBH_HERO_VIDEO_URL} type="video/mp4" />
-        <link rel="preconnect" href="https://cdn.jsdelivr.net" crossOrigin="anonymous" />
-        <link rel="stylesheet" href={REMIXICON_CSS} crossOrigin="anonymous" />
-        <Script
-          id="callrail-swap"
-          src={CALLRAIL_SWAP_SRC}
-          strategy="afterInteractive"
-          async
-        />
+        <Script id="load-remixicon-styles" strategy="lazyOnload">{`
+          (function() {
+            var cssHref = "${REMIXICON_CSS}";
+            var inject = function () {
+              if (document.querySelector('link[href="' + cssHref + '"][rel="stylesheet"]')) return;
+              var link = document.createElement("link");
+              link.rel = "stylesheet";
+              link.href = cssHref;
+              document.head.appendChild(link);
+            };
+            var schedule = function () {
+              if ("requestIdleCallback" in window) {
+                window.requestIdleCallback(inject, { timeout: 4000 });
+              } else {
+                setTimeout(inject, 3000);
+              }
+            };
+            if (document.readyState === "complete") schedule();
+            else window.addEventListener("load", schedule, { once: true });
+          })();
+        `}</Script>
+        <noscript>
+          <link rel="stylesheet" href={REMIXICON_CSS} />
+        </noscript>
+        <Script id="callrail-swap" src={CALLRAIL_SWAP_SRC} strategy="lazyOnload" />
       </head>
-      <body className={`${poppins.variable} ${openSans.variable} font-body antialiased`}>
-        <Layout>{children}</Layout>
+      <body className="antialiased">
+        <ConditionalMarketingChrome>{children}</ConditionalMarketingChrome>
         <DeferredAnalyticsWrapper />
       </body>
     </html>

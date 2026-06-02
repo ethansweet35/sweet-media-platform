@@ -361,14 +361,27 @@ function NavbarInteractive({ pathname }: { pathname: string }) {
             className="relative z-10 flex min-w-0 flex-1 items-center max-lg:max-w-[calc(100%-3.5rem)]"
             onClick={() => setOpenMenu(null)}
           >
-            <Image
-              src={NAV_LOGO_URL}
-              alt={BRAND_NAME}
-              width={NAV_LOGO_WIDTH}
-              height={NAV_LOGO_HEIGHT}
-              className={NAV_LOGO_CLASS}
-              priority
-            />
+            {isHome ? (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img
+                src={NAV_LOGO_URL}
+                alt={BRAND_NAME}
+                width={NAV_LOGO_WIDTH}
+                height={NAV_LOGO_HEIGHT}
+                className={NAV_LOGO_CLASS}
+                loading="lazy"
+                decoding="async"
+              />
+            ) : (
+              <Image
+                src={NAV_LOGO_URL}
+                alt={BRAND_NAME}
+                width={NAV_LOGO_WIDTH}
+                height={NAV_LOGO_HEIGHT}
+                className={NAV_LOGO_CLASS}
+                priority
+              />
+            )}
           </Link>
 
           <div className="ml-auto hidden items-center gap-3 lg:flex">

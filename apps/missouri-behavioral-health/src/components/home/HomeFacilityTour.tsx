@@ -52,7 +52,7 @@ export default function HomeFacilityTour() {
                   poster={SITE_IMAGES.facilityCampus}
                   playsInline
                   controls={isPlaying}
-                  preload="metadata"
+                  preload="none"
                   onPlay={() => setIsPlaying(true)}
                   onPause={() => {
                     if (videoRef.current?.paused) setIsPlaying(false);

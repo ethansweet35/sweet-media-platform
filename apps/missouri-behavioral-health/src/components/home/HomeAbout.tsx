@@ -26,6 +26,7 @@ export default function HomeAbout() {
                 width={1000}
                 height={1250}
                 sizes="(min-width: 1024px) 50vw, 100vw"
+                loading="lazy"
                 className="w-full object-cover"
                 style={{ aspectRatio: "4/5", objectPosition: "center top" }}
               />

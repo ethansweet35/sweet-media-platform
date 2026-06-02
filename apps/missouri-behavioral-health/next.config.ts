@@ -1,4 +1,5 @@
 import type { NextConfig } from "next";
+import { siteRedirects } from "./src/lib/site-redirects";
 
 const nextConfig: NextConfig = {
   trailingSlash: true,
@@ -17,6 +18,16 @@ const nextConfig: NextConfig = {
           { key: "X-Robots-Tag", value: "noindex, nofollow, noarchive" },
         ],
       },
+      {
+        source: "/",
+        headers: [
+          {
+            key: "Link",
+            value:
+              "</images/mbh_home_hero_poster_mobile.avif>; rel=preload; as=image; type=image/avif; fetchpriority=high",
+          },
+        ],
+      },
     ];
   },
   images: {
@@ -31,25 +42,7 @@ const nextConfig: NextConfig = {
     ],
   },
   async redirects() {
-    return [
-      // WP posts at /{slug}/ — normalize /blog/{slug} inbound links
-      { source: "/blog/:slug", destination: "/:slug", permanent: true },
-      // WP blog archive page
-      { source: "/blog-page", destination: "/blog", permanent: true },
-      { source: "/blog-page/", destination: "/blog", permanent: true },
-      { source: "/about-us", destination: "/about", permanent: true },
-      { source: "/about-us/", destination: "/about", permanent: true },
-      {
-        source: "/mental-health-facilities",
-        destination: "/mental-health-treatment-missouri",
-        permanent: true,
-      },
-      {
-        source: "/mental-health-facilities/",
-        destination: "/mental-health-treatment-missouri",
-        permanent: true,
-      },
-    ];
+    return siteRedirects;
   },
 };
 

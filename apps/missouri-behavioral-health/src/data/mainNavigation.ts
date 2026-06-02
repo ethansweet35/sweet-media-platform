@@ -68,7 +68,7 @@ export const MAIN_NAV_ITEMS: NavItem[] = [
   },
   {
     label: "Mental Health",
-    path: "/mental-health-facilities",
+    path: "/mental-health-treatment-missouri",
     mega: {
       columns: [
         {

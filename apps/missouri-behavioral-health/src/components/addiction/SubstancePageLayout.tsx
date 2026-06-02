@@ -30,6 +30,8 @@ interface Props {
   substanceName: string;
   heroHeading: string;
   heroSubcopy: string;
+  /** Defaults to Springfield campus line; use for service-area landing pages. */
+  heroEyebrow?: string;
   stats: [SubstanceStat, SubstanceStat, SubstanceStat];
   currentPath: string;
   children: React.ReactNode;
@@ -39,6 +41,7 @@ export default function SubstancePageLayout({
   substanceName,
   heroHeading,
   heroSubcopy,
+  heroEyebrow = "Addiction Treatment · Springfield, MO",
   stats,
   currentPath,
   children,
@@ -77,7 +80,7 @@ export default function SubstancePageLayout({
             <div className="mb-5 flex items-center gap-3">
               <div className="h-px w-8 bg-mbh-sage" aria-hidden />
               <span className="font-body text-[11px] font-semibold uppercase tracking-[0.32em] text-mbh-sage">
-                Addiction Treatment · Springfield, MO
+                {heroEyebrow}
               </span>
             </div>
 

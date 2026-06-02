@@ -7,6 +7,38 @@ import type { AdminChangelogEntry } from "./adminChangelog";
 
 export const ADMIN_CHANGELOG_GENERATED: AdminChangelogEntry[] = [
   {
+    id: "2026-06-01-fix-marketing-report-and-admin-layout-overflow-o",
+    date: "2026-06-01",
+    category: "improved",
+    title: "Fix marketing report and admin layout overflow on mobile.",
+    summary: "Fix marketing report and admin layout overflow on mobile.",
+    href: "/admin/reporting",
+    hrefLabel: "Marketing Report",
+  },
+  {
+    id: "2026-06-01-add-bh-ad-budget-calculator-and-meta-conversion-",
+    date: "2026-06-01",
+    category: "new",
+    title: "Add BH ad budget calculator and Meta conversion reporting.",
+    summary: "Add BH ad budget calculator and Meta conversion reporting.",
+  },
+  {
+    id: "2026-06-01-improve-blog-planner-discovery-for-location-hubs",
+    date: "2026-06-01",
+    category: "new",
+    title: "Improve Blog Planner discovery for location hubs (geo-anchored Semrush + AI).",
+    summary: "Improve Blog Planner discovery for location hubs (geo-anchored Semrush + AI).",
+    href: "/admin/blog-planner",
+    hrefLabel: "Blog Planner",
+  },
+  {
+    id: "2026-06-01-replace-gemini-with-claude-haiku-4-5-for-admin-o",
+    date: "2026-06-01",
+    category: "improved",
+    title: "Replace Gemini with Claude Haiku 4.5 for admin OpenRouter calls.",
+    summary: "Replace Gemini with Claude Haiku 4.5 for admin OpenRouter calls.",
+  },
+  {
     id: "2026-06-01-add-flexible-report-periods-google-ads-goal-cpa-",
     date: "2026-06-01",
     category: "new",
@@ -26,16 +58,6 @@ export const ADMIN_CHANGELOG_GENERATED: AdminChangelogEntry[] = [
     category: "improved",
     title: "Reuse shared Google API key for PageSpeed ingest.",
     summary: "Reuse shared Google API key for PageSpeed ingest.",
-  },
-  {
-    id: "2026-06-01-fix-marketing-reporting-db-gap-and-surface-winds",
-    date: "2026-06-01",
-    category: "new",
-    title: "Marketing Report",
-    summary: "Unified admin reporting: GSC, Google/Meta/Bing ads, CallRail & CTM calls/forms, GMB, and PageSpeed. Sync metrics, pick 7/28/90-day windows, and create shareable client report links.",
-    href: "/admin/reporting",
-    hrefLabel: "Marketing Report",
-    tips: ["Open Reporting in the sidebar — run Sync metrics after connecting channels.", "Share links live at /report/{token}; disable or delete from the admin page anytime.", "Requires the marketing reporting migration on each Supabase project."],
   },
   {
     id: "2026-06-01-redesign-seo-strategy-report-for-scannable-tabbe",
@@ -109,28 +131,5 @@ export const ADMIN_CHANGELOG_GENERATED: AdminChangelogEntry[] = [
     summary: "Remove \"Key Takeaway\" block type and related components from the blog editing interface. This includes updates to BlockTypeMenu, ContentBlock, ContentBlockEditor, and PostBody components, ensuring a cleaner and more focused content creation experience.",
     href: "/admin/blogs",
     hrefLabel: "Blog Posts",
-  },
-  {
-    id: "2026-05-26-enhance-adolescent-mental-health-site-with-new-f",
-    date: "2026-05-26",
-    category: "new",
-    title: "Enhance Adolescent Mental Health site with new features and updates.",
-    summary: "Enhance Adolescent Mental Health site with new features and updates.",
-  },
-  {
-    id: "2026-05-26-fix-auto-optimize-completion-detection-on-re-run",
-    date: "2026-05-26",
-    category: "improved",
-    title: "Fix auto-optimize completion detection on re-runs of existing drafts.",
-    summary: "Fix auto-optimize completion detection on re-runs of existing drafts.",
-  },
-  {
-    id: "2026-05-26-fix-auto-optimize-to-prioritize-brand-knowledge-",
-    date: "2026-05-26",
-    category: "improved",
-    title: "Fix auto-optimize to prioritize brand knowledge base over competitor facts.",
-    summary: "Fix auto-optimize to prioritize brand knowledge base over competitor facts.",
-    href: "/admin/knowledge-base",
-    hrefLabel: "Knowledge Base",
   }
 ];

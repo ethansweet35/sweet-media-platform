@@ -3,11 +3,10 @@
 export const BRAND_NAME = "Missouri Behavioral Health";
 
 /**
- * Official logo — MBH Full Logo Flattened Horizontal (client brand kit PNG).
- * Source: `public/brand/mbh-logo-full-horizontal.png`
+ * Navbar logo — self-hosted WebP (see scripts/optimize-nav-logo.mjs).
+ * Source PNG: `public/brand/mbh-logo-full-horizontal.png`
  */
-export const NAV_LOGO_URL =
-  "https://yfwyxafsgexejjebkwor.supabase.co/storage/v1/object/public/site-assets/logos/mbh_logo_full_horizontal.png";
+export const NAV_LOGO_URL = "/brand/mbh-logo-nav.webp";
 export const NAV_LOGO_WIDTH = 350;
 export const NAV_LOGO_HEIGHT = 140;
 /** Navbar logo — taller on mobile for legibility */

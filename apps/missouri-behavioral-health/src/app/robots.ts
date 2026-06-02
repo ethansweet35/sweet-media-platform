@@ -1,7 +1,6 @@
 import type { MetadataRoute } from "next";
 import { mergeRobotsDisallow } from "@sweetmedia/admin-core";
-
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL!;
+import { getPublicSiteOrigin } from "@/lib/publicSiteUrl";
 
 /** Platform-wide `/_next/` + WP legacy disallows come from mergeRobotsDisallow — do not duplicate here. */
 export default function robots(): MetadataRoute.Robots {
@@ -9,20 +8,10 @@ export default function robots(): MetadataRoute.Robots {
     rules: [
       {
         userAgent: "*",
+        allow: "/",
         disallow: mergeRobotsDisallow(["/admin/", "/api/"]),
-        allow: [
-          "/",
-          "/about",
-          "/what-we-treat",
-          "/virtual-outpatient",
-          "/therapy",
-          "/admissions",
-          "/contact",
-          "/resources",
-          "/locations",
-        ],
       },
     ],
-    sitemap: `${SITE_URL}/sitemap.xml`,
+    sitemap: `${getPublicSiteOrigin()}/sitemap.xml`,
   };
 }

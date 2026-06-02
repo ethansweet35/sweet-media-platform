@@ -16,10 +16,10 @@ const MENTAL_HEALTH = [
   { label: "Trauma & PTSD", href: "/trauma-therapist-springfield-mo-2" },
   { label: "Bipolar Disorder", href: "/bipolar-treatment-centers-in-missouri-2-2" },
   { label: "Borderline Personality Disorder", href: "/bpd-treatment-missouri" },
-  { label: "Dissociative Disorder", href: "/services" },
+  { label: "Dissociative Disorder", href: "/mental-health-treatment-missouri" },
   { label: "OCD", href: "/ocd-treatment-in-missouri" },
   { label: "ADD / ADHD", href: "/adhd-treatment-springfield-mo" },
-  { label: "Personality Disorders", href: "/services" },
+  { label: "Personality Disorders", href: "/bpd-treatment-missouri" },
 ];
 
 const ADDICTION = [
@@ -30,9 +30,9 @@ const ADDICTION = [
   { label: "Opioids", href: "/drug-rehab-in-springfield-mo" },
   { label: "Benzodiazepines", href: "/benzodiazepine-detox-in-missouri" },
   { label: "Heroin", href: "/heroin-rehab-springfield-mo" },
-  { label: "Stimulants", href: "/services" },
-  { label: "Marijuana", href: "/services" },
-  { label: "Hallucinogens", href: "/services" },
+  { label: "Stimulants", href: "/meth-rehab-springfield-mo" },
+  { label: "Marijuana", href: "/missouri-addiction-treatment" },
+  { label: "Hallucinogens", href: "/missouri-addiction-treatment" },
 ];
 
 const TABS = [
@@ -40,7 +40,7 @@ const TABS = [
   { id: "addiction", label: "Addiction", items: ADDICTION },
 ] as const;
 
-export default function HomeWhatWeTraat() {
+export default function HomeWhatWeTreat() {
   const [active, setActive] = useState<"mental-health" | "addiction">("mental-health");
   const current = TABS.find((t) => t.id === active)!;
 
@@ -48,8 +48,6 @@ export default function HomeWhatWeTraat() {
     <section className="bg-cream-alt py-[100px]">
       <div className={CONTAINER}>
         <div className="grid gap-12 lg:grid-cols-[1fr_1.4fr] lg:gap-16 xl:gap-20">
-
-          {/* Left — heading + switcher */}
           <div className="flex flex-col justify-between gap-8">
             <div>
               <div className="mb-5 flex items-center gap-3">
@@ -68,11 +66,11 @@ export default function HomeWhatWeTraat() {
               </p>
             </div>
 
-            {/* Tab switcher */}
-            <div className="flex gap-2 rounded-full bg-white p-1 shadow-sm ring-1 ring-black/5 w-fit">
+            <div className="flex w-fit gap-2 rounded-full bg-white p-1 shadow-sm ring-1 ring-black/5">
               {TABS.map((tab) => (
                 <button
                   key={tab.id}
+                  type="button"
                   onClick={() => setActive(tab.id)}
                   className={`rounded-full px-5 py-2 font-body text-sm font-semibold transition-all ${
                     active === tab.id
@@ -86,7 +84,6 @@ export default function HomeWhatWeTraat() {
             </div>
           </div>
 
-          {/* Right — conditions grid */}
           <div>
             <div className="flex flex-wrap gap-2.5">
               {current.items.map((item) => (
@@ -95,7 +92,10 @@ export default function HomeWhatWeTraat() {
                   href={item.href}
                   className="group inline-flex items-center gap-2 rounded-full border border-mbh-forest/15 bg-white px-5 py-2.5 font-body text-sm font-medium text-mbh-ink shadow-sm transition-all hover:border-mbh-green hover:bg-mbh-green hover:text-white hover:shadow-md"
                 >
-                  <i className="ri-arrow-right-up-line text-xs text-mbh-green/60 transition-colors group-hover:text-white" aria-hidden />
+                  <i
+                    className="ri-arrow-right-up-line text-xs text-mbh-green/60 transition-colors group-hover:text-white"
+                    aria-hidden
+                  />
                   {item.label}
                 </Link>
               ))}
@@ -103,17 +103,15 @@ export default function HomeWhatWeTraat() {
 
             <div className="mt-10 rounded-xl border border-mbh-forest/10 bg-mbh-forest px-6 py-5 text-white">
               <div className="flex items-start gap-4">
-                <i className="ri-phone-line mt-0.5 text-xl text-mbh-sage shrink-0" aria-hidden />
+                <i className="ri-phone-line mt-0.5 shrink-0 text-xl text-mbh-sage" aria-hidden />
                 <div>
-                  <p className="font-display text-sm font-semibold">
-                    Not sure where to start?
-                  </p>
+                  <p className="font-display text-sm font-semibold">Not sure where to start?</p>
                   <p className="mt-1 font-body text-xs leading-relaxed text-white/70">
                     Our admissions team is available 24/7 to help you find the right program.
                   </p>
                   <Link
                     href="/contact"
-                    className="mt-3 inline-flex items-center gap-1.5 font-body text-xs font-semibold text-mbh-sage hover:underline underline-offset-4"
+                    className="mt-3 inline-flex items-center gap-1.5 font-body text-xs font-semibold text-mbh-sage underline-offset-4 hover:underline"
                   >
                     Talk to admissions <i className="ri-arrow-right-line" aria-hidden />
                   </Link>
@@ -121,7 +119,6 @@ export default function HomeWhatWeTraat() {
               </div>
             </div>
           </div>
-
         </div>
       </div>
     </section>

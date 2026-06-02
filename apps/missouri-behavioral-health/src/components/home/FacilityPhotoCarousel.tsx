@@ -8,6 +8,8 @@ interface FacilityPhotoCarouselProps {
   slides: FacilityGallerySlide[];
   ariaLabel?: string;
   className?: string;
+  /** Keep false on homepage so LCP stays on the hero poster. */
+  priorityFirstSlide?: boolean;
 }
 
 /**
@@ -17,6 +19,7 @@ export default function FacilityPhotoCarousel({
   slides,
   ariaLabel = "Facility photo gallery",
   className = "",
+  priorityFirstSlide = false,
 }: FacilityPhotoCarouselProps) {
   const trackRef = useRef<HTMLDivElement>(null);
   const [active, setActive] = useState(0);
@@ -69,7 +72,8 @@ export default function FacilityPhotoCarousel({
                 fill
                 sizes="(max-width: 1280px) 100vw, 1280px"
                 className="object-cover"
-                priority={i === 0}
+                priority={priorityFirstSlide && i === 0}
+                loading={priorityFirstSlide && i === 0 ? undefined : "lazy"}
               />
               <div
                 className="pointer-events-none absolute inset-x-0 bottom-0 bg-gradient-to-t from-mbh-forest-deep/85 via-mbh-forest-deep/25 to-transparent px-6 pb-5 pt-20"
