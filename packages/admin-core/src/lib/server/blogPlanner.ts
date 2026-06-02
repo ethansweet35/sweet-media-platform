@@ -10,7 +10,16 @@ import { getAdminClient } from "./contentEditor/db";
 import { createContentEditor, saveDraft } from "./contentEditor/api";
 import { runContentEditorPipeline } from "./contentEditor/pipeline";
 import { recordTrackedPageChanges } from "./contentChangeLogServer";
-import { getKeywordSuggestions, SemrushApiError } from "./semrushClient";
+import {
+  buildAiTopicDiscoveryPromptBlock,
+  buildSemrushDiscoverySeeds,
+  filterSemrushSuggestionsForHub,
+  phraseMatchesGeo,
+  resolveBlogPlannerDiscoveryContext,
+  type BlogPlannerDiscoveryContext,
+} from "../blogPlannerHubContext";
+import { getKeywordSuggestionsExact, SemrushApiError } from "./semrushClient";
+import type { SemrushKeywordSuggestion } from "./semrushClient";
 import {
   BLOG_PLANNER_MISC_ROUTE,
   type BlogPlannerCoverage,
@@ -31,6 +40,8 @@ type HubRow = {
   route_path: string;
   page_title: string;
   primary_keyword: string | null;
+  seo_title: string | null;
+  meta_description: string | null;
   is_blog_hub: boolean;
   is_blog_hub_misc: boolean;
   blog_hub_target_count: number | null;
@@ -201,7 +212,9 @@ async function loadHub(
 ): Promise<HubRow | null> {
   const { data, error } = await client
     .from("tracked_pages")
-    .select("id, route_path, page_title, primary_keyword, is_blog_hub, is_blog_hub_misc, blog_hub_target_count")
+    .select(
+      "id, route_path, page_title, primary_keyword, seo_title, meta_description, is_blog_hub, is_blog_hub_misc, blog_hub_target_count",
+    )
     .eq("id", hubId)
     .maybeSingle();
   if (error) {
@@ -213,7 +226,11 @@ async function loadHub(
   return (data as HubRow | null) ?? null;
 }
 
-async function generateAiTopics(hub: HubRow): Promise<
+async function generateAiTopics(
+  hub: HubRow,
+  ctx: BlogPlannerDiscoveryContext,
+  semrushHints: string[],
+): Promise<
   Array<{
     primary_keyword: string;
     suggested_title: string;
@@ -234,7 +251,18 @@ async function generateAiTopics(hub: HubRow): Promise<
     ? "miscellaneous blog topics (news, timely resources, not tied to one service page)"
     : `supporting blog articles for the service page "${hub.page_title}" (${hub.route_path})`;
 
-  const prompt = `You are an SEO content strategist for ${siteUrl}.
+  const contextBlock = buildAiTopicDiscoveryPromptBlock(ctx, siteUrl, semrushHints);
+
+  const geoRules =
+    ctx.requiresGeoAnchoring && ctx.geoLabel
+      ? `- Every primary_keyword and title must be specifically about ${ctx.geoLabel} (location must appear in the keyword phrase).
+- Prefer local angles: access to treatment in ${ctx.geoLabel}, laws/culture, families in ${ctx.geoLabel}, cost/insurance in-state, how to find an interventionist in ${ctx.geoLabel}.
+`
+      : "";
+
+  const prompt = `You are an SEO content strategist.
+
+${contextBlock}
 
 Generate exactly ${AI_TOPIC_COUNT} blog topic ideas for ${hubLabel}.
 
@@ -246,7 +274,7 @@ Requirements:
 - Keywords should be natural search phrases (2–8 words), not brand names.
 - Titles should be compelling blog H1s (not clickbait).
 - Meta descriptions: 1–2 sentences, under 155 characters.
-
+${geoRules}
 Return ONLY valid JSON: an array of objects with keys:
 primary_keyword, suggested_title, suggested_meta_description, suggested_h1`;
 
@@ -309,10 +337,44 @@ primary_keyword, suggested_title, suggested_meta_description, suggested_h1`;
     const suggested_meta_description = String(o.suggested_meta_description ?? "").trim();
     const suggested_h1 = String(o.suggested_h1 ?? suggested_title).trim();
     if (!primary_keyword || !suggested_title) continue;
+    if (ctx.requiresGeoAnchoring && !phraseMatchesGeo(primary_keyword, ctx.geoTokens)) continue;
     out.push({ primary_keyword, suggested_title, suggested_meta_description, suggested_h1 });
   }
 
   return out.slice(0, AI_TOPIC_COUNT);
+}
+
+async function discoverSemrushTopicsForHub(
+  hub: HubRow,
+  ctx: BlogPlannerDiscoveryContext,
+): Promise<SemrushKeywordSuggestion[]> {
+  const seeds = buildSemrushDiscoverySeeds(hub, ctx);
+  const merged = new Map<string, SemrushKeywordSuggestion>();
+
+  for (const seed of seeds) {
+    try {
+      const rows = await getKeywordSuggestionsExact(seed, {
+        displayLimit: SEMRUSH_DISCOVER_LIMIT,
+      });
+      for (const row of rows) {
+        const key = row.phrase.trim().toLowerCase();
+        if (!key) continue;
+        const existing = merged.get(key);
+        if (!existing || row.searchVolume > existing.searchVolume) {
+          merged.set(key, row);
+        }
+      }
+    } catch (err) {
+      if (!(err instanceof SemrushApiError)) throw err;
+      console.warn(`[blog-planner] Semrush seed "${seed}" skipped:`, err.message);
+    }
+  }
+
+  const seedLower = (hub.primary_keyword?.trim() || hub.page_title).toLowerCase();
+  return filterSemrushSuggestionsForHub([...merged.values()], ctx)
+    .filter((s) => s.phrase.toLowerCase() !== seedLower)
+    .sort((a, b) => b.searchVolume - a.searchVolume)
+    .slice(0, SEMRUSH_DISCOVER_LIMIT);
 }
 
 async function upsertPlannerItems(
@@ -399,28 +461,40 @@ export async function discoverTopicsForHub(hubId: string): Promise<{
     });
   }
 
-  let semrushInserted = 0;
+  const discoveryCtx = resolveBlogPlannerDiscoveryContext({
+    route_path: hub.route_path,
+    page_title: hub.page_title,
+    primary_keyword: hub.primary_keyword,
+    is_blog_hub_misc: hub.is_blog_hub_misc,
+    seo_title: hub.seo_title,
+    meta_description: hub.meta_description,
+  });
+
+  let semrushRows: SemrushKeywordSuggestion[] = [];
   try {
-    const { rows } = await getKeywordSuggestions(seed, { displayLimit: SEMRUSH_DISCOVER_LIMIT });
-    const semrushRows = rows
-      .filter((s) => s.searchVolume >= 10 && s.phrase.toLowerCase() !== seed.toLowerCase())
-      .slice(0, SEMRUSH_DISCOVER_LIMIT)
-      .map((s) => ({
-        primary_keyword: s.phrase,
-        suggested_title: titleCasePhrase(s.phrase),
-        suggested_meta_description: null as string | null,
-        suggested_h1: titleCasePhrase(s.phrase),
-        search_volume: s.searchVolume,
-        keyword_difficulty: s.difficulty,
-        cpc: s.cpc,
-      }));
-    semrushInserted = await upsertPlannerItems(client, hubId, "semrush", semrushRows);
+    semrushRows = await discoverSemrushTopicsForHub(hub, discoveryCtx);
   } catch (err) {
     if (!(err instanceof SemrushApiError)) throw err;
     console.warn("[blog-planner] Semrush discovery skipped:", err.message);
   }
 
-  const aiTopics = await generateAiTopics(hub);
+  const semrushInserted = await upsertPlannerItems(
+    client,
+    hubId,
+    "semrush",
+    semrushRows.map((s) => ({
+      primary_keyword: s.phrase,
+      suggested_title: titleCasePhrase(s.phrase),
+      suggested_meta_description: null as string | null,
+      suggested_h1: titleCasePhrase(s.phrase),
+      search_volume: s.searchVolume,
+      keyword_difficulty: s.difficulty,
+      cpc: s.cpc,
+    })),
+  );
+
+  const semrushHints = semrushRows.slice(0, 12).map((s) => s.phrase);
+  const aiTopics = await generateAiTopics(hub, discoveryCtx, semrushHints);
   const aiInserted = await upsertPlannerItems(
     client,
     hubId,

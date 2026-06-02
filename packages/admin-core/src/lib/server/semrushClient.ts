@@ -295,6 +295,57 @@ export interface KeywordSuggestionResult {
  * variants (drop first word → last 2 words → last word) until something hits.
  * `displayLimit` defaults to 10 — keep it small.
  */
+async function queryKeywordSuggestionsForPhrase(
+  phrase: string,
+  opts: { displayLimit: number; database: string; apiKey: string },
+): Promise<SemrushKeywordSuggestion[]> {
+  const body = await semrushFetch({
+    type: "phrase_fullsearch",
+    key: opts.apiKey,
+    phrase,
+    database: opts.database,
+    display_limit: opts.displayLimit,
+    display_sort: "nq_desc",
+    export_columns: "Ph,Nq,Cp,Co,Nr,Kd",
+    export_decode: 1,
+  });
+  const rows = parseSemrushRows(body);
+  return rows
+    .map((cells) => {
+      const [ph, nq, cp, co, nr, kd] = cells;
+      return {
+        phrase: ph ?? "",
+        searchVolume: toNumber(nq),
+        cpc: toNumber(cp),
+        competition: toNumber(co),
+        results: toNumber(nr),
+        difficulty: toNumber(kd),
+      };
+    })
+    .filter((row) => row.phrase.length > 0);
+}
+
+/**
+ * Broad-match suggestions for one seed only — no shorter-seed fallback.
+ * Use when geo tokens must stay in the query (Blog Planner location hubs).
+ */
+export async function getKeywordSuggestionsExact(
+  seedPhrase: string,
+  opts?: { displayLimit?: number; database?: string },
+): Promise<SemrushKeywordSuggestion[]> {
+  const { apiKey, database } = getSemrushEnv();
+  const cleanPhrase = seedPhrase.trim();
+  if (!cleanPhrase) {
+    throw new SemrushApiError("phrase is required", 400, null);
+  }
+  const limit = Math.max(1, Math.min(50, opts?.displayLimit ?? 10));
+  return queryKeywordSuggestionsForPhrase(cleanPhrase, {
+    apiKey,
+    database: opts?.database ?? database,
+    displayLimit: limit,
+  });
+}
+
 export async function getKeywordSuggestions(
   seedPhrase: string,
   opts?: { displayLimit?: number; database?: string },
@@ -307,33 +358,12 @@ export async function getKeywordSuggestions(
 
   const limit = Math.max(1, Math.min(50, opts?.displayLimit ?? 10));
 
-  const queryOnce = async (variant: string): Promise<SemrushKeywordSuggestion[]> => {
-    // Column order MUST match positional parsing below: Ph, Nq, Cp, Co, Nr, Kd
-    const body = await semrushFetch({
-      type: "phrase_fullsearch",
-      key: apiKey,
-      phrase: variant,
+  const queryOnce = async (variant: string): Promise<SemrushKeywordSuggestion[]> =>
+    queryKeywordSuggestionsForPhrase(variant, {
+      apiKey,
       database: opts?.database ?? database,
-      display_limit: limit,
-      display_sort: "nq_desc",
-      export_columns: "Ph,Nq,Cp,Co,Nr,Kd",
-      export_decode: 1,
+      displayLimit: limit,
     });
-    const rows = parseSemrushRows(body);
-    return rows
-      .map((cells) => {
-        const [ph, nq, cp, co, nr, kd] = cells;
-        return {
-          phrase: ph ?? "",
-          searchVolume: toNumber(nq),
-          cpc: toNumber(cp),
-          competition: toNumber(co),
-          results: toNumber(nr),
-          difficulty: toNumber(kd),
-        };
-      })
-      .filter((row) => row.phrase.length > 0);
-  };
 
   return fetchWithSeedFallback(cleanPhrase, queryOnce);
 }
